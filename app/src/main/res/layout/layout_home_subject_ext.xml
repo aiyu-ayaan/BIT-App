@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/14/22, 2:16 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/14/22, 1:05 PM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout_home_syllabus"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_0_25">
+
+    <TextView
+        android:id="@+id/text_hi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_1"
+        android:layout_marginTop="@dimen/grid_1"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:background="@android:color/transparent"
+        android:padding="@dimen/grid_0_25"
+        android:text="@string/yourSubjects"
+        android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+    <ImageButton
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_hi"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="@dimen/grid_2"
+        android:layout_toStartOf="@+id/setting"
+        android:background="?attr/actionBarItemBackground"
+        android:contentDescription="@string/edit"
+        android:scaleType="center"
+        android:src="@drawable/ic_edit"
+        app:tint="?attr/colorAccent" />
+
+    <ImageButton
+        android:id="@+id/setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="?attr/colorAccent"
+        android:layout_alignBottom="@+id/text_hi"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/grid_2"
+        android:background="?attr/actionBarItemBackground"
+        android:contentDescription="@string/setting"
+        android:scaleType="center"
+        android:src="@drawable/ic_settings" />
+
+
+    <include
+        android:id="@+id/showSubject"
+        layout="@layout/sem_choose_home_ext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_hi"
+        android:layout_marginTop="-1dp" />
+</RelativeLayout>

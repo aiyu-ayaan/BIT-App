@@ -1,8 +1,12 @@
 package com.aatec.bit.activity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.os.Bundle
+import android.view.View
 import android.viewbinding.library.activity.viewBinding
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -12,6 +16,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aatec.bit.R
 import com.aatec.bit.databinding.ActivityMainBinding
+import com.aatec.core.utils.onDestinationChange
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             navController = navHostFragment.findNavController()
             appBarConfiguration = AppBarConfiguration(
                 setOf(
+                    R.id.startUpFragment,
                     R.id.homeFragment,
                     R.id.courseFragment,
                     R.id.attendanceFragment,
@@ -40,6 +46,59 @@ class MainActivity : AppCompatActivity() {
             bottomNavigation.setupWithNavController(navController)
             setupActionBarWithNavController(navController, appBarConfiguration)
             navigationView.setupWithNavController(navController)
+        }
+        onDestinationChange()
+    }
+
+    private fun onDestinationChange() {
+        navController.onDestinationChange { navDestination ->
+            when (navDestination.id) {
+                R.id.startUpFragment,R.id.chooseSemBottomSheet-> {
+                    hideBottomAppBar()
+                }
+                else -> {
+                    showBottomAppBar()
+                }
+            }
+        }
+    }
+
+    private fun showBottomAppBar() {
+        binding.apply {
+            binding.toolbarMain.visibility = View.VISIBLE
+            bottomLayout.visibility = View.VISIBLE
+            bottomLayout.animate().translationY(0f)
+                .setDuration(resources.getInteger(R.integer.duration_small).toLong())
+                .setListener(object : AnimatorListenerAdapter() {
+                    var isCanceled = false
+                    override fun onAnimationEnd(animation: Animator?) {
+                        if (isCanceled) return
+                        bottomLayout.visibility = View.VISIBLE
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        isCanceled = true
+                    }
+                })
+        }
+    }
+
+    private fun hideBottomAppBar() {
+        binding.apply {
+            bottomLayout.isVisible = false
+            bottomLayout.animate().translationY(bottomLayout.height.toFloat())
+                .setDuration(resources.getInteger(R.integer.duration_small).toLong())
+                .setListener(object : AnimatorListenerAdapter() {
+                    var isCanceled = false
+                    override fun onAnimationEnd(animation: Animator?) {
+                        if (isCanceled) return
+                        bottomLayout.visibility = View.GONE
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+                        isCanceled = true
+                    }
+                })
         }
     }
 

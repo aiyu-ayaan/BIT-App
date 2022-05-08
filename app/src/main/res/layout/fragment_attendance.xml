@@ -78,11 +78,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
-        android:backgroundTint="?attr/colorSecondary"
         android:contentDescription="@string/add_subject"
         android:text="@string/add_subject"
+        android:backgroundTint="?attr/colorSecondary"
         android:textColor="?attr/colorSurface"
-        app:icon="@drawable/ic_add"
-        app:iconTint="?attr/colorSurface" />
+        app:iconTint="?attr/colorSurface"
+        app:icon="@drawable/ic_add"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

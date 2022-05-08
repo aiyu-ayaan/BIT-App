@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/14/22, 2:16 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/14/22, 1:03 PM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_time_table"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/grid_1">
+
+
+    <TextView
+        android:id="@+id/text_event"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_1"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:padding="@dimen/grid_0_25"
+        android:text="@string/your_tt"
+        android:textAppearance="?attr/textAppearanceTitleSmall"
+        android:textColor="@color/textColor" />
+
+    <ImageButton
+        android:id="@+id/setting_time_table"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/text_event"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/grid_2"
+        android:background="?attr/actionBarItemBackground"
+        android:contentDescription="@string/setting"
+        android:scaleType="center"
+        android:src="@drawable/ic_settings" />
+
+    <include
+        android:id="@+id/default_title_table"
+        layout="@layout/row_time_table_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_event"
+        android:layout_marginBottom="@dimen/grid_1" />
+</RelativeLayout>

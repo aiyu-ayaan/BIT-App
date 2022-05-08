@@ -9,7 +9,7 @@
         <item name="colorSurface">@color/MainColor</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/icon_color</item>
-        <item name="colorSecondaryVariant">@color/blue_bottom_nav</item>
+        <item name="colorSecondaryVariant">@color/cardBackground</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>

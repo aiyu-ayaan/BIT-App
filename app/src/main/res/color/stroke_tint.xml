@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/11/22, 10:11 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/11/22, 2:19 AM
+  -->
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="?colorAccent" android:state_checked="true" />
+    <item android:color="?colorSurface" />
+</selector>

@@ -66,7 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_nav_height"
             android:layout_alignParentBottom="true"
-            android:background="?attr/colorSurface">
+            android:background="?attr/colorSurface"
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"
@@ -86,7 +88,7 @@
         android:layout_gravity="start"
         android:background="?attr/colorSurface"
         app:headerLayout="@layout/navigation_slider_header"
-        app:itemIconTint="@color/textColorSecondary"
-        app:itemTextColor="@color/textColorSecondary"
+        app:itemIconTint="?attr/colorAccent"
+        app:itemTextColor="?attr/colorAccent"
         app:menu="@menu/navigation_slider" />
 </androidx.drawerlayout.widget.DrawerLayout>

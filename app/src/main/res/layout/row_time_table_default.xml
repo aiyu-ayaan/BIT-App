@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/4/22, 1:23 AM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/4/22, 1:23 AM
+  -->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_tt"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_0_25"
+    android:layout_marginVertical="@dimen/grid_0_25"
+    app:strokeColor="@color/card_corner">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/grid_1">
+
+        <ImageView
+            android:id="@+id/image_view_time_table"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:contentDescription="@string/title_table"
+            android:scaleType="fitCenter"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar_dev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true"
+            android:progress="50"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_time_table"
+            app:layout_constraintEnd_toEndOf="@+id/image_view_time_table"
+            app:layout_constraintStart_toStartOf="@+id/image_view_time_table"
+            app:layout_constraintTop_toTopOf="@+id/image_view_time_table"
+            app:trackColor="?attr/colorSurface"
+            app:trackThickness="30dp" />
+
+        <TextView
+            android:id="@+id/text_view_time_table_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_0_25"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@color/textColor"
+            app:layout_constraintEnd_toEndOf="@+id/image_view_time_table"
+            app:layout_constraintStart_toStartOf="@+id/image_view_time_table"
+            app:layout_constraintTop_toBottomOf="@+id/image_view_time_table"
+            tools:text="BCA Girls B" />
+
+        <TextView
+            android:id="@+id/text_view_time_table_updated"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_0_25"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/textColorSecondary"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_time_table_name"
+            app:layout_constraintStart_toStartOf="@+id/text_view_time_table_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_time_table_name"
+            tools:text="Updated on 12/3/20" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

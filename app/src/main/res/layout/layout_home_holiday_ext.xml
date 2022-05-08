@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/14/22, 2:16 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/14/22, 1:05 PM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/grid_1">
+
+
+    <TextView
+        android:id="@+id/text_holiday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_1"
+        android:layout_marginBottom="@dimen/grid_1"
+        android:padding="@dimen/grid_0_25"
+        android:text="@string/holidayThisMonth"
+        android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+    <TextView
+        android:id="@+id/text_show_all_holiday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/text_holiday"
+        android:layout_alignBottom="@+id/text_holiday"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"
+        android:text="@string/show_all"
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_holiday"
+        app:cardBackgroundColor="?attr/colorSurface"
+        app:strokeColor="@color/card_corner">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/showHoliday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_holiday"
+            android:overScrollMode="never" />
+    </com.google.android.material.card.MaterialCardView>
+
+
+</RelativeLayout>

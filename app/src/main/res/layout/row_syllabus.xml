@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 1/22/22, 12:25 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 1/22/22, 11:46 AM
+  -->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    style="?attr/materialCardViewFilledStyle"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="-10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/book1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+
+            <TextView
+                android:id="@+id/code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="CA155" />
+
+            <TextView
+                android:id="@+id/subjectName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical|center_horizontal|center|end"
+                android:textColor="@color/textColor"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="@+id/code"
+                app:layout_constraintTop_toBottomOf="@+id/code"
+                tools:text="Data Structures" />
+
+            <TextView
+                android:id="@+id/credits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="11dp"
+                app:layout_constraintStart_toStartOf="@+id/subjectName"
+                app:layout_constraintTop_toBottomOf="@+id/subjectName"
+                tools:text="Credits 4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

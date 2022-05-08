@@ -33,10 +33,12 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.recyclerview.widget.RecyclerView
+import com.aatec.core.R
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.IsPresent
-import com.aatec.core.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -56,6 +58,11 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) -> Unit)) =
+    this.addOnDestinationChangedListener { _, destination, _ ->
+        des.invoke(destination)
+    }
 
 /**
  * Open Link

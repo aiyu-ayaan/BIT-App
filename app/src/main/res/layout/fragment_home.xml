@@ -1,13 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.aatec.bit.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:overScrollMode="always"
+    android:paddingBottom="@dimen/bottom_nav_height"
     tools:context="com.aatec.bit.fragments.home.HomeFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/home" />
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp">
+
+        <include
+            android:id="@+id/layout_subject_ext"
+            layout="@layout/layout_home_subject_ext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_1"
+            android:layout_marginVertical="@dimen/grid_1" />
+
+        <include
+            android:id="@+id/layout_time_table_ext"
+            layout="@layout/time_table_ext_home_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_subject_ext"
+            android:visibility="visible" />
+
+
+        <include
+            android:id="@+id/show_event_layout"
+            layout="@layout/event_ext_home_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_time_table_ext"
+            android:visibility="visible" />
+
+        <include
+            android:id="@+id/show_holiday_layout"
+            layout="@layout/layout_home_holiday_ext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/show_event_layout" />
+
+        <include
+            android:id="@+id/show_attendance_layout"
+            layout="@layout/layout_home_attendance_ext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/show_holiday_layout" />
+    </RelativeLayout>
+</com.aatec.bit.custom_views.SaveScrollNestedScrollViewer>
