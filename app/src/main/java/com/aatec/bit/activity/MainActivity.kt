@@ -2,11 +2,14 @@ package com.aatec.bit.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.activity.viewBinding
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -16,8 +19,13 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.aatec.bit.R
 import com.aatec.bit.databinding.ActivityMainBinding
-import com.aatec.core.utils.onDestinationChange
+import com.aatec.bit.utils.changeBottomNav
+import com.aatec.bit.utils.changeStatusBarToolbarColor
+import com.aatec.bit.utils.onDestinationChange
+import com.aatec.core.utils.currentNavigationFragment
+import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -42,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 ),
                 drawer
             )
-            setSupportActionBar(toolbarMain)
+            setSupportActionBar(toolbar)
             bottomNavigation.setupWithNavController(navController)
             setupActionBarWithNavController(navController, appBarConfiguration)
             navigationView.setupWithNavController(navController)
@@ -51,9 +59,38 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onDestinationChange() {
-        navController.onDestinationChange { navDestination ->
-            when (navDestination.id) {
-                R.id.startUpFragment,R.id.chooseSemBottomSheet-> {
+        navController.onDestinationChange { destination ->
+
+            when (destination.id) {
+                R.id.homeFragment, R.id.noticeFragment, R.id.attendanceFragment,
+                R.id.courseFragment,
+                -> {
+                    setExitTransition()
+                }
+            }
+            when (destination.id) {
+                R.id.chooseImageBottomSheet -> {
+                    changeStatusBarToolbarColor(
+                        R.id.toolbar,
+                        R.attr.bottomBar
+                    )
+                }
+                else -> changeStatusBarToolbarColor(
+                    R.id.toolbar,
+                    com.google.android.material.R.attr.colorSurface
+                )
+            }
+            when (destination.id) {
+                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment, R.id.chooseImageBottomSheet -> {
+                    changeBottomNav(R.attr.bottomBar)
+                }
+                else -> {
+                    changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
+                }
+            }
+            when (destination.id) {
+                R.id.startUpFragment, R.id.chooseSemBottomSheet,
+                R.id.noticeDetailFragment, R.id.chooseImageBottomSheet -> {
                     hideBottomAppBar()
                 }
                 else -> {
@@ -63,9 +100,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setDelay() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+            Thread.sleep(400)
+    }
+
+    private fun setExitTransition() {
+        getCurrentFragment()?.apply {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        }
+    }
+
+    private fun getCurrentFragment(): Fragment? =
+        supportFragmentManager.currentNavigationFragment
+
     private fun showBottomAppBar() {
         binding.apply {
-            binding.toolbarMain.visibility = View.VISIBLE
+            binding.toolbar.visibility = View.VISIBLE
             bottomLayout.visibility = View.VISIBLE
             bottomLayout.animate().translationY(0f)
                 .setDuration(resources.getInteger(R.integer.duration_small).toLong())

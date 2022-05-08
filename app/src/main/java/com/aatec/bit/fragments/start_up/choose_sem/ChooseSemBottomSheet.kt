@@ -54,7 +54,7 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
 
         setViews()
         if (args.request == REQUEST_UPDATE_SEM) {
-            activity?.findViewById<Toolbar>(R.id.toolbar_main)?.isVisible = true
+            activity?.findViewById<Toolbar>(R.id.toolbar)?.isVisible = true
             activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.isVisible = true
         }
         courseClick()

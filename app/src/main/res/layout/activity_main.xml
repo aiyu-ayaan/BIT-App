@@ -13,7 +13,7 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_main"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottomLayout"
-            android:layout_below="@id/toolbar_main"
+            android:layout_below="@id/toolbar"
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_nav_height"
             android:layout_alignParentBottom="true"
-            android:background="?attr/colorSurface"
+            android:orientation="vertical"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -74,6 +74,7 @@
                 android:id="@+id/bottomNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="?attr/bottomBar"
                 app:itemRippleColor="?attr/colorSurface"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/menu_bottom_nav" />

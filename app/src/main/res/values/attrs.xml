@@ -13,4 +13,5 @@
     <attr name="colorNavigationItemBackgroundPressed" format="color" />
     <attr name="colorNavigationItemBackgroundSelected" format="color" />
     <attr name="drawableNavigationItemBackground" format="reference" />
+    <attr name="bottomBar" format="color" />
 </resources>

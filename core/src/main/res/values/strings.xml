@@ -24,4 +24,7 @@
     <string name="rate_up">Rate Us</string>
     <string name="searchForSubject">Search for subject &#38; more</string>
     <string name="blank"> </string>
+    <string name="deep_link_share_link">https://bitapp-eng.github.io/notice/path=%s</string>
+    <string name="deep_link_share_event_link">https://bitapp-eng.github.io/event/path=%s</string>
+    <string name="play_store_link">https://play.google.com/store/apps/details?id=</string>
 </resources>

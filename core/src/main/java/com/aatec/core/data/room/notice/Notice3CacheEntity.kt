@@ -19,7 +19,6 @@ data class Notice3CacheEntity(
     @PrimaryKey(autoGenerate = false)
     val title: String,
     val body: String,
-    val attach: String,
     val link: String,
     val sender: String,
     val path :String,

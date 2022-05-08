@@ -11,7 +11,7 @@ package com.aatec.core.data.ui.notice
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
-import com.aatec.bit.data.Newtork.Notice.Attach
+import com.aatec.core.data.network.notice.Attach
 import kotlinx.parcelize.Parcelize
 
 @Keep
@@ -19,7 +19,6 @@ import kotlinx.parcelize.Parcelize
 data class Notice3(
     val title: String,
     val body: String,
-    val attach: String,
     val link: String,
     val sender: String,
     val path: String,
@@ -30,7 +29,7 @@ data class Notice3(
 @Keep
 data class SendNotice3(
     val notice: Notice3,
-    val attach: MutableList<Attach>?
+    val attach: List<Attach>
 ) : Parcelable
 
 

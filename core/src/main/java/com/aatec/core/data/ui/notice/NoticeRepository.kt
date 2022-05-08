@@ -10,11 +10,13 @@
 
 package com.aatec.core.data.ui.notice
 
-import com.aatec.bit.data.Newtork.Notice.Notice3NetworkEntity
 import com.aatec.bit.data.Newtork.Notice.Notice3NetworkMapper
+import com.aatec.core.data.network.notice.Attach
+import com.aatec.core.data.network.notice.Notice3NetworkEntity
 import com.aatec.core.data.room.notice.Notice3CacheMapper
 import com.aatec.core.data.room.notice.Notice3Dao
 import com.aatec.core.utils.DataState
+import com.aatec.core.utils.NoItemFoundException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -104,8 +106,48 @@ class NoticeRepository @Inject constructor(
                     }
                 }
             }
-
         }
 
+    }
+
+    fun getNoticeFromPath(path: String): Flow<DataState<Notice3>> = channelFlow {
+        try {
+            db.collection("BIT_Notice_New").document(path)
+                .addSnapshotListener { documentSnapShot, error ->
+                    launch(Dispatchers.Main) {
+                        send(DataState.Loading)
+                        val notice = documentSnapShot?.toObject(Notice3NetworkEntity::class.java)
+                        if (notice == null) {
+                            send(DataState.Error(NoItemFoundException("Invalid Link")))
+                        } else {
+                            send(DataState.Success(networkMapper3.mapFormEntity(notice)))
+                        }
+                    }
+                }
+            awaitClose()
+        } catch (e: Exception) {
+            send(DataState.Error(e))
+        }
+    }
+
+    fun getAttachFromPath(path: String): Flow<DataState<List<Attach>>> = channelFlow {
+        try {
+            db.collection("BIT_Notice_New").document(path)
+                .collection("attach")
+                .addSnapshotListener { documentSnapShot, error ->
+                    launch(Dispatchers.Main) {
+                        send(DataState.Loading)
+                        val attach = documentSnapShot?.toObjects(Attach::class.java)
+                        if (attach == null) {
+                            send(DataState.Error(NoItemFoundException("No Attach")))
+                        } else {
+                            send(DataState.Success(attach))
+                        }
+                    }
+                }
+            awaitClose()
+        } catch (e: Exception) {
+            send(DataState.Error(e))
+        }
     }
 }

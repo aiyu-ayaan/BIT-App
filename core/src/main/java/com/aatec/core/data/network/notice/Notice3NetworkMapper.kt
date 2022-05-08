@@ -8,6 +8,7 @@
 
 package com.aatec.bit.data.Newtork.Notice
 
+import com.aatec.core.data.network.notice.Notice3NetworkEntity
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.utils.EntityMapper
 import javax.inject.Inject
@@ -18,7 +19,6 @@ class Notice3NetworkMapper @Inject constructor() : EntityMapper<Notice3NetworkEn
             entity.title,
             entity.body,
             link = entity.link,
-            attach = entity.attach,
             created = entity.created,
             sender = entity.sender,
             path = entity.path

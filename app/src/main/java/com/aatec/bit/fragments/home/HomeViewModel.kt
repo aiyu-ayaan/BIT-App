@@ -14,6 +14,7 @@ import androidx.lifecycle.*
 import com.aatec.bit.utils.MainStateEvent
 import com.aatec.core.data.room.attendance.AttendanceDao
 import com.aatec.core.data.room.syllabus.SyllabusDao
+import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.EventRepository
 import com.aatec.core.data.ui.holiday.Holiday
 import com.aatec.core.data.ui.holiday.HolidayRepository
@@ -21,10 +22,7 @@ import com.aatec.core.data.ui.syllabus.SyllabusRepository
 import com.aatec.core.data.ui.timeTable.TimeTableRepository
 import com.aatec.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -40,9 +38,15 @@ class HomeViewModel @Inject constructor(
     private val eventRepository: EventRepository,
     private val timeTableRepository: TimeTableRepository
 ) : ViewModel() {
+
+    private val _dataStateHome: MutableLiveData<HomeItem> = MutableLiveData()
+    val dataStateMainHome: LiveData<HomeItem>
+        get() = _dataStateHome
+
     private val _dataStateMain: MutableLiveData<DataState<List<Holiday>>> = MutableLiveData()
     val dataStateMain: LiveData<DataState<List<Holiday>>>
         get() = _dataStateMain
+
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
 
@@ -106,6 +110,13 @@ class HomeViewModel @Inject constructor(
         sec: String
     ) = timeTableRepository.getDefault(course, gender, sem, sec)
 }
+
+data class HomeItem(
+    val theory: List<SyllabusModel>,
+    val lab: List<SyllabusModel>,
+    val pe: List<SyllabusModel>,
+    val holiday: DataState<List<Holiday>>
+)
 
 data class QueryTimeTable(
     val course: String = "",

@@ -8,7 +8,7 @@
 
 
 
-package com.aatec.core.utils
+package com.aatec.bit.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -25,20 +25,29 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
+import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.core.R
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.IsPresent
+import com.aatec.core.data.ui.notice.Notice3
+import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -46,8 +55,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -289,31 +301,31 @@ fun String.loadImageBitMap(
 //        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 //    }, null))
 //
-///**
-// *Extension function to open Share
-// * @author Ayaan
-// * @since 4.0.3
-// */
-//fun Activity.openShareDeepLink(title: String, path: String) =
-//    this.startActivity(Intent.createChooser(Intent().apply {
-//        action = Intent.ACTION_SEND
-//        putExtra(
-//            Intent.EXTRA_TEXT, """
-//            $title .
-//            Link: ${
-//                Uri.parse(
-//                    resources.getString(R.string.deep_link_share_link, path.trim())
-//                )
-//            }
-//
-//            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
-//        """.trimIndent()
-//        )
-//        type = "text/plain"
-//        putExtra(Intent.EXTRA_TITLE, title)
-//
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//    }, null))
+/**
+ *Extension function to open Share
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openShareDeepLink(title: String, path: String) =
+    this.startActivity(Intent.createChooser(Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT, """
+            $title .
+            Link: ${
+                Uri.parse(
+                    resources.getString(R.string.deep_link_share_link, path.trim())
+                )
+            }
+
+            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
+        """.trimIndent()
+        )
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TITLE, title)
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
 
 
 /**
@@ -331,8 +343,7 @@ fun String.replaceNewLineWithBreak() =
  * @author Ayaan
  * @since 4.0.2
  * @see com.aatec.bit.utils.applyImageUrl()
- * @see com.aatec.bit.Service.FcmService
- * @deprecated This Function is Deprecated. Use {@link com.aatec.core.utils.applyImageUrl()}
+ * @deprecated This Function is Deprecated. Use {@link com.aatec.bit.utils.applyImageUrl()}
  */
 fun String.converterLinkToBitmap(): Bitmap? =
     runBlocking(Dispatchers.IO) {
@@ -592,17 +603,27 @@ inline fun RecyclerView.onScrollChange(
  * @since 4.0.4
  * @author Ayaan
 // */
-//fun Activity.changeStatusBarToolbarColor(@ColorRes colorCode: Int) =
-//    this.apply {
-//        try {
-//            val window = window
-//            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window?.statusBarColor = ContextCompat.getColor(this, colorCode)
-//            this.toolbar?.setBackgroundColor(ContextCompat.getColor(this, colorCode))
-//        } catch (e: Exception) {
-//            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+fun Activity.changeStatusBarToolbarColor(@IdRes id: Int, @AttrRes colorCode: Int) =
+    this.apply {
+        try {
+            val window = window
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.statusBarColor = MaterialColors.getColor(
+                this,
+                colorCode,
+                Color.WHITE
+            )
+            this.findViewById<Toolbar>(id).setBackgroundColor(
+                MaterialColors.getColor(
+                    this,
+                    colorCode,
+                    Color.WHITE
+                )
+            )
+        } catch (e: Exception) {
+            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 ///**
 // * Change Color of ImageView
@@ -646,29 +667,44 @@ fun getPendingIntentFlag() =
         PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
 
 
-///**
-// * Open Custom Tab
-// * @since 4.0.4
-// * @author Ayaan
-// */
-//fun Context.openCustomChromeTab(link: String) = this.run {
-//    val defaultColors = CustomTabColorSchemeParams.Builder()
-//        .setToolbarColor(ContextCompat.getColor(this, R.color.accent_color))
-//        .build()
-//    val customTabIntent =
-//        CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
-//    customTabIntent.intent.`package` = "com.android.chrome"
-//    customTabIntent.launchUrl(this, Uri.parse(link))
-//}
+/**
+ * Open Custom Tab
+ * @since 4.0.4
+ * @author Ayaan
+ */
+fun Context.openCustomChromeTab(link: String) = this.run {
+    val defaultColors = CustomTabColorSchemeParams.Builder()
+        .setToolbarColor(
+            MaterialColors.getColor(
+                this,
+                androidx.appcompat.R.attr.colorAccent,
+                Color.RED
+            )
+        )
+        .build()
+    val customTabIntent =
+        CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
+    customTabIntent.intent.`package` = "com.android.chrome"
+    customTabIntent.launchUrl(this, Uri.parse(link))
+}
 
 /**
  * BottomNav Change color
  * @since 4.0.4
  * @author Ayaan
  */
-fun Activity.changeBottomNav(@ColorRes color: Int) = this.apply {
+fun Activity.changeBottomNav(@AttrRes color: Int) = this.apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
-        window.navigationBarColor = ContextCompat.getColor(this, color)
+        window.navigationBarColor = MaterialColors.getColor(
+            this,
+            color,
+            Color.RED
+        )
+}
+
+fun Activity.changeBottomNavColor(@ColorInt color: Int) = this.apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+        window.navigationBarColor = color
 }
 
 /**
@@ -723,44 +759,44 @@ fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 }
 
 
-///**
-// *Extension function to open Share
-// * @author Ayaan
-// * @since 4.0.5
-// */
-//fun Activity.openShareImageDeepLink(
-//    context: Context,
-//    title: String,
-//    path: String,
-//    imageLink: String,
-//    share_type: String = "event"
-//) =
-//    this.startActivity(Intent.createChooser(Intent().apply {
-//        action = Intent.ACTION_SEND
-//        putExtra(Intent.EXTRA_STREAM, getImageUri(context, imageLink.converterLinkToBitmap()!!))
-//        putExtra(
-//            Intent.EXTRA_TEXT, """
-//            $title .
-//            Link: ${
-//                Uri.parse(
-//                    when (share_type) {
-//                        "event" -> resources.getString(
-//                            R.string.deep_link_share_event_link,
-//                            path.trim()
-//                        )
-//                        else -> resources.getString(R.string.deep_link_share_link, path.trim())
-//                    }
-//                )
-//            }
-//
-//            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
-//        """.trimIndent()
-//        )
-//        type = "image/*"
-//        putExtra(Intent.EXTRA_TITLE, title)
-//
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//    }, null))
+/**
+ *Extension function to open Share
+ * @author Ayaan
+ * @since 4.0.5
+ */
+fun Activity.openShareImageDeepLink(
+    context: Context,
+    title: String,
+    path: String,
+    imageLink: String,
+    share_type: String = "event"
+) =
+    this.startActivity(Intent.createChooser(Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_STREAM, getImageUri(context, imageLink.converterLinkToBitmap()!!))
+        putExtra(
+            Intent.EXTRA_TEXT, """
+            $title .
+            Link: ${
+                Uri.parse(
+                    when (share_type) {
+                        "event" -> resources.getString(
+                            R.string.deep_link_share_event_link,
+                            path.trim()
+                        )
+                        else -> resources.getString(R.string.deep_link_share_link, path.trim())
+                    }
+                )
+            }
+
+            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
+        """.trimIndent()
+        )
+        type = "image/*"
+        putExtra(Intent.EXTRA_TITLE, title)
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
 //
 //
 ///**
@@ -768,11 +804,11 @@ fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 // * @author Ayaan
 // * @since 4.0.5
 // */
-//fun Notice3.getImageLinkNotification(context: Context): String =
-//    when (this.sender) {
-//        context.resources.getString(R.string.app_notice) -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
-//        else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"
-//    }
+fun Notice3.getImageLinkNotification(context: Context): String =
+    when (this.sender) {
+        "App Notice" -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
+        else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"
+    }
 
 
 /**
@@ -789,5 +825,61 @@ fun Activity.openPlayStore(name: String = packageName) {
             it.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
             it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
+    )
+}
+
+inline fun Activity.onScrollColorChange(
+    scrollView: NestedScrollView,
+    crossinline to: (() -> Unit),
+    crossinline from: (() -> Unit)
+) =
+    scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+        when (scrollY) {
+            0 -> {
+                to.invoke()
+            }
+            else -> {
+                from.invoke()
+            }
+        }
+    }
+
+fun <T1, T2, T3, T4, T5, T6, R> combine(
+    flow: Flow<T1>,
+    flow2: Flow<T2>,
+    flow3: Flow<T3>,
+    flow4: Flow<T4>,
+    flow5: Flow<T5>,
+    flow6: Flow<T6>,
+    transform: suspend (T1, T2, T3, T4, T5, T6) -> R
+): Flow<R> = combine(
+    combine(flow, flow2, flow3, ::Triple),
+    combine(flow4, flow5, flow6, ::Triple)
+) { t1, t2 ->
+    transform(
+        t1.first,
+        t1.second,
+        t1.third,
+        t2.first,
+        t2.second,
+        t2.third
+    )
+}
+
+fun <T1, T2, T3, T4, R> combineFourFlows(
+    flow: Flow<T1>,
+    flow2: Flow<T2>,
+    flow3: Flow<T3>,
+    flow4: Flow<T4>,
+    transform: suspend (T1, T2, T3, T4) -> R
+): Flow<R> = combine(
+    combine(flow, flow2, ::Pair),
+    combine(flow3, flow4, ::Pair)
+) { t1, t2 ->
+    transform(
+        t1.first,
+        t1.second,
+        t2.first,
+        t2.second,
     )
 }

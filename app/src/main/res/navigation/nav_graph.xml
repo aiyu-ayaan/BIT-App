@@ -58,5 +58,34 @@
     <action
         android:id="@+id/action_global_chooseSemBottomSheet"
         app:destination="@id/chooseSemBottomSheet" />
+    <fragment
+        android:id="@+id/noticeDetailFragment"
+        android:name="com.aatec.bit.fragments.notice.description.NoticeDetailFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_notice_detail">
+        <argument
+            android:name="path"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="bitapp-eng.github.io/notice/path={path}" />
+        <action
+            android:id="@+id/action_noticeDetailFragment_to_chooseImageBottomSheet"
+            app:destination="@id/chooseImageBottomSheet" />
+
+    </fragment>
+    <action
+        android:id="@+id/action_global_noticeDetailFragment"
+        app:destination="@id/noticeDetailFragment" />
+    <dialog
+        android:id="@+id/chooseImageBottomSheet"
+        android:name="com.aatec.bit.fragments.notice.choose_image.ChooseImageBottomSheet"
+        android:label="@string/blank"
+        tools:layout="@layout/bottom_sheet_choose_image">
+        <argument
+            android:name="notice"
+            app:argType="com.aatec.core.data.ui.notice.SendNotice3" />
+    </dialog>
 
 </navigation>

@@ -113,7 +113,7 @@ abstract class BitDatabase : RoomDatabase() {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE event_table ADD COLUMN path TEXT DEFAULT ''")
                 database.execSQL("CREATE TABLE `time_table_table`(`course` TEXT NOT NULL, `gender` TEXT NOT NULL, `sem` TEXT NOT NULL,`section` TEXT NOT NULL , `imageLink` TEXT NOT NULL ,`created` INTEGER NOT NULL , PRIMARY KEY(`created`))")
-                database.execSQL("CREATE TABLE `notice_3_table`(`title` TEXT NOT NULL, `body` TEXT NOT NULL, `attach` TEXT NOT NULL, `link` TEXT NOT NULL, `sender` TEXT NOT NULL, `path` TEXT NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`title`))")
+                database.execSQL("CREATE TABLE `notice_3_table`(`title` TEXT NOT NULL, `body` TEXT NOT NULL, `link` TEXT NOT NULL, `sender` TEXT NOT NULL, `path` TEXT NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`title`))")
                 database.execSQL("DROP TABLE notice_table")
             }
         }

@@ -3,7 +3,7 @@ package com.aatec.bit.fragments.home
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+import android.os.Parcelable
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.viewbinding.library.fragment.viewBinding
@@ -26,10 +26,13 @@ import com.aatec.bit.databinding.FragmentHomeBinding
 import com.aatec.bit.fragments.home.adapter.EventHomeAdapter
 import com.aatec.bit.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.fragments.home.adapter.SyllabusHomeAdapter
-import com.aatec.bit.utils.MainStateEvent
+import com.aatec.bit.utils.*
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.data.ui.timeTable.TimeTableModel
-import com.aatec.core.utils.*
+import com.aatec.core.utils.DataState
+import com.aatec.core.utils.REQUEST_UPDATE_SEM
+import com.aatec.core.utils.calculatedDays
+import com.aatec.core.utils.findPercentage
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialFadeThrough
@@ -50,10 +53,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val preferencesManagerViewModel: PreferenceManagerViewModel by activityViewModels()
     private var defPercentage = 75
     private lateinit var divider: MaterialDividerItemDecoration
+    private lateinit var syllabusPeAdapter: SyllabusHomeAdapter
+    private lateinit var syllabusTheoryAdapter: SyllabusHomeAdapter
+    private lateinit var syllabusLabAdapter: SyllabusHomeAdapter
+    private lateinit var holidayAdapter: HolidayHomeAdapter
 
     @Inject
     lateinit var db: FirebaseFirestore
 
+    companion object {
+        var myScrollViewerInstanceState: Parcelable? = null
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,27 +75,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
+        if (myScrollViewerInstanceState != null) {
+            binding.scrollViewHome.onRestoreInstanceState(myScrollViewerInstanceState)
+        }
         view.doOnPreDraw { startPostponedEnterTransition() }
-        restoreScroll(binding)
         divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
         divider.dividerInsetStart = resources.getDimensionPixelSize(R.dimen.grid_2)
         divider.dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.grid_1_5)
         divider.dividerColor = ContextCompat.getColor(requireContext(), R.color.card_corner)
 
-        val holidayAdapter = HolidayHomeAdapter()
+        holidayAdapter = HolidayHomeAdapter()
         binding.apply {
-            showHolidayLayout.showHoliday.apply {
-                addItemDecoration(divider)
-                adapter = holidayAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(false)
-            }
-            holidayAdapter.stateRestorationPolicy =
-                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
             layoutSubjectExt.setting.setOnClickListener {
                 navigateToWelcomeScreen()
             }
+
             showAttendanceLayout.attendanceClick.setOnClickListener {
                 navigateToAttendance()
             }
@@ -99,28 +103,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.setStateListener(MainStateEvent.GetData)
-        }
-        viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
-            when (dateState) {
-                is DataState.Success -> {
-                    binding.showHolidayLayout.apply {
-                        textHoliday.isVisible = true
-                        showHoliday.isVisible = true
-                    }
-                    holidayAdapter.submitList(dateState.data)
-                }
-                DataState.Empty -> {
-                    binding.showHolidayLayout.apply {
-                        textHoliday.isVisible = false
-                        showHoliday.isVisible = false
-                    }
-                }
-                is DataState.Error -> {
-                    binding.root.showSnackBar("${dateState.exception.message}", -1)
-                }
-                DataState.Loading -> {
-                }
-            }
         }
 
 //        SetUpSyllabus
@@ -142,6 +124,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         detectScroll()
 
         setTimeTable()
+        getData()
+        setHoliday()
+    }
+
+    private fun setHoliday() = binding.apply {
+        showHolidayLayout.showHoliday.apply {
+            addItemDecoration(divider)
+            adapter = holidayAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(false)
+        }
+        holidayAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
 
@@ -231,24 +226,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        findNavController().navigate(action)
     }
 
-
-    /**
-     * @author Ayaan
-     * @since 4.0.3
-     */
-    private fun restoreScroll(binding: FragmentHomeBinding) {
-        try {
-            lifecycleScope.launchWhenStarted {
-                viewModel.homeNestedViewPosition.collect { pos ->
-                    binding.scrollViewHome.post {
-                        binding.scrollViewHome.scrollTo(0, pos)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            Log.e("Error", e.message!!)
-        }
-    }
 
     /**
      * @author Ayaan
@@ -415,17 +392,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun settingUpSyllabus() {
-        val syllabusTheoryAdapter = SyllabusHomeAdapter(
+        syllabusTheoryAdapter = SyllabusHomeAdapter(
             listener = { _, _ ->
 
             }
         )
-        val syllabusLabAdapter = SyllabusHomeAdapter(
+        syllabusLabAdapter = SyllabusHomeAdapter(
             listener = { _, _ ->
 
             }
         )
-        val syllabusPeAdapter = SyllabusHomeAdapter(
+        syllabusPeAdapter = SyllabusHomeAdapter(
             listener = { _, _ ->
 
             }
@@ -454,7 +431,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         syllabusPeAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
+    }
 
+    private fun getData() = lifecycleScope.launchWhenStarted {
         viewModel.theory.observe(viewLifecycleOwner) {
             binding.layoutSubjectExt.showSubject.showTheory.isVisible = it.isNotEmpty()
             binding.layoutSubjectExt.showSubject.textView6.isVisible = it.isNotEmpty()
@@ -473,6 +452,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.layoutSubjectExt.showSubject.dividerLab.isVisible =
                 it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
+        }
+        viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
+            when (dateState) {
+                is DataState.Success -> {
+                    binding.showHolidayLayout.apply {
+                        textHoliday.isVisible = true
+                        showHoliday.isVisible = true
+                    }
+                    holidayAdapter.submitList(dateState.data)
+                }
+                DataState.Empty -> {
+                    binding.showHolidayLayout.apply {
+                        textHoliday.isVisible = false
+                        showHoliday.isVisible = false
+                    }
+                }
+                is DataState.Error -> {
+                    binding.root.showSnackBar("${dateState.exception.message}", -1)
+                }
+                DataState.Loading -> {
+                }
+            }
         }
     }
 
@@ -513,42 +514,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        }
 //}
 
-/**
- * @since 4.0.4
- * @author Ayaan
- */
-private fun detectScroll() {
-//        binding.scrollViewHome.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-//            when (scrollY) {
-//                0 -> {
-//                    activity?.changeStatusBarToolbarColor(
-//                        R.color.MainColor
-//                    )
-//                }
-//                else -> {
-//                    activity?.changeStatusBarToolbarColor(
-//                        R.color.bottom_nav
-//                    )
-//                }
-//            }
-//        }
-}
+    /**
+     * @since 4.0.4
+     * @author Ayaan
+     */
+    private fun detectScroll() {
+        activity?.onScrollColorChange(binding.scrollViewHome, {
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar,
+                com.google.android.material.R.attr.colorSurface
+            )
+        }, {
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar,
+                R.attr.bottomBar
+            )
+        })
 
-//    override fun onPause() {
-//        super.onPause()
-//        activity?.changeStatusBarToolbarColor(
-//            R.color.MainColor
-//        )
-//    }
+    }
 
-//    override fun onStop() {
-//        try {
-//            super.onStop()
-//            viewModel.homeNestedViewPosition.value = binding.scrollViewHome.scrollY
-//        } catch (e: Exception) {
-//            Log.e("Error", e.message!!)
-//        }
-//    }
+    override fun onPause() {
+        super.onPause()
+        activity?.changeStatusBarToolbarColor(
+            R.id.toolbar,
+            com.google.android.material.R.attr.colorSurface
+        )
+        myScrollViewerInstanceState = binding.scrollViewHome.onSaveInstanceState()
+
+    }
+
 
 //    private fun navigateToTimeTableSetting() {
 //        val action =

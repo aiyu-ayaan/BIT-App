@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.aatec.bit.fragments.notice.NoticeFragment"
-    android:layout_height="match_parent">
 
-    <TextView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.aatec.bit.fragments.notice.NoticeFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/showNotice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/bottom_nav_height"
+        android:transitionGroup="true" />
+
+
+    <RelativeLayout
+        android:id="@+id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/notice" />
+        android:visibility="visible">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="200.0dip"
+            android:layout_height="200.0dip"
+            android:layout_centerHorizontal="true"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="empty.json"
+            app:lottie_loop="true" />
+
+    </RelativeLayout>
 </RelativeLayout>
