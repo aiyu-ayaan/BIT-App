@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.aatec.bit.fragments.home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/courseFragment"
+        android:name="com.aatec.bit.fragments.course.CourseFragment"
+        android:label="@string/courses"
+        tools:layout="@layout/fragment_course" />
+    <fragment
+        android:id="@+id/noticeFragment"
+        android:name="com.aatec.bit.fragments.notice.NoticeFragment"
+        android:label="@string/notice"
+        tools:layout="@layout/fragment_notice" />
+    <fragment
+        android:id="@+id/attendanceFragment"
+        android:name="com.aatec.bit.fragments.attendance.AttendanceFragment"
+        android:label="@string/attendance"
+        tools:layout="@layout/fragment_attendance" />
+</navigation>

@@ -35,13 +35,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 }
 
 dependencies {
 
+    implementation project(':core')
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.7.0-alpha01'
@@ -98,8 +99,6 @@ dependencies {
     implementation "com.airbnb.android:lottie:$lottiVersion"
 
 
-    //    calendar
-    implementation "com.github.sundeepk:compact-calendar-view:$calendarVersion"
 //    Gson
     implementation "com.google.code.gson:gson:$gsonVersion"
 

@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">BIT App</string>
+    <string name="app_version">4.0.5</string>
+    <string name="full_version">Version 4.0.5</string>
+    <string name="home">Home</string>
+    <string name="notice">Notice</string>
+    <string name="courses">Course</string>
+    <string name="attendance">Attendance</string>
+    <string name="erp_holiday"><![CDATA[Erp & Classes ]]></string>
+    <string name="societies_event"><![CDATA[Societies & Events ]]></string>
+    <string name="share_rate_us"><![CDATA[Share & Rate Us]]></string>
+    <string name="erp">Erp</string>
+    <string name="title_table">Time Table</string>
+    <string name="holidays">Holidays</string>
+    <string name="societies">Societies</string>
+    <string name="events">Events</string>
+    <string name="communicate">Communicate</string>
+    <string name="share">Share</string>
+    <string name="connect">Connect With Us</string>
+    <string name="about_us">About Us</string>
+    <string name="report">Report Bug</string>
+    <string name="bugs">Bugs</string>
+    <string name="theme">Theme</string>
+    <string name="rate_up">Rate Us</string>
+    <string name="searchForSubject">Search for subject &#38; more</string>
+    <string name="blank"> </string>
+</resources>

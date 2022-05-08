@@ -1,7 +1,13 @@
 package com.aatec.bit
 
 import android.app.Application
-import dagger.hilt.android.AndroidEntryPoint
+import com.google.android.material.color.DynamicColors
+import dagger.hilt.android.HiltAndroidApp
 
-@AndroidEntryPoint
-class BITApp : Application()
+@HiltAndroidApp
+class BITApp : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        DynamicColors.applyToActivitiesIfAvailable(this)
+    }
+}
