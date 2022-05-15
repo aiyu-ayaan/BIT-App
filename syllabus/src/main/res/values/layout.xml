@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/25/22, 9:19 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/25/22, 3:28 AM
+  -->
+
+<resources>
+
+    <!--Layout-->
+    <!--Reply uses an 8dp grid system. Smaller components can align to a 2dp 'sub' grid.-->
+
+    <!--2dp sub grid-->
+    <dimen name="grid_0_25">2dp</dimen>
+    <dimen name="grid_0_5">4dp</dimen>
+
+    <!--8dp grid-->
+    <dimen name="grid_1">8dp</dimen>
+    <dimen name="grid_1_5">14dp</dimen>
+    <dimen name="grid_2">16dp</dimen>
+    <dimen name="grid_3">24dp</dimen>
+    <dimen name="grid_4">32dp</dimen>
+    <dimen name="grid_5">40dp</dimen>
+    <dimen name="grid_6">48dp</dimen>
+
+
+    <dimen name="chip_icon_diameter">32dp</dimen>
+    <dimen name="min_padding_attendance">100dp</dimen>
+    <dimen name="div_height">1dp</dimen>
+    <dimen name="bottom_nav_height">80dp</dimen>
+    <dimen name="email_sender_profile_image_size">40dp</dimen>
+</resources>

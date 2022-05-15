@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Introduction to Materials Management and Production Management"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module I:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="Nature and Scope of Materials Management, Objectives and Importance of Materials Management, Integrated Approach to Materials Management and its Advantages and Limitations ."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module II:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:paddingLeft="4.0dip"
+                android:text="Purchasing Functions, Purchase Procedure and Purchasing Cycle,Stores Management, Location and Layout of Stores, Stores System and Procedures."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module III:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Inventory Control, Concept of EOQ and ROP, Value Analysis and ABC Analysis.Simple application oriented numerical problems on EOQ, ROP and ABC analysis."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module IV:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Nature and Scope of Production Management, forecasting – first step of production function, need for sales forecasting, Types of forecasting techniques, Plant location decision, locational problem analysis and importance of location factors, facility layout decision, types of layout, line balancing , merits and demerits of layouts."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module V:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Production planning and control – nature, factors determining production planning, production planning systems, production control, benefits of production control, and elements of production control, plant maintenance – objectives, types of maintenance scope, importance ."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Gopalakrishna, P. and Sunderasan, M., Materials Management: An Integrated Approach(PHI: New Delhi) \n\n 2. Ashwathapa,K and SridharaBhat, K Production and Operations Management (Himalaya Publishing, House, Mumbai – 04)"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Chary, S.N., Production and Operations Management (TMH: New Delhi) \n\n 2. Khanna, O.P., Industrial Engineering and Management (Dhanpat Rai: New Delhi"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

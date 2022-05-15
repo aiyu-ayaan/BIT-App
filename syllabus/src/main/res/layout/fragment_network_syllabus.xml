@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_view_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold"
+            tools:text="Logical Organizations of Computers" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20.0dip"
+            android:background="@color/cardBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <WebView
+                android:id="@+id/text_view_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="0dp"
+                android:scrollbars="none" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/cardBackground"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_view_books"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                tools:text="1. Mano M., “Computer System Architecture”, Prentice Hall of India, New Delhi, 1995.(T1)" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textSize="25.0sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/text_view_reference"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:textColor="@color/textColorSecondary"
+                android:textSize="20.0sp"
+                tools:text="1. Morris Mano M &amp; Ciletti M.D., “Digital Design”, 4th Edition, PHI, 2008.(R1) \n\n 2. Hayes, J.P., “Computer Architecture and Organization”, 3rd Edition, McGraw-Hill, London, 2000, (R2) \n\n 3. Ram. B., “Computer Fundamentals: Architecture and Organization”, 3rd Edition, New Age International Publication, New Delhi, 2000.(R3)" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

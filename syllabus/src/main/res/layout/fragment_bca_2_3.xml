@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Operating System Concepts"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:gravity="left"
+                android:text="Module – I Introduction &amp; System Structures:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="What Operating Systems do, Computer System Organisation, Computer System Architecture: Single Processor Systems, Multiprocessor Systems, Clustered Systems, Operating System Structure, Operating System Operations, Distributed Systems, Special Purpose Systems, Computing Environments, Open-Source Operating Systems, Operating System Services, User Operating System Interface, System Calls, Types of System Calls, System Programs, Operating System Design and Implementation: Design Goals, Mechanisms and Policies, Implementation, Operating System Structure: Simple Structure, Layered Approach, System Boot."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II Process Management:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:paddingLeft="4.0dip"
+                android:text="Process Concept, Operations on Processes, Process Scheduling- Basic Concepts, Scheduling Queues, Schedulers, Pre-emptive Scheduling, Dispatcher, Scheduling Criteria, Scheduling Algorithms."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III Deadlock Handling:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="System Model, Deadlock Characterization, Methods for Handling Deadlocks, Deadlock Prevention, Deadlock Avoidance, Deadlock Detection, Recovery from Deadlock."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV Memory Management:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Background, Swapping, Contiguous Memory Allocation, Paging, Structure of the Page Table, Segmentation. File Management: File Concept, Access Methods, Directory &amp; Disk Structure, File System Mounting, File Sharing, Protection, File System Structure, File System Implementation, Directory Implementation, Allocation Methods, Free Space Management. "
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V Secondary Memory Management: "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Overview of Mass Storage Structures, Disk Structure, Disk Scheduling, Disk Management. Case Study- The Linux System: Linux History, Design Principles, Kernel Modules, Process Management, Scheduling (except Symmetric Multiprocessing), Memory Management (except Virtual Memory), File Systems, Input &amp; Output."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. SilberschatzA., GalvinP.B. &amp; GagneG., “Operating System Concepts”, 8th Edition, Wiley India, 2012. "
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. DeitelH.M., “Operating Systems”, 3rd Edition, Prentice-Hall of India, 2006.                 \n\n 2. TanenbaumA.S., “Modern Operating Systems”, 2nd Edition, Prentice-Hall of India, 2010. "
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

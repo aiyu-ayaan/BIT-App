@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Computer Networks"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – I Introduction"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="Uses of computer, business applications, home applications, mobile users, social issues, Network Hardware, LAN, MAN, WAN, wireless networks, home networks, Internet works."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II Network Architecture"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:paddingLeft="4.0dip"
+                android:text="OSI Reference Model, TCP/IP Reference Model, Comparison of OSI and TCP/IP Reference Model. Transmission Media: Guided Transmission media, Wireless transmission ."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III Digital Transmission"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Digital to digital transmission, analog to digital transmission, transmission modes. Analog Transmission: digital to analog transmission and analog to analog transmission."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV Switching"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Circuit switched network, datagram networks, virtual circuit networks. Multiplexing: frequency division multiplexing, synchronous time division multiplexing, statistical time division multiplexing."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V Data link layer"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Data link layer design issues, error detection and error correction, stop-and- wait protocol, sliding window protocol."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="Andrew S. Tanenbaum, Computer Networks, 4th Edition, Pearson Prentice Hall Behrouz A. Forouzan, Data Communications and Networking, 4th Edition, Tata McGraw Hill."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

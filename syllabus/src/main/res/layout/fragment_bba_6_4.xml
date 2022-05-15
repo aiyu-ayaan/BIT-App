@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="International Finance"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – I"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="Introduction to International Finance: Increasing interdependence in the global economy, trends in international trade and cross border financial flow, India in the global economy, recent developments in global financial markets, liberalisation, integration and innovation- challenges to international financial management, gains from international trade and investment."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:paddingLeft="4.0dip"
+                android:text="Balance of Payment: Concept of economic transactions, general government institutions, Principles of BoP accounting, components of the BoP account, factors affecting the components of BoP account, importance of BoP statistics, Relationship between BP variables and other economic variables, limitations of BoP."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="The foreign exchange market: Structure and the participants, exchange rate determination, exchange rate quotations, types of quotes, arbitrage, types of transactions, quotes for various kinds of merchant transactions, foreign exchange market- the Indian scenario, foreign exchange contracts – early delivery/extension/cancellation of foreign exchange contracts."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Exchange Risk Management: Foreign exchange exposure- definition, classification of foreign exchange exposure- transaction, translation and operating exposures, derivatives- definition, classification, features and participants. RBI’s constitution &amp; objectives, functions, tools to monetary control, Developmental role of RBI, Regulatory restrictions on lending."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text=" International Trade: Trade blocks- formation of trade blocks, conditions for success, OPEC- objectives, UNCTAD functions. WTO- history, functions, structure of WTO agreements, Trade Related Aspects of Intellectual Property Rights (TRIPS), Trade Related Aspects of Investment Measures (TRIMS), General Agreement on Trade in Services (GATS)."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. International Finance, Ephraim Clark"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. International Finance and Trade, ICFAI University."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

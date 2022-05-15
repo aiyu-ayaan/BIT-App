@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Fundamentals of Operations Research"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – I"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="Introduction to theory of optimization, Features of O.R, Modelling in Operations Research , Classification of Models, General Solution Methods for O.R Models, Scientific Method in O.R, Methodology of O.R., Applications, Opportunities and Shortcomings of O.R."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:paddingLeft="4.0dip"
+                android:text="Linear Programming models, formulation of LPP models, mathematical formulation of general linear programming models, application of LPP models, Solution of Linear Programming Problem by Graphical Method, Special Cases: (I) Alternate Optima (II) Unbounded Solution (III)Infeasible Solution."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Solution of linear Programming Problem by Simplex method – Maximization and Minimization, Special Cases – (1) degeneracy (2) alternate optimal solution (3) no solution (4) unbounded solution ."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Balanced and Unbalanced Models of Transportation, Initial Basic Feasible Solutions (1) North- West Corner Method (2). Matrix Minima Method (3) Vogel’s Approximation Method and Optimal solution by Modified Distribution Method, Balanced and Unbalanced Assignment Models, Hungarian Method, Maximization and Minimization ."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Concept of Game Theory - Two-Person Zero Games, Some Basic Terms, The Maxi(min)- Mini(max) Principle, Saddle Point, Games without Saddle Points (Mixed Strategies), Dominance principle, Graphical solution of 2 × n and m × 2 Games."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books/Reference Books:"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. KantiSwarup, Gupta, P.K. and Manmohan, Operations Research, Sultan Chand: New Delhi, 12th thoroughly revised Ed. \n\n 2. Hamdy A. Taha, Operations Research; Pearson, 8th Ed. \n\n 3. Fredrick S. Hiller, Gerald J. Liberman, Introduction to Operations Research, McGraw- Hill, 9th Ed. \n\n 4. Operations Research Theory &amp; Application, J.K. Sharma, Macmillan, 3rd Ed."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

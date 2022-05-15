@@ -29,10 +29,7 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.annotation.AttrRes
-import androidx.annotation.ColorInt
-import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
+import androidx.annotation.*
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -82,21 +79,21 @@ inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) 
  * @author Ayaan
  * @since 4.0.2
 // */
-//fun String.openLinks(activity: Activity) {
-//    try {
-//        activity.startActivity(
-//            Intent(Intent.ACTION_VIEW).also {
-//                it.data = Uri.parse(this)
-//            }
-//        )
-//    } catch (e: Exception) {
-//        Toast.makeText(
-//            activity,
-//            activity.resources.getString(R.string.no_intent_available),
-//            Toast.LENGTH_SHORT
-//        ).show()
-//    }
-//}
+fun String.openLinks(activity: Activity, @StringRes string: Int) {
+    try {
+        activity.startActivity(
+            Intent(Intent.ACTION_VIEW).also {
+                it.data = Uri.parse(this)
+            }
+        )
+    } catch (e: Exception) {
+        Toast.makeText(
+            activity,
+            activity.resources.getString(string),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+}
 
 /**
  * Load Image in ImageView in

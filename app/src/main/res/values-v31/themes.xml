@@ -19,6 +19,8 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="bottomBar">@android:color/system_neutral1_50</item>
+        <item name="textColor">@color/textColor</item>
+        <item name="textColorSecondary">@color/textColorSecondary</item>
     </style>
 
     <style name="Theme.customSplash" parent="Theme.SplashScreen">

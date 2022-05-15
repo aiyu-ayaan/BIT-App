@@ -40,4 +40,5 @@ class CommunicatorViewModel @Inject constructor(
     val attendanceEvent = _attendanceEvent.receiveAsFlow()
 
     val isExpandBCA = MutableStateFlow(false)
+    val isExpandBBA = MutableStateFlow(false)
 }

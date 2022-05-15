@@ -19,6 +19,8 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="bottomBar">@color/bottom_nav</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="textColor">@color/textColor</item>
+        <item name="textColorSecondary">@color/textColorSecondary</item>
     </style>
 
     <style name="Theme.customSplash" parent="Theme.SplashScreen" >

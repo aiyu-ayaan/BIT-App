@@ -5,6 +5,7 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".activity.MainActivity">
 
 
@@ -15,11 +16,13 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/actionBarSize"
             android:layout_alignParentTop="true"
+            android:background="?attr/colorSurface"
             android:clipChildren="false"
             android:paddingEnd="@dimen/grid_1"
             app:contentInsetStartWithNavigation="0dp"
+            app:layout_collapseMode="pin"
             app:layout_scrollFlags="snap|enterAlways"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
@@ -51,6 +54,7 @@
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
@@ -61,14 +65,13 @@
             app:defaultNavHost="true"
             app:navGraph="@navigation/nav_graph" />
 
+
         <LinearLayout
             android:id="@+id/bottomLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_nav_height"
             android:layout_alignParentBottom="true"
-            android:orientation="vertical"
-            android:visibility="gone"
-            tools:visibility="visible">
+            android:orientation="vertical">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"

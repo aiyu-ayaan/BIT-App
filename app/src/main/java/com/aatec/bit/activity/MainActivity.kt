@@ -85,8 +85,9 @@ class MainActivity : AppCompatActivity() {
                     setExitTransition()
                 }
             }
+
             when (destination.id) {
-                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet -> {
+                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.semChooseFragment -> {
                     changeStatusBarToolbarColor(
                         R.id.toolbar,
                         R.attr.bottomBar
@@ -108,7 +109,8 @@ class MainActivity : AppCompatActivity() {
             }
             when (destination.id) {
                 R.id.startUpFragment, R.id.noticeDetailFragment,
-                R.id.chooseImageBottomSheet -> {
+                R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
+                R.id.semChooseFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }

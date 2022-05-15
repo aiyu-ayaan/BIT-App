@@ -25,7 +25,11 @@
         android:id="@+id/courseFragment"
         android:name="com.aatec.bit.fragments.course.CourseFragment"
         android:label="@string/courses"
-        tools:layout="@layout/fragment_course" />
+        tools:layout="@layout/fragment_course">
+        <action
+            android:id="@+id/action_courseFragment_to_semChooseFragment"
+            app:destination="@id/semChooseFragment" />
+    </fragment>
     <fragment
         android:id="@+id/noticeFragment"
         android:name="com.aatec.bit.fragments.notice.NoticeFragment"
@@ -90,7 +94,7 @@
     <fragment
         android:id="@+id/viewImageFragment"
         android:name="com.aatec.bit.fragments.view_image.ViewImageFragment"
-        android:label=""
+        android:label="@string/blank"
         tools:layout="@layout/fragment_view_image">
         <argument
             android:name="link"
@@ -103,5 +107,25 @@
     <action
         android:id="@+id/action_global_viewImageFragment"
         app:destination="@id/viewImageFragment" />
-
+    <fragment
+        android:id="@+id/subjectHandlerFragment"
+        android:name="com.aatec.bit.fragments.course.subject_handler.SubjectHandlerFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_subject_handler">
+        <argument
+            android:name="syllabus"
+            app:argType="com.aatec.core.data.room.syllabus.SyllabusModel" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_subjectHandlerFragment"
+        app:destination="@id/subjectHandlerFragment" />
+    <fragment
+        android:id="@+id/semChooseFragment"
+        android:name="com.aatec.bit.fragments.course.sem_choose.SemChooseFragment"
+        android:label="{request}"
+        tools:layout="@layout/fragment_sem_choose">
+        <argument
+            android:name="request"
+            app:argType="string" />
+    </fragment>
 </navigation>

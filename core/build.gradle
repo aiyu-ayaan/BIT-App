@@ -32,6 +32,7 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.aatec.core'
 }
 
 dependencies {
@@ -58,10 +59,10 @@ dependencies {
 
 //    Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
-    implementation 'com.google.android.gms:play-services-fido:18.1.0'
-    implementation 'androidx.browser:browser:1.4.0'
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     implementation "androidx.webkit:webkit:$webKit_version"
+    implementation 'com.google.android.gms:play-services-fido:18.1.0'
+    implementation 'androidx.browser:browser:1.4.0'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"

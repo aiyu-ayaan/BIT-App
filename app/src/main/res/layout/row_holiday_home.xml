@@ -30,7 +30,7 @@
             android:orientation="horizontal"
             android:padding="8dp">
 
-            <androidx.cardview.widget.CardView
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 app:cardBackgroundColor="?attr/colorAccent"
@@ -47,7 +47,7 @@
                     android:textColor="@color/textColorSubTitle"
 
                     tools:text="22 OCT" />
-            </androidx.cardview.widget.CardView>
+            </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="0dp"

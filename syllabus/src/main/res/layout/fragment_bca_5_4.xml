@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Computer Graphics Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:gravity="left"
+                android:text="List of Programs as Assignments"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="1. To get the background color.\n\n2. To set the background color. \n\n3. To plot a point of co-ordinate (100,100). \n\n4. To draw a line using the line function. \n\n5. To draw a line using the line function. take the end co-ordinates from the user. \n\n6. To draw a triangle using the polygon function. \n\n7. To draw a polygon of ‘n’ edges using polygon function. \n\n8. To draw a polygon of ‘n’ edges taken from the user using the polygon function. \n\n9. To draw a circle using the circle function. \n\n10. To draw a circle of radius ‘r’ taken from the user using the circle function. \n\n11. To draw a line using dda algorithm. \n\n12. To draw a line using bresenham’s line algorithm. \n\n13. To draw a circle using midpoint circle algorithm. \n\n14. To draw a line using bresenham’s line algo, where end points are taken from the user. \n\n15. To draw a line using dda algo, where end points are taken from the user. \n\n16. To draw ‘n’ concentric circles taken from user using midpoint algorithm. \n\n17. To create a line and translate it. \n\n18. To create a line and increase its size with a value taken from user. \n\n19. To create an equilateral triangle. \n\n20. To draw a line and rotate it with angle of 45 °. \n\n21. To create a circle and translate it. \n\n22. To create a circle and translate it with a value taken from user. \n\n23. To create an equilateral triangle and rotate it with angle of 45. \n\n24. To create an equilateral triangle and create reflection. \n\n25. To scale a rectangle. \n\n26. To shear a rectangle. take the shear factor from the user. \n\n27. To create an equilateral triangle and translate, rotate and scale it. \n\n28. To draw a line with shear and translation. \n\n29. Draw bar chart. \n\n30. Draw pie chart."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
