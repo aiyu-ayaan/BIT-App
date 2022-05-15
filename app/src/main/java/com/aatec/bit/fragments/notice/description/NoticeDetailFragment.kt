@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentNoticeDetailBinding
 import com.aatec.bit.ui.Fragments.Notice.NoticeMain.ImageGridAdapter
@@ -175,8 +176,8 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
     private fun navigateToImageView(link: String) {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
-//        val action = NavGraphDirections.actionGlobalFragmentViewImage(link)
-//        findNavController().navigate(action)
+        val action = NavGraphDirections.actionGlobalViewImageFragment(link)
+        findNavController().navigate(action)
     }
 
     /**

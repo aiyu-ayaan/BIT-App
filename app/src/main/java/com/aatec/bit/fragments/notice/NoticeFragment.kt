@@ -86,10 +86,10 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
     }
 
     private fun navigateToImageView(link: String) {
-//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-//        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
-//        val action = NavGraphDirections.actionGlobalFragmentViewImage(link)
-//        findNavController().navigate(action)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action = NavGraphDirections.actionGlobalViewImageFragment(link)
+        findNavController().navigate(action)
     }
 
     private fun navigationToNotice3Description(notice: Notice3, view: View) {

@@ -39,9 +39,6 @@ class HomeViewModel @Inject constructor(
     private val timeTableRepository: TimeTableRepository
 ) : ViewModel() {
 
-    private val _dataStateHome: MutableLiveData<HomeItem> = MutableLiveData()
-    val dataStateMainHome: LiveData<HomeItem>
-        get() = _dataStateHome
 
     private val _dataStateMain: MutableLiveData<DataState<List<Holiday>>> = MutableLiveData()
     val dataStateMain: LiveData<DataState<List<Holiday>>>
@@ -50,7 +47,7 @@ class HomeViewModel @Inject constructor(
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
 
-    var homeNestedViewPosition = MutableStateFlow(0)
+
 
 
     fun setStateListener(mainStateEvent: MainStateEvent) {
@@ -111,12 +108,6 @@ class HomeViewModel @Inject constructor(
     ) = timeTableRepository.getDefault(course, gender, sem, sec)
 }
 
-data class HomeItem(
-    val theory: List<SyllabusModel>,
-    val lab: List<SyllabusModel>,
-    val pe: List<SyllabusModel>,
-    val holiday: DataState<List<Holiday>>
-)
 
 data class QueryTimeTable(
     val course: String = "",

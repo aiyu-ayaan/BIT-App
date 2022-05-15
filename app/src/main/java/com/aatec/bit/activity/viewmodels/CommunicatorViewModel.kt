@@ -27,6 +27,12 @@ class CommunicatorViewModel @Inject constructor(
             state.set("openFirst", value)
         }
 
+    var homeNestedViewPosition = state.get<Int?>("homeNestedViewPosition")
+        set(value) {
+            field = value
+            state.set("homeNestedViewPosition", value)
+        }
+
     val query = MutableStateFlow("")
 
 

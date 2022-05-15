@@ -43,7 +43,6 @@
         android:id="@+id/setting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:tint="?attr/colorAccent"
         android:layout_alignBottom="@+id/text_hi"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
@@ -51,7 +50,8 @@
         android:background="?attr/actionBarItemBackground"
         android:contentDescription="@string/setting"
         android:scaleType="center"
-        android:src="@drawable/ic_settings" />
+        android:src="@drawable/ic_settings"
+        app:tint="?attr/colorAccent" />
 
 
     <include

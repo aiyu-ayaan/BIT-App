@@ -233,8 +233,8 @@ fun String.loadImageDefault(
 
 fun String.loadImageBitMap(
     parentView: View,
+    @DrawableRes errorImage: Int,
     customAction: ((Bitmap?) -> Unit)? = null,
-    @DrawableRes errorImage: Int
 ) {
     Glide.with(parentView)
         .asBitmap()
@@ -625,22 +625,21 @@ fun Activity.changeStatusBarToolbarColor(@IdRes id: Int, @AttrRes colorCode: Int
         }
     }
 
-///**
-// * Change Color of ImageView
-// * @since 4.0.5
-// * @author Ayaan
-// */
-//fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) =
-//    this.apply {
-//        try {
-//            val window = window
-//            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window?.statusBarColor = colorCode
-//            this.toolbar?.setBackgroundColor(colorCode)
-//        } catch (e: Exception) {
-//            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+/**
+ * Change Color of ImageView
+ * @since 4.0.5
+ * @author Ayaan
+ */
+fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) =
+    this.apply {
+        try {
+            val window = window
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.statusBarColor = colorCode
+        } catch (e: Exception) {
+            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 /**
  * Change Status Bar Color
@@ -797,6 +796,7 @@ fun Activity.openShareImageDeepLink(
 
         flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     }, null))
+
 //
 //
 ///**

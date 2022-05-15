@@ -2,9 +2,9 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll_view_notice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/nested_scroll_view_notice"
     android:fillViewport="true"
     android:paddingHorizontal="@dimen/grid_0_5"
     android:paddingTop="@dimen/grid_1"
@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/progress_bar_linear"
             android:visibility="gone"
-            app:cardBackgroundColor="?attr/colorSurface">
+            app:cardBackgroundColor="?attr/colorSurface"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/menu_item_constraint_layout"
@@ -131,7 +132,8 @@
                     app:layout_constraintEnd_toEndOf="@+id/sender_profile_image_view"
                     app:layout_constraintStart_toStartOf="@+id/sender_profile_image_view"
                     app:layout_constraintTop_toTopOf="@+id/subject_text_view"
-                    app:srcCompat="@drawable/ic_link" />
+                    app:srcCompat="@drawable/ic_link"
+                    app:tint="?attr/colorAccent" />
 
                 <TextView
                     android:id="@+id/body_text_view"

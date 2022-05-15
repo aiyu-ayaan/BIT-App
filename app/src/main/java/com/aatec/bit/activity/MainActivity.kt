@@ -2,12 +2,11 @@ package com.aatec.bit.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.os.Build
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.activity.viewBinding
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -22,9 +21,14 @@ import com.aatec.bit.databinding.ActivityMainBinding
 import com.aatec.bit.utils.changeBottomNav
 import com.aatec.bit.utils.changeStatusBarToolbarColor
 import com.aatec.bit.utils.onDestinationChange
+import com.aatec.core.utils.KEY_FIRST_TIME_TOGGLE
 import com.aatec.core.utils.currentNavigationFragment
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -33,6 +37,19 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by viewBinding()
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    @Inject
+    lateinit var db: FirebaseFirestore
+
+    @Inject
+    lateinit var appUpdateManager: AppUpdateManager
+
+    @Inject
+    lateinit var pref: SharedPreferences
+
+    @Inject
+    lateinit var fcm: FirebaseMessaging
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -69,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             when (destination.id) {
-                R.id.chooseImageBottomSheet -> {
+                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet -> {
                     changeStatusBarToolbarColor(
                         R.id.toolbar,
                         R.attr.bottomBar
@@ -81,7 +98,8 @@ class MainActivity : AppCompatActivity() {
                 )
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment, R.id.chooseImageBottomSheet -> {
+                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
+                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet -> {
                     changeBottomNav(R.attr.bottomBar)
                 }
                 else -> {
@@ -89,20 +107,21 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             when (destination.id) {
-                R.id.startUpFragment, R.id.chooseSemBottomSheet,
-                R.id.noticeDetailFragment, R.id.chooseImageBottomSheet -> {
+                R.id.startUpFragment, R.id.noticeDetailFragment,
+                R.id.chooseImageBottomSheet -> {
                     hideBottomAppBar()
+                    binding.toolbar.visibility = View.VISIBLE
                 }
                 else -> {
                     showBottomAppBar()
                 }
             }
+            val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
+            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment) {
+                binding.toolbar.visibility = View.GONE
+                hideBottomAppBar()
+            }
         }
-    }
-
-    private fun setDelay() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-            Thread.sleep(400)
     }
 
     private fun setExitTransition() {

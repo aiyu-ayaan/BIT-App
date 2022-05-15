@@ -12,10 +12,10 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    style="?attr/materialCardViewFilledStyle"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="-10dp">
 
@@ -38,8 +38,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="10dp"
+                android:textAppearance="?attr/textAppearanceCaption"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="CA155" />
@@ -48,9 +47,7 @@
                 android:id="@+id/subjectName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|center_vertical|center_horizontal|center|end"
-                android:textColor="@color/textColor"
-                android:textSize="20dp"
+                android:textAppearance="?attr/textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="@+id/code"
                 app:layout_constraintTop_toBottomOf="@+id/code"
                 tools:text="Data Structures" />
@@ -59,9 +56,7 @@
                 android:id="@+id/credits"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="11dp"
+                android:textAppearance="?attr/textAppearanceCaption"
                 app:layout_constraintStart_toStartOf="@+id/subjectName"
                 app:layout_constraintTop_toBottomOf="@+id/subjectName"
                 tools:text="Credits 4" />

@@ -10,6 +10,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -57,5 +58,6 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/blank"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_about" />
+        android:src="@drawable/ic_about"
+        app:tint="?attr/colorAccent" />
 </RelativeLayout>

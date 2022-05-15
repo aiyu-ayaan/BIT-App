@@ -3,7 +3,7 @@ package com.aatec.bit.fragments.home
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.viewbinding.library.fragment.viewBinding
@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
+import com.aatec.bit.activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.FragmentHomeBinding
 import com.aatec.bit.fragments.home.adapter.EventHomeAdapter
@@ -50,6 +51,7 @@ import kotlin.math.ceil
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
+    private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
     private val preferencesManagerViewModel: PreferenceManagerViewModel by activityViewModels()
     private var defPercentage = 75
     private lateinit var divider: MaterialDividerItemDecoration
@@ -61,9 +63,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    companion object {
-        var myScrollViewerInstanceState: Parcelable? = null
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,10 +74,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
-        if (myScrollViewerInstanceState != null) {
-            binding.scrollViewHome.onRestoreInstanceState(myScrollViewerInstanceState)
-        }
         view.doOnPreDraw { startPostponedEnterTransition() }
+        restoreScroll()
         divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
         divider.dividerInsetStart = resources.getDimensionPixelSize(R.dimen.grid_2)
         divider.dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.grid_1_5)
@@ -533,14 +530,34 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
+    /**
+     * @author Ayaan
+     * @since 4.0.3
+     */
+    private fun restoreScroll() {
+        try {
+            if (communicatorViewModel.homeNestedViewPosition != null) {
+                binding.scrollViewHome.scrollTo(
+                    0,
+                    communicatorViewModel.homeNestedViewPosition!!
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("Error", e.message!!)
+        }
+    }
+
     override fun onPause() {
         super.onPause()
         activity?.changeStatusBarToolbarColor(
             R.id.toolbar,
             com.google.android.material.R.attr.colorSurface
         )
-        myScrollViewerInstanceState = binding.scrollViewHome.onSaveInstanceState()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        communicatorViewModel.homeNestedViewPosition = binding.scrollViewHome.scrollY
     }
 
 

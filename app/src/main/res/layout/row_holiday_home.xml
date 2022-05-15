@@ -43,8 +43,9 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textAlignment="center"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
                     android:textColor="@color/textColorSubTitle"
-                    android:textSize="15sp"
+
                     tools:text="22 OCT" />
             </androidx.cardview.widget.CardView>
 
@@ -63,8 +64,7 @@
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/textColor"
-                    android:textSize="15sp"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
                     tools:text="Durga Puja" />
 
                 <TextView
@@ -72,8 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:textColor="@color/textColorSecondary"
-                    android:textSize="15sp"
+                    android:textAppearance="?attr/textAppearanceCaption"
                     tools:text="Monday" />
             </LinearLayout>
 

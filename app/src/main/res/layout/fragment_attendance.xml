@@ -6,14 +6,15 @@
     android:id="@+id/attendance_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aatec.bit.fragments.attendance.AttendanceFragment"
-    android:background="?attr/colorSurface">
+    android:background="?attr/colorSurface"
+    tools:context="com.aatec.bit.fragments.attendance.AttendanceFragment">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/upperLayout"
+        android:background="?attr/colorSurface"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
         <com.google.android.material.divider.MaterialDivider
@@ -35,19 +36,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty_animation"
+            android:layout_width="200.0dip"
+            android:layout_height="200.0dip"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/grid_6"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="empty.json"
+            app:lottie_loop="true" />
     </RelativeLayout>
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/empty_animation"
-        android:layout_width="200.0dip"
-        android:layout_height="200.0dip"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:scaleType="fitCenter"
-        android:visibility="visible"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="empty.json"
-        app:lottie_loop="true" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/collapsing_appbar"
@@ -78,11 +80,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="20dp"
+        android:backgroundTint="?attr/colorSecondary"
         android:contentDescription="@string/add_subject"
         android:text="@string/add_subject"
-        android:backgroundTint="?attr/colorSecondary"
         android:textColor="?attr/colorSurface"
-        app:iconTint="?attr/colorSurface"
-        app:icon="@drawable/ic_add"/>
+        app:icon="@drawable/ic_add"
+        app:iconTint="?attr/colorSurface" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aatec.bit.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view_home"
     android:layout_width="match_parent"
@@ -54,4 +54,4 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/show_holiday_layout" />
     </RelativeLayout>
-</com.aatec.bit.custom_views.SaveScrollNestedScrollViewer>
+</androidx.core.widget.NestedScrollView>

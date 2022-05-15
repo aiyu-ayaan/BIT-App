@@ -8,7 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toolbar
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -54,8 +55,12 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
 
         setViews()
         if (args.request == REQUEST_UPDATE_SEM) {
-            activity?.findViewById<Toolbar>(R.id.toolbar)?.isVisible = true
-            activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.isVisible = true
+            activity?.findViewById<Toolbar>(R.id.toolbar)?.let {
+                it.isVisible = true
+            }
+            activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.let {
+                it.isVisible = true
+            }
         }
         courseClick()
         semClick()
