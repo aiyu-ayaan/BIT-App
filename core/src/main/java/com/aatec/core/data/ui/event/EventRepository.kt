@@ -15,12 +15,16 @@ import com.aatec.core.data.network.event.EventNetworkMapper
 import com.aatec.core.data.room.event.EventCachedMapper
 import com.aatec.core.data.room.event.EventDao
 import com.aatec.core.utils.DataState
+import com.aatec.core.utils.NoItemFoundException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -80,6 +84,25 @@ class EventRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.Main)
 
+    fun getEventFromPath(path: String): Flow<DataState<Event>> = channelFlow {
+        try {
+            db.collection("Events").document(path)
+                .addSnapshotListener { documentSnapShot, error ->
+                    launch(Dispatchers.Main) {
+                        send(DataState.Loading)
+                        val event = documentSnapShot?.toObject(EventNetworkEntity::class.java)
+                        if (event == null) {
+                            send(DataState.Error(NoItemFoundException("Invalid Link")))
+                        } else {
+                            send(DataState.Success(networkMapper.mapFormEntity(event)))
+                        }
+                    }
+                }
+            awaitClose()
+        } catch (e: Exception) {
+            send(DataState.Error(e))
+        }
+    }
 
     suspend fun getSearchEvent(query: String): Flow<List<Event>> = flow {
         val searchQuery = dao.getSearchEvent(query)

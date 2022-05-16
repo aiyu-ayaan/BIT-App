@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll_view_society"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.aatec.bit.fragments.society.SocietyFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/show_society"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/bottom_app_bar_height"
+        android:transitionGroup="true" />
+</androidx.core.widget.NestedScrollView>

@@ -587,9 +587,9 @@ inline fun RecyclerView.onScrollChange(
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0)
-                    lambda1.invoke(recyclerView)
-                else if (dy < 0)
                     lambda2.invoke(recyclerView)
+                else if (dy < 0)
+                    lambda1.invoke(recyclerView)
             }
         }
     )
@@ -879,4 +879,21 @@ fun <T1, T2, T3, T4, R> combineFourFlows(
         t2.first,
         t2.second,
     )
+}
+
+@ColorInt
+fun Context.getColorFromAttr( @AttrRes attrColor: Int
+): Int {
+    val typedArray = theme.obtainStyledAttributes(intArrayOf(attrColor))
+    val textColor = typedArray.getColor(0, 0)
+    typedArray.recycle()
+    return textColor
+}
+
+fun getRgbFromHex(hex: String): String {
+    val initColor = Color.parseColor(hex)
+    val r = Color.red(initColor)
+    val g = Color.green(initColor)
+    val b = Color.blue(initColor)
+    return "rgb($r,$g,$b)"
 }

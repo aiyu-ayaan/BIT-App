@@ -37,11 +37,11 @@
             <menu>
 
                 <item
-                    android:id="@+id/fragmentSociety"
+                    android:id="@+id/societyFragment"
                     android:icon="@drawable/ic_society"
                     android:title="@string/societies" />
                 <item
-                    android:id="@+id/fragmentEvent"
+                    android:id="@+id/eventFragment"
                     android:icon="@drawable/ic_event"
                     android:title="@string/events" />
             </menu>

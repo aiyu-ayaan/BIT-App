@@ -140,7 +140,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
                 R.id.semChooseFragment, R.id.holidayFragment,
                 R.id.aboutUsFragment, R.id.detailDevFragment,
-                R.id.acknowledgementFragment -> {
+                R.id.acknowledgementFragment, R.id.societyFragment,
+                R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
+                R.id.eventDescriptionFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
