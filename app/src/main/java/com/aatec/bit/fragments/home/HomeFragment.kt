@@ -28,19 +28,17 @@ import com.aatec.bit.fragments.home.adapter.EventHomeAdapter
 import com.aatec.bit.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.fragments.home.adapter.SyllabusHomeAdapter
 import com.aatec.bit.utils.*
+import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
-import com.aatec.core.data.ui.timeTable.TimeTableModel
 import com.aatec.core.utils.DataState
 import com.aatec.core.utils.REQUEST_UPDATE_SEM
 import com.aatec.core.utils.calculatedDays
 import com.aatec.core.utils.findPercentage
 import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.google.android.material.transition.Hold
-import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
@@ -83,17 +81,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         holidayAdapter = HolidayHomeAdapter()
         binding.apply {
-            layoutSubjectExt.setting.setOnClickListener {
+            setting.setOnClickListener {
                 navigateToWelcomeScreen()
             }
 
-            showAttendanceLayout.attendanceClick.setOnClickListener {
+            attendanceClick.setOnClickListener {
                 navigateToAttendance()
             }
-            layoutSubjectExt.edit.setOnClickListener {
+            edit.setOnClickListener {
                 navigateToEdit()
             }
-            showHolidayLayout.textShowAllHoliday.setOnClickListener {
+            textShowAllHoliday.setOnClickListener {
                 navigateToHoliday()
             }
         }
@@ -120,13 +118,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        Handle on Destroy
         detectScroll()
 
-        setTimeTable()
+//        setTimeTable()
         getData()
         setHoliday()
     }
 
     private fun setHoliday() = binding.apply {
-        showHolidayLayout.showHoliday.apply {
+        showHoliday.apply {
             addItemDecoration(divider)
             adapter = holidayAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -137,91 +135,91 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
-    private fun setTimeTable() {
-        binding.layoutTimeTableExt.apply {
-            settingTimeTable.setOnClickListener {
-//                navigateToTimeTableSetting()
-            }
-        }
-        lifecycleScope.launchWhenStarted {
-            preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { p ->
-                if (p.firstOpenTimeTable) {
-                    binding.layoutTimeTableExt.parentTimeTable.isVisible = false
-                } else {
-                    lifecycleScope.launchWhenStarted {
-                        viewModel.defTimeTable.collectLatest { defTT ->
-                            when (defTT) {
-                                DataState.Empty -> {
-                                    Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT)
-                                        .show()
-                                }
-                                is DataState.Error -> {
-                                    binding.layoutTimeTableExt.parentTimeTable.isVisible = false
-                                }
-                                DataState.Loading -> {}
-                                is DataState.Success -> {
-                                    setViewTimeTable(defTT)
-                                }
-                            }
-                        }
-                    }
-                }
+//    private fun setTimeTable() {
+//        binding.layoutTimeTableExt.apply {
+//            settingTimeTable.setOnClickListener {
+////                navigateToTimeTableSetting()
+//            }
+//        }
+//        lifecycleScope.launchWhenStarted {
+//            preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { p ->
+//                if (p.firstOpenTimeTable) {
+//                    binding.layoutTimeTableExt.parentTimeTable.isVisible = false
+//                } else {
+//                    lifecycleScope.launchWhenStarted {
+//                        viewModel.defTimeTable.collectLatest { defTT ->
+//                            when (defTT) {
+//                                DataState.Empty -> {
+//                                    Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT)
+//                                        .show()
+//                                }
+//                                is DataState.Error -> {
+//                                    binding.layoutTimeTableExt.parentTimeTable.isVisible = false
+//                                }
+//                                DataState.Loading -> {}
+//                                is DataState.Success -> {
+//                                    setViewTimeTable(defTT)
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//
+//                viewModel.timeTableQuery.value = QueryTimeTable(
+//                    p.timeTablePreferences.course,
+//                    p.timeTablePreferences.gender.name,
+//                    p.timeTablePreferences.sem,
+//                    p.timeTablePreferences.section.name
+//                )
+//            }
+//        }
+//    }
 
-                viewModel.timeTableQuery.value = QueryTimeTable(
-                    p.timeTablePreferences.course,
-                    p.timeTablePreferences.gender.name,
-                    p.timeTablePreferences.sem,
-                    p.timeTablePreferences.section.name
-                )
-            }
-        }
-    }
-
-    private fun setViewTimeTable(defTT: DataState.Success<TimeTableModel>) {
-        binding.layoutTimeTableExt.parentTimeTable.isVisible = true
-        binding.layoutTimeTableExt.defaultTitleTable.apply {
-            binding.layoutTimeTableExt.defaultTitleTable.cardViewTt.setOnClickListener {
-                navigateToViewImage(
-                    defTT.data.imageLink,
-                    resources.getString(
-                        R.string.time_table_title,
-                        defTT.data.course,
-                        defTT.data.sem,
-                        defTT.data.gender,
-                        defTT.data.section
-                    )
-                )
-            }
-            defTT.data.imageLink.loadImageDefault(
-                binding.root,
-                binding.layoutTimeTableExt.defaultTitleTable.imageViewTimeTable,
-                binding.layoutTimeTableExt.defaultTitleTable.progressBarDev,
-                R.drawable.ic_running_error
-            )
-            binding.layoutTimeTableExt.defaultTitleTable.textViewTimeTableName.text =
-                binding.root.context.resources.getString(
-                    R.string.time_table_title,
-                    defTT.data.course,
-                    defTT.data.sem,
-                    defTT.data.gender,
-                    defTT.data.section
-                )
-            binding.layoutTimeTableExt.defaultTitleTable.textViewTimeTableUpdated.text =
-                binding.root.context.resources.getString(
-                    R.string.time_table_update,
-                    defTT.data.created.convertLongToTime("dd/MM/yyyy")
-                )
-        }
-
-    }
+//    private fun setViewTimeTable(defTT: DataState.Success<TimeTableModel>) {
+//        binding.layoutTimeTableExt.parentTimeTable.isVisible = true
+//        binding.layoutTimeTableExt.defaultTitleTable.apply {
+//            binding.layoutTimeTableExt.defaultTitleTable.cardViewTt.setOnClickListener {
+//                navigateToViewImage(
+//                    defTT.data.imageLink,
+//                    resources.getString(
+//                        R.string.time_table_title,
+//                        defTT.data.course,
+//                        defTT.data.sem,
+//                        defTT.data.gender,
+//                        defTT.data.section
+//                    )
+//                )
+//            }
+//            defTT.data.imageLink.loadImageDefault(
+//                binding.root,
+//                binding.layoutTimeTableExt.defaultTitleTable.imageViewTimeTable,
+//                binding.layoutTimeTableExt.defaultTitleTable.progressBarDev,
+//                R.drawable.ic_running_error
+//            )
+//            binding.layoutTimeTableExt.defaultTitleTable.textViewTimeTableName.text =
+//                binding.root.context.resources.getString(
+//                    R.string.time_table_title,
+//                    defTT.data.course,
+//                    defTT.data.sem,
+//                    defTT.data.gender,
+//                    defTT.data.section
+//                )
+//            binding.layoutTimeTableExt.defaultTitleTable.textViewTimeTableUpdated.text =
+//                binding.root.context.resources.getString(
+//                    R.string.time_table_update,
+//                    defTT.data.created.convertLongToTime("dd/MM/yyyy")
+//                )
+//        }
+//
+//    }
 
 
-    private fun navigateToViewImage(link: String, title: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+//    private fun navigateToViewImage(link: String, title: String) {
+//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+//        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
 //        val action = NavGraphDirections.actionGlobalFragmentViewImage(link, title)
 //        findNavController().navigate(action)
-    }
+//    }
 
 
     /**
@@ -232,7 +230,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val eventAdapter = EventHomeAdapter { event, view ->
             onEventClick(event, view)
         }
-        binding.showEventLayout.apply {
+        binding.apply {
             showEvent.apply {
                 adapter = eventAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -251,7 +249,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val end = cal.time.convertDateToTime().convertStringToLongMillis() //Day after today
             viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
                 it?.let {
-                    binding.showEventLayout.parentHomeExt.isVisible =
+                    binding.parentHomeExt.isVisible =
                         it.isNotEmpty()
                     eventAdapter.submitList(it)
                 }
@@ -270,8 +268,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
-//        val action = FragmentHomeDirections.actionFragmentHomeToFragmentEvent()
-//        findNavController().navigate(action)
+        val action = HomeFragmentDirections.actionHomeFragmentToEventFragment()
+        findNavController().navigate(action)
     }
 
     /**
@@ -279,18 +277,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun onEventClick(event: Event, view: View) {
-        val extras = FragmentNavigatorExtras(view to event.event_title)
-        exitTransition = Hold().apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = Hold().apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-//        val action = NavGraphDirections.actionGlobalFragmentSocietyEventDescription(
-//            event = event,
-//            title = event.society
-//        )
-//        findNavController().navigate(action, extras)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        val action = NavGraphDirections.actionGlobalEventDescriptionFragment(
+            path = event.path,
+            title = event.society
+        )
+        findNavController().navigate(action)
     }
 
     private fun getSyllabus() {
@@ -307,10 +300,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun navigateToAttendance() {
-        exitTransition = MaterialFadeThrough()
-        reenterTransition = MaterialFadeThrough()
-//        val action = FragmentHomeDirections.actionFragmentHomeToFragmentAttendance()
-//        findNavController().navigate(action)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        val action = HomeFragmentDirections.actionHomeFragmentToAttendanceFragment()
+        findNavController().navigate(action)
     }
 
     private fun setProgressBar() {
@@ -329,7 +322,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
             setCondition(finalPercentage.toInt(), sumPresent, sumTotal)
-            binding.showAttendanceLayout.apply {
+            binding.apply {
                 textViewTotal.text = sumTotal.toString()
                 textViewPresent.text = sumPresent.toString()
                 val df = DecimalFormat("#.#")
@@ -338,7 +331,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 progressBarHome.progress = finalPercentage.toInt()
                 val progressAnimator =
                     ObjectAnimator.ofInt(
-                        binding.showAttendanceLayout.progressBarHome,
+                        binding.progressBarHome,
                         "progress",
                         0,
                         finalPercentage.toInt()
@@ -352,13 +345,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     @SuppressLint("SetTextI18n")
     private fun setCondition(per: Int, present: Int, total: Int) {
-        binding.showAttendanceLayout.cardViewAttendance.isVisible = per != 0
+        binding.cardViewAttendance.isVisible = per != 0
         when {
             per >= defPercentage -> {
                 val day = calculatedDays(present, total) { p, t ->
                     (((100 * p) - (defPercentage * t)) / defPercentage)
                 }.toInt()
-                binding.showAttendanceLayout.textViewStats.text = when {
+                binding.textViewStats.text = when {
                     per == defPercentage || day <= 0 ->
                         "On track don't miss next class"
                     day != 0 -> "You can leave $day class"
@@ -369,7 +362,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
                 }
-                binding.showAttendanceLayout.textViewStats.text =
+                binding.textViewStats.text =
                     "Attend Next ${(ceil(day)).toInt()} Class"
             }
         }
@@ -390,21 +383,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun settingUpSyllabus() {
         syllabusTheoryAdapter = SyllabusHomeAdapter(
-            listener = { _, _ ->
-
+            listener = { s, v ->
+                setOnSyllabusClickListener(s, v)
             }
         )
         syllabusLabAdapter = SyllabusHomeAdapter(
-            listener = { _, _ ->
-
+            listener = { s, v ->
+                setOnSyllabusClickListener(s, v)
             }
         )
         syllabusPeAdapter = SyllabusHomeAdapter(
-            listener = { _, _ ->
-
+            listener = { s, v ->
+                setOnSyllabusClickListener(s, v)
             }
         )
-        binding.layoutSubjectExt.apply {
+        binding.apply {
             showSubject.apply {
                 showTheory.apply {
                     adapter = syllabusTheoryAdapter
@@ -432,35 +425,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun getData() = lifecycleScope.launchWhenStarted {
         viewModel.theory.observe(viewLifecycleOwner) {
-            binding.layoutSubjectExt.showSubject.showTheory.isVisible = it.isNotEmpty()
-            binding.layoutSubjectExt.showSubject.textView6.isVisible = it.isNotEmpty()
+            binding.showSubject.showTheory.isVisible = it.isNotEmpty()
+            binding.showSubject.textView6.isVisible = it.isNotEmpty()
             syllabusTheoryAdapter.submitList(it)
         }
 
         viewModel.lab.observe(viewLifecycleOwner) {
-            binding.layoutSubjectExt.showSubject.showLab.isVisible = it.isNotEmpty()
-            binding.layoutSubjectExt.showSubject.textView7.isVisible = it.isNotEmpty()
-            binding.layoutSubjectExt.showSubject.dividerTheory.isVisible = it.isNotEmpty()
+            binding.showSubject.showLab.isVisible = it.isNotEmpty()
+            binding.showSubject.textView7.isVisible = it.isNotEmpty()
+            binding.showSubject.dividerTheory.isVisible = it.isNotEmpty()
             syllabusLabAdapter.submitList(it)
         }
         viewModel.pe.observe(viewLifecycleOwner) {
-            binding.layoutSubjectExt.showSubject.showPe.isVisible = it.isNotEmpty()
-            binding.layoutSubjectExt.showSubject.textView8.isVisible = it.isNotEmpty()
-            binding.layoutSubjectExt.showSubject.dividerLab.isVisible =
+            binding.showSubject.showPe.isVisible = it.isNotEmpty()
+            binding.showSubject.textView8.isVisible = it.isNotEmpty()
+            binding.showSubject.dividerLab.isVisible =
                 it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
         }
         viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
             when (dateState) {
                 is DataState.Success -> {
-                    binding.showHolidayLayout.apply {
+                    binding.apply {
                         textHoliday.isVisible = true
                         showHoliday.isVisible = true
                     }
                     holidayAdapter.submitList(dateState.data)
                 }
                 DataState.Empty -> {
-                    binding.showHolidayLayout.apply {
+                    binding.apply {
                         textHoliday.isVisible = false
                         showHoliday.isVisible = false
                     }
@@ -475,6 +468,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToHoliday() {
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
         try {
             val action = HomeFragmentDirections.actionHomeFragmentToHolidayFragment()
             findNavController().navigate(action)
@@ -487,29 +482,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    //    Syllabus
-//    override fun setOnSyllabusClickListener(syllabusModel: SyllabusModel, view: View) {
-//        exitTransition = MaterialElevationScale(false).apply {
-//            duration = resources.getInteger(R.integer.duration_medium).toLong()
-//        }
-//        reenterTransition = MaterialElevationScale(true).apply {
-//            duration = resources.getInteger(R.integer.duration_small).toLong()
-//        }
-//
-//        try {
-//            val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
-//            val action =
-//                FragmentHomeDirections.actionFragmentHomeToFragmentSubjectHandler(syllabusModel)
-//            findNavController().navigate(action, extras)
-//        } catch (e: Exception) {
-//            Toast.makeText(
-//                requireContext(),
-//                resources.getString(R.string.click_warning),
-//                Toast.LENGTH_SHORT
-//            )
-//                .show()
-//        }
-//}
+    //        Syllabus
+    private fun setOnSyllabusClickListener(syllabusModel: SyllabusModel, view: View) {
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.duration_small).toLong()
+        }
+
+        try {
+            val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
+            val action =
+                NavGraphDirections.actionGlobalSubjectHandlerFragment(syllabusModel)
+            findNavController().navigate(action, extras)
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.click_warning),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+    }
 
     /**
      * @since 4.0.4

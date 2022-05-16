@@ -106,7 +106,8 @@ class MainActivity : AppCompatActivity() {
 
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.attendanceFragment,
-                R.id.courseFragment,
+                R.id.courseFragment, R.id.holidayFragment, R.id.societyFragment,
+                R.id.eventFragment, R.id.aboutUsFragment,
                 -> {
                     setExitTransition()
                 }

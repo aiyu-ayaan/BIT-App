@@ -24,6 +24,12 @@
         <action
             android:id="@+id/action_homeFragment_to_holidayFragment"
             app:destination="@id/holidayFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_eventFragment"
+            app:destination="@id/eventFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_attendanceFragment"
+            app:destination="@id/attendanceFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
