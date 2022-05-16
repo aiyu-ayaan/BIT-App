@@ -475,16 +475,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToHoliday() {
-//        try {
-//            val action = FragmentHomeDirections.actionFragmentHomeToFragmentHoliday()
-//            findNavController().navigate(action)
-//        } catch (e: Exception) {
-//            Toast.makeText(
-//                requireContext(),
-//                resources.getString(R.string.click_warning),
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
+        try {
+            val action = HomeFragmentDirections.actionHomeFragmentToHolidayFragment()
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.click_warning),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     //    Syllabus

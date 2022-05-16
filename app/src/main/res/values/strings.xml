@@ -181,5 +181,6 @@
     <string name="viewInPlayStore">View in Play Store</string>
     <string name="see_all">View All</string>
     <string name="no_data">No data found</string>
+    <string name="chooseTheme">Choose Theme</string>
 
 </resources>

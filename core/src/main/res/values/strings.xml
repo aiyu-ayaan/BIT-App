@@ -27,4 +27,12 @@
     <string name="deep_link_share_link">https://bitapp-eng.github.io/notice/path=%s</string>
     <string name="deep_link_share_event_link">https://bitapp-eng.github.io/event/path=%s</string>
     <string name="play_store_link">https://play.google.com/store/apps/details?id=</string>
+    <string name="app_share_content">Check out BIT Lalpur App :</string>
+    <string name="share_app">Share BIT APP</string>
+    <string-array name="email">
+        <item>ayaan35200@gmail.com</item>
+    </string-array>
+    <string name="bug_repost">BUG Report 😰</string>
+    <string name="bug_title">Send Mail</string>
+    <string name="gmail_package">com.google.android.gm</string>
 </resources>

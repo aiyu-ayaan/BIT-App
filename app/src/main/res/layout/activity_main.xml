@@ -88,11 +88,11 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
         android:layout_gravity="start"
+        app:dividerInsetStart="0dp"
+        app:dividerInsetEnd="0dp"
+        android:layout_height="match_parent"
         android:background="?attr/colorSurface"
         app:headerLayout="@layout/navigation_slider_header"
-        app:itemIconTint="?attr/colorAccent"
-        app:itemTextColor="?attr/colorAccent"
         app:menu="@menu/navigation_slider" />
 </androidx.drawerlayout.widget.DrawerLayout>

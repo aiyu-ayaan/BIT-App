@@ -260,43 +260,43 @@ fun String.loadImageBitMap(
         }).submit(100, 100)
 }
 //
-///**
-// * Extension function to open Compose Activity
-// * @author Ayaan
-// * @since 4.0.3
-// */
-//fun Activity.openBugLink() =
-//    this.startActivity(
-//        Intent.createChooser(
-//            Intent()
-//                .also {
-//                    it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
-//                    it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.bug_repost))
-//                    it.type = "text/html"
-//                    it.setPackage(resources.getString(R.string.gmail_package))
-//                }, resources.getString(R.string.bug_title)
-//        )
-//    )
-//
-//
-///**
-// *Extension function to share link
-// * @author Ayaan
-// * @since 4.0.3
-// */
-//fun Activity.openShareLink() =
-//    this.startActivity(Intent.createChooser(Intent().apply {
-//
-//        action = Intent.ACTION_SEND
-//        putExtra(
-//            Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
-//                    "${resources.getString(R.string.play_store_link)}$packageName"
-//        )
-//        type = "text/plain"
-//        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
-//
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//    }, null))
+/**
+ * Extension function to open Compose Activity
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openBugLink() =
+    this.startActivity(
+        Intent.createChooser(
+            Intent()
+                .also {
+                    it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
+                    it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.bug_repost))
+                    it.type = "text/html"
+                    it.setPackage(resources.getString(R.string.gmail_package))
+                }, resources.getString(R.string.bug_title)
+        )
+    )
+
+
+/**
+ *Extension function to share link
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openShareLink() =
+    this.startActivity(Intent.createChooser(Intent().apply {
+
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
+                    "${resources.getString(R.string.play_store_link)}$packageName"
+        )
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
 //
 /**
  *Extension function to open Share

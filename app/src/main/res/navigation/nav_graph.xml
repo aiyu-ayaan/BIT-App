@@ -20,7 +20,11 @@
         android:id="@+id/homeFragment"
         android:name="com.aatec.bit.fragments.home.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_holidayFragment"
+            app:destination="@id/holidayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/courseFragment"
         android:name="com.aatec.bit.fragments.course.CourseFragment"
@@ -128,4 +132,39 @@
             android:name="request"
             app:argType="string" />
     </fragment>
+    <dialog
+        android:id="@+id/themeChangeDialog"
+        android:name="com.aatec.bit.fragments.theme.ThemeChangeDialog"
+        android:label="ThemeChangeDialog" />
+    <fragment
+        android:id="@+id/holidayFragment"
+        android:name="com.aatec.bit.fragments.holiday.HolidayFragment"
+        android:label="@string/holidays"
+        tools:layout="@layout/fragment_holiday" />
+    <fragment
+        android:id="@+id/aboutUsFragment"
+        android:name="com.aatec.bit.fragments.about_us.AboutUsFragment"
+        android:label=""
+        tools:layout="@layout/fragment_about_us" >
+        <action
+            android:id="@+id/action_aboutUsFragment_to_detailDevFragment"
+            app:destination="@id/detailDevFragment" />
+        <action
+            android:id="@+id/action_aboutUsFragment_to_acknowledgementFragment"
+            app:destination="@id/acknowledgementFragment" />
+    </fragment><action android:id="@+id/action_global_aboutUsFragment" app:destination="@id/aboutUsFragment"/>
+    <fragment
+        android:id="@+id/detailDevFragment"
+        android:name="com.aatec.bit.fragments.about_us.detail.DetailDevFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_detail_dev" >
+        <argument
+            android:name="dev"
+            app:argType="com.aatec.core.data.network.aboutus.Devs" />
+    </fragment>
+    <fragment
+        android:id="@+id/acknowledgementFragment"
+        android:name="com.aatec.bit.fragments.about_us.acknowledgement.AcknowledgementFragment"
+        android:label="@string/acknowledgements"
+        tools:layout="@layout/fragment_acknowledgement" />
 </navigation>

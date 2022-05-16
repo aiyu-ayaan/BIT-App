@@ -6,21 +6,20 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.activity.viewBinding
+import android.widget.ImageButton
+import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import androidx.navigation.ui.*
+import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.ActivityMainBinding
-import com.aatec.bit.utils.changeBottomNav
-import com.aatec.bit.utils.changeStatusBarToolbarColor
-import com.aatec.bit.utils.onDestinationChange
+import com.aatec.bit.utils.*
 import com.aatec.core.utils.KEY_FIRST_TIME_TOGGLE
 import com.aatec.core.utils.currentNavigationFragment
 import com.google.android.material.transition.MaterialSharedAxis
@@ -69,9 +68,36 @@ class MainActivity : AppCompatActivity() {
             )
             setSupportActionBar(toolbar)
             bottomNavigation.setupWithNavController(navController)
+            bottomNavigation.setOnItemSelectedListener {
+                if (it.itemId == R.id.homeFragment) {
+                    navController.popBackStack(R.id.homeFragment, false)
+                } else {
+                    NavigationUI.onNavDestinationSelected(it, navController)
+                }
+                true
+            }
             setupActionBarWithNavController(navController, appBarConfiguration)
             navigationView.setupWithNavController(navController)
+            navigationView.setNavigationItemSelectedListener {
+
+                when (it.itemId) {
+                    R.id.nav_connect -> resources.getString(R.string.instaLink)
+                        .openLinks(this@MainActivity, R.string.no_intent_available)
+                    R.id.nav_share -> this@MainActivity.openShareLink()
+                    R.id.nav_bug -> this@MainActivity.openBugLink()
+                    R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
+                    R.id.nav_rate -> openPlayStore()
+                    else -> {
+
+                        NavigationUI.onNavDestinationSelected(it, navController)
+                    }
+
+                }
+                drawer.closeDrawer(GravityCompat.START)
+                true
+            }
         }
+        openAboutUs()
         onDestinationChange()
     }
 
@@ -87,7 +113,9 @@ class MainActivity : AppCompatActivity() {
             }
 
             when (destination.id) {
-                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.semChooseFragment -> {
+                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
+                R.id.semChooseFragment, R.id.detailDevFragment
+                -> {
                     changeStatusBarToolbarColor(
                         R.id.toolbar,
                         R.attr.bottomBar
@@ -110,7 +138,9 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.startUpFragment, R.id.noticeDetailFragment,
                 R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
-                R.id.semChooseFragment -> {
+                R.id.semChooseFragment, R.id.holidayFragment,
+                R.id.aboutUsFragment, R.id.detailDevFragment,
+                R.id.acknowledgementFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -173,6 +203,27 @@ class MainActivity : AppCompatActivity() {
                     }
                 })
         }
+    }
+
+    private fun openAboutUs() {
+        val headerView = binding.navigationView.getHeaderView(0)
+        val root = headerView.findViewById<RelativeLayout>(R.id.parent_layout)
+        val button = headerView.findViewById<ImageButton>(R.id.button_about_us)
+        root?.setOnClickListener {
+            navigateToAboutUs()
+        }
+        button?.setOnClickListener {
+            navigateToAboutUs()
+        }
+
+    }
+
+
+    private fun navigateToAboutUs() {
+        binding.drawer.closeDrawer(GravityCompat.START)
+        setExitTransition()
+        val directions = NavGraphDirections.actionGlobalAboutUsFragment()
+        navController.navigate(directions)
     }
 
     override fun onSupportNavigateUp(): Boolean {
