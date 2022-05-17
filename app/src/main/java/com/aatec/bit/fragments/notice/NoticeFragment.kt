@@ -18,7 +18,7 @@ import com.aatec.bit.ui.Fragments.Notice.NoticeMain.NoticeViewModel
 import com.aatec.bit.utils.MainStateEvent
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.utils.DataState
-import com.aatec.bit.utils.showSnackBar
+import com.aatec.core.utils.showSnackBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis

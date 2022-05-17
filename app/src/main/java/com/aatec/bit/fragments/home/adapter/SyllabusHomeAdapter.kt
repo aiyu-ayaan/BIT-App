@@ -25,7 +25,7 @@ import com.aatec.core.utils.REQUEST_ADAPTER_SEARCH
 import com.aatec.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
 
 class SyllabusHomeAdapter(
-    private val listener: (syllabusModel: SyllabusModel, view: View) -> Unit,
+    private val listener: ((syllabusModel: SyllabusModel, view: View) -> Unit)? = null,
     private val request: Int = 0,
     private val clickListener: ((CheckBox, SyllabusModel) -> Unit)? = null,
     private val editListener: ((SyllabusModel) -> Unit)? = null
@@ -41,7 +41,7 @@ class SyllabusHomeAdapter(
                 val position = absoluteAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val item = getItem(absoluteAdapterPosition)
-                    listener.invoke(item, binding.root)
+                    listener?.invoke(item, binding.root)
                     clickListener?.invoke(binding.checkBox, item)
                 }
             }

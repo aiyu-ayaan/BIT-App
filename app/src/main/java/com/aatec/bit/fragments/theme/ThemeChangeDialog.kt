@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.DialogFragment
 import com.aatec.bit.R
 import com.aatec.bit.databinding.DialogThemeChooseBinding
-import com.aatec.bit.utils.setAppTheme
+import com.aatec.core.utils.setAppTheme
 import com.aatec.core.utils.AppTheme
 import com.aatec.core.utils.KEY_APP_THEME
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -49,10 +49,7 @@ class ThemeChangeDialog : DialogFragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.chooseTheme))
             .setView(binding.root)
-            .setPositiveButton("Ok") { dialog, which ->
-            }
-            .setNegativeButton("Cancel") { dialog, which ->
-
+            .setPositiveButton(resources.getString(R.string.done)) { dialog, which ->
             }
         return dialog.create()
     }

@@ -21,8 +21,8 @@ import com.aatec.bit.databinding.RowEventHomeBinding
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.data.ui.event.EventDiffUtil
 import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
-import com.aatec.bit.utils.convertLongToTime
-import com.aatec.bit.utils.loadImage
+import com.aatec.core.utils.convertLongToTime
+import com.aatec.core.utils.loadImage
 
 class EventHomeAdapter(
     private val listener: ((Event, View) -> Unit)?

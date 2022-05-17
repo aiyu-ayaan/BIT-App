@@ -49,7 +49,11 @@
         android:id="@+id/attendanceFragment"
         android:name="com.aatec.bit.fragments.attendance.AttendanceFragment"
         android:label="@string/attendance"
-        tools:layout="@layout/fragment_attendance" />
+        tools:layout="@layout/fragment_attendance" >
+        <action
+            android:id="@+id/action_attendanceFragment_to_listAllBottomSheet"
+            app:destination="@id/listAllBottomSheet" />
+    </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"
         android:name="com.aatec.bit.fragments.start_up.choose_sem.ChooseSemBottomSheet"
@@ -180,7 +184,7 @@
         android:id="@+id/societyFragment"
         android:name="com.aatec.bit.fragments.society.SocietyFragment"
         android:label="@string/societies"
-        tools:layout="@layout/fragment_society" >
+        tools:layout="@layout/fragment_society">
         <action
             android:id="@+id/action_societyFragment_to_eventSocietyDescriptionFragment"
             app:destination="@id/eventSocietyDescriptionFragment" />
@@ -192,8 +196,8 @@
         tools:layout="@layout/fragment_society_description">
         <argument
             android:name="title"
-            app:argType="string"
-            android:defaultValue=" " />
+            android:defaultValue=" "
+            app:argType="string" />
         <argument
             android:name="society"
             android:defaultValue="@null"
@@ -210,19 +214,98 @@
         android:id="@+id/eventDescriptionFragment"
         android:name="com.aatec.bit.fragments.event.event_description.EventDescriptionFragment"
         android:label="{title}"
-        tools:layout="@layout/fragment_event_description" >
+        tools:layout="@layout/fragment_event_description">
         <argument
             android:name="path"
-            app:argType="string"
-            android:defaultValue=" " />
+            android:defaultValue=" "
+            app:argType="string" />
         <argument
             android:name="title"
-            app:argType="string"
-            android:defaultValue=" " />
+            android:defaultValue=" "
+            app:argType="string" />
         <deepLink
             android:id="@+id/deepLink"
             android:autoVerify="true"
             app:uri="bitapp-eng.github.io/event/path={path}" />
     </fragment>
-    <action android:id="@+id/action_global_eventDescriptionFragment" app:destination="@id/eventDescriptionFragment" />
+    <action
+        android:id="@+id/action_global_eventDescriptionFragment"
+        app:destination="@id/eventDescriptionFragment" />
+    <dialog
+        android:id="@+id/addEditSubjectBottomSheet"
+        android:name="com.aatec.bit.fragments.attendance.add_attendance.AddEditSubjectBottomSheet"
+        android:label="bottom_sheet_add_subject"
+        tools:layout="@layout/bottom_sheet_add_subject">
+        <argument
+            android:name="attendance"
+            android:defaultValue="@null"
+            app:argType="com.aatec.core.data.room.attendance.AttendanceModel"
+            app:nullable="true" />
+        <argument
+            android:name="type"
+            android:defaultValue="Add"
+            app:argType="string" />
+        <argument
+            android:name="request"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_addEditSubjectBottomSheet"
+        app:destination="@id/addEditSubjectBottomSheet" />
+    <dialog
+        android:id="@+id/attendanceMenu"
+        android:name="com.aatec.bit.fragments.attendance.menu.AttendanceMenu"
+        android:label="bottom_sheet_attendance"
+        tools:layout="@layout/bottom_sheet_attendance">
+        <argument
+            android:name="attendance"
+            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_attendanceMenu"
+        app:destination="@id/attendanceMenu" />
+    <dialog
+        android:id="@+id/changePercentageDialog"
+        android:name="com.aatec.bit.fragments.attendance.change_percentage.ChangePercentageDialog"
+        android:label="ChangePercentageDialog">
+        <argument
+            android:name="percentage"
+            android:defaultValue="75"
+            app:argType="integer" />
+
+    </dialog>
+    <action
+        android:id="@+id/action_global_changePercentageDialog"
+        app:destination="@id/changePercentageDialog" />
+    <dialog
+        android:id="@+id/editSubjectBottomSheet"
+        android:name="com.aatec.bit.fragments.edit_subject.EditSubjectBottomSheet"
+        android:label="bottom_sheet_edit_subject"
+        tools:layout="@layout/bottom_sheet_edit_subject" >
+        <argument
+            android:name="request"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </dialog>
+    <action android:id="@+id/action_global_editSubjectBottomSheet" app:destination="@id/editSubjectBottomSheet" />
+    <dialog
+        android:id="@+id/listAllBottomSheet"
+        android:name="com.aatec.bit.fragments.list_all.ListAllBottomSheet"
+        android:label="bottom_sheet_list_all"
+        tools:layout="@layout/bottom_sheet_list_all" />
+    <dialog
+        android:id="@+id/deleteAllDialog"
+        android:name="com.aatec.bit.fragments.attendance.delete_all.DeleteAllDialog"
+        android:label="DeleteAllDialog" />
+    <action android:id="@+id/action_global_deleteAllDialog" app:destination="@id/deleteAllDialog" />
+    <dialog
+        android:id="@+id/resetDialog"
+        android:name="com.aatec.bit.fragments.attendance.reset_attendance.ResetDialog"
+        android:label="ResetDialog" >
+        <argument
+            android:name="attendance"
+            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+    </dialog>
+    <action android:id="@+id/action_global_resetDialog" app:destination="@id/resetDialog" />
 </navigation>

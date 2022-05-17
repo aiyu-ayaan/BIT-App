@@ -14,7 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentViewImageBinding
-import com.aatec.bit.utils.*
+import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 

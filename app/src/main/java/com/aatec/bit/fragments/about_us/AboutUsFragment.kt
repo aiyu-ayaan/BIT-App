@@ -18,8 +18,8 @@ import com.aatec.bit.R
 import com.aatec.bit.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.FragmentAboutUsBinding
 import com.aatec.bit.utils.MainStateEvent
-import com.aatec.bit.utils.changeStatusBarToolbarColor
-import com.aatec.bit.utils.openPlayStore
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.openPlayStore
 import com.aatec.core.data.network.aboutus.Devs
 import com.aatec.core.utils.DataState
 import com.google.android.material.transition.MaterialSharedAxis

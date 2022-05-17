@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
 import com.aatec.bit.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.FragmentHolidayBinding
-import com.aatec.bit.utils.changeStatusBarToolbarColor
-import com.aatec.bit.utils.showSnackBar
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.showSnackBar
 import com.aatec.core.utils.DataState
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis

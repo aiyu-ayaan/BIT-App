@@ -17,7 +17,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.RowNoticeImageGridBinding
 import com.aatec.core.data.network.notice.Attach
 import com.aatec.core.utils.MAX_SPAWN
-import com.aatec.bit.utils.loadImageDefault
+import com.aatec.core.utils.loadImageDefault
 import kotlin.random.Random
 
 class ImageGridAdapter(

@@ -10,9 +10,9 @@
 
 package com.aatec.core.data.room.event
 
-import com.aatec.bit.utils.convertDateToTime
-import com.aatec.bit.utils.convertLongToTime
-import com.aatec.bit.utils.convertStringToLongMillis
+import com.aatec.core.utils.convertDateToTime
+import com.aatec.core.utils.convertLongToTime
+import com.aatec.core.utils.convertStringToLongMillis
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.EntityMapper
 

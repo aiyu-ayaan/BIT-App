@@ -26,9 +26,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentEventDescriptionBinding
 import com.aatec.bit.utils.*
 import com.aatec.core.data.ui.event.Event
-import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
-import com.aatec.core.utils.DataState
-import com.aatec.core.utils.NoItemFoundException
+import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 

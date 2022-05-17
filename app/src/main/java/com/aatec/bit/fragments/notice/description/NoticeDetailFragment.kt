@@ -18,14 +18,10 @@ import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentNoticeDetailBinding
 import com.aatec.bit.ui.Fragments.Notice.NoticeMain.ImageGridAdapter
-import com.aatec.bit.utils.*
 import com.aatec.core.data.network.notice.Attach
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.data.ui.notice.SendNotice3
-import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
-import com.aatec.core.utils.DataState
-import com.aatec.core.utils.MAX_SPAWN
-import com.aatec.core.utils.NoItemFoundException
+import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint

@@ -61,7 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            app:contentScrim="@color/MainColor"
+            app:contentScrim="?attr/colorSurface"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <include
@@ -83,8 +83,8 @@
         android:backgroundTint="?attr/colorSecondary"
         android:contentDescription="@string/add_subject"
         android:text="@string/add_subject"
-        android:textColor="?attr/colorSurface"
+        android:textColor="?attr/bottomBar"
         app:icon="@drawable/ic_add"
-        app:iconTint="?attr/colorSurface" />
+        app:iconTint="?attr/bottomBar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -30,10 +30,7 @@ import com.aatec.bit.fragments.home.adapter.SyllabusHomeAdapter
 import com.aatec.bit.utils.*
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
-import com.aatec.core.utils.DataState
-import com.aatec.core.utils.REQUEST_UPDATE_SEM
-import com.aatec.core.utils.calculatedDays
-import com.aatec.core.utils.findPercentage
+import com.aatec.core.utils.*
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis

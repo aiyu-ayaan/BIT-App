@@ -46,6 +46,7 @@
     <string name="show_all">See All</string>
     <string name="back">Back</string>
     <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
     <string name="offline_mode">Offline Mode</string>
     <string name="goal">Goal %s</string>
     <string name="add_subject">Add Subject</string>
@@ -182,5 +183,11 @@
     <string name="see_all">View All</string>
     <string name="no_data">No data found</string>
     <string name="chooseTheme">Choose Theme</string>
+    <string name="undo">Undo</string>
+    <string name="delete">Delete</string>
+    <string name="changePercentage">Change Percentage</string>
+    <string name="present">Present :</string>
+    <string name="total">Total :</string>
+
 
 </resources>

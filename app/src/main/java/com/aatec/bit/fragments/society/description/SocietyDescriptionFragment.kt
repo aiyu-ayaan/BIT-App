@@ -23,7 +23,7 @@ import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSocietyDescriptionBinding
 import com.aatec.bit.utils.*
-import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
+import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 

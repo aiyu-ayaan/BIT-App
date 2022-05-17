@@ -34,8 +34,7 @@
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="2"
-            android:textColor="@color/textColor"
-            android:textSize="20.0sp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -59,43 +58,43 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Present : "
-                android:textColor="@color/textColorSecondary"
-                android:textSize="15.0dip" />
+                android:text="@string/present"
+                android:textAppearance="?attr/textAppearanceCaption" />
 
             <TextView
                 android:id="@+id/tv_present"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
+                android:textAppearance="?attr/textAppearanceBodySmall"
                 android:textColor="@color/textColor"
-                android:textSize="15.0dip" />
+                tools:text="1" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8.0dip"
-                android:text="Total :"
-                android:textColor="@color/textColorSecondary"
-                android:textSize="15.0dip" />
+                android:text="@string/total"
+                android:textAppearance="?attr/textAppearanceCaption" />
 
             <TextView
                 android:id="@+id/tv_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1"
-                android:textColor="@color/textColor"
-                android:textSize="15.0dip" />
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                tools:text="2" />
         </LinearLayout>
 
         <ImageButton
             android:id="@+id/iv_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_5"
             android:background="?attr/actionBarItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_delete" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_subject"
+            app:srcCompat="@drawable/ic_delete"
+            app:tint="?attr/colorPrimary" />
 
         <ImageButton
             android:id="@+id/iv_reset"
@@ -106,7 +105,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/iv_delete"
             app:layout_constraintEnd_toStartOf="@+id/iv_delete"
             app:layout_constraintTop_toTopOf="@+id/iv_delete"
-            app:srcCompat="@drawable/ic_reset" />
+            app:srcCompat="@drawable/ic_reset"
+            app:tint="?attr/colorPrimary" />
 
         <ImageButton
             android:id="@+id/iv_edit"
@@ -117,7 +117,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/iv_reset"
             app:layout_constraintEnd_toStartOf="@+id/iv_reset"
             app:layout_constraintTop_toTopOf="@+id/iv_reset"
-            app:srcCompat="@drawable/ic_edit" />
+            app:srcCompat="@drawable/ic_edit"
+            app:tint="?attr/colorPrimary" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

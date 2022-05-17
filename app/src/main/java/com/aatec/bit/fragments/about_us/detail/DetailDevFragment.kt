@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentDetailDevBinding
-import com.aatec.bit.utils.loadImageCircular
-import com.aatec.bit.utils.openLinks
+import com.aatec.core.utils.loadImageCircular
+import com.aatec.core.utils.openLinks
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 

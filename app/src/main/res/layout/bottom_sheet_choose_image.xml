@@ -7,6 +7,7 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -33,7 +34,8 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/done"
         android:padding="8dp"
-        android:src="@drawable/ic_arrow_downward" />
+        android:src="@drawable/ic_arrow_downward"
+        app:tint="?attr/colorPrimary" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"

@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.R
 import com.aatec.bit.databinding.RowEventBinding
-import com.aatec.bit.utils.loadImage
+import com.aatec.core.utils.loadImage
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.data.ui.event.EventDiffUtil
 import com.aatec.core.utils.DEFAULT_CORNER_RADIUS

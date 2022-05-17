@@ -23,7 +23,8 @@
         android:padding="4dp"
         android:text="@string/course_preference"
         android:textStyle="bold"
-        app:drawableStartCompat="@drawable/ic_arrow_downward" />
+        app:drawableStartCompat="@drawable/ic_arrow_downward"
+        app:drawableTint="?attr/colorPrimary" />
 
     <ImageButton
         android:id="@+id/bt_save"
@@ -35,7 +36,8 @@
         android:background="?attr/actionBarItemBackground"
         android:contentDescription="@string/done"
         android:padding="8dp"
-        android:src="@drawable/ic_save" />
+        android:src="@drawable/ic_save"
+        app:tint="?attr/colorPrimary" />
 
 
     <com.google.android.material.divider.MaterialDivider

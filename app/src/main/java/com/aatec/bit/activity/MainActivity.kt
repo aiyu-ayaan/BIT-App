@@ -19,9 +19,7 @@ import androidx.navigation.ui.*
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.ActivityMainBinding
-import com.aatec.bit.utils.*
-import com.aatec.core.utils.KEY_FIRST_TIME_TOGGLE
-import com.aatec.core.utils.currentNavigationFragment
+import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.firebase.firestore.FirebaseFirestore
@@ -115,7 +113,9 @@ class MainActivity : AppCompatActivity() {
 
             when (destination.id) {
                 R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
-                R.id.semChooseFragment, R.id.detailDevFragment
+                R.id.semChooseFragment, R.id.detailDevFragment,
+                R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
+                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet
                 -> {
                     changeStatusBarToolbarColor(
                         R.id.toolbar,
@@ -129,7 +129,9 @@ class MainActivity : AppCompatActivity() {
             }
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
-                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet -> {
+                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
+                R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
+                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet -> {
                     changeBottomNav(R.attr.bottomBar)
                 }
                 else -> {

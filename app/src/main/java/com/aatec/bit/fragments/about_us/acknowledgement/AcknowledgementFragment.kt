@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
 import com.aatec.bit.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.FragmentAcknowledgementBinding
-import com.aatec.bit.utils.changeStatusBarToolbarColor
-import com.aatec.bit.utils.onScrollColorChange
-import com.aatec.bit.utils.openCustomChromeTab
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.onScrollColorChange
+import com.aatec.core.utils.openCustomChromeTab
 import com.aatec.core.data.ui.componentUse.ComponentList
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint

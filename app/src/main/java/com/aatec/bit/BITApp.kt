@@ -3,7 +3,7 @@ package com.aatec.bit
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
-import com.aatec.bit.utils.setAppTheme
+import com.aatec.core.utils.setAppTheme
 import com.aatec.core.utils.AppTheme
 import com.aatec.core.utils.KEY_APP_THEME
 import com.google.android.material.color.DynamicColors

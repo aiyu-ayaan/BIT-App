@@ -15,9 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSocietyBinding
 import com.aatec.bit.utils.MainStateEvent
-import com.aatec.bit.utils.changeStatusBarToolbarColor
-import com.aatec.bit.utils.onScrollColorChange
-import com.aatec.bit.utils.showSnackBar
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.onScrollColorChange
+import com.aatec.core.utils.showSnackBar
 import com.aatec.core.data.network.society.SocietyNetworkEntity
 import com.aatec.core.utils.DataState
 import com.google.android.material.transition.MaterialSharedAxis

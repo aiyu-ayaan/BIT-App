@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.R
 import com.aatec.bit.databinding.RowDevlopersBinding
-import com.aatec.bit.utils.loadImageCircular
+import com.aatec.core.utils.loadImageCircular
 import com.aatec.core.data.network.aboutus.Devs
 
 class DevsAdapter(

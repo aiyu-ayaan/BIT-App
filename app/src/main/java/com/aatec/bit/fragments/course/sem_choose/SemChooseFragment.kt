@@ -21,8 +21,8 @@ import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.FragmentSemChooseBinding
-import com.aatec.bit.utils.changeStatusBarToolbarColor
-import com.aatec.bit.utils.openLinks
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.openLinks
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis

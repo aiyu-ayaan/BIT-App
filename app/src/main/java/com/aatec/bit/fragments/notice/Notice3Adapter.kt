@@ -23,9 +23,9 @@ import com.aatec.core.data.network.notice.Attach
 import com.aatec.core.data.ui.notice.DiffUtilNotice3
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
-import com.aatec.bit.utils.convertLongToTime
-import com.aatec.bit.utils.getImageLinkNotification
-import com.aatec.bit.utils.loadImage
+import com.aatec.core.utils.convertLongToTime
+import com.aatec.core.utils.getImageLinkNotification
+import com.aatec.core.utils.loadImage
 import com.google.firebase.firestore.FirebaseFirestore
 
 class Notice3Adapter(

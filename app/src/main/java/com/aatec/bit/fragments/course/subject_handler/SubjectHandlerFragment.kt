@@ -10,10 +10,9 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSubjectHandlerBinding
-import com.aatec.bit.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.syllabus.setFragment
 import com.google.android.material.transition.MaterialContainerTransform
-import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

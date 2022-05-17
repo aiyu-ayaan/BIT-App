@@ -15,7 +15,7 @@
         <item name="colorSecondaryContainer">@color/blue_bottom_nav</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSurface</item>
+        <item name="android:statusBarColor" >?attr/colorSurface</item>
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="bottomBar">@android:color/system_neutral1_50</item>

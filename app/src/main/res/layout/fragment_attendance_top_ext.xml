@@ -63,8 +63,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textColor="@color/textColor"
-                android:textSize="15sp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorPrimary"
                 tools:text="100%" />
 
         </RelativeLayout>
@@ -77,14 +77,13 @@
             android:layout_marginTop="@dimen/grid_2"
             android:drawablePadding="@dimen/grid_0_5"
             android:textAppearance="?attr/textAppearanceTitleSmall"
-            android:textColor="@color/textColor"
             app:drawableStartCompat="@drawable/ic_flag"
-            app:drawableTint="@color/textColor"
             app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/goal" />
+            tools:text="@string/goal"
+            app:drawableTint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_over_all"
@@ -92,15 +91,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_1"
             android:drawablePadding="@dimen/grid_0_5"
-            android:textColor="@color/textColor"
-            android:textSize="15sp"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
             app:drawableStartCompat="@drawable/ic_check"
-            app:drawableTint="@color/textColor"
             app:layout_constraintEnd_toStartOf="@+id/relativeLayout"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/tv_goal"
             app:layout_constraintTop_toBottomOf="@+id/tv_goal"
-            tools:text="@string/overallAttendance" />
+            tools:text="@string/overallAttendance"
+            app:drawableTint="?attr/colorPrimary" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/tv_add_sub"
@@ -123,8 +121,9 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/list_all"
-                android:textColor="@color/textColor"
-                app:drawableStartCompat="@drawable/ic_add" />
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                app:drawableStartCompat="@drawable/ic_add"
+                app:drawableTint="?attr/colorPrimary" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -148,8 +147,9 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/setting"
-                android:textColor="@color/textColor"
-                app:drawableStartCompat="@drawable/ic_settings" />
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                app:drawableStartCompat="@drawable/ic_settings"
+                app:drawableTint="?attr/colorPrimary" />
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -172,8 +172,9 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:text="@string/add_subject_syllabus"
-                android:textColor="@color/textColor"
-                app:drawableStartCompat="@drawable/ic_add" />
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                app:drawableStartCompat="@drawable/ic_add"
+                app:drawableTint="?attr/colorPrimary" />
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

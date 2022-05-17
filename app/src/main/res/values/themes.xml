@@ -14,13 +14,13 @@
         <item name="colorSecondaryContainer">@color/blue_bottom_nav</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorSurface</item>
+        <item name="android:statusBarColor" >?attr/colorSurface</item>
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="bottomBar">@color/bottom_nav</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="textColor">@color/textColor</item>
-        <item name="textColorSecondary">@color/textColorSecondary</item>
+        <item name="textColorSecondary">@color/textColorSecondary</item>z
     </style>
 
     <style name="Theme.customSplash" parent="Theme.SplashScreen" >

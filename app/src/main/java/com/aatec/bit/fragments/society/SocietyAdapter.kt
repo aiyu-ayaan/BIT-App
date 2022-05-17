@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.R
 import com.aatec.bit.databinding.RowSocietyBinding
-import com.aatec.bit.utils.loadImage
+import com.aatec.core.utils.loadImage
 import com.aatec.core.data.network.society.SocietyNetworkEntity
 
 class SocietyAdapter(

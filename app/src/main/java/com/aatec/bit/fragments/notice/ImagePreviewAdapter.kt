@@ -16,7 +16,7 @@ import com.aatec.bit.R
 import com.aatec.core.data.network.notice.Attach
 import com.aatec.core.data.network.notice.DiffUtilAttach
 import com.aatec.bit.databinding.RowNoticeImagePreviewBinding
-import com.aatec.bit.utils.loadImageDefault
+import com.aatec.core.utils.loadImageDefault
 
 class ImagePreviewAdapter(
     private val listener: (String) -> Unit

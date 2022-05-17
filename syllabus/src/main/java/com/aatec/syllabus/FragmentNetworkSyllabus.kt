@@ -16,8 +16,8 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
-import com.aatec.bit.utils.getColorForBackground
-import com.aatec.bit.utils.getColorForText
+import com.aatec.core.utils.getColorForBackground
+import com.aatec.core.utils.getColorForText
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.syllabus.databinding.FragmentNetworkSyllabusBinding
 import dagger.hilt.android.AndroidEntryPoint

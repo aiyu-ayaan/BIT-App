@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 2/10/22, 3:38 AM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 2/10/22, 3:28 AM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    tools:context="com.aatec.bit.fragments.edit_subject.EditSubjectBottomSheet">
+
+    <TextView
+        android:id="@+id/bottom_sheet_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:text="@string/edit"
+        android:textStyle="bold" />
+
+    <ImageButton
+        android:id="@+id/ib_dismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/actionBarItemBackground"
+        android:contentDescription="@string/dismiss"
+        android:padding="8dp"
+        android:src="@drawable/ic_arrow_downward"
+        app:tint="?attr/colorPrimary" />
+
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/bottom_sheet_title"
+        android:layout_marginTop="16dp"
+        android:background="@color/underLine" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/show_syllabus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/divider"
+        android:layout_marginHorizontal="@dimen/grid_1"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/min_padding_attendance" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/show_syllabus"
+        android:layout_marginEnd="30dp"
+        android:background="@color/underLine" />
+</RelativeLayout>

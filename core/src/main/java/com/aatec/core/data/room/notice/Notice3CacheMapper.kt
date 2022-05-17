@@ -8,8 +8,8 @@
 
 package com.aatec.core.data.room.notice
 
-import com.aatec.bit.utils.convertDateToTime
-import com.aatec.bit.utils.convertStringToLongMillis
+import com.aatec.core.utils.convertDateToTime
+import com.aatec.core.utils.convertStringToLongMillis
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.utils.EntityMapper
 import java.util.*

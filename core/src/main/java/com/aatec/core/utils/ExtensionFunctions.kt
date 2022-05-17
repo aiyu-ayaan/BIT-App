@@ -8,7 +8,7 @@
 
 
 
-package com.aatec.bit.utils
+package com.aatec.core.utils
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -44,7 +44,6 @@ import com.aatec.core.R
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.IsPresent
 import com.aatec.core.data.ui.notice.Notice3
-import com.aatec.core.utils.DEFAULT_CORNER_RADIUS
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -340,7 +339,7 @@ fun String.replaceNewLineWithBreak() =
  * @author Ayaan
  * @since 4.0.2
  * @see com.aatec.bit.utils.applyImageUrl()
- * @deprecated This Function is Deprecated. Use {@link com.aatec.bit.utils.applyImageUrl()}
+ * @deprecated This Function is Deprecated. Use {@link com.aatec.core.utils.applyImageUrl()}
  */
 fun String.converterLinkToBitmap(): Bitmap? =
     runBlocking(Dispatchers.IO) {
@@ -432,7 +431,12 @@ inline fun AttendanceModel.showUndoMessage(
     ).setAction("Undo") {
         action.invoke(this)
     }.apply {
-        this.setBackgroundTint(ContextCompat.getColor(parentView.context, R.color.cardBackground))
+        this.setBackgroundTint(
+            MaterialColors.getColor(
+                parentView.context,
+                com.google.android.material.R.attr.colorSurface, Color.WHITE
+            )
+        )
         this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
         this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
     }.show()
@@ -449,9 +453,9 @@ fun View.showSnackBar(message: String, duration: Int) =
         duration
     ).apply {
         this.setBackgroundTint(
-            ContextCompat.getColor(
-                this@showSnackBar.context,
-                R.color.cardBackground
+            MaterialColors.getColor(
+                this.context,
+                com.google.android.material.R.attr.colorSurface, Color.WHITE
             )
         )
         this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
@@ -882,7 +886,8 @@ fun <T1, T2, T3, T4, R> combineFourFlows(
 }
 
 @ColorInt
-fun Context.getColorFromAttr( @AttrRes attrColor: Int
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int
 ): Int {
     val typedArray = theme.obtainStyledAttributes(intArrayOf(attrColor))
     val textColor = typedArray.getColor(0, 0)
