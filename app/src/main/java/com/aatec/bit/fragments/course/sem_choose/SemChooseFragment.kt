@@ -154,7 +154,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_download_syllabus -> {
-                getSyllabus(viewModel.request ?: "BCA")
+                getSyllabus(viewModel.request?.uppercase() ?: "BCA")
                 true
             }
             else -> super.onOptionsItemSelected(item)
