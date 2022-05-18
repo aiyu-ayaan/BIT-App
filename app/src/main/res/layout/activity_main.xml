@@ -50,7 +50,8 @@
                     android:layout_height="wrap_content"
                     android:background="?attr/actionBarItemBackground"
                     android:padding="@dimen/grid_2"
-                    app:srcCompat="@drawable/ic_settings" />
+                    app:srcCompat="@drawable/ic_settings"
+                    app:tint="?attr/colorPrimary" />
             </LinearLayout>
         </com.google.android.material.appbar.MaterialToolbar>
 
@@ -88,11 +89,11 @@
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
-        android:layout_gravity="start"
-        app:dividerInsetStart="0dp"
-        app:dividerInsetEnd="0dp"
         android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:background="?attr/colorSurface"
+        app:dividerInsetEnd="0dp"
+        app:dividerInsetStart="0dp"
         app:headerLayout="@layout/navigation_slider_header"
         app:menu="@menu/navigation_slider" />
 </androidx.drawerlayout.widget.DrawerLayout>

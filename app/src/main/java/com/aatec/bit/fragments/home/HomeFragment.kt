@@ -274,8 +274,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun onEventClick(event: Event, view: View) {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
         val action = NavGraphDirections.actionGlobalEventDescriptionFragment(
             path = event.path,
             title = event.society
@@ -537,14 +537,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         } catch (e: Exception) {
             Log.e("Error", e.message!!)
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity?.changeStatusBarToolbarColor(
-            R.id.toolbar,
-            com.google.android.material.R.attr.colorSurface
-        )
     }
 
     override fun onStop() {

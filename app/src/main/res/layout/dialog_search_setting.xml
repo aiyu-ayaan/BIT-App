@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/grid_2">
+
+    <CheckBox
+        android:id="@+id/check_event"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_event"
+        android:drawablePadding="8dp"
+        android:drawableTint="?attr/colorPrimary"
+        android:layoutDirection="rtl"
+        android:padding="8dp"
+        android:text="@string/events" />
+
+    <CheckBox
+        android:id="@+id/check_holiday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_holiday"
+        android:drawablePadding="8dp"
+        android:drawableTint="?attr/colorPrimary"
+        android:layoutDirection="rtl"
+        android:padding="8dp"
+        android:text="@string/holiday" />
+
+    <CheckBox
+        android:id="@+id/check_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_notice"
+        android:drawablePadding="8dp"
+        android:drawableTint="?attr/colorPrimary"
+        android:layoutDirection="rtl"
+        android:padding="8dp"
+        android:text="@string/notice" />
+
+    <CheckBox
+        android:id="@+id/check_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_syllabus"
+        android:drawablePadding="8dp"
+        android:drawableTint="?attr/colorPrimary"
+        android:layoutDirection="rtl"
+        android:padding="8dp"
+        android:text="@string/subjects" />
+</LinearLayout>

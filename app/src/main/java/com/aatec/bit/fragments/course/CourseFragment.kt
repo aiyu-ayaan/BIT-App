@@ -29,9 +29,6 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
 
     @Inject
     lateinit var db: FirebaseFirestore
-    private val prefManagerViewModel: PreferenceManagerViewModel by activityViewModels()
-    private val viewModel: ChooseSemViewModel by viewModels()
-    private val activityViewModel: CommunicatorViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

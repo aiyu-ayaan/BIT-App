@@ -24,7 +24,7 @@ import androidx.webkit.WebViewFeature
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentEventDescriptionBinding
-import com.aatec.bit.utils.*
+import com.aatec.bit.utils.handleCustomBackPressed
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
@@ -95,7 +95,7 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
                 is DataState.Error -> {
                     if (dataState.exception is NoItemFoundException) {
                         menuShare.isVisible = false
-                        menuInsta.isVisible =false
+                        menuInsta.isVisible = false
                         menuWeb.isVisible = false
                         binding.apply {
                             imageViewNoData.isVisible = true
@@ -262,13 +262,6 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         })
     }
 
-    override fun onPause() {
-        super.onPause()
-        activity?.changeStatusBarToolbarColor(
-            R.id.toolbar,
-            com.google.android.material.R.attr.colorSurface
-        )
-    }
 
     private fun getScale(contentWidth: Double): Int {
         return if (this.activity != null) {

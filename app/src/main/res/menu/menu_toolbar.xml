@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 12/23/21, 12:18 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 12/23/21, 11:47 AM
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/BitMenu"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search_any_thing"
+        app:showAsAction="always" />
+</menu>

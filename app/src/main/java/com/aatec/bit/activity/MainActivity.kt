@@ -2,23 +2,33 @@ package com.aatec.bit.activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
+import com.aatec.bit.activity.viewmodels.CommunicatorViewModel
+import com.aatec.bit.activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.ActivityMainBinding
+import com.aatec.core.data.preferences.SearchPreference
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -34,6 +44,9 @@ class MainActivity : AppCompatActivity() {
     private val binding: ActivityMainBinding by viewBinding()
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private val communicator: CommunicatorViewModel by viewModels()
+    private val prefManager: PreferenceManagerViewModel by viewModels()
+    private lateinit var searchPreference: SearchPreference
 
     @Inject
     lateinit var db: FirebaseFirestore
@@ -97,11 +110,29 @@ class MainActivity : AppCompatActivity() {
         }
         openAboutUs()
         onDestinationChange()
+        searchFragmentCommunication()
     }
 
     private fun onDestinationChange() {
         navController.onDestinationChange { destination ->
 
+            when (destination.id) {
+                R.id.searchFragment, R.id.settingDialog -> binding.searchToolbar.isVisible =
+                    true
+                else -> binding.searchToolbar.isVisible = false
+            }
+            if (destination.id == R.id.searchFragment)
+                binding.apply {
+                    searchInput.isEnabled = true
+                    searchInput.requestFocus()
+                    when {
+                        communicator.openFirst -> {
+                            showKeyboard()
+                        }
+                    }
+                }
+            else
+                binding.searchInput.isEnabled = false
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.attendanceFragment,
                 R.id.courseFragment, R.id.holidayFragment, R.id.societyFragment,
@@ -116,7 +147,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.semChooseFragment, R.id.detailDevFragment,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
                 R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet
+                R.id.calenderViewBottomSheet, R.id.searchFragment
                 -> {
                     changeStatusBarToolbarColor(
                         R.id.toolbar,
@@ -147,7 +178,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.aboutUsFragment, R.id.detailDevFragment,
                 R.id.acknowledgementFragment, R.id.societyFragment,
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
-                R.id.eventDescriptionFragment -> {
+                R.id.eventDescriptionFragment, R.id.searchFragment,
+                R.id.settingDialog -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -161,6 +193,52 @@ class MainActivity : AppCompatActivity() {
                 hideBottomAppBar()
             }
         }
+    }
+
+    private fun searchFragmentCommunication() {
+        binding.searchInput.apply {
+
+            /**
+             * Open keyboard only on onCreated for first time
+             */
+            communicator.query.value = text.toString()
+            lifecycleScope.launchWhenStarted {
+                communicator.query.collect {
+                    if (it.isBlank())
+                        setText(getString(R.string.blank))
+                }
+            }
+            addTextChangedListener {
+                communicator.query.value = if (it?.isBlank() == true) getString(R.string.blank)
+                else it.toString()
+            }
+        }
+
+//        Button CLick
+        lifecycleScope.launchWhenStarted {
+            prefManager.preferencesFlow.observe(this@MainActivity) { filterPreference ->
+                searchPreference = filterPreference.searchPreference
+            }
+        }
+        binding.settingDialog.setOnClickListener {
+            openSettingDialog()
+        }
+    }
+
+    private fun openSettingDialog() {
+        val action = NavGraphDirections.actionGlobalSettingDialog(searchPreference)
+        navController.navigate(action)
+    }
+
+    /**
+     * @author Ayaan
+     * @since 4.0.4
+     */
+    private fun showKeyboard() = binding.apply {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
+            .apply {
+                this.showSoftInput(binding.searchInput, 0)
+            }
     }
 
     private fun setExitTransition() {
@@ -231,6 +309,44 @@ class MainActivity : AppCompatActivity() {
         setExitTransition()
         val directions = NavGraphDirections.actionGlobalAboutUsFragment()
         navController.navigate(directions)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_toolbar, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.BitMenu -> {
+                navigateToSearch()
+                true
+            }
+            else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun navigateToSearch() {
+        getCurrentFragment()?.apply {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition =
+                MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                    duration = resources.getInteger(R.integer.duration_medium).toLong()
+                }
+        }
+        val action = NavGraphDirections.actionGlobalSearchFragment()
+        navController.navigate(action)
+    }
+
+    override fun onBackPressed() {
+        when {
+            binding.drawer.isDrawerOpen(GravityCompat.START) -> {
+                binding.drawer.closeDrawer(GravityCompat.START)
+            }
+            else -> super.onBackPressed()
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
