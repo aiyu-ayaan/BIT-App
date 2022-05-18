@@ -5,6 +5,7 @@ import android.os.Parcelable
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -49,6 +50,13 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
             imageButtonBba.setOnClickListener {
                 navigateToSemChoose(Course.Bba.name, imageButtonBba)
             }
+            textViewBca.setOnClickListener {
+                navigateToSemChoose(Course.Bca.name, imageButtonBca)
+            }
+
+            textViewBba.setOnClickListener {
+                navigateToSemChoose(Course.Bba.name, imageButtonBba)
+            }
         }
     }
 
@@ -66,15 +74,14 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
         reenterTransition = MaterialElevationScale(true).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
-        val action =
-            CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request)
-        findNavController().navigate(action, extras)
-//        try {
-//
-//        } catch (e: Exception) {
-//            Toast.makeText(requireContext(), "Press one item at a time !!", Toast.LENGTH_SHORT)
-//                .show()
-//        }
+        try {
+            val action =
+                CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request)
+            findNavController().navigate(action, extras)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Press one item at a time !!", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
 
 

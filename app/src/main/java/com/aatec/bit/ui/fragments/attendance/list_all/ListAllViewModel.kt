@@ -8,7 +8,7 @@
 
 
 
-package com.aatec.bit.ui.fragments.list_all
+package com.aatec.bit.ui.fragments.attendance.list_all
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData

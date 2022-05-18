@@ -1,4 +1,4 @@
-package com.aatec.bit.ui.fragments.list_all
+package com.aatec.bit.ui.fragments.attendance.list_all
 
 import android.app.Dialog
 import android.os.Bundle

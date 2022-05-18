@@ -236,7 +236,7 @@
         app:destination="@id/eventDescriptionFragment" />
     <dialog
         android:id="@+id/addEditSubjectBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.attendance.add_attendance.AddEditSubjectBottomSheet"
+        android:name="com.aatec.bit.ui.fragments.attendance.add_edit_attendance.AddEditSubjectBottomSheet"
         android:label="bottom_sheet_add_subject"
         tools:layout="@layout/bottom_sheet_add_subject">
         <argument
@@ -296,7 +296,7 @@
         app:destination="@id/editSubjectBottomSheet" />
     <dialog
         android:id="@+id/listAllBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.list_all.ListAllBottomSheet"
+        android:name="com.aatec.bit.ui.fragments.attendance.list_all.ListAllBottomSheet"
         android:label="bottom_sheet_list_all"
         tools:layout="@layout/bottom_sheet_list_all" />
     <dialog

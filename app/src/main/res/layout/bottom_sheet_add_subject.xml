@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent"
-    tools:context=".ui.fragments.attendance.add_attendance.AddEditSubjectBottomSheet">
+    tools:context=".ui.fragments.attendance.add_edit_attendance.AddEditSubjectBottomSheet">
 
     <TextView
         android:id="@+id/bottom_sheet_title"

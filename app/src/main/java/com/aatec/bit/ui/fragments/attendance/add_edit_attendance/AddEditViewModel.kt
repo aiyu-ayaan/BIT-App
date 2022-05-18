@@ -1,4 +1,4 @@
-package com.aatec.bit.ui.fragments.attendance.add_attendance
+package com.aatec.bit.ui.fragments.attendance.add_edit_attendance
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
