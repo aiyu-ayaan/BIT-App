@@ -49,10 +49,13 @@
         android:id="@+id/attendanceFragment"
         android:name="com.aatec.bit.fragments.attendance.AttendanceFragment"
         android:label="@string/attendance"
-        tools:layout="@layout/fragment_attendance" >
+        tools:layout="@layout/fragment_attendance">
         <action
             android:id="@+id/action_attendanceFragment_to_listAllBottomSheet"
             app:destination="@id/listAllBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_calenderViewBottomSheet"
+            app:destination="@id/calenderViewBottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"
@@ -282,13 +285,15 @@
         android:id="@+id/editSubjectBottomSheet"
         android:name="com.aatec.bit.fragments.edit_subject.EditSubjectBottomSheet"
         android:label="bottom_sheet_edit_subject"
-        tools:layout="@layout/bottom_sheet_edit_subject" >
+        tools:layout="@layout/bottom_sheet_edit_subject">
         <argument
             android:name="request"
             android:defaultValue="0"
             app:argType="integer" />
     </dialog>
-    <action android:id="@+id/action_global_editSubjectBottomSheet" app:destination="@id/editSubjectBottomSheet" />
+    <action
+        android:id="@+id/action_global_editSubjectBottomSheet"
+        app:destination="@id/editSubjectBottomSheet" />
     <dialog
         android:id="@+id/listAllBottomSheet"
         android:name="com.aatec.bit.fragments.list_all.ListAllBottomSheet"
@@ -298,7 +303,24 @@
         android:id="@+id/deleteAllDialog"
         android:name="com.aatec.bit.fragments.attendance.delete_all.DeleteAllDialog"
         android:label="DeleteAllDialog" />
-    <action android:id="@+id/action_global_deleteAllDialog" app:destination="@id/deleteAllDialog" />
+    <action
+        android:id="@+id/action_global_deleteAllDialog"
+        app:destination="@id/deleteAllDialog" />
+    <dialog
+        android:id="@+id/calenderViewBottomSheet"
+        android:name="com.aatec.bit.fragments.attendance.calender_view.CalenderViewBottomSheet"
+        android:label="bottom_sheet_calendar_view"
+        tools:layout="@layout/bottom_sheet_calendar_view">
+        <argument
+            android:name="attendance"
+            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="minPercentage"
+            app:argType="integer" />
+    </dialog>
     <dialog
         android:id="@+id/resetDialog"
         android:name="com.aatec.bit.fragments.attendance.reset_attendance.ResetDialog"
@@ -306,6 +328,5 @@
         <argument
             android:name="attendance"
             app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
-    </dialog>
-    <action android:id="@+id/action_global_resetDialog" app:destination="@id/resetDialog" />
+    </dialog><action android:id="@+id/action_global_resetDialog" app:destination="@id/resetDialog"/>
 </navigation>

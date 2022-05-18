@@ -47,8 +47,8 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

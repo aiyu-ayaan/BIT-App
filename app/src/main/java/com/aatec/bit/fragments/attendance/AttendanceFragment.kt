@@ -20,7 +20,7 @@ import com.aatec.bit.R
 import com.aatec.bit.activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.FragmentAttendanceBinding
-import com.aatec.bit.utils.*
+import com.aatec.bit.utils.AttendanceEvent
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.AttendanceSave
 import com.aatec.core.data.room.attendance.IsPresent
@@ -176,13 +176,13 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
 
     override fun onItemClickListener(attendance: AttendanceModel) {
         try {
-//            val action =
-//                FragmentAttendanceDirections.actionFragmentAttendanceToBottomSheetCalenderView(
-//                    attendance,
-//                    attendance.subject,
-//                    defPercentage
-//                )
-//            findNavController().navigate(action)
+            val action =
+                AttendanceFragmentDirections.actionAttendanceFragmentToCalenderViewBottomSheet(
+                    attendance,
+                    attendance.subject,
+                    defPercentage
+                )
+            findNavController().navigate(action)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT)
                 .show()
@@ -217,8 +217,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
          */
         when {
             totalDays.isEmpty() ||
-                    totalDays.last().day.convertLongToTime("dd/mm/yyyy") != System.currentTimeMillis()
-                .convertLongToTime("dd/mm/yyyy") || !totalDays.last().isPresent ->//new Entry or new day or new session
+                    totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
+                .convertLongToTime("DD/MM/yyyy") || !totalDays.last().isPresent ->//new Entry or new day or new session
                 totalDays.add(IsPresent(System.currentTimeMillis(), true, totalClasses = 1))
 
             totalDays.isNotEmpty() && totalDays.last().totalClasses == null ->//old database migration
@@ -227,7 +227,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
             else ->//same day
                 totalDays.last().totalClasses = totalDays.last().totalClasses?.plus(1)
         }
-
         viewModel.update(
             AttendanceModel(
                 id = attendance.id,
@@ -237,7 +236,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
                 days = attendance.days.copy(presetDays = presentDays, totalDays = totalDays),
                 stack = stack,
                 fromSyllabus = attendance.fromSyllabus,
-                teacher = attendance.teacher
+                teacher = attendance.teacher,
             )
         )
     }
@@ -268,8 +267,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
          * @author Ayaan
          */
         when {
-            totalDays.isEmpty() || totalDays.last().day.convertLongToTime("dd/mm/yyyy") != System.currentTimeMillis()
-                .convertLongToTime("dd/mm/yyyy") || totalDays.last().isPresent ->//new Entry or new day
+            totalDays.isEmpty() || totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
+                .convertLongToTime("DD/MM/yyyy") || totalDays.last().isPresent ->//new Entry or new day
                 totalDays.add(IsPresent(System.currentTimeMillis(), false, totalClasses = 1))
 
             totalDays.isNotEmpty() && totalDays.last().totalClasses == null ->//old database migration

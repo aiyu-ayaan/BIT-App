@@ -117,6 +117,7 @@ dependencies {
     implementation "com.android.support:palette-v7:$palette_version"
 
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
+    implementation "com.github.sundeepk:compact-calendar-view:$calendarVersion"
 
 
 }

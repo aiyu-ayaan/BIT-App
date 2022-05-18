@@ -115,7 +115,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.semChooseFragment, R.id.detailDevFragment,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
-                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet
+                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
+                R.id.calenderViewBottomSheet
                 -> {
                     changeStatusBarToolbarColor(
                         R.id.toolbar,
@@ -131,7 +132,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
                 R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
-                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet -> {
+                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
+                R.id.calenderViewBottomSheet -> {
                     changeBottomNav(R.attr.bottomBar)
                 }
                 else -> {

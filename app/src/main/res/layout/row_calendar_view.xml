@@ -12,10 +12,10 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp"
-    style="?attr/materialCardViewFilledStyle"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="0dp">
 
@@ -40,11 +40,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:id="@+id/view"
             android:layout_width="1dp"
             android:layout_height="0dp"
-            android:background="@color/underLine"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/text_view_dot"
             app:layout_constraintStart_toStartOf="@+id/text_view_dot"
@@ -54,7 +53,7 @@
             android:id="@+id/text_view_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
+            android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_dot"
             app:layout_constraintStart_toEndOf="@+id/text_view_dot"
             app:layout_constraintTop_toTopOf="@+id/text_view_dot"
@@ -66,8 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:textColor="@color/textColorSecondary"
-            android:textSize="11dp"
+            android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintStart_toStartOf="@+id/text_view_time"
             app:layout_constraintTop_toBottomOf="@+id/text_view_time"
             tools:text="Present" />
@@ -76,7 +74,7 @@
             android:id="@+id/text_view_total_classes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/textColor"
+            android:textAppearance="?attr/textAppearanceBody2"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_dot"
             app:layout_constraintEnd_toStartOf="@+id/text_view_dot"
             app:layout_constraintTop_toTopOf="@+id/text_view_dot"

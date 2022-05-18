@@ -76,8 +76,8 @@ class EventFragment : Fragment(R.layout.fragment_event) {
     }
 
     private fun onEventClick(event: Event) {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
         val action = NavGraphDirections.actionGlobalEventDescriptionFragment(
             path = event.path,
             title = event.society

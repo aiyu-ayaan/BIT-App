@@ -27,7 +27,7 @@ import com.aatec.bit.databinding.FragmentHomeBinding
 import com.aatec.bit.fragments.home.adapter.EventHomeAdapter
 import com.aatec.bit.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.fragments.home.adapter.SyllabusHomeAdapter
-import com.aatec.bit.utils.*
+import com.aatec.bit.utils.MainStateEvent
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
@@ -259,10 +259,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun navigateToEvent() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true).apply {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false).apply {
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
         val action = HomeFragmentDirections.actionHomeFragmentToEventFragment()
@@ -290,9 +290,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToEdit() {
-//        val directions =
-//            NavGraphDirections.actionGlobalBottomSheetEditSubject()
-//        findNavController().navigate(directions)
+        val directions =
+            NavGraphDirections.actionGlobalEditSubjectBottomSheet()
+        findNavController().navigate(directions)
     }
 
 
