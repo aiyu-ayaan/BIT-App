@@ -16,7 +16,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbars="none"
-    tools:context="com.aatec.bit.fragments.start_up.StartUpFragment">
+    tools:context=".ui.fragments.start_up.StartUpFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

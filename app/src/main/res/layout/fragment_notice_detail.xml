@@ -8,7 +8,7 @@
     android:fillViewport="true"
     android:paddingHorizontal="@dimen/grid_0_5"
     android:paddingTop="@dimen/grid_1"
-    tools:context="com.aatec.bit.fragments.notice.description.NoticeDetailFragment">
+    tools:context=".ui.fragments.notice.description.NoticeDetailFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

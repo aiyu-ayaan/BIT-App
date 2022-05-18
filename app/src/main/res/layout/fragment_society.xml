@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context="com.aatec.bit.fragments.society.SocietyFragment">
+    tools:context=".ui.fragments.society.SocietyFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_society"

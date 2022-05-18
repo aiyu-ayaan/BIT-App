@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aatec.bit.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
+<com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_view_syllabus"
@@ -7,106 +7,61 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:fillViewport="true"
-    tools:context="com.aatec.bit.fragments.course.CourseFragment">
+    tools:context=".ui.fragments.course.CourseFragment">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSurface"
-        android:clipToPadding="false"
-        android:fillViewport="true"
-        android:paddingBottom="@dimen/bottom_app_bar_height"
-        android:scrollbars="none">
+        android:padding="@dimen/grid_2">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/image_button_bca"
+            android:layout_width="@dimen/course_image_size"
+            android:layout_height="@dimen/course_image_size"
+            android:layout_marginStart="@dimen/grid_1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/bca"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_bca_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/image_button_bba"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/text_view_bca"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="@dimen/grid_1"
-            android:gravity="center"
-            android:paddingHorizontal="@dimen/grid_0_25">
+            android:layout_marginTop="@dimen/grid_1"
+            android:text="@string/bca"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintEnd_toEndOf="@+id/image_button_bca"
+            app:layout_constraintStart_toStartOf="@+id/image_button_bca"
+            app:layout_constraintTop_toBottomOf="@+id/image_button_bca" />
 
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:layout_marginBottom="@dimen/grid_1"
-                android:text="@string/courses"
-                android:textAppearance="?attr/textAppearanceTitleSmall" />
+        <ImageButton
+            android:id="@+id/image_button_bba"
+            android:layout_width="@dimen/course_image_size"
+            android:layout_height="@dimen/course_image_size"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/bca"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_bba_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/material_card_view_app"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/textView5"
-                app:cardBackgroundColor="?attr/colorSurface"
-                app:strokeColor="@color/card_corner">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="@dimen/grid_1">
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/material_card_view_bca"
-                        style="?attr/materialCardViewFilledStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        app:cardBackgroundColor="?attr/colorSurface"
-                        app:cardCornerRadius="@dimen/grid_1">
-
-                        <Button
-                            android:id="@+id/button_bca"
-                            style="@style/Widget.Material3.Button.TextButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/grid_1"
-                            android:layout_weight="2"
-                            android:gravity="start"
-                            android:padding="@dimen/grid_2"
-                            android:text="@string/bca"
-                            android:textAppearance="?attr/textAppearanceHeadline6"
-                            app:cornerRadius="@dimen/grid_1" />
-
-                    </com.google.android.material.card.MaterialCardView>
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/div_height"
-                        android:layout_marginHorizontal="@dimen/grid_1" />
-
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/material_card_view_bba"
-                        style="?attr/materialCardViewFilledStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        app:cardBackgroundColor="?attr/colorSurface"
-                        app:cardCornerRadius="@dimen/grid_1">
-
-
-                        <Button
-                            android:id="@+id/button_bba"
-                            style="@style/Widget.Material3.Button.TextButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/grid_1"
-                            android:layout_weight="2"
-                            android:gravity="start"
-                            android:padding="@dimen/grid_2"
-                            android:text="@string/bba"
-                            android:textAppearance="?attr/textAppearanceHeadline6"
-                            app:cornerRadius="@dimen/grid_1" />
-
-                    </com.google.android.material.card.MaterialCardView>
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-        </RelativeLayout>
-    </ScrollView>
-</com.aatec.bit.custom_views.SaveScrollNestedScrollViewer>
+        <TextView
+            android:id="@+id/text_view_bba"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:text="@string/bba"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            app:layout_constraintEnd_toEndOf="@+id/image_button_bba"
+            app:layout_constraintStart_toStartOf="@+id/image_button_bba"
+            app:layout_constraintTop_toBottomOf="@+id/image_button_bba" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer>

@@ -9,7 +9,7 @@
     android:fillViewport="true"
     android:overScrollMode="always"
     android:paddingBottom="@dimen/bottom_nav_height"
-    tools:context="com.aatec.bit.fragments.home.HomeFragment">
+    tools:context=".ui.fragments.home.HomeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

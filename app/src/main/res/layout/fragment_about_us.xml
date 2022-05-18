@@ -15,7 +15,7 @@
     android:overScrollMode="always"
     android:paddingBottom="@dimen/bottom_app_bar_height"
     android:transitionGroup="true"
-    tools:context="com.aatec.bit.fragments.about_us.AboutUsFragment">
+    tools:context=".ui.fragments.about_us.AboutUsFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

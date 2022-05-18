@@ -17,7 +17,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:transitionGroup="true"
-    tools:context="com.aatec.bit.fragments.course.sem_choose.SemChooseFragment">
+    tools:context=".ui.fragments.course.sem_choose.SemChooseFragment">
 
     <include
         android:id="@+id/sem_chose_ext"

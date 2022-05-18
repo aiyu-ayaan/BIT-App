@@ -13,10 +13,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
-    tools:context="com.aatec.bit.fragments.view_image.ViewImageFragment">
+    tools:context=".ui.fragments.view_image.ViewImageFragment">
 
 
-    <com.aatec.bit.custom_views.ZoomClass
+    <com.aatec.bit.ui.custom_views.ZoomClass
         android:id="@+id/image_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -11,7 +11,7 @@
     android:fillViewport="true"
     android:overScrollMode="always"
     android:paddingBottom="@dimen/bottom_app_bar_height"
-    tools:context="com.aatec.bit.fragments.holiday.HolidayFragment">
+    tools:context=".ui.fragments.holiday.HolidayFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

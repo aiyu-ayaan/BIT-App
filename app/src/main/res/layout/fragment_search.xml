@@ -19,7 +19,7 @@
     android:background="?attr/colorSurface"
     android:orientation="vertical"
     android:transitionGroup="true"
-    tools:context="com.aatec.bit.fragments.search.SearchFragment">
+    tools:context=".ui.fragments.search.SearchFragment">
 
     <LinearLayout
         android:id="@+id/main_layout"
@@ -34,7 +34,7 @@
             android:background="@android:color/white"
             android:backgroundTint="@color/material_on_surface_stroke" />
 
-        <com.aatec.bit.custom_views.SaveScrollNestedScrollViewer
+        <com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer
             android:id="@+id/scroll_view_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -216,7 +216,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </com.aatec.bit.custom_views.SaveScrollNestedScrollViewer>
+        </com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer>
     </LinearLayout>
 
     <LinearLayout

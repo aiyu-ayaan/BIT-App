@@ -18,7 +18,7 @@
     android:clipToPadding="false"
     android:fillViewport="true"
     android:paddingBottom="@dimen/grid_1"
-    tools:context="com.aatec.bit.fragments.course.subject_handler.SubjectHandlerFragment">
+    tools:context=".ui.fragments.course.subject_handler.SubjectHandlerFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"

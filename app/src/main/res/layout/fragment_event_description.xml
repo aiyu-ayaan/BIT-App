@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.aatec.bit.fragments.event.event_description.EventDescriptionFragment">
+    tools:context=".ui.fragments.event.event_description.EventDescriptionFragment">
 
 
     <androidx.core.widget.NestedScrollView
