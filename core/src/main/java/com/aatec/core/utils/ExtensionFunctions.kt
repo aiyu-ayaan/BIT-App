@@ -817,7 +817,7 @@ fun Notice3.getImageLinkNotification(context: Context): String =
  * @author Ayaan
  * @since 4.0.5
  */
-fun Activity.openPlayStore(name: String = packageName) {
+fun Activity.openPlayStore(name: String) {
     startActivity(
         Intent(
             Intent.ACTION_VIEW,

@@ -14,7 +14,6 @@ import android.view.inputmethod.InputMethodManager
 import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -82,7 +81,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     R.id.homeFragment,
                     R.id.courseFragment,
                     R.id.attendanceFragment,
-                    R.id.noticeFragment
+                    R.id.noticeFragment,
+                    R.id.warningFragment
                 ),
                 drawer
             )
@@ -106,7 +106,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     R.id.nav_share -> this@MainActivity.openShareLink()
                     R.id.nav_bug -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
-                    R.id.nav_rate -> openPlayStore()
+                    R.id.nav_rate -> openPlayStore(packageName)
                     else -> {
 
                         NavigationUI.onNavDestinationSelected(it, navController)
@@ -121,6 +121,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         onDestinationChange()
         searchFragmentCommunication()
         checkForUpdate()
+        getWarning()
     }
 
     private fun onDestinationChange() {
@@ -215,7 +216,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 }
             }
             val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
-            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment) {
+            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
+                || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment
+            ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
             }
@@ -423,6 +426,31 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             appUpdateManager.completeUpdate()
         }
     }
+
+    private fun getWarning() {
+        val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
+        db.collection("Utils")
+            .document("Warning")
+            .addSnapshotListener { value, _ ->
+                val isEnable = value?.getBoolean("isEnable")
+                val title = value?.getString("title")
+                val link = value?.getString("link")
+                isEnable?.let { it ->
+                    if (it && u)
+                        openWarningDialog(title ?: "", link ?: "")
+                }
+            }
+    }
+
+    private fun openWarningDialog(title: String, link: String) {
+        try {
+            val action = NavGraphDirections.actionGlobalWarningFragment(title, link)
+            navController.navigate(action)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)

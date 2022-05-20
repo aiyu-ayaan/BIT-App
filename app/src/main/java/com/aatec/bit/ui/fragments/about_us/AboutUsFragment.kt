@@ -65,7 +65,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
                 navigateToFragmentComponentUse()
             }
             textViewPlayStore.setOnClickListener {
-                requireActivity().openPlayStore()
+                requireActivity().openPlayStore(requireActivity().packageName)
             }
             showContributors.apply {
                 addItemDecoration(

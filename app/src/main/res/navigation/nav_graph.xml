@@ -355,4 +355,26 @@
     <action
         android:id="@+id/action_global_settingDialog"
         app:destination="@id/settingDialog" />
+    <fragment
+        android:id="@+id/warningFragment"
+        android:name="com.aatec.bit.ui.fragments.warning.WarningFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_warning">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_warningFragment"
+        app:destination="@id/warningFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_homeFragment"
+        app:destination="@id/homeFragment"
+        app:popUpTo="@id/warningFragment"
+        app:popUpToInclusive="true" />
 </navigation>
