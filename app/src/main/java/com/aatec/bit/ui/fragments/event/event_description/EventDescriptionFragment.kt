@@ -29,6 +29,7 @@ import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
@@ -121,9 +122,11 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         val imgLink = event.poster_link
         insta = event.ins_link
         web = event.web_link
-
-        menuInsta.isVisible = insta.isNotBlank()
-        menuWeb.isVisible = web.isNotBlank()
+        lifecycleScope.launchWhenStarted {
+            delay(500)
+            menuInsta.isVisible = insta.isNotBlank()
+            menuWeb.isVisible = web.isNotBlank()
+        }
 
         val body = Html
             .fromHtml(
@@ -148,7 +151,7 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
             "text/html; charset=utf-8",
             "utf-8"
         )
-        val initialScale = getScale(400.0)
+        val initialScale = getScale()
         showContent.setInitialScale(initialScale)
         imgLink.loadImage(
             binding.root,
@@ -263,7 +266,8 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
     }
 
 
-    private fun getScale(contentWidth: Double): Int {
+    @Suppress("Deprecation")
+    private fun getScale(contentWidth: Double = 400.0): Int {
         return if (this.activity != null) {
             val displayMetrics = DisplayMetrics()
             this.requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)
