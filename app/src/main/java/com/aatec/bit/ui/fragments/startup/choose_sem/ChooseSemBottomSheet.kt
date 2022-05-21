@@ -1,4 +1,4 @@
-package com.aatec.bit.ui.fragments.start_up.choose_sem
+package com.aatec.bit.ui.fragments.startup.choose_sem
 
 import android.annotation.SuppressLint
 import android.app.Dialog

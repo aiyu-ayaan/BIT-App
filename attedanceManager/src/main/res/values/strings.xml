@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="list_all">List All</string>
-    <string name="setting">Setting</string>
-    <string name="add_subject_syllabus">Add Subject From Syllabus</string>
-    <string name="overallAttendance">Overall Attendance %s</string>
-    <string name="goal">Goal</string>
-    <string name="add_subject">Add Subject</string>
-</resources>

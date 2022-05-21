@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startUpFragment"
-        android:name="com.aatec.bit.ui.fragments.start_up.StartUpFragment"
+        android:name="com.aatec.bit.ui.fragments.startup.StartUpFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_set_up">
         <action
@@ -59,7 +59,7 @@
     </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.start_up.choose_sem.ChooseSemBottomSheet"
+        android:name="com.aatec.bit.ui.fragments.startup.choose_sem.ChooseSemBottomSheet"
         android:label="bottom_sheet_choose_sem"
         tools:layout="@layout/bottom_sheet_choose_sem">
         <action
@@ -377,4 +377,9 @@
         app:destination="@id/homeFragment"
         app:popUpTo="@id/warningFragment"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/timeTableFragment"
+        android:name="com.aatec.bit.ui.fragments.timetable.TimeTableFragment"
+        android:label="@string/title_table"
+        tools:layout="@layout/fragment_time_table" />
 </navigation>

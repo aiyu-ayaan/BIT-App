@@ -1,4 +1,4 @@
-package com.aatec.bit.ui.fragments.start_up
+package com.aatec.bit.ui.fragments.startup
 
 import android.content.SharedPreferences
 import android.os.Bundle

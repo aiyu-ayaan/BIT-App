@@ -11,7 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.start_up.choose_sem.ChooseSemBottomSheet">
+    tools:context=".ui.fragments.startup.choose_sem.ChooseSemBottomSheet">
 
     <TextView
         android:id="@+id/bottom_sheet_title"
