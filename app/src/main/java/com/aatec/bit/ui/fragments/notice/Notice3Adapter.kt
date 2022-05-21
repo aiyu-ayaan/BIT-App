@@ -6,7 +6,7 @@
  * Last modified 3/30/22, 9:24 PM
  */
 
-package com.aatec.bit.ui.Fragments.Notice.NoticeMain
+package com.aatec.bit.ui.fragments.notice
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

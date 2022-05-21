@@ -6,6 +6,7 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +14,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentNoticeBinding
-import com.aatec.bit.ui.Fragments.Notice.NoticeMain.Notice3Adapter
 import com.aatec.bit.utils.MainStateEvent
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.utils.DataState
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.onScrollChange
 import com.aatec.core.utils.showSnackBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
@@ -46,13 +48,13 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
+        restoreColor()
         val noticeAdapter = Notice3Adapter(db, { notice, view ->
             navigationToNotice3Description(notice, view)
         }, { it ->
             navigateToImageView(it)
         })
         binding.apply {
-
             showNotice.apply {
                 adapter = noticeAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -81,7 +83,7 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                 }
             }
         }
-//        detectScroll()
+        detectScroll()
     }
 
     private fun navigateToImageView(link: String) {
@@ -108,15 +110,37 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
      * @since 4.0.4
      * @author Ayaan
      */
-//    private fun detectScroll() {
-//        binding.showNotice.onScrollChange({
-//            viewModel.isColored.value = true
-//
-//        },
-//            {
-////                        Status bar
-//                viewModel.isColored.value = false
-//
-//            })
-//    }
+    private fun detectScroll() {
+        binding.showNotice.onScrollChange({
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar,
+                com.google.android.material.R.attr.colorSurface
+            )
+            viewModel.isColored.value = false
+        }, {
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar,
+                R.attr.bottomBar
+            )
+            viewModel.isColored.value = true
+        })
+    }
+
+    private fun restoreColor() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.isColored.collect {
+                if (it) {
+                    activity?.changeStatusBarToolbarColor(
+                        R.id.toolbar,
+                        R.attr.bottomBar
+                    )
+                } else {
+                    activity?.changeStatusBarToolbarColor(
+                        R.id.toolbar,
+                        com.google.android.material.R.attr.colorSurface
+                    )
+                }
+            }
+        }
+    }
 }

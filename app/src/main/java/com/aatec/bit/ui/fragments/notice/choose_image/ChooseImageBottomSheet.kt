@@ -10,7 +10,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
 import com.aatec.bit.databinding.BottomSheetChooseImageBinding
-import com.aatec.bit.ui.Fragments.Notice.NoticeMain.ImageGridAdapter
+import com.aatec.bit.ui.fragments.notice.ImageGridAdapter
 import com.aatec.core.utils.openShareImageDeepLink
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment

@@ -6,7 +6,7 @@
  * Last modified 3/14/22, 10:50 AM
  */
 
-package com.aatec.bit.ui.Fragments.Notice.NoticeMain
+package com.aatec.bit.ui.fragments.notice
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

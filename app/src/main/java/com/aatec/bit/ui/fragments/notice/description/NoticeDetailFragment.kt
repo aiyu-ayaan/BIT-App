@@ -2,6 +2,7 @@ package com.aatec.bit.ui.fragments.notice.description
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -17,7 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentNoticeDetailBinding
-import com.aatec.bit.ui.Fragments.Notice.NoticeMain.ImageGridAdapter
+import com.aatec.bit.ui.fragments.course.CourseFragment
+import com.aatec.bit.ui.fragments.notice.ImageGridAdapter
 import com.aatec.core.data.network.notice.Attach
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.data.ui.notice.SendNotice3
@@ -50,6 +52,9 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (myScrollViewerInstanceState != null) {
+            binding.nestedScrollViewNotice.onRestoreInstanceState(CourseFragment.myScrollViewerInstanceState)
+        }
         binding.root.transitionName = viewModel.path
         detectScroll()
         getNotice()
@@ -228,13 +233,17 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        activity?.changeStatusBarToolbarColor(
-            R.id.toolbar,
-            com.google.android.material.R.attr.colorSurface
-        )
+    data class FullNotice(val notice: DataState<Notice3>, val attach: DataState<List<Attach>>)
+
+
+    override fun onPause() {
+        super.onPause()
+        myScrollViewerInstanceState =
+            binding.nestedScrollViewNotice.onSaveInstanceState()
     }
 
-    data class FullNotice(val notice: DataState<Notice3>, val attach: DataState<List<Attach>>)
+    companion object {
+        var myScrollViewerInstanceState: Parcelable? = null
+    }
+
 }

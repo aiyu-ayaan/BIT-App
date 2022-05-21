@@ -3,7 +3,7 @@ buildscript {
         kotlin_version = "1.6.20"
         playStoreCoreVersion = "1.8.1"
         googleServiceVersion = '4.3.10'
-        coroutines = '1.6.0'
+        coroutines = '1.6.1'
         lifecycle_version = "2.4.1"
         fragment_version = "1.4.1"
         nav_version = "2.4.2"
@@ -11,7 +11,7 @@ buildscript {
         roomVersion = '2.4.2'
         glideVersion = '4.12.0'
         dataStoreVersion = "1.0.0"
-        lottiVersion = "3.4.0"
+        lottiVersion = "5.0.3"
         recyclerViewVersion = "1.2.1"
         recyclerViewSelectionVersion = "1.1.0"
         calendarVersion = "3.0.0"

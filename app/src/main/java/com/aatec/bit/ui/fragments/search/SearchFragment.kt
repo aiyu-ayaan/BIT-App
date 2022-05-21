@@ -27,7 +27,7 @@ import com.aatec.bit.ui.fragments.course.CourseFragment
 import com.aatec.bit.ui.fragments.event.EventAdapter
 import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
-import com.aatec.bit.ui.Fragments.Notice.NoticeMain.Notice3Adapter
+import com.aatec.bit.ui.fragments.notice.Notice3Adapter
 import com.aatec.core.data.preferences.SearchPreference
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
