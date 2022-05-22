@@ -19,10 +19,6 @@
                     android:icon="@drawable/ic_web"
                     android:title="@string/erp" />
                 <item
-                    android:id="@+id/timeTableFragment"
-                    android:icon="@drawable/ic_time_table"
-                    android:title="@string/title_table" />
-                <item
                     android:id="@id/holidayFragment"
                     android:icon="@drawable/ic_holiday"
                     android:title="@string/holidays" />

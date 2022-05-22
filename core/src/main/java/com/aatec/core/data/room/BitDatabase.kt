@@ -15,6 +15,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.aatec.core.data.room.attendance.*
 import com.aatec.core.data.room.event.DateConverter
 import com.aatec.core.data.room.event.EventCachedEntity
 import com.aatec.core.data.room.event.EventDao
@@ -25,9 +26,6 @@ import com.aatec.core.data.room.notice.Notice3Dao
 import com.aatec.core.data.room.syllabus.SyllabusDao
 import com.aatec.core.data.room.syllabus.SyllabusList
 import com.aatec.core.data.room.syllabus.SyllabusModel
-import com.aatec.core.data.room.timeTable.TimeTableCacheEntity
-import com.aatec.core.data.room.timeTable.TimeTableDao
-import com.aatec.core.data.room.attendance.*
 import com.aatec.core.utils.BitAppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -39,7 +37,6 @@ import javax.inject.Provider
         HolidayCacheEntity::class,
         AttendanceModel::class, EventCachedEntity::class,
         SyllabusModel::class, Notice3CacheEntity::class,
-        TimeTableCacheEntity::class
     ],
     version = 5
 )
@@ -55,7 +52,6 @@ abstract class BitDatabase : RoomDatabase() {
     abstract fun eventDao(): EventDao
     abstract fun syllabusDap(): SyllabusDao
     abstract fun notice3Dao(): Notice3Dao
-    abstract fun timeTableDao(): TimeTableDao
 
 
     companion object {
@@ -112,7 +108,6 @@ abstract class BitDatabase : RoomDatabase() {
         val migration_4_5 = object : Migration(4, 5) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE event_table ADD COLUMN path TEXT DEFAULT ''")
-                database.execSQL("CREATE TABLE `time_table_table`(`course` TEXT NOT NULL, `gender` TEXT NOT NULL, `sem` TEXT NOT NULL,`section` TEXT NOT NULL , `imageLink` TEXT NOT NULL ,`created` INTEGER NOT NULL , PRIMARY KEY(`created`))")
                 database.execSQL("CREATE TABLE `notice_3_table`(`title` TEXT NOT NULL, `body` TEXT NOT NULL, `link` TEXT NOT NULL, `sender` TEXT NOT NULL, `path` TEXT NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`title`))")
                 database.execSQL("DROP TABLE notice_table")
             }

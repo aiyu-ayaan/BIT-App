@@ -18,7 +18,6 @@ import com.aatec.core.data.ui.event.EventRepository
 import com.aatec.core.data.ui.holiday.Holiday
 import com.aatec.core.data.ui.holiday.HolidayRepository
 import com.aatec.core.data.ui.syllabus.SyllabusRepository
-import com.aatec.core.data.ui.timeTable.TimeTableRepository
 import com.aatec.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -35,7 +34,6 @@ class HomeViewModel @Inject constructor(
     private val attendanceDao: AttendanceDao,
     private val syllabusRepository: SyllabusRepository,
     private val eventRepository: EventRepository,
-    private val timeTableRepository: TimeTableRepository
 ) : ViewModel() {
 
 
@@ -94,17 +92,7 @@ class HomeViewModel @Inject constructor(
 
     val timeTableQuery = MutableStateFlow(QueryTimeTable())
 
-    val defTimeTable = timeTableQuery.flatMapLatest { it ->
-        timeTableRepository.getDefault(it.course, it.gender, it.sem, it.sec)
-    }
 
-
-    fun getDefault(
-        course: String,
-        gender: String,
-        sem: String,
-        sec: String
-    ) = timeTableRepository.getDefault(course, gender, sem, sec)
 }
 
 

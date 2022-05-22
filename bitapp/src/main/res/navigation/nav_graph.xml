@@ -377,9 +377,4 @@
         app:destination="@id/homeFragment"
         app:popUpTo="@id/warningFragment"
         app:popUpToInclusive="true" />
-    <fragment
-        android:id="@+id/timeTableFragment"
-        android:name="com.aatec.bit.ui.fragments.timetable.TimeTableFragment"
-        android:label="@string/title_table"
-        tools:layout="@layout/fragment_time_table" />
 </navigation>

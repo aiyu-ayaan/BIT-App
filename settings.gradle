@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "BIT App"
-include ':app'
+include ':bitapp'
 include ':core'
 include ':syllabus'
