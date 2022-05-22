@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?><!--
   ~ BIT Lalpur App
   ~
-  ~ Created by Ayaan on 2/10/22, 3:38 AM
+  ~ Created by Ayaan on 4/16/22, 12:09 PM
   ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 2/10/22, 3:28 AM
+  ~ Last modified 4/16/22, 12:00 PM
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,8 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    tools:context=".ui.fragments.attendance.list_all.ListAllBottomSheet">
+    tools:context=".ui.fragments.notice.choose_image.ChooseImageBottomSheet">
 
     <TextView
         android:id="@+id/bottom_sheet_title"
@@ -22,24 +21,22 @@
         android:layout_marginTop="16dp"
         android:drawablePadding="8dp"
         android:padding="4dp"
-        android:text="@string/list_all"
+        android:text="@string/choose_image"
         android:textStyle="bold"
         app:drawableStartCompat="@drawable/ic_arrow_downward"
         app:drawableTint="?attr/colorPrimary" />
 
-    <ImageButton
-        android:id="@+id/bt_delete_all"
+    <TextView
+        android:id="@+id/text_view_no_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="?attr/actionBarItemBackground"
         android:contentDescription="@string/done"
         android:padding="8dp"
-        android:src="@drawable/ic_delete_all"
-        android:tint="?attr/colorPrimary" />
-
+        android:text="@string/without_img"
+        android:textStyle="bold" />
 
     <com.google.android.material.divider.MaterialDivider
         android:id="@+id/divider"
@@ -50,22 +47,10 @@
         android:background="@color/underLine" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listAll"
+        android:id="@+id/recycler_view_select"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/divider"
         android:layout_marginHorizontal="@dimen/grid_1"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/min_padding_attendance" />
-
-
-    <ImageView
-        android:id="@+id/iv_add"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:alpha=".5"
-        android:contentDescription="@string/blank"
-        android:src="@drawable/ic_add_circle"
-        app:tint="?attr/colorPrimary" />
+        android:padding="@dimen/grid_1" />
 </RelativeLayout>

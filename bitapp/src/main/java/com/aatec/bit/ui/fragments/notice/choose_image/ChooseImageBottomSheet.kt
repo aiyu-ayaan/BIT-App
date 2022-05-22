@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
 import com.aatec.bit.databinding.BottomSheetChooseImageBinding
 import com.aatec.bit.ui.fragments.notice.ImageGridAdapter
+import com.aatec.core.utils.openShareDeepLink
 import com.aatec.core.utils.openShareImageDeepLink
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -42,8 +43,14 @@ class ChooseImageBottomSheet : BottomSheetDialogFragment() {
                 adapter = imageGridAdapter
                 layoutManager = LinearLayoutManager(requireContext())
             }
-            btDismiss.setOnClickListener {
+            bottomSheetTitle.setOnClickListener {
                 dismiss()
+            }
+            textViewNoImage.setOnClickListener {
+                requireActivity().openShareDeepLink(
+                    arg.notice.notice.title,
+                    arg.notice.notice.path,
+                )
             }
         }
         imageGridAdapter.submitList(arg.notice.attach)
