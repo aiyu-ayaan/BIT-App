@@ -14,7 +14,6 @@
         <activity
             android:name="com.aatec.bit.ui.activity.SplashScreen"
             android:exported="true"
-            android:launchMode="singleTask"
             android:theme="@style/Theme.customSplash">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.MAIN" />
@@ -26,6 +25,7 @@
         <activity
             android:name="com.aatec.bit.ui.activity.main_activity.MainActivity"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/Theme.BITApp"
             android:windowSoftInputMode="adjustResize">
 

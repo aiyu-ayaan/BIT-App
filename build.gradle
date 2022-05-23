@@ -21,7 +21,7 @@ buildscript {
         browserVersion = "1.4.0"
         webKit_version = "1.4.0"
         palette_version = "28.0.0"
-        splashScreenVersion = "1.0.0-beta02"
+        splashScreenVersion = "1.0.0-rc01"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.10'
