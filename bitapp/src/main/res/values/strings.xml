@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BIT App</string>
+    <string name="app_name">BIT App \n\'Early Access\'</string>
     <!--    FCM -->
     <string name="topic_notice">BITAppNotice</string>
     <string name="topic_event">BITAppEvent</string>

@@ -8,6 +8,8 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentDetailDevBinding
 import com.aatec.core.utils.loadImageCircular
@@ -58,6 +60,16 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                 }
                 linkedin.setOnClickListener {
                     dev.linkedin.openLinks(requireActivity(), R.string.no_intent_available)
+                }
+                photo.setOnClickListener {
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+                    findNavController().navigate(
+                        NavGraphDirections.actionGlobalViewImageFragment(
+                            dev.img_link,
+                            dev.name
+                        )
+                    )
                 }
             }
         }
