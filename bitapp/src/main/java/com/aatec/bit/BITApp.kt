@@ -41,10 +41,10 @@ class BITApp : Application() {
     }
 
     private fun setUpFcm() {
-        fcm.subscribeToTopic("Notice")
-        fcm.subscribeToTopic("Event")
-        fcm.subscribeToTopic("App")
-        fcm.subscribeToTopic("Update")
+        fcm.subscribeToTopic(resources.getString(R.string.topic_notice))
+        fcm.subscribeToTopic(resources.getString(R.string.topic_event))
+        fcm.subscribeToTopic(resources.getString(R.string.topic_app))
+        fcm.subscribeToTopic(resources.getString(R.string.topic_update))
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

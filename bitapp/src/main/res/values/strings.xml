@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">BIT App \n\'Early Access\'</string>
+    <string name="app_name">BIT App</string>
     <!--    FCM -->
-    <string name="topic_notice">BITAppNotice</string>
-    <string name="topic_event">BITAppEvent</string>
-    <string name="topic_update">BITAppUpdate</string>
-    <string name="topic_app">BITAppAppNotification</string>
+    <string name="topic_notice">Notice</string>
+    <string name="topic_event">Event</string>
+    <string name="topic_update">Update</string>
+    <string name="topic_app">App</string>
     <!--    App -->
-    <string name="app_version">4.0.5</string>
-    <string name="full_version">Version 4.0.5</string>
+    <string name="app_version">4.0.4.5 beta</string>
+    <string name="full_version">Version 4.0.4.5 beta</string>
     <string name="instaLink">https://www.instagram.com/bit_lalpur_app</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 

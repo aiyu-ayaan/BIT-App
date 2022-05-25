@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager
 import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -40,6 +41,9 @@ import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,6 +59,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     private val communicator: CommunicatorViewModel by viewModels()
     private val prefManager: PreferenceManagerViewModel by viewModels()
     private lateinit var searchPreference: SearchPreference
+    private var reviewInfo: ReviewInfo? = null
+    private lateinit var reviewManager: ReviewManager
 
     @Inject
     lateinit var db: FirebaseFirestore
@@ -89,31 +95,24 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             setSupportActionBar(toolbar)
             bottomNavigation.setupWithNavController(navController)
             bottomNavigation.setOnItemSelectedListener {
-                if (it.itemId == R.id.homeFragment) {
+                if (it.itemId == R.id.homeFragment)
                     navController.popBackStack(R.id.homeFragment, false)
-                } else {
+                else
                     NavigationUI.onNavDestinationSelected(it, navController)
-                }
                 true
             }
             setupActionBarWithNavController(navController, appBarConfiguration)
             navigationView.setupWithNavController(navController)
             navigationView.setNavigationItemSelectedListener {
-
                 when (it.itemId) {
                     R.id.nav_connect -> resources.getString(R.string.instaLink)
                         .openLinks(this@MainActivity, R.string.no_intent_available)
                     R.id.nav_share -> this@MainActivity.openShareLink()
                     R.id.nav_bug -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
-                    R.id.nav_rate -> openPlayStore(packageName)
-                    else -> {
-
-                        NavigationUI.onNavDestinationSelected(it, navController)
-                    }
-
+                    R.id.nav_rate -> startReviewFlow()
+                    else -> NavigationUI.onNavDestinationSelected(it, navController)
                 }
-                drawer.closeDrawer(GravityCompat.START)
                 true
             }
         }
@@ -122,6 +121,30 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         searchFragmentCommunication()
         checkForUpdate()
         getWarning()
+        shareReview()
+    }
+
+    private fun shareReview() {
+        reviewManager = ReviewManagerFactory.create(this)
+        val managerInfoTask = reviewManager.requestReviewFlow()
+        managerInfoTask.addOnCompleteListener { task ->
+            if (task.isSuccessful)
+                reviewInfo = task.result
+            else
+                Toast.makeText(this, "Review failed to start", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun startReviewFlow() {
+        if (reviewInfo != null)
+            reviewManager.launchReviewFlow(this, reviewInfo!!)
+                .addOnCompleteListener {
+                    Toast.makeText(this, "Review is completed", Toast.LENGTH_SHORT).show()
+                }
+        else
+            openPlayStore(packageName)
+
+
     }
 
     private fun onDestinationChange() {
@@ -131,15 +154,12 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.attendanceFragment,
                 R.id.homeFragment,
                 R.id.courseFragment
-                -> {
-                    getCurrentFragment().apply {
-                        setDrawerEnabled(true)
-                    }
+                -> getCurrentFragment().apply {
+                    setDrawerEnabled(true)
                 }
-                else -> {
-                    getCurrentFragment().apply {
-                        setDrawerEnabled(false)
-                    }
+
+                else -> getCurrentFragment().apply {
+                    setDrawerEnabled(false)
                 }
 
             }
@@ -153,9 +173,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     searchInput.isEnabled = true
                     searchInput.requestFocus()
                     when {
-                        communicator.openFirst -> {
+                        communicator.openFirst ->
                             showKeyboard()
-                        }
                     }
                 }
             else
@@ -164,9 +183,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.homeFragment, R.id.noticeFragment, R.id.attendanceFragment,
                 R.id.courseFragment, R.id.holidayFragment, R.id.societyFragment,
                 R.id.eventFragment, R.id.aboutUsFragment,
-                -> {
-                    setExitTransition()
-                }
+                -> setExitTransition()
             }
 
             when (destination.id) {
@@ -175,12 +192,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
                 R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.searchFragment
-                -> {
-                    changeStatusBarToolbarColor(
-                        R.id.toolbar,
-                        R.attr.bottomBar
-                    )
-                }
+                -> changeStatusBarToolbarColor(
+                    R.id.toolbar,
+                    R.attr.bottomBar
+                )
+
                 else -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     com.google.android.material.R.attr.colorSurface
@@ -192,12 +208,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
                 R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                -> {
-                    changeBottomNav(R.attr.bottomBar)
-                }
-                else -> {
+                -> changeBottomNav(R.attr.bottomBar)
+
+                else ->
                     changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
-                }
+
             }
             when (destination.id) {
                 R.id.startUpFragment, R.id.noticeDetailFragment,
