@@ -78,13 +78,5 @@ object RoomModule {
         noticeDatabase.notice3Dao()
 
 
-    @Singleton
-    @Provides
-    fun getCalender(): Calendar = Calendar.getInstance()
-
-    @BitAppScope
-    @Singleton
-    @Provides
-    fun provideApplicationScope() = CoroutineScope(SupervisorJob())
 
 }
