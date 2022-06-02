@@ -21,9 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
+import com.aatec.bit.databinding.FragmentHomeBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
-import com.aatec.bit.databinding.FragmentHomeBinding
 import com.aatec.bit.ui.fragments.home.adapter.EventHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
@@ -130,93 +130,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         holidayAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
-
-
-//    private fun setTimeTable() {
-//        binding.layoutTimeTableExt.apply {
-//            settingTimeTable.setOnClickListener {
-////                navigateToTimeTableSetting()
-//            }
-//        }
-//        lifecycleScope.launchWhenStarted {
-//            preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { p ->
-//                if (p.firstOpenTimeTable) {
-//                    binding.layoutTimeTableExt.parentTimeTable.isVisible = false
-//                } else {
-//                    lifecycleScope.launchWhenStarted {
-//                        viewModel.defTimeTable.collectLatest { defTT ->
-//                            when (defTT) {
-//                                DataState.Empty -> {
-//                                    Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT)
-//                                        .show()
-//                                }
-//                                is DataState.Error -> {
-//                                    binding.layoutTimeTableExt.parentTimeTable.isVisible = false
-//                                }
-//                                DataState.Loading -> {}
-//                                is DataState.Success -> {
-//                                    setViewTimeTable(defTT)
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//
-//                viewModel.timeTableQuery.value = QueryTimeTable(
-//                    p.timeTablePreferences.course,
-//                    p.timeTablePreferences.gender.name,
-//                    p.timeTablePreferences.sem,
-//                    p.timeTablePreferences.section.name
-//                )
-//            }
-//        }
-//    }
-
-//    private fun setViewTimeTable(defTT: DataState.Success<TimeTableModel>) {
-//        binding.layoutTimeTableExt.parentTimeTable.isVisible = true
-//        binding.layoutTimeTableExt.defaultTitleTable.apply {
-//            binding.layoutTimeTableExt.defaultTitleTable.cardViewTt.setOnClickListener {
-//                navigateToViewImage(
-//                    defTT.data.imageLink,
-//                    resources.getString(
-//                        R.string.time_table_title,
-//                        defTT.data.course,
-//                        defTT.data.sem,
-//                        defTT.data.gender,
-//                        defTT.data.section
-//                    )
-//                )
-//            }
-//            defTT.data.imageLink.loadImageDefault(
-//                binding.root,
-//                binding.layoutTimeTableExt.defaultTitleTable.imageViewTimeTable,
-//                binding.layoutTimeTableExt.defaultTitleTable.progressBarDev,
-//                R.drawable.ic_running_error
-//            )
-//            binding.layoutTimeTableExt.defaultTitleTable.textViewTimeTableName.text =
-//                binding.root.context.resources.getString(
-//                    R.string.time_table_title,
-//                    defTT.data.course,
-//                    defTT.data.sem,
-//                    defTT.data.gender,
-//                    defTT.data.section
-//                )
-//            binding.layoutTimeTableExt.defaultTitleTable.textViewTimeTableUpdated.text =
-//                binding.root.context.resources.getString(
-//                    R.string.time_table_update,
-//                    defTT.data.created.convertLongToTime("dd/MM/yyyy")
-//                )
-//        }
-//
-//    }
-
-
-//    private fun navigateToViewImage(link: String, title: String) {
-//        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-//        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
-//        val action = NavGraphDirections.actionGlobalFragmentViewImage(link, title)
-//        findNavController().navigate(action)
-//    }
 
 
     /**
@@ -446,18 +359,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     binding.apply {
                         textHoliday.isVisible = true
                         showHoliday.isVisible = true
+                        textShowAllHoliday.isVisible = true
                     }
                     holidayAdapter.submitList(dateState.data)
                 }
-                DataState.Empty -> {
-                    binding.apply {
-                        textHoliday.isVisible = false
-                        showHoliday.isVisible = false
-                    }
+                DataState.Empty -> binding.apply {
+                    textHoliday.isVisible = false
+                    showHoliday.isVisible = false
+                    textShowAllHoliday.isVisible = false
                 }
-                is DataState.Error -> {
+
+                is DataState.Error ->
                     binding.root.showSnackBar("${dateState.exception.message}", -1)
-                }
+
                 DataState.Loading -> {
                 }
             }

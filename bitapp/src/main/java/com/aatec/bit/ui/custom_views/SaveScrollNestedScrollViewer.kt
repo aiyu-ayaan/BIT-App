@@ -25,7 +25,7 @@ class SaveScrollNestedScrollViewer : NestedScrollView {
     )
 
 
-    public override fun onSaveInstanceState(): Parcelable? {
+    public override fun onSaveInstanceState(): Parcelable {
         return super.onSaveInstanceState()
     }
 

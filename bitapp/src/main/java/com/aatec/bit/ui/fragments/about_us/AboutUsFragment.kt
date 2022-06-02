@@ -44,11 +44,11 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         restoreScroll()
-        val devAdapter = DevsAdapter { devs, view ->
-            setOnAboutUsClickListener(devs, view)
+        val devAdapter = DevsAdapter { devs ->
+            setOnAboutUsClickListener(devs)
         }
-        val contributorAdapter = DevsAdapter { devs, view ->
-            setOnAboutUsClickListener(devs, view)
+        val contributorAdapter = DevsAdapter { devs ->
+            setOnAboutUsClickListener(devs)
         }
         binding.apply {
             showDevs.apply {
@@ -175,7 +175,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         }
     }
 
-    private fun setOnAboutUsClickListener(devs: Devs, view: View) {
+    private fun setOnAboutUsClickListener(devs: Devs) {
         try {
             exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
             reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)

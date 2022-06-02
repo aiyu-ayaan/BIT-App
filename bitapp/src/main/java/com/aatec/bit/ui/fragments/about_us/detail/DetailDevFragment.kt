@@ -63,7 +63,8 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                 }
                 photo.setOnClickListener {
                     exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+                    reenterTransition =
+                        MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
                     findNavController().navigate(
                         NavGraphDirections.actionGlobalViewImageFragment(
                             dev.img_link,

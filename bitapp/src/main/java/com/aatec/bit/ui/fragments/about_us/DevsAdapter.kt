@@ -11,18 +11,17 @@
 package com.aatec.bit.ui.fragments.about_us
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.R
 import com.aatec.bit.databinding.RowDevlopersBinding
-import com.aatec.core.utils.loadImageCircular
 import com.aatec.core.data.network.aboutus.Devs
+import com.aatec.core.utils.loadImageCircular
 
 class DevsAdapter(
-    private val listener: (devs: Devs, view: View) -> Unit
+    private val listener: (devs: Devs) -> Unit
 ) : ListAdapter<Devs, DevsAdapter.DevsViewHolder>(DiffUtilsDevs()) {
 
     inner class DevsViewHolder(private val binding: RowDevlopersBinding) :
@@ -32,7 +31,7 @@ class DevsAdapter(
             binding.root.setOnClickListener {
                 val position = absoluteAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    listener.invoke(getItem(position), binding.root)
+                    listener.invoke(getItem(position))
                 }
             }
         }

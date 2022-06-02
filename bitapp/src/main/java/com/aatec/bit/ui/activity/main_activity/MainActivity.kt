@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -18,9 +17,6 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.pm.ShortcutInfoCompat
-import androidx.core.content.pm.ShortcutManagerCompat
-import androidx.core.graphics.drawable.IconCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
@@ -135,7 +131,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             if (task.isSuccessful)
                 reviewInfo = task.result
             else
-                Toast.makeText(this, "Review failed to start", Toast.LENGTH_SHORT).show()
+                Log.e(ERROR_LOG, "shareReview:  Can't open review manager")
         }
     }
 
