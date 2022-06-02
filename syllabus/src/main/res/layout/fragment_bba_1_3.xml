@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:17 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10.0dip"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardCornerRadius="14.0dip">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Introduction To Business Accounting"
+                android:textColor="@color/textColorSubTitle"
+                android:textSize="32.0dip"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="14.0dip"
+            app:cardElevation="0.0dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10.0dip"
+                    android:text="Module – I Accounting "
+                    android:textColor="@color/textColor"
+                    android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center"
+                    android:layout_marginTop="20.0dip"
+                    android:layout_marginBottom="10.0dip"
+                    android:lineSpacingMultiplier="1.1"
+                    android:padding="5.0dip"
+                    android:textIsSelectable="true"
+                    android:text="Basics of Accounting, Accounting Mechanics (Double Entry System, Classification, Golden Rules, Concepts and Conventions.)Journal: Meaning, Advantages, Ledger meaning, Posting and Balancing, Trial Balance Objectives, defects, locating errors and preparations of Trial Balance, Subdivision of journal-daybook."
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/textColorSecondary"
+                    android:textStyle="italic" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="14.0dip"
+            app:cardElevation="0.0dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10.0dip"
+                    android:text="Module – II"
+                    android:textColor="@color/textColor"
+                    android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20.0dip"
+                    android:layout_marginBottom="10.0dip"
+                    android:lineSpacingMultiplier="1.1"
+                    android:paddingLeft="4.0dip"
+                    android:textIsSelectable="true"
+                    android:text="Trading Account, Profit and Loss Account, Balance sheet, Closing entries, Assets and their Classification, Liabilities and their Classification, Uses and Limitations of Balance sheet. "
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textColor="@color/textColorSecondary"
+                    android:textStyle="italic" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:textIsSelectable="true"
+                android:text="Capital and Revenue Expenditure and Receipts: Rules for Determining Capital Expenditure and Revenue Expenditure, Deferred Revenue Expenditure, Capital and Revenue Receipts, Capital and Revenue Profit and Loss."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV Accounting for Non-Profit Organization"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:textIsSelectable="true"
+                android:text="Accounting Procedures, Receipts and Payments Accounts, Distinction between Receipts and Payments Accounts, Income and Expenditure Account problems. "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Parties to a Bills of Exchange, Types, Promissory Notes, Distinction between Promissory Notes and Bills of Exchange, Dishonor of Bills, preparation of Bank Reconciliation. "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Hanif and Mukherjee(2003) ,Modern Accountancy Volume 1,Tata McGraw Hill Publishing Company Limited,New Delhi,2nd Edition. \n\n 2. Grewal ,T.S(2003) Introduction to Accountanct: S.Chand&amp; Company Ltd. \n\n 3. Tulsian P.C ,Financial Accounting, pearson,sixteenth impression,2015"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="1. Robert . N. Anthony,David F Hawkins,Kenneth A Merchant(2004) ,Accounting Text and Cases,Tata Mc Graw Hill Publishing Company Ltd. ,New Delhi,!!th Edition \n\n 2. Frank Wood &amp; Alan Sanger (2008), Business Accounting,Pearson Education Ltd.,11th Edition"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Data Structures Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:gravity="left"
+                android:text="SYLLABUS"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="1. Program to Find the Number of Elements in an Array \n\n2. Develop and Implement a menu driven program in C for the following Array operations a. Creating Array of N Integer elements. b. Display of Array elements with suitable headings. c. Inserting an element (ELEM) at a given valid position (POS). d. Deleting an element at a given valid position (POS). e. Exit \n\n3. Programs for Stack, Queues and Circular Queues using Arrays \n\n4. Program to convert an Infix Expression into Postfix and Postfix Evaluation \n\n5. Program to implement stack using arrays \n\n6. Program to implement stack using linked list \n\n7. Program to implement multiple stack in a single array \n\n8. Program to convert infix notation to postfix notation using stacks \n\n9. Program to implement queue using arrays \n\n10. Program to implement queue using pointers \n\n11. Program to reverse elements in a queue \n\n12. Program to implement circular queue using arrays \n\n13. Program to create add remove &amp; display element from single linked list \n\n14. Program to create add remove &amp; display element from double linked list \n\n15. Program to count number of nodes in linear linked list \n\n16. Program to create add remove &amp; display element from circular linked list \n\n17. Programs to implement stack &amp; queues using linked representation \n\n18. Program to concatenate two linear linked lists \n\n19. Program to accept a singly linked list of integers &amp; sort the list in ascending order. \n\n20. Program to reverse linked list \n\n21. Program to represent polynomial using linked list \n\n22. Program to add two polynomials using linked list \n\n23. Program for the creation of binary tree, provide insertion &amp; deletion in c \n\n24. Program for pre-order, post-order &amp; in-order traversals of a binary tree using non recursive. \n\n25. Program to count no, of leaves of binary tree \n\n26. Program for implementation of B-tree (insertion &amp; deletion) \n\n27. Program for implementation of multi-way tree in c \n\n28. Program for implementation of AVL tree \n\n29. Program to implement bubble sort program using arrays \n\n30. Program to implement merge sort using arrays \n\n31. Program to implement selection sort program using arrays \n\n32. Program to implement insertion sort program using arrays \n\n33. Program to implement topological sort using arrays \n\n34. Program to implement heap sort using arrays \n\n35. Program to implement heap sort using pointers \n\n36. Program to implement bubble sort program using pointers \n\n37. Program to implement linear search using pointers \n\n38. Program to implement binary search using pointers \n\n39. Program to implement linear search using arrays \n\n40. Program to implement binary search using arrays"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Baluja G S, “Data Structure through C”, Ganpat Rai Publication, New Delhi, 2015.                 \n\n 2. Pai G A V, “Data Structures and Algorithms: Concepts, Techniques and Applications”, 2nd Edn, Tata McGraw-Hill, 2008.                 \n\n 3. Horowitz E., Sahni S., Susan A., “Fundamentals of Data Structures in C”, 2nd Edition, University Press, 2010."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Tremblay J. P., Sorenson P. G, “An Introduction to Data Structures with Applications”, 2nd Edn, McGraw-Hill, Inc. New York, NY, USA.                 \n\n 2. Lipschutz Seymour, “Data Structures”, 6th Edn, 9th Reprint 2008, Tata McGraw-Hill.                 \n\n 3. Drozdek Adam, “Data Structures and Algorithms in C++”, Thomson Learning, New Delhi – 2007.                 \n\n 4. Feller J., Fitzgerald B., “Understanding Open Source Software Development”, Pearson Education Ltd. New Delhi"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

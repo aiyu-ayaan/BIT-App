@@ -25,18 +25,25 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.view.View
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
+import android.widget.Toast
+import androidx.annotation.*
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.widget.NestedScrollView
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.recyclerview.widget.RecyclerView
+import com.aatec.core.R
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.IsPresent
-import com.aatec.core.R
+import com.aatec.core.data.ui.notice.Notice3
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -44,8 +51,11 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
@@ -57,27 +67,32 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
+inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) -> Unit)) =
+    this.addOnDestinationChangedListener { _, destination, _ ->
+        des.invoke(destination)
+    }
+
 /**
  * Open Link
  * @param activity Current Activity
  * @author Ayaan
  * @since 4.0.2
 // */
-//fun String.openLinks(activity: Activity) {
-//    try {
-//        activity.startActivity(
-//            Intent(Intent.ACTION_VIEW).also {
-//                it.data = Uri.parse(this)
-//            }
-//        )
-//    } catch (e: Exception) {
-//        Toast.makeText(
-//            activity,
-//            activity.resources.getString(R.string.no_intent_available),
-//            Toast.LENGTH_SHORT
-//        ).show()
-//    }
-//}
+fun String.openLinks(activity: Activity, @StringRes string: Int) {
+    try {
+        activity.startActivity(
+            Intent(Intent.ACTION_VIEW).also {
+                it.data = Uri.parse(this)
+            }
+        )
+    } catch (e: Exception) {
+        Toast.makeText(
+            activity,
+            activity.resources.getString(string),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+}
 
 /**
  * Load Image in ImageView in
@@ -214,8 +229,8 @@ fun String.loadImageDefault(
 
 fun String.loadImageBitMap(
     parentView: View,
+    @DrawableRes errorImage: Int,
     customAction: ((Bitmap?) -> Unit)? = null,
-    @DrawableRes errorImage: Int
 ) {
     Glide.with(parentView)
         .asBitmap()
@@ -244,69 +259,69 @@ fun String.loadImageBitMap(
         }).submit(100, 100)
 }
 //
-///**
-// * Extension function to open Compose Activity
-// * @author Ayaan
-// * @since 4.0.3
-// */
-//fun Activity.openBugLink() =
-//    this.startActivity(
-//        Intent.createChooser(
-//            Intent()
-//                .also {
-//                    it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
-//                    it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.bug_repost))
-//                    it.type = "text/html"
-//                    it.setPackage(resources.getString(R.string.gmail_package))
-//                }, resources.getString(R.string.bug_title)
-//        )
-//    )
+/**
+ * Extension function to open Compose Activity
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openBugLink() =
+    this.startActivity(
+        Intent.createChooser(
+            Intent()
+                .also {
+                    it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
+                    it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.bug_repost))
+                    it.type = "text/html"
+                    it.setPackage(resources.getString(R.string.gmail_package))
+                }, resources.getString(R.string.bug_title)
+        )
+    )
+
+
+/**
+ *Extension function to share link
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openShareLink() =
+    this.startActivity(Intent.createChooser(Intent().apply {
+
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
+                    "${resources.getString(R.string.play_store_link)}$packageName"
+        )
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
 //
-//
-///**
-// *Extension function to share link
-// * @author Ayaan
-// * @since 4.0.3
-// */
-//fun Activity.openShareLink() =
-//    this.startActivity(Intent.createChooser(Intent().apply {
-//
-//        action = Intent.ACTION_SEND
-//        putExtra(
-//            Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
-//                    "${resources.getString(R.string.play_store_link)}$packageName"
-//        )
-//        type = "text/plain"
-//        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
-//
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//    }, null))
-//
-///**
-// *Extension function to open Share
-// * @author Ayaan
-// * @since 4.0.3
-// */
-//fun Activity.openShareDeepLink(title: String, path: String) =
-//    this.startActivity(Intent.createChooser(Intent().apply {
-//        action = Intent.ACTION_SEND
-//        putExtra(
-//            Intent.EXTRA_TEXT, """
-//            $title .
-//            Link: ${
-//                Uri.parse(
-//                    resources.getString(R.string.deep_link_share_link, path.trim())
-//                )
-//            }
-//
-//            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
-//        """.trimIndent()
-//        )
-//        type = "text/plain"
-//        putExtra(Intent.EXTRA_TITLE, title)
-//
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//    }, null))
+/**
+ *Extension function to open Share
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openShareDeepLink(title: String, path: String) =
+    this.startActivity(Intent.createChooser(Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT, """
+            $title .
+            Link: ${
+                Uri.parse(
+                    resources.getString(R.string.deep_link_share_link, path.trim())
+                )
+            }
+
+            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
+        """.trimIndent()
+        )
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TITLE, title)
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
 
 
 /**
@@ -324,7 +339,6 @@ fun String.replaceNewLineWithBreak() =
  * @author Ayaan
  * @since 4.0.2
  * @see com.aatec.bit.utils.applyImageUrl()
- * @see com.aatec.bit.Service.FcmService
  * @deprecated This Function is Deprecated. Use {@link com.aatec.core.utils.applyImageUrl()}
  */
 fun String.converterLinkToBitmap(): Bitmap? =
@@ -417,7 +431,12 @@ inline fun AttendanceModel.showUndoMessage(
     ).setAction("Undo") {
         action.invoke(this)
     }.apply {
-        this.setBackgroundTint(ContextCompat.getColor(parentView.context, R.color.cardBackground))
+        this.setBackgroundTint(
+            MaterialColors.getColor(
+                parentView.context,
+                com.google.android.material.R.attr.colorSurface, Color.WHITE
+            )
+        )
         this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
         this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
     }.show()
@@ -434,9 +453,9 @@ fun View.showSnackBar(message: String, duration: Int) =
         duration
     ).apply {
         this.setBackgroundTint(
-            ContextCompat.getColor(
-                this@showSnackBar.context,
-                R.color.cardBackground
+            MaterialColors.getColor(
+                this.context,
+                com.google.android.material.R.attr.colorSurface, Color.WHITE
             )
         )
         this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
@@ -572,9 +591,9 @@ inline fun RecyclerView.onScrollChange(
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0)
-                    lambda1.invoke(recyclerView)
-                else if (dy < 0)
                     lambda2.invoke(recyclerView)
+                else if (dy < 0)
+                    lambda1.invoke(recyclerView)
             }
         }
     )
@@ -585,34 +604,43 @@ inline fun RecyclerView.onScrollChange(
  * @since 4.0.4
  * @author Ayaan
 // */
-//fun Activity.changeStatusBarToolbarColor(@ColorRes colorCode: Int) =
-//    this.apply {
-//        try {
-//            val window = window
-//            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window?.statusBarColor = ContextCompat.getColor(this, colorCode)
-//            this.toolbar?.setBackgroundColor(ContextCompat.getColor(this, colorCode))
-//        } catch (e: Exception) {
-//            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+fun Activity.changeStatusBarToolbarColor(@IdRes id: Int, @AttrRes colorCode: Int) =
+    this.apply {
+        try {
+            val window = window
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.statusBarColor = MaterialColors.getColor(
+                this,
+                colorCode,
+                Color.WHITE
+            )
+            this.findViewById<Toolbar>(id).setBackgroundColor(
+                MaterialColors.getColor(
+                    this,
+                    colorCode,
+                    Color.WHITE
+                )
+            )
+        } catch (e: Exception) {
+            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
-///**
-// * Change Color of ImageView
-// * @since 4.0.5
-// * @author Ayaan
-// */
-//fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) =
-//    this.apply {
-//        try {
-//            val window = window
-//            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window?.statusBarColor = colorCode
-//            this.toolbar?.setBackgroundColor(colorCode)
-//        } catch (e: Exception) {
-//            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+/**
+ * Change Color of ImageView
+ * @since 4.0.5
+ * @author Ayaan
+ */
+fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) =
+    this.apply {
+        try {
+            val window = window
+            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window?.statusBarColor = colorCode
+        } catch (e: Exception) {
+            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 /**
  * Change Status Bar Color
@@ -639,29 +667,44 @@ fun getPendingIntentFlag() =
         PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
 
 
-///**
-// * Open Custom Tab
-// * @since 4.0.4
-// * @author Ayaan
-// */
-//fun Context.openCustomChromeTab(link: String) = this.run {
-//    val defaultColors = CustomTabColorSchemeParams.Builder()
-//        .setToolbarColor(ContextCompat.getColor(this, R.color.accent_color))
-//        .build()
-//    val customTabIntent =
-//        CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
-//    customTabIntent.intent.`package` = "com.android.chrome"
-//    customTabIntent.launchUrl(this, Uri.parse(link))
-//}
+/**
+ * Open Custom Tab
+ * @since 4.0.4
+ * @author Ayaan
+ */
+fun Context.openCustomChromeTab(link: String) = this.run {
+    val defaultColors = CustomTabColorSchemeParams.Builder()
+        .setToolbarColor(
+            MaterialColors.getColor(
+                this,
+                androidx.appcompat.R.attr.colorAccent,
+                Color.RED
+            )
+        )
+        .build()
+    val customTabIntent =
+        CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
+    customTabIntent.intent.`package` = "com.android.chrome"
+    customTabIntent.launchUrl(this, Uri.parse(link))
+}
 
 /**
  * BottomNav Change color
  * @since 4.0.4
  * @author Ayaan
  */
-fun Activity.changeBottomNav(@ColorRes color: Int) = this.apply {
+fun Activity.changeBottomNav(@AttrRes color: Int) = this.apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
-        window.navigationBarColor = ContextCompat.getColor(this, color)
+        window.navigationBarColor = MaterialColors.getColor(
+            this,
+            color,
+            Color.RED
+        )
+}
+
+fun Activity.changeBottomNavColor(@ColorInt color: Int) = this.apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
+        window.navigationBarColor = color
 }
 
 /**
@@ -716,44 +759,45 @@ fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 }
 
 
-///**
-// *Extension function to open Share
-// * @author Ayaan
-// * @since 4.0.5
-// */
-//fun Activity.openShareImageDeepLink(
-//    context: Context,
-//    title: String,
-//    path: String,
-//    imageLink: String,
-//    share_type: String = "event"
-//) =
-//    this.startActivity(Intent.createChooser(Intent().apply {
-//        action = Intent.ACTION_SEND
-//        putExtra(Intent.EXTRA_STREAM, getImageUri(context, imageLink.converterLinkToBitmap()!!))
-//        putExtra(
-//            Intent.EXTRA_TEXT, """
-//            $title .
-//            Link: ${
-//                Uri.parse(
-//                    when (share_type) {
-//                        "event" -> resources.getString(
-//                            R.string.deep_link_share_event_link,
-//                            path.trim()
-//                        )
-//                        else -> resources.getString(R.string.deep_link_share_link, path.trim())
-//                    }
-//                )
-//            }
-//
-//            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
-//        """.trimIndent()
-//        )
-//        type = "image/*"
-//        putExtra(Intent.EXTRA_TITLE, title)
-//
-//        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-//    }, null))
+/**
+ *Extension function to open Share
+ * @author Ayaan
+ * @since 4.0.5
+ */
+fun Activity.openShareImageDeepLink(
+    context: Context,
+    title: String,
+    path: String,
+    imageLink: String,
+    share_type: String = "event"
+) =
+    this.startActivity(Intent.createChooser(Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(Intent.EXTRA_STREAM, getImageUri(context, imageLink.converterLinkToBitmap()!!))
+        putExtra(
+            Intent.EXTRA_TEXT, """
+            $title .
+            Link: ${
+                Uri.parse(
+                    when (share_type) {
+                        "event" -> resources.getString(
+                            R.string.deep_link_share_event_link,
+                            path.trim()
+                        )
+                        else -> resources.getString(R.string.deep_link_share_link, path.trim())
+                    }
+                )
+            }
+
+            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
+        """.trimIndent()
+        )
+        type = "image/*"
+        putExtra(Intent.EXTRA_TITLE, title)
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
+
 //
 //
 ///**
@@ -761,11 +805,11 @@ fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 // * @author Ayaan
 // * @since 4.0.5
 // */
-//fun Notice3.getImageLinkNotification(context: Context): String =
-//    when (this.sender) {
-//        context.resources.getString(R.string.app_notice) -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
-//        else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"
-//    }
+fun Notice3.getImageLinkNotification(context: Context): String =
+    when (this.sender) {
+        "App Notice" -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
+        else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"
+    }
 
 
 /**
@@ -773,7 +817,7 @@ fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
  * @author Ayaan
  * @since 4.0.5
  */
-fun Activity.openPlayStore(name: String = packageName) {
+fun Activity.openPlayStore(name: String) {
     startActivity(
         Intent(
             Intent.ACTION_VIEW,
@@ -783,4 +827,78 @@ fun Activity.openPlayStore(name: String = packageName) {
             it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
     )
+}
+
+inline fun Activity.onScrollColorChange(
+    scrollView: NestedScrollView,
+    crossinline to: (() -> Unit),
+    crossinline from: (() -> Unit)
+) =
+    scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+        when (scrollY) {
+            0 -> {
+                to.invoke()
+            }
+            else -> {
+                from.invoke()
+            }
+        }
+    }
+
+fun <T1, T2, T3, T4, T5, T6, R> combine(
+    flow: Flow<T1>,
+    flow2: Flow<T2>,
+    flow3: Flow<T3>,
+    flow4: Flow<T4>,
+    flow5: Flow<T5>,
+    flow6: Flow<T6>,
+    transform: suspend (T1, T2, T3, T4, T5, T6) -> R
+): Flow<R> = combine(
+    combine(flow, flow2, flow3, ::Triple),
+    combine(flow4, flow5, flow6, ::Triple)
+) { t1, t2 ->
+    transform(
+        t1.first,
+        t1.second,
+        t1.third,
+        t2.first,
+        t2.second,
+        t2.third
+    )
+}
+
+fun <T1, T2, T3, T4, R> combineFourFlows(
+    flow: Flow<T1>,
+    flow2: Flow<T2>,
+    flow3: Flow<T3>,
+    flow4: Flow<T4>,
+    transform: suspend (T1, T2, T3, T4) -> R
+): Flow<R> = combine(
+    combine(flow, flow2, ::Pair),
+    combine(flow3, flow4, ::Pair)
+) { t1, t2 ->
+    transform(
+        t1.first,
+        t1.second,
+        t2.first,
+        t2.second,
+    )
+}
+
+@ColorInt
+fun Context.getColorFromAttr(
+    @AttrRes attrColor: Int
+): Int {
+    val typedArray = theme.obtainStyledAttributes(intArrayOf(attrColor))
+    val textColor = typedArray.getColor(0, 0)
+    typedArray.recycle()
+    return textColor
+}
+
+fun getRgbFromHex(hex: String): String {
+    val initColor = Color.parseColor(hex)
+    val r = Color.red(initColor)
+    val g = Color.green(initColor)
+    val b = Color.blue(initColor)
+    return "rgb($r,$g,$b)"
 }

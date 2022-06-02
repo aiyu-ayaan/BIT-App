@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="MainColor">#171a1f</color>
+    <color name="underLine">#C6C6C8</color>
+    <color name="textColor">#fff</color>
+    <color name="textColorSecondary">#99FFFFFF</color>
+    <color name="textColorSubTitle">#000000</color>
+
+    <color name="cardBackground">#1c2628</color>
+
+    <color name="background">#1c2628</color>
+
+    <color name="bottom_nav">#1f2930</color>
+
+    <color name="blue_bottom_nav">#344856</color>
+
+    <color name="accent_color">#90cdff</color>
+
+    <color name="icon_color">#d2e3f4</color>
+    <color name="card_corner">#343434</color>
+    <color name="div_color">#51545a</color>
+
+
+    <color name="bottom_nav_scrim_color">#304c58</color>
+    <color name="logo">#4b4c4e</color>
+</resources>

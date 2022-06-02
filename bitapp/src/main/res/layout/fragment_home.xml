@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view_home"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:overScrollMode="always"
+    android:paddingBottom="@dimen/bottom_nav_height"
+    tools:context=".ui.fragments.home.HomeFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/grid_1">
+
+        <RelativeLayout
+            android:id="@+id/parent_syllabus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/grid_1">
+
+            <TextView
+                android:id="@+id/text_hi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginTop="@dimen/grid_1"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:background="@android:color/transparent"
+                android:padding="@dimen/grid_0_25"
+                android:text="@string/yourSubjects"
+                android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+            <ImageButton
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/text_hi"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:layout_toStartOf="@+id/setting"
+                android:background="?attr/actionBarItemBackground"
+                android:contentDescription="@string/edit"
+                android:scaleType="center"
+                android:src="@drawable/ic_edit"
+                app:tint="?attr/colorPrimary" />
+
+            <ImageButton
+                android:id="@+id/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/text_hi"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:background="?attr/actionBarItemBackground"
+                android:contentDescription="@string/setting"
+                android:scaleType="center"
+                android:src="@drawable/ic_settings"
+                app:tint="?attr/colorPrimary" />
+
+
+            <include
+                android:id="@+id/showSubject"
+                layout="@layout/sem_choose_home_ext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_hi"
+                android:layout_marginTop="-1dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/parent_home_ext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/parent_syllabus"
+            android:padding="@dimen/grid_1"
+            app:cardBackgroundColor="?attr/colorSurface">
+
+
+            <TextView
+                android:id="@+id/text_event"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:padding="@dimen/grid_0_25"
+                android:text="@string/event_this_week"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="@color/textColor" />
+
+            <TextView
+                android:id="@+id/text_show_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/text_event"
+                android:layout_alignBottom="@+id/text_event"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:text="@string/show_all"
+                android:textAppearance="?attr/textAppearanceCaption" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_event"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeColor="@color/card_corner">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/show_event"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_event" />
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/parent_holiday"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/parent_home_ext"
+            android:padding="@dimen/grid_1">
+
+
+            <TextView
+                android:id="@+id/text_holiday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:padding="@dimen/grid_0_25"
+                android:text="@string/holidayThisMonth"
+                android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+            <TextView
+                android:id="@+id/text_show_all_holiday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/text_holiday"
+                android:layout_alignBottom="@+id/text_holiday"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:text="@string/show_all"
+                android:textAppearance="?attr/textAppearanceCaption" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/text_holiday"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeColor="@color/card_corner">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/showHoliday"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_holiday"
+                    android:overScrollMode="never" />
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/card_view_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/parent_holiday"
+            android:padding="@dimen/grid_1">
+
+
+            <TextView
+                android:id="@+id/tv3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:padding="@dimen/grid_0_25"
+                android:text="@string/attendanceStats"
+                android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/attendance_click"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv3"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeColor="@color/card_corner">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="@dimen/grid_0_25">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/grid_1">
+
+                        <TextView
+                            android:id="@+id/text_view_percentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:textColor="@color/textColor"
+                            android:textSize="30sp"
+                            tools:text="40.4%" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/progress_bar_home"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:indeterminateOnly="false"
+                            android:progress="30"
+                            app:indicatorSize="120dp"
+                            app:trackColor="?attr/colorSurface"
+                            app:trackThickness="7dp" />
+                    </RelativeLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/text_view_present"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/textColor"
+                                android:textSize="24sp"
+                                tools:text="30" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/totalPresent"
+                                android:textColor="@color/textColorSecondary" />
+                        </LinearLayout>
+
+                        <!--                Second Layout -->
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/text_view_total"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/textColor"
+                                android:textSize="24sp"
+                                tools:text="60" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/totalClasses"
+                                android:textColor="@color/textColorSecondary" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.card.MaterialCardView
+                        style="?attr/materialCardViewFilledStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="@dimen/grid_2"
+                        android:elevation="-10dp"
+                        app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="-10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/overallAttendanceStatus"
+                                android:textColor="@color/textColor"
+                                android:textSize="18sp" />
+
+                            <TextView
+                                android:id="@+id/text_view_stats"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/textColorSecondary"
+                                android:textSize="16sp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

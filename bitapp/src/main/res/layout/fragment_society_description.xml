@@ -1,0 +1,79 @@
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 3/30/22, 9:33 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 3/29/22, 10:11 PM
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.society.description.SocietyDescriptionFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/top_layout"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@id/progress_bar_loading">
+
+                <ImageView
+                    android:id="@+id/society_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:layout_centerHorizontal="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress_bar_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/society_image"
+                    app:layout_constraintStart_toStartOf="@+id/society_image"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:trackThickness="30dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <WebView
+                android:id="@+id/show_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/top_layout"
+                android:fitsSystemWindows="true"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_bar_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:indeterminate="true"
+                android:visibility="visible"
+                tools:visibility="visible" />
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+</FrameLayout>

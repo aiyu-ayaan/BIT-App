@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 2/8/22, 11:30 AM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 2/8/22, 10:28 AM
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/group_3"
+        android:checkableBehavior="single">
+        <item android:title="@string/erp_holiday">
+            <menu>
+                <item
+                    android:id="@+id/nav_erp"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_web"
+                    android:title="@string/erp" />
+                <item
+                    android:id="@id/holidayFragment"
+                    android:icon="@drawable/ic_holiday"
+                    android:title="@string/holidays" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_2"
+        android:checkableBehavior="single">
+        <item android:title="@string/societies_event">
+            <menu>
+
+                <item
+                    android:id="@+id/societyFragment"
+                    android:icon="@drawable/ic_society"
+                    android:title="@string/societies" />
+                <item
+                    android:id="@+id/eventFragment"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/events" />
+            </menu>
+        </item>
+    </group>
+
+
+    <group
+        android:id="@+id/group_4"
+        android:checkableBehavior="single">
+        <item android:title="@string/communicate">
+            <menu>
+                <item
+                    android:id="@+id/nav_connect"
+                    android:icon="@drawable/ic_cwu"
+                    android:title="@string/connect" />
+                <item
+                    android:id="@+id/nav_bug"
+                    android:icon="@drawable/ic_bug"
+                    android:title="@string/report" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_5"
+        android:checkableBehavior="single">
+        <item android:title="@string/share_rate_us">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_share"
+                    android:title="@string/share" />
+                <item
+                    android:id="@+id/nav_rate"
+                    android:icon="@drawable/ic_star"
+                    android:title="@string/rate_up" />
+            </menu>
+        </item>
+    </group>
+    <group
+        android:id="@+id/group_6"
+        android:checkableBehavior="single">
+        <item android:title="@string/theme">
+            <menu>
+                <item
+                    android:id="@id/themeChangeDialog"
+                    android:icon="@drawable/ic_color"
+                    android:title="@string/theme" />
+
+            </menu>
+        </item>
+    </group>
+</menu>

@@ -11,8 +11,10 @@
 package com.aatec.core.data.network.holiday
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 class HolidayNetworkEntity : Parcelable {
     var sno: Int = 0

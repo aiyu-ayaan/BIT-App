@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id "androidx.navigation.safeargs.kotlin"
     id 'com.google.gms.google-services'
     id 'kotlin-parcelize'
 }
@@ -20,7 +21,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -31,13 +32,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    namespace 'com.aatec.core'
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.7.0-alpha01'
+    implementation 'androidx.core:core-ktx:1.8.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'com.google.android.material:material:1.7.0-alpha02'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.1.2'
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
 
@@ -57,9 +59,10 @@ dependencies {
 
 //    Hilt
     implementation("com.google.dagger:hilt-android:$hilt_version")
-    implementation 'com.google.android.gms:play-services-fido:18.1.0'
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     implementation "androidx.webkit:webkit:$webKit_version"
+    implementation 'com.google.android.gms:play-services-fido:18.1.0'
+    implementation 'androidx.browser:browser:1.4.0'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
@@ -74,5 +77,10 @@ dependencies {
     implementation "com.google.code.gson:gson:$gsonVersion"
     // DataStore
     implementation "androidx.datastore:datastore-preferences:$dataStoreVersion"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+
 
 }

@@ -35,10 +35,6 @@ object FirebaseModule {
     @Singleton
     fun provideFirebase() = Firebase.firestore
 
-    @Singleton
-    @Provides
-    fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
-        context.getSharedPreferences(SHARED_PREFERENCE_NAME, MODE_PRIVATE)
 
 
     @Singleton
@@ -47,9 +43,6 @@ object FirebaseModule {
         Firebase.messaging
 
 
-    @Singleton
-    @Provides
-    fun provideAppUpdateManager(@ApplicationContext context: Context): AppUpdateManager =
-        AppUpdateManagerFactory.create(context)
+
 
 }

@@ -6,7 +6,7 @@
  * Last modified 3/13/22, 10:35 AM
  */
 
-package com.aatec.bit.data.Newtork.Notice
+package com.aatec.core.data.network.notice
 
 import android.os.Parcelable
 import androidx.annotation.Keep
@@ -17,18 +17,18 @@ import kotlinx.parcelize.Parcelize
 class Notice3NetworkEntity {
     var title = ""
     var body = ""
-    var attach = ""
     var link = ""
     var sender = ""
-    var path =""
+    var path = ""
     var created: Long = 0L
 }
 
 @Keep
 @Parcelize
-class Attach : Parcelable {
-    var link = ""
-}
+data class Attach(
+    var added: Long? = null,
+    var link: String? = null
+) : Parcelable
 
 class DiffUtilAttach() : DiffUtil.ItemCallback<Attach>() {
     override fun areItemsTheSame(oldItem: Attach, newItem: Attach): Boolean =

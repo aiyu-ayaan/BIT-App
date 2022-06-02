@@ -8,10 +8,10 @@
 
 package com.aatec.core.data.room.notice
 
-import com.aatec.core.data.ui.notice.Notice3
-import com.aatec.core.utils.EntityMapper
 import com.aatec.core.utils.convertDateToTime
 import com.aatec.core.utils.convertStringToLongMillis
+import com.aatec.core.data.ui.notice.Notice3
+import com.aatec.core.utils.EntityMapper
 import java.util.*
 import javax.inject.Inject
 
@@ -20,10 +20,9 @@ class Notice3CacheMapper @Inject constructor() : EntityMapper<Notice3CacheEntity
         Notice3(
             title = entity.title,
             body = entity.body,
-            attach = entity.attach,
             link = entity.link,
             sender = entity.sender,
-            path =entity.path,
+            path = entity.path,
             created = entity.created.convertDateToTime()
                 .convertStringToLongMillis()!!
         )
@@ -32,7 +31,6 @@ class Notice3CacheMapper @Inject constructor() : EntityMapper<Notice3CacheEntity
         Notice3CacheEntity(
             domainModel.title,
             domainModel.body,
-            attach = domainModel.attach,
             link = domainModel.link,
             sender = domainModel.sender,
             path = domainModel.path,

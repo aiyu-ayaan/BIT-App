@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_view_acknowledgement"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:paddingBottom="@dimen/bottom_app_bar_height"
+    android:transitionGroup="true"
+    tools:context=".ui.fragments.about_us.acknowledgement.AcknowledgementFragment">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_1_5"
+            android:layout_marginVertical="@dimen/grid_1_5"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeColor="@color/card_corner">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/show_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/grid_0_5" />
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

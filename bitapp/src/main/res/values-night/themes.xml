@@ -1,0 +1,29 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BITApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/accent_color</item>
+        <item name="colorPrimaryVariant">?attr/colorSurface</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/MainColor</item>
+        <item name="colorSurface">@color/MainColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/accent_color</item>
+        <item name="colorSecondaryVariant">@color/accent_color</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryVariant</item>
+        <item name="colorSecondaryContainer">@color/blue_bottom_nav</item>
+        <!-- Status bar color. -->
+
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="bottomBar">@color/bottom_nav</item>
+        <item name="textColor">@color/textColor</item>
+        <item name="textColorSecondary">@color/textColorSecondary</item>
+    </style>
+
+    <style name="Theme.customSplash" parent="Theme.SplashScreen">
+        <item name="backgroundColor">?attr/bottomBar</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_anim</item>
+        <item name="postSplashScreenTheme">@style/Theme.BITApp</item>
+    </style>
+</resources>

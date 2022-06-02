@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/16/22, 12:09 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/16/22, 12:00 PM
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.notice.choose_image.ChooseImageBottomSheet">
+
+    <TextView
+        android:id="@+id/bottom_sheet_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="8dp"
+        android:padding="4dp"
+        android:text="@string/choose_image"
+        android:textStyle="bold"
+        app:drawableStartCompat="@drawable/ic_arrow_downward"
+        app:drawableTint="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/text_view_no_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/done"
+        android:padding="8dp"
+        android:text="@string/without_img"
+        android:textStyle="bold" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/bottom_sheet_title"
+        android:layout_marginTop="16dp"
+        android:background="@color/underLine" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_select"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/divider"
+        android:layout_marginHorizontal="@dimen/grid_1"
+        android:padding="@dimen/grid_1" />
+</RelativeLayout>

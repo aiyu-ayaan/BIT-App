@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 1/22/22, 12:25 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 1/22/22, 11:46 AM
+  -->
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:layout_marginVertical="@dimen/grid_1"
+    android:elevation="0dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
+    app:cardMaxElevation="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/not_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6dp">
+
+        <ImageView
+            android:id="@+id/posterEvent"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_gradient_transparent"
+            app:layout_constraintBottom_toBottomOf="@+id/posterEvent"
+            tools:layout_editor_absoluteX="6dp" />
+
+        <ImageView
+            android:id="@+id/eventImg"
+            android:layout_width="60.0dip"
+            android:layout_height="60.0dip"
+            android:contentDescription="@string/blank"
+            android:src="@drawable/ic_ayaan_beta"
+            android:transitionName="img"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+        <TextView
+            android:id="@+id/text_view_about"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/eventImg"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/eventImg"
+            app:layout_constraintTop_toTopOf="@+id/eventImg"
+            app:layout_constraintVertical_bias="0.3"
+            tools:text="New Event" />
+
+        <TextView
+            android:id="@+id/date_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toEndOf="@+id/eventImg"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_about"
+            tools:text="Aug 20 2020 10:43:42 AM" />
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress_bar_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:trackColor="?attr/colorSurface"
+            android:indeterminate="true"
+            android:progress="50"
+            app:layout_constraintBottom_toBottomOf="@+id/eventImg"
+            app:layout_constraintEnd_toEndOf="@+id/eventImg"
+            app:layout_constraintStart_toStartOf="@+id/eventImg"
+            app:layout_constraintTop_toTopOf="@+id/eventImg"
+            app:trackThickness="15dp" />
+
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBarPoster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            app:trackColor="?attr/colorSurface"
+            android:progress="50"
+            app:layout_constraintBottom_toBottomOf="@+id/posterEvent"
+            app:layout_constraintEnd_toEndOf="@+id/posterEvent"
+            app:layout_constraintStart_toStartOf="@+id/posterEvent"
+            app:layout_constraintTop_toTopOf="@+id/posterEvent"
+            app:layout_constraintVertical_bias="0.38"
+            app:trackThickness="25dp" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

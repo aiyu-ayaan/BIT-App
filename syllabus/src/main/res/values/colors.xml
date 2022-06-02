@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!--    Custom-->
+    <color name="MainColor">#fff</color>
+    <color name="underLine">#4000</color>
+    <color name="textColor">#000</color>
+    <color name="textColorSubTitle">#FFFFFF</color>
+    <color name="textColorSecondary">#99000000</color>
+
+    <!--    Custom-->
+    <color name="ripper">#D5D5D7</color>
+    <color name="colorAccent">#FF03DAC5</color>
+    <color name="cardBackground">#F0F5F9</color>
+    <color name="searchView">#f2f3f5</color>
+    <color name="book_name">#ffd73135</color>
+    <color name="background">#F0F5F9</color>
+
+
+    <color name="green">#4EAF4F</color>
+    <color name="red">#f31f20</color>
+
+    <color name="blue_bottom_nav">#d0e3f8</color>
+    <color name="bottom_nav">#e8eef8</color>
+    <color name="red_ripper">#ff8ba0</color>
+    <color name="accent_color">#344856</color>
+    <color name="icon_color">#0c2133</color>
+    <color name="card_corner">#dbdbdb</color>
+    <color name="bottom_nav_scrim_color">#b8d2df</color>
+    <color name="logo">#dddee0</color>
+    <color name="div_color">#e0e0e0</color>
+
+</resources>

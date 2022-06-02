@@ -11,9 +11,11 @@
 package com.aatec.core.data.network.society
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 
+@Keep
 @Parcelize
 class SocietyNetworkEntity : Parcelable {
     val name: String = ""

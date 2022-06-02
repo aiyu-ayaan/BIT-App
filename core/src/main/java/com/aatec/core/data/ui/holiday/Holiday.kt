@@ -11,11 +11,13 @@
 package com.aatec.core.data.ui.holiday
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
 
+@Keep
 @Parcelize
 data class Holiday(
     val sno: Int,

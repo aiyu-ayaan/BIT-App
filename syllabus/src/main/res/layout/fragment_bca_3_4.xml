@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="DBMS Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:gravity="left"
+                android:text="SYLLABUS"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="Write the following queries: \n\n1. List all information about all department from emp table. \n\n2. List all employee names along with their salaries from emp table. \n\n3. List all department numbers, employee numbers and their managers numbers in descending order of deptno from emp table. \n\n4. List department names and locations from the dept table. \n\n5. List the employees belonging to the department 20. \n\n6. List the name and salary of the employees whose salary is more than 1000. \n\n7. List the names of the clerks working in the department 20. \n\n8. List the names of analysts and salesmen. \n\n9. List the details of the employees who have joined before the end of September 81. \n\n10. List the names of employees who are not managers. \n\n11. List the names of employees whose employee number are 7369, 7521, 7839, 7934, 7788. \n\n12. List the employee details not belonging to the department 10, 30, and 40. \n\n13. List the employee name and salary, whose salary is between 1000 and 2000. \n\n14. List the employee names, who are not eligible for commission.(salary having >15,000 eligible for commission) \n\n15. List the employees who are eligible for commission. \n\n16. List the details of employees, whose salary is greater than 2000 and commission is NULL. \n\n17. List the employees whose names start with an “S” (not”s”). \n\n18. List the name, salary and PF amount of all the employees(PF is calculated as 10% of salary). \n\n19. List the empno, ename, sal in ascending order of salary. \n\n20. List the employee name, salary, job and Department no descending order of Department No and salary. \n\n21. List the employee details in ascending order of salary. \n\n22. List the employee details in descending order of salary \n\n23.Display name, and sal and commission of all employees whose monthly salary is greater than their commission. \n\n24. Select SMITH HAS WORKED IN THE POSITION OF CLERK IN DEPT 20.Display result in this format. \n\n25. Generate a statement which prompts the user at runtime. The intention is to display employees hired between 2 given dates. \n\n26. Define a variable representing an expression used to calculate total annual remuneration. Use the variable in a statement which finds all employees who earn $30000 a year or more. Page 74 of 243 \n\n27. List all the employees name and salaries increased by 15% and expressed as a whole number of dollars. \n\n28.Produce the following EMPLOYEE AND JOB SMITH CLERK ALLEN SALESMAN \n\n29. Produce the following output: SMITH ( Clerk) ALLEN ( Salesman) \n\n30. Do a case sensitive search for a list of employees with a job that the user enters. \n\n31. It has been discovered that the sales people in dept. 30 are not all male. Please produce the Followingoutput. ENAME DEPTNO JOB ALLEN 30 Sales Person \n\n32. Display each employees name and hiredate of dept 20. \n\n33. Display each employees name, hiredate and salary review date. Assume salary review date is one year from hiredate. Output should be in ascending review date. \n\n34. Print list of employees displaying just salary, if more than 1500. If exactly 1500 display “ On Target”. If less than 1500 display “ Below 1500”. \n\n35. Write a query which returns DAY of the week ( i.e. MONDAY) for any date entered in the format DD/MM/YY. \n\n36. Write a query to calculate length of service of each employee. \n\n37. Find the minimum salary of all employees. \n\n38. Find the maximum, minimum, and average salaries of all employees. \n\n39. List the maximum and minimum salary of each job type. \n\n40. Find how many managers are in each dept. \n\n41. Find the average salary and average total remuneration of each job type. Remembers sales man earn commission. \n\n42. Find out the difference between highest and lowest salary. \n\n43. Find all department s which have more than three employees. \n\n44. Check whether all employee nos are unique. ( No Duplicate) \n\n45. List lowest paid employee working for each Manager. Exclude any groups where the minimum salary is less than 1000. Sort the output by salary. \n\n46. Produce a list showing employees &amp;'salary grade&amp;'.(> 10000 A, >10000 &amp; &lt;20000 B,>20000 C) \n\n47. Show only employee on Grade C. \n\n48. Show all employee in Dallas. \n\n49. List the employees name, job, salary, grade and department for everyone in the company except clerks. Sort on salary, displaying the highest first. \n\n50. List the following details of employees who earn $36000 a year or who are clerks. Page 75 of 243 Ename Job Annual Sal Dept no Dname Grade \n\n51. Display all employees who earn less than their managers. \n\n52. Display all employees by name and eno along with their managers name and number. \n\n53. Modify above spoliation to display KING who has no MANAGER. \n\n54. Find the job that was files in the first half of 1983 and the name job that was filled in the same period in 1984. \n\n55. Find all employees who have joined before their manager. EMPLOYEE HIREDATE MANAGER HIREDATE 56. Find the employees who earn the highest salary in each job, type, sort in descending order of salary. \n\n57. Find the employees who earn the minimum salary for their job, Display the result in descending order of salary . \n\n58. Find the most recently hired employees in the department. Order by hiredate. \n\n59. Show the details of any employee who earns a salary greater than the average for their department. Sort in department number order. \n\n60. List all department where there are no employees."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -18,7 +18,6 @@ import com.aatec.core.data.room.event.EventDao
 import com.aatec.core.data.room.holiday.HolidayDao
 import com.aatec.core.data.room.notice.Notice3Dao
 import com.aatec.core.data.room.syllabus.SyllabusDao
-import com.aatec.core.data.room.timeTable.TimeTableDao
 import com.aatec.core.utils.BitAppScope
 import dagger.Module
 import dagger.Provides
@@ -78,18 +77,6 @@ object RoomModule {
     fun getNotice3Dao(noticeDatabase: BitDatabase): Notice3Dao =
         noticeDatabase.notice3Dao()
 
-    @Singleton
-    @Provides
-    fun getTimeTable(noticeDatabase: BitDatabase): TimeTableDao =
-        noticeDatabase.timeTableDao()
 
-    @Singleton
-    @Provides
-    fun getCalender(): Calendar = Calendar.getInstance()
-
-    @BitAppScope
-    @Singleton
-    @Provides
-    fun provideApplicationScope() = CoroutineScope(SupervisorJob())
 
 }

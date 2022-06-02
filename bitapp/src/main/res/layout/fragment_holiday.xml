@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_view_holiday"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:overScrollMode="always"
+    android:paddingBottom="@dimen/bottom_app_bar_height"
+    tools:context=".ui.fragments.holiday.HolidayFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/container_toggle_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/transparent"
+            android:gravity="center">
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/toggle_chip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:padding="8dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bt_main"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main"
+                    android:textColor="@color/stroke_tint_text"
+                    android:textSize="15sp"
+                    app:checkedIconTint="@color/stroke_tint_text"
+                    app:chipBackgroundColor="@color/stroke_tint" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bt_res"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/res"
+                    android:textColor="@color/stroke_tint_text"
+                    android:textSize="15sp"
+                    app:checkedIconTint="@color/stroke_tint_text"
+                    app:chipBackgroundColor="@color/stroke_tint" />
+
+            </com.google.android.material.chip.ChipGroup>
+        </LinearLayout>
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_bar_holiday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/container_toggle_button"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:trackColor="?attr/colorSurface"
+            tools:visibility="visible" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/material_card_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_bar_holiday"
+            android:layout_marginHorizontal="@dimen/grid_0_25"
+            android:layout_marginTop="@dimen/grid_1"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeColor="@color/card_corner">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/showHoliday"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="@dimen/grid_1"
+                android:overScrollMode="never"
+                android:padding="@dimen/grid_1"
+                android:paddingBottom="@dimen/grid_1" />
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>
