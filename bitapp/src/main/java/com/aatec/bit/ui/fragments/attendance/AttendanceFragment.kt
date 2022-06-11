@@ -1,5 +1,6 @@
 package com.aatec.bit.ui.fragments.attendance
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -17,9 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
+import com.aatec.bit.databinding.FragmentAttendanceBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
-import com.aatec.bit.databinding.FragmentAttendanceBinding
 import com.aatec.bit.utils.AttendanceEvent
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.AttendanceSave
@@ -32,8 +33,7 @@ import java.text.DecimalFormat
 import java.util.*
 
 @AndroidEntryPoint
-class AttendanceFragment : Fragment(R.layout.fragment_attendance),
-    AttendanceAdapter.ClickListenerAttendance {
+class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
 
     private val binding: FragmentAttendanceBinding by viewBinding()
@@ -55,37 +55,47 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        attendanceAdapter = AttendanceAdapter(this)
+        attendanceAdapter = AttendanceAdapter(
+            { onItemClickListener(it) },
+            { onCheckClick(it) },
+            { onWrongClick(it) },
+            { onDotsClick(it) }
+        )
+
         //        Percentage
-        preferenceViewModel.preferencesFlow.observe(viewLifecycleOwner) {
-            binding.attendanceTopBar.tvGoal.text =
-                resources.getString(R.string.goal, it.defPercentage.toString())
-            binding.attendanceTopBar.progressCircularInner.progress = it.defPercentage
-            attendanceAdapter.setProgress(it.defPercentage)
-            defPercentage = it.defPercentage
-        }
+        setUpTopView()
 
-        binding.apply {
-            showAtt.apply {
-                adapter = attendanceAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
-            }
-            attendanceAdapter.stateRestorationPolicy =
-                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        setUpViews()
 
-//            ..List All
-            attendanceTopBar.tvAddSub.setOnClickListener {
-                val action =
-                    AttendanceFragmentDirections.actionAttendanceFragmentToListAllBottomSheet()
-                try {
-                    findNavController().navigate(action)
-                } catch (e: Exception) {
+        populateViewsAndSetPercentage()
+
+        listenForUndoMessage()
+
+        setTopView()
+        addSubjectFromSyllabus()
+        detectScroll()
+        addSubject()
+        setHasOptionsMenu(true)
+    }
+
+    private fun listenForUndoMessage() {
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            communicator.attendanceEvent.collect { attendanceEvent ->
+                when (attendanceEvent) {
+                    is AttendanceEvent.ShowUndoDeleteMessage -> {
+                        attendanceEvent.attendance.showUndoMessage(
+                            binding.root
+                        ) {
+                            viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
+                        }
+                    }
                 }
             }
         }
+    }
 
-        viewModel.attendance.observe(viewLifecycleOwner) {
+    private fun populateViewsAndSetPercentage() {
+        viewModel.attendance.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
             binding.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
@@ -112,26 +122,38 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
                 )
             }
         }
+    }
 
+    private fun setUpViews() {
+        binding.apply {
+            showAtt.apply {
+                adapter = attendanceAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                setHasFixedSize(true)
+            }
+            attendanceAdapter.stateRestorationPolicy =
+                RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            communicator.attendanceEvent.collect { attendanceEvent ->
-                when (attendanceEvent) {
-                    is AttendanceEvent.ShowUndoDeleteMessage -> {
-                        attendanceEvent.attendance.showUndoMessage(
-                            binding.root
-                        ) {
-                            viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
-                        }
-                    }
+            //            ..List All
+            attendanceTopBar.tvAddSub.setOnClickListener {
+                val action =
+                    AttendanceFragmentDirections.actionAttendanceFragmentToListAllBottomSheet()
+                try {
+                    findNavController().navigate(action)
+                } catch (e: Exception) {
                 }
             }
         }
-        setTopView()
-        addSubjectFromSyllabus()
-        detectScroll()
-        addSubject()
-        setHasOptionsMenu(true)
+    }
+
+    private fun setUpTopView() {
+        preferenceViewModel.preferencesFlow.observe(viewLifecycleOwner) {
+            binding.attendanceTopBar.tvGoal.text =
+                resources.getString(R.string.goal, it.defPercentage.toString())
+            binding.attendanceTopBar.progressCircularInner.progress = it.defPercentage
+            attendanceAdapter.setProgress(it.defPercentage)
+            defPercentage = it.defPercentage
+        }
     }
 
     /**
@@ -174,7 +196,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
         }
     }
 
-    override fun onItemClickListener(attendance: AttendanceModel) {
+    private fun onItemClickListener(attendance: AttendanceModel) {
         try {
             val action =
                 AttendanceFragmentDirections.actionAttendanceFragmentToCalenderViewBottomSheet(
@@ -190,10 +212,10 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun onCheckClick(attendance: AttendanceModel) {
+    private fun onCheckClick(attendance: AttendanceModel) {
         val stack: Deque<AttendanceSave> = attendance.stack
-        val presentDays = attendance.days.presetDays.clone() as java.util.ArrayList<Long>
-        val totalDays = attendance.days.totalDays.clone() as java.util.ArrayList<IsPresent>
+        val presentDays = attendance.days.presetDays.clone() as ArrayList<Long>
+        val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
         stack.push(
             AttendanceSave(
                 attendance.total,
@@ -241,10 +263,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
         )
     }
 
-    override fun onWrongClick(attendance: AttendanceModel) {
+
+
+    private fun onWrongClick(attendance: AttendanceModel) {
         val stack: Deque<AttendanceSave> = attendance.stack
-        val absentDays = attendance.days.absentDays.clone() as java.util.ArrayList<Long>
-        val totalDays = attendance.days.totalDays.clone() as java.util.ArrayList<IsPresent>
+        val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
+        val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
         stack.push(
             AttendanceSave(
                 attendance.total,
@@ -294,7 +318,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
         )
     }
 
-    override fun onDotsClick(attendance: AttendanceModel) {
+    private fun onDotsClick(attendance: AttendanceModel) {
         val action = NavGraphDirections.actionGlobalAttendanceMenu(attendance)
         findNavController().navigate(action)
     }
@@ -318,7 +342,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance),
                 )
 
             },
-            { _ ->
+            {
                 binding.extendedFab.shrink()
 //                        Color change
                 activity?.changeStatusBarToolbarColor(

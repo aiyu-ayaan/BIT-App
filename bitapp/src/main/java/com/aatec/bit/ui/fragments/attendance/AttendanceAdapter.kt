@@ -18,7 +18,10 @@ import kotlin.math.ceil
 
 
 class AttendanceAdapter(
-    private val listener: ClickListenerAttendance,
+    private val onItemClickListener: (attendance: AttendanceModel) -> Unit,
+    private val onCheckClick: (attendance: AttendanceModel) -> Unit,
+    private val onWrongClick: (attendance: AttendanceModel) -> Unit,
+    private val onDotsClick: (attendance: AttendanceModel) -> Unit
 ) :
     ListAdapter<AttendanceModel, AttendanceAdapter.AttendanceViewHolder>(DiffUtilAttendance()) {
     private var minPercentage = 75
@@ -30,23 +33,23 @@ class AttendanceAdapter(
                 binding.root.setOnClickListener {
                     val position = absoluteAdapterPosition
                     if (position != RecyclerView.NO_POSITION)
-                        listener.onItemClickListener(getItem(position))
+                        onItemClickListener.invoke(getItem(position))
                 }
                 ivCheck.setOnClickListener {
                     val position = absoluteAdapterPosition
                     if (position != RecyclerView.NO_POSITION)
-                        listener.onCheckClick(getItem(position))
+                        onCheckClick.invoke(getItem(position))
                 }
                 ivWrong.setOnClickListener {
                     val position = absoluteAdapterPosition
                     if (position != RecyclerView.NO_POSITION)
-                        listener.onWrongClick(getItem(position))
+                        onWrongClick.invoke(getItem(position))
                 }
 
                 binding.root.setOnLongClickListener {
                     val position = absoluteAdapterPosition
                     if (position != RecyclerView.NO_POSITION)
-                        listener.onDotsClick(getItem(position))
+                        onDotsClick.invoke(getItem(position))
                     true
                 }
             }
@@ -148,13 +151,6 @@ class AttendanceAdapter(
             newItem: AttendanceModel
         ): Boolean =
             oldItem == newItem
-    }
-
-    interface ClickListenerAttendance {
-        fun onItemClickListener(attendance: AttendanceModel)
-        fun onCheckClick(attendance: AttendanceModel)
-        fun onWrongClick(attendance: AttendanceModel)
-        fun onDotsClick(attendance: AttendanceModel)
     }
 
     @SuppressLint("NotifyDataSetChanged")
