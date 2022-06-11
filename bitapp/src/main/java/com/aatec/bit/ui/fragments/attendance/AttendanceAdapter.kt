@@ -3,6 +3,7 @@ package com.aatec.bit.ui.fragments.attendance
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -21,35 +22,50 @@ class AttendanceAdapter(
     private val onItemClickListener: (attendance: AttendanceModel) -> Unit,
     private val onCheckClick: (attendance: AttendanceModel) -> Unit,
     private val onWrongClick: (attendance: AttendanceModel) -> Unit,
-    private val onDotsClick: (attendance: AttendanceModel) -> Unit
+    private val onMenuActiveClick: (attendance: AttendanceModel, cardView: CardView) -> Unit,
+    private val onLongClick: () -> Unit
 ) :
     ListAdapter<AttendanceModel, AttendanceAdapter.AttendanceViewHolder>(DiffUtilAttendance()) {
     private var minPercentage = 75
+    private var isMenuActive: Boolean = false
+
+    fun setIsMenuActive(isMenuActive: Boolean) {
+        this.isMenuActive = isMenuActive
+    }
 
     inner class AttendanceViewHolder(private val binding: RowAttendanceSubBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
+            binding.root.isLongClickable = false
             binding.apply {
                 binding.root.setOnClickListener {
                     val position = absoluteAdapterPosition
                     if (position != RecyclerView.NO_POSITION)
-                        onItemClickListener.invoke(getItem(position))
+                        getItem(position)?.let {
+                            if (isMenuActive)
+                                onMenuActiveClick.invoke(it, binding.root)
+                            else
+                                onItemClickListener.invoke(it)
+                        }
                 }
                 ivCheck.setOnClickListener {
                     val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION)
+                    if (position != RecyclerView.NO_POSITION && !isMenuActive)
                         onCheckClick.invoke(getItem(position))
                 }
                 ivWrong.setOnClickListener {
                     val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION)
+                    if (position != RecyclerView.NO_POSITION && !isMenuActive)
                         onWrongClick.invoke(getItem(position))
                 }
 
                 binding.root.setOnLongClickListener {
+                    isMenuActive = true
                     val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION)
-                        onDotsClick.invoke(getItem(position))
+                    if (position != RecyclerView.NO_POSITION) {
+                        onLongClick.invoke()
+                        onMenuActiveClick.invoke(getItem(position), binding.root)
+                    }
                     true
                 }
             }

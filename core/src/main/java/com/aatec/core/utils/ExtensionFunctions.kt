@@ -34,6 +34,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -427,6 +428,27 @@ inline fun AttendanceModel.showUndoMessage(
     Snackbar.make(
         parentView,
         "Deleted ${this.subject}",
+        Snackbar.LENGTH_SHORT
+    ).setAction("Undo") {
+        action.invoke(this)
+    }.apply {
+        this.setBackgroundTint(
+            MaterialColors.getColor(
+                parentView.context,
+                com.google.android.material.R.attr.colorSurface, Color.WHITE
+            )
+        )
+        this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
+        this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
+    }.show()
+
+inline fun MutableList<AttendanceModel>.showUndoMessage(
+    parentView: View,
+    crossinline action: (MutableList<AttendanceModel>) -> Unit
+) =
+    Snackbar.make(
+        parentView,
+        "Deleted ${this.size}",
         Snackbar.LENGTH_SHORT
     ).setAction("Undo") {
         action.invoke(this)
@@ -901,4 +923,15 @@ fun getRgbFromHex(hex: String): String {
     val g = Color.green(initColor)
     val b = Color.blue(initColor)
     return "rgb($r,$g,$b)"
+}
+
+fun CardView.changeCardColor(context: Context, @AttrRes res: Int) = this.apply {
+    ->
+    this.setCardBackgroundColor(
+        MaterialColors.getColor(
+            context,
+            res,
+            Color.WHITE
+        )
+    )
 }

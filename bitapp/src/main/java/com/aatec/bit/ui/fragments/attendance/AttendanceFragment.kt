@@ -1,17 +1,21 @@
 package com.aatec.bit.ui.fragments.attendance
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.view.ActionMode
+import androidx.cardview.widget.CardView
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +46,10 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private val communicator: CommunicatorViewModel by activityViewModels()
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
+    private var actionMode: ActionMode? = null
+    private val attendanceList: MutableList<AttendanceModel> = arrayListOf()
+    private val views: MutableList<CardView> = arrayListOf()
+    private val attendanceLiveData: MutableLiveData<List<AttendanceModel>> = MutableLiveData()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +67,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             { onItemClickListener(it) },
             { onCheckClick(it) },
             { onWrongClick(it) },
-            { onDotsClick(it) }
+            { attendance, cardView ->
+                addItemToList(attendance, cardView)
+            },
+            {
+                setActionBar()
+            }
         )
 
         //        Percentage
@@ -78,15 +91,122 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         setHasOptionsMenu(true)
     }
 
+
+    //    TODO Edit
+    private fun setActionBar() {
+        val callback = object : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                mode?.menuInflater?.inflate(R.menu.menu_attendance, menu)
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean =
+                false
+
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean =
+                when (item?.itemId) {
+                    R.id.menu_undo -> {
+                        undoEntry(attendanceList.last())
+                        true
+                    }
+                    R.id.menu_edit -> {
+                        navigateToAddEditFragment(attendanceList.last())
+                        actionMode?.finish()
+                        true
+                    }
+                    R.id.menu_delete -> {
+                        deleteList()
+                        true
+                    }
+
+                    R.id.menu_delete_all -> {
+                        findNavController().navigate(
+                            NavGraphDirections.actionGlobalDeleteAllDialog()
+                        )
+                        actionMode?.finish()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                attendanceAdapter.setIsMenuActive(false)
+                resetListAndViews()
+                actionMode = null
+            }
+        }
+        actionMode = (activity as AppCompatActivity).startSupportActionMode(callback)
+
+        attendanceLiveData.observe(viewLifecycleOwner) {
+            actionMode?.title = "${it.size}"
+            actionMode?.menu?.findItem(R.id.menu_delete)?.isVisible = it.isNotEmpty()
+            actionMode?.menu?.findItem(R.id.menu_undo)?.isVisible = it.isNotEmpty() && it.size == 1
+            actionMode?.menu?.findItem(R.id.menu_edit)?.isVisible = it.isNotEmpty() && it.size == 1
+            actionMode?.menu?.findItem(R.id.menu_delete_all)?.isVisible = it.isEmpty()
+        }
+    }
+
+    private fun deleteList() {
+        attendanceList.forEach {
+            viewModel.delete(it)
+        }
+        lifecycleScope.launchWhenStarted {
+            communicator._attendanceEvent.send(
+                AttendanceEvent.ShowUndoDeleteMessage(
+                    attendanceList = attendanceList
+                )
+            )
+        }
+        resetListAndViews()
+    }
+
+    private fun resetListAndViews() {
+        views.onEach {
+            it.changeCardColor(requireContext(), android.viewbinding.library.R.attr.colorSurface)
+            it.isLongClickable = true
+        }
+        views.clear()
+        attendanceList.clear()
+        attendanceLiveData.postValue(attendanceList)
+    }
+
+    private fun addItemToList(attendance: AttendanceModel, cardView: CardView) {
+        views.add(cardView)
+        if (attendanceList.contains(attendance)) {
+            cardView.changeCardColor(
+                requireContext(),
+                com.google.android.material.R.attr.colorSurface
+            )
+            attendanceList.remove(attendance)
+        } else {
+            cardView.changeCardColor(requireContext(), R.attr.bottomBar)
+            attendanceList.add(attendance)
+        }
+
+        attendanceLiveData.postValue(attendanceList)
+    }
+
     private fun listenForUndoMessage() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             communicator.attendanceEvent.collect { attendanceEvent ->
                 when (attendanceEvent) {
                     is AttendanceEvent.ShowUndoDeleteMessage -> {
-                        attendanceEvent.attendance.showUndoMessage(
+//                        Single attendance
+                        attendanceEvent.attendance?.showUndoMessage(
                             binding.root
                         ) {
                             viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
+                        }
+                        //Multiple attendance
+                        attendanceEvent.attendanceList?.showUndoMessage(
+                            binding.root
+                        ) { //TODO EDIT Here this is not working
+                            it.forEach { attendance ->
+                                Toast.makeText(requireContext(), "run", Toast.LENGTH_SHORT).show()
+                                viewModel.add(attendance, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
+                            }
                         }
                     }
                 }
@@ -264,7 +384,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
 
-
     private fun onWrongClick(attendance: AttendanceModel) {
         val stack: Deque<AttendanceSave> = attendance.stack
         val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
@@ -352,8 +471,40 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             })
     }
 
+
+    private fun undoEntry(attendance: AttendanceModel) {
+        val stack: Deque<AttendanceSave> = attendance.stack
+        val save = stack.peekFirst()
+        if (save != null) {
+            stack.pop()
+            val att = attendance.copy(
+                present = save.present,
+                total = save.total,
+                days = save.days,
+                stack = stack,
+            )
+            viewModel.update(att)
+        } else {
+            Toast.makeText(context, "Stack is empty !!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun navigateToAddEditFragment(attendance: AttendanceModel) {
+        val action = NavGraphDirections.actionGlobalAddEditSubjectBottomSheet(
+            attendance,
+            UPDATE_REQUEST
+        )
+        findNavController().navigate(action)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        actionMode?.finish()
+        actionMode = null
     }
 }

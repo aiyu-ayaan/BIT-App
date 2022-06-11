@@ -15,10 +15,14 @@
         <item name="colorSecondaryContainer">@color/blue_bottom_nav</item>
         <!-- Status bar color. -->
 
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <item name="bottomBar">@color/bottom_nav</item>
         <item name="textColor">@color/textColor</item>
         <item name="textColorSecondary">@color/textColorSecondary</item>
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_close</item>
+        <item name="actionBarTheme">@style/ThemeOverlay.Material3.Dark.ActionBar</item>
     </style>
 
     <style name="Theme.customSplash" parent="Theme.SplashScreen">

@@ -116,7 +116,7 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
             viewModel.editSyllabusEventFlow.collect { attendanceEvent ->
                 when (attendanceEvent) {
                     is AttendanceEvent.ShowUndoDeleteMessage ->
-                        attendanceEvent.attendance.showUndoMessage(
+                        attendanceEvent.attendance?.showUndoMessage(
                             binding.root,
                         ) { attendance ->
                             viewModel.add(attendance)

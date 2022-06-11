@@ -45,7 +45,8 @@ sealed class AttendanceEvent {
      * @since 4.0.3
      */
     data class ShowUndoDeleteMessage(
-        val attendance: AttendanceModel,
-        val syllabus: SyllabusModel? = null
+        val attendance: AttendanceModel? = null,
+        val syllabus: SyllabusModel? = null,
+        val attendanceList: MutableList<AttendanceModel>? = null
     ) : AttendanceEvent()
 }
