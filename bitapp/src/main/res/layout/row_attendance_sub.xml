@@ -15,7 +15,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/grid_1_5"
-    android:layout_marginVertical="@dimen/grid_0_5"
+    android:layout_marginVertical="@dimen/grid_0_25"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="0dp"
     app:strokeColor="@color/card_corner">

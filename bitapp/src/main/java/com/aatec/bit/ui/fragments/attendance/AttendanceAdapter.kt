@@ -13,6 +13,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.RowAttendanceSubBinding
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.utils.calculatedDays
+import com.aatec.core.utils.changeCardColor
 import com.aatec.core.utils.findPercentage
 import com.aatec.core.utils.setResources
 import kotlin.math.ceil
@@ -36,7 +37,6 @@ class AttendanceAdapter(
     inner class AttendanceViewHolder(private val binding: RowAttendanceSubBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.isLongClickable = false
             binding.apply {
                 binding.root.setOnClickListener {
                     val position = absoluteAdapterPosition
@@ -60,11 +60,19 @@ class AttendanceAdapter(
                 }
 
                 binding.root.setOnLongClickListener {
-                    isMenuActive = true
-                    val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        onLongClick.invoke()
-                        onMenuActiveClick.invoke(getItem(position), binding.root)
+                    if (!isMenuActive) {
+                        isMenuActive = true
+                        val position = absoluteAdapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            onLongClick.invoke()
+                            onMenuActiveClick.invoke(getItem(position), binding.root)
+                                .apply {
+                                    binding.root.changeCardColor(
+                                        binding.root.context,
+                                        R.attr.bottomBar
+                                    )
+                                }
+                        }
                     }
                     true
                 }

@@ -73,7 +73,7 @@ class ListAllBottomSheet : BottomSheetDialogFragment(), ListAllAdapter.ClickList
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.attendanceEvent.collect { event ->
                 when (event) {
-                    is AttendanceEvent.ShowUndoDeleteMessage -> event.attendance?.showUndoMessage(
+                    is AttendanceEvent.ShowUndoDeleteMessage -> event.attendance.showUndoMessage(
                         binding.root
                     ) {
                         viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)

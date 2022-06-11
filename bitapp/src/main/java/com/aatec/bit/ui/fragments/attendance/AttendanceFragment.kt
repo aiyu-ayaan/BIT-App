@@ -30,6 +30,7 @@ import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.AttendanceSave
 import com.aatec.core.data.room.attendance.IsPresent
 import com.aatec.core.utils.*
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
@@ -47,9 +48,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
     private var actionMode: ActionMode? = null
-    private val attendanceList: MutableList<AttendanceModel> = arrayListOf()
-    private val views: MutableList<CardView> = arrayListOf()
-    private val attendanceLiveData: MutableLiveData<List<AttendanceModel>> = MutableLiveData()
+    private val attendanceList: Lazy<MutableList<AttendanceModel>> = lazy { arrayListOf() }
+    private val views: Lazy<MutableList<CardView>> = lazy { arrayListOf() }
+    private val attendanceLiveData: Lazy<MutableLiveData<List<AttendanceModel>>> =
+        lazy { MutableLiveData() }
+    private val deletedAttendance: Lazy<MutableList<AttendanceModel>> =
+        lazy { arrayListOf() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -106,11 +110,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean =
                 when (item?.itemId) {
                     R.id.menu_undo -> {
-                        undoEntry(attendanceList.last())
+                        undoEntry(attendanceList.value.last())
                         true
                     }
                     R.id.menu_edit -> {
-                        navigateToAddEditFragment(attendanceList.last())
+                        navigateToAddEditFragment(attendanceList.value.last())
                         actionMode?.finish()
                         true
                     }
@@ -139,8 +143,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
         actionMode = (activity as AppCompatActivity).startSupportActionMode(callback)
 
-        attendanceLiveData.observe(viewLifecycleOwner) {
-            actionMode?.title = "${it.size}"
+        attendanceLiveData.value.observe(viewLifecycleOwner) {
+            actionMode?.title = "${if (it.isEmpty()) "Deleted All" else it.size}"
             actionMode?.menu?.findItem(R.id.menu_delete)?.isVisible = it.isNotEmpty()
             actionMode?.menu?.findItem(R.id.menu_undo)?.isVisible = it.isNotEmpty() && it.size == 1
             actionMode?.menu?.findItem(R.id.menu_edit)?.isVisible = it.isNotEmpty() && it.size == 1
@@ -148,44 +152,46 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
     }
 
+
     private fun deleteList() {
-        attendanceList.forEach {
+        attendanceList.value.forEach {
             viewModel.delete(it)
         }
+        deletedAttendance.value.clear()
+        deletedAttendance.value.addAll(attendanceList.value)
         lifecycleScope.launchWhenStarted {
             communicator._attendanceEvent.send(
-                AttendanceEvent.ShowUndoDeleteMessage(
-                    attendanceList = attendanceList
-                )
+                AttendanceEvent.ShowUndoDeleteMessageList()
             )
         }
         resetListAndViews()
+        actionMode?.finish()
     }
 
     private fun resetListAndViews() {
-        views.onEach {
+        views.value.onEach {
             it.changeCardColor(requireContext(), android.viewbinding.library.R.attr.colorSurface)
             it.isLongClickable = true
         }
-        views.clear()
-        attendanceList.clear()
-        attendanceLiveData.postValue(attendanceList)
+        views.value.clear()
+        attendanceList.value.clear()
+        attendanceLiveData.value.postValue(attendanceList.value)
     }
 
     private fun addItemToList(attendance: AttendanceModel, cardView: CardView) {
-        views.add(cardView)
-        if (attendanceList.contains(attendance)) {
+        views.value.add(cardView)
+        if (attendanceList.value.contains(attendance)) {
             cardView.changeCardColor(
                 requireContext(),
                 com.google.android.material.R.attr.colorSurface
             )
-            attendanceList.remove(attendance)
+            attendanceList.value.remove(attendance)
         } else {
             cardView.changeCardColor(requireContext(), R.attr.bottomBar)
-            attendanceList.add(attendance)
+            attendanceList.value.add(attendance)
         }
 
-        attendanceLiveData.postValue(attendanceList)
+        attendanceLiveData.value.postValue(attendanceList.value)
     }
 
     private fun listenForUndoMessage() {
@@ -194,20 +200,21 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 when (attendanceEvent) {
                     is AttendanceEvent.ShowUndoDeleteMessage -> {
 //                        Single attendance
-                        attendanceEvent.attendance?.showUndoMessage(
+                        attendanceEvent.attendance.showUndoMessage(
                             binding.root
                         ) {
                             viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
                         }
-                        //Multiple attendance
-                        attendanceEvent.attendanceList?.showUndoMessage(
-                            binding.root
-                        ) { //TODO EDIT Here this is not working
-                            it.forEach { attendance ->
-                                Toast.makeText(requireContext(), "run", Toast.LENGTH_SHORT).show()
-                                viewModel.add(attendance, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
+
+                    }
+                    is AttendanceEvent.ShowUndoDeleteMessageList -> {
+                        deletedAttendance.value.showUndoMessage(binding.root) { list ->
+                            list.onEach { deletedAttendance ->
+                                viewModel.add(deletedAttendance, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
                             }
+                            deletedAttendance.value.clear()
                         }
+
                     }
                 }
             }
@@ -437,11 +444,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         )
     }
 
-    private fun onDotsClick(attendance: AttendanceModel) {
-        val action = NavGraphDirections.actionGlobalAttendanceMenu(attendance)
-        findNavController().navigate(action)
-    }
-
 
     /**
      * @since 4.0.4
@@ -484,9 +486,17 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 stack = stack,
             )
             viewModel.update(att)
+            binding.root.showSnackBar(
+                "Done !!",
+                Snackbar.LENGTH_SHORT
+            )
         } else {
-            Toast.makeText(context, "Stack is empty !!", Toast.LENGTH_SHORT).show()
+            binding.root.showSnackBar(
+                "Stack is empty !!",
+                Snackbar.LENGTH_SHORT
+            )
         }
+        actionMode?.finish()
     }
 
     private fun navigateToAddEditFragment(attendance: AttendanceModel) {
