@@ -257,18 +257,6 @@
         android:id="@+id/action_global_addEditSubjectBottomSheet"
         app:destination="@id/addEditSubjectBottomSheet" />
     <dialog
-        android:id="@+id/attendanceMenu"
-        android:name="com.aatec.bit.ui.fragments.attendance.menu.AttendanceMenu"
-        android:label="bottom_sheet_attendance"
-        tools:layout="@layout/bottom_sheet_attendance">
-        <argument
-            android:name="attendance"
-            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
-    </dialog>
-    <action
-        android:id="@+id/action_global_attendanceMenu"
-        app:destination="@id/attendanceMenu" />
-    <dialog
         android:id="@+id/changePercentageDialog"
         android:name="com.aatec.bit.ui.fragments.attendance.change_percentage.ChangePercentageDialog"
         android:label="ChangePercentageDialog">

@@ -11,6 +11,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/grid_1"
     tools:context=".ui.fragments.attendance.calender_view.CalenderViewBottomSheet">
 
     <TextView
@@ -42,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/bottom_sheet_title"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/grid_2"
         android:background="@color/underLine" />
 
     <androidx.core.widget.NestedScrollView
@@ -55,7 +56,7 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:orientation="vertical"
-            android:padding="8dp">
+            android:padding="@dimen/grid_2">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -74,7 +75,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:trackColor="@color/MainColor"
+                    app:trackColor="?attr/bottomBar"
                     app:trackThickness="10dp" />
 
                 <TextView
@@ -97,7 +98,6 @@
                     android:layout_marginStart="18dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/textColor"
                     android:textSize="17sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -146,7 +146,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 app:compactCalendarBackgroundColor="@android:color/transparent"
-                app:compactCalendarCurrentDayBackgroundColor="@color/blue_bottom_nav"
+                app:compactCalendarCurrentDayBackgroundColor="?attr/bottomBar"
                 app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorPrimary"
                 app:compactCalendarCurrentSelectedDayTextColor="@color/textColorSubTitle"
                 app:compactCalendarMultiEventIndicatorColor="@color/textColor"
@@ -163,8 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/history"
-                    android:textColor="@color/textColor"
-                    android:textSize="28sp"
+                    android:textAppearance="?attr/textAppearanceHeadline5"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.25"
                     app:layout_constraintStart_toStartOf="parent"

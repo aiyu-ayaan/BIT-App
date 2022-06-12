@@ -187,14 +187,20 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             }
 
             when (destination.id) {
-                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
+                R.id.chooseImageBottomSheet,
                 R.id.semChooseFragment, R.id.detailDevFragment,
-                R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
-                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet, R.id.searchFragment
+                R.id.searchFragment
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     R.attr.bottomBar
+                )
+
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
+                R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
+                R.id.calenderViewBottomSheet,
+                -> changeStatusBarToolbarColor(
+                    R.id.toolbar,
+                    R.attr.bottomSheetBackground
                 )
 
                 else -> changeStatusBarToolbarColor(
@@ -205,9 +211,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
                 R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
-                R.id.addEditSubjectBottomSheet, R.id.attendanceMenu,
-                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
+                R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet,
+                R.id.themeChangeDialog, R.id.changePercentageDialog,
                 -> changeBottomNav(R.attr.bottomBar)
 
                 else ->

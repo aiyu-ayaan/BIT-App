@@ -1,22 +1,22 @@
 package com.aatec.bit.ui.fragments.attendance.add_edit_attendance
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.aatec.bit.R
 import com.aatec.bit.databinding.BottomSheetAddSubjectBinding
-import com.aatec.core.utils.getAndSetHint
 import com.aatec.core.data.room.attendance.AttendanceSave
 import com.aatec.core.utils.ERROR_IN_UPDATE
 import com.aatec.core.utils.REQUEST_EDIT_SUBJECT_FROM_LIST_ALL
+import com.aatec.core.utils.getAndSetHint
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
@@ -55,7 +55,6 @@ class AddEditSubjectBottomSheet : BottomSheetDialogFragment() {
                 0 -> outlinedTextFieldSubject.requestFocus()
                 REQUEST_EDIT_SUBJECT_FROM_LIST_ALL -> {
                     outlinedTextFieldSubject.requestFocus()
-                    activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.isVisible = false
                 }
                 else -> {
                     outlinedTextFieldSubject.endIconMode = TextInputLayout.END_ICON_NONE
