@@ -16,6 +16,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -24,6 +25,7 @@ import androidx.webkit.WebViewFeature
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentEventDescriptionBinding
+import com.aatec.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
 import com.aatec.bit.utils.handleCustomBackPressed
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
@@ -37,6 +39,7 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
 
     private val binding: FragmentEventDescriptionBinding by viewBinding()
     private val viewModel: EventDescriptionModel by viewModels()
+    private val connectionManager: ConnectionManagerViewModel by activityViewModels()
     private lateinit var handler: Handler
     private lateinit var insta: String
     private lateinit var web: String
@@ -44,6 +47,7 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
     private lateinit var menuWeb: MenuItem
     private lateinit var menuShare: MenuItem
     private var event: Event? = null
+    private var isNetConnect: Boolean = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,7 +66,7 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         darkWebView()
         setHasOptionsMenu(true)
         handleCustomBackPressed { customAction() }
-
+        setIsConnected()
         detectScroll()
     }
 
@@ -220,21 +224,28 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
                 true
             }
             R.id.menu_share -> {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.loading),
-                    Toast.LENGTH_SHORT
-                ).show()
-                activity?.openShareImageDeepLink(
-                    requireContext(),
-                    event!!.event_title,
-                    event!!.path,
-                    event!!.poster_link
-                )
+                shareEvent()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    private fun shareEvent() {
+        Toast.makeText(requireContext(), "Loading ...", Toast.LENGTH_SHORT).show()
+        if (isNetConnect) {
+            activity?.openShareImageDeepLink(
+                requireContext(),
+                event!!.event_title,
+                event!!.path,
+                event!!.poster_link
+            )
+        } else {
+            requireActivity().openShareDeepLink(
+                event!!.event_title,
+                event!!.path
+            )
+        }
+    }
 
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -275,6 +286,12 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
             `val`.toInt()
         } else {
             100
+        }
+    }
+
+    private fun setIsConnected() {
+        connectionManager.isConnected.observe(viewLifecycleOwner) {
+            isNetConnect = it
         }
     }
 }

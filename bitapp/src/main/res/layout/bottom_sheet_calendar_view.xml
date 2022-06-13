@@ -58,124 +58,161 @@
             android:orientation="vertical"
             android:padding="@dimen/grid_2">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp">
+                app:cardBackgroundColor="?attr/bottomBar"
+                app:strokeColor="?attr/bottomSheetBackground">
 
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/progress_bar_outer"
-                    android:layout_width="110dp"
-                    android:layout_height="110dp"
-                    android:layout_centerInParent="true"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="100"
-                    app:indicatorSize="80dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:trackColor="?attr/bottomBar"
-                    app:trackThickness="10dp" />
-
-                <TextView
-                    android:id="@+id/tv_percentage"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:textColor="@color/textColor"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/progress_bar_outer"
-                    app:layout_constraintEnd_toEndOf="@+id/progress_bar_outer"
-                    app:layout_constraintStart_toStartOf="@+id/progress_bar_outer"
-                    app:layout_constraintTop_toTopOf="@+id/progress_bar_outer"
-                    tools:text="100%" />
+                    android:padding="8dp">
 
-                <TextView
-                    android:id="@+id/tv_teacher_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toEndOf="@+id/progress_bar_outer"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="@string/no_teacher_name" />
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progress_bar_outer"
+                        android:layout_width="110dp"
+                        android:layout_height="110dp"
+                        android:layout_centerInParent="true"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="100"
+                        app:indicatorSize="80dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:trackColor="?attr/bottomSheetBackground"
+                        app:trackThickness="10dp" />
 
-                <TextView
-                    android:id="@+id/tv_created"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/textColorSecondary"
-                    app:layout_constraintStart_toEndOf="@+id/progress_bar_outer"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_teacher_name"
-                    tools:text="@string/created" />
+                    <TextView
+                        android:id="@+id/tv_percentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:textColor="@color/textColor"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/progress_bar_outer"
+                        app:layout_constraintEnd_toEndOf="@+id/progress_bar_outer"
+                        app:layout_constraintStart_toStartOf="@+id/progress_bar_outer"
+                        app:layout_constraintTop_toTopOf="@+id/progress_bar_outer"
+                        tools:text="100%" />
 
-                <TextView
-                    android:id="@+id/tv_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="8dp"
-                    android:textColor="@color/textColorSecondary"
-                    app:layout_constraintStart_toEndOf="@+id/progress_bar_outer"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_created"
-                    tools:text="@string/created" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tv_teacher_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textSize="17sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toEndOf="@+id/progress_bar_outer"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="@string/no_teacher_name" />
 
-            <TextView
-                android:id="@+id/tv_month"
+                    <TextView
+                        android:id="@+id/tv_created"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/textColorSecondary"
+                        app:layout_constraintStart_toEndOf="@+id/progress_bar_outer"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_teacher_name"
+                        tools:text="@string/created" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="18dp"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/textColorSecondary"
+                        app:layout_constraintStart_toEndOf="@+id/progress_bar_outer"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_created"
+                        tools:text="@string/created" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:gravity="center"
-                android:textColor="@color/textColor"
-                android:textSize="28sp"
-                tools:text="Mouth" />
+                android:layout_marginTop="@dimen/grid_1"
+                app:cardBackgroundColor="?attr/bottomBar"
+                app:strokeColor="?attr/bottomSheetBackground">
 
-
-            <com.github.sundeepk.compactcalendarview.CompactCalendarView
-                android:id="@+id/calendar_view"
-                android:layout_width="fill_parent"
-                android:layout_height="250dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                app:compactCalendarBackgroundColor="@android:color/transparent"
-                app:compactCalendarCurrentDayBackgroundColor="?attr/bottomBar"
-                app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorPrimary"
-                app:compactCalendarCurrentSelectedDayTextColor="@color/textColorSubTitle"
-                app:compactCalendarMultiEventIndicatorColor="@color/textColor"
-                app:compactCalendarTargetHeight="250dp"
-                app:compactCalendarTextColor="@color/textColor"
-                app:compactCalendarTextSize="12sp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/tv_history"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/history"
-                    android:textAppearance="?attr/textAppearanceHeadline5"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.25"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:gravity="center"
+                        android:textColor="@color/textColor"
+                        android:textSize="28sp"
+                        tools:text="Mouth" />
 
 
-            <include
-                android:id="@+id/show_dates"
-                layout="@layout/fragment_calendar_view_extend"
+                    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                        android:id="@+id/calendar_view"
+                        android:layout_width="fill_parent"
+                        android:layout_height="250dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        app:compactCalendarBackgroundColor="@android:color/transparent"
+                        app:compactCalendarCurrentDayBackgroundColor="?attr/bottomBar"
+                        app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorPrimary"
+                        app:compactCalendarCurrentSelectedDayTextColor="@color/textColorSubTitle"
+                        app:compactCalendarMultiEventIndicatorColor="@color/textColor"
+                        app:compactCalendarTargetHeight="250dp"
+                        app:compactCalendarTextColor="@color/textColor"
+                        app:compactCalendarTextSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/grid_1"
+                app:cardBackgroundColor="?attr/bottomBar"
+                app:strokeColor="?attr/bottomSheetBackground">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_history"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/history"
+                            android:textAppearance="?attr/textAppearanceHeadline5"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.25"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    <include
+                        android:id="@+id/show_dates"
+                        layout="@layout/fragment_calendar_view_extend"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

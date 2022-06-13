@@ -20,6 +20,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
@@ -37,6 +38,8 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -795,7 +798,17 @@ fun Activity.openShareImageDeepLink(
 ) =
     this.startActivity(Intent.createChooser(Intent().apply {
         action = Intent.ACTION_SEND
-        putExtra(Intent.EXTRA_STREAM, getImageUri(context, imageLink.converterLinkToBitmap()!!))
+        putExtra(
+            Intent.EXTRA_STREAM,
+            getImageUri(
+                context,
+                imageLink.converterLinkToBitmap() ?: (ResourcesCompat.getDrawable(
+                    context.resources,
+                    R.drawable.app_logo,
+                    null
+                ) as BitmapDrawable).toBitmap()
+            )
+        )
         putExtra(
             Intent.EXTRA_TEXT, """
             $title .
@@ -820,6 +833,7 @@ fun Activity.openShareImageDeepLink(
         flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     }, null))
 
+
 //
 //
 ///**
@@ -827,7 +841,7 @@ fun Activity.openShareImageDeepLink(
 // * @author Ayaan
 // * @since 4.0.5
 // */
-fun Notice3.getImageLinkNotification(context: Context): String =
+fun Notice3.getImageLinkNotification(): String =
     when (this.sender) {
         "App Notice" -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
         else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"

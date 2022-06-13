@@ -11,6 +11,7 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentNoticeDetailBinding
+import com.aatec.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
 import com.aatec.bit.ui.fragments.course.CourseFragment
 import com.aatec.bit.ui.fragments.notice.ImageGridAdapter
 import com.aatec.core.data.network.notice.Attach
@@ -35,8 +37,10 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
 
     private val viewModel: Notice3DescriptionViewModel by viewModels()
     private val binding: FragmentNoticeDetailBinding by viewBinding()
+    private val connectionManager: ConnectionManagerViewModel by activityViewModels()
     private var isEmpty: Boolean = false
     private var hasAttach = false
+    private var isNetConnect = true
     private lateinit var attach: List<Attach>
     private lateinit var notice3: Notice3
 
@@ -58,6 +62,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         binding.root.transitionName = viewModel.path
         detectScroll()
         getNotice()
+        setIsConnected()
         setHasOptionsMenu(true)
     }
 
@@ -156,7 +161,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
                     )
                 }
             }
-            sendNotice.getImageLinkNotification(requireContext()).loadImage(
+            sendNotice.getImageLinkNotification().loadImage(
                 binding.root,
                 binding.senderProfileImageView,
                 binding.progressBarNoticePreview,
@@ -203,33 +208,43 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menu_notice_share -> {
-                if (!isEmpty) {
-                    if (hasAttach) {
-                        try {
-                            val action =
-                                NoticeDetailFragmentDirections.actionNoticeDetailFragmentToChooseImageBottomSheet(
-                                    SendNotice3(notice3, attach)
-                                )
-                            findNavController().navigate(action)
-                        } catch (e: Exception) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Multiple clicks detected",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    } else {
-                        requireActivity().openShareDeepLink(
-                            notice3.title,
-                            notice3.path
-                        )
-                    }
-                }
+                shareNotice()
                 true
             }
             else -> {
                 super.onOptionsItemSelected(item)
             }
+        }
+    }
+
+    private fun shareNotice() {
+        if (!isEmpty) {
+            if (hasAttach && isNetConnect) {
+                try {
+                    val action =
+                        NoticeDetailFragmentDirections.actionNoticeDetailFragmentToChooseImageBottomSheet(
+                            SendNotice3(notice3, attach)
+                        )
+                    findNavController().navigate(action)
+                } catch (e: Exception) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Multiple clicks detected",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                requireActivity().openShareDeepLink(
+                    notice3.title,
+                    notice3.path
+                )
+            }
+        }
+    }
+
+    private fun setIsConnected() {
+        connectionManager.isConnected.observe(viewLifecycleOwner) {
+            isNetConnect = it
         }
     }
 

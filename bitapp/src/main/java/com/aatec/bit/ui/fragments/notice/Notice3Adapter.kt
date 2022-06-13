@@ -74,7 +74,7 @@ class Notice3Adapter(
                         R.string.notice_date,
                         notice.created.convertLongToTime("dd/MM/yyyy")
                     )
-                notice.getImageLinkNotification(binding.root.context).loadImage(
+                notice.getImageLinkNotification().loadImage(
                     binding.root,
                     binding.senderProfileImageView,
                     binding.progressBarNoticePreview,
