@@ -63,27 +63,27 @@
             android:padding="8dp">
 
             <ImageButton
-                android:id="@+id/face"
+                android:id="@+id/image_button_web"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/actionBarItemBackground"
-                android:contentDescription="@string/facebook"
+                android:contentDescription="@string/website"
                 android:padding="16dp"
-                android:src="@drawable/ic_facebook"
+                android:src="@drawable/ic_web_page"
                 app:tint="?attr/colorPrimary" />
 
             <ImageButton
-                android:id="@+id/inst"
+                android:id="@+id/image_button_stack_over_flow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/actionBarItemBackground"
-                android:contentDescription="@string/insta"
+                android:contentDescription="@string/stack_over_flow"
                 android:padding="16dp"
-                android:src="@drawable/ic_instagram"
+                android:src="@drawable/ic_stackoverflow"
                 app:tint="?attr/colorPrimary" />
 
             <ImageButton
-                android:id="@+id/git"
+                android:id="@+id/image_button_git"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/actionBarItemBackground"
@@ -93,13 +93,24 @@
                 app:tint="?attr/colorPrimary" />
 
             <ImageButton
-                android:id="@+id/linkedin"
+                android:id="@+id/image_button_linkedin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="?attr/actionBarItemBackground"
-                android:contentDescription="@string/git"
+                android:contentDescription="@string/linked_in"
                 android:padding="16dp"
                 android:src="@drawable/ic_linkedin"
+                app:tint="?attr/colorPrimary" />
+
+
+            <ImageButton
+                android:id="@+id/image_button_instagram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/actionBarItemBackground"
+                android:contentDescription="@string/insta"
+                android:padding="16dp"
+                android:src="@drawable/ic_instagram"
                 app:tint="?attr/colorPrimary" />
         </LinearLayout>
     </LinearLayout>

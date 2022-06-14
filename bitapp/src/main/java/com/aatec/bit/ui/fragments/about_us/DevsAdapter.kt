@@ -40,7 +40,7 @@ class DevsAdapter(
         fun bind(devs: Devs) {
             binding.root.transitionName = devs.name
             binding.apply {
-                devs.img_link.loadImageCircular(
+                devs.img_link?.loadImageCircular(
                     itemView,
                     photo,
                     binding.progressBarDev,

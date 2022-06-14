@@ -16,13 +16,14 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-class Devs : Parcelable {
-    val sno: Int = 0
-    val name: String = ""
-    val github: String = ""
-    val linkedin: String = ""
-    val img_link: String = ""
-    val facebook: String = ""
-    val instagram: String = ""
-    val des: String = ""
-}
+data class Devs(
+    val sno: Int? = null,
+    val name: String? = null,
+    val img_link: String? = null,
+    val website: String? = null,
+    val stackoverflow: String? = null,
+    val github: String? = null,
+    val linkedin: String? = null,
+    val instagram: String? = null,
+    val des: String? = null
+) : Parcelable

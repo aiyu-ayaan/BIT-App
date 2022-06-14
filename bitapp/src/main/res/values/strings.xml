@@ -100,7 +100,7 @@
     <string name="delete_all">Delete All</string>
     <string name="acknowledgements">Acknowledgements</string>
     <string name="insta">Instagram</string>
-    <string name="facebook">Facebook</string>
+    <string name="website">Website</string>
     <string name="git">GitHub</string>
     <string name="search_or_add">Search or Add</string>
     <string name="list_all">List All</string>
@@ -189,6 +189,8 @@
     <string name="present">Present :</string>
     <string name="total">Total :</string>
     <string name="without_img">Without Image</string>
+    <string name="linked_in">LinkedIn</string>
+    <string name="stack_over_flow">StackOverFlow</string>
 
 
 </resources>
