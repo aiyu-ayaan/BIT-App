@@ -7,14 +7,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-
     tools:context=".ui.fragments.about_us.detail.DetailDevFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/grid_1"
-        android:padding="@dimen/grid_1">
+        >
 
         <TextView
             android:id="@+id/text_view_about"
@@ -48,7 +47,6 @@
                     android:layout_width="@dimen/image_view_about_us_size"
                     android:layout_height="@dimen/image_view_about_us_size"
                     android:layout_centerHorizontal="true"
-                    android:layout_margin="@dimen/grid_1"
                     android:contentDescription="@string/blank"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -76,6 +74,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/image_view_profile"
                     app:layout_constraintStart_toEndOf="@+id/image_view_profile"
                     app:layout_constraintTop_toTopOf="@+id/image_view_profile"
+                    app:layout_constraintVertical_bias="0.41000003"
                     tools:text="Ayaan" />
 
                 <TextView
@@ -120,16 +119,15 @@
 
                 <Button
                     android:id="@+id/button_web"
-                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:backgroundTint="?attr/bottomBar"
-                    android:elevation="0dp"
                     android:padding="@dimen/grid_2"
                     android:text="@string/website"
                     app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_web_page" />
+                     app:icon="@drawable/ic_web_page"
+                    />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/div_website"
@@ -140,16 +138,15 @@
 
                 <Button
                     android:id="@+id/button_stack_over_flow"
-                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:backgroundTint="?attr/bottomBar"
-                    android:elevation="0dp"
                     android:padding="@dimen/grid_2"
                     android:text="@string/stack_over_flow"
                     app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_stackoverflow" />
+                    app:icon="@drawable/ic_stackoverflow"
+                    />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/div_stack"
@@ -160,16 +157,15 @@
 
                 <Button
                     android:id="@+id/button_git"
-                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:backgroundTint="?attr/bottomBar"
-                    android:elevation="0dp"
                     android:padding="@dimen/grid_2"
                     android:text="@string/git"
                     app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_github" />
+                    app:icon="@drawable/ic_github"
+                    />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/div_git"
@@ -180,16 +176,15 @@
 
                 <Button
                     android:id="@+id/button_linkedin"
-                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:backgroundTint="?attr/bottomBar"
-                    android:elevation="0dp"
                     android:padding="@dimen/grid_2"
                     android:text="@string/linked_in"
                     app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_linkedin" />
+                    app:icon="@drawable/ic_linkedin"
+                     />
 
                 <com.google.android.material.divider.MaterialDivider
                     android:id="@+id/div_link"
@@ -200,17 +195,15 @@
 
                 <Button
                     android:id="@+id/button_instagram"
-                    style="@style/Widget.Material3.Button.ElevatedButton.Icon"
+                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
                     android:backgroundTint="?attr/bottomBar"
-                    android:elevation="0dp"
                     android:padding="@dimen/grid_2"
                     android:text="@string/insta"
                     app:cornerRadius="@dimen/grid_1"
                     app:icon="@drawable/ic_instagram"
-                    app:rippleColor="?attr/colorPrimary" />
+                     />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
