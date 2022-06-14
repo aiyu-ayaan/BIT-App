@@ -141,12 +141,13 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_attendance_top_ext.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_calendar_view_extend.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_course.xml" value="0.33" />
-        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_detail_dev.xml" value="0.5" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_detail_dev.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_home.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_notice.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_notice_detail.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_search.xml" value="0.23002421307506055" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_view_image.xml" value="0.29743589743589743" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/layout_exp.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/navigation_slider_header.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_attendance_sub.xml" value="0.5" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_event_home.xml" value="0.2798913043478261" />

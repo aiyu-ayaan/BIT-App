@@ -37,33 +37,47 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
             viewModel.dev?.let { dev ->
                 dev.img_link?.loadImageCircular(
                     binding.root,
-                    photo,
+                    imageViewProfile,
                     binding.progressBarDescription,
                     R.drawable.ic_running_error
                 )
-                binding.name.text = dev.name
-                imageButtonGit.isVisible = dev.github!!.isNotEmpty()
-                imageButtonStackOverFlow.isVisible = dev.stackoverflow!!.isNotEmpty()
-                imageButtonWeb.isVisible = dev.website!!.isNotEmpty()
-                imageButtonInstagram.isVisible = dev.instagram!!.isNotEmpty()
-                imageButtonLinkedin.isVisible = dev.linkedin!!.isNotEmpty()
+                textViewName.text = dev.name
+                binding.textViewRole.text = dev.des
 
-                imageButtonStackOverFlow.setOnClickListener {
+
+                buttonWeb.isVisible = dev.website!!.isNotEmpty()
+                divWebsite.isVisible = dev.website!!.isNotEmpty()
+
+                buttonStackOverFlow.isVisible = dev.stackoverflow!!.isNotEmpty()
+                divStack.isVisible = dev.stackoverflow!!.isNotEmpty()
+
+                buttonGit.isVisible = dev.github!!.isNotEmpty()
+                divGit.isVisible = dev.github!!.isNotEmpty()
+
+                buttonLinkedin.isVisible = dev.linkedin!!.isNotEmpty()
+                divLink.isVisible = dev.linkedin!!.isNotEmpty()
+
+
+                buttonInstagram.isVisible = dev.instagram!!.isNotEmpty()
+
+
+
+                buttonStackOverFlow.setOnClickListener {
                     requireActivity().openCustomChromeTab(dev.stackoverflow!!)
                 }
-                imageButtonWeb.setOnClickListener {
+                buttonWeb.setOnClickListener {
                     requireActivity().openCustomChromeTab(dev.website!!)
                 }
-                imageButtonInstagram.setOnClickListener {
+                buttonInstagram.setOnClickListener {
                     dev.instagram?.openLinks(requireActivity(), R.string.no_intent_available)
                 }
-                imageButtonGit.setOnClickListener {
+                buttonGit.setOnClickListener {
                     requireActivity().openCustomChromeTab(dev.github!!)
                 }
-                imageButtonLinkedin.setOnClickListener {
+                buttonLinkedin.setOnClickListener {
                     requireActivity().openCustomChromeTab(dev.linkedin!!)
                 }
-                photo.setOnClickListener {
+                imageViewProfile.setOnClickListener {
                     exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
                     reenterTransition =
                         MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
