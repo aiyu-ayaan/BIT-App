@@ -135,7 +135,7 @@ class CalenderViewBottomSheet : BottomSheetDialogFragment() {
                 list.add(it)
             }
         }
-        binding.tvHistory.isVisible = attendance?.days?.totalDays?.isNotEmpty() ?: false
+        binding.cardViewHistory.isVisible = attendance?.days?.totalDays?.isNotEmpty() ?: false
         binding.showDates.showHistory.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = historyAdapter

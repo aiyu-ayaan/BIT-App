@@ -3,19 +3,15 @@ package com.aatec.bit.ui.fragments.attendance
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
-import androidx.cardview.widget.CardView
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,12 +44,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
     private var actionMode: ActionMode? = null
-    private val attendanceList: Lazy<MutableList<AttendanceModel>> = lazy { arrayListOf() }
-    private val views: Lazy<MutableList<CardView>> = lazy { arrayListOf() }
-    private val attendanceLiveData: Lazy<MutableLiveData<List<AttendanceModel>>> =
-        lazy { MutableLiveData() }
-    private val deletedAttendance: Lazy<MutableList<AttendanceModel>> =
-        lazy { arrayListOf() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,14 +58,13 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         attendanceAdapter = AttendanceAdapter(
-            { onItemClickListener(it) },
+            {
+                onItemClickListener(it)
+            },
             { onCheckClick(it) },
             { onWrongClick(it) },
-            { attendance, cardView ->
-                addItemToList(attendance, cardView)
-            },
             {
-                setActionBar()
+                navigateToMenu(it)
             }
         )
 
@@ -95,104 +84,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         setHasOptionsMenu(true)
     }
 
-
-    //    TODO Edit
-    private fun setActionBar() {
-        val callback = object : ActionMode.Callback {
-            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-                mode?.menuInflater?.inflate(R.menu.menu_attendance, menu)
-                return true
-            }
-
-            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean =
-                false
-
-            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean =
-                when (item?.itemId) {
-                    R.id.menu_undo -> {
-                        undoEntry(attendanceList.value.last())
-                        true
-                    }
-                    R.id.menu_edit -> {
-                        navigateToAddEditFragment(attendanceList.value.last())
-                        actionMode?.finish()
-                        true
-                    }
-                    R.id.menu_delete -> {
-                        deleteList()
-                        true
-                    }
-
-                    R.id.menu_delete_all -> {
-                        findNavController().navigate(
-                            NavGraphDirections.actionGlobalDeleteAllDialog()
-                        )
-                        actionMode?.finish()
-                        true
-                    }
-                    else -> {
-                        false
-                    }
-                }
-
-            override fun onDestroyActionMode(mode: ActionMode?) {
-                attendanceAdapter.setIsMenuActive(false)
-                resetListAndViews()
-                actionMode = null
-            }
-        }
-        actionMode = (activity as AppCompatActivity).startSupportActionMode(callback)
-
-        attendanceLiveData.value.observe(viewLifecycleOwner) {
-            actionMode?.title = "${if (it.isEmpty()) "Deleted All" else it.size}"
-            actionMode?.menu?.findItem(R.id.menu_delete)?.isVisible = it.isNotEmpty()
-            actionMode?.menu?.findItem(R.id.menu_undo)?.isVisible = it.isNotEmpty() && it.size == 1
-            actionMode?.menu?.findItem(R.id.menu_edit)?.isVisible = it.isNotEmpty() && it.size == 1
-            actionMode?.menu?.findItem(R.id.menu_delete_all)?.isVisible = it.isEmpty()
-        }
+    private fun navigateToMenu(attendanceModel: AttendanceModel) {
+        val action = NavGraphDirections.actionGlobalAttendanceMenu(attendanceModel)
+        findNavController().navigate(action)
     }
 
-
-    private fun deleteList() {
-        attendanceList.value.forEach {
-            viewModel.delete(it)
-        }
-        deletedAttendance.value.clear()
-        deletedAttendance.value.addAll(attendanceList.value)
-        lifecycleScope.launchWhenStarted {
-            communicator._attendanceEvent.send(
-                AttendanceEvent.ShowUndoDeleteMessageList()
-            )
-        }
-        resetListAndViews()
-        actionMode?.finish()
-    }
-
-    private fun resetListAndViews() {
-        views.value.onEach {
-            it.changeCardColor(requireContext(), android.viewbinding.library.R.attr.colorSurface)
-            it.isLongClickable = true
-        }
-        views.value.clear()
-        attendanceList.value.clear()
-        attendanceLiveData.value.postValue(attendanceList.value)
-    }
-
-    private fun addItemToList(attendance: AttendanceModel, cardView: CardView) {
-        views.value.add(cardView)
-        if (attendanceList.value.contains(attendance)) {
-            cardView.changeCardColor(
-                requireContext(),
-                com.google.android.material.R.attr.colorSurface
-            )
-            attendanceList.value.remove(attendance)
-        } else {
-            cardView.changeCardColor(requireContext(), R.attr.bottomBar)
-            attendanceList.value.add(attendance)
-        }
-
-        attendanceLiveData.value.postValue(attendanceList.value)
-    }
 
     private fun listenForUndoMessage() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -204,15 +100,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                             binding.root
                         ) {
                             viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
-                        }
-
-                    }
-                    is AttendanceEvent.ShowUndoDeleteMessageList -> {
-                        deletedAttendance.value.showUndoMessage(binding.root) { list ->
-                            list.onEach { deletedAttendance ->
-                                viewModel.add(deletedAttendance, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
-                            }
-                            deletedAttendance.value.clear()
                         }
 
                     }

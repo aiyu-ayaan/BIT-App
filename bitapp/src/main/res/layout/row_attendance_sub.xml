@@ -156,7 +156,8 @@
             android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView8"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            app:layout_constraintTop_toBottomOf="@+id/textView8"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageButton
             android:id="@+id/iv_check"
@@ -172,6 +173,7 @@
             app:layout_constraintEnd_toStartOf="@+id/iv_wrong"
             app:layout_constraintStart_toStartOf="@+id/relativeLayout"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_check_circle" />
 
         <ImageButton
@@ -186,6 +188,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/relativeLayout"
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_cancel_circle" />
 
         <TextView

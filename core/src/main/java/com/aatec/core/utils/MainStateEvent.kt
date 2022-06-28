@@ -49,7 +49,4 @@ sealed class AttendanceEvent {
         val syllabus: SyllabusModel? = null,
     ) : AttendanceEvent()
 
-    data class ShowUndoDeleteMessageList(
-        val syllabus: SyllabusModel? = null
-    ) : AttendanceEvent()
 }

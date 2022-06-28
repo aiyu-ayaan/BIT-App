@@ -1,9 +1,9 @@
 package com.aatec.bit.ui.fragments.attendance
 
+import android.animation.LayoutTransition
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
@@ -13,7 +13,6 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.RowAttendanceSubBinding
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.utils.calculatedDays
-import com.aatec.core.utils.changeCardColor
 import com.aatec.core.utils.findPercentage
 import com.aatec.core.utils.setResources
 import kotlin.math.ceil
@@ -23,16 +22,10 @@ class AttendanceAdapter(
     private val onItemClickListener: (attendance: AttendanceModel) -> Unit,
     private val onCheckClick: (attendance: AttendanceModel) -> Unit,
     private val onWrongClick: (attendance: AttendanceModel) -> Unit,
-    private val onMenuActiveClick: (attendance: AttendanceModel, cardView: CardView) -> Unit,
-    private val onLongClick: () -> Unit
+    private val onLongClick : (attendance: AttendanceModel) -> Unit
 ) :
     ListAdapter<AttendanceModel, AttendanceAdapter.AttendanceViewHolder>(DiffUtilAttendance()) {
     private var minPercentage = 75
-    private var isMenuActive: Boolean = false
-
-    fun setIsMenuActive(isMenuActive: Boolean) {
-        this.isMenuActive = isMenuActive
-    }
 
     inner class AttendanceViewHolder(private val binding: RowAttendanceSubBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -42,38 +35,23 @@ class AttendanceAdapter(
                     val position = absoluteAdapterPosition
                     if (position != RecyclerView.NO_POSITION)
                         getItem(position)?.let {
-                            if (isMenuActive)
-                                onMenuActiveClick.invoke(it, binding.root)
-                            else
-                                onItemClickListener.invoke(it)
+                            onItemClickListener.invoke(it)
                         }
                 }
                 ivCheck.setOnClickListener {
                     val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION && !isMenuActive)
+                    if (position != RecyclerView.NO_POSITION)
                         onCheckClick.invoke(getItem(position))
                 }
                 ivWrong.setOnClickListener {
                     val position = absoluteAdapterPosition
-                    if (position != RecyclerView.NO_POSITION && !isMenuActive)
+                    if (position != RecyclerView.NO_POSITION)
                         onWrongClick.invoke(getItem(position))
                 }
-
-                binding.root.setOnLongClickListener {
-                    if (!isMenuActive) {
-                        isMenuActive = true
-                        val position = absoluteAdapterPosition
-                        if (position != RecyclerView.NO_POSITION) {
-                            onLongClick.invoke()
-                            onMenuActiveClick.invoke(getItem(position), binding.root)
-                                .apply {
-                                    binding.root.changeCardColor(
-                                        binding.root.context,
-                                        R.attr.bottomBar
-                                    )
-                                }
-                        }
-                    }
+                root.setOnLongClickListener {
+                    val position = absoluteAdapterPosition
+                    if (position != RecyclerView.NO_POSITION)
+                        onLongClick.invoke(getItem(position))
                     true
                 }
             }

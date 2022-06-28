@@ -365,4 +365,16 @@
         app:destination="@id/homeFragment"
         app:popUpTo="@id/warningFragment"
         app:popUpToInclusive="true" />
+    <dialog
+        android:id="@+id/attendanceMenu"
+        android:name="com.aatec.bit.ui.fragments.attendance.menu.AttendanceMenu"
+        android:label="bottom_sheet_attendance"
+        tools:layout="@layout/bottom_sheet_attendance">
+        <argument
+            android:name="attendance"
+            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_attendanceMenu"
+        app:destination="@id/attendanceMenu" />
 </navigation>
