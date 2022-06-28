@@ -1,31 +1,27 @@
 package com.aatec.bit.ui.fragments.society.description
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.Html
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageView
-import androidx.core.text.HtmlCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.webkit.WebSettingsCompat
-import androidx.webkit.WebViewFeature
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSocietyDescriptionBinding
-import com.aatec.bit.utils.*
+import com.aatec.bit.utils.handleCustomBackPressed
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_description) {
@@ -35,7 +31,6 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
     private val viewModel: SocietyViewModel by viewModels()
     private lateinit var handler: Handler
     private lateinit var insta: String
-    private lateinit var web: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,34 +46,11 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         setTransitionNameToRoot()
         setHandler()
         setSociety()
-        darkWebView()
         setHasOptionsMenu(true)
         handleCustomBackPressed { customAction() }
-
         detectScroll()
     }
 
-    private fun darkWebView() {
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            when (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
-                Configuration.UI_MODE_NIGHT_YES -> {
-                    WebSettingsCompat.setForceDark(
-                        binding.showContent.settings,
-                        WebSettingsCompat.FORCE_DARK_ON
-                    )
-                }
-                Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-                    WebSettingsCompat.setForceDark(
-                        binding.showContent.settings,
-                        WebSettingsCompat.FORCE_DARK_OFF
-                    )
-                }
-                else -> {
-                    //
-                }
-            }
-        }
-    }
 
     private fun setSociety() = binding.apply {
         val s = viewModel.society
@@ -86,32 +58,45 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
             val des = society.des
             val imgLink = society.logo_link
             insta = society.ins
+            val body = """
+                <html>
+                <head>
+                <meta name="color-scheme" content="dark light">
+                <style>
+                body{
+                    text-align:justify;
+                    background-color:${
+                getRgbFromHex(
+                    String.format(
+                        "#%06X",
+                        (context?.getColorFromAttr(com.google.android.material.R.attr.colorSurface))
+                    )
+                )
+            };
+                color:${getColorForText(requireContext())};
+                 }
+                 tr{
+                    color:rgb(0,0,0);
+                 }
+                 </style>
+                </head>
+                <body>
+                $des
+                </body>
+                </html>
+            """.trimIndent()
 
-            val body = Html
-                .fromHtml(
-                    "<![CDATA[<body style=\"text-align:justify;${
-                        society.run {
-                            "background-color:${
-                                getRgbFromHex(
-                                    String.format(
-                                        "#%06X",
-                                        (context?.getColorFromAttr(com.google.android.material.R.attr.colorSurface))
-                                    )
-                                )
-                            };"
-                        }
-                    } ${society.run { "color:${getColorForText(requireContext())};" }}\">"
-                            + des.replaceNewLineWithBreak()
-                            + "</body>]]>", HtmlCompat.FROM_HTML_MODE_LEGACY
-                ).toString()
+            showContent.apply {
+                settings.javaScriptEnabled = true
+                val initialScale = getScale(400.0)
+                setInitialScale(initialScale)
+                loadData(
+                    body,
+                    "text/html; charset=utf-8",
+                    "utf-8"
+                )
+            }
 
-            showContent.loadData(
-                body,
-                "text/html; charset=utf-8",
-                "utf-8"
-            )
-            val initialScale = getScale(400.0)
-            showContent.setInitialScale(initialScale)
             imgLink.loadImage(
                 binding.root,
                 societyImage,
@@ -119,6 +104,7 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
                 DEFAULT_CORNER_RADIUS,
                 R.drawable.ic_running_error
             )
+            binding.showContent.settings.javaScriptEnabled = true
 
             societyImage.apply {
                 this.scaleType = ImageView.ScaleType.CENTER
@@ -128,8 +114,6 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
             }
         }
     }
-
-
 
     private fun navigateToImageView(link: String) {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
@@ -173,7 +157,6 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         menu.findItem(R.id.menu_share).isVisible = false
         menu.findItem(R.id.menu_link).isVisible = false
     }
-
 
 
     override fun onSaveInstanceState(outState: Bundle) {

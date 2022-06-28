@@ -588,6 +588,17 @@ fun getColorForText(context: Context) = context.run {
     else "rgb(0,0,0)"
 }
 
+/**
+ * Return color in hex for webView
+ * @param context Current Context
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun getColorForTH(context: Context) = context.run {
+    if (this.isDark()) "rgb(0,0,0)"
+    else "rgb(255,255,255)"
+}
+
 
 ///**
 // * Custom Back Pressed
