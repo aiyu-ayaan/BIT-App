@@ -2,6 +2,8 @@ buildscript {
     ext {
         kotlin_version = "1.6.20"
         playStoreCoreVersion = "1.8.1"
+        materail3Version = "1.7.0-alpha02"
+        firebaseFireStoreVersion = "24.1.2"
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.1'
         lifecycle_version = "2.4.1"

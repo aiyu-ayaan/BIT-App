@@ -47,8 +47,8 @@ dependencies {
     implementation project(':syllabus')
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.7.0-alpha02'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.2'
+    implementation "com.google.android.material:material:$materail3Version"
+    implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFireStoreVersion"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
 
 //    FireStore
