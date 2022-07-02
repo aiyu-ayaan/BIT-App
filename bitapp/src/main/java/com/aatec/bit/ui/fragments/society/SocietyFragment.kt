@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSocietyBinding
+import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.MainStateEvent
 import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.core.utils.onScrollColorChange
@@ -47,6 +49,14 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
             showSociety.apply {
                 adapter = societyAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
+                )
             }
         }
         societyAdapter.stateRestorationPolicy =

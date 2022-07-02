@@ -24,6 +24,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentHomeBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
+import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.ui.fragments.home.adapter.EventHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
@@ -49,7 +50,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
     private val preferencesManagerViewModel: PreferenceManagerViewModel by activityViewModels()
     private var defPercentage = 75
-    private lateinit var divider: MaterialDividerItemDecoration
     private lateinit var syllabusPeAdapter: SyllabusHomeAdapter
     private lateinit var syllabusTheoryAdapter: SyllabusHomeAdapter
     private lateinit var syllabusLabAdapter: SyllabusHomeAdapter
@@ -71,10 +71,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         restoreScroll()
-        divider = MaterialDividerItemDecoration(requireContext(), LinearLayoutManager.VERTICAL)
-        divider.dividerInsetStart = resources.getDimensionPixelSize(R.dimen.grid_2)
-        divider.dividerInsetEnd = resources.getDimensionPixelSize(R.dimen.grid_1_5)
-        divider.dividerColor = ContextCompat.getColor(requireContext(), R.color.card_corner)
+
 
         holidayAdapter = HolidayHomeAdapter()
         binding.apply {
@@ -122,7 +119,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setHoliday() = binding.apply {
         showHoliday.apply {
-            addItemDecoration(divider)
+            addItemDecoration( DividerItemDecorationNoLast(
+                requireContext(),
+                LinearLayoutManager.VERTICAL
+            ).apply {
+                setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+            }
+            )
             adapter = holidayAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)

@@ -1,17 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_scroll_view_society"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:clipToPadding="false"
     android:fillViewport="true"
+    android:paddingBottom="@dimen/bottom_app_bar_height"
     tools:context=".ui.fragments.society.SocietyFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/show_society"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="@dimen/bottom_app_bar_height"
-        android:transitionGroup="true" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/grid_2"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/material_card_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeColor="@color/divider_color">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/show_society"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:transitionGroup="true" />
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
 </androidx.core.widget.NestedScrollView>

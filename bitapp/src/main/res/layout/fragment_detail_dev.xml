@@ -134,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/div_height"
                     android:layout_marginHorizontal="@dimen/grid_1"
-                    app:dividerColor="@color/div_color" />
+                   app:dividerColor="@color/divider_color" />
 
                 <Button
                     android:id="@+id/button_stack_over_flow"
@@ -153,7 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/div_height"
                     android:layout_marginHorizontal="@dimen/grid_1"
-                    app:dividerColor="@color/div_color" />
+                   app:dividerColor="@color/divider_color" />
 
                 <Button
                     android:id="@+id/button_git"
@@ -172,7 +172,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/div_height"
                     android:layout_marginHorizontal="@dimen/grid_1"
-                    app:dividerColor="@color/div_color" />
+                   app:dividerColor="@color/divider_color" />
 
                 <Button
                     android:id="@+id/button_linkedin"
@@ -191,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/div_height"
                     android:layout_marginHorizontal="@dimen/grid_1"
-                    app:dividerColor="@color/div_color" />
+                   app:dividerColor="@color/divider_color" />
 
                 <Button
                     android:id="@+id/button_instagram"

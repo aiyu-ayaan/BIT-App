@@ -6,6 +6,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -51,7 +52,9 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
                     DividerItemDecorationNoLast(
                         requireContext(),
                         LinearLayoutManager.VERTICAL
-                    )
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
                 )
                 adapter = holidayAdapter
                 layoutManager = LinearLayoutManager(context)

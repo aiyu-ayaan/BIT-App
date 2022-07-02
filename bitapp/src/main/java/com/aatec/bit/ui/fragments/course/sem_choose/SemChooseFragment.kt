@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -22,6 +23,7 @@ import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.FragmentSemChooseBinding
+import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.utils.openLinks
 import com.google.android.material.transition.MaterialContainerTransform
@@ -78,14 +80,38 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                 showTheory.apply {
                     adapter = courseTheoryAdapter
                     layoutManager = LinearLayoutManager(requireContext())
+                    addItemDecoration(
+                        DividerItemDecorationNoLast(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL
+                        ).apply {
+                            setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                        }
+                    )
                 }
                 showLab.apply {
                     adapter = courseLabAdapter
                     layoutManager = LinearLayoutManager(requireContext())
+                    addItemDecoration(
+                        DividerItemDecorationNoLast(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL
+                        ).apply {
+                            setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                        }
+                    )
                 }
                 showPe.apply {
                     adapter = coursePeAdapter
                     layoutManager = LinearLayoutManager(requireContext())
+                    addItemDecoration(
+                        DividerItemDecorationNoLast(
+                            requireContext(),
+                            LinearLayoutManager.VERTICAL
+                        ).apply {
+                            setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                        }
+                    )
                 }
             }
         }

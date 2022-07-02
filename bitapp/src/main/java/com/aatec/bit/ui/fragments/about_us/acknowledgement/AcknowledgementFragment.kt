@@ -5,15 +5,16 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
-import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.FragmentAcknowledgementBinding
+import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.aatec.core.data.ui.componentUse.ComponentList
 import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.core.utils.onScrollColorChange
 import com.aatec.core.utils.openCustomChromeTab
-import com.aatec.core.data.ui.componentUse.ComponentList
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -39,7 +40,9 @@ class AcknowledgementFragment : Fragment(R.layout.fragment_acknowledgement) {
                     DividerItemDecorationNoLast(
                         requireContext(),
                         LinearLayoutManager.VERTICAL
-                    )
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
                 )
                 adapter = componentUseAdapter
                 layoutManager = LinearLayoutManager(requireContext())

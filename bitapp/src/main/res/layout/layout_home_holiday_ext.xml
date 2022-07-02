@@ -39,7 +39,7 @@
         android:layout_height="match_parent"
         android:layout_below="@id/text_holiday"
         app:cardBackgroundColor="?attr/colorSurface"
-        app:strokeColor="@color/card_corner">
+        app:strokeColor="@color/divider_color">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/showHoliday"

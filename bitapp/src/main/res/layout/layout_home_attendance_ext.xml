@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv3"
         app:cardBackgroundColor="?attr/colorSurface"
-        app:strokeColor="@color/card_corner">
+        app:strokeColor="@color/divider_color">
 
         <LinearLayout
             android:layout_width="match_parent"

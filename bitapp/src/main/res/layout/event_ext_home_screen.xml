@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/text_event"
         app:cardBackgroundColor="?attr/colorSurface"
-        app:strokeColor="@color/card_corner">
+        app:strokeColor="@color/divider_color">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/show_event"

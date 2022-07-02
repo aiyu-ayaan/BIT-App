@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/underLine" />
+        app:dividerColor="@color/divider_color" />
 
     <ImageButton
         android:id="@+id/button_about_us"

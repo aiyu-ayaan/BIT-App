@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,8 +13,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
-import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.BottomSheetListAllBinding
+import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.AttendanceEvent
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
@@ -49,7 +50,9 @@ class ListAllBottomSheet : BottomSheetDialogFragment(), ListAllAdapter.ClickList
                     DividerItemDecorationNoLast(
                         requireContext(),
                         LinearLayoutManager.VERTICAL
-                    )
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
                 )
                 adapter = listAllAdapter
                 layoutManager = LinearLayoutManager(requireContext())

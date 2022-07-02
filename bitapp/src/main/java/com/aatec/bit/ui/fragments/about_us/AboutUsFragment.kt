@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -15,13 +16,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
-import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.FragmentAboutUsBinding
+import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.MainStateEvent
-import com.aatec.core.utils.changeStatusBarToolbarColor
-import com.aatec.core.utils.openPlayStore
 import com.aatec.core.data.network.aboutus.Devs
 import com.aatec.core.utils.DataState
+import com.aatec.core.utils.changeStatusBarToolbarColor
+import com.aatec.core.utils.openPlayStore
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
@@ -56,7 +57,9 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
                     DividerItemDecorationNoLast(
                         requireContext(),
                         LinearLayoutManager.VERTICAL
-                    )
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
                 )
                 adapter = devAdapter
                 layoutManager = LinearLayoutManager(requireContext())

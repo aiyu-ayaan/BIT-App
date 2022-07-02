@@ -81,7 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_2"
             android:visibility="invisible"
-            app:dividerColor="@color/card_corner"
+            app:dividerColor="@color/divider_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/photo" />

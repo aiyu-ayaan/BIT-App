@@ -22,7 +22,7 @@
         android:layout_centerInParent="true"
         style="?attr/materialCardViewFilledStyle"
         app:cardBackgroundColor="?attr/colorSurface"
-        app:strokeColor="@color/card_corner">
+        app:strokeColor="@color/divider_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

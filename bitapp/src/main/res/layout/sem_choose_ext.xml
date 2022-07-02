@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@android:color/transparent"
-            app:strokeColor="@color/card_corner">
+            app:strokeColor="@color/divider_color">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_theory"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@android:color/transparent"
-            app:strokeColor="@color/card_corner">
+            app:strokeColor="@color/divider_color">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_lab"
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@android:color/transparent"
-            app:strokeColor="@color/card_corner">
+            app:strokeColor="@color/divider_color">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_pe"

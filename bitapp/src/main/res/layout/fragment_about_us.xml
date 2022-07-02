@@ -213,7 +213,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/div_height"
                     android:layout_marginHorizontal="@dimen/grid_1"
-                    app:dividerColor="@color/div_color" />
+                    app:dividerColor="@color/divider_color" />
 
                 <Button
                     android:id="@+id/text_view_play_store"
