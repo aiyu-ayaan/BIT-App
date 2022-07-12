@@ -187,7 +187,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             }
 
             when (destination.id) {
-                R.id.chooseImageBottomSheet,
                 R.id.semChooseFragment, R.id.detailDevFragment,
                 R.id.searchFragment
                 -> changeStatusBarToolbarColor(
@@ -197,7 +196,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
 
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
                 R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet,R.id.attendanceMenu
+                R.id.calenderViewBottomSheet, R.id.attendanceMenu,
+                R.id.chooseImageBottomSheet
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     R.attr.bottomSheetBackground
