@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.databinding.FragmentHolidayBinding
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.core.utils.showSnackBar
 import com.aatec.core.utils.DataState
@@ -97,7 +98,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
             }
         }
         detectScroll()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     private fun setTitle(toolbar: Toolbar?) {
@@ -126,11 +127,5 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
                 }
             }
         }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
     }
 }

@@ -9,10 +9,12 @@ import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,6 +24,7 @@ import com.aatec.bit.databinding.FragmentNoticeDetailBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
 import com.aatec.bit.ui.fragments.course.CourseFragment
 import com.aatec.bit.ui.fragments.notice.ImageGridAdapter
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.network.notice.Attach
 import com.aatec.core.data.ui.notice.Notice3
 import com.aatec.core.data.ui.notice.SendNotice3
@@ -63,7 +66,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         detectScroll()
         getNotice()
         setIsConnected()
-        setHasOptionsMenu(true)
+        menuHost()
     }
 
     private fun getNotice() = lifecycleScope.launchWhenStarted {
@@ -172,12 +175,18 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.notice_description_menu, menu)
-
+    private fun menuHost() {
+        addMenuHost(R.menu.notice_description_menu) { menuItem ->
+            when (menuItem.itemId) {
+                R.id.menu_notice_share -> {
+                    shareNotice()
+                    true
+                }
+                else -> false
+            }
+        }
     }
+
 
     private fun navigateToImageView(link: String) {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
@@ -204,18 +213,6 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         })
     }
 
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_notice_share -> {
-                shareNotice()
-                true
-            }
-            else -> {
-                super.onOptionsItemSelected(item)
-            }
-        }
-    }
 
     private fun shareNotice() {
         if (!isEmpty) {

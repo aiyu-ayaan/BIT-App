@@ -8,6 +8,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -18,6 +19,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
@@ -122,6 +124,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         checkForUpdate()
         getWarning()
         shareReview()
+        menuHost()
     }
 
     private fun shareReview() {
@@ -363,20 +366,24 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         navController.navigate(directions)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_toolbar, menu)
-        return true
+    private fun menuHost() {
+        this.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menu_toolbar, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
+                when (menuItem.itemId) {
+                    R.id.BitMenu -> {
+                        navigateToSearch()
+                        true
+                    }
+                    else -> menuItem.onNavDestinationSelected(navController)
+                }
+
+        })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.BitMenu -> {
-                navigateToSearch()
-                true
-            }
-            else -> item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun navigateToSearch() {
         getCurrentFragment()?.apply {

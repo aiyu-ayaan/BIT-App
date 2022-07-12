@@ -1,9 +1,6 @@
 package com.aatec.bit.ui.fragments.search
 
 import android.os.Bundle
-import android.os.Parcelable
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.EditText
@@ -20,14 +17,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
+import com.aatec.bit.databinding.FragmentSearchBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
-import com.aatec.bit.databinding.FragmentSearchBinding
 import com.aatec.bit.ui.fragments.course.CourseFragment
 import com.aatec.bit.ui.fragments.event.EventAdapter
 import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.aatec.bit.ui.fragments.notice.Notice3Adapter
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.preferences.SearchPreference
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
@@ -109,7 +107,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             setEventView()
         }
 
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     /**
@@ -229,11 +227,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
-
     //    Syllabus
     private fun setOnSyllabusClickListener(syllabusModel: SyllabusModel, view: View) {
         exitTransition = MaterialElevationScale(false).apply {
@@ -290,10 +283,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         super.onDestroy()
         communicator.query.value = getString(R.string.blank)
         communicator.openFirst = true
-    }
-
-    companion object {
-        var myScrollViewerInstanceState: Parcelable? = null
     }
 
 }

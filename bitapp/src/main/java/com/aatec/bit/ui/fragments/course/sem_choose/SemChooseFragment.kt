@@ -3,9 +3,6 @@ package com.aatec.bit.ui.fragments.course.sem_choose
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
@@ -21,9 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
-import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.FragmentSemChooseBinding
+import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.utils.openLinks
 import com.google.android.material.transition.MaterialContainerTransform
@@ -85,7 +83,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                             requireContext(),
                             LinearLayoutManager.VERTICAL
                         ).apply {
-                            setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                            setDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.divider
+                                )
+                            )
                         }
                     )
                 }
@@ -97,7 +100,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                             requireContext(),
                             LinearLayoutManager.VERTICAL
                         ).apply {
-                            setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                            setDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.divider
+                                )
+                            )
                         }
                     )
                 }
@@ -109,7 +117,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                             requireContext(),
                             LinearLayoutManager.VERTICAL
                         ).apply {
-                            setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                            setDrawable(
+                                ContextCompat.getDrawable(
+                                    requireContext(),
+                                    R.drawable.divider
+                                )
+                            )
                         }
                     )
                 }
@@ -134,7 +147,19 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             buttonColorChange(it.semSyllabus, binding)
         }
         buttonClick()
-        setHasOptionsMenu(true)
+        setUpMenu()
+    }
+
+    private fun setUpMenu() {
+        addMenuHost(R.menu.menu_sem_choose) { item ->
+            when (item.itemId) {
+                R.id.menu_download_syllabus -> {
+                    getSyllabus(viewModel.request?.uppercase() ?: "BCA")
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
 
@@ -170,21 +195,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.menu_sem_choose, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.menu_download_syllabus -> {
-                getSyllabus(viewModel.request?.uppercase() ?: "BCA")
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
 
     private fun getSyllabus(course: String) {
         db.collection("Utils")

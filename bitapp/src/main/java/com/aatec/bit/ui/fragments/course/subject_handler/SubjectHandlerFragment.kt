@@ -2,14 +2,13 @@ package com.aatec.bit.ui.fragments.course.subject_handler
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSubjectHandlerBinding
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.syllabus.setFragment
 import com.google.android.material.transition.MaterialContainerTransform
@@ -34,13 +33,8 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.transitionName = args.syllabus.openCode
         setFragment(R.id.load_subject, childFragmentManager, args.syllabus)
-        setHasOptionsMenu(true)
         detectScroll()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
+        addMenuHost()
     }
 
     /**

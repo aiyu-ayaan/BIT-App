@@ -17,6 +17,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSocietyBinding
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.MainStateEvent
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.core.utils.onScrollColorChange
 import com.aatec.core.utils.showSnackBar
@@ -82,7 +83,7 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
         }
         detectScroll()
         restoreColor()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     private fun restoreColor() {
