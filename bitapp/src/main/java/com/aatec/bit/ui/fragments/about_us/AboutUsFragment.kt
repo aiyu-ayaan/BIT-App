@@ -2,8 +2,6 @@ package com.aatec.bit.ui.fragments.about_us
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
@@ -19,6 +17,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentAboutUsBinding
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.MainStateEvent
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.network.aboutus.Devs
 import com.aatec.core.utils.DataState
 import com.aatec.core.utils.changeStatusBarToolbarColor
@@ -133,7 +132,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         }
         binding.showDevs.isNestedScrollingEnabled = false
         detectScroll()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     private fun detectScroll() {
@@ -190,10 +189,6 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
 
     override fun onStop() {
         try {

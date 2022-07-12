@@ -1,8 +1,6 @@
 package com.aatec.bit.ui.fragments.about_us.detail
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
@@ -12,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentDetailDevBinding
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.loadImageCircular
 import com.aatec.core.utils.openCustomChromeTab
 import com.aatec.core.utils.openLinks
@@ -90,12 +89,8 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                 }
             }
         }
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
 
 }

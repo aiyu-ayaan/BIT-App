@@ -22,6 +22,7 @@ import com.aatec.bit.databinding.FragmentAttendanceBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.utils.AttendanceEvent
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.AttendanceSave
 import com.aatec.core.data.room.attendance.IsPresent
@@ -81,7 +82,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         addSubjectFromSyllabus()
         detectScroll()
         addSubject()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     private fun navigateToMenu(attendanceModel: AttendanceModel) {
@@ -394,10 +395,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         findNavController().navigate(action)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
+     
 
     override fun onDestroy() {
         super.onDestroy()

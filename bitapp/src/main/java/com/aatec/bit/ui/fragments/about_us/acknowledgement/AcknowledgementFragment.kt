@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentAcknowledgementBinding
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.ui.componentUse.ComponentList
 import com.aatec.core.utils.changeStatusBarToolbarColor
 import com.aatec.core.utils.onScrollColorChange
@@ -50,13 +51,10 @@ class AcknowledgementFragment : Fragment(R.layout.fragment_acknowledgement) {
         }
         componentUseAdapter.submitList(ComponentList.list)
         detectScroll()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
+     
 
     private fun handleClick(it: String) {
         requireContext().openCustomChromeTab(it)

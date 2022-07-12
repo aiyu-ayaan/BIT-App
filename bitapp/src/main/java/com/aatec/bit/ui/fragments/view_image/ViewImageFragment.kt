@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentViewImageBinding
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -113,13 +114,10 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                 findNavController().navigateUp()
             }
         }
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
+     
 
     override fun onDestroy() {
         super.onDestroy()

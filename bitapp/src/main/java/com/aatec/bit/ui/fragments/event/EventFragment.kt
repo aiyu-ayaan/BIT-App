@@ -17,6 +17,7 @@ import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentEventBinding
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.MainStateEvent
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
@@ -78,7 +79,7 @@ class EventFragment : Fragment(R.layout.fragment_event) {
             }
         }
         detectScroll()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     private fun onEventClick(event: Event) {
@@ -122,8 +123,5 @@ class EventFragment : Fragment(R.layout.fragment_event) {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
+     
 }

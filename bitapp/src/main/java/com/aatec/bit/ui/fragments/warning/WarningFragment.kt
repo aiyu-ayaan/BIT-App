@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentWarningBinding
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.openPlayStore
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -44,7 +45,7 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
 
         }
         getWarning()
-        setHasOptionsMenu(true)
+        addMenuHost()
     }
 
     private fun getWarning() {
@@ -69,8 +70,5 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
     }
 
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-    }
+     
 }
