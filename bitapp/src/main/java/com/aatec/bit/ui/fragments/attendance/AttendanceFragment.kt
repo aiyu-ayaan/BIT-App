@@ -1,8 +1,6 @@
 package com.aatec.bit.ui.fragments.attendance
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
@@ -22,7 +20,6 @@ import com.aatec.bit.databinding.FragmentAttendanceBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.utils.AttendanceEvent
-import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.room.attendance.AttendanceModel
 import com.aatec.core.data.room.attendance.AttendanceSave
 import com.aatec.core.data.room.attendance.IsPresent
@@ -82,7 +79,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         addSubjectFromSyllabus()
         detectScroll()
         addSubject()
-        addMenuHost()
+
     }
 
     private fun navigateToMenu(attendanceModel: AttendanceModel) {
@@ -395,7 +392,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         findNavController().navigate(action)
     }
 
-     
 
     override fun onDestroy() {
         super.onDestroy()

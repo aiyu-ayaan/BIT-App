@@ -1,8 +1,6 @@
 package com.aatec.bit.ui.fragments.warning
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.Fragment
@@ -11,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentWarningBinding
-import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.openPlayStore
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -45,7 +42,6 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
 
         }
         getWarning()
-        addMenuHost()
     }
 
     private fun getWarning() {
@@ -70,5 +66,4 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
     }
 
 
-     
 }

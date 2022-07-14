@@ -98,7 +98,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
             }
         }
         detectScroll()
-        addMenuHost()
+
     }
 
     private fun setTitle(toolbar: Toolbar?) {

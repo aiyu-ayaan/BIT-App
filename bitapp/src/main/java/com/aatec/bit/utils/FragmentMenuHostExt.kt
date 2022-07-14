@@ -10,17 +10,19 @@ import androidx.lifecycle.Lifecycle
 
 
 inline fun Fragment.addMenuHost(
-    @MenuRes id: Int? =null,
+    @MenuRes id: Int? = null,
+    crossinline getMenu: (Menu) -> Unit = {},
     crossinline menuClick: ((MenuItem) -> Boolean) = { false }
-) =
-    this.apply {
+): MenuProvider =
+    this.run {
         val menuHost = requireActivity()
-        menuHost.addMenuProvider(object : MenuProvider {
+        val menuProvider = object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menu.clear()
                 id?.let {
                     menuInflater.inflate(it, menu)
                 }
+                getMenu.invoke(menu)
 
             }
 
@@ -28,5 +30,7 @@ inline fun Fragment.addMenuHost(
                 menuClick.invoke(menuItem)
 
 
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }
+        menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        menuProvider
     }

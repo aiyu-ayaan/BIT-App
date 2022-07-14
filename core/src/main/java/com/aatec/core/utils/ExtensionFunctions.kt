@@ -718,10 +718,14 @@ fun Context.openCustomChromeTab(link: String) = this.run {
             )
         )
         .build()
-    val customTabIntent =
-        CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
-    customTabIntent.intent.`package` = "com.android.chrome"
-    customTabIntent.launchUrl(this, Uri.parse(link))
+    try {
+        val customTabIntent =
+            CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
+        customTabIntent.intent.`package` = "com.android.chrome"
+        customTabIntent.launchUrl(this, Uri.parse(link))
+    } catch (e: Exception) {
+        Toast.makeText(this, "Invalid Link", Toast.LENGTH_SHORT).show()
+    }
 }
 
 /**

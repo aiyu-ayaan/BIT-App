@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.DisplayMetrics
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageView
@@ -17,6 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentSocietyDescriptionBinding
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.bit.utils.handleCustomBackPressed
 import com.aatec.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
@@ -46,9 +45,25 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         setTransitionNameToRoot()
         setHandler()
         setSociety()
-        setHasOptionsMenu(true)
         handleCustomBackPressed { customAction() }
         detectScroll()
+        setMenu()
+    }
+
+    private fun setMenu() {
+        addMenuHost(R.menu.menu_event_society_des, { menu ->
+            menu.findItem(R.id.menu_insta).isVisible = viewModel.society!!.ins.isNotBlank()
+            menu.findItem(R.id.menu_share).isVisible = false
+            menu.findItem(R.id.menu_link).isVisible = false
+        }) {
+            when (it.itemId) {
+                R.id.menu_insta -> {
+                    insta.openLinks(requireActivity(), R.string.no_intent_available)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
 
@@ -147,15 +162,6 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         }
         findNavController().navigateUp()
         return true
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.menu_event_society_des, menu)
-        menu.findItem(R.id.menu_insta).isVisible = viewModel.society!!.ins.isNotBlank()
-        menu.findItem(R.id.menu_share).isVisible = false
-        menu.findItem(R.id.menu_link).isVisible = false
     }
 
 

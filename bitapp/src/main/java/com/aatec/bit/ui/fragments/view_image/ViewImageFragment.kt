@@ -114,7 +114,7 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                 findNavController().navigateUp()
             }
         }
-        addMenuHost()
+
     }
 
      

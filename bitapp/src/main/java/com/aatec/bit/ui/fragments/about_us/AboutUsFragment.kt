@@ -132,7 +132,6 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         }
         binding.showDevs.isNestedScrollingEnabled = false
         detectScroll()
-        addMenuHost()
     }
 
     private fun detectScroll() {

@@ -107,7 +107,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             setEventView()
         }
 
-        addMenuHost()
+
     }
 
     /**

@@ -79,7 +79,7 @@ class EventFragment : Fragment(R.layout.fragment_event) {
             }
         }
         detectScroll()
-        addMenuHost()
+
     }
 
     private fun onEventClick(event: Event) {

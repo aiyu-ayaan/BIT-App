@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentDetailDevBinding
-import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.utils.loadImageCircular
 import com.aatec.core.utils.openCustomChromeTab
 import com.aatec.core.utils.openLinks
@@ -89,7 +88,6 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                 }
             }
         }
-        addMenuHost()
     }
 
 

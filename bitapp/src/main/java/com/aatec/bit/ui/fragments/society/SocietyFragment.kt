@@ -80,7 +80,7 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
             }
         }
         detectScroll()
-        addMenuHost()
+
     }
 
 

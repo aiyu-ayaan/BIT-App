@@ -51,7 +51,7 @@ class AcknowledgementFragment : Fragment(R.layout.fragment_acknowledgement) {
         }
         componentUseAdapter.submitList(ComponentList.list)
         detectScroll()
-        addMenuHost()
+
     }
 
      

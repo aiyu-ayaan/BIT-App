@@ -35,6 +35,7 @@ import com.aatec.bit.databinding.ActivityMainBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.utils.DrawerLocker
+import com.aatec.bit.utils.MenuClick
 import com.aatec.core.data.preferences.SearchPreference
 import com.aatec.core.utils.*
 import com.google.android.material.snackbar.Snackbar
@@ -53,7 +54,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), DrawerLocker {
+class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
     private val binding: ActivityMainBinding by viewBinding()
     private lateinit var navController: NavController
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     private lateinit var searchPreference: SearchPreference
     private var reviewInfo: ReviewInfo? = null
     private lateinit var reviewManager: ReviewManager
+    private var searchMenuItem: MenuItem? = null
 
     @Inject
     lateinit var db: FirebaseFirestore
@@ -124,7 +126,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         checkForUpdate()
         getWarning()
         shareReview()
-        menuHost()
+//        menuHost()
     }
 
     private fun shareReview() {
@@ -152,6 +154,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
 
     private fun onDestinationChange() {
         navController.onDestinationChange { destination ->
+
             when (destination.id) {
                 R.id.noticeFragment,
                 R.id.attendanceFragment,
@@ -370,6 +373,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         this.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_toolbar, menu)
+                searchMenuItem = menu.findItem(R.id.BitMenu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
@@ -483,5 +487,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
         setIntent(intent)
+    }
+
+    override fun onMenuClick() {
+        navigateToSearch()
     }
 }

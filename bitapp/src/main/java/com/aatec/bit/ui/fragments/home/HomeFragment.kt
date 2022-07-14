@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentHomeBinding
+import com.aatec.bit.ui.activity.main_activity.MainActivity
 import com.aatec.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
@@ -29,10 +30,10 @@ import com.aatec.bit.ui.fragments.home.adapter.EventHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.aatec.bit.utils.MainStateEvent
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -115,11 +116,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        setTimeTable()
         getData()
         setHoliday()
+
+        createMenu()
+    }
+
+    private fun createMenu() {
+        addMenuHost(R.menu.menu_toolbar) {
+            when (it.itemId) {
+                R.id.BitMenu -> {
+                    (requireActivity() as MainActivity).onMenuClick()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     private fun setHoliday() = binding.apply {
         showHoliday.apply {
-            addItemDecoration( DividerItemDecorationNoLast(
+            addItemDecoration(DividerItemDecorationNoLast(
                 requireContext(),
                 LinearLayoutManager.VERTICAL
             ).apply {

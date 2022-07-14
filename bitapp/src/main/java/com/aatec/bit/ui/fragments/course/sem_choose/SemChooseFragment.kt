@@ -23,7 +23,7 @@ import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.aatec.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.aatec.bit.utils.addMenuHost
 import com.aatec.core.data.room.syllabus.SyllabusModel
-import com.aatec.core.utils.openLinks
+import com.aatec.core.utils.openCustomChromeTab
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.firebase.firestore.FirebaseFirestore
@@ -201,10 +201,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             .document("syllabus_download")
             .addSnapshotListener { value, _ ->
                 val link = value?.getString(course)
-                link?.openLinks(
-                    requireActivity(),
-                    R.string.no_intent_available
-                )
+                link?.let {
+                    requireActivity().openCustomChromeTab(it)
+                }
             }
     }
 

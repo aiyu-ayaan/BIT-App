@@ -6,8 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Html
 import android.util.DisplayMetrics
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -26,6 +24,7 @@ import com.aatec.bit.NavGraphDirections
 import com.aatec.bit.R
 import com.aatec.bit.databinding.FragmentEventDescriptionBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
+import com.aatec.bit.utils.addMenuHost
 import com.aatec.bit.utils.handleCustomBackPressed
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
@@ -64,11 +63,12 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         setHandler()
         setEvent()
         darkWebView()
-        setHasOptionsMenu(true)
         handleCustomBackPressed { customAction() }
         setIsConnected()
         detectScroll()
+        setMenu()
     }
+
 
     private fun darkWebView() {
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
@@ -128,8 +128,8 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         web = event.web_link
         lifecycleScope.launchWhenStarted {
             delay(500)
-            menuInsta.isVisible = insta.isNotBlank()
-            menuWeb.isVisible = web.isNotBlank()
+//            menuInsta.isVisible = insta.isNotBlank()
+//            menuWeb.isVisible = web.isNotBlank()
         }
 
         val body = Html
@@ -203,32 +203,35 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         return true
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        menu.clear()
-        inflater.inflate(R.menu.menu_event_society_des, menu)
-        menuInsta = menu.findItem(R.id.menu_insta)
-        menuShare = menu.findItem(R.id.menu_share)
-        menuWeb = menu.findItem(R.id.menu_link)
+    private fun setMenu() {
+        addMenuHost(R.menu.menu_event_society_des, { menu ->
+            menuInsta = menu.findItem(R.id.menu_insta)
+            menuShare = menu.findItem(R.id.menu_share)
+            menuWeb = menu.findItem(R.id.menu_link)
+
+
+            menuInsta.isVisible = insta.isNotBlank()
+            menuWeb.isVisible = web.isNotBlank()
+        }) {
+            when (it.itemId) {
+                android.R.id.home -> customAction()
+                R.id.menu_insta -> {
+                    insta.openLinks(requireActivity(), R.string.no_intent_available)
+                    true
+                }
+                R.id.menu_link -> {
+                    requireContext().openCustomChromeTab(web)
+                    true
+                }
+                R.id.menu_share -> {
+                    shareEvent()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            android.R.id.home -> customAction()
-            R.id.menu_insta -> {
-                insta.openLinks(requireActivity(), R.string.no_intent_available)
-                true
-            }
-            R.id.menu_link -> {
-                requireContext().openCustomChromeTab(web)
-                true
-            }
-            R.id.menu_share -> {
-                shareEvent()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
 
     private fun shareEvent() {
         Toast.makeText(requireContext(), "Loading ...", Toast.LENGTH_SHORT).show()
