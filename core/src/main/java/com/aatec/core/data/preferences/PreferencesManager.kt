@@ -21,6 +21,7 @@ import com.aatec.core.utils.Section
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import java.io.IOException
 import javax.inject.Inject
@@ -36,7 +37,10 @@ data class Cgpa(
     var sem5: Double = 0.0,
     var sem6: Double = 0.0,
     val cgpa: Double = 1.0
-) : Parcelable
+) : Parcelable{
+    @IgnoredOnParcel
+    val isAllZero = sem1 == 0.0 && sem2 == 0.0 && sem3 == 0.0 && sem4 == 0.0 && sem5 == 0.0 && sem6 == 0.0
+}
 
 @Keep
 @Parcelize
@@ -47,7 +51,7 @@ data class FilterPreferences(
     val semSyllabus: String,
     val searchPreference: SearchPreference,
     val cgpa: Cgpa
-) : Parcelable
+): Parcelable
 
 @Keep
 @Parcelize

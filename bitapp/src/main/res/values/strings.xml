@@ -197,7 +197,7 @@
     <string name="without_img">Without Image</string>
     <string name="linked_in">LinkedIn</string>
     <string name="stack_over_flow">StackOverFlow</string>
-    <string name="enter_sem">Enter Your CGPA :-</string>
+    <string name="enter_sem">Enter Your SGPA :-</string>
     <string name="cgpa_calculator">CGPA Calculator</string>
     <string name="calculate">Calculate</string>
     <string name="over_all_cgpa">Overall CGPA </string>
@@ -205,6 +205,7 @@
     <string name="clear">Clear</string>
     <string name="cgpa_calculator_clear_message">Saved CGPA is cleared!!</string>
     <string name="course_sem_text">%s up to %s</string>
+    <string name="your_sgpa">Sgpa Graph</string>
 
 
 </resources>

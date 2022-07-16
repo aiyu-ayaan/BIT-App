@@ -30,6 +30,9 @@
         <action
             android:id="@+id/action_homeFragment_to_attendanceFragment"
             app:destination="@id/attendanceFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_cgpaCalculatorFragment"
+            app:destination="@id/cgpaCalculatorFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"

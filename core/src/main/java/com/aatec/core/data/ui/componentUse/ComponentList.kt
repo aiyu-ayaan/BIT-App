@@ -8,8 +8,6 @@
 
 package com.aatec.core.data.ui.componentUse
 
-import com.aatec.core.data.ui.componentUse.Component
-
 object ComponentList {
     val list = listOf(
         Component(
@@ -70,6 +68,10 @@ object ComponentList {
             "https://developer.android.com/training/material/palette-colors"
         ),
         Component("com.github.bumptech.glide:glide", "https://github.com/bumptech/glide"),
+        Component(
+            "com.github.PhilJay:MPAndroidChart",
+            "https://github.com/PhilJay/MPAndroidChart"
+        ),
         Component(
             "com.github.sundeepk:compact-calendar-view",
             "https://github.com/SundeepK/CompactCalendarView"

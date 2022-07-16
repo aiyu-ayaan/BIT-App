@@ -2,6 +2,7 @@ package com.aatec.bit.ui.fragments.home
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -31,9 +32,14 @@ import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.aatec.bit.utils.MainStateEvent
 import com.aatec.bit.utils.addMenuHost
+import com.aatec.core.data.preferences.Cgpa
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -76,6 +82,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         holidayAdapter = HolidayHomeAdapter()
         binding.apply {
+            lineChartCgpa.setNoDataText(resources.getString(R.string.loading))
             setting.setOnClickListener {
                 navigateToWelcomeScreen()
             }
@@ -88,6 +95,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             textShowAllHoliday.setOnClickListener {
                 navigateToHoliday()
+            }
+            textViewEdit.setOnClickListener {
+                navigateToCGPA()
             }
         }
 
@@ -118,7 +128,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setHoliday()
 
         createMenu()
+
+
     }
+
+    private fun navigateToCGPA() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = HomeFragmentDirections.actionHomeFragmentToCgpaCalculatorFragment()
+        findNavController().navigate(action)
+    }
+
 
     private fun createMenu() {
         addMenuHost(R.menu.menu_toolbar) {
@@ -305,9 +329,53 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun preferenceManager() {
         preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             viewModel.syllabusQuery.value = "${it.course}${it.sem}"
+            binding.parentCgpaChart.isVisible = !it.cgpa.isAllZero
+            if (!it.cgpa.isAllZero)
+                setUpChart(it.cgpa)
         }
     }
 
+    private fun setUpChart(cgpa: Cgpa) = lifecycleScope.launchWhenStarted {
+        binding.lineChartCgpa.apply {
+
+            val list = mutableListOf(
+                BarEntry(1f, cgpa.sem1.toFloat()),
+                BarEntry(2f, cgpa.sem2.toFloat()),
+                BarEntry(3f, cgpa.sem3.toFloat()),
+                BarEntry(4f, cgpa.sem4.toFloat()),
+                BarEntry(5f, cgpa.sem5.toFloat()),
+                BarEntry(6f, cgpa.sem6.toFloat())
+            )
+            val barDataSet = BarDataSet(list, "SGPA")
+            barDataSet.apply {
+                color = MaterialColors.getColor(
+                    binding.root,
+                    androidx.appcompat.R.attr.colorPrimary,
+                    Color.WHITE
+                )
+                valueTextSize = 10f
+                valueTextColor =
+                    MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
+            }
+            val barData = BarData(barDataSet)
+            barData.apply {
+                barWidth = 0.5f
+            }
+
+            legend.textColor = MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
+            xAxis.textColor = MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
+            axisLeft.textColor =
+                MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
+            axisRight.textColor =
+                MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
+            description.text = "Average CGPA :- ${DecimalFormat("#0.00").format(cgpa.cgpa)}"
+            description.textColor =
+                MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
+            setPinchZoom(false)
+            setScaleEnabled(false)
+            this.data = barData
+        }
+    }
 
     private fun settingUpSyllabus() {
         syllabusTheoryAdapter = SyllabusHomeAdapter(

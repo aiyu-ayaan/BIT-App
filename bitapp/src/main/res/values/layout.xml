@@ -29,4 +29,5 @@
     <dimen name="image_view_about_us_size">100dp</dimen>
     <dimen name="course_image_size">120dp</dimen>
     <dimen name="time_table_image_size">250dp</dimen>
+    <dimen name="line_chat_size">400dp</dimen>
 </resources>

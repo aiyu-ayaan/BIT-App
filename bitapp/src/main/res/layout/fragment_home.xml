@@ -168,10 +168,54 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/card_view_attendance"
+            android:id="@+id/parent_cgpa_chart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/parent_holiday"
+            android:padding="@dimen/grid_1">
+
+            <TextView
+                android:id="@+id/text_view_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv4"
+                android:layout_alignBottom="@+id/tv4"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:text="@string/edit"
+                android:textAppearance="?attr/textAppearanceCaption" />
+
+            <TextView
+                android:id="@+id/tv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginBottom="@dimen/grid_1"
+                android:padding="@dimen/grid_0_25"
+                android:text="@string/your_sgpa"
+                android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/tv4"
+                app:cardBackgroundColor="?attr/colorSurface"
+                app:strokeColor="@color/divider_color">
+
+                <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/line_chart_cgpa"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="@dimen/line_chat_size"
+                    android:layout_margin="@dimen/grid_0_5" />
+            </com.google.android.material.card.MaterialCardView>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/card_view_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/parent_cgpa_chart"
             android:padding="@dimen/grid_1">
 
 
