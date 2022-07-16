@@ -121,7 +121,6 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
 
     }
 
-    //    TODO (SEM >= 1)
     private fun populateEditText(cgpa: Cgpa, sem: Int) = binding.apply {
         if (cgpa.sem1 != 0.0 || sem >= 1)
             outlinedTextSem1.apply {
@@ -225,6 +224,8 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
         val num4 = outlinedTextSem4.getNumber()
         val num5 = outlinedTextSem5.getNumber()
         val num6 = outlinedTextSem6.getNumber()
+        if (validateNumber(num1, num2, num3, num4, num5, num6)) return@apply
+
         val gradeList = addThemInList(num1, num2, num3, num4, num5, num6)
         val bcaCourseList = addGradesIntoBcaCourse(gradeList)
         val cgpa = calculateCGPA(bcaCourseList)
@@ -233,6 +234,19 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
             visibility = View.VISIBLE
             editText?.setText(DecimalFormat("#0.00").format(cgpa).toString())
         }
+    }
+
+    private fun FragmentCgpaCalculatorBinding.validateNumber(
+        num1: Double,
+        num2: Double,
+        num3: Double,
+        num4: Double,
+        num5: Double,
+        num6: Double
+    ): Boolean {
+        return outlinedTextSem1.setError() || outlinedTextSem2.setError() || outlinedTextSem3.setError() || outlinedTextSem4.setError() || outlinedTextSem5.setError() || outlinedTextSem6.setError() || outlinedTextOverAll.setError()
+
+
     }
 
     private fun saveToDataStore(
@@ -288,6 +302,27 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
 
     private fun TextInputLayout.getNumber() =
         if (this.editText?.text!!.isBlank()) 0.0 else this.editText!!.text.toString().toDouble()
+
+    private fun TextInputLayout.setError(): Boolean =
+        this.run {
+            if (this.getNumber() > 10.0) {
+                error = "Grade cannot be greater than 10.0"
+                true
+            } else {
+                error = null
+                false
+            }
+        }
+
+    private fun TextInputEditText.checkInput(number: Double): String = this.run {
+        if (number >= 10.0)
+            number.toString()
+        else {
+            error = "grade must be between 0.0 and 10.0"
+            ""
+        }
+
+    }
 
     private fun Double.checkInput() =
         if (this == 0.0)

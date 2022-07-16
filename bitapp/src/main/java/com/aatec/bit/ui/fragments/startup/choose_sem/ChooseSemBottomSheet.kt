@@ -17,7 +17,6 @@ import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.aatec.core.utils.KEY_FIRST_TIME_TOGGLE
 import com.aatec.core.utils.REQUEST_UPDATE_SEM
 import com.aatec.core.utils.REQUEST_UPDATE_SEM_FROM_CGPA
-import com.aatec.core.utils.REQUEST_UPDATE_SEM_TIME_TABLE
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -51,7 +50,6 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = BottomSheetChooseSemBinding.inflate(inflater)
-
         setViews()
         if (args.request == REQUEST_UPDATE_SEM_FROM_CGPA) {
             activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.let {
@@ -62,12 +60,13 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         semClick()
         binding.apply {
             btSave.setOnClickListener {
-                if (args.request != REQUEST_UPDATE_SEM) {
+                if (args.request != REQUEST_UPDATE_SEM && args.request != REQUEST_UPDATE_SEM_FROM_CGPA) {
                     pref.edit()
                         .putBoolean(KEY_FIRST_TIME_TOGGLE, true)
                         .apply()
+
                     exitTransition = MaterialFadeThrough()
-                    if (args.type == REQUEST_UPDATE_SEM_TIME_TABLE)
+                    if (args.type == REQUEST_UPDATE_SEM_FROM_CGPA)
                         dismiss()
                     else
                         navigationToHome()
