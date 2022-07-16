@@ -17,9 +17,7 @@ import com.aatec.bit.databinding.FragmentCgpaCalculatorBinding
 import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.utils.*
 import com.aatec.core.data.preferences.Cgpa
-import com.aatec.core.utils.CourseCapital
-import com.aatec.core.utils.REQUEST_UPDATE_SEM_FROM_CGPA
-import com.aatec.core.utils.showSnackBar
+import com.aatec.core.utils.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -61,6 +59,22 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
             }
         }
         setMenu()
+        detectScroll()
+    }
+
+    private fun detectScroll() {
+        activity?.onScrollColorChange(binding.nestedScrollViewCgpa, {
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar,
+                com.google.android.material.R.attr.colorSurface
+            )
+        }, {
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar,
+                R.attr.bottomBar
+            )
+        })
+
     }
 
 
@@ -184,7 +198,7 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
                 editTextSem6.setText("")
             }
 
-        if (cgpa.cgpa != 1.0)
+        if (cgpa.cgpa != 1.0 && cgpa.cgpa != 0.0)
             outlinedTextOverAll.apply {
                 editText?.setText(DecimalFormat("#0.00").format(cgpa.cgpa).toString())
                 visibility = View.VISIBLE

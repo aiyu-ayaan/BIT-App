@@ -118,5 +118,7 @@ dependencies {
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
     implementation "com.github.sundeepk:compact-calendar-view:$calendarVersion"
 
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
+
 
 }
