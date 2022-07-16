@@ -73,7 +73,7 @@ import java.util.*
 
 inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) -> Unit)) =
     this.addOnDestinationChangedListener { _, destination, _ ->
-        des.invoke(destination)
+        des.invoke( destination)
     }
 
 /**
@@ -503,9 +503,9 @@ fun View.showSnackBar(
         duration
     ).apply {
         this.setBackgroundTint(
-            ContextCompat.getColor(
-                this@showSnackBar.context,
-                R.color.cardBackground
+            MaterialColors.getColor(
+                this.context,
+                com.google.android.material.R.attr.colorSurface, Color.WHITE
             )
         )
         this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))

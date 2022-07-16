@@ -7,18 +7,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.aatec.bit.R
-import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.bit.databinding.BottomSheetChooseSemBinding
+import com.aatec.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.aatec.core.utils.KEY_FIRST_TIME_TOGGLE
 import com.aatec.core.utils.REQUEST_UPDATE_SEM
+import com.aatec.core.utils.REQUEST_UPDATE_SEM_FROM_CGPA
 import com.aatec.core.utils.REQUEST_UPDATE_SEM_TIME_TABLE
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.transition.MaterialFadeThrough
@@ -53,12 +53,9 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         binding = BottomSheetChooseSemBinding.inflate(inflater)
 
         setViews()
-        if (args.request == REQUEST_UPDATE_SEM) {
-            activity?.findViewById<Toolbar>(R.id.toolbar)?.let {
-                it.isVisible = true
-            }
-            activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.let {
-                it.isVisible = true
+        if (args.request == REQUEST_UPDATE_SEM_FROM_CGPA) {
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.let {
+                it.isVisible = false
             }
         }
         courseClick()
@@ -184,6 +181,15 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
             sem = resources.getString(R.string.sem6)
         }
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (args.request == REQUEST_UPDATE_SEM_FROM_CGPA) {
+            activity?.findViewById<BottomNavigationView>(R.id.bottomNavigation)?.let {
+                it.isVisible = true
+            }
+        }
     }
 
 }

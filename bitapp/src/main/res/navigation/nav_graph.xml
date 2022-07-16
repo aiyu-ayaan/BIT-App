@@ -377,4 +377,9 @@
     <action
         android:id="@+id/action_global_attendanceMenu"
         app:destination="@id/attendanceMenu" />
+    <fragment
+        android:id="@+id/cgpaCalculatorFragment"
+        android:name="com.aatec.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment"
+        android:label="@string/cgpa_calculator"
+        tools:layout="@layout/fragment_cgpa_calculator" />
 </navigation>

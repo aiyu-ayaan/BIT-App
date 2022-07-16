@@ -13,10 +13,9 @@ package com.aatec.bit.ui.activity.main_activity.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.aatec.core.data.preferences.Cgpa
 import com.aatec.core.data.preferences.PreferencesManager
 import com.aatec.core.data.room.syllabus.SyllabusDao
-import com.aatec.core.utils.Gender
-import com.aatec.core.utils.Section
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -47,6 +46,10 @@ class PreferenceManagerViewModel @Inject constructor(
         preferencesManager.updateSemSyllabus(value)
     }
 
+    fun updateCgpa(cgpa: Cgpa) = viewModelScope.launch {
+        preferencesManager.updateCgpa(cgpa)
+    }
+
     fun updateSearchSetting(
         event: Boolean,
         holiday: Boolean,
@@ -56,19 +59,6 @@ class PreferenceManagerViewModel @Inject constructor(
         preferencesManager.updateSearchSetting(event, holiday, notice, subject)
     }
 
-
-    fun updateTimeTableSetting(
-        course: String,
-        gender: Gender,
-        sem: String,
-        section: Section
-    ) = viewModelScope.launch {
-        preferencesManager.updateTimeTableSettings(course, gender, sem, section)
-    }
-
-    fun updateTimeTableOpen(value: Boolean) = viewModelScope.launch {
-        preferencesManager.updateFirstTimeTableOpen(value)
-    }
 
     fun reset(openCode: String) = viewModelScope.launch {
         syllabusDao.reset(openCode)

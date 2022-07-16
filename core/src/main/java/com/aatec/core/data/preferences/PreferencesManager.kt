@@ -19,13 +19,24 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.aatec.core.utils.Gender
 import com.aatec.core.utils.Section
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.parcelize.Parcelize
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.parcelize.Parcelize
 import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Keep
+@Parcelize
+data class Cgpa(
+    var sem1: Double = 0.0,
+    var sem2: Double = 0.0,
+    var sem3: Double = 0.0,
+    var sem4: Double = 0.0,
+    var sem5: Double = 0.0,
+    var sem6: Double = 0.0,
+    val cgpa: Double = 1.0
+) : Parcelable
 
 @Keep
 @Parcelize
@@ -35,8 +46,7 @@ data class FilterPreferences(
     val sem: String,
     val semSyllabus: String,
     val searchPreference: SearchPreference,
-    val timeTablePreferences: TimeTablePreferences,
-    val firstOpenTimeTable: Boolean
+    val cgpa: Cgpa
 ) : Parcelable
 
 @Keep
@@ -83,15 +93,14 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
             val settingHoliday = preferences[PreferencesKeys.DEF_SETTING_HOLIDAY] ?: true
             val settingNotice = preferences[PreferencesKeys.DEF_SETTING_NOTICE] ?: true
             val settingSubject = preferences[PreferencesKeys.DEF_SETTING_SUBJECT] ?: true
-            val timeTableGender =
-                Gender.valueOf(
-                    preferences[PreferencesKeys.DEF_TIME_TABLE_GENDER] ?: Gender.Boys.name
-                )
+            val sem1Cgpa = preferences[PreferencesKeys.DEF_SEM_1_CGPA] ?: 0.0
+            val sem2Cgpa = preferences[PreferencesKeys.DEF_SEM_2_CGPA] ?: 0.0
+            val sem3Cgpa = preferences[PreferencesKeys.DEF_SEM_3_CGPA] ?: 0.0
+            val sem4Cgpa = preferences[PreferencesKeys.DEF_SEM_4_CGPA] ?: 0.0
+            val sem5Cgpa = preferences[PreferencesKeys.DEF_SEM_5_CGPA] ?: 0.0
+            val sem6Cgpa = preferences[PreferencesKeys.DEF_SEM_6_CGPA] ?: 0.0
+            val cgpa = preferences[PreferencesKeys.DEF_CGPA] ?: 0.0
 
-            val section = Section.valueOf(
-                preferences[PreferencesKeys.DEF_TIME_TABLE_SECTION] ?: Section.A.name
-            )
-            val firstTimeTableOpen = preferences[PreferencesKeys.DEF_FIRST_TIME_TABLE_OPEN] ?: true
 
 
             FilterPreferences(
@@ -105,8 +114,15 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
                     settingNotice,
                     settingSubject
                 ),
-                TimeTablePreferences(course, timeTableGender, sem, section),
-                firstTimeTableOpen
+                Cgpa(
+                    sem1Cgpa,
+                    sem2Cgpa,
+                    sem3Cgpa,
+                    sem4Cgpa,
+                    sem5Cgpa,
+                    sem6Cgpa,
+                    cgpa
+                )
             )
         }
 
@@ -114,6 +130,18 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
     suspend fun updateCourse(value: String) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEF_COURSE] = value
+        }
+    }
+
+    suspend fun updateCgpa(cgpa: Cgpa) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.DEF_SEM_1_CGPA] = cgpa.sem1
+            preferences[PreferencesKeys.DEF_SEM_2_CGPA] = cgpa.sem2
+            preferences[PreferencesKeys.DEF_SEM_3_CGPA] = cgpa.sem3
+            preferences[PreferencesKeys.DEF_SEM_4_CGPA] = cgpa.sem4
+            preferences[PreferencesKeys.DEF_SEM_5_CGPA] = cgpa.sem5
+            preferences[PreferencesKeys.DEF_SEM_6_CGPA] = cgpa.sem6
+            preferences[PreferencesKeys.DEF_CGPA] = cgpa.cgpa
         }
     }
 
@@ -136,12 +164,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
-    suspend fun updateFirstTimeTableOpen(value: Boolean) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.DEF_FIRST_TIME_TABLE_OPEN] = value
-        }
-    }
-
     suspend fun updateSearchSetting(
         event: Boolean,
         holiday: Boolean,
@@ -156,19 +178,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
-    suspend fun updateTimeTableSettings(
-        course: String,
-        gender: Gender,
-        sem: String,
-        sec: Section
-    ) {
-        context.dataStore.edit { preferences ->
-            preferences[PreferencesKeys.DEF_COURSE] = course
-            preferences[PreferencesKeys.DEF_TIME_TABLE_GENDER] = gender.name
-            preferences[PreferencesKeys.DEF_SEM] = sem
-            preferences[PreferencesKeys.DEF_TIME_TABLE_SECTION] = sec.name
-        }
-    }
 
     private object PreferencesKeys {
         val DEF_COURSE = stringPreferencesKey("def_course")
@@ -179,8 +188,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         val DEF_SETTING_HOLIDAY = booleanPreferencesKey("default_setting_holiday")
         val DEF_SETTING_NOTICE = booleanPreferencesKey("default_setting_notice")
         val DEF_SETTING_SUBJECT = booleanPreferencesKey("default_setting_subject")
-        val DEF_TIME_TABLE_GENDER = stringPreferencesKey("def_time_table_gender")
-        val DEF_TIME_TABLE_SECTION = stringPreferencesKey("def_time_table_section")
-        val DEF_FIRST_TIME_TABLE_OPEN = booleanPreferencesKey("def_first_time_table_open")
+        val DEF_SEM_1_CGPA = doublePreferencesKey("default_sem_1_cgpa")
+        val DEF_SEM_2_CGPA = doublePreferencesKey("default_sem_2_cgpa")
+        val DEF_SEM_3_CGPA = doublePreferencesKey("default_sem_3_cgpa")
+        val DEF_SEM_4_CGPA = doublePreferencesKey("default_sem_4_cgpa")
+        val DEF_SEM_5_CGPA = doublePreferencesKey("default_sem_5_cgpa")
+        val DEF_SEM_6_CGPA = doublePreferencesKey("default_sem_6_cgpa")
+        val DEF_CGPA = doublePreferencesKey("default_cgpa")
     }
 }

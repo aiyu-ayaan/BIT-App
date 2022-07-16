@@ -114,6 +114,12 @@
     <string name="sem4">4</string>
     <string name="sem5">5</string>
     <string name="sem6">6</string>
+    <string name="sem1_title">Semester 1</string>
+    <string name="sem2_title">Semester 2</string>
+    <string name="sem3_title">Semester 3</string>
+    <string name="sem4_title">Semester 4</string>
+    <string name="sem5_title">Semester 5</string>
+    <string name="sem6_title">Semester 6</string>
     <string name="blank">""</string>
     <string name="menu">Menu</string>
     <string name="rate_up">Rate Us</string>
@@ -191,6 +197,14 @@
     <string name="without_img">Without Image</string>
     <string name="linked_in">LinkedIn</string>
     <string name="stack_over_flow">StackOverFlow</string>
+    <string name="enter_sem">Enter Your CGPA :-</string>
+    <string name="cgpa_calculator">CGPA Calculator</string>
+    <string name="calculate">Calculate</string>
+    <string name="over_all_cgpa">Overall CGPA </string>
+    <string name="disclaimer_cgpa">* This will automatically save your CGPA.\nTo Clear your CGPA, tap the clear option in option menu.</string>
+    <string name="clear">Clear</string>
+    <string name="cgpa_calculator_clear_message">Saved CGPA is cleared!!</string>
+    <string name="course_sem_text">%s up to %s</string>
 
 
 </resources>

@@ -7,8 +7,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -19,7 +17,6 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.drawerlayout.widget.DrawerLayout
@@ -154,7 +151,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
     private fun onDestinationChange() {
         navController.onDestinationChange { destination ->
-
             when (destination.id) {
                 R.id.noticeFragment,
                 R.id.attendanceFragment,
@@ -225,7 +221,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
                 else ->
                     changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
-
             }
             when (destination.id) {
                 R.id.startUpFragment, R.id.noticeDetailFragment,
@@ -235,7 +230,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.acknowledgementFragment, R.id.societyFragment,
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
                 R.id.eventDescriptionFragment, R.id.searchFragment,
-                R.id.settingDialog -> {
+                R.id.settingDialog, R.id.cgpaCalculatorFragment,
+                -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -309,6 +305,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     private fun getCurrentFragment(): Fragment? =
         supportFragmentManager.currentNavigationFragment
 
+
     private fun showBottomAppBar() {
         binding.apply {
             binding.toolbar.visibility = View.VISIBLE
@@ -367,25 +364,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         setExitTransition()
         val directions = NavGraphDirections.actionGlobalAboutUsFragment()
         navController.navigate(directions)
-    }
-
-    private fun menuHost() {
-        this.addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.menu_toolbar, menu)
-                searchMenuItem = menu.findItem(R.id.BitMenu)
-            }
-
-            override fun onMenuItemSelected(menuItem: MenuItem): Boolean =
-                when (menuItem.itemId) {
-                    R.id.BitMenu -> {
-                        navigateToSearch()
-                        true
-                    }
-                    else -> menuItem.onNavDestinationSelected(navController)
-                }
-
-        })
     }
 
 

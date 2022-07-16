@@ -123,7 +123,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun createMenu() {
         addMenuHost(R.menu.menu_toolbar) {
             when (it.itemId) {
-                R.id.BitMenu -> {
+                R.id.menu_search -> {
                     (requireActivity() as MainActivity).onMenuClick()
                     true
                 }

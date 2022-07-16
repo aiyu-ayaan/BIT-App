@@ -18,6 +18,12 @@
                     android:checkable="false"
                     android:icon="@drawable/ic_web"
                     android:title="@string/erp" />
+
+                <item
+                    android:id="@id/cgpaCalculatorFragment"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_cgpa_calculator"
+                    android:title="@string/cgpa_calculator" />
                 <item
                     android:id="@id/holidayFragment"
                     android:icon="@drawable/ic_holiday"

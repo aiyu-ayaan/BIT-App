@@ -14,7 +14,7 @@
 
 
     <item
-        android:id="@+id/BitMenu"
+        android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
         android:title="@string/search_any_thing"
         app:showAsAction="always" />

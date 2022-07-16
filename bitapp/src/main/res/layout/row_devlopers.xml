@@ -26,8 +26,8 @@
 
         <ImageView
             android:id="@+id/photo"
-            android:layout_width="@dimen/email_sender_profile_image_size"
-            android:layout_height="@dimen/email_sender_profile_image_size"
+            android:layout_width="@dimen/user_profile_image_size"
+            android:layout_height="@dimen/user_profile_image_size"
             android:layout_marginStart="@dimen/grid_1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -100,8 +100,8 @@
 
                 <ImageView
                     android:id="@+id/sender_profile_image_view"
-                    android:layout_width="@dimen/email_sender_profile_image_size"
-                    android:layout_height="@dimen/email_sender_profile_image_size"
+                    android:layout_width="@dimen/user_profile_image_size"
+                    android:layout_height="@dimen/user_profile_image_size"
                     android:contentDescription="@string/app_name"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_ayaan_beta"

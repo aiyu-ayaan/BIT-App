@@ -12,6 +12,8 @@ package com.aatec.core.utils
 
 enum class Course { Bba, Bca }
 
+enum class CourseCapital { BBA, BCA }
+
 enum class Gender { Boys, Girls }
 
 enum class Section { A, B }
@@ -24,8 +26,8 @@ const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
 const val KEY_APP_THEME = "KEY_APP_THEME"
 const val KEY_APP_SETUP_TIME_TABLE = "KEY_APP_SETUP_TIME_TABLE"
 const val REQUEST_UPDATE_SEM = 345 * 33434
-const val REQUEST_UPDATE_SEM_TIME_TABLE = 345 * 453564
-const val REQUEST_OPEN_SETTING_FROM_HOME = 345 * 334564
+const val REQUEST_UPDATE_SEM_FROM_CGPA = 345 * 33434 + 1
+const val REQUEST_UPDATE_SEM_TIME_TABLE = 345 * 4535644
 const val REQUEST_ADAPTER_SEARCH = 356 * 445
 const val REQUEST_ADAPTER_EDIT = 354 * 445
 
