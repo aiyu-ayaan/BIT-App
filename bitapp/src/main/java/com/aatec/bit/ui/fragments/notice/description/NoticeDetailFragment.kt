@@ -3,18 +3,13 @@ package com.aatec.bit.ui.fragments.notice.description
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
-import androidx.core.view.MenuProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,7 +33,7 @@ import kotlinx.coroutines.flow.combine
 @AndroidEntryPoint
 class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
 
-    private val viewModel: Notice3DescriptionViewModel by viewModels()
+    private val viewModel: NoticeDescriptionViewModel by viewModels()
     private val binding: FragmentNoticeDetailBinding by viewBinding()
     private val connectionManager: ConnectionManagerViewModel by activityViewModels()
     private var isEmpty: Boolean = false
@@ -231,6 +226,11 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
                     ).show()
                 }
             } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.no_internet_detected, "Notice"),
+                    Toast.LENGTH_SHORT
+                ).show()
                 requireActivity().openShareDeepLink(
                     notice3.title,
                     notice3.path
