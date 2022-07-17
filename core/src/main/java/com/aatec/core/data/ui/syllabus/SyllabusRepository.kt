@@ -15,6 +15,7 @@ import com.aatec.core.data.network.syllabus.NetworkSyllabusEntity
 import com.aatec.core.data.network.syllabus.SyllabusNetworkMapper
 import com.aatec.core.data.room.syllabus.SyllabusDao
 import com.aatec.core.utils.BitAppScope
+import com.aatec.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.CoroutineScope
@@ -34,7 +35,7 @@ class SyllabusRepository @Inject constructor(
             if (error != null) Log.e(TAG, "getSyllabus:${error.message} ")
             else {
                 value?.let {
-                    appScope.launch {
+                    appScope.launch(handler) {
                         try {
                             val listSyllabusNetworkEntity =
                                 value.toObjects(NetworkSyllabusEntity::class.java)

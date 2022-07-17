@@ -17,10 +17,10 @@ import com.aatec.core.data.room.notice.Notice3CacheMapper
 import com.aatec.core.data.room.notice.Notice3Dao
 import com.aatec.core.utils.DataState
 import com.aatec.core.utils.NoItemFoundException
+import com.aatec.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -43,14 +43,14 @@ class NoticeRepository @Inject constructor(
         emit(cacheMapper3.mapFromEntityList(searchNotice))
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+
     suspend fun getNotice3(): Flow<DataState<List<Notice3>>> =
         channelFlow {
             try {
                 val ref =
                     db.collection("BIT_Notice_New").orderBy("created", Query.Direction.DESCENDING)
                 ref.addSnapshotListener { value, error ->
-                    launch(Dispatchers.Main) {
+                    launch(Dispatchers.Main + handler) {
                         if (error != null) {
                             send(DataState.Error(error))
                         } else {
@@ -78,24 +78,12 @@ class NoticeRepository @Inject constructor(
             }
         }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    fun getNoticeDeepLink(): Flow<DataState<List<Notice3>>> = flow {
-        try {
-            addNotice()
-            val allNotice = notice3Dao.getNoticeFlow()
-            allNotice.collect {
-                emit(DataState.Success(cacheMapper3.mapFromEntityList(it)))
-            }
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
 
     private fun addNotice() {
         val ref =
             db.collection("BIT_Notice_New").orderBy("created", Query.Direction.DESCENDING)
         ref.addSnapshotListener { value, _ ->
-            runBlocking {
+            runBlocking(handler) {
                 if (value != null) {
                     val networkNotice =
                         value.toObjects(Notice3NetworkEntity::class.java)
@@ -113,8 +101,8 @@ class NoticeRepository @Inject constructor(
     fun getNoticeFromPath(path: String): Flow<DataState<Notice3>> = channelFlow {
         try {
             db.collection("BIT_Notice_New").document(path)
-                .addSnapshotListener { documentSnapShot, error ->
-                    launch(Dispatchers.Main) {
+                .addSnapshotListener { documentSnapShot, _ ->
+                    launch(Dispatchers.Main + handler) {
                         send(DataState.Loading)
                         val notice = documentSnapShot?.toObject(Notice3NetworkEntity::class.java)
                         if (notice == null) {
@@ -135,7 +123,7 @@ class NoticeRepository @Inject constructor(
             db.collection("BIT_Notice_New").document(path)
                 .collection("attach")
                 .addSnapshotListener { documentSnapShot, error ->
-                    launch(Dispatchers.Main) {
+                    launch(Dispatchers.Main + handler) {
                         send(DataState.Loading)
                         val attach = documentSnapShot?.toObjects(Attach::class.java)
                         if (attach == null) {

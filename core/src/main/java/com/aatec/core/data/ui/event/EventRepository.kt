@@ -16,6 +16,7 @@ import com.aatec.core.data.room.event.EventCachedMapper
 import com.aatec.core.data.room.event.EventDao
 import com.aatec.core.utils.DataState
 import com.aatec.core.utils.NoItemFoundException
+import com.aatec.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +40,7 @@ class EventRepository @Inject constructor(
         try {
             val ref = db.collection("Events").orderBy("created", Query.Direction.DESCENDING)
             ref.addSnapshotListener { value, _ ->
-                runBlocking {
+                runBlocking( handler) {
                     if (value != null) {
                         val networkEvent =
                             value.toObjects(EventNetworkEntity::class.java)
@@ -87,8 +88,8 @@ class EventRepository @Inject constructor(
     fun getEventFromPath(path: String): Flow<DataState<Event>> = channelFlow {
         try {
             db.collection("Events").document(path)
-                .addSnapshotListener { documentSnapShot, error ->
-                    launch(Dispatchers.Main) {
+                .addSnapshotListener { documentSnapShot, _ ->
+                    launch(Dispatchers.Main+ handler) {
                         send(DataState.Loading)
                         val event = documentSnapShot?.toObject(EventNetworkEntity::class.java)
                         if (event == null) {

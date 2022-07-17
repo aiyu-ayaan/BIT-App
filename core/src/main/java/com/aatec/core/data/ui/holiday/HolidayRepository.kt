@@ -15,6 +15,7 @@ import com.aatec.core.data.network.holiday.HolidayNetworkMapper
 import com.aatec.core.data.room.holiday.HolidayCacheMapper
 import com.aatec.core.data.room.holiday.HolidayDao
 import com.aatec.core.utils.DataState
+import com.aatec.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -35,7 +36,7 @@ class HolidayRepository @Inject constructor(
         try {
             val ref = db.collection("BIT_Holiday").orderBy("sno", Query.Direction.ASCENDING)
             ref.addSnapshotListener { value, _ ->
-                runBlocking {
+                runBlocking ( handler){
                     if (value != null) {
                         val networkHoliday =
                             value.toObjects(HolidayNetworkEntity::class.java)

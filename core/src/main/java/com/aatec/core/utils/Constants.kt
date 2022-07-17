@@ -21,6 +21,7 @@ enum class Section { A, B }
 
 enum class AppTheme { Light, Dark, Sys }
 
+const val TAG = "BIT APP"
 const val SHARED_PREFERENCE_NAME = "sharedPref"
 const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
 const val KEY_APP_THEME = "KEY_APP_THEME"

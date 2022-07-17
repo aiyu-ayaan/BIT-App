@@ -13,6 +13,7 @@ package com.aatec.core.data.ui.aboutUs
 import android.util.Log
 import com.aatec.core.data.network.aboutus.Devs
 import com.aatec.core.utils.DataState
+import com.aatec.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -33,7 +34,7 @@ class AboutUsRepository @Inject constructor(
         try {
             val ref = db.collection("AboutUs").orderBy("sno", Query.Direction.ASCENDING)
             val v = ref.addSnapshotListener { value, error ->
-                launch(Dispatchers.Main) {
+                launch(Dispatchers.Main + handler) {
                     if (error != null) {
                         send(DataState.Error(error))
                     } else {
@@ -62,7 +63,7 @@ class AboutUsRepository @Inject constructor(
         try {
             val ref = db.collection("AboutUsContributors").orderBy("sno", Query.Direction.ASCENDING)
             val v = ref.addSnapshotListener { value, error ->
-                launch(Dispatchers.Main) {
+                launch(Dispatchers.Main + handler) {
                     if (error != null) {
                         send(DataState.Error(error))
                     } else {
