@@ -202,10 +202,9 @@
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:strokeColor="@color/divider_color">
 
-                <com.github.mikephil.charting.charts.BarChart
+                <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart_cgpa"
                     android:layout_width="match_parent"
-
                     android:layout_height="@dimen/line_chat_size"
                     android:layout_margin="@dimen/grid_0_5" />
             </com.google.android.material.card.MaterialCardView>

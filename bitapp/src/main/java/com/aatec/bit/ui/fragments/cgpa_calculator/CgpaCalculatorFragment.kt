@@ -245,7 +245,7 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
         val cgpa = calculateCGPA(bcaCourseList)
         saveToDataStore(num1, num2, num3, num4, num5, num6, cgpa)
         outlinedTextOverAll.apply {
-            visibility = View.VISIBLE
+            visibility = if (cgpa != 1.0) View.VISIBLE else View.INVISIBLE
             editText?.setText(DecimalFormat("#0.00").format(cgpa).toString())
         }
     }

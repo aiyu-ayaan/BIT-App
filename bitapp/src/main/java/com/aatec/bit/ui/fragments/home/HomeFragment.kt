@@ -36,9 +36,9 @@ import com.aatec.core.data.preferences.Cgpa
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
 import com.aatec.core.utils.*
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
-import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -337,16 +337,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpChart(cgpa: Cgpa) = lifecycleScope.launchWhenStarted {
         binding.lineChartCgpa.apply {
-
             val list = mutableListOf(
-                BarEntry(1f, cgpa.sem1.toFloat()),
-                BarEntry(2f, cgpa.sem2.toFloat()),
-                BarEntry(3f, cgpa.sem3.toFloat()),
-                BarEntry(4f, cgpa.sem4.toFloat()),
-                BarEntry(5f, cgpa.sem5.toFloat()),
-                BarEntry(6f, cgpa.sem6.toFloat())
+                Entry(0f, 0f)
             )
-            val barDataSet = BarDataSet(list, "SGPA")
+            addData(list, cgpa)
+            val barDataSet = LineDataSet(list, "SGPA")
             barDataSet.apply {
                 color = MaterialColors.getColor(
                     binding.root,
@@ -357,11 +352,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 valueTextColor =
                     MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
             }
-            val barData = BarData(barDataSet)
-            barData.apply {
-                barWidth = 0.5f
-            }
-
+            val barData = LineData(barDataSet)
+            xAxis.setLabelCount(list.size, /*force: */true)
             legend.textColor = MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
             xAxis.textColor = MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
             axisLeft.textColor =
@@ -375,6 +367,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setScaleEnabled(false)
             this.data = barData
         }
+    }
+
+    private fun addData(list: MutableList<Entry>, cgpa: Cgpa) {
+        if (cgpa.sem1 != 0.0)
+            list.add(Entry(1f, cgpa.sem1.toFloat()))
+        if (cgpa.sem2 != 0.0)
+            list.add(Entry(2f, cgpa.sem2.toFloat()))
+        if (cgpa.sem3 != 0.0)
+            list.add(Entry(3f, cgpa.sem3.toFloat()))
+        if (cgpa.sem4 != 0.0)
+            list.add(Entry(4f, cgpa.sem4.toFloat()))
+        if (cgpa.sem5 != 0.0)
+            list.add(Entry(5f, cgpa.sem5.toFloat()))
+        if (cgpa.sem6 != 0.0)
+            list.add(Entry(6f, cgpa.sem6.toFloat()))
     }
 
     private fun settingUpSyllabus() {
