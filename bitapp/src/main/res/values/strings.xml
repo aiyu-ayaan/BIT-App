@@ -206,6 +206,7 @@
     <string name="cgpa_calculator_clear_message">Saved CGPA is cleared!!</string>
     <string name="course_sem_text">%s up to %s</string>
     <string name="your_sgpa">Sgpa Graph</string>
+    <string name="no_internet_detected">No internet detected, Connect with internet to share %s with image!!</string>
 
 
 </resources>

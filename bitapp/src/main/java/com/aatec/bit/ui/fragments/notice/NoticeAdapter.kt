@@ -28,11 +28,11 @@ import com.aatec.core.utils.getImageLinkNotification
 import com.aatec.core.utils.loadImage
 import com.google.firebase.firestore.FirebaseFirestore
 
-class Notice3Adapter(
+class NoticeAdapter(
     private val db: FirebaseFirestore,
     private val listener: (Notice3, View) -> Unit,
     private val imageListener: (String) -> Unit
-) : ListAdapter<Notice3, Notice3Adapter.AdapterViewHolder>(DiffUtilNotice3()) {
+) : ListAdapter<Notice3, NoticeAdapter.AdapterViewHolder>(DiffUtilNotice3()) {
 
 
     inner class AdapterViewHolder(

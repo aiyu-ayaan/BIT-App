@@ -15,7 +15,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class Notice3DescriptionViewModel @Inject constructor(
+class NoticeDescriptionViewModel @Inject constructor(
     private val state: SavedStateHandle,
     private val repository: NoticeRepository
 ) : ViewModel() {

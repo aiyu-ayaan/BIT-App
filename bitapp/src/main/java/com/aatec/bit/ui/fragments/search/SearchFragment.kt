@@ -24,8 +24,7 @@ import com.aatec.bit.ui.fragments.course.CourseFragment
 import com.aatec.bit.ui.fragments.event.EventAdapter
 import com.aatec.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.aatec.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
-import com.aatec.bit.ui.fragments.notice.Notice3Adapter
-import com.aatec.bit.utils.addMenuHost
+import com.aatec.bit.ui.fragments.notice.NoticeAdapter
 import com.aatec.core.data.preferences.SearchPreference
 import com.aatec.core.data.room.syllabus.SyllabusModel
 import com.aatec.core.data.ui.event.Event
@@ -171,7 +170,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun setNoticeView() {
-        val noticeAdapter = Notice3Adapter(db, { notice, view ->
+        val noticeAdapter = NoticeAdapter(db, { notice, view ->
             navigationToNotice3Description(notice, view)
         }, { link ->
             navigateToImageView(link)

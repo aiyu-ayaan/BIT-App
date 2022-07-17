@@ -243,6 +243,11 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
                 event!!.poster_link
             )
         } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.no_internet_detected,"Event"),
+                Toast.LENGTH_SHORT
+            ).show()
             requireActivity().openShareDeepLink(
                 event!!.event_title,
                 event!!.path
