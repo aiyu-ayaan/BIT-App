@@ -18,7 +18,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="bottomBar">@color/bottom_nav</item>
-        <item name="bottomSheetBackground">@color/blue_bottom_nav</item>
+        <item name="bottomSheetBackground">@color/bottom_nav</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="textColor">@color/textColor</item>
         <item name="textColorSecondary">@color/textColorSecondary</item>

@@ -19,7 +19,7 @@
         <item name="bottomBar">@color/bottom_nav</item>
         <item name="textColor">@color/textColor</item>
         <item name="textColorSecondary">@color/textColorSecondary</item>
-        <item name="bottomSheetBackground">@color/blue_bottom_nav</item>
+        <item name="bottomSheetBackground">@color/bottom_nav</item>
 
 
         <item name="windowActionModeOverlay">true</item>
