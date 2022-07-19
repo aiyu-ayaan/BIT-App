@@ -34,7 +34,7 @@
             android:background="@android:color/white"
             android:backgroundTint="@color/material_on_surface_stroke" />
 
-        <com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer
+        <com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer
             android:id="@+id/scroll_view_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -216,7 +216,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer>
+        </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
     </LinearLayout>
 
     <LinearLayout

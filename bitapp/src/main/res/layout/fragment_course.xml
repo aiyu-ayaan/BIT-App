@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
+<com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_view_syllabus"
@@ -64,4 +64,4 @@
             app:layout_constraintStart_toStartOf="@+id/image_button_bba"
             app:layout_constraintTop_toBottomOf="@+id/image_button_bba" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer>
+</com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>

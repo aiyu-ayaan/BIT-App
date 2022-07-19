@@ -8,7 +8,7 @@
     android:background="?attr/colorSurface"
     android:fillViewport="true"
     android:transitionGroup="true"
-    tools:context="com.aatec.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment">
+    tools:context="com.atech.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

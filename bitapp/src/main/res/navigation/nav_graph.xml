@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/startUpFragment"
-        android:name="com.aatec.bit.ui.fragments.startup.StartUpFragment"
+        android:name="com.atech.bit.ui.fragments.startup.StartUpFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_set_up">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.aatec.bit.ui.fragments.home.HomeFragment"
+        android:name="com.atech.bit.ui.fragments.home.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
-        android:name="com.aatec.bit.ui.fragments.course.CourseFragment"
+        android:name="com.atech.bit.ui.fragments.course.CourseFragment"
         android:label="@string/courses"
         tools:layout="@layout/fragment_course">
         <action
@@ -45,12 +45,12 @@
     </fragment>
     <fragment
         android:id="@+id/noticeFragment"
-        android:name="com.aatec.bit.ui.fragments.notice.NoticeFragment"
+        android:name="com.atech.bit.ui.fragments.notice.NoticeFragment"
         android:label="@string/notice"
         tools:layout="@layout/fragment_notice" />
     <fragment
         android:id="@+id/attendanceFragment"
-        android:name="com.aatec.bit.ui.fragments.attendance.AttendanceFragment"
+        android:name="com.atech.bit.ui.fragments.attendance.AttendanceFragment"
         android:label="@string/attendance"
         tools:layout="@layout/fragment_attendance">
         <action
@@ -62,7 +62,7 @@
     </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.startup.choose_sem.ChooseSemBottomSheet"
+        android:name="com.atech.bit.ui.fragments.startup.choose_sem.ChooseSemBottomSheet"
         android:label="bottom_sheet_choose_sem"
         tools:layout="@layout/bottom_sheet_choose_sem">
         <action
@@ -84,7 +84,7 @@
         app:destination="@id/chooseSemBottomSheet" />
     <fragment
         android:id="@+id/noticeDetailFragment"
-        android:name="com.aatec.bit.ui.fragments.notice.description.NoticeDetailFragment"
+        android:name="com.atech.bit.ui.fragments.notice.description.NoticeDetailFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_notice_detail">
         <argument
@@ -104,16 +104,16 @@
         app:destination="@id/noticeDetailFragment" />
     <dialog
         android:id="@+id/chooseImageBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.notice.choose_image.ChooseImageBottomSheet"
+        android:name="com.atech.bit.ui.fragments.notice.choose_image.ChooseImageBottomSheet"
         android:label="@string/blank"
         tools:layout="@layout/bottom_sheet_choose_image">
         <argument
             android:name="notice"
-            app:argType="com.aatec.core.data.ui.notice.SendNotice3" />
+            app:argType="com.atech.core.data.ui.notice.SendNotice3" />
     </dialog>
     <fragment
         android:id="@+id/viewImageFragment"
-        android:name="com.aatec.bit.ui.fragments.view_image.ViewImageFragment"
+        android:name="com.atech.bit.ui.fragments.view_image.ViewImageFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_view_image">
         <argument
@@ -129,19 +129,19 @@
         app:destination="@id/viewImageFragment" />
     <fragment
         android:id="@+id/subjectHandlerFragment"
-        android:name="com.aatec.bit.ui.fragments.course.subject_handler.SubjectHandlerFragment"
+        android:name="com.atech.bit.ui.fragments.course.subject_handler.SubjectHandlerFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_subject_handler">
         <argument
             android:name="syllabus"
-            app:argType="com.aatec.core.data.room.syllabus.SyllabusModel" />
+            app:argType="com.atech.core.data.room.syllabus.SyllabusModel" />
     </fragment>
     <action
         android:id="@+id/action_global_subjectHandlerFragment"
         app:destination="@id/subjectHandlerFragment" />
     <fragment
         android:id="@+id/semChooseFragment"
-        android:name="com.aatec.bit.ui.fragments.course.sem_choose.SemChooseFragment"
+        android:name="com.atech.bit.ui.fragments.course.sem_choose.SemChooseFragment"
         android:label="{request}"
         tools:layout="@layout/fragment_sem_choose">
         <argument
@@ -150,16 +150,16 @@
     </fragment>
     <dialog
         android:id="@+id/themeChangeDialog"
-        android:name="com.aatec.bit.ui.fragments.theme.ThemeChangeDialog"
+        android:name="com.atech.bit.ui.fragments.theme.ThemeChangeDialog"
         android:label="ThemeChangeDialog" />
     <fragment
         android:id="@+id/holidayFragment"
-        android:name="com.aatec.bit.ui.fragments.holiday.HolidayFragment"
+        android:name="com.atech.bit.ui.fragments.holiday.HolidayFragment"
         android:label="@string/holidays"
         tools:layout="@layout/fragment_holiday" />
     <fragment
         android:id="@+id/aboutUsFragment"
-        android:name="com.aatec.bit.ui.fragments.about_us.AboutUsFragment"
+        android:name="com.atech.bit.ui.fragments.about_us.AboutUsFragment"
         android:label=""
         tools:layout="@layout/fragment_about_us">
         <action
@@ -174,21 +174,21 @@
         app:destination="@id/aboutUsFragment" />
     <fragment
         android:id="@+id/detailDevFragment"
-        android:name="com.aatec.bit.ui.fragments.about_us.detail.DetailDevFragment"
+        android:name="com.atech.bit.ui.fragments.about_us.detail.DetailDevFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_detail_dev">
         <argument
             android:name="dev"
-            app:argType="com.aatec.core.data.network.aboutus.Devs" />
+            app:argType="com.atech.core.data.network.aboutus.Devs" />
     </fragment>
     <fragment
         android:id="@+id/acknowledgementFragment"
-        android:name="com.aatec.bit.ui.fragments.about_us.acknowledgement.AcknowledgementFragment"
+        android:name="com.atech.bit.ui.fragments.about_us.acknowledgement.AcknowledgementFragment"
         android:label="@string/acknowledgements"
         tools:layout="@layout/fragment_acknowledgement" />
     <fragment
         android:id="@+id/societyFragment"
-        android:name="com.aatec.bit.ui.fragments.society.SocietyFragment"
+        android:name="com.atech.bit.ui.fragments.society.SocietyFragment"
         android:label="@string/societies"
         tools:layout="@layout/fragment_society">
         <action
@@ -197,7 +197,7 @@
     </fragment>
     <fragment
         android:id="@+id/eventSocietyDescriptionFragment"
-        android:name="com.aatec.bit.ui.fragments.society.description.SocietyDescriptionFragment"
+        android:name="com.atech.bit.ui.fragments.society.description.SocietyDescriptionFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_society_description">
         <argument
@@ -207,18 +207,18 @@
         <argument
             android:name="society"
             android:defaultValue="@null"
-            app:argType="com.aatec.core.data.network.society.SocietyNetworkEntity"
+            app:argType="com.atech.core.data.network.society.SocietyNetworkEntity"
             app:nullable="true" />
 
     </fragment>
     <fragment
         android:id="@+id/eventFragment"
-        android:name="com.aatec.bit.ui.fragments.event.EventFragment"
+        android:name="com.atech.bit.ui.fragments.event.EventFragment"
         android:label="@string/events"
         tools:layout="@layout/fragment_event" />
     <fragment
         android:id="@+id/eventDescriptionFragment"
-        android:name="com.aatec.bit.ui.fragments.event.event_description.EventDescriptionFragment"
+        android:name="com.atech.bit.ui.fragments.event.event_description.EventDescriptionFragment"
         android:label="{title}"
         tools:layout="@layout/fragment_event_description">
         <argument
@@ -239,13 +239,13 @@
         app:destination="@id/eventDescriptionFragment" />
     <dialog
         android:id="@+id/addEditSubjectBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.attendance.add_edit_attendance.AddEditSubjectBottomSheet"
+        android:name="com.atech.bit.ui.fragments.attendance.add_edit_attendance.AddEditSubjectBottomSheet"
         android:label="bottom_sheet_add_subject"
         tools:layout="@layout/bottom_sheet_add_subject">
         <argument
             android:name="attendance"
             android:defaultValue="@null"
-            app:argType="com.aatec.core.data.room.attendance.AttendanceModel"
+            app:argType="com.atech.core.data.room.attendance.AttendanceModel"
             app:nullable="true" />
         <argument
             android:name="type"
@@ -261,7 +261,7 @@
         app:destination="@id/addEditSubjectBottomSheet" />
     <dialog
         android:id="@+id/changePercentageDialog"
-        android:name="com.aatec.bit.ui.fragments.attendance.change_percentage.ChangePercentageDialog"
+        android:name="com.atech.bit.ui.fragments.attendance.change_percentage.ChangePercentageDialog"
         android:label="ChangePercentageDialog">
         <argument
             android:name="percentage"
@@ -274,7 +274,7 @@
         app:destination="@id/changePercentageDialog" />
     <dialog
         android:id="@+id/editSubjectBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.edit_subject.EditSubjectBottomSheet"
+        android:name="com.atech.bit.ui.fragments.edit_subject.EditSubjectBottomSheet"
         android:label="bottom_sheet_edit_subject"
         tools:layout="@layout/bottom_sheet_edit_subject">
         <argument
@@ -287,24 +287,24 @@
         app:destination="@id/editSubjectBottomSheet" />
     <dialog
         android:id="@+id/listAllBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.attendance.list_all.ListAllBottomSheet"
+        android:name="com.atech.bit.ui.fragments.attendance.list_all.ListAllBottomSheet"
         android:label="bottom_sheet_list_all"
         tools:layout="@layout/bottom_sheet_list_all" />
     <dialog
         android:id="@+id/deleteAllDialog"
-        android:name="com.aatec.bit.ui.fragments.attendance.delete_all.DeleteAllDialog"
+        android:name="com.atech.bit.ui.fragments.attendance.delete_all.DeleteAllDialog"
         android:label="DeleteAllDialog" />
     <action
         android:id="@+id/action_global_deleteAllDialog"
         app:destination="@id/deleteAllDialog" />
     <dialog
         android:id="@+id/calenderViewBottomSheet"
-        android:name="com.aatec.bit.ui.fragments.attendance.calender_view.CalenderViewBottomSheet"
+        android:name="com.atech.bit.ui.fragments.attendance.calender_view.CalenderViewBottomSheet"
         android:label="bottom_sheet_calendar_view"
         tools:layout="@layout/bottom_sheet_calendar_view">
         <argument
             android:name="attendance"
-            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+            app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
         <argument
             android:name="title"
             app:argType="string" />
@@ -314,18 +314,18 @@
     </dialog>
     <dialog
         android:id="@+id/resetDialog"
-        android:name="com.aatec.bit.ui.fragments.attendance.reset_attendance.ResetDialog"
+        android:name="com.atech.bit.ui.fragments.attendance.reset_attendance.ResetDialog"
         android:label="ResetDialog">
         <argument
             android:name="attendance"
-            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+            app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
     </dialog>
     <action
         android:id="@+id/action_global_resetDialog"
         app:destination="@id/resetDialog" />
     <fragment
         android:id="@+id/searchFragment"
-        android:name="com.aatec.bit.ui.fragments.search.SearchFragment"
+        android:name="com.atech.bit.ui.fragments.search.SearchFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_search">
         <action
@@ -337,18 +337,18 @@
         app:destination="@id/searchFragment" />
     <dialog
         android:id="@+id/settingDialog"
-        android:name="com.aatec.bit.ui.fragments.search.setting_dialog.SettingDialog"
+        android:name="com.atech.bit.ui.fragments.search.setting_dialog.SettingDialog"
         android:label="SettingDialog">
         <argument
             android:name="searchPreference"
-            app:argType="com.aatec.core.data.preferences.SearchPreference" />
+            app:argType="com.atech.core.data.preferences.SearchPreference" />
     </dialog>
     <action
         android:id="@+id/action_global_settingDialog"
         app:destination="@id/settingDialog" />
     <fragment
         android:id="@+id/warningFragment"
-        android:name="com.aatec.bit.ui.fragments.warning.WarningFragment"
+        android:name="com.atech.bit.ui.fragments.warning.WarningFragment"
         android:label="@string/blank"
         tools:layout="@layout/fragment_warning">
         <argument
@@ -370,19 +370,19 @@
         app:popUpToInclusive="true" />
     <dialog
         android:id="@+id/attendanceMenu"
-        android:name="com.aatec.bit.ui.fragments.attendance.menu.AttendanceMenu"
+        android:name="com.atech.bit.ui.fragments.attendance.menu.AttendanceMenu"
         android:label="bottom_sheet_attendance"
         tools:layout="@layout/bottom_sheet_attendance">
         <argument
             android:name="attendance"
-            app:argType="com.aatec.core.data.room.attendance.AttendanceModel" />
+            app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
     </dialog>
     <action
         android:id="@+id/action_global_attendanceMenu"
         app:destination="@id/attendanceMenu" />
     <fragment
         android:id="@+id/cgpaCalculatorFragment"
-        android:name="com.aatec.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment"
+        android:name="com.atech.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment"
         android:label="@string/cgpa_calculator"
         tools:layout="@layout/fragment_cgpa_calculator" />
 </navigation>

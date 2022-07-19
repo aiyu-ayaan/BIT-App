@@ -13,7 +13,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.aatec.bit"
+        applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
         versionCode 30
@@ -38,7 +38,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    namespace 'com.aatec.bit'
+    namespace 'com.atech.bit'
 }
 
 dependencies {
