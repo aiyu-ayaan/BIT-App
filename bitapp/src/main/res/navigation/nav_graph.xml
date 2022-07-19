@@ -93,7 +93,7 @@
         <deepLink
             android:id="@+id/deepLink"
             android:autoVerify="true"
-            app:uri="bitapp-eng.github.io/notice/path={path}" />
+            app:uri="bitbyaiyu.github.io/notice/path={path}" />
         <action
             android:id="@+id/action_noticeDetailFragment_to_chooseImageBottomSheet"
             app:destination="@id/chooseImageBottomSheet" />
@@ -232,7 +232,7 @@
         <deepLink
             android:id="@+id/deepLink"
             android:autoVerify="true"
-            app:uri="bitapp-eng.github.io/event/path={path}" />
+            app:uri="bitbyaiyu.github.io/event/path={path}" />
     </fragment>
     <action
         android:id="@+id/action_global_eventDescriptionFragment"
