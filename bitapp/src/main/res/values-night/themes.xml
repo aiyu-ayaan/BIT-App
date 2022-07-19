@@ -29,7 +29,7 @@
 
     <style name="Theme.customSplash" parent="Theme.SplashScreen">
         <item name="backgroundColor">?attr/bottomBar</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_anim</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
         <item name="postSplashScreenTheme">@style/Theme.BITApp</item>
     </style>
 
