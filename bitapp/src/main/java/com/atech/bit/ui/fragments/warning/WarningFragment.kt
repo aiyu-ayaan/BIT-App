@@ -6,6 +6,7 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentWarningBinding
@@ -49,8 +50,10 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
             .document("Warning")
             .addSnapshotListener { value, _ ->
                 val isEnable = value?.getBoolean("isEnable")
+                val minVersion = value?.getDouble("minVersion")
+                val isMinEdition = BuildConfig.VERSION_CODE > minVersion!!.toInt()
                 isEnable?.let { it ->
-                    if (!it)
+                    if (!it || isMinEdition)
                         navigateToHome()
                 }
             }

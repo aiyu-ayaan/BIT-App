@@ -14,7 +14,6 @@ import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.Toast
-import com.atech.bit.R
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -27,7 +26,9 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
+import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
+import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
@@ -47,7 +48,6 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
-import io.grpc.InternalChannelz.id
 import javax.inject.Inject
 
 
@@ -447,8 +447,10 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 val isEnable = value?.getBoolean("isEnable")
                 val title = value?.getString("title")
                 val link = value?.getString("link")
+                val minVersion = value?.getDouble("minVersion")
+                val isMinEdition = BuildConfig.VERSION_CODE > minVersion!!.toInt()
                 isEnable?.let { it ->
-                    if (it && u)
+                    if (it && u && !isMinEdition)
                         openWarningDialog(title ?: "", link ?: "")
                 }
             }
