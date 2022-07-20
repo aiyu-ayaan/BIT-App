@@ -134,7 +134,18 @@
         tools:layout="@layout/fragment_subject_handler">
         <argument
             android:name="syllabus"
-            app:argType="com.atech.core.data.room.syllabus.SyllabusModel" />
+            android:defaultValue="@null"
+            app:argType="com.atech.core.data.room.syllabus.SyllabusModel"
+            app:nullable="true" />
+        <argument
+            android:name="openCode"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="bitbyaiyu.github.io/syllabus/path={openCode}" />
     </fragment>
     <action
         android:id="@+id/action_global_subjectHandlerFragment"

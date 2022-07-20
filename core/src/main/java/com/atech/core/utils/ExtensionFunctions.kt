@@ -50,6 +50,7 @@ import com.atech.core.data.room.attendance.IsPresent
 import com.atech.core.data.ui.notice.Notice3
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -73,7 +74,7 @@ import java.util.*
 
 inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) -> Unit)) =
     this.addOnDestinationChangedListener { _, destination, _ ->
-        des.invoke( destination)
+        des.invoke(destination)
     }
 
 /**
@@ -306,7 +307,11 @@ fun Activity.openShareLink() =
  * @author Ayaan
  * @since 4.0.3
  */
-fun Activity.openShareDeepLink(title: String, path: String) =
+fun Activity.openShareDeepLink(
+    title: String,
+    path: String,
+    share_type: String = SHARE_TYPE_NOTICE
+) =
     this.startActivity(Intent.createChooser(Intent().apply {
         action = Intent.ACTION_SEND
         putExtra(
@@ -314,7 +319,12 @@ fun Activity.openShareDeepLink(title: String, path: String) =
             $title .
             Link: ${
                 Uri.parse(
-                    resources.getString(R.string.deep_link_share_link, path.trim())
+                    resources.getString(
+                        when (share_type) {
+                            SHARE_TYPE_SYLLABUS -> R.string.deep_link_share_syllabus
+                            else -> R.string.deep_link_share_notice
+                        }, path.trim()
+                    )
                 )
             }
 
@@ -799,6 +809,21 @@ fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
 }
 
 
+fun getBitMapUsingGlide(context: Context, url: String): Bitmap? =
+    runBlocking(Dispatchers.IO + handler) {
+        val requestOptions = RequestOptions()
+            .centerCrop()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .skipMemoryCache(false)
+
+        Glide.with(context)
+            .asBitmap()
+            .load(url)
+            .apply(requestOptions)
+            .submit()
+            .get()
+    }
+
 /**
  *Extension function to open Share
  * @author Ayaan
@@ -817,7 +842,7 @@ fun Activity.openShareImageDeepLink(
             Intent.EXTRA_STREAM,
             getImageUri(
                 context,
-                imageLink.converterLinkToBitmap() ?: (ResourcesCompat.getDrawable(
+                getBitMapUsingGlide(context, imageLink) ?: (ResourcesCompat.getDrawable(
                     context.resources,
                     R.drawable.app_logo,
                     null
@@ -834,7 +859,7 @@ fun Activity.openShareImageDeepLink(
                             R.string.deep_link_share_event_link,
                             path.trim()
                         )
-                        else -> resources.getString(R.string.deep_link_share_link, path.trim())
+                        else -> resources.getString(R.string.deep_link_share_notice, path.trim())
                     }
                 )
             }

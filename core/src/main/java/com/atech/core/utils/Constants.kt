@@ -65,3 +65,5 @@ const val DAY = 24 * HOUR
 const val MONTH = 30 * DAY
 const val YEAR = 12 * MONTH
 const val UPDATE_REQUEST = "Update"
+const val SHARE_TYPE_SYLLABUS = "share_type_syllabus"
+const val SHARE_TYPE_NOTICE = "share_type_notice"

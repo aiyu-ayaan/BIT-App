@@ -149,7 +149,7 @@
     <string name="notice_date">- %s</string>
     <string name="invalid_link">Invalid Link</string>
     <string name="open_valid_link">Open valid link!!!!</string>
-    <string name="deep_link_share_link">https://bitapp-eng.github.io/notice/path=%s</string>
+    <string name="deep_link_share_notice">https://bitapp-eng.github.io/notice/path=%s</string>
     <string name="deep_link_share_event_link">https://bitapp-eng.github.io/event/path=%s</string>
     <string name="all">All</string>
     <string name="loading">Loading.....</string>
@@ -181,5 +181,7 @@
     <string name="viewInPlayStore">View in Play Store</string>
     <string name="see_all">View All</string>
     <string name="no_data">No data found</string>
+    <string name="no_syllabus_found">No Syllabus Found</string>
+    <string name="no_syllabus_found_subtitle">Link may be invalid !!</string>
 
 </resources>

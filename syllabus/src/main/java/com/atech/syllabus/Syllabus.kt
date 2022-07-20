@@ -1,10 +1,9 @@
-
-
-
-
 package com.atech.syllabus
 
 import androidx.fragment.app.Fragment
+
+// No Syllabus Found
+class NoSyllabusFragment : Fragment(R.layout.fragment_no_sylabus_found)
 
 /**
  *BBA

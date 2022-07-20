@@ -41,6 +41,10 @@ interface SyllabusDao {
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' ORDER BY listOrder ASC")
     fun getSyllabusEdit(query: String): Flow<List<SyllabusModel>>
 
+
+    @Query("SELECT * FROM syllabus_table WHERE openCode = :query")
+    suspend fun getSyllabusDeepLink(query: String): SyllabusModel?
+
     /**
      *Update syllabus
      */

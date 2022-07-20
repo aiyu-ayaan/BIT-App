@@ -156,7 +156,7 @@
     <string name="notice_date">- %s</string>
     <string name="invalid_link">Invalid Link</string>
     <string name="open_valid_link">Open valid link!!!!</string>
-    <string name="deep_link_share_link">https://bitbyaiyu.github.io/notice/path=%s</string>
+    <string name="deep_link_share_notice">https://bitbyaiyu.github.io/notice/path=%s</string>
     <string name="deep_link_share_event_link">https://bitbyaiyu.github.io/event/path=%s</string>
     <string name="all">All</string>
     <string name="loading">Loading.....</string>

@@ -15,6 +15,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.atech.core.data.room.syllabus.SyllabusModel
 
+fun setNoSyllabusFragment(@IdRes fragmentId: Int, fm: FragmentManager) {
+    val fragment = NoSyllabusFragment()
+    fm.beginTransaction()
+        .replace(fragmentId, fragment)
+        .commit()
+}
+
 fun setFragment(@IdRes fragmentId: Int, fm: FragmentManager, syllabusModel: SyllabusModel) {
     val fragment: Fragment = when {
         syllabusModel.openCode.lowercase().contains("bba") -> openCodeBBA(syllabusModel)
