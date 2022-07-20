@@ -2,9 +2,11 @@ package com.atech.bit.ui.fragments.home
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -135,6 +137,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         createMenu()
 
         getOldAppWarningDialog()
+
+        setUpLinkClick()
+    }
+
+    private fun setUpLinkClick() {
+        binding.layoutNoteDev.tagInfo.setOnClickListener {
+            db.collection("AboutUs")
+                .document("WfsbaT4g1wGZkDwFS7iQ")
+                .addSnapshotListener { value, _ ->
+                    value?.getString("github")?.let {
+                        requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
+                    }
+                }
+        }
     }
 
     private fun getOldAppWarningDialog() {
@@ -208,8 +224,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun getEvent() {
-        val eventAdapter = EventHomeAdapter { event, view ->
-            onEventClick(event, view)
+        val eventAdapter = EventHomeAdapter { event, _ ->
+            onEventClick(event)
         }
         binding.apply {
             showEvent.apply {
@@ -257,7 +273,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @author Ayaan
      * @since 4.0.3
      */
-    private fun onEventClick(event: Event, view: View) {
+    private fun onEventClick(event: Event) {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
         val action = NavGraphDirections.actionGlobalEventDescriptionFragment(

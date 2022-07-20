@@ -12,6 +12,7 @@
     tools:context=".ui.fragments.home.HomeFragment">
 
     <RelativeLayout
+        android:id="@+id/relative_layout_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/grid_1">
@@ -358,5 +359,15 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
+
+        <include
+            android:id="@+id/layout_note_dev"
+            layout="@layout/layout_note_from_dev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/card_view_attendance"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/grid_1"
+             />
     </RelativeLayout>
 </androidx.core.widget.NestedScrollView>
