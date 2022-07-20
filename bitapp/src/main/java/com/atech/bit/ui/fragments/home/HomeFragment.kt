@@ -2,6 +2,8 @@ package com.atech.bit.ui.fragments.home
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -64,6 +66,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     @Inject
     lateinit var db: FirebaseFirestore
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,7 +134,31 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         createMenu()
 
+        getOldAppWarningDialog()
+    }
 
+    private fun getOldAppWarningDialog() {
+        val u = pref.getBoolean(KEY_DO_NOT_SHOW_AGAIN, false)
+        if (isOldAppInstalled() && !communicatorViewModel.uninstallDialogSeen && !u)
+            navigateToUninstallOldAppDialog()
+    }
+
+    private fun navigateToUninstallOldAppDialog() {
+        val action = NavGraphDirections.actionGlobalUninstallOldAppDialog()
+        findNavController().navigate(action)
+    }
+
+    private fun isOldAppInstalled(): Boolean {
+        var available = true
+        try {
+            // check if available
+            requireContext().packageManager.getPackageInfo("com.aatec.bit", 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            // if not available set
+            // available as false
+            available = false
+        }
+        return available
     }
 
     private fun navigateToCGPA() {
@@ -552,11 +581,4 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
 
-//    private fun navigateToTimeTableSetting() {
-//        val action =
-//            NavGraphDirections.actionGlobalBottomSheetTimeTableSetting(
-//                REQUEST_OPEN_SETTING_FROM_HOME
-//            )
-//        findNavController().navigate(action)
-//    }
 }

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.atech.bit">
 
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <queries>
+        <package android:name="com.aatec.bit" />
+    </queries>
     <application
         android:name=".BITApp"
         android:allowBackup="true"
@@ -62,5 +66,4 @@
                 android:resource="@xml/provider_path" />
         </provider>
     </application>
-
 </manifest>

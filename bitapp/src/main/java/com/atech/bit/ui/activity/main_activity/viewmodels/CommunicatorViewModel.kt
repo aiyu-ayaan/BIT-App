@@ -39,6 +39,9 @@ class CommunicatorViewModel @Inject constructor(
     val _attendanceEvent = Channel<AttendanceEvent>()
     val attendanceEvent = _attendanceEvent.receiveAsFlow()
 
-    val isExpandBCA = MutableStateFlow(false)
-    val isExpandBBA = MutableStateFlow(false)
+    var uninstallDialogSeen = state.get<Boolean>("uninstallDialogSeen") ?: false
+        set(value) {
+            field = value
+            state.set("uninstallDialogSeen", value)
+        }
 }

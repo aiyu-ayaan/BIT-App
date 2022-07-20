@@ -209,6 +209,11 @@
     <string name="no_internet_detected">No internet detected, Connect with internet to share %s with image!!</string>
     <string name="no_event_found">No event found</string>
     <string name="no_notice_found">No notice found</string>
+    <string name="little_sign">Little sign</string>
+    <string name="uninstall_old_app">Uninstall your old BIT App</string>
+    <string name="uninstall">Uninstall</string>
+    <string name="do_not_show_this">Don\'t show this again</string>
+    <string name="may_be_next_time">"May be next time "</string>
 
 
 </resources>

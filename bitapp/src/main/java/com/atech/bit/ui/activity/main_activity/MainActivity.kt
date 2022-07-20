@@ -5,9 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.viewbinding.library.activity.viewBinding
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     private lateinit var searchPreference: SearchPreference
     private var reviewInfo: ReviewInfo? = null
     private lateinit var reviewManager: ReviewManager
-    private var searchMenuItem: MenuItem? = null
 
     @Inject
     lateinit var db: FirebaseFirestore
@@ -125,7 +124,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         checkForUpdate()
         getWarning()
         shareReview()
-//        menuHost()
+
     }
 
     private fun shareReview() {
@@ -473,5 +472,19 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
     override fun onMenuClick() {
         navigateToSearch()
+    }
+
+
+    private fun available(): Boolean {
+        var available = true
+        try {
+            // check if available
+            packageManager.getPackageInfo("com.aatec.bit", 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            // if not available set
+            // available as false
+            available = false
+        }
+        return available
     }
 }

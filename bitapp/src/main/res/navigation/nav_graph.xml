@@ -396,4 +396,9 @@
         android:name="com.atech.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment"
         android:label="@string/cgpa_calculator"
         tools:layout="@layout/fragment_cgpa_calculator" />
+    <dialog
+        android:id="@+id/uninstallOldAppDialog"
+        android:name="com.atech.bit.ui.fragments.uninstall_old_app.UninstallOldAppDialog"
+        android:label="dialog_uninstall_old_app"
+        tools:layout="@layout/dialog_uninstall_old_app" /><action android:id="@+id/action_global_uninstallOldAppDialog" app:destination="@id/uninstallOldAppDialog"/>
 </navigation>
