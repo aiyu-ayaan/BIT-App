@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Html
 import android.util.DisplayMetrics
-import android.view.MenuItem
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
@@ -26,11 +25,12 @@ import com.atech.bit.databinding.FragmentEventDescriptionBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.handleCustomBackPressed
+import com.atech.bit.utils.openShareDeepLink
+import com.atech.bit.utils.openShareImageDeepLink
 import com.atech.core.data.ui.event.Event
 import com.atech.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 
 @AndroidEntryPoint
 class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
@@ -40,11 +40,6 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
     private val viewModel: EventDescriptionModel by viewModels()
     private val connectionManager: ConnectionManagerViewModel by activityViewModels()
     private lateinit var handler: Handler
-    private lateinit var insta: String
-    private lateinit var web: String
-    private lateinit var menuInsta: MenuItem
-    private lateinit var menuWeb: MenuItem
-    private lateinit var menuShare: MenuItem
     private var event: Event? = null
     private var isNetConnect: Boolean = true
 
@@ -60,6 +55,8 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         setTransitionNameToRoot()
+
+
         setHandler()
         setEvent()
         darkWebView()
@@ -67,6 +64,7 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
         setIsConnected()
         detectScroll()
         setMenu()
+
     }
 
 
@@ -99,12 +97,8 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
                 DataState.Empty -> {}
                 is DataState.Error -> {
                     if (dataState.exception is NoItemFoundException) {
-                        menuShare.isVisible = false
-                        menuInsta.isVisible = false
-                        menuWeb.isVisible = false
                         binding.apply {
-                            imageViewNoData.isVisible = true
-                            textViewNoData.isVisible = true
+                            relativeLayoutNoData.isVisible = true
                             relativeLayoutEventContent.isVisible = false
                         }
                     }
@@ -124,13 +118,6 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
     private fun setViewsEvent(event: Event) = binding.apply {
         val des = event.event_body
         val imgLink = event.poster_link
-        insta = event.ins_link
-        web = event.web_link
-        lifecycleScope.launchWhenStarted {
-            delay(500)
-//            menuInsta.isVisible = insta.isNotBlank()
-//            menuWeb.isVisible = web.isNotBlank()
-        }
 
         val body = Html
             .fromHtml(
@@ -205,22 +192,18 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
 
     private fun setMenu() {
         addMenuHost(R.menu.menu_event_society_des, { menu ->
-            menuInsta = menu.findItem(R.id.menu_insta)
-            menuShare = menu.findItem(R.id.menu_share)
-            menuWeb = menu.findItem(R.id.menu_link)
-
-
-            menuInsta.isVisible = insta.isNotBlank()
-            menuWeb.isVisible = web.isNotBlank()
+            menu.findItem(R.id.menu_insta).isVisible = event?.ins_link?.isNotBlank() ?: false
+            menu.findItem(R.id.menu_link).isVisible = event?.web_link?.isNotBlank() ?: false
+            menu.findItem(R.id.menu_share).isVisible = event != null
         }) {
             when (it.itemId) {
                 android.R.id.home -> customAction()
                 R.id.menu_insta -> {
-                    insta.openLinks(requireActivity(), R.string.no_intent_available)
+                    event?.ins_link?.openLinks(requireActivity(), R.string.no_intent_available)
                     true
                 }
                 R.id.menu_link -> {
-                    requireContext().openCustomChromeTab(web)
+                    requireContext().openCustomChromeTab(event?.web_link!!)
                     true
                 }
                 R.id.menu_share -> {
@@ -235,23 +218,25 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
 
     private fun shareEvent() {
         Toast.makeText(requireContext(), "Loading ...", Toast.LENGTH_SHORT).show()
-        if (isNetConnect) {
-            activity?.openShareImageDeepLink(
-                requireContext(),
-                event!!.event_title,
-                event!!.path,
-                event!!.poster_link
-            )
-        } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.no_internet_detected,"Event"),
-                Toast.LENGTH_SHORT
-            ).show()
-            requireActivity().openShareDeepLink(
-                event!!.event_title,
-                event!!.path
-            )
+        event?.let { event ->
+            if (isNetConnect) {
+                activity?.openShareImageDeepLink(
+                    requireContext(),
+                    event.event_title,
+                    event.path,
+                    event.poster_link
+                )
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.no_internet_detected, "Event"),
+                    Toast.LENGTH_SHORT
+                ).show()
+                requireActivity().openShareDeepLink(
+                    event.event_title,
+                    event.path
+                )
+            }
         }
     }
 

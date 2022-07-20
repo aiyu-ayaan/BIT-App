@@ -20,6 +20,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewM
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.data.ui.notice.SendNotice3

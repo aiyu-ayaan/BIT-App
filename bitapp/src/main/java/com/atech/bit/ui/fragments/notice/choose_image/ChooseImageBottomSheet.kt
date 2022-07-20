@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetChooseImageBinding
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
-import com.atech.core.utils.openShareDeepLink
-import com.atech.core.utils.openShareImageDeepLink
+import com.atech.bit.utils.openShareDeepLink
+import com.atech.bit.utils.openShareImageDeepLink
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint

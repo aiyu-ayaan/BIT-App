@@ -19,7 +19,7 @@
         android:layout_below="@id/image_view_no_data"
         android:layout_centerHorizontal="true"
         android:text="@string/no_syllabus_found"
-        android:textAppearance="?attr/textAppearanceHeadline4" />
+        android:textAppearance="?attr/textAppearanceHeadline5" />
 
     <TextView
         android:layout_width="wrap_content"

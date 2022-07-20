@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">BIT App</string>
     <!--    FCM -->
-    <string name="topic_notice">Notice</string>
-    <string name="topic_event">Event</string>
-    <string name="topic_update">Update</string>
-    <string name="topic_app">App</string>
+    <string name="topic_notice">NoticeByAiyu</string>
+    <string name="topic_event">EventByAiyu</string>
+    <string name="topic_update">UpdateByAiyu</string>
+    <string name="topic_app">AppByAiyu</string>
     <!--    App -->
     <string name="app_version">1.0</string>
     <string name="full_version">Version 1.0</string>
@@ -207,6 +207,8 @@
     <string name="course_sem_text">%s up to %s</string>
     <string name="your_sgpa">Sgpa Graph</string>
     <string name="no_internet_detected">No internet detected, Connect with internet to share %s with image!!</string>
+    <string name="no_event_found">No event found</string>
+    <string name="no_notice_found">No notice found</string>
 
 
 </resources>

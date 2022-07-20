@@ -20,11 +20,9 @@ import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.provider.MediaStore
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -35,11 +33,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.cardview.widget.CardView
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
@@ -50,7 +45,6 @@ import com.atech.core.data.room.attendance.IsPresent
 import com.atech.core.data.ui.notice.Notice3
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
@@ -63,9 +57,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.net.HttpURLConnection
 import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -188,7 +180,7 @@ fun String.loadImage(
             }
 
         })
-        .apply(com.bumptech.glide.request.RequestOptions.bitmapTransform(RoundedCorners(cornerRadius)))
+        .apply(RequestOptions.bitmapTransform(RoundedCorners(cornerRadius)))
         .timeout(10000)
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(view)
@@ -283,60 +275,6 @@ fun Activity.openBugLink() =
     )
 
 
-/**
- *Extension function to share link
- * @author Ayaan
- * @since 4.0.3
- */
-fun Activity.openShareLink() =
-    this.startActivity(Intent.createChooser(Intent().apply {
-
-        action = Intent.ACTION_SEND
-        putExtra(
-            Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
-                    "${resources.getString(R.string.play_store_link)}$packageName"
-        )
-        type = "text/plain"
-        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
-
-        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    }, null))
-//
-/**
- *Extension function to open Share
- * @author Ayaan
- * @since 4.0.3
- */
-fun Activity.openShareDeepLink(
-    title: String,
-    path: String,
-    share_type: String = SHARE_TYPE_NOTICE
-) =
-    this.startActivity(Intent.createChooser(Intent().apply {
-        action = Intent.ACTION_SEND
-        putExtra(
-            Intent.EXTRA_TEXT, """
-            $title .
-            Link: ${
-                Uri.parse(
-                    resources.getString(
-                        when (share_type) {
-                            SHARE_TYPE_SYLLABUS -> R.string.deep_link_share_syllabus
-                            else -> R.string.deep_link_share_notice
-                        }, path.trim()
-                    )
-                )
-            }
-
-            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
-        """.trimIndent()
-        )
-        type = "text/plain"
-        putExtra(Intent.EXTRA_TITLE, title)
-
-        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    }, null))
-
 
 /**
  * Replace all \n or \r to br
@@ -346,27 +284,6 @@ fun Activity.openShareDeepLink(
 fun String.replaceNewLineWithBreak() =
     this.replace("\n|\r\n".toRegex(), "<br>")
 
-/**
- * Convert valid link into Bitmap use applyImageUrl()
- * @return Bitmap
- * @throws IOException unused
- * @author Ayaan
- * @since 4.0.2
- * @see com.atech.bit.utils.applyImageUrl()
- * @deprecated This Function is Deprecated. Use {@link com.atech.core.utils.applyImageUrl()}
- */
-fun String.converterLinkToBitmap(): Bitmap? =
-    runBlocking(Dispatchers.IO) {
-        try {
-            val httpURLConnection = URL(this@converterLinkToBitmap).openConnection()
-                    as HttpURLConnection
-            httpURLConnection.doInput = true
-            httpURLConnection.connect()
-            BitmapFactory.decodeStream(httpURLConnection.inputStream)
-        } catch (unused: IOException) {
-            null
-        }
-    }
 
 /**
  *Covert valid link into Bitmap in background thread
@@ -374,7 +291,6 @@ fun String.converterLinkToBitmap(): Bitmap? =
  * @throws IOException unused
  * @author Ayaan
  * @since 4.0.3
- * @see com.atech.bit.Service.FcmService
  */
 fun String.applyImageUrl(builder: NotificationCompat.Builder) =
     runBlocking(Dispatchers.IO) {
@@ -455,6 +371,7 @@ inline fun AttendanceModel.showUndoMessage(
         this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
     }.show()
 
+@Deprecated("THIS IS DEPRECATED")
 inline fun MutableList<AttendanceModel>.showUndoMessage(
     parentView: View,
     crossinline action: (MutableList<AttendanceModel>) -> Unit
@@ -558,7 +475,6 @@ fun ArrayList<IsPresent>.countTotalClass(size: Int, isPresent: Boolean): Int {
  * @param type condition of attendance
  * @since 4.0.3
  * @author Ayaan
- * @see com.atech.bit.ui.Fragments.Attendance.Dialog.BottomSheet.AddEdit.AddSubjectBottomSheet
  */
 fun String.getAndSetHint(type: String): Int =
     when (this) {
@@ -596,17 +512,6 @@ fun getColorForBackground(context: Context) = context.run {
 fun getColorForText(context: Context) = context.run {
     if (this.isDark()) "rgb(255,255,255)"
     else "rgb(0,0,0)"
-}
-
-/**
- * Return color in hex for webView
- * @param context Current Context
- * @author Ayaan
- * @since 4.0.3
- */
-fun getColorForTH(context: Context) = context.run {
-    if (this.isDark()) "rgb(0,0,0)"
-    else "rgb(255,255,255)"
 }
 
 
@@ -752,10 +657,6 @@ fun Activity.changeBottomNav(@AttrRes color: Int) = this.apply {
         )
 }
 
-fun Activity.changeBottomNavColor(@ColorInt color: Int) = this.apply {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
-        window.navigationBarColor = color
-}
 
 /**
  * BottomNav Change color
@@ -790,97 +691,10 @@ fun isColorDark(@ColorInt color: Int): Boolean {
 
 
 /**
- *Extension function to open Share
+ * Get Link for Notification type
  * @author Ayaan
  * @since 4.0.5
  */
-@Suppress("DEPRECATION")
-fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
-    val bytes = ByteArrayOutputStream()
-    inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-    val path: String =
-        MediaStore.Images.Media.insertImage(
-            inContext.contentResolver,
-            inImage,
-            "{${System.currentTimeMillis()}}",
-            null
-        )
-    return Uri.parse(path)
-}
-
-
-fun getBitMapUsingGlide(context: Context, url: String): Bitmap? =
-    runBlocking(Dispatchers.IO + handler) {
-        val requestOptions = RequestOptions()
-            .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .skipMemoryCache(false)
-
-        Glide.with(context)
-            .asBitmap()
-            .load(url)
-            .apply(requestOptions)
-            .submit()
-            .get()
-    }
-
-/**
- *Extension function to open Share
- * @author Ayaan
- * @since 4.0.5
- */
-fun Activity.openShareImageDeepLink(
-    context: Context,
-    title: String,
-    path: String,
-    imageLink: String,
-    share_type: String = "event"
-) =
-    this.startActivity(Intent.createChooser(Intent().apply {
-        action = Intent.ACTION_SEND
-        putExtra(
-            Intent.EXTRA_STREAM,
-            getImageUri(
-                context,
-                getBitMapUsingGlide(context, imageLink) ?: (ResourcesCompat.getDrawable(
-                    context.resources,
-                    R.drawable.app_logo,
-                    null
-                ) as BitmapDrawable).toBitmap()
-            )
-        )
-        putExtra(
-            Intent.EXTRA_TEXT, """
-            $title .
-            Link: ${
-                Uri.parse(
-                    when (share_type) {
-                        "event" -> resources.getString(
-                            R.string.deep_link_share_event_link,
-                            path.trim()
-                        )
-                        else -> resources.getString(R.string.deep_link_share_notice, path.trim())
-                    }
-                )
-            }
-
-            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
-        """.trimIndent()
-        )
-        type = "image/*"
-        putExtra(Intent.EXTRA_TITLE, title)
-
-        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    }, null))
-
-
-//
-//
-///**
-// * Get Link for Notification type
-// * @author Ayaan
-// * @since 4.0.5
-// */
 fun Notice3.getImageLinkNotification(): String =
     when (this.sender) {
         "App Notice" -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
@@ -977,15 +791,4 @@ fun getRgbFromHex(hex: String): String {
     val g = Color.green(initColor)
     val b = Color.blue(initColor)
     return "rgb($r,$g,$b)"
-}
-
-fun CardView.changeCardColor(context: Context, @AttrRes res: Int) = this.apply {
-    ->
-    this.setCardBackgroundColor(
-        MaterialColors.getColor(
-            context,
-            res,
-            Color.WHITE
-        )
-    )
 }

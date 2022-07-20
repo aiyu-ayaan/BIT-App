@@ -22,30 +22,44 @@
 
 
         <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/image_view_no_data"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+            <RelativeLayout
+                android:id="@+id/relative_layout_no_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
-                android:contentDescription="@string/blank"
-                android:src="@drawable/ic_no_data"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="visible">
 
-            <TextView
-                android:id="@+id/text_view_no_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/image_view_no_data"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/grid_1"
-                android:text="@string/no_data"
-                android:textAppearance="?attr/textAppearanceHeadline5"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                <ImageView
+                    android:id="@+id/image_view_no_data"
+                    android:layout_width="300dp"
+                    android:layout_height="300dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/blank"
+                    android:src="@drawable/ic_no_data" />
+
+                <TextView
+                    android:id="@+id/text_view_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/image_view_no_data"
+                    android:layout_centerHorizontal="true"
+
+                    android:text="@string/no_event_found"
+                    android:textAppearance="?attr/textAppearanceHeadline5" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_view_no_data"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/no_syllabus_found_subtitle"
+                    android:textAppearance="?attr/textAppearanceCaption" />
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/relative_layout_event_content"

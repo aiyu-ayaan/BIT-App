@@ -10,11 +10,11 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSubjectHandlerBinding
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.utils.SHARE_TYPE_SYLLABUS
 import com.atech.core.utils.changeStatusBarToolbarColor
-import com.atech.core.utils.openShareDeepLink
 import com.atech.syllabus.setFragment
 import com.atech.syllabus.setNoSyllabusFragment
 import com.google.android.material.transition.MaterialContainerTransform
