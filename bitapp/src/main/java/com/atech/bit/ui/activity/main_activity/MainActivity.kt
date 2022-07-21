@@ -460,10 +460,14 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 val title = value?.getString("title")
                 val link = value?.getString("link")
                 val minVersion = value?.getDouble("minVersion")
-                val isMinEdition = BuildConfig.VERSION_CODE > minVersion!!.toInt()
+                val isMinEdition =
+                    BuildConfig.VERSION_CODE > (minVersion?.toInt() ?: INVALID_BUILD_VERSION)
                 isEnable?.let { it ->
                     if (it && u && !isMinEdition)
-                        openWarningDialog(title ?: "", link ?: "")
+                        link?.let { link ->
+                            openWarningDialog(title ?: "", link)
+                        }
+
                 }
             }
     }
