@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 when (it.itemId) {
                     R.id.nav_connect -> resources.getString(R.string.instaLink)
                         .openLinks(this@MainActivity, R.string.no_intent_available)
-                    R.id.nav_share -> this@MainActivity.openShareLink()
+                    R.id.nav_share -> shareApp()
                     R.id.nav_bug -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
                     R.id.nav_rate -> startReviewFlow()
@@ -125,6 +125,18 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         getWarning()
         shareReview()
 
+    }
+
+    private fun shareApp() {
+        db.collection("Utils")
+            .document("AppLogoShare")
+            .addSnapshotListener { value, _ ->
+                val title = value?.getString("appLogo")
+                this@MainActivity.openShareLink(
+                    title
+                        ?: APP_LOGO_LINK
+                )
+            }
     }
 
     private fun shareReview() {

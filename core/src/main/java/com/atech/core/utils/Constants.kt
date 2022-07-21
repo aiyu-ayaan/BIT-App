@@ -68,3 +68,5 @@ const val YEAR = 12 * MONTH
 const val UPDATE_REQUEST = "Update"
 const val SHARE_TYPE_SYLLABUS = "share_type_syllabus"
 const val SHARE_TYPE_NOTICE = "share_type_notice"
+const val APP_LOGO_LINK =
+    "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_logo.png?alt=media&token=86b154d0-e6a2-4e0f-b1f1-3c273c7ca4ea"

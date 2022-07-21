@@ -29,15 +29,25 @@ import java.io.IOException
  * @author Ayaan
  * @since 4.0.3
  */
-fun Activity.openShareLink() =
+fun Activity.openShareLink(link: String) =
     this.startActivity(Intent.createChooser(Intent().apply {
-
         action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_STREAM,
+            saveFileToCaches(
+                this@openShareLink,
+                getBitMapUsingGlide(this@openShareLink, link) ?: (ResourcesCompat.getDrawable(
+                    this@openShareLink.resources,
+                    R.drawable.app_logo,
+                    null
+                ) as BitmapDrawable).toBitmap()
+            )
+        )
         putExtra(
             Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
                     "${resources.getString(R.string.play_store_link)}$packageName"
         )
-        type = "text/plain"
+        type = "image/*"
         putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
 
         flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -55,6 +65,7 @@ fun Activity.openShareDeepLink(
 ) =
     this.startActivity(Intent.createChooser(Intent().apply {
         action = Intent.ACTION_SEND
+
         putExtra(
             Intent.EXTRA_TEXT, """
             $title .
