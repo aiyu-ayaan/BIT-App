@@ -11,6 +11,7 @@
 package com.atech.core.data.network.society
 
 import com.atech.core.utils.DataState
+import com.atech.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.Dispatchers
@@ -31,6 +32,34 @@ class SocietyRepository @Inject constructor(
             val ref = db.collection("Society").orderBy("sno", Query.Direction.ASCENDING)
             ref.addSnapshotListener { value, error ->
                 runBlocking {
+                    if (error != null) {
+                        send(DataState.Error(error))
+                    } else {
+                        if (value != null) {
+                            send(DataState.Loading)
+                            val societies = value.toObjects(SocietyNetworkEntity::class.java)
+                            send(DataState.Success(societies))
+                            if (value.isEmpty) {
+                                send(DataState.Empty)
+                            }
+                        }
+                    }
+                }
+            }
+            awaitClose()
+        } catch (e: Exception) {
+            send(DataState.Error(e))
+            awaitClose()
+        }
+    }.flowOn(Dispatchers.Main)
+
+
+    suspend fun getNGOs(): Flow<DataState<List<SocietyNetworkEntity>>> = channelFlow {
+        send(DataState.Loading)
+        try {
+            val ref = db.collection("NGOs").orderBy("sno", Query.Direction.ASCENDING)
+            ref.addSnapshotListener { value, error ->
+                runBlocking(handler) {
                     if (error != null) {
                         send(DataState.Error(error))
                     } else {

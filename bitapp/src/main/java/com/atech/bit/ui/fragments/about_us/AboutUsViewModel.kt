@@ -36,6 +36,10 @@ class AboutUsViewModel @Inject constructor(
     val dataStateContributors: Flow<DataState<List<Devs>>>
         get() = _dataStateContributors.asFlow()
 
+    private val _dataStateManagers: MutableLiveData<DataState<List<Devs>>> = MutableLiveData()
+    val dataStateManager: Flow<DataState<List<Devs>>>
+        get() = _dataStateManagers.asFlow()
+
 
     var aboutNestedViewPosition = MutableStateFlow(0)
 
@@ -49,9 +53,11 @@ class AboutUsViewModel @Inject constructor(
                     repository.getContributors().onEach { dataState ->
                         _dataStateContributors.value = dataState
                     }.launchIn(viewModelScope)
+                    repository.getManagers().onEach { dataState ->
+                        _dataStateManagers.value = dataState
+                    }.launchIn(viewModelScope)
                 }
                 MainStateEvent.NoInternet -> {
-
 
                 }
             }

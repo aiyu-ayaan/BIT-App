@@ -49,6 +49,9 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         val contributorAdapter = DevsAdapter { devs ->
             setOnAboutUsClickListener(devs)
         }
+        val managersAdapter = DevsAdapter { devs ->
+            setOnAboutUsClickListener(devs)
+        }
         binding.apply {
             showDevs.apply {
                 addItemDecoration(
@@ -78,19 +81,33 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
                 adapter = contributorAdapter
                 layoutManager = LinearLayoutManager(requireContext())
             }
+            showManagers.apply {
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    )
+                )
+                adapter = managersAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
         }
 
         viewModel.setStateListener(MainStateEvent.GetData)
         lifecycleScope.launchWhenStarted {
-            viewModel.dataState.combine(viewModel.dataStateContributors) { dev, con ->
-                CombineFlow(dev, con)
+            combine(
+                viewModel.dataState,
+                viewModel.dataStateContributors,
+                viewModel.dataStateManager
+            ) { dev, con, man ->
+                CombineFlow(dev, con, man)
             }.collect { combineFlow ->
                 when (combineFlow.dev) {
                     is DataState.Success -> {
                         devAdapter.submitList(combineFlow.dev.data)
                     }
                     DataState.Empty -> {
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+
                     }
                     is DataState.Error -> {
                         Toast.makeText(
@@ -105,21 +122,50 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
                 }
                 when (combineFlow.con) {
                     is DataState.Success -> {
-                        binding.showContributors.isVisible = true
-                        binding.textViewContributors.isVisible = true
+                        binding.materialCardViewCon.isVisible = combineFlow.con.data.isNotEmpty()
+                        binding.textViewContributors.isVisible = combineFlow.con.data.isNotEmpty()
                         contributorAdapter.submitList(combineFlow.con.data)
                     }
                     DataState.Empty -> {
-                        binding.showContributors.isVisible = false
+                        binding.materialCardViewCon.isVisible = false
                         binding.textViewContributors.isVisible = false
-                        Toast.makeText(requireContext(), "Empty", Toast.LENGTH_SHORT).show()
+
                     }
                     is DataState.Error -> {
-                        binding.showContributors.isVisible = false
+                        binding.materialCardViewCon.isVisible = false
                         binding.textViewContributors.isVisible = false
                         Toast.makeText(
                             requireContext(),
                             "${combineFlow.con.exception.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    DataState.Loading -> {
+
+                    }
+                }
+                when (combineFlow.man) {
+                    is DataState.Success -> {
+                        binding.materialCardViewManagement.isVisible =
+                            combineFlow.man.data.isNotEmpty()
+                        binding.textViewManagement.isVisible = combineFlow.man.data.isNotEmpty()
+                        Toast.makeText(
+                            requireContext(),
+                            "${combineFlow.man.data.size}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        managersAdapter.submitList(combineFlow.man.data)
+                    }
+                    DataState.Empty -> {
+                        binding.materialCardViewManagement.isVisible = false
+                        binding.textViewManagement.isVisible = false
+                    }
+                    is DataState.Error -> {
+                        binding.materialCardViewManagement.isVisible = false
+                        binding.textViewManagement.isVisible = false
+                        Toast.makeText(
+                            requireContext(),
+                            "${combineFlow.man.exception.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -200,5 +246,6 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
 
 data class CombineFlow(
     val dev: DataState<List<Devs>>,
-    val con: DataState<List<Devs>>
+    val con: DataState<List<Devs>>,
+    val man: DataState<List<Devs>>
 )

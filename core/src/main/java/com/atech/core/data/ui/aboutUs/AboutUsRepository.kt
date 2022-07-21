@@ -85,4 +85,33 @@ class AboutUsRepository @Inject constructor(
             awaitClose()
         }
     }.flowOn(Dispatchers.Main)
+
+
+    fun getManagers(): Flow<DataState<List<Devs>>> = channelFlow {
+        send(DataState.Loading)
+        try {
+            val ref = db.collection("AboutUsManagers").orderBy("sno", Query.Direction.ASCENDING)
+            val v = ref.addSnapshotListener { value, error ->
+                launch(Dispatchers.Main + handler) {
+                    if (error != null) {
+                        send(DataState.Error(error))
+                    } else {
+                        if (value != null) {
+                            send(DataState.Loading)
+                            val devs = value.toObjects(Devs::class.java)
+                            send(DataState.Success(devs))
+                            Log.d("AboutUs", "getManagers: ${value.documents.size}")
+                            if (value.isEmpty) {
+                                send(DataState.Empty)
+                            }
+                        }
+                    }
+                }
+            }
+            awaitClose { v.remove() }
+        } catch (e: Exception) {
+            send(DataState.Error(e))
+            awaitClose()
+        }
+    }.flowOn(Dispatchers.Main)
 }

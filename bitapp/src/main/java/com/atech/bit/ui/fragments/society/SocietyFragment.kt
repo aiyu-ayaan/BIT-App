@@ -3,14 +3,17 @@ package com.atech.bit.ui.fragments.society
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
@@ -22,6 +25,7 @@ import com.atech.core.utils.onScrollColorChange
 import com.atech.core.utils.showSnackBar
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class SocietyFragment : Fragment(R.layout.fragment_society) {
@@ -43,8 +47,23 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
         val societyAdapter = SocietyAdapter { society, view ->
             setOnSocietyClickListener(society, view)
         }
+        val ngosAdapter = SocietyAdapter { society, view ->
+            setOnSocietyClickListener(society, view)
+        }
         binding.apply {
             showSociety.apply {
+                adapter = societyAdapter
+                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
+                )
+            }
+            showNgos.apply {
                 adapter = societyAdapter
                 layoutManager = LinearLayoutManager(requireContext())
                 addItemDecoration(
@@ -61,19 +80,57 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         viewModel.setStateEvent(MainStateEvent.GetData)
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.dataState.observe(viewLifecycleOwner) { dataState ->
-                when (dataState) {
+            viewModel.dataState.combine(viewModel.dataStateNGOs) { society, ngo ->
+                CombineFlow(society, ngo)
+            }.collect { dataState ->
+                when (dataState.society) {
                     DataState.Loading -> {
 
                     }
                     is DataState.Success -> {
-                        societyAdapter.submitList(dataState.data)
+                        binding.materialCardViewMain.isVisible = dataState.society.data.isNotEmpty()
+                        binding.textViewSociety.isVisible = dataState.society.data.isNotEmpty()
+                        societyAdapter.submitList(dataState.society.data)
                     }
                     DataState.Empty -> {
-
+                        binding.materialCardViewMain.isVisible = false
+                        binding.textViewSociety.isVisible = false
                     }
                     is DataState.Error -> {
-                        binding.root.showSnackBar(dataState.exception.message.toString(), -1)
+                        binding.materialCardViewMain.isVisible = false
+                        binding.textViewSociety.isVisible = false
+                        binding.root.showSnackBar(
+                            dataState.society.exception.message.toString(),
+                            -1
+                        )
+                    }
+                }
+
+                when (dataState.ngos) {
+                    DataState.Loading -> {
+
+                    }
+                    is DataState.Success -> {
+                        binding.materialCardViewNgo.isVisible = dataState.ngos.data.isNotEmpty()
+                        binding.textViewNgos.isVisible = dataState.ngos.data.isNotEmpty()
+                        Toast.makeText(
+                            requireContext(),
+                            "${dataState.ngos.data.size}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        ngosAdapter.submitList(dataState.ngos.data)
+                    }
+                    DataState.Empty -> {
+                        binding.materialCardViewNgo.isVisible = false
+                        binding.textViewNgos.isVisible = false
+                    }
+                    is DataState.Error -> {
+                        binding.materialCardViewNgo.isVisible = false
+                        binding.textViewNgos.isVisible = false
+                        binding.root.showSnackBar(
+                            dataState.ngos.exception.message.toString(),
+                            -1
+                        )
                     }
                 }
             }
@@ -112,5 +169,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
         })
     }
 
-
+    data class CombineFlow(
+        val society: DataState<List<SocietyNetworkEntity>>,
+        val ngos: DataState<List<SocietyNetworkEntity>>
+    )
 }

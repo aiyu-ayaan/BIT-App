@@ -10,16 +10,16 @@
 
 package com.atech.bit.ui.fragments.society
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.MainStateEvent
 import com.atech.core.data.network.society.SocietyNetworkEntity
 import com.atech.core.data.network.society.SocietyRepository
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -31,10 +31,13 @@ class SocietyViewModel @Inject constructor(
 ) : ViewModel() {
     private val _dataState: MutableLiveData<DataState<List<SocietyNetworkEntity>>> =
         MutableLiveData()
-    val dataState: LiveData<DataState<List<SocietyNetworkEntity>>>
-        get() = _dataState
+    val dataState: Flow<DataState<List<SocietyNetworkEntity>>>
+        get() = _dataState.asFlow()
 
-    val isColored = MutableStateFlow(false)
+    private val _dataStateNGOs: MutableLiveData<DataState<List<SocietyNetworkEntity>>> =
+        MutableLiveData()
+    val dataStateNGOs: Flow<DataState<List<SocietyNetworkEntity>>>
+        get() = _dataStateNGOs.asFlow()
 
     fun setStateEvent(mainStateEvent: MainStateEvent) {
         when (mainStateEvent) {
@@ -42,6 +45,10 @@ class SocietyViewModel @Inject constructor(
                 viewModelScope.launch {
                     repository.getSocieties().onEach { dataState ->
                         _dataState.value = dataState
+                    }.launchIn(viewModelScope)
+
+                    repository.getNGOs().onEach { dataState ->
+                        _dataStateNGOs.value = dataState
                     }.launchIn(viewModelScope)
                 }
             }

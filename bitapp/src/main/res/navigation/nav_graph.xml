@@ -200,7 +200,7 @@
     <fragment
         android:id="@+id/societyFragment"
         android:name="com.atech.bit.ui.fragments.society.SocietyFragment"
-        android:label="@string/societies"
+        android:label="@string/societies_and_ngos"
         tools:layout="@layout/fragment_society">
         <action
             android:id="@+id/action_societyFragment_to_eventSocietyDescriptionFragment"
