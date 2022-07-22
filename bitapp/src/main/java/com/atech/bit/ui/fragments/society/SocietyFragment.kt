@@ -3,7 +3,6 @@ package com.atech.bit.ui.fragments.society
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -64,8 +63,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                 )
             }
             showNgos.apply {
-                adapter = societyAdapter
-                layoutManager = LinearLayoutManager(requireContext())
+                adapter = ngosAdapter
+                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
                 addItemDecoration(
                     DividerItemDecorationNoLast(
                         requireContext(),
@@ -113,11 +112,6 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                     is DataState.Success -> {
                         binding.materialCardViewNgo.isVisible = dataState.ngos.data.isNotEmpty()
                         binding.textViewNgos.isVisible = dataState.ngos.data.isNotEmpty()
-                        Toast.makeText(
-                            requireContext(),
-                            "${dataState.ngos.data.size}",
-                            Toast.LENGTH_SHORT
-                        ).show()
                         ngosAdapter.submitList(dataState.ngos.data)
                     }
                     DataState.Empty -> {
