@@ -6,9 +6,8 @@
  * Last modified 3/13/22, 10:37 AM
  */
 
-package com.atech.bit.data.Newtork.Notice
+package com.atech.core.data.network.notice
 
-import com.atech.core.data.network.notice.Notice3NetworkEntity
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.utils.EntityMapper
 import javax.inject.Inject

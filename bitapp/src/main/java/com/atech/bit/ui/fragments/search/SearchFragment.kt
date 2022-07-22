@@ -145,7 +145,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
         viewModel.event.observe(viewLifecycleOwner) {
             binding.eventView.isVisible = it.isNotEmpty() && searchPreference.event
-            eventAdapter.submitList(it)
+//            eventAdapter.submitList(it)
             if (isEmpty) checkNoResult()
         }
     }

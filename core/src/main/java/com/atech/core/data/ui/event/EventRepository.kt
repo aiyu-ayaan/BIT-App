@@ -10,10 +10,11 @@
 
 package com.atech.core.data.ui.event
 
-import com.atech.core.data.network.event.EventNetworkEntity
-import com.atech.core.data.network.event.EventNetworkMapper
-import com.atech.core.data.room.event.EventCachedMapper
-import com.atech.core.data.room.event.EventDao
+import com.atech.core.data.network.events.EventsNetworkEntity
+import com.atech.core.data.network.events.EventsNetworkMapper
+import com.atech.core.data.room.events.EventsCacheMapper
+import com.atech.core.data.room.events.EventsDao
+import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
 import com.atech.core.utils.NoItemFoundException
 import com.atech.core.utils.handler
@@ -31,19 +32,19 @@ import javax.inject.Inject
 
 class EventRepository @Inject constructor(
     private val db: FirebaseFirestore,
-    private val dao: EventDao,
-    private val networkMapper: EventNetworkMapper,
-    private val cachedMapper: EventCachedMapper
+    private val dao: EventsDao,
+    private val networkMapper: EventsNetworkMapper,
+    private val cachedMapper: EventsCacheMapper
 ) {
 
     private fun addEventInDatabase() {
         try {
             val ref = db.collection("Events").orderBy("created", Query.Direction.DESCENDING)
             ref.addSnapshotListener { value, _ ->
-                runBlocking( handler) {
+                runBlocking(handler) {
                     if (value != null) {
                         val networkEvent =
-                            value.toObjects(EventNetworkEntity::class.java)
+                            value.toObjects(EventsNetworkEntity::class.java)
                         val events =
                             networkMapper.mapFromEntityList(networkEvent)
 
@@ -64,7 +65,7 @@ class EventRepository @Inject constructor(
     }
 
 
-    fun getEvents(): Flow<DataState<List<Event>>> = flow {
+    fun getEvents(): Flow<DataState<List<Events>>> = flow {
         try {
             addEventInDatabase()
             val cachedHoliday = dao.getEvents()
@@ -85,13 +86,13 @@ class EventRepository @Inject constructor(
         }
     }.flowOn(Dispatchers.Main)
 
-    fun getEventFromPath(path: String): Flow<DataState<Event>> = channelFlow {
+    fun getEventFromPath(path: String): Flow<DataState<Events>> = channelFlow {
         try {
             db.collection("Events").document(path)
                 .addSnapshotListener { documentSnapShot, _ ->
-                    launch(Dispatchers.Main+ handler) {
+                    launch(Dispatchers.Main + handler) {
                         send(DataState.Loading)
-                        val event = documentSnapShot?.toObject(EventNetworkEntity::class.java)
+                        val event = documentSnapShot?.toObject(EventsNetworkEntity::class.java)
                         if (event == null) {
                             send(DataState.Error(NoItemFoundException("Invalid Link")))
                         } else {
@@ -105,13 +106,13 @@ class EventRepository @Inject constructor(
         }
     }
 
-    suspend fun getSearchEvent(query: String): Flow<List<Event>> = flow {
+    suspend fun getSearchEvent(query: String): Flow<List<Events>> = flow {
         val searchQuery = dao.getSearchEvent(query)
         emit(cachedMapper.mapFromEntityList(searchQuery))
     }
 
 
-    fun getEvent7Days(start: Long, end: Long): Flow<List<Event>> = flow {
+    fun getEvent7Days(start: Long, end: Long): Flow<List<Events>> = flow {
         addEventInDatabase()
         val cachedHoliday = dao.getEvents7Days(start, end)
         cachedHoliday.collect {

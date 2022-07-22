@@ -3,6 +3,7 @@ package com.atech.bit.ui.fragments.event
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -16,7 +17,10 @@ import com.atech.bit.databinding.FragmentEventBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.MainStateEvent
 import com.atech.core.data.ui.event.Event
-import com.atech.core.utils.*
+import com.atech.core.utils.DataState
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.onScrollColorChange
+import com.atech.core.utils.showSnackBar
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -59,7 +63,9 @@ class EventFragment : Fragment(R.layout.fragment_event) {
             when (dateState) {
                 is DataState.Success -> {
                     binding.empty.visibility = View.GONE
-                    eventAdapter.submitList(dateState.data)
+//                    eventAdapter.submitList(dateState.data)
+                    Toast.makeText(requireContext(), "${dateState.data.size}", Toast.LENGTH_SHORT)
+                        .show()
                 }
                 DataState.Empty -> {
                     binding.empty.visibility = View.VISIBLE
@@ -102,6 +108,7 @@ class EventFragment : Fragment(R.layout.fragment_event) {
             )
         })
     }
+
     private fun restoreColor() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.isColored.collect {
@@ -120,5 +127,5 @@ class EventFragment : Fragment(R.layout.fragment_event) {
         }
     }
 
-     
+
 }

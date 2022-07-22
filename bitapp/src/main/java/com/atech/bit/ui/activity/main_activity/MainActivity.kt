@@ -122,7 +122,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         onDestinationChange()
         searchFragmentCommunication()
         checkForUpdate()
-        getWarning()
+        val u = pref.getBoolean(KEY_DO_NOT_SHOW_AGAIN, false)
+        if (!u)
+            getWarning()
         shareReview()
 
     }

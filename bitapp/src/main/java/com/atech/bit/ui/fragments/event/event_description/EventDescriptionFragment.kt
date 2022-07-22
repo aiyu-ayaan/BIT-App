@@ -107,9 +107,9 @@ class EventDescriptionFragment : Fragment(R.layout.fragment_event_description) {
 
                 }
                 is DataState.Success -> {
-                    event = dataState.data
-
-                    setViewsEvent(dataState.data)
+//                    event = dataState.data
+//
+//                    setViewsEvent(dataState.data)
                 }
             }
         }

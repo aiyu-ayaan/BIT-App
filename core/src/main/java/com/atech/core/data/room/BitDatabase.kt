@@ -16,9 +16,9 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.atech.core.data.room.attendance.*
-import com.atech.core.data.room.event.DateConverter
-import com.atech.core.data.room.event.EventCachedEntity
-import com.atech.core.data.room.event.EventDao
+import com.atech.core.data.room.events.DateConverter
+import com.atech.core.data.room.events.EventsCacheEntity
+import com.atech.core.data.room.events.EventsDao
 import com.atech.core.data.room.holiday.HolidayCacheEntity
 import com.atech.core.data.room.holiday.HolidayDao
 import com.atech.core.data.room.notice.Notice3CacheEntity
@@ -34,11 +34,11 @@ import javax.inject.Provider
 
 @Database(
     entities = [
-        HolidayCacheEntity::class,
-        AttendanceModel::class, EventCachedEntity::class,
+        HolidayCacheEntity::class, AttendanceModel::class,
         SyllabusModel::class, Notice3CacheEntity::class,
+        EventsCacheEntity::class
     ],
-    version = 5
+    version = 6
 )
 @TypeConverters(
     DaysTypeConvector::class,
@@ -49,9 +49,9 @@ import javax.inject.Provider
 abstract class BitDatabase : RoomDatabase() {
     abstract fun holidayDao(): HolidayDao
     abstract fun attendanceDao(): AttendanceDao
-    abstract fun eventDao(): EventDao
     abstract fun syllabusDap(): SyllabusDao
     abstract fun notice3Dao(): Notice3Dao
+    abstract fun eventDao(): EventsDao
 
 
     companion object {
@@ -113,6 +113,13 @@ abstract class BitDatabase : RoomDatabase() {
             }
         }
 
+        val migration_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DROP TABLE event_table")
+                database.execSQL("CREATE TABLE `events_table`(`created` TEXT NOT NULL,`title` TEXT NOT NULL,`content` TEXT NOT NULL, `insta_link` TEXT NOT NULL, `logo_link` TEXT NOT NULL,`path` TEXT NOT NULL, `poster_link` TEXT NOT NULL,`society` TEXT NOT NULL, `video_link` TEXT NOT NULL,  PRIMARY KEY(`title`))")
+            }
+
+        }
 
     }
 

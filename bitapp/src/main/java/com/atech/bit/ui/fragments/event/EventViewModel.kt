@@ -17,6 +17,7 @@ import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.MainStateEvent
 import com.atech.core.data.ui.event.Event
 import com.atech.core.data.ui.event.EventRepository
+import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,8 +30,8 @@ import javax.inject.Inject
 class EventViewModel @Inject constructor(
     private val repository: EventRepository
 ) : ViewModel() {
-    private val _dataStateMain: MutableLiveData<DataState<List<Event>>> = MutableLiveData()
-    val dataStateMain: LiveData<DataState<List<Event>>>
+    private val _dataStateMain: MutableLiveData<DataState<List<Events>>> = MutableLiveData()
+    val dataStateMain: LiveData<DataState<List<Events>>>
         get() = _dataStateMain
 
     val isColored = MutableStateFlow(false)

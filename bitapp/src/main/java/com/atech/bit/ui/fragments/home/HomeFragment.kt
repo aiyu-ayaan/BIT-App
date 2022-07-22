@@ -244,13 +244,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val start = cal.time.convertDateToTime().convertStringToLongMillis() //before 14 days
             cal.add(Calendar.DATE, +15)
             val end = cal.time.convertDateToTime().convertStringToLongMillis() //Day after today
-            viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
-                it?.let {
-                    binding.parentHomeExt.isVisible =
-                        it.isNotEmpty()
-                    eventAdapter.submitList(it)
-                }
-            }
+//            viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
+//                it?.let {
+//                    binding.parentHomeExt.isVisible =
+//                        it.isNotEmpty()
+//                    eventAdapter.submitList(it)
+//                }
+//            }
         }
     }
 

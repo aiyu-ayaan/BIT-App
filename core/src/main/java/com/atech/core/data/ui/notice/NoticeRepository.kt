@@ -10,7 +10,7 @@
 
 package com.atech.core.data.ui.notice
 
-import com.atech.bit.data.Newtork.Notice.Notice3NetworkMapper
+import com.atech.core.data.network.notice.Notice3NetworkMapper
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.network.notice.Notice3NetworkEntity
 import com.atech.core.data.room.notice.Notice3CacheMapper

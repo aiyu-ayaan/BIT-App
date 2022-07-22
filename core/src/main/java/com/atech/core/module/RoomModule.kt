@@ -14,7 +14,7 @@ import android.content.Context
 import androidx.room.Room
 import com.atech.core.data.room.BitDatabase
 import com.atech.core.data.room.attendance.AttendanceDao
-import com.atech.core.data.room.event.EventDao
+import com.atech.core.data.room.events.EventsDao
 import com.atech.core.data.room.holiday.HolidayDao
 import com.atech.core.data.room.notice.Notice3Dao
 import com.atech.core.data.room.syllabus.SyllabusDao
@@ -44,6 +44,7 @@ object RoomModule {
             .addMigrations(BitDatabase.migration_2_3)
             .addMigrations(BitDatabase.migration_3_4)
             .addMigrations(BitDatabase.migration_4_5)
+            .addMigrations(BitDatabase.migration_5_6)
             .addCallback(callback)
             .build()
 
@@ -60,7 +61,7 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun getEventDao(noticeDatabase: BitDatabase): EventDao =
+    fun getEventDao(noticeDatabase: BitDatabase): EventsDao =
         noticeDatabase.eventDao()
 
     @Singleton
@@ -72,7 +73,6 @@ object RoomModule {
     @Provides
     fun getNotice3Dao(noticeDatabase: BitDatabase): Notice3Dao =
         noticeDatabase.notice3Dao()
-
 
 
 }
