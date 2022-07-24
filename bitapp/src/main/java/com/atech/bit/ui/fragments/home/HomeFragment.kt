@@ -31,14 +31,14 @@ import com.atech.bit.ui.activity.main_activity.MainActivity
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.ui.fragments.home.adapter.EventHomeAdapter
+import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.data.ui.event.Event
+import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.*
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -224,13 +224,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun getEvent() {
-        val eventAdapter = EventHomeAdapter { event, _ ->
-            onEventClick(event)
+        val eventAdapter = EventsAdapter(
+            db, {
+                navigateToImageView(it)
+            },
+            REQUEST_ADAPTER_EVENT_FROM_HOME
+        ) { event, rootView ->
+            navigateToEventDetail(event, rootView)
         }
         binding.apply {
             showEvent.apply {
                 adapter = eventAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
+                )
             }
             eventAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -244,14 +257,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val start = cal.time.convertDateToTime().convertStringToLongMillis() //before 14 days
             cal.add(Calendar.DATE, +15)
             val end = cal.time.convertDateToTime().convertStringToLongMillis() //Day after today
-//            viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
-//                it?.let {
-//                    binding.parentHomeExt.isVisible =
-//                        it.isNotEmpty()
-//                    eventAdapter.submitList(it)
-//                }
-//            }
+            viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
+                it?.let {
+                    binding.parentHomeExt.isVisible =
+                        it.isNotEmpty()
+                    eventAdapter.submitList(it)
+                }
+            }
         }
+    }
+
+    private fun navigateToImageView(link: String) {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action = NavGraphDirections.actionGlobalViewImageFragment(link)
+        findNavController().navigate(action)
     }
 
     /**
@@ -273,14 +293,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @author Ayaan
      * @since 4.0.3
      */
-    private fun onEventClick(event: Event) {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        val action = NavGraphDirections.actionGlobalEventDescriptionFragment(
-            path = event.path,
-            title = event.society
-        )
-        findNavController().navigate(action)
+    private fun navigateToEventDetail(event: Events, view: View) {
+        val extras = FragmentNavigatorExtras(view to event.path)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = NavGraphDirections.actionGlobalEventDetailFragment(path = event.path)
+        findNavController().navigate(action, extras)
     }
 
     private fun getSyllabus() {

@@ -15,8 +15,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.MainStateEvent
-import com.atech.core.data.ui.event.Event
-import com.atech.core.data.ui.event.EventRepository
+import com.atech.core.data.ui.events.EventRepository
 import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel

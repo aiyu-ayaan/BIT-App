@@ -13,6 +13,10 @@ import com.atech.bit.databinding.BottomSheetChooseImageBinding
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.bit.utils.openShareImageDeepLink
+import com.atech.core.utils.SHARE_EVENT
+import com.atech.core.utils.SHARE_NOTICE
+import com.atech.core.utils.SHARE_TYPE_EVENT
+import com.atech.core.utils.SHARE_TYPE_NOTICE
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,8 +52,9 @@ class ChooseImageBottomSheet : BottomSheetDialogFragment() {
             }
             textViewNoImage.setOnClickListener {
                 requireActivity().openShareDeepLink(
-                    arg.notice.notice.title,
-                    arg.notice.notice.path,
+                    arg.notice.notice?.title ?: arg.notice.event?.title ?: "",
+                    arg.notice.notice?.path ?: arg.notice.event?.path ?: "",
+                    if (arg.notice.notice != null) SHARE_TYPE_NOTICE else SHARE_TYPE_EVENT
                 )
             }
         }
@@ -65,10 +70,10 @@ class ChooseImageBottomSheet : BottomSheetDialogFragment() {
         ).show()
         requireActivity().openShareImageDeepLink(
             requireContext(),
-            arg.notice.notice.title,
-            arg.notice.notice.path,
+            arg.notice.notice?.title ?: arg.notice.event?.title ?: "",
+            arg.notice.notice?.path ?: arg.notice.event?.path ?: "",
             link,
-            "notice"
+            if (arg.notice.notice != null) SHARE_NOTICE else SHARE_EVENT
         )
     }
 }

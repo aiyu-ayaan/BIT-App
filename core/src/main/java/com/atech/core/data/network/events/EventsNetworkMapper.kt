@@ -13,7 +13,6 @@ class EventsNetworkMapper @Inject constructor() : EntityMapper<EventsNetworkEnti
             entity.insta_link ?: "",
             entity.logo_link ?: "",
             entity.path ?: "",
-            entity.poster_link ?: "",
             entity.society ?: "",
             entity.video_link ?: "",
         )
@@ -27,7 +26,6 @@ class EventsNetworkMapper @Inject constructor() : EntityMapper<EventsNetworkEnti
             domainModel.insta_link,
             domainModel.logo_link,
             domainModel.path,
-            domainModel.poster_link,
             domainModel.society,
             domainModel.video_link,
         )

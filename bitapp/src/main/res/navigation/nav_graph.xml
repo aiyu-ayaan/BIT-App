@@ -227,27 +227,6 @@
         android:name="com.atech.bit.ui.fragments.event.EventFragment"
         android:label="@string/events"
         tools:layout="@layout/fragment_event" />
-    <fragment
-        android:id="@+id/eventDescriptionFragment"
-        android:name="com.atech.bit.ui.fragments.event.event_description.EventDescriptionFragment"
-        android:label="{title}"
-        tools:layout="@layout/fragment_event_description">
-        <argument
-            android:name="path"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="title"
-            android:defaultValue=" "
-            app:argType="string" />
-        <deepLink
-            android:id="@+id/deepLink"
-            android:autoVerify="true"
-            app:uri="bitbyaiyu.github.io/event/path={path}" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_eventDescriptionFragment"
-        app:destination="@id/eventDescriptionFragment" />
     <dialog
         android:id="@+id/addEditSubjectBottomSheet"
         android:name="com.atech.bit.ui.fragments.attendance.add_edit_attendance.AddEditSubjectBottomSheet"
@@ -400,5 +379,27 @@
         android:id="@+id/uninstallOldAppDialog"
         android:name="com.atech.bit.ui.fragments.uninstall_old_app.UninstallOldAppDialog"
         android:label="dialog_uninstall_old_app"
-        tools:layout="@layout/dialog_uninstall_old_app" /><action android:id="@+id/action_global_uninstallOldAppDialog" app:destination="@id/uninstallOldAppDialog"/>
+        tools:layout="@layout/dialog_uninstall_old_app" />
+    <action
+        android:id="@+id/action_global_uninstallOldAppDialog"
+        app:destination="@id/uninstallOldAppDialog" />
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.atech.bit.ui.fragments.event.event_detail.EventDetailFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_event_detail">
+        <argument
+            android:name="path"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_eventDetailFragment_to_chooseImageBottomSheet"
+            app:destination="@id/chooseImageBottomSheet" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="bitbyaiyu.github.io/event/path={path}" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_eventDetailFragment"
+        app:destination="@id/eventDetailFragment" />
 </navigation>

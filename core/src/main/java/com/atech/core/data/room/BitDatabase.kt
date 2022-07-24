@@ -116,7 +116,7 @@ abstract class BitDatabase : RoomDatabase() {
         val migration_5_6 = object : Migration(5, 6) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DROP TABLE event_table")
-                database.execSQL("CREATE TABLE `events_table`(`created` TEXT NOT NULL,`title` TEXT NOT NULL,`content` TEXT NOT NULL, `insta_link` TEXT NOT NULL, `logo_link` TEXT NOT NULL,`path` TEXT NOT NULL, `poster_link` TEXT NOT NULL,`society` TEXT NOT NULL, `video_link` TEXT NOT NULL,  PRIMARY KEY(`title`))")
+                database.execSQL("CREATE TABLE `events_table`(`created` INTEGER NOT NULL,`title` TEXT NOT NULL,`content` TEXT NOT NULL, `insta_link` TEXT NOT NULL, `logo_link` TEXT NOT NULL,`path` TEXT NOT NULL,`society` TEXT NOT NULL, `video_link` TEXT NOT NULL,  PRIMARY KEY(`title`))")
             }
 
         }

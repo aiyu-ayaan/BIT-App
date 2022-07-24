@@ -14,7 +14,7 @@ import androidx.lifecycle.*
 import com.atech.bit.utils.MainStateEvent
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.syllabus.SyllabusDao
-import com.atech.core.data.ui.event.EventRepository
+import com.atech.core.data.ui.events.EventRepository
 import com.atech.core.data.ui.holiday.Holiday
 import com.atech.core.data.ui.holiday.HolidayRepository
 import com.atech.core.data.ui.syllabus.SyllabusRepository

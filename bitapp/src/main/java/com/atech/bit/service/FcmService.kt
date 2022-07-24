@@ -19,7 +19,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.atech.bit.R
 import com.atech.bit.ui.activity.main_activity.MainActivity
-import com.atech.bit.ui.fragments.event.event_description.EventDescriptionFragmentArgs
+import com.atech.bit.ui.fragments.event.event_detail.EventDetailFragmentArgs
 import com.atech.bit.ui.fragments.notice.description.NoticeDetailFragmentArgs
 import com.atech.core.utils.*
 import com.google.firebase.messaging.FirebaseMessagingService
@@ -76,8 +76,8 @@ class FcmService : FirebaseMessagingService() {
         NavDeepLinkBuilder(this)
             .setComponentName(MainActivity::class.java)
             .setGraph(R.navigation.nav_graph)
-            .setDestination(R.id.eventDescriptionFragment)
-            .setArguments(EventDescriptionFragmentArgs(path).toBundle())
+            .setDestination(R.id.eventDetailFragment)
+            .setArguments(EventDetailFragmentArgs(path).toBundle())
             .createPendingIntent()
 
     @SuppressLint("UnspecifiedImmutableFlag")

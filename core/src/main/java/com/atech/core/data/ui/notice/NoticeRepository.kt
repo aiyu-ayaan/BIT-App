@@ -10,9 +10,9 @@
 
 package com.atech.core.data.ui.notice
 
-import com.atech.core.data.network.notice.Notice3NetworkMapper
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.network.notice.Notice3NetworkEntity
+import com.atech.core.data.network.notice.Notice3NetworkMapper
 import com.atech.core.data.room.notice.Notice3CacheMapper
 import com.atech.core.data.room.notice.Notice3Dao
 import com.atech.core.utils.DataState
@@ -26,7 +26,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 
@@ -78,26 +77,6 @@ class NoticeRepository @Inject constructor(
             }
         }
 
-
-    private fun addNotice() {
-        val ref =
-            db.collection("BIT_Notice_New").orderBy("created", Query.Direction.DESCENDING)
-        ref.addSnapshotListener { value, _ ->
-            runBlocking(handler) {
-                if (value != null) {
-                    val networkNotice =
-                        value.toObjects(Notice3NetworkEntity::class.java)
-                    val notices = networkMapper3.mapFromEntityList(networkNotice)
-                    notice3Dao.deleteAll()
-                    for (notice in notices) {
-                        notice3Dao.insert(cacheMapper3.mapToEntity(notice))
-                    }
-                }
-            }
-        }
-
-    }
-
     fun getNoticeFromPath(path: String): Flow<DataState<Notice3>> = channelFlow {
         try {
             db.collection("BIT_Notice_New").document(path)
@@ -122,7 +101,7 @@ class NoticeRepository @Inject constructor(
         try {
             db.collection("BIT_Notice_New").document(path)
                 .collection("attach")
-                .addSnapshotListener { documentSnapShot, error ->
+                .addSnapshotListener { documentSnapShot, _ ->
                     launch(Dispatchers.Main + handler) {
                         send(DataState.Loading)
                         val attach = documentSnapShot?.toObjects(Attach::class.java)

@@ -3,11 +3,12 @@ package com.atech.bit.ui.fragments.event
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,19 +17,26 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentEventBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.MainStateEvent
-import com.atech.core.data.ui.event.Event
+
+import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.core.utils.onScrollColorChange
 import com.atech.core.utils.showSnackBar
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EventFragment : Fragment(R.layout.fragment_event) {
 
     private val binding: FragmentEventBinding by viewBinding()
     private val viewModel: EventViewModel by viewModels()
+
+    @Inject
+    lateinit var db: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +46,13 @@ class EventFragment : Fragment(R.layout.fragment_event) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
         restoreColor()
-        val eventAdapter = EventAdapter { event ->
-            onEventClick(event)
+        val eventAdapter = EventsAdapter(db, {
+            navigateToImageView(it)
+        }) { event, rootView ->
+            navigateToEventDetail(event, rootView)
         }
         binding.apply {
             showEvent.apply {
@@ -59,13 +71,13 @@ class EventFragment : Fragment(R.layout.fragment_event) {
         eventAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         viewModel.setStateListenerMain(MainStateEvent.GetData)
+
+
         viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
             when (dateState) {
                 is DataState.Success -> {
                     binding.empty.visibility = View.GONE
-//                    eventAdapter.submitList(dateState.data)
-                    Toast.makeText(requireContext(), "${dateState.data.size}", Toast.LENGTH_SHORT)
-                        .show()
+                    eventAdapter.submitList(dateState.data)
                 }
                 DataState.Empty -> {
                     binding.empty.visibility = View.VISIBLE
@@ -85,15 +97,18 @@ class EventFragment : Fragment(R.layout.fragment_event) {
 
     }
 
-    private fun onEventClick(event: Event) {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        val action = NavGraphDirections.actionGlobalEventDescriptionFragment(
-            path = event.path,
-            title = event.society
-        )
-        findNavController().navigate(action)
+    private fun navigateToEventDetail(event: Events, view: View) {
+        val extras = FragmentNavigatorExtras(view to event.path)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = NavGraphDirections.actionGlobalEventDetailFragment(path = event.path)
+        findNavController().navigate(action, extras)
     }
+    
 
     private fun detectScroll() {
         activity?.onScrollColorChange(binding.nestedScrollViewEvent, {
@@ -107,6 +122,13 @@ class EventFragment : Fragment(R.layout.fragment_event) {
                 R.attr.bottomBar
             )
         })
+    }
+
+    private fun navigateToImageView(link: String) {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action = NavGraphDirections.actionGlobalViewImageFragment(link)
+        findNavController().navigate(action)
     }
 
     private fun restoreColor() {

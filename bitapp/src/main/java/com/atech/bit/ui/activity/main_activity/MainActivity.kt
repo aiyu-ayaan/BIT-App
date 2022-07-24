@@ -244,7 +244,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.aboutUsFragment, R.id.detailDevFragment,
                 R.id.acknowledgementFragment, R.id.societyFragment,
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
-                R.id.eventDescriptionFragment, R.id.searchFragment,
+                R.id.eventDetailFragment, R.id.searchFragment,
                 R.id.settingDialog, R.id.cgpaCalculatorFragment,
                 -> {
                     hideBottomAppBar()

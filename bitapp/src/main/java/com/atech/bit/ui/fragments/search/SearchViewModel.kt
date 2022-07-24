@@ -14,7 +14,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.atech.core.data.room.syllabus.SyllabusDao
-import com.atech.core.data.ui.event.EventRepository
+import com.atech.core.data.ui.events.EventRepository
 import com.atech.core.data.ui.holiday.HolidayRepository
 import com.atech.core.data.ui.notice.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

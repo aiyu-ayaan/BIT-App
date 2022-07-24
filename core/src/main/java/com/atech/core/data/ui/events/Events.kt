@@ -1,7 +1,12 @@
 package com.atech.core.data.ui.events
 
+import android.os.Parcelable
+import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
+import kotlinx.parcelize.Parcelize
 
+@Keep
+@Parcelize
 data class Events(
     val created: Long,
     val title: String,
@@ -9,10 +14,9 @@ data class Events(
     val insta_link: String,
     val logo_link: String,
     val path: String,
-    val poster_link: String,
     val society: String,
     val video_link: String,
-)
+) : Parcelable
 
 class DiffUtilEvent : DiffUtil.ItemCallback<Events>() {
     override fun areItemsTheSame(oldItem: Events, newItem: Events): Boolean {

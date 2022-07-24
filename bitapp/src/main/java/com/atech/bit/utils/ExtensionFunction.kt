@@ -11,9 +11,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.atech.bit.BuildConfig
 import com.atech.core.R
-import com.atech.core.utils.SHARE_TYPE_NOTICE
-import com.atech.core.utils.SHARE_TYPE_SYLLABUS
-import com.atech.core.utils.handler
+import com.atech.core.utils.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -74,6 +72,7 @@ fun Activity.openShareDeepLink(
                     resources.getString(
                         when (share_type) {
                             SHARE_TYPE_SYLLABUS -> R.string.deep_link_share_syllabus
+                            SHARE_TYPE_EVENT -> R.string.deep_link_share_event_link
                             else -> R.string.deep_link_share_notice
                         }, path.trim()
                     )
@@ -140,7 +139,7 @@ fun Activity.openShareImageDeepLink(
     title: String,
     path: String,
     imageLink: String,
-    share_type: String = "event"
+    share_type: String = SHARE_EVENT
 ) =
     this.startActivity(Intent.createChooser(Intent().apply {
         action = Intent.ACTION_SEND
@@ -161,7 +160,7 @@ fun Activity.openShareImageDeepLink(
             Link: ${
                 Uri.parse(
                     when (share_type) {
-                        "event" -> resources.getString(
+                        SHARE_EVENT -> resources.getString(
                             R.string.deep_link_share_event_link,
                             path.trim()
                         )

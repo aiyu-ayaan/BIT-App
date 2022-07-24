@@ -8,13 +8,13 @@
 
 
 
-package com.atech.core.data.ui.event
+package com.atech.core.data.ui.events
 
 import com.atech.core.data.network.events.EventsNetworkEntity
 import com.atech.core.data.network.events.EventsNetworkMapper
+import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.room.events.EventsCacheMapper
 import com.atech.core.data.room.events.EventsDao
-import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
 import com.atech.core.utils.NoItemFoundException
 import com.atech.core.utils.handler
@@ -36,10 +36,9 @@ class EventRepository @Inject constructor(
     private val networkMapper: EventsNetworkMapper,
     private val cachedMapper: EventsCacheMapper
 ) {
-
     private fun addEventInDatabase() {
         try {
-            val ref = db.collection("Events").orderBy("created", Query.Direction.DESCENDING)
+            val ref = db.collection("BIT_Events").orderBy("created", Query.Direction.DESCENDING)
             ref.addSnapshotListener { value, _ ->
                 runBlocking(handler) {
                     if (value != null) {
@@ -88,7 +87,7 @@ class EventRepository @Inject constructor(
 
     fun getEventFromPath(path: String): Flow<DataState<Events>> = channelFlow {
         try {
-            db.collection("Events").document(path)
+            db.collection("BIT_Events").document(path)
                 .addSnapshotListener { documentSnapShot, _ ->
                     launch(Dispatchers.Main + handler) {
                         send(DataState.Loading)
@@ -109,6 +108,27 @@ class EventRepository @Inject constructor(
     suspend fun getSearchEvent(query: String): Flow<List<Events>> = flow {
         val searchQuery = dao.getSearchEvent(query)
         emit(cachedMapper.mapFromEntityList(searchQuery))
+    }
+
+    fun getAttachFromPath(path: String): Flow<DataState<List<Attach>>> = channelFlow {
+        try {
+            db.collection("BIT_Events").document(path)
+                .collection("attach")
+                .addSnapshotListener { documentSnapShot, _ ->
+                    launch(Dispatchers.Main + handler) {
+                        send(DataState.Loading)
+                        val attach = documentSnapShot?.toObjects(Attach::class.java)
+                        if (attach == null) {
+                            send(DataState.Error(NoItemFoundException("No Attach")))
+                        } else {
+                            send(DataState.Success(attach))
+                        }
+                    }
+                }
+            awaitClose()
+        } catch (e: Exception) {
+            send(DataState.Error(e))
+        }
     }
 
 

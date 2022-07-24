@@ -10,7 +10,6 @@ data class EventsNetworkEntity(
     val insta_link: String? = null,
     val logo_link: String? = null,
     val path: String? = null,
-    val poster_link: String? = null,
     val society: String? = null,
     val video_link: String? = null,
 )

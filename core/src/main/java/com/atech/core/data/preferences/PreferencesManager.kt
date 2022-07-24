@@ -16,8 +16,6 @@ import android.util.Log
 import androidx.annotation.Keep
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
-import com.atech.core.utils.Gender
-import com.atech.core.utils.Section
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -37,9 +35,10 @@ data class Cgpa(
     var sem5: Double = 0.0,
     var sem6: Double = 0.0,
     val cgpa: Double = 1.0
-) : Parcelable{
+) : Parcelable {
     @IgnoredOnParcel
-    val isAllZero = sem1 == 0.0 && sem2 == 0.0 && sem3 == 0.0 && sem4 == 0.0 && sem5 == 0.0 && sem6 == 0.0
+    val isAllZero =
+        sem1 == 0.0 && sem2 == 0.0 && sem3 == 0.0 && sem4 == 0.0 && sem5 == 0.0 && sem6 == 0.0
 }
 
 @Keep
@@ -51,7 +50,7 @@ data class FilterPreferences(
     val semSyllabus: String,
     val searchPreference: SearchPreference,
     val cgpa: Cgpa
-): Parcelable
+) : Parcelable
 
 @Keep
 @Parcelize
@@ -62,14 +61,6 @@ data class SearchPreference(
     val subject: Boolean,
 ) : Parcelable
 
-@Keep
-@Parcelize
-data class TimeTablePreferences(
-    val course: String,
-    val gender: Gender,
-    val sem: String,
-    val section: Section
-) : Parcelable
 
 @Singleton
 class PreferencesManager @Inject constructor(@ApplicationContext val context: Context) {

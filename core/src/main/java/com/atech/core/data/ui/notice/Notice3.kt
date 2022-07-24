@@ -12,6 +12,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.recyclerview.widget.DiffUtil
 import com.atech.core.data.network.notice.Attach
+import com.atech.core.data.ui.events.Events
 import kotlinx.parcelize.Parcelize
 
 @Keep
@@ -28,10 +29,10 @@ data class Notice3(
 @Parcelize
 @Keep
 data class SendNotice3(
-    val notice: Notice3,
+    val notice: Notice3? = null,
+    val event: Events? = null,
     val attach: List<Attach>
 ) : Parcelable
-
 
 
 class DiffUtilNotice3() : DiffUtil.ItemCallback<Notice3>() {

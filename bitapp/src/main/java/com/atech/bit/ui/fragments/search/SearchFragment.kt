@@ -21,14 +21,16 @@ import com.atech.bit.databinding.FragmentSearchBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.fragments.course.CourseFragment
-import com.atech.bit.ui.fragments.event.EventAdapter
+import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.ui.fragments.notice.NoticeAdapter
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.data.ui.event.Event
+import com.atech.core.data.ui.events.Events
+
 import com.atech.core.data.ui.notice.Notice3
+import com.atech.core.utils.REQUEST_ADAPTER_EVENT_FROM_HOME
 import com.atech.core.utils.REQUEST_ADAPTER_SEARCH
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -134,8 +136,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun setEventView() {
-        val eventAdapter = EventAdapter { event ->
-            onEventClick(event)
+        val eventAdapter = EventsAdapter(
+            db, {
+                navigateToImageView(it)
+            },
+            REQUEST_ADAPTER_EVENT_FROM_HOME
+        ) { event, rootView ->
+            navigateToEventDetail(event, rootView)
         }
         binding.apply {
             showSearchEvent.apply {
@@ -145,7 +152,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
         viewModel.event.observe(viewLifecycleOwner) {
             binding.eventView.isVisible = it.isNotEmpty() && searchPreference.event
-//            eventAdapter.submitList(it)
+            eventAdapter.submitList(it)
             if (isEmpty) checkNoResult()
         }
     }
@@ -260,17 +267,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
-    //    Event
-    private fun onEventClick(event: Event) {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        val action = NavGraphDirections.actionGlobalEventDescriptionFragment(
-            path = event.path,
-            title = event.society
-        )
-        findNavController().navigate(action)
+    private fun navigateToEventDetail(event: Events, view: View) {
+        val extras = FragmentNavigatorExtras(view to event.path)
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialElevationScale(true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = NavGraphDirections.actionGlobalEventDetailFragment(path = event.path)
+        findNavController().navigate(action, extras)
     }
-
 
     override fun onPause() {
         super.onPause()
