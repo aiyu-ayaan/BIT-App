@@ -402,4 +402,16 @@
     <action
         android:id="@+id/action_global_eventDetailFragment"
         app:destination="@id/eventDetailFragment" />
+    <fragment
+        android:id="@+id/viewVideoFragment"
+        android:name="com.atech.bit.ui.fragments.view_video.ViewVideoFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_view_video" >
+        <argument
+            android:name="link"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_viewVideoFragment"
+        app:destination="@id/viewVideoFragment" />
 </navigation>

@@ -26,6 +26,7 @@ buildscript {
         splashScreenVersion = "1.0.0-rc01"
         review_version = "2.0.0"
         graphVersion = "v3.1.0"
+        mediaVersion = "1.0.0-beta02"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'

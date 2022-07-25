@@ -246,6 +246,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
                 R.id.eventDetailFragment, R.id.searchFragment,
                 R.id.settingDialog, R.id.cgpaCalculatorFragment,
+                R.id.viewVideoFragment,
                 -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
@@ -256,7 +257,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             }
             val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
             if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
-                || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment
+                || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment ||
+                destination.id == R.id.viewVideoFragment
             ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()

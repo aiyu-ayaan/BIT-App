@@ -150,6 +150,19 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
             progressBarNoticePreview,
             R.drawable.ic_running_error
         )
+        videoTextView.apply {
+            isVisible = data.video_link.isNotEmpty()
+            setOnClickListener {
+                navigateToViewVideo(data.video_link)
+            }
+        }
+    }
+
+    private fun navigateToViewVideo(videoLink: String) {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action = NavGraphDirections.actionGlobalViewVideoFragment(videoLink)
+        findNavController().navigate(action)
     }
 
 
