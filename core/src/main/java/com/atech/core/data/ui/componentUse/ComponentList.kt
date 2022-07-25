@@ -47,6 +47,18 @@ object ComponentList {
             "https://developer.android.com/jetpack/androidx/releases/lifecycle"
         ),
         Component(
+            "androidx.media3:media3-exoplayer",
+            "https://developer.android.com/jetpack/androidx/releases/media3"
+        ),
+        Component(
+            "androidx.media3:media3-exoplayer-dash",
+            "https://developer.android.com/jetpack/androidx/releases/media3"
+        ),
+        Component(
+            "androidx.media3:media3-ui",
+            "https://developer.android.com/jetpack/androidx/releases/media3"
+        ),
+        Component(
             "androidx.navigation:navigation-fragment-ktx",
             "https://developer.android.com/jetpack/androidx/releases/navigation"
         ),
