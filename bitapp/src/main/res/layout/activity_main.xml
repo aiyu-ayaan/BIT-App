@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/bottomBar"
-                app:itemRippleColor="?attr/bottomBar"
+                app:itemRippleColor="?attr/bottomSheetBackground"
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/menu_bottom_nav" />
 

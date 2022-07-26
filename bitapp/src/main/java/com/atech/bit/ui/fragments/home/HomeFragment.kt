@@ -247,7 +247,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             eventAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-            textShowAll.setOnClickListener {
+            textShowAllEvent.setOnClickListener {
                 navigateToEvent()
             }
         }
@@ -259,7 +259,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val end = cal.time.convertDateToTime().convertStringToLongMillis() //Day after today
             viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
                 it?.let {
-                    binding.parentHomeExt.isVisible =
+                    binding.materialCardViewEventRecyclerView.isVisible =
+                        it.isNotEmpty()
+                    binding.textEvent.isVisible =
+                        it.isNotEmpty()
+                    binding.textShowAllEvent.isVisible =
                         it.isNotEmpty()
                     eventAdapter.submitList(it)
                 }
@@ -396,7 +400,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun preferenceManager() {
         preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             viewModel.syllabusQuery.value = "${it.course}${it.sem}"
-            binding.parentCgpaChart.isVisible = !it.cgpa.isAllZero
+            binding.materialCardViewCgpaGraph.isVisible = !it.cgpa.isAllZero
+            binding.textViewCgpa.isVisible = !it.cgpa.isAllZero
+            binding.textViewEdit.isVisible = !it.cgpa.isAllZero
             if (!it.cgpa.isAllZero)
                 setUpChart(it.cgpa)
         }
@@ -468,20 +474,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         )
         binding.apply {
-            showSubject.apply {
-                showTheory.apply {
-                    adapter = syllabusTheoryAdapter
-                    layoutManager = LinearLayoutManager(requireContext())
-                }
-                showLab.apply {
-                    adapter = syllabusLabAdapter
-                    layoutManager = LinearLayoutManager(requireContext())
-                }
-                showPe.apply {
-                    adapter = syllabusPeAdapter
-                    layoutManager = LinearLayoutManager(requireContext())
-                }
+
+            showTheory.apply {
+                adapter = syllabusTheoryAdapter
+                layoutManager = LinearLayoutManager(requireContext())
             }
+            showLab.apply {
+                adapter = syllabusLabAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+            showPe.apply {
+                adapter = syllabusPeAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+
         }
         syllabusLabAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -495,21 +501,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun getData() = lifecycleScope.launchWhenStarted {
         viewModel.theory.observe(viewLifecycleOwner) {
-            binding.showSubject.showTheory.isVisible = it.isNotEmpty()
-            binding.showSubject.textView6.isVisible = it.isNotEmpty()
+            binding.showTheory.isVisible = it.isNotEmpty()
+            binding.textView6.isVisible = it.isNotEmpty()
             syllabusTheoryAdapter.submitList(it)
         }
 
         viewModel.lab.observe(viewLifecycleOwner) {
-            binding.showSubject.showLab.isVisible = it.isNotEmpty()
-            binding.showSubject.textView7.isVisible = it.isNotEmpty()
-            binding.showSubject.dividerTheory.isVisible = it.isNotEmpty()
+            binding.showLab.isVisible = it.isNotEmpty()
+            binding.textView7.isVisible = it.isNotEmpty()
+            binding.dividerTheory.isVisible = it.isNotEmpty()
             syllabusLabAdapter.submitList(it)
         }
         viewModel.pe.observe(viewLifecycleOwner) {
-            binding.showSubject.showPe.isVisible = it.isNotEmpty()
-            binding.showSubject.textView8.isVisible = it.isNotEmpty()
-            binding.showSubject.dividerLab.isVisible =
+            binding.showPe.isVisible = it.isNotEmpty()
+            binding.textView8.isVisible = it.isNotEmpty()
+            binding.dividerLab.isVisible =
                 it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
         }

@@ -3,6 +3,7 @@ package com.atech.bit.ui.fragments.society
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -135,14 +136,18 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
 
 
     private fun setOnSocietyClickListener(society: SocietyNetworkEntity, view: View) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-        val action =
-            SocietyFragmentDirections.actionSocietyFragmentToEventSocietyDescriptionFragment(
-                society = society,
-                title = society.name
-            )
-        findNavController().navigate(action)
+        try {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+            val action =
+                SocietyFragmentDirections.actionSocietyFragmentToEventSocietyDescriptionFragment(
+                    society = society,
+                    title = society.name
+                )
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     /**

@@ -20,7 +20,10 @@ import com.atech.core.data.ui.holiday.HolidayRepository
 import com.atech.core.data.ui.syllabus.SyllabusRepository
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -43,8 +46,6 @@ class HomeViewModel @Inject constructor(
 
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
-
-
 
 
     fun setStateListener(mainStateEvent: MainStateEvent) {
@@ -90,15 +91,4 @@ class HomeViewModel @Inject constructor(
     fun getEvent(start: Long, end: Long) = eventRepository.getEvent7Days(start, end).asLiveData()
 
 
-    val timeTableQuery = MutableStateFlow(QueryTimeTable())
-
-
 }
-
-
-data class QueryTimeTable(
-    val course: String = "",
-    val gender: String = "",
-    val sem: String = "",
-    val sec: String = ""
-)
