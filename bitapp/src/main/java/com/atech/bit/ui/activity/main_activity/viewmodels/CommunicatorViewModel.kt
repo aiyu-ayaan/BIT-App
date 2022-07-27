@@ -24,13 +24,13 @@ class CommunicatorViewModel @Inject constructor(
     var openFirst = state.get<Boolean>("openFirst") ?: true
         set(value) {
             field = value
-            state.set("openFirst", value)
+            state["openFirst"] = value
         }
 
     var homeNestedViewPosition = state.get<Int?>("homeNestedViewPosition")
         set(value) {
             field = value
-            state.set("homeNestedViewPosition", value)
+            state["homeNestedViewPosition"] = value
         }
 
     val query = MutableStateFlow("")
@@ -42,6 +42,6 @@ class CommunicatorViewModel @Inject constructor(
     var uninstallDialogSeen = state.get<Boolean>("uninstallDialogSeen") ?: false
         set(value) {
             field = value
-            state.set("uninstallDialogSeen", value)
+            state["uninstallDialogSeen"] = value
         }
 }

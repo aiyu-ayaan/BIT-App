@@ -21,8 +21,8 @@ val listOfBbaCredits = listOf(
     TotalCredit(21.0),
     TotalCredit(21.0),
     TotalCredit(21.0),
-    TotalCredit(22.0),
     TotalCredit(20.0),
+    TotalCredit(19.0),
 )
 
 

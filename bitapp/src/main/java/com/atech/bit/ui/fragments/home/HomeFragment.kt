@@ -50,7 +50,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.util.*
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -252,20 +251,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         lifecycleScope.launchWhenStarted {
-            val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, -14)
-            val start = cal.time.convertDateToTime().convertStringToLongMillis() //before 14 days
-            cal.add(Calendar.DATE, +15)
-            val end = cal.time.convertDateToTime().convertStringToLongMillis() //Day after today
-            viewModel.getEvent(start!!, end!!).observe(viewLifecycleOwner) {
+
+            viewModel.getEvent().observe(viewLifecycleOwner) {
                 it?.let {
+                    eventAdapter.submitList(it)
                     binding.materialCardViewEventRecyclerView.isVisible =
                         it.isNotEmpty()
                     binding.textEvent.isVisible =
                         it.isNotEmpty()
                     binding.textShowAllEvent.isVisible =
                         it.isNotEmpty()
-                    eventAdapter.submitList(it)
                 }
             }
         }
@@ -524,14 +519,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 is DataState.Success -> {
                     binding.apply {
                         textHoliday.isVisible = true
-                        showHoliday.isVisible = true
+                        materialCardViewHolidayRecyclerView.isVisible = true
                         textShowAllHoliday.isVisible = true
                     }
                     holidayAdapter.submitList(dateState.data)
                 }
                 DataState.Empty -> binding.apply {
                     textHoliday.isVisible = false
-                    showHoliday.isVisible = false
+                    materialCardViewHolidayRecyclerView.isVisible = false
                     textShowAllHoliday.isVisible = false
                 }
 

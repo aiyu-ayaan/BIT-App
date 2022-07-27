@@ -495,16 +495,4 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     }
 
 
-    private fun available(): Boolean {
-        var available = true
-        try {
-            // check if available
-            packageManager.getPackageInfo("com.aatec.bit", 0)
-        } catch (e: PackageManager.NameNotFoundException) {
-            // if not available set
-            // available as false
-            available = false
-        }
-        return available
-    }
 }

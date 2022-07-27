@@ -170,8 +170,10 @@
                 android:text="@string/event_this_week"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
                 android:textColor="@color/textColor"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view" />
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/text_show_all_event"
@@ -185,8 +187,10 @@
                 android:gravity="center"
                 android:text="@string/show_all"
                 android:textAppearance="?attr/textAppearanceCaption"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view" />
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view"
+                tools:visibility="visible" />
 
 
             <com.google.android.material.card.MaterialCardView
@@ -196,9 +200,11 @@
                 android:layout_below="@id/text_event"
                 android:layout_marginHorizontal="@dimen/grid_1"
                 android:layout_marginTop="@dimen/grid_1"
+                android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:layout_constraintTop_toBottomOf="@+id/text_event"
-                app:strokeColor="@color/divider_color">
+                app:strokeColor="@color/divider_color"
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/show_event"
@@ -218,9 +224,11 @@
                 android:padding="@dimen/grid_0_25"
                 android:text="@string/holidayThisMonth"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
-                app:layout_goneMarginStart="@dimen/grid_2" />
+                app:layout_goneMarginStart="@dimen/grid_2"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/text_show_all_holiday"
@@ -234,8 +242,10 @@
                 android:gravity="center"
                 android:text="@string/show_all"
                 android:textAppearance="?attr/textAppearanceCaption"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view" />
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
+                tools:visibility="visible" />
 
 
             <com.google.android.material.card.MaterialCardView
@@ -245,9 +255,11 @@
                 android:layout_below="@id/text_holiday"
                 android:layout_marginHorizontal="@dimen/grid_1"
                 android:layout_marginTop="@dimen/grid_1"
+                android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:layout_constraintTop_toBottomOf="@+id/text_holiday"
-                app:strokeColor="@color/divider_color">
+                app:strokeColor="@color/divider_color"
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/showHoliday"
@@ -267,8 +279,10 @@
                 android:padding="@dimen/grid_0_25"
                 android:text="@string/your_sgpa"
                 android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view" />
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
+                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/text_view_edit"
@@ -279,8 +293,10 @@
                 android:gravity="center"
                 android:text="@string/edit"
                 android:textAppearance="?attr/textAppearanceCaption"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view" />
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
+                tools:visibility="visible" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/material_card_view_cgpa_graph"
@@ -288,9 +304,11 @@
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="@dimen/grid_1"
                 android:layout_marginTop="@dimen/grid_1"
+                android:visibility="gone"
                 app:cardBackgroundColor="?attr/colorSurface"
                 app:layout_constraintTop_toBottomOf="@+id/text_view_cgpa"
-                app:strokeColor="@color/divider_color">
+                app:strokeColor="@color/divider_color"
+                tools:visibility="visible">
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart_cgpa"
@@ -305,7 +323,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="@dimen/grid_1"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_cgpa_graph">
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_cgpa_graph"
+                tools:visibility="visible">
 
 
                 <TextView

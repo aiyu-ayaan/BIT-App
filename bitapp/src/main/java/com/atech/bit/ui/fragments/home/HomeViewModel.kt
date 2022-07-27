@@ -19,6 +19,8 @@ import com.atech.core.data.ui.holiday.Holiday
 import com.atech.core.data.ui.holiday.HolidayRepository
 import com.atech.core.data.ui.syllabus.SyllabusRepository
 import com.atech.core.utils.DataState
+import com.atech.core.utils.convertDateToTime
+import com.atech.core.utils.convertStringToLongMillis
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
@@ -46,6 +48,15 @@ class HomeViewModel @Inject constructor(
 
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
+
+    private val instanceBefore14Days = calendar.run {
+        this.add(Calendar.DATE, -14)
+        this.time.convertDateToTime().convertStringToLongMillis() //before 14 days
+    }
+    private val instanceAfter15Days = calendar.run {
+        this.add(Calendar.DATE, +15)
+        this.time.convertDateToTime().convertStringToLongMillis() //Day after today
+    }
 
 
     fun setStateListener(mainStateEvent: MainStateEvent) {
@@ -88,7 +99,8 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun getEvent(start: Long, end: Long) = eventRepository.getEvent7Days(start, end).asLiveData()
+    fun getEvent(start: Long = instanceBefore14Days!!, end: Long = instanceAfter15Days!!) =
+        eventRepository.getEvent7Days(start, end).asLiveData()
 
 
 }

@@ -197,7 +197,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    resources.getString(R.string.no_internet_detected, "Notice"),
+                    resources.getString(R.string.no_internet_detected, "Event"),
                     Toast.LENGTH_SHORT
                 ).show()
                 requireActivity().openShareDeepLink(
