@@ -6,8 +6,8 @@
     <string name="topic_update">UpdateByAiyu</string>
     <string name="topic_app">AppByAiyu</string>
     <!--    App -->
-    <string name="app_version">1.2 (Early Access)</string>
-    <string name="full_version">Version 1.1 (Early Access)</string>
+    <string name="app_version">1.2.1</string>
+    <string name="full_version">Version 1.2.1</string>
     <string name="instaLink">https://www.instagram.com/bit.app_</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 
@@ -70,7 +70,7 @@
     <string name="bug_title">Send Mail</string>
     <string name="gmail_package">com.google.android.gm</string>
     <string name="no_intent_available">No Activity found to handle Intent</string>
-    <string name="developed_by">Developed &#38; managed by Ayaan</string>
+    <string name="developed_by">Developed by Ayaan</string>
     <string name="version">Version</string>
     <string name="developers">Developers</string>
     <string name="home_screen_attendance_message">Add attendance to see the progress</string>
@@ -183,7 +183,7 @@
     <string name="open_new_app">Open New App</string>
     <string name="choose_image">Choose Your Image</string>
     <string name="about">About</string>
-    <string name="contributor">Contributors</string>
+    <string name="contributor">App Managers</string>
     <string name="open_setting_sem">Course Setting</string>
     <string name="viewInPlayStore">View in Play Store</string>
     <string name="see_all">View All</string>
@@ -216,7 +216,7 @@
     <string name="may_be_next_time">"May be next time "</string>
     <string name="note_from_dev">This app is made by one of the student of BIT Lalpur. It is not made by any society !!</string>
     <string name="dev">Know About <a href="https://github.com/aiyu-ayaan">Dev</a></string>
-    <string name="management">Management</string>
+    <string name="management">Society / NGO Managers</string>
     <string name="ngos">NGOs</string>
     <string name="societies_and_ngos">Societies &#38; NGOs</string>
     <string name="watch_video"><a href="https://github.com/aiyu-ayaan">Watch Video</a></string>

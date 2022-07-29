@@ -43,20 +43,20 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                 binding.textViewRole.text = dev.des
 
 
-                buttonWeb.isVisible = dev.website!!.isNotEmpty()
-                divWebsite.isVisible = dev.website!!.isNotEmpty()
+                buttonWeb.isVisible = dev.website!!.isNotBlank()
+                divWebsite.isVisible = dev.website!!.isNotBlank()
 
-                buttonStackOverFlow.isVisible = dev.stackoverflow!!.isNotEmpty()
-                divStack.isVisible = dev.stackoverflow!!.isNotEmpty()
+                buttonStackOverFlow.isVisible = dev.stackoverflow!!.isNotBlank()
+                divStack.isVisible = dev.stackoverflow!!.isNotBlank()
 
-                buttonGit.isVisible = dev.github!!.isNotEmpty()
-                divGit.isVisible = dev.github!!.isNotEmpty()
+                buttonGit.isVisible = dev.github!!.isNotBlank()
+                divGit.isVisible = dev.github!!.isNotBlank()
 
-                buttonLinkedin.isVisible = dev.linkedin!!.isNotEmpty()
-                divLink.isVisible = dev.linkedin!!.isNotEmpty()
+                buttonLinkedin.isVisible = dev.linkedin!!.isNotBlank()
+                divLink.isVisible = dev.linkedin!!.isNotBlank()
 
 
-                buttonInstagram.isVisible = dev.instagram!!.isNotEmpty()
+                buttonInstagram.isVisible = dev.instagram!!.isNotBlank()
 
 
 

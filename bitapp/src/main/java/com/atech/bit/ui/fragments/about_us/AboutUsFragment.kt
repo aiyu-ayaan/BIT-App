@@ -149,11 +149,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
                         binding.materialCardViewManagement.isVisible =
                             combineFlow.man.data.isNotEmpty()
                         binding.textViewManagement.isVisible = combineFlow.man.data.isNotEmpty()
-                        Toast.makeText(
-                            requireContext(),
-                            "${combineFlow.man.data.size}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+
                         managersAdapter.submitList(combineFlow.man.data)
                     }
                     DataState.Empty -> {
