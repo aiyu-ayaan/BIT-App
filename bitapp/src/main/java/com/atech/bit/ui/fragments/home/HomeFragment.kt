@@ -8,6 +8,7 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
@@ -31,9 +32,11 @@ import com.atech.bit.ui.activity.main_activity.MainActivity
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
+import com.atech.bit.ui.fragments.notice.description.NoticeDetailFragment
 import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
 import com.atech.core.data.preferences.Cgpa
@@ -83,8 +86,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        restoreScroll()
 
+        if (myScrollViewerInstanceState != null) {
+            binding.scrollViewHome.onRestoreInstanceState(CourseFragment.myScrollViewerInstanceState)
+        }
 
         holidayAdapter = HolidayHomeAdapter()
         binding.apply {
@@ -252,7 +257,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         lifecycleScope.launchWhenStarted {
 
-            viewModel.getEvent().observe(viewLifecycleOwner) {
+            viewModel.getEvent(
+                communicatorViewModel.instanceBefore14Days!!,
+                communicatorViewModel.instanceAfter15Days!!
+            ).observe(viewLifecycleOwner) {
                 it?.let {
                     eventAdapter.submitList(it)
                     binding.materialCardViewEventRecyclerView.isVisible =
@@ -614,10 +622,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        communicatorViewModel.homeNestedViewPosition = binding.scrollViewHome.scrollY
+//    override fun onStop() {
+//        super.onStop()
+//        communicatorViewModel.homeNestedViewPosition = binding.scrollViewHome.scrollY
+//    }
+
+
+    override fun onPause() {
+        super.onPause()
+        myScrollViewerInstanceState =
+            binding.scrollViewHome.onSaveInstanceState()
     }
+
+    companion object {
+        var myScrollViewerInstanceState: Parcelable? = null
+    }
+
 
 
 }

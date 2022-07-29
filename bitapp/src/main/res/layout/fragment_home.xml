@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.home.HomeFragment">
 
-    <androidx.core.widget.NestedScrollView
+    <com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer
         android:id="@+id/scroll_view_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -439,8 +439,7 @@
                             android:layout_marginTop="20dp"
                             android:layout_marginEnd="10dp"
                             android:layout_marginBottom="@dimen/grid_2"
-                            android:elevation="-10dp"
-                            app:cardBackgroundColor="?attr/bottomSheetBackground"
+                            app:cardBackgroundColor="?attr/bottomBar"
                             app:cardCornerRadius="10dp">
 
                             <LinearLayout
@@ -477,5 +476,5 @@
                 android:layout_marginHorizontal="@dimen/grid_1"
                 app:layout_constraintTop_toBottomOf="@+id/card_view_attendance" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
 </FrameLayout>
