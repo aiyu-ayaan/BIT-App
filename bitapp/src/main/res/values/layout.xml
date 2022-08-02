@@ -8,10 +8,7 @@
 
 <resources>
 
-    <!--Layout-->
-    <!--Reply uses an 8dp grid system. Smaller components can align to a 2dp 'sub' grid.-->
 
-    <!--2dp sub grid-->
     <dimen name="grid_0_25">2dp</dimen>
     <dimen name="grid_0_5">4dp</dimen>
 
@@ -29,7 +26,8 @@
     <dimen name="min_padding_attendance">100dp</dimen>
     <dimen name="div_height">1dp</dimen>
     <dimen name="bottom_nav_height">80dp</dimen>
-    <dimen name="email_sender_profile_image_size">40dp</dimen>
+    <dimen name="image_view_about_us_size">100dp</dimen>
     <dimen name="course_image_size">120dp</dimen>
     <dimen name="time_table_image_size">250dp</dimen>
+    <dimen name="line_chat_size">400dp</dimen>
 </resources>

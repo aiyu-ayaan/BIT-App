@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
+<com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_scroll_view_notice"
@@ -22,14 +22,41 @@
             android:indeterminate="true"
             app:trackColor="?attr/colorSurface" />
 
-        <ImageView
+        <RelativeLayout
             android:id="@+id/image_view_no_data"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:contentDescription="@string/blank"
-            android:src="@drawable/ic_no_data"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/image_no_notice"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:contentDescription="@string/blank"
+                android:src="@drawable/ic_no_data" />
+
+            <TextView
+                android:id="@+id/text_view_no_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_no_notice"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/no_notice_found"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_no_notice"
+                android:layout_centerHorizontal="true"
+                android:text="@string/no_syllabus_found_subtitle"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/text_view_no_data"
@@ -100,8 +127,8 @@
 
                 <ImageView
                     android:id="@+id/sender_profile_image_view"
-                    android:layout_width="@dimen/email_sender_profile_image_size"
-                    android:layout_height="@dimen/email_sender_profile_image_size"
+                    android:layout_width="@dimen/user_profile_image_size"
+                    android:layout_height="@dimen/user_profile_image_size"
                     android:contentDescription="@string/app_name"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_ayaan_beta"
@@ -159,4 +186,4 @@
 
         </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>
-</com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer>
+</com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>

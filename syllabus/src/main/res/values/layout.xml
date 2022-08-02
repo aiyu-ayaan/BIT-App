@@ -29,5 +29,5 @@
     <dimen name="min_padding_attendance">100dp</dimen>
     <dimen name="div_height">1dp</dimen>
     <dimen name="bottom_nav_height">80dp</dimen>
-    <dimen name="email_sender_profile_image_size">40dp</dimen>
+    <dimen name="user_profile_image_size">40dp</dimen>
 </resources>

@@ -16,7 +16,7 @@
     tools:context=".ui.fragments.view_image.ViewImageFragment">
 
 
-    <com.aatec.bit.ui.custom_views.ZoomClass
+    <com.atech.bit.ui.custom_views.ZoomClass
         android:id="@+id/image_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

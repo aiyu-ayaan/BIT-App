@@ -2,16 +2,18 @@ buildscript {
     ext {
         kotlin_version = "1.6.20"
         playStoreCoreVersion = "1.8.1"
+        materail3Version = "1.7.0-alpha03"
+        firebaseFireStoreVersion = "24.2.1"
         googleServiceVersion = '4.3.10'
-        coroutines = '1.6.1'
-        lifecycle_version = "2.4.1"
-        fragment_version = "1.4.1"
-        nav_version = "2.4.2"
-        hilt_version = '2.40.1'
+        coroutines = '1.6.3'
+        lifecycle_version = "2.5.0"
+        fragment_version = "1.5.0"
+        nav_version = "2.5.0"
+        hilt_version = '2.42'
         roomVersion = '2.4.2'
-        glideVersion = '4.12.0'
+        glideVersion = '4.13.2'
         dataStoreVersion = "1.0.0"
-        lottiVersion = "5.0.3"
+        lottiVersion = '5.2.0'
         recyclerViewVersion = "1.2.1"
         recyclerViewSelectionVersion = "1.1.0"
         calendarVersion = "3.0.0"
@@ -22,10 +24,13 @@ buildscript {
         webKit_version = "1.4.0"
         palette_version = "28.0.0"
         splashScreenVersion = "1.0.0-rc01"
-        review_version ="2.0.0"
+        review_version = "2.0.0"
+        graphVersion = "v3.1.0"
+        mediaVersion = "1.0.0-beta02"
+        tapTargetVersion ="3.3.2"
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.3.10'
+        classpath 'com.google.gms:google-services:4.3.13'
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "com.google.gms:google-services:$googleServiceVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"

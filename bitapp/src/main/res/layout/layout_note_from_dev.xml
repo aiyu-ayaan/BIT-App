@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/grid_2"
+        app:dividerColor="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/text_view_disclaimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:padding="@dimen/grid_1"
+        android:text="@string/note_from_dev"
+        android:textAppearance="?attr/textAppearanceCaption" />
+
+    <TextView
+        android:id="@+id/tag_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_disclaimer"
+        android:autoLink="web"
+        android:linksClickable="true"
+        android:padding="@dimen/grid_1"
+        android:text="@string/dev"
+        android:textAppearance="?attr/textAppearanceCaption" />
+</RelativeLayout>

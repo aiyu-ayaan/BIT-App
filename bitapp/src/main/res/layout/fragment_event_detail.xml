@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nested_scroll_view_event"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingHorizontal="@dimen/grid_0_5"
+    android:paddingTop="@dimen/grid_1"
+    tools:context="com.atech.bit.ui.fragments.event.event_detail.EventDetailFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progress_bar_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:indeterminate="true"
+            app:trackColor="?attr/colorSurface" />
+
+        <RelativeLayout
+            android:id="@+id/image_view_no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/image_no_notice"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:contentDescription="@string/blank"
+                android:src="@drawable/ic_no_data" />
+
+            <TextView
+                android:id="@+id/text_view_no_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image_no_notice"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/no_event_found"
+                android:textAppearance="?attr/textAppearanceHeadline5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_view_no_notice"
+                android:layout_centerHorizontal="true"
+                android:text="@string/no_syllabus_found_subtitle"
+                android:textAppearance="?attr/textAppearanceCaption" />
+        </RelativeLayout>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_view_event"
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_bar_linear"
+            android:visibility="gone"
+            app:cardBackgroundColor="?attr/colorSurface"
+            tools:visibility="visible">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/menu_item_constraint_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="@dimen/grid_2"
+                android:paddingBottom="@dimen/bottom_nav_height">
+
+                <TextView
+                    android:id="@+id/subject_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_0_25"
+                    android:layout_marginEnd="@dimen/grid_1"
+                    android:textAppearance="?attr/textAppearanceHeadline4"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/link_icon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="High school reunion" />
+
+
+                <TextView
+                    android:id="@+id/sender_text_view"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/subject_text_view"
+                    tools:text="Ali Connors -- 12m" />
+
+                <TextView
+                    android:id="@+id/text_view_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_0_5"
+                    android:maxLines="1"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    app:drawableStartCompat="@drawable/ic_calendar"
+                    app:layout_constraintEnd_toStartOf="@+id/sender_profile_image_view"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/sender_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/sender_text_view"
+                    tools:text="-12" />
+
+
+                <ImageView
+                    android:id="@+id/sender_profile_image_view"
+                    android:layout_width="@dimen/user_profile_image_size"
+                    android:layout_height="@dimen/user_profile_image_size"
+                    android:contentDescription="@string/app_name"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_ayaan_beta"
+                    app:layout_constraintBottom_toBottomOf="@+id/sender_text_view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/sender_text_view" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress_bar_notice_preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:indeterminate="true"
+                    android:progress="50"
+                    app:layout_constraintBottom_toBottomOf="@+id/sender_profile_image_view"
+                    app:layout_constraintEnd_toEndOf="@+id/sender_profile_image_view"
+                    app:layout_constraintStart_toStartOf="@+id/sender_profile_image_view"
+                    app:layout_constraintTop_toTopOf="@+id/sender_profile_image_view"
+                    app:trackThickness="14dp" />
+
+                <ImageButton
+                    android:id="@+id/link_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/actionBarItemBackground"
+                    android:contentDescription="@string/link"
+                    android:padding="@dimen/grid_2"
+                    app:layout_constraintEnd_toEndOf="@+id/sender_profile_image_view"
+                    app:layout_constraintStart_toStartOf="@+id/sender_profile_image_view"
+                    app:layout_constraintTop_toTopOf="@+id/subject_text_view"
+                    app:srcCompat="@drawable/ic_link"
+                    app:tint="?attr/colorAccent" />
+
+                <TextView
+                    android:id="@+id/body_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:textAppearance="?attr/textAppearanceBody1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sender_profile_image_view" />
+
+                <TextView
+                    android:id="@+id/video_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:overScrollMode="never"
+                    android:text="@string/watch_video"
+                    android:textAppearance="?attr/textAppearanceBody2"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/body_text_view"
+                    tools:visibility="visible" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attachment_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/video_text_view" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </RelativeLayout>
+</com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>

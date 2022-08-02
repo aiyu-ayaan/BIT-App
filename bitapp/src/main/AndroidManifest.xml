@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.atech.bit">
 
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <queries>
+        <package android:name="com.aatec.bit" />
+    </queries>
     <application
         android:name=".BITApp"
         android:allowBackup="true"
@@ -12,18 +18,17 @@
         android:windowSoftInputMode="adjustResize">
 
         <activity
-            android:name="com.aatec.bit.ui.activity.SplashScreen"
+            android:name="com.atech.bit.ui.activity.SplashScreen"
             android:exported="true"
             android:theme="@style/Theme.customSplash">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            <nav-graph android:value="@navigation/nav_graph" />
         </activity>
 
         <activity
-            android:name="com.aatec.bit.ui.activity.main_activity.MainActivity"
+            android:name="com.atech.bit.ui.activity.main_activity.MainActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/Theme.BITApp"
@@ -38,19 +43,28 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="bitapp-eng.github.io" />
+                <data android:host="bitbyaiyu.github.io" />
             </intent-filter>
 
             <nav-graph android:value="@navigation/nav_graph" />
         </activity>
 
         <service
-            android:name="com.aatec.bit.service.FcmService"
+            android:name="com.atech.bit.service.FcmService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-    </application>
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_path" />
+        </provider>
+    </application>
 </manifest>

@@ -44,6 +44,7 @@
             android:id="@+id/view"
             android:layout_width="1dp"
             android:layout_height="0dp"
+            app:dividerColor="@color/divider_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/text_view_dot"
             app:layout_constraintStart_toStartOf="@+id/text_view_dot"

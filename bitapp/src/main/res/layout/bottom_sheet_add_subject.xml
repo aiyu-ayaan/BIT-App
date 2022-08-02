@@ -46,7 +46,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/bottom_sheet_title"
         android:layout_marginTop="16dp"
-        android:background="@color/underLine" />
+        app:dividerColor="@color/divider_color" />
 
     <RelativeLayout
         android:layout_width="match_parent"

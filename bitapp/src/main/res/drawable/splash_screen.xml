@@ -1,19 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:name="vector"
+    android:width="192dp"
+    android:height="192dp"
+    android:viewportWidth="800"
+    android:viewportHeight="800">
 
-
-<!--
-  ~ BIT Lalpur App
-  ~
-  ~ Created by Ayaan on 4/9/22, 8:14 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 4/6/22, 9:18 PM
-  -->
-
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@color/MainColor" />
-    <item
-        android:width="250.0dip"
-        android:height="250.0dip"
-        android:drawable="@drawable/ic_ayaan_beta"
-        android:gravity="center" />
-</layer-list>
+    <path
+        android:name="path"
+        android:fillColor="#2aab66"
+        android:pathData="M 589.842 330.323 C 590.479 271.034 546.669 222.515 494.278 222.515 L 210.22 222.515 C 210.183 222.515 210.152 222.548 210.152 222.594 C 210.152 261.76 238.206 293.51 272.809 293.51 L 492.414 293.51 L 492.414 293.708 C 493.519 293.579 494.633 293.51 495.765 293.51 C 513.076 293.51 527.125 309.397 527.125 329.004 C 527.125 348.613 513.076 364.5 495.765 364.5 C 494.637 364.5 493.519 364.431 492.414 364.301 L 492.414 364.5 L 304.306 364.5 C 304.27 364.5 304.237 364.533 304.237 364.578 C 304.237 403.746 332.293 435.495 366.895 435.495 L 491.596 435.495 C 510.116 435.495 525.011 452.656 523.693 473.565 C 522.529 491.973 508.969 506.49 492.41 506.49 L 398.396 506.49 C 398.36 506.49 398.328 506.523 398.328 506.569 C 398.328 545.734 426.383 577.485 460.986 577.485 L 495.765 577.485 L 495.765 577.416 C 546.173 575.428 586.505 528.544 586.505 471 C 586.505 444.755 578.116 420.736 564.202 402.173 C 564.18 402.145 564.18 402.103 564.206 402.075 C 579.862 383.295 589.546 358.087 589.842 330.323 Z"
+        tools:ignore="VectorPath" />
+</vector>

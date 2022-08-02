@@ -13,11 +13,11 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.aatec.bit"
-        minSdk 25
-        targetSdk 32
-        versionCode 29
-        versionName "4.0.5"
+        applicationId "com.atech.bit"
+        minSdk 24
+        targetSdk 33
+        versionCode 5
+        versionName "1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -38,7 +38,7 @@ android {
     buildFeatures {
         viewBinding true
     }
-    namespace 'com.aatec.bit'
+    namespace 'com.atech.bit'
 }
 
 dependencies {
@@ -47,13 +47,13 @@ dependencies {
     implementation project(':syllabus')
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'com.google.android.material:material:1.7.0-alpha02'
-    implementation 'com.google.firebase:firebase-firestore-ktx:24.1.2'
+    implementation "com.google.android.material:material:$materail3Version"
+    implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFireStoreVersion"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:27.1.0')
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
 //    FCM
@@ -118,5 +118,11 @@ dependencies {
     implementation "androidx.core:core-splashscreen:$splashScreenVersion"
     implementation "com.github.sundeepk:compact-calendar-view:$calendarVersion"
 
+    implementation "com.github.PhilJay:MPAndroidChart:$graphVersion"
 
+    implementation "androidx.media3:media3-exoplayer:$mediaVersion"
+    implementation "androidx.media3:media3-ui:$mediaVersion"
+    implementation "androidx.media3:media3-exoplayer-dash:$mediaVersion"
+
+    implementation "uk.co.samuelwall:material-tap-target-prompt:$tapTargetVersion"
 }

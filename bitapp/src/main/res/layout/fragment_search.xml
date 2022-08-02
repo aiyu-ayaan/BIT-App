@@ -34,7 +34,7 @@
             android:background="@android:color/white"
             android:backgroundTint="@color/material_on_surface_stroke" />
 
-        <com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer
+        <com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer
             android:id="@+id/scroll_view_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -75,7 +75,7 @@
                         android:layout_marginHorizontal="@dimen/grid_1"
                         android:paddingHorizontal="@dimen/grid_2"
                         app:cardBackgroundColor="?attr/colorSurface"
-                        app:strokeColor="@color/card_corner">
+                        app:strokeColor="@color/divider_color">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/showSearchSubjects"
@@ -111,7 +111,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="@dimen/grid_1"
                         app:cardBackgroundColor="?attr/colorSurface"
-                        app:strokeColor="@color/card_corner">
+                        app:strokeColor="@color/divider_color">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/showSearchNotice"
@@ -167,7 +167,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="@dimen/grid_1"
                         app:cardBackgroundColor="?attr/colorSurface"
-                        app:strokeColor="@color/card_corner">
+                        app:strokeColor="@color/divider_color">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/showSearchHoliday"
@@ -203,7 +203,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginHorizontal="@dimen/grid_1"
                         app:cardBackgroundColor="?attr/colorSurface"
-                        app:strokeColor="@color/card_corner">
+                        app:strokeColor="@color/divider_color">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/showSearchEvent"
@@ -216,7 +216,7 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </com.aatec.bit.ui.custom_views.SaveScrollNestedScrollViewer>
+        </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
     </LinearLayout>
 
     <LinearLayout

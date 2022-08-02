@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:cardBackgroundColor="@android:color/transparent"
-        app:strokeColor="@color/card_corner">
+        app:strokeColor="@color/divider_color">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -88,8 +88,8 @@
 
             <ImageView
                 android:id="@+id/sender_profile_image_view"
-                android:layout_width="@dimen/email_sender_profile_image_size"
-                android:layout_height="@dimen/email_sender_profile_image_size"
+                android:layout_width="@dimen/user_profile_image_size"
+                android:layout_height="@dimen/user_profile_image_size"
                 android:layout_marginStart="@dimen/grid_2"
                 android:layout_marginTop="@dimen/grid_1"
                 android:layout_marginEnd="@dimen/grid_2"

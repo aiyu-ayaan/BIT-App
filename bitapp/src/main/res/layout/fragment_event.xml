@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nested_scroll_view_event"
+    android:clipToPadding="false"
+    android:fillViewport="true"
+    android:overScrollMode="always"
+    android:paddingBottom="@dimen/bottom_app_bar_height"
     tools:context=".ui.fragments.event.EventFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/showEvent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:isScrollContainer="true"
-        android:overScrollMode="always"
-        android:paddingBottom="@dimen/bottom_app_bar_height" />
 
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/empty"
-        android:layout_width="200.0dip"
-        android:layout_height="200.0dip"
-        android:layout_centerInParent="true"
-        android:scaleType="fitCenter"
-        android:visibility="visible"
-        app:lottie_autoPlay="true"
-        app:lottie_fileName="empty.json"
-        app:lottie_loop="true" />
-</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/material_card_view_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeColor="?attr/colorSurface">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/showEvent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:isScrollContainer="true"
+                android:overScrollMode="always" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty"
+            android:layout_width="200.0dip"
+            android:layout_height="200.0dip"
+            android:layout_centerInParent="true"
+            android:scaleType="fitCenter"
+            android:visibility="visible"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="empty.json"
+            app:lottie_loop="true" />
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

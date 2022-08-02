@@ -18,6 +18,12 @@
                     android:checkable="false"
                     android:icon="@drawable/ic_web"
                     android:title="@string/erp" />
+
+                <item
+                    android:id="@id/cgpaCalculatorFragment"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_cgpa_calculator"
+                    android:title="@string/cgpa_calculator" />
                 <item
                     android:id="@id/holidayFragment"
                     android:icon="@drawable/ic_holiday"
@@ -35,7 +41,7 @@
                 <item
                     android:id="@+id/societyFragment"
                     android:icon="@drawable/ic_society"
-                    android:title="@string/societies" />
+                    android:title="@string/societies_and_ngos" />
                 <item
                     android:id="@+id/eventFragment"
                     android:icon="@drawable/ic_event"
