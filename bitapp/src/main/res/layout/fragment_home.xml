@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.home.HomeFragment">
 
+
     <com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer
         android:id="@+id/scroll_view_home"
         android:layout_width="match_parent"
@@ -18,6 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginHorizontal="@dimen/grid_1">
+
 
             <TextView
                 android:id="@+id/text_hi"
@@ -477,4 +479,5 @@
                 app:layout_constraintTop_toBottomOf="@+id/card_view_attendance" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
+
 </FrameLayout>

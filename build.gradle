@@ -27,6 +27,7 @@ buildscript {
         review_version = "2.0.0"
         graphVersion = "v3.1.0"
         mediaVersion = "1.0.0-beta02"
+        tapTargetVersion ="3.3.2"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'

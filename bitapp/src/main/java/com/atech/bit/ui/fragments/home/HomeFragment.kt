@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
@@ -36,9 +38,9 @@ import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
-import com.atech.bit.ui.fragments.notice.description.NoticeDetailFragment
 import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
@@ -140,9 +142,52 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         createMenu()
 
-        getOldAppWarningDialog()
+
 
         setUpLinkClick()
+
+        setPrompt()
+    }
+
+    private fun setPrompt() {
+        val firstTimeOpenNoticeDes = pref.getBoolean(
+            FIRST_TIME_OPEN_HOME,
+            true
+        )
+        if (firstTimeOpenNoticeDes)
+            Handler(Looper.getMainLooper()).postDelayed ({
+                requireActivity().showMenuPrompt(
+                    R.id.edit,
+                    R.string.home_edit_button,
+                    resources.getString(R.string.home_edit_button_des)
+                ) {
+                    setPromptToSetting()
+                }
+            },1000)
+    }
+
+    private fun setPromptToSetting() {
+        requireActivity().showMenuPrompt(
+            R.id.setting,
+            R.string.home_setting_button,
+            resources.getString(R.string.home_setting_button_des)
+        ) {
+            setPromptToSearch()
+        }
+    }
+
+    private fun setPromptToSearch() {
+        requireActivity().showMenuPrompt(
+            R.id.menu_search,
+            R.string.home_search,
+            resources.getString(R.string.searchAnything)
+        ) {
+            pref.edit()
+                .putBoolean(FIRST_TIME_OPEN_HOME, false)
+                .apply()
+
+            getOldAppWarningDialog()
+        }
     }
 
     private fun setUpLinkClick() {
@@ -637,7 +682,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     companion object {
         var myScrollViewerInstanceState: Parcelable? = null
     }
-
 
 
 }

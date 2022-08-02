@@ -1,7 +1,10 @@
 package com.atech.bit.ui.fragments.course.subject_handler
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.Fragment
@@ -11,8 +14,10 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSubjectHandlerBinding
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.openShareDeepLink
+import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.room.syllabus.SyllabusModel
+import com.atech.core.utils.FIRST_TIME_OPEN_SYLLABUS_DES
 import com.atech.core.utils.SHARE_TYPE_SYLLABUS
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.syllabus.setFragment
@@ -29,6 +34,10 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
 
     @Inject
     lateinit var syllabusDao: SyllabusDao
+
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +74,26 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
         addMenuHost(R.menu.notice_description_menu, {
             if (subject == null)
                 it.findItem(R.id.menu_notice_share).isVisible = false
+
+            Handler(Looper.getMainLooper()).post {
+                val firstTimeOpenNoticeDes = pref.getBoolean(
+                    FIRST_TIME_OPEN_SYLLABUS_DES,
+                    true
+                )
+                if (firstTimeOpenNoticeDes) {
+                    requireActivity().showMenuPrompt(
+                        R.id.menu_notice_share,
+                        R.string.sharable,
+                        resources.getString(
+                            R.string.sharable_des,
+                            resources.getString(R.string.subject)
+                        )
+                    )
+                    pref.edit()
+                        .putBoolean(FIRST_TIME_OPEN_SYLLABUS_DES, false)
+                        .apply()
+                }
+            }
         }) { it ->
             when (it.itemId) {
                 R.id.menu_notice_share -> {

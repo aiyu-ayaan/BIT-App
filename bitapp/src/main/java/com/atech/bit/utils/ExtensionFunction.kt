@@ -4,8 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -15,8 +19,10 @@ import com.atech.core.utils.*
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -177,3 +183,43 @@ fun Activity.openShareImageDeepLink(
 
         flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
     }, null))
+
+
+fun Activity.showMenuPrompt(
+    @IdRes targetId: Int,
+    @StringRes title: Int,
+    description: String,
+    listener: (() -> Unit)? = null
+) = this.apply {
+    MaterialTapTargetPrompt.Builder(this)
+        .setTarget(targetId)
+        .setPrimaryText(resources.getString(title))
+        .setSecondaryText(description)
+        .setBackgroundColour(
+            MaterialColors.getColor(
+                this,
+                androidx.appcompat.R.attr.colorPrimary,
+                Color.CYAN
+            )
+        )
+        .setPrimaryTextColour(
+            ContextCompat.getColor(
+                this,
+                com.atech.bit.R.color.textColor_oppo
+            )
+        )
+        .setSecondaryTextColour(
+            ContextCompat.getColor(
+                this,
+                com.atech.bit.R.color.textColorSecondary_oppo
+            )
+        )
+        .setPromptStateChangeListener { _, state ->
+            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_DISMISSED
+                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED ||  state == MaterialTapTargetPrompt.STATE_FINISHED) {
+                listener?.invoke()
+            }
+        }
+        .show()
+
+}

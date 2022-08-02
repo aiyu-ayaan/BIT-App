@@ -6,6 +6,8 @@
     <color name="textColorSecondary">#99FFFFFF</color>
     <color name="textColorSubTitle">#000000</color>
 
+    <color name="textColorSecondary_oppo">#99000000</color>
+    <color name="textColor_oppo">#000</color>
     <color name="cardBackground">#1c2628</color>
 
     <color name="background">#1c2628</color>

@@ -123,4 +123,6 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer:$mediaVersion"
     implementation "androidx.media3:media3-ui:$mediaVersion"
     implementation "androidx.media3:media3-exoplayer-dash:$mediaVersion"
+
+    implementation "uk.co.samuelwall:material-tap-target-prompt:$tapTargetVersion"
 }

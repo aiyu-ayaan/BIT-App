@@ -1,7 +1,10 @@
 package com.atech.bit.ui.fragments.event.event_detail
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
@@ -19,6 +22,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewM
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.openShareDeepLink
+import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.Events
 import com.atech.core.data.ui.notice.SendNotice3
@@ -27,6 +31,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.combine
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
@@ -39,6 +44,9 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     private var isNetConnect = true
     private val connectionManager: ConnectionManagerViewModel by activityViewModels()
     private lateinit var event: Events
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -167,7 +175,27 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
 
 
     private fun menuHost() {
-        addMenuHost(R.menu.notice_description_menu) { menuItem ->
+        addMenuHost(R.menu.notice_description_menu, {
+            Handler(Looper.getMainLooper()).post {
+                val firstTimeOpenNoticeDes = pref.getBoolean(
+                    FIRST_TIME_OPEN_EVENT_DES,
+                    true
+                )
+                if (firstTimeOpenNoticeDes) {
+                    requireActivity().showMenuPrompt(
+                        R.id.menu_notice_share,
+                        R.string.sharable,
+                        resources.getString(
+                            R.string.sharable_des,
+                            resources.getString(R.string.event)
+                        )
+                    )
+                    pref.edit()
+                        .putBoolean(FIRST_TIME_OPEN_EVENT_DES, false)
+                        .apply()
+                }
+            }
+        }) { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_notice_share -> {
                     shareNotice()

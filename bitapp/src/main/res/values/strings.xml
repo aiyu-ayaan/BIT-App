@@ -34,6 +34,7 @@
     <string name="switchLatestUpdate">Switch to new to see latest update !!</string>
     <string name="searchForSubject">Search for subject &#38; more</string>
     <string name="subjects">Subjects</string>
+    <string name="subject">Subject</string>
     <string name="notice_a">Notice</string>
     <string name="holiday">Holiday</string>
     <string name="event_a">Event</string>
@@ -81,6 +82,7 @@
     <string name="erp">ERP</string>
     <string name="societies">Societies</string>
     <string name="events">Events</string>
+    <string name="event">Event</string>
     <string name="holidays">Holidays</string>
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
@@ -221,5 +223,14 @@
     <string name="societies_and_ngos">Societies &#38; NGOs</string>
     <string name="watch_video"><a href="https://github.com/aiyu-ayaan">Watch Video</a></string>
     <string name="publishers_name">By Puppeteers</string>
+    <string name="sharable">Sharable</string>
+    <string name="sharable_des">You can share this %s with your friends</string>
+    <string name="home_edit_button">Edit your subjects !!</string>
+    <string name="home_edit_button_des">Personalize your subjects.</string>
+    <string name="home_setting_button">Setting</string>
+    <string name="home_setting_button_des">Any time you can change your preferences.</string>
+    <string name="home_search">Search</string>
+
+
 
 </resources>

@@ -13,8 +13,11 @@
     <color name="MainColor">#fbfdf8</color>
     <color name="underLine">#4000</color>
     <color name="textColor">#000</color>
+    <color name="textColor_oppo">#fff</color>
     <color name="textColorSubTitle">#FFFFFF</color>
     <color name="textColorSecondary">#99000000</color>
+    <color name="textColorSecondary_oppo">#99FFFFFF</color>
+
 
     <!--    Custom-->
     <color name="ripper">#D5D5D7</color>
@@ -30,8 +33,8 @@
 
     <color name="blue_bottom_nav">#d7e7cc</color>
     <color name="bottom_nav">#f1f1eb</color>
-    <color name="red_ripper">#ff8ba0</color>
     <color name="accent_color">#4d6356</color>
+    <color name="red_ripper">#ff8ba0</color>
     <color name="icon_color">#a0d490</color>
     <color name="card_corner">#dbdbdb</color>
     <color name="bottom_nav_scrim_color">#b8d2df</color>
