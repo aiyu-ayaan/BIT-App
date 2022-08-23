@@ -155,7 +155,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             true
         )
         if (firstTimeOpenNoticeDes)
-            Handler(Looper.getMainLooper()).postDelayed ({
+            Handler(Looper.getMainLooper()).postDelayed({
                 requireActivity().showMenuPrompt(
                     R.id.edit,
                     R.string.home_edit_button,
@@ -163,7 +163,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 ) {
                     setPromptToSetting()
                 }
-            },1000)
+            }, 1000)
     }
 
     private fun setPromptToSetting() {
@@ -274,10 +274,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun getEvent() {
         val eventAdapter = EventsAdapter(
-            db, {
+            db,
+            {
                 navigateToImageView(it)
             },
-            REQUEST_ADAPTER_EVENT_FROM_HOME
         ) { event, rootView ->
             navigateToEventDetail(event, rootView)
         }
@@ -666,11 +666,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Log.e("Error", e.message!!)
         }
     }
-
-//    override fun onStop() {
-//        super.onStop()
-//        communicatorViewModel.homeNestedViewPosition = binding.scrollViewHome.scrollY
-//    }
 
 
     override fun onPause() {

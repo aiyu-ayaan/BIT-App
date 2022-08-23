@@ -5,6 +5,7 @@
     android:id="@+id/nested_scroll_view_notice"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/bottomBar"
     android:fillViewport="true"
     android:paddingHorizontal="@dimen/grid_0_5"
     android:paddingTop="@dimen/grid_1"
@@ -12,7 +13,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/bottomBar">
 
         <com.google.android.material.progressindicator.LinearProgressIndicator
             android:id="@+id/progress_bar_linear"
@@ -76,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/progress_bar_linear"
             android:visibility="gone"
-            app:cardBackgroundColor="?attr/colorSurface"
+            app:cardBackgroundColor="?attr/bottomBar"
             tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout

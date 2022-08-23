@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -205,7 +204,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
             when (destination.id) {
                 R.id.semChooseFragment, R.id.detailDevFragment,
-                R.id.searchFragment
+                R.id.searchFragment,R.id.noticeDetailFragment,
+                R.id.eventDetailFragment
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     R.attr.bottomBar

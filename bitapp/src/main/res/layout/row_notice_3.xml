@@ -18,8 +18,8 @@
         android:id="@+id/material_card_view_notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:strokeColor="@color/divider_color">
+        app:cardBackgroundColor="?attr/bottomBar"
+        app:strokeColor="?attr/bottomBar">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
