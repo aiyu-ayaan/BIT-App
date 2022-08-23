@@ -40,11 +40,15 @@ fun Activity.openShareLink(link: String) =
             Intent.EXTRA_STREAM,
             saveFileToCaches(
                 this@openShareLink,
-                getBitMapUsingGlide(this@openShareLink, link) ?: (ResourcesCompat.getDrawable(
-                    this@openShareLink.resources,
-                    R.drawable.app_logo,
-                    null
-                ) as BitmapDrawable).toBitmap()
+                try {
+                    getBitMapUsingGlide(this@openShareLink, link)!!
+                } catch (e: Exception) {
+                    (ResourcesCompat.getDrawable(
+                        this@openShareLink.resources,
+                        R.drawable.app_logo,
+                        null
+                    ) as BitmapDrawable).toBitmap()
+                }
             )
         )
         putExtra(
@@ -97,17 +101,21 @@ fun Activity.openShareDeepLink(
 
 fun getBitMapUsingGlide(context: Context, url: String): Bitmap? =
     runBlocking(Dispatchers.IO + handler) {
-        val requestOptions = RequestOptions()
-            .centerCrop()
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .skipMemoryCache(false)
+        try {
+            val requestOptions = RequestOptions()
+                .centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .skipMemoryCache(false)
 
-        Glide.with(context)
-            .asBitmap()
-            .load(url)
-            .apply(requestOptions)
-            .submit()
-            .get()
+            Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .apply(requestOptions)
+                .submit()
+                .get()
+        } catch (e: com.bumptech.glide.load.engine.GlideException) {
+            throw e;
+        }
     }
 
 
@@ -216,7 +224,8 @@ fun Activity.showMenuPrompt(
         )
         .setPromptStateChangeListener { _, state ->
             if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_DISMISSED
-                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED ||  state == MaterialTapTargetPrompt.STATE_FINISHED) {
+                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED || state == MaterialTapTargetPrompt.STATE_FINISHED
+            ) {
                 listener?.invoke()
             }
         }
