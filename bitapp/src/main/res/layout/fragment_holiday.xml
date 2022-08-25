@@ -79,7 +79,7 @@
             android:layout_marginHorizontal="@dimen/grid_0_25"
             android:layout_marginTop="@dimen/grid_1"
             app:cardBackgroundColor="?attr/bottomBar"
-            app:strokeColor="@color/divider_color">
+            app:strokeColor="?attr/bottomBar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/showHoliday"
