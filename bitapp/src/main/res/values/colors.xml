@@ -40,5 +40,6 @@
     <color name="bottom_nav_scrim_color">#b8d2df</color>
     <color name="logo">#dddee0</color>
     <color name="div_color">#e0e0e0</color>
+    <color name="logo_background">#181f28</color>
 
 </resources>

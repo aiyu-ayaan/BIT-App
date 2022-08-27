@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetChooseSemBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
-import com.atech.core.utils.KEY_FIRST_TIME_TOGGLE
 import com.atech.core.utils.REQUEST_UPDATE_SEM
 import com.atech.core.utils.REQUEST_UPDATE_SEM_FROM_CGPA
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -61,9 +60,9 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         binding.apply {
             btSave.setOnClickListener {
                 if (args.request != REQUEST_UPDATE_SEM && args.request != REQUEST_UPDATE_SEM_FROM_CGPA) {
-                    pref.edit()
-                        .putBoolean(KEY_FIRST_TIME_TOGGLE, true)
-                        .apply()
+//                    pref.edit()
+//                        .putBoolean(KEY_FIRST_TIME_TOGGLE, true)
+//                        .apply()
 
                     exitTransition = MaterialFadeThrough()
                     if (args.type == REQUEST_UPDATE_SEM_FROM_CGPA)

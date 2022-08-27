@@ -128,6 +128,7 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_home_filled.xml" value="0.3415" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_instagram.xml" value="0.3575" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_linkedin.xml" value="0.3575" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_log_in.xml" value="0.3465" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_no_data.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_reset.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_running_error.xml" value="0.3415" />
@@ -175,6 +176,7 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_holiday.xml" value="0.75" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_home.xml" value="0.2930253623188406" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_home_refactor.xml" value="0.9" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_notice.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_notice_detail.xml" value="0.67" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_search.xml" value="0.67" />

@@ -37,7 +37,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFireStoreVersion"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
@@ -46,6 +46,7 @@ dependencies {
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
     implementation 'com.google.firebase:firebase-firestore-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
 
 //    FCM
     implementation 'com.google.firebase:firebase-messaging-ktx'
@@ -79,6 +80,7 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "com.kazakago.cryptore:cryptore:$cryptoreVersion"
 
 
 

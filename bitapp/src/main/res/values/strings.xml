@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BIT App</string>
+    <string name="welcome_with_app_name">Welcome to BIT App</string>
+    <string name="welcome_with_account_des">Create an account to save all setting\nand attendance data.</string>
     <!--    FCM -->
     <string name="topic_notice">NoticeByAiyu</string>
     <string name="topic_event">EventByAiyu</string>
@@ -230,7 +232,8 @@
     <string name="home_setting_button">Setting</string>
     <string name="home_setting_button_des">Any time you can change your preferences.</string>
     <string name="home_search">Search</string>
-
+    <string name="skip">Skip</string>
+    <string name="need_of_log_in"><u>Why would you log In ?</u></string>
 
 
 </resources>

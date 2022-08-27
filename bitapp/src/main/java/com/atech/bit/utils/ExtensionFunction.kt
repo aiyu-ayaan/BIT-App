@@ -230,5 +230,4 @@ fun Activity.showMenuPrompt(
             }
         }
         .show()
-
 }

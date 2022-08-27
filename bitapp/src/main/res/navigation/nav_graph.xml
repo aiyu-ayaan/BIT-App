@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/startUpFragment">
+    app:startDestination="@id/logInFragment">
 
     <fragment
         android:id="@+id/startUpFragment"
@@ -406,7 +406,7 @@
         android:id="@+id/viewVideoFragment"
         android:name="com.atech.bit.ui.fragments.view_video.ViewVideoFragment"
         android:label="@string/blank"
-        tools:layout="@layout/fragment_view_video" >
+        tools:layout="@layout/fragment_view_video">
         <argument
             android:name="link"
             app:argType="string" />
@@ -414,4 +414,13 @@
     <action
         android:id="@+id/action_global_viewVideoFragment"
         app:destination="@id/viewVideoFragment" />
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.atech.bit.ui.fragments.login.LogInFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_logInFragment_to_startUpFragment"
+            app:destination="@id/startUpFragment" />
+    </fragment>
 </navigation>

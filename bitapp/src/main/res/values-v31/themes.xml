@@ -22,6 +22,7 @@
         <item name="textColor">@color/textColor</item>
         <item name="textColorSecondary">@color/textColorSecondary</item>
         <item name="bottomSheetBackground">@android:color/system_neutral1_100</item>
+        <item name="appLogoBackground">@color/logo_background</item>
 
 
         <item name="windowActionModeOverlay">true</item>

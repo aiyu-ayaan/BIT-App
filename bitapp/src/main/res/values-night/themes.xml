@@ -20,6 +20,7 @@
         <item name="textColor">@color/textColor</item>
         <item name="textColorSecondary">@color/textColorSecondary</item>
         <item name="bottomSheetBackground">@color/bottom_nav</item>
+        <item name="appLogoBackground">@color/logo_background</item>
 
 
         <item name="windowActionModeOverlay">true</item>

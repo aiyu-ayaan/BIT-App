@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -36,6 +37,7 @@ import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.utils.*
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -84,6 +86,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             navController = navHostFragment.findNavController()
             appBarConfiguration = AppBarConfiguration(
                 setOf(
+                    R.id.logInFragment,
                     R.id.startUpFragment,
                     R.id.homeFragment,
                     R.id.courseFragment,
@@ -204,7 +207,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
             when (destination.id) {
                 R.id.semChooseFragment, R.id.detailDevFragment,
-                R.id.searchFragment,R.id.noticeDetailFragment,
+                R.id.searchFragment, R.id.noticeDetailFragment,
                 R.id.eventDetailFragment
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
@@ -218,12 +221,26 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     R.attr.bottomSheetBackground
-                )
+                ).also {
+                    setStatusBarUiTheme(this, !this.isDark())
+                }
+                R.id.logInFragment ->
+                    changeStatusBarToolbarColorImageView(
+                        MaterialColors.getColor(
+                            this,
+                            R.attr.appLogoBackground,
+                            Color.WHITE
+                        ).also {
+                            setStatusBarUiTheme(this, false)
+                        }
+                    )
 
                 else -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     com.google.android.material.R.attr.colorSurface
-                )
+                ).also {
+                    setStatusBarUiTheme(this, !this.isDark())
+                }
             }
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
@@ -258,7 +275,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
             if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
                 || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment ||
-                destination.id == R.id.viewVideoFragment
+                destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment
             ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
