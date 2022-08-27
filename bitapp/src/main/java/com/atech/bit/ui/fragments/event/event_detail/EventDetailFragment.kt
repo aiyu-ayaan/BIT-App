@@ -222,6 +222,11 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            } else if (!hasAttach && isNetConnect) {
+                requireActivity().openShareDeepLink(
+                    event.title,
+                    event.path
+                )
             } else {
                 Toast.makeText(
                     requireContext(),
