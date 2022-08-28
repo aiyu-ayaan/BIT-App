@@ -35,7 +35,9 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.openShareLink
+import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.preferences.SearchPreference
+import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.*
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
@@ -64,6 +66,10 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     private lateinit var searchPreference: SearchPreference
     private var reviewInfo: ReviewInfo? = null
     private lateinit var reviewManager: ReviewManager
+
+
+    @Inject
+    lateinit var attendanceDao: AttendanceDao
 
     @Inject
     lateinit var db: FirebaseFirestore
@@ -128,7 +134,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         if (!u)
             getWarning()
         shareReview()
-
     }
 
     private fun shareApp() {
@@ -263,7 +268,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
                 R.id.eventDetailFragment, R.id.searchFragment,
                 R.id.settingDialog, R.id.cgpaCalculatorFragment,
-                R.id.viewVideoFragment,
+                R.id.viewVideoFragment, R.id.loadingDataFragment
                 -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
@@ -272,10 +277,10 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     showBottomAppBar()
                 }
             }
-            val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
+            val u = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
             if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
                 || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment ||
-                destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment
+                destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment
             ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()

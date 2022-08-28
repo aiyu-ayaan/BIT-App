@@ -27,11 +27,11 @@ class CommunicatorViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-     val instanceBefore14Days = calendar.run {
+    val instanceBefore14Days = calendar.run {
         this.add(Calendar.DATE, -14)
         this.time.convertDateToTime().convertStringToLongMillis() //before 14 days
     }
-     val instanceAfter15Days = calendar.run {
+    val instanceAfter15Days = calendar.run {
         this.add(Calendar.DATE, +15)
         this.time.convertDateToTime().convertStringToLongMillis() //Day after today
     }
@@ -53,6 +53,12 @@ class CommunicatorViewModel @Inject constructor(
 
     val _attendanceEvent = Channel<AttendanceEvent>()
     val attendanceEvent = _attendanceEvent.receiveAsFlow()
+
+    var maxTimeToUploadAttendanceData = state.get<Int>("maxTimeToUploadAttendanceData") ?: 0
+        set(value) {
+            field = value
+            state["maxTimeToUploadAttendanceData"] = value
+        }
 
     var uninstallDialogSeen = state.get<Boolean>("uninstallDialogSeen") ?: false
         set(value) {

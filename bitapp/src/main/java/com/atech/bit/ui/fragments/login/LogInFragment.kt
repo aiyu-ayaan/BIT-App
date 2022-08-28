@@ -2,6 +2,7 @@ package com.atech.bit.ui.fragments.login
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -10,19 +11,25 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentLoginBinding
+import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.Encryption.encryptText
 import com.atech.bit.utils.Encryption.getCryptore
 import com.atech.core.data.network.user.UserModel
+import com.atech.core.utils.KEY_USER_DONE_SET_UP
+import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
 import com.atech.core.utils.isDark
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,7 +43,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     private val TAG = LogInFragment::class.java.simpleName
 
     private val binding: FragmentLoginBinding by viewBinding()
-    private val viewModel: LogInViewModel by viewModels()
+    private val viewModel: UserDataViewModel by activityViewModels()
 
     lateinit var googleSignInClient: GoogleSignInClient
 
@@ -46,7 +53,16 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var pref: SharedPreferences
+
     private var cryptore: Cryptore? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+    }
 
     private val activityResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -83,7 +99,17 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
                 }
             }
         }
-
+        if (auth.currentUser != null) {
+            val setUp = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
+            if (setUp)
+                findNavController().navigate(
+                    LogInFragmentDirections.actionLogInFragmentToHomeFragment()
+                )
+            else {
+                val hasData = pref.getBoolean(KEY_USER_HAS_DATA_IN_DB, false)
+                setDestination(hasData)
+            }
+        }
     }
 
 
@@ -138,13 +164,49 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     private fun addUserToDatabase(userModel: UserModel) = lifecycleScope.launchWhenStarted {
         viewModel.addUser(
             userModel,
-            {
-//                TODO : Check data is present or not
-                Toast.makeText(requireContext(), "Succress", Toast.LENGTH_SHORT).show()
+            { uid ->
+                checkHasData(uid)
             },
         ) { exception ->
             Toast.makeText(requireContext(), "$exception", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun checkHasData(uid: String) {
+        viewModel.getUser(uid, {
+            pref.edit()
+                .putBoolean(KEY_USER_HAS_DATA_IN_DB, it)
+                .apply()
+            setDestination(it)
+        }, {
+            Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun setDestination(it: Boolean) {
+        if (it) {
+            navigateToLoading()
+        } else {
+            navigateToSetup()
+        }
+    }
+
+    private fun navigateToLoading() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        findNavController().navigate(
+            NavGraphDirections.actionGlobalLoadingDataFragment(auth.currentUser!!.uid)
+        )
+    }
+
+    private fun navigateToSetup() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        val action =
+            NavGraphDirections.actionGlobalStartUpFragment()
+        findNavController().navigate(
+            action
+        )
     }
 
     private fun signIn() {

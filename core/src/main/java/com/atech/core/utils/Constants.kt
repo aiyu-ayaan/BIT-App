@@ -17,11 +17,13 @@ enum class CourseCapital { BBA, BCA }
 
 enum class AppTheme { Light, Dark, Sys }
 
-const val TAG = "BIT APP"
+const val TAG = "aiyu"
 const val SHARED_PREFERENCE_NAME = "sharedPref"
 const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
 const val KEY_APP_THEME = "KEY_APP_THEME"
 const val KEY_DO_NOT_SHOW_AGAIN = "KEY_DO_NOT_SHOW_AGAIN"
+const val KEY_USER_HAS_DATA_IN_DB = "KEY_USER_HAS_DATA_IN_DB"
+const val KEY_USER_DONE_SET_UP = "KEY_USER_DONE_SET_UP"
 const val REQUEST_UPDATE_SEM = 345 * 33434
 const val REQUEST_UPDATE_SEM_FROM_CGPA = 345 * 33434 + 1
 const val REQUEST_ADAPTER_SEARCH = 356 * 445

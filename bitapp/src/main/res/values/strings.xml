@@ -234,6 +234,7 @@
     <string name="home_search">Search</string>
     <string name="skip">Skip</string>
     <string name="need_of_log_in"><u>Why would you log In ?</u></string>
+    <string name="loading_setting_up">Setting things up !!</string>
 
 
 </resources>

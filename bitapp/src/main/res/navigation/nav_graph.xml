@@ -420,7 +420,33 @@
         android:label="@string/blank"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_logInFragment_to_startUpFragment"
-            app:destination="@id/startUpFragment" />
+            android:id="@+id/action_logInFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
+    <fragment
+        android:id="@+id/loadingDataFragment"
+        android:name="com.atech.bit.ui.fragments.login.loading_data.LoadingDataFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_loading_data" >
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_loadingDataFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_startUpFragment"
+        app:destination="@id/startUpFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_loadingDataFragment"
+        app:destination="@id/loadingDataFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
 </navigation>
