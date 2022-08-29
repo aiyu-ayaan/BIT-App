@@ -112,9 +112,12 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/attedanceManager/src/main/res/layout/fragment_attedance.xml" value="0.3625" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/attedanceManager/src/main/res/layout/fragment_attendance.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/attedanceManager/src/main/res/layout/fragment_attendance_top_ext.xml" value="0.3625" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/background_toolbar.xml" value="0.3465" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/divider.xml" value="0.2635" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_add_circle.xml" value="0.3465" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_android_black_24dp.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_ayaan_beta.xml" value="0.3415" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_bca_logo.xml" value="0.3465" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_bug.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_calendar.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_cgpa_calculator.xml" value="0.3415" />
@@ -141,11 +144,13 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_upward.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_web.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_web_page.xml" value="0.3575" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/profile_details_back.xml" value="0.3465" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ripper_effect.xml" value="0.26" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/splash_screeen.xml" value="0.3415" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/splash_screen.xml" value="0.3415" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/splash_screen_anim.xml" value="0.3415" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/toolbar_background.xml" value="0.3415" />
-        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/activity_main.xml" value="0.9" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/activity_main.xml" value="0.22" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/activity_main1.xml" value="0.2" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/activity_main_coordinate_layout_ext.xml" value="0.2965811965811966" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/activity_main_exp.xml" value="0.8149882903981265" />
@@ -180,6 +185,7 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_notice.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_notice_detail.xml" value="0.67" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_profile.xml" value="0.25" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_search.xml" value="0.67" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_sem_choose.xml" value="0.8149882903981265" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_society.xml" value="0.67" />
@@ -202,6 +208,7 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_society.xml" value="0.75" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/sem_choose_ext.xml" value="0.8149882903981265" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/sem_choose_home_ext.xml" value="0.29743589743589743" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/toolbar_profile_layout.xml" value="0.3625" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/menu/menu_attendance.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/menu/menu_bottom_nav.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/menu/menu_clear.xml" value="0.8149882903981265" />

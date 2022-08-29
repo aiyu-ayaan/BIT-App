@@ -1,15 +1,19 @@
 package com.atech.core.data.network.user
 
+import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
+import kotlinx.android.parcel.Parcelize
 
 @Keep
+@Parcelize
 data class UserModel(
     var uid: String? = null,
     var name: String? = null,
     var email: String? = null,
     var profilePic: String? = null,
-)
+    var created: Long? = System.currentTimeMillis()
+) : Parcelable
 
 @Keep
 data class AttendanceUploadModel(

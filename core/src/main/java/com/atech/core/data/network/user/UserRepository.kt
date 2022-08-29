@@ -28,6 +28,26 @@ class UserRepository @Inject constructor(
 
     fun getUserFromDatabase(
         uid: String,
+        onSuccess: (UserModel) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val ref = db.collection("BIT_User")
+        ref.document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    val user = document.toObject(UserModel::class.java)
+                    user?.let { onSuccess.invoke(it) }
+                } else {
+                    onFailure.invoke(Exception("No such document"))
+                }
+            }
+            .addOnFailureListener { exception ->
+                onFailure.invoke(exception)
+            }
+    }
+
+    fun checkUserData(
+        uid: String,
         hasData: (Boolean) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
@@ -60,7 +80,7 @@ class UserRepository @Inject constructor(
     ) {
         val ref = db.collection("BIT_User").document(uid).collection("data")
         val courseSem = "$course $sem"
-        getUserFromDatabase(uid, {
+        checkUserData(uid, {
             if (it)
                 ref.document(uid).update(mapOf("courseSem" to courseSem))
                     .addOnSuccessListener {

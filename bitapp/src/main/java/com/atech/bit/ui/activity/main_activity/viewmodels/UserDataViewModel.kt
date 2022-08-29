@@ -22,10 +22,16 @@ class UserDataViewModel @Inject constructor(
 
     fun getUser(
         uid: String,
+        onSuccess: (UserModel) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) = repository.getUserFromDatabase(uid, onSuccess, onFailure)
+
+    fun checkUserData(
+        uid: String,
         onSuccess: (Boolean) -> Unit,
         onFailure: (Exception) -> Unit
     ) =
-        repository.getUserFromDatabase(uid, onSuccess, onFailure)
+        repository.checkUserData(uid, onSuccess, onFailure)
 
     fun addCourseSem(
         uid: String,

@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_homeFragment_to_cgpaCalculatorFragment"
             app:destination="@id/cgpaCalculatorFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
@@ -429,7 +432,7 @@
         android:id="@+id/loadingDataFragment"
         android:name="com.atech.bit.ui.fragments.login.loading_data.LoadingDataFragment"
         android:label="@string/blank"
-        tools:layout="@layout/fragment_loading_data" >
+        tools:layout="@layout/fragment_loading_data">
         <argument
             android:name="uid"
             app:argType="string" />
@@ -449,4 +452,16 @@
         app:destination="@id/loadingDataFragment"
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
+    <dialog
+        android:id="@+id/profileFragment"
+        android:name="com.atech.bit.ui.fragments.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <argument
+            android:name="user"
+            app:argType="com.atech.core.data.network.user.UserModel" />
+    </dialog>
 </navigation>

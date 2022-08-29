@@ -35,7 +35,6 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.openShareLink
-import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.*

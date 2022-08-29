@@ -26,7 +26,6 @@ import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
 import com.atech.core.utils.isDark
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.transition.MaterialSharedAxis
@@ -45,6 +44,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     private val binding: FragmentLoginBinding by viewBinding()
     private val viewModel: UserDataViewModel by activityViewModels()
 
+    @Inject
     lateinit var googleSignInClient: GoogleSignInClient
 
     @Inject
@@ -83,12 +83,6 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         binding.apply {
             binding.signInButton.apply {
@@ -173,7 +167,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun checkHasData(uid: String) {
-        viewModel.getUser(uid, {
+        viewModel.checkUserData(uid, {
             pref.edit()
                 .putBoolean(KEY_USER_HAS_DATA_IN_DB, it)
                 .apply()
