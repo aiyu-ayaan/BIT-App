@@ -60,8 +60,8 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
     }
 
     private val activityResult =
@@ -92,18 +92,27 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
                     signIn()
                 }
             }
+            binding.buttonSkip.setOnClickListener {
+                navigateToHome()
+            }
         }
         if (auth.currentUser != null) {
             val setUp = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
             if (setUp)
-                findNavController().navigate(
-                    LogInFragmentDirections.actionLogInFragmentToHomeFragment()
-                )
+                navigateToHome()
             else {
                 val hasData = pref.getBoolean(KEY_USER_HAS_DATA_IN_DB, false)
                 setDestination(hasData)
             }
         }
+    }
+
+    private fun navigateToHome() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        findNavController().navigate(
+            LogInFragmentDirections.actionLogInFragmentToHomeFragment()
+        )
     }
 
 
@@ -156,6 +165,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun addUserToDatabase(userModel: UserModel) = lifecycleScope.launchWhenStarted {
+
         viewModel.addUser(
             userModel,
             { uid ->

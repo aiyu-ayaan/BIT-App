@@ -65,4 +65,10 @@ class CommunicatorViewModel @Inject constructor(
             field = value
             state["uninstallDialogSeen"] = value
         }
+
+    var attendanceManagerSize = state.get<Int>("attendanceManagerSize") ?: 0
+        set(value) {
+            field = value
+            state["attendanceManagerSize"] = value
+        }
 }

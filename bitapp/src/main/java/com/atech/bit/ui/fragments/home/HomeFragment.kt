@@ -273,7 +273,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setProfileImageView(imageView: ImageView) {
         imageView.apply {
-            isVisible = auth.currentUser != null
             if (auth.currentUser != null) {
                 auth.currentUser?.photoUrl.toString()
                     .loadImageCircular(this)
@@ -281,8 +280,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 setOnClickListener {
                     getDataOFUser()
                 }
+            } else {
+                imageView.setImageResource(
+                    R.drawable.ic_account
+                )
+                setOnClickListener {
+                    navigateToLogin()
+                }
             }
         }
+    }
+
+    private fun navigateToLogin() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action = HomeFragmentDirections.actionHomeFragmentToLogInFragment()
+        findNavController().navigate(action)
     }
 
     private fun getDataOFUser() = lifecycleScope.launchWhenStarted {
@@ -305,7 +318,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 name = name,
                 profilePic = profilePic,
                 uid = user.uid,
-                created = user.created
+                syncTime = user.syncTime
             )
             navigateToProfile(uid, userDecrypt)
         } catch (e: Exception) {

@@ -60,7 +60,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
     // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation('com.google.firebase:firebase-auth-ktx') {
+        exclude module: "play-services-safetynet"
+    }
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"

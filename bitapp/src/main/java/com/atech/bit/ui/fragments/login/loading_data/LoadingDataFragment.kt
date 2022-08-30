@@ -84,12 +84,11 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
         lifecycleScope.launchWhenStarted {
             val list = attendanceUploadModel.map {
                 AttendanceModel(
-                    it.id,
-                    it.subject,
-                    it.total,
-                    it.present,
-                    it.teacher,
-                    it.fromSyllabus,
+                    subject = it.subject,
+                    total = it.total,
+                    present = it.present,
+                    teacher = it.teacher,
+                    fromSyllabus = it.fromSyllabus,
                     created = it.created,
                     days = Days(
                         presetDays = arrayListOf(),

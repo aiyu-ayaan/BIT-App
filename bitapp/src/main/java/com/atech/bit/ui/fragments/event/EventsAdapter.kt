@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowNotice3Binding
 import com.atech.bit.ui.fragments.notice.ImagePreviewAdapter
+import com.atech.bit.utils.getData
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.DiffUtilEvent
 import com.atech.core.data.ui.events.Events
-import com.atech.core.utils.convertLongToTime
 import com.atech.core.utils.loadImageCircular
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -46,10 +46,7 @@ class EventsAdapter(
             }
 
             binding.root.transitionName = events.path
-            binding.textViewDate.text = binding.root.context.resources.getString(
-                R.string.notice_date,
-                events.created.convertLongToTime("dd/MM/yyyy")
-            )
+            binding.textViewDate.text = events.created.getData()
             binding.bodyPreviewTextView.text = events.content
             binding.senderTextView.text = events.society
             binding.subjectTextView.text = events.title

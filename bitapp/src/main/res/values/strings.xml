@@ -240,7 +240,7 @@
     <string name="average_score">Average SGPA</string>
     <string name="course">Course</string>
     <string name="sem">Sem</string>
-    <string name="joined_since">Joined Since %s</string>
+    <string name="last_sync">Last Sync :  %s</string>
     <string name="sign_out">Sign Out</string>
     <string name="sign_out_message">Really want to sign out ?</string>
 

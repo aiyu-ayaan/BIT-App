@@ -21,6 +21,7 @@ import com.atech.bit.databinding.FragmentEventDetailBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.getData
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.network.notice.Attach
@@ -146,6 +147,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         subjectTextView.text = data.title
         senderTextView.text = data.society
         bodyTextView.text = data.content
+        textViewDate.text = data.created.getData()
         linkIcon.apply {
             isVisible = data.insta_link.isNotEmpty()
             setOnClickListener {

@@ -11,6 +11,20 @@ class UserRepository @Inject constructor(
 ) {
 
 
+    private fun updateSyncTime(
+        uid: String, onSuccess: (String) -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val ref = db.collection("BIT_User").document(uid)
+        ref.update("syncTime", System.currentTimeMillis())
+            .addOnSuccessListener {
+                onSuccess("Success")
+            }
+            .addOnFailureListener {
+                onFailure(it)
+            }
+    }
+
     fun addUserToDatabase(
         user: UserModel,
         onSuccess: (String) -> Unit,
@@ -97,6 +111,11 @@ class UserRepository @Inject constructor(
                     .addOnFailureListener { exception ->
                         onFailure.invoke(exception)
                     }
+            updateSyncTime(uid, {
+                onSuccess.invoke()
+            }, {
+                onFailure.invoke(it)
+            })
         }, {
             ref.document(uid).set(mapOf("courseSem" to courseSem))
                 .addOnSuccessListener {
@@ -105,6 +124,11 @@ class UserRepository @Inject constructor(
                 .addOnFailureListener { exception ->
                     onFailure.invoke(exception)
                 }
+            updateSyncTime(uid, {
+                onSuccess.invoke()
+            }, {
+                onFailure.invoke(it)
+            })
         })
     }
 
@@ -160,6 +184,11 @@ class UserRepository @Inject constructor(
         ref.document(uid).update(mapOf("cgpa" to json))
             .addOnSuccessListener {
                 onSuccess.invoke()
+                updateSyncTime(uid, {
+                    onSuccess.invoke()
+                }, {
+                    onFailure.invoke(it)
+                })
             }
             .addOnFailureListener { exception ->
                 onFailure.invoke(exception)
@@ -179,6 +208,11 @@ class UserRepository @Inject constructor(
         ref.document(uid).update(mapOf("attendance" to json))
             .addOnSuccessListener {
                 onSuccess.invoke()
+                updateSyncTime(uid, {
+                    onSuccess.invoke()
+                }, {
+                    onFailure.invoke(it)
+                })
             }
             .addOnFailureListener { exception ->
                 onFailure.invoke(exception)

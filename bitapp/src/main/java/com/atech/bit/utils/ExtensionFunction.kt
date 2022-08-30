@@ -32,6 +32,74 @@ import java.io.IOException
 fun getUid(firebaseAuth: FirebaseAuth) = firebaseAuth.currentUser?.uid
 
 
+fun Long.getData(): String {
+    val currentTime = System.currentTimeMillis()
+    val difference = currentTime - this
+    val seconds = difference / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val days = hours / 24
+    val months = days / 30
+    return when {
+        seconds < 60 -> {
+            " Just now"
+        }
+        minutes < 60 -> {
+            " $minutes minutes ago"
+        }
+        hours < 24 -> {
+            " $hours hours ago"
+        }
+        days < 30 -> {
+            " ${this.convertLongToTime("dd MMM")}"
+        }
+        months < 12 -> {
+            " ${this.convertLongToTime("dd MMM")}"
+        }
+        else -> {
+            " ${this.convertLongToTime("dd MMM yyyy")}"
+        }
+
+    }
+}
+
+/**
+ *
+ *Extension function to calculate the time difference between two dates
+ * @author Ayaan
+ * @since 1.2.2
+ */
+fun Long.calculateTimeDifference(): String {
+    val currentTime = System.currentTimeMillis()
+    val difference = currentTime - this
+    val seconds = difference / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val days = hours / 24
+    val months = days / 30
+    val years = months / 12
+    return when {
+        seconds < 60 -> {
+            "Just now"
+        }
+        minutes < 60 -> {
+            "$minutes minutes ago"
+        }
+        hours < 24 -> {
+            "$hours hours ago"
+        }
+        days < 30 -> {
+            "$days days ago"
+        }
+        months < 12 -> {
+            "$months months ago"
+        }
+        else -> {
+            "$years years ago"
+        }
+    }
+}
+
 /**
  *Extension function to share link
  * @author Ayaan

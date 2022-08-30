@@ -12,12 +12,11 @@ data class UserModel(
     var name: String? = null,
     var email: String? = null,
     var profilePic: String? = null,
-    var created: Long? = System.currentTimeMillis()
+    var syncTime: Long? = System.currentTimeMillis()
 ) : Parcelable
 
 @Keep
 data class AttendanceUploadModel(
-    var id: Int = 0,
     @ColumnInfo(name = "subject_name")
     val subject: String,
     val total: Int,

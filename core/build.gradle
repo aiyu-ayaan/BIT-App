@@ -46,7 +46,9 @@ dependencies {
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:30.3.2')
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx'
+    implementation('com.google.firebase:firebase-auth-ktx') {
+        exclude module: "play-services-safetynet"
+    }
 
 //    FCM
     implementation 'com.google.firebase:firebase-messaging-ktx'

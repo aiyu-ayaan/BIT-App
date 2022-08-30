@@ -111,13 +111,12 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
                     pref.edit()
                         .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
                         .apply()
-                    dialog?.dismiss()
                 }
             ) {
                 Toast.makeText(requireContext(), "Data upload failed", Toast.LENGTH_SHORT).show()
-                dialog?.dismiss()
             }
         }
+        dialog?.dismiss()
     }
 
     private fun setViews() {

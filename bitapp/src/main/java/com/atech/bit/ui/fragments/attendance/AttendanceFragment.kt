@@ -27,7 +27,6 @@ import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
 import com.atech.core.utils.*
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,6 +47,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
     private var attendanceList: List<AttendanceUploadModel> = listOf()
+    private var hasChange = false
 
     @Inject
     lateinit var auth: FirebaseAuth
@@ -118,7 +118,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun populateViewsAndSetPercentage() {
         viewModel.attendance.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
-            uploadAttendanceManagerData(it)
+            convertingData(it)
             binding.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
             var sumTotal = 0
@@ -146,12 +146,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
     }
 
-    private fun uploadAttendanceManagerData(list: List<AttendanceModel>) =
+    private fun convertingData(list: List<AttendanceModel>) =
         lifecycleScope.launchWhenStarted {
-            if (list.isNotEmpty())
+            if (list.isNotEmpty()) {
                 attendanceList = list.map { a ->
                     AttendanceUploadModel(
-                        a.id,
                         a.subject,
                         a.total,
                         a.present,
@@ -160,6 +159,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                         a.created
                     )
                 }
+            }
+            if (viewModel.isDataSet) {
+                communicator.attendanceManagerSize = attendanceList.size
+                viewModel.isDataSet = false
+            }
         }
 
     private fun setUpViews() {
@@ -298,7 +302,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 fromSyllabus = attendance.fromSyllabus,
                 teacher = attendance.teacher,
             )
-        )
+        ).also {
+            hasChange = true
+        }
     }
 
 
@@ -352,7 +358,10 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 fromSyllabus = attendance.fromSyllabus,
                 teacher = attendance.teacher
             )
-        )
+        ).also {
+            hasChange = true
+        }
+
     }
 
 
@@ -385,41 +394,33 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
 
-    private fun undoEntry(attendance: AttendanceModel) {
-        val stack: Deque<AttendanceSave> = attendance.stack
-        val save = stack.peekFirst()
-        if (save != null) {
-            stack.pop()
-            val att = attendance.copy(
-                present = save.present,
-                total = save.total,
-                days = save.days,
-                stack = stack,
-            )
-            viewModel.update(att)
-            binding.root.showSnackBar(
-                "Done !!",
-                Snackbar.LENGTH_SHORT
-            )
-        } else {
-            binding.root.showSnackBar(
-                "Stack is empty !!",
-                Snackbar.LENGTH_SHORT
-            )
-        }
-    }
-
     override fun onPause() {
         super.onPause()
-        if (communicator.maxTimeToUploadAttendanceData <= 2)
-            if (auth.currentUser != null)
-                userDataViewModel.setAttendance(getUid(auth)!!, attendanceList, {
+        checkForHasChange()
+        if (auth.currentUser != null)
+            if (communicator.maxTimeToUploadAttendanceData <= 2
+                && communicator.attendanceManagerSize != attendanceList.size
+            )
+                uploadAttendanceData {
                     Log.d(TAG, "onPause: Done")
                     communicator.maxTimeToUploadAttendanceData =
                         communicator.maxTimeToUploadAttendanceData.plus(1)
                     Log.d(TAG, "onPause: ${communicator.maxTimeToUploadAttendanceData}")
-                }) {
-                    Log.d(TAG, "onPause: Failed")
+                }.also {
+                    communicator.attendanceManagerSize = attendanceList.size
                 }
+    }
+
+    private fun checkForHasChange() {
+        if (hasChange)
+            uploadAttendanceData()
+    }
+
+    private fun uploadAttendanceData(action: () -> Unit = {}) {
+        userDataViewModel.setAttendance(getUid(auth)!!, attendanceList, {
+            action.invoke()
+        }) {
+            Log.d(TAG, "onPause: Failed")
+        }
     }
 }

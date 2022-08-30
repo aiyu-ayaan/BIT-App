@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentProfileBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
+import com.atech.bit.utils.calculateTimeDifference
 import com.atech.core.utils.TAG
 import com.atech.core.utils.convertLongToTime
 import com.atech.core.utils.loadImageCircular
@@ -46,9 +47,7 @@ class ProfileFragment : DialogFragment() {
                 dismiss()
             }
 
-            args.user.created?.convertLongToTime("dd MMM yyyy").let { date ->
-                binding.textViewJoined.text = resources.getString(R.string.joined_since, date)
-            }
+            binding.textViewJoined.text = resources.getString(R.string.last_sync, args.user.syncTime?.calculateTimeDifference())
             userDataViewModel.getCourseSem(args.uid, { details ->
                 details.split(" ").let {
                     binding.outlinedTextFieldUserCourse.editText?.setText(it[0])

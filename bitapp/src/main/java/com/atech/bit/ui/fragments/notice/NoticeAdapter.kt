@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowNotice3Binding
+import com.atech.bit.utils.getData
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.notice.DiffUtilNotice3
 import com.atech.core.data.ui.notice.Notice3
@@ -70,10 +71,8 @@ class NoticeAdapter(
                     notice.sender
                 )
                 textViewDate.text =
-                    binding.root.context.resources.getString(
-                        R.string.notice_date,
-                        notice.created.convertLongToTime("dd/MM/yyyy")
-                    )
+                        notice.created.getData()
+
                 notice.getImageLinkNotification().loadImage(
                     binding.root,
                     binding.senderProfileImageView,

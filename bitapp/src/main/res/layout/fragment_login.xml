@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/bottomBar"
+    android:transitionGroup="true"
     tools:context="com.atech.bit.ui.fragments.login.LogInFragment">
 
 
