@@ -226,12 +226,12 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         activity?.onScrollColorChange(binding.nestedScrollViewNotice, {
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar,
-                com.google.android.material.R.attr.colorSurface
+                R.attr.bottomBar
             )
         }, {
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar,
-                R.attr.bottomBar
+                com.google.android.material.R.attr.colorSurface
             )
         })
     }

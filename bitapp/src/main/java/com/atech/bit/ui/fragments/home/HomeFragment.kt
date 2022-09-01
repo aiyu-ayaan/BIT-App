@@ -159,6 +159,42 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setUpLinkClick()
 
         setPrompt()
+        checkHasData()
+        setPref()
+    }
+
+    private fun setPref() {
+        pref.edit().putBoolean(
+            KEY_REACH_TO_HOME,
+            true
+        ).apply()
+    }
+
+    private fun checkHasData() {
+        if (auth.currentUser != null)
+            userDataViewModel.checkUserData(getUid(auth)!!, {
+                if (!it) {
+                    preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { dataStore ->
+                        userDataViewModel.addCourseSem(
+                            getUid(auth)!!,
+                            dataStore.course, dataStore.sem,
+                            {
+                                pref.edit()
+                                    .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
+                                    .apply()
+                            }
+                        ) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Data upload failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            })
+            {
+            }
     }
 
     private fun setPrompt() {
@@ -294,7 +330,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun navigateToLogin() {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
-        val action = HomeFragmentDirections.actionHomeFragmentToLogInFragment()
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToLogInFragment(request = REQUEST_LOGIN_FROM_HOME)
         findNavController().navigate(action)
     }
 

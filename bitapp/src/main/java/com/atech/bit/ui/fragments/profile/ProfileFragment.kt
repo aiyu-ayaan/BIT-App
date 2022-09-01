@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.profile
 
 import android.app.Dialog
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
@@ -12,8 +13,8 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentProfileBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.calculateTimeDifference
+import com.atech.core.utils.KEY_USER_DONE_SET_UP
 import com.atech.core.utils.TAG
-import com.atech.core.utils.convertLongToTime
 import com.atech.core.utils.loadImageCircular
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -35,6 +36,9 @@ class ProfileFragment : DialogFragment() {
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
 
+    @Inject
+    lateinit var pref: SharedPreferences
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         binding.apply {
@@ -47,7 +51,10 @@ class ProfileFragment : DialogFragment() {
                 dismiss()
             }
 
-            binding.textViewJoined.text = resources.getString(R.string.last_sync, args.user.syncTime?.calculateTimeDifference())
+            binding.textViewJoined.text = resources.getString(
+                R.string.last_sync,
+                args.user.syncTime?.calculateTimeDifference()
+            )
             userDataViewModel.getCourseSem(args.uid, { details ->
                 details.split(" ").let {
                     binding.outlinedTextFieldUserCourse.editText?.setText(it[0])
@@ -74,6 +81,10 @@ class ProfileFragment : DialogFragment() {
                         dialog.dismiss()
                         auth.signOut()
                         googleSignInClient.signOut()
+                        pref.edit().putBoolean(
+                            KEY_USER_DONE_SET_UP,
+                            false
+                        ).apply()
                         dismiss()
                     }
                     .setNegativeButton("no") { dialog, _ ->

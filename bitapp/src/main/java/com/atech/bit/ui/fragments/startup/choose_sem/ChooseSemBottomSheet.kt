@@ -17,10 +17,7 @@ import com.atech.bit.databinding.BottomSheetChooseSemBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.getUid
-import com.atech.core.utils.KEY_USER_DONE_SET_UP
-import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
-import com.atech.core.utils.REQUEST_UPDATE_SEM
-import com.atech.core.utils.REQUEST_UPDATE_SEM_FROM_CGPA
+import com.atech.core.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -116,6 +113,10 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
                 Toast.makeText(requireContext(), "Data upload failed", Toast.LENGTH_SHORT).show()
             }
         }
+        pref.edit().putBoolean(
+            KEY_FIRST_TIME_LOGIN,
+            true
+        ).apply()
         dialog?.dismiss()
     }
 

@@ -276,7 +276,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     showBottomAppBar()
                 }
             }
-            val u = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
+            val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
             if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
                 || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment ||
                 destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment

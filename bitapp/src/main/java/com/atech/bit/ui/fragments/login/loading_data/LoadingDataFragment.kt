@@ -18,6 +18,8 @@ import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.Days
+import com.atech.core.utils.KEY_FIRST_TIME_LOGIN
+import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_USER_DONE_SET_UP
 import com.atech.core.utils.TAG
 import com.google.android.material.transition.MaterialSharedAxis
@@ -109,6 +111,11 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
     private fun navigateToHome() {
         pref.edit().putBoolean(
             KEY_USER_DONE_SET_UP,
+            true
+        ).apply()
+
+        pref.edit().putBoolean(
+            KEY_FIRST_TIME_LOGIN,
             true
         ).apply()
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)

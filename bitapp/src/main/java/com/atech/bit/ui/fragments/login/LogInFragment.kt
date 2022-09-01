@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentLoginBinding
@@ -21,9 +22,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.Encryption.encryptText
 import com.atech.bit.utils.Encryption.getCryptore
 import com.atech.core.data.network.user.UserModel
-import com.atech.core.utils.KEY_USER_DONE_SET_UP
-import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
-import com.atech.core.utils.isDark
+import com.atech.core.utils.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.SignInButton
@@ -43,6 +42,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
 
     private val binding: FragmentLoginBinding by viewBinding()
     private val viewModel: UserDataViewModel by activityViewModels()
+    private val args: LogInFragmentArgs by navArgs()
 
     @Inject
     lateinit var googleSignInClient: GoogleSignInClient
@@ -93,7 +93,9 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
                 }
             }
             binding.buttonSkip.setOnClickListener {
-                navigateToHome()
+                if (args.request != REQUEST_LOGIN_FROM_HOME)
+                    navigateToSetup()
+                else findNavController().popBackStack()
             }
         }
         if (auth.currentUser != null) {
@@ -104,6 +106,10 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
                 val hasData = pref.getBoolean(KEY_USER_HAS_DATA_IN_DB, false)
                 setDestination(hasData)
             }
+        } else {
+            val firsTimeLogin = pref.getBoolean(KEY_FIRST_TIME_LOGIN, false)
+            if (firsTimeLogin && args.request != REQUEST_LOGIN_FROM_HOME)
+                navigateToHome()
         }
     }
 
@@ -206,6 +212,11 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     private fun navigateToSetup() {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+
+        pref.edit().putBoolean(
+            KEY_REACH_TO_HOME,
+            false
+        ).apply()
         val action =
             NavGraphDirections.actionGlobalStartUpFragment()
         findNavController().navigate(
