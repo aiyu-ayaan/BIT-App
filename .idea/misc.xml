@@ -134,6 +134,7 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_linkedin.xml" value="0.3575" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_log_in.xml" value="0.3465" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_no_data.xml" value="0.21" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_play.xml" value="0.3395" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_reset.xml" value="0.21" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_running_error.xml" value="0.3415" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/drawable/ic_search.xml" value="0.213" />
@@ -178,9 +179,9 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_detail_dev.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_event.xml" value="0.29743589743589743" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_event_description.xml" value="0.8149882903981265" />
-        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_event_detail.xml" value="0.2" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_event_detail.xml" value="0.33" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_holiday.xml" value="0.75" />
-        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_home.xml" value="0.2930253623188406" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_home.xml" value="0.20273812991552578" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_home_refactor.xml" value="0.9" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_loading_data.xml" value="0.3614583333333333" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/fragment_login.xml" value="0.33" />
@@ -203,7 +204,7 @@
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/recycler_view_ext.xml" value="0.8126463700234192" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_attendance_sub.xml" value="0.4461538461538462" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_attendance_sub_ext.xml" value="0.33" />
-        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_devlopers.xml" value="0.8149882903981265" />
+        <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_devlopers.xml" value="0.734338747099768" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_event.xml" value="0.75" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_event_home.xml" value="0.2798913043478261" />
         <entry key="..\:/Android Project/Collage App/BIT-Single-MultiModule/bitapp/src/main/res/layout/row_notice_3.xml" value="0.9" />
@@ -244,7 +245,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17_PREVIEW" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

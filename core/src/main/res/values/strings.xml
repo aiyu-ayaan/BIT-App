@@ -10,16 +10,13 @@
     <string name="societies_event"><![CDATA[Societies & Events ]]></string>
     <string name="share_rate_us"><![CDATA[Share & Rate Us]]></string>
     <string name="erp">Erp</string>
-    <string name="title_table">Time Table</string>
     <string name="holidays">Holidays</string>
     <string name="societies">Societies</string>
     <string name="events">Events</string>
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="connect">Connect With Us</string>
-    <string name="about_us">About Us</string>
     <string name="report">Report Bug</string>
-    <string name="bugs">Bugs</string>
     <string name="theme">Theme</string>
     <string name="rate_up">Rate Us</string>
     <string name="searchForSubject">Search for subject &#38; more</string>

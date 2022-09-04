@@ -78,6 +78,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var syllabusTheoryAdapter: SyllabusHomeAdapter
     private lateinit var syllabusLabAdapter: SyllabusHomeAdapter
     private lateinit var holidayAdapter: HolidayHomeAdapter
+    private var userModel: UserModel? = null
 
     @Inject
     lateinit var db: FirebaseFirestore
@@ -161,6 +162,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setPrompt()
         checkHasData()
         setPref()
+        restoreScroll()
     }
 
     private fun setPref() {
@@ -212,6 +214,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     setPromptToSetting()
                 }
             }, 1000)
+        else {
+            getOldAppWarningDialog()
+        }
     }
 
     private fun setPromptToSetting() {
@@ -233,8 +238,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             pref.edit()
                 .putBoolean(FIRST_TIME_OPEN_HOME, false)
                 .apply()
-
-            getOldAppWarningDialog()
         }
     }
 
@@ -312,9 +315,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             if (auth.currentUser != null) {
                 auth.currentUser?.photoUrl.toString()
                     .loadImageCircular(this)
-
+                getDataOFUser()
                 setOnClickListener {
-                    getDataOFUser()
+                    userModel?.let {
+                        navigateToProfile(getUid(auth)!!, it)
+                    }
                 }
             } else {
                 imageView.setImageResource(
@@ -338,28 +343,29 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun getDataOFUser() = lifecycleScope.launchWhenStarted {
         val uid = getUid(auth)!!
         userDataViewModel.getUser(uid, {
-            convertEncryptedData(uid, it)
+            userModel = convertEncryptedData(uid, it)
         }, {
             Toast.makeText(requireContext(), "Something went wrong !!", Toast.LENGTH_SHORT).show()
         })
     }
 
-    private fun convertEncryptedData(uid: String, user: UserModel) {
+    private fun convertEncryptedData(uid: String, user: UserModel): UserModel? {
         try {
             val cryptore = context?.getCryptore(uid)
             val email = cryptore?.decryptText(user.email)
             val name = cryptore?.decryptText(user.name)
             val profilePic = cryptore?.decryptText(user.profilePic)
-            val userDecrypt = UserModel(
+            return UserModel(
                 email = email,
                 name = name,
                 profilePic = profilePic,
                 uid = user.uid,
                 syncTime = user.syncTime
             )
-            navigateToProfile(uid, userDecrypt)
+
         } catch (e: Exception) {
             Log.e(TAG, "convertEncryptedData: $e")
+            return null
         }
     }
 
@@ -427,7 +433,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 communicatorViewModel.instanceAfter15Days!!
             ).observe(viewLifecycleOwner) {
                 it?.let {
-                    eventAdapter.submitList(it)
+                    it.take(3).let { list ->
+                        eventAdapter.submitList(list)
+                    }
                     binding.materialCardViewEventRecyclerView.isVisible =
                         it.isNotEmpty()
                     binding.textEvent.isVisible =
@@ -467,13 +475,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun navigateToEventDetail(event: Events, view: View) {
         val extras = FragmentNavigatorExtras(view to event.path)
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        val action = NavGraphDirections.actionGlobalEventDetailFragment(path = event.path)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        val action = NavGraphDirections.actionGlobalEventDetailFragment(
+            path = event.path,
+            request = REQUEST_EVENT_FROM_HOME
+        )
         findNavController().navigate(action, extras)
     }
 

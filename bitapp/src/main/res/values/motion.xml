@@ -13,9 +13,5 @@
 
     <integer name="duration_medium">225</integer>
     <integer name="duration_small">175</integer>
-    <integer name="duration_mini_small">120</integer>
     <integer name="loading_date">300</integer>
-    <integer name="loading_date_long">2000</integer>
-    <integer name="zero">0</integer>
-    <integer name="scroll">100</integer>
 </resources>

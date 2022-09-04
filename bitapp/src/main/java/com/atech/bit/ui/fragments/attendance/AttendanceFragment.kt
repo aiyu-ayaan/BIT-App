@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.attendance
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -52,6 +53,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var pref: SharedPreferences
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +93,16 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         detectScroll()
         addSubject()
 
+
+    }
+
+    private fun uploadWhenNewLogin() {
+        val isUploadFirstTime = pref.getBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, true)
+        if (isUploadFirstTime && attendanceList.isNotEmpty()) {
+            uploadAttendanceData {
+                pref.edit().putBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, false).apply()
+            }
+        }
     }
 
     private fun navigateToMenu(attendanceModel: AttendanceModel) {
@@ -164,6 +178,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 communicator.attendanceManagerSize = attendanceList.size
                 viewModel.isDataSet = false
             }
+            uploadWhenNewLogin()
         }
 
     private fun setUpViews() {

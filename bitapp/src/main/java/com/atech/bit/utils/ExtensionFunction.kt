@@ -6,7 +6,9 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
+import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Build
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat

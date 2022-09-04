@@ -404,6 +404,10 @@
             android:id="@+id/deepLink"
             android:autoVerify="true"
             app:uri="bitbyaiyu.github.io/event/path={path}" />
+        <argument
+            android:name="request"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <action
         android:id="@+id/action_global_eventDetailFragment"

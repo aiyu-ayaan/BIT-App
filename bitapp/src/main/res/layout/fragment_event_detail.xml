@@ -160,10 +160,25 @@
                     app:layout_constraintTop_toBottomOf="@id/sender_profile_image_view" />
 
                 <TextView
-                    android:id="@+id/video_text_view"
+                    android:id="@+id/text_video"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_2"
+                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/grid_0_25"
+                    android:text="@string/attach_video"
+                    android:textAppearance="?attr/textAppearanceCaption"
+
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/body_text_view"
+                    tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/video_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/image_view_thumbnail"
+                    android:layout_marginTop="8dp"
+                    android:contentDescription="@string/blank"
                     android:overScrollMode="never"
                     android:text="@string/watch_video"
                     android:textAppearance="?attr/textAppearanceBody2"
@@ -171,18 +186,54 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/body_text_view"
+                    app:layout_constraintTop_toBottomOf="@+id/text_video"
                     tools:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/image_view_play"
+                    android:layout_width="@dimen/image_view_about_us_size"
+                    android:layout_height="@dimen/image_view_about_us_size"
+                    android:contentDescription="@string/blank"
+                    android:src="@drawable/ic_play"
+                    app:layout_constraintBottom_toBottomOf="@+id/video_text_view"
+                    app:layout_constraintEnd_toEndOf="@+id/video_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/video_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/video_text_view"
+                    app:tint="?attr/colorPrimary" />
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress_bar_thumbnail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:indeterminate="true"
+                    android:progress="50"
+                    app:layout_constraintBottom_toBottomOf="@+id/video_text_view"
+                    app:layout_constraintEnd_toEndOf="@+id/video_text_view"
+                    app:layout_constraintStart_toStartOf="@+id/video_text_view"
+                    app:layout_constraintTop_toTopOf="@+id/video_text_view"
+                    app:trackThickness="@dimen/grid_1" />
+
+                <TextView
+                    android:id="@+id/text_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:padding="@dimen/grid_0_25"
+                    android:text="@string/attach_image"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/video_text_view" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/attachment_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_2"
+                    android:layout_marginTop="8dp"
                     android:overScrollMode="never"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/video_text_view" />
+                    app:layout_constraintTop_toBottomOf="@id/text_image" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
