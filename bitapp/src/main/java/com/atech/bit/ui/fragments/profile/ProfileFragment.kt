@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Gravity
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -13,6 +14,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentProfileBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.calculateTimeDifference
+import com.atech.core.utils.KEY_IS_USER_LOG_IN
 import com.atech.core.utils.KEY_USER_DONE_SET_UP
 import com.atech.core.utils.TAG
 import com.atech.core.utils.loadImageCircular
@@ -85,12 +87,16 @@ class ProfileFragment : DialogFragment() {
                             KEY_USER_DONE_SET_UP,
                             false
                         ).apply()
+                        updateIsLogIn()
                         dismiss()
                     }
                     .setNegativeButton("no") { dialog, _ ->
                         dialog.dismiss()
                     }
                     .show()
+            }
+            textViewDeleteAccount.setOnClickListener {
+                deleteAccount()
             }
         }
         val dialog = MaterialAlertDialogBuilder(
@@ -106,4 +112,40 @@ class ProfileFragment : DialogFragment() {
         return alertDialog
     }
 
+    private fun deleteAccount() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Delete Account")
+            .setMessage("Are you sure you want to delete your account?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                userDataViewModel.deleteUser(args.uid, {
+                    auth.currentUser?.delete()?.addOnSuccessListener {
+                        googleSignInClient.signOut()
+                        dialog.dismiss().also {
+                            dismiss()
+                            Toast.makeText(
+                                requireContext(),
+                                "Your account is deleted successfully.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            updateIsLogIn()
+                        }
+                    }
+                }) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Can't proceed this progress right now. Try again later ",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.d("XXX", "deleteAccount: $it")
+                }
+            }
+            .setNegativeButton("no") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun updateIsLogIn() {
+        pref.edit().putBoolean(KEY_IS_USER_LOG_IN, false).apply()
+    }
 }

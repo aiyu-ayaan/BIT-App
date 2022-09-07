@@ -171,6 +171,26 @@
             tools:layout_editor_absoluteX="16dp"
             tools:text="Joined Since 2020" />
 
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/div3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginBottom="@dimen/grid_1"
+            app:dividerColor="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_joined"
+            tools:layout_editor_absoluteX="16dp" />
+
+        <TextView
+            android:id="@+id/text_view_delete_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/grid_1"
+            android:text="@string/delete_my_account"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintTop_toBottomOf="@+id/div3"
+            tools:layout_editor_absoluteX="16dp" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </RelativeLayout>

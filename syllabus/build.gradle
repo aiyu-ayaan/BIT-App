@@ -38,7 +38,7 @@ dependencies {
 
     implementation project(':core')
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.github.yogacp:android-viewbinding:$viewBindingVersion"
     implementation("com.google.dagger:hilt-android:$hilt_version")

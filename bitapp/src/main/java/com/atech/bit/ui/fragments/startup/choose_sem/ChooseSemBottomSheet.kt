@@ -108,6 +108,7 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
                     pref.edit()
                         .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
                         .apply()
+                    updateIsLogIn()
                 }
             ) {
                 Toast.makeText(requireContext(), "Data upload failed", Toast.LENGTH_SHORT).show()
@@ -118,6 +119,10 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
             true
         ).apply()
         dialog?.dismiss()
+    }
+
+    private fun updateIsLogIn() {
+        pref.edit().putBoolean(KEY_IS_USER_LOG_IN, true).apply()
     }
 
     private fun setViews() {

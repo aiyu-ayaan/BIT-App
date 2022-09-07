@@ -173,7 +173,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun checkHasData() {
-        if (auth.currentUser != null)
+        val isLogin = pref.getBoolean(KEY_IS_USER_LOG_IN, false)
+        if (auth.currentUser != null && isLogin)
             userDataViewModel.checkUserData(getUid(auth)!!, {
                 if (!it) {
                     preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { dataStore ->

@@ -238,4 +238,39 @@ class UserRepository @Inject constructor(
                 onFailure.invoke(exception)
             }
     }
+
+    fun deleteData(
+        uid: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val ref = db.collection("BIT_User").document(uid).collection("data")
+        ref.document(uid).delete()
+            .addOnSuccessListener {
+                deleteUser(uid, {
+                    onSuccess.invoke()
+                }, {
+                    onFailure.invoke(it)
+                })
+            }
+            .addOnFailureListener { exception ->
+                onFailure.invoke(exception)
+            }
+    }
+
+    private fun deleteUser(
+        uid: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val ref = db.collection("BIT_User")
+        ref.document(uid).delete()
+            .addOnSuccessListener {
+                onSuccess.invoke()
+            }
+            .addOnFailureListener { exception ->
+                onFailure.invoke(exception)
+            }
+    }
+
 }

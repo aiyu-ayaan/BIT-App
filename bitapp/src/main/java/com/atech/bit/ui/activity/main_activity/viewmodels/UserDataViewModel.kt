@@ -76,4 +76,10 @@ class UserDataViewModel @Inject constructor(
         onFailure: (Exception) -> Unit
     ) = repository.getAttendance(uid, onSuccess, onFailure)
 
+
+    fun deleteUser(
+        uid: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) = repository.deleteData(uid, onSuccess, onFailure)
 }

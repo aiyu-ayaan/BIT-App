@@ -18,10 +18,7 @@ import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.Days
-import com.atech.core.utils.KEY_FIRST_TIME_LOGIN
-import com.atech.core.utils.KEY_REACH_TO_HOME
-import com.atech.core.utils.KEY_USER_DONE_SET_UP
-import com.atech.core.utils.TAG
+import com.atech.core.utils.*
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -80,6 +77,11 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
             })
         delay(500)
         navigateToHome()
+        updateIsLogIn()
+    }
+
+    private fun updateIsLogIn() {
+        pref.edit().putBoolean(KEY_IS_USER_LOG_IN, true).apply()
     }
 
     private fun addAttendanceToDatabase(attendanceUploadModel: List<AttendanceUploadModel>) {
