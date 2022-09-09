@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.event
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowNotice3Binding
 import com.atech.bit.ui.fragments.notice.ImagePreviewAdapter
-import com.atech.bit.utils.getData
+import com.atech.bit.utils.getDate
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.DiffUtilEvent
 import com.atech.core.data.ui.events.Events
@@ -46,7 +47,7 @@ class EventsAdapter(
             }
 
             binding.root.transitionName = events.path
-            binding.textViewDate.text = events.created.getData()
+            binding.textViewDate.text = events.created.getDate()
             binding.bodyPreviewTextView.text = events.content
             binding.senderTextView.text = events.society
             binding.subjectTextView.text = events.title

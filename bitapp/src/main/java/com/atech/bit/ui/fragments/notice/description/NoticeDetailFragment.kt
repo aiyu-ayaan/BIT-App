@@ -23,7 +23,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewM
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
-import com.atech.bit.utils.getData
+import com.atech.bit.utils.getDate
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.network.notice.Attach
@@ -155,7 +155,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
                 sendNotice.sender,
             )
             textViewDate.text =
-                sendNotice.created.getData()
+                sendNotice.created.getDate()
             bodyTextView.text = sendNotice.body.replace("<br/>", "\n")
 
             linkIcon.apply {

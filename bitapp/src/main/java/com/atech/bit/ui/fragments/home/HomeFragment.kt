@@ -428,12 +428,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         lifecycleScope.launchWhenStarted {
-
             viewModel.getEvent(
                 communicatorViewModel.instanceBefore14Days!!,
                 communicatorViewModel.instanceAfter15Days!!
             ).observe(viewLifecycleOwner) {
                 it?.let {
+
                     it.take(3).let { list ->
                         eventAdapter.submitList(list)
                     }

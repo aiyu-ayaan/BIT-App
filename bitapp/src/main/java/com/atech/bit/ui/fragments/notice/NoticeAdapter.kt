@@ -19,12 +19,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowNotice3Binding
-import com.atech.bit.utils.getData
+import com.atech.bit.utils.getDate
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.notice.DiffUtilNotice3
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.utils.DEFAULT_CORNER_RADIUS
-import com.atech.core.utils.convertLongToTime
 import com.atech.core.utils.getImageLinkNotification
 import com.atech.core.utils.loadImage
 import com.google.firebase.firestore.FirebaseFirestore
@@ -71,7 +70,7 @@ class NoticeAdapter(
                     notice.sender
                 )
                 textViewDate.text =
-                        notice.created.getData()
+                        notice.created.getDate()
 
                 notice.getImageLinkNotification().loadImage(
                     binding.root,

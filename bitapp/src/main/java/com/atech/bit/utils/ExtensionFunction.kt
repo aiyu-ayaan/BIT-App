@@ -34,7 +34,7 @@ import java.io.IOException
 fun getUid(firebaseAuth: FirebaseAuth) = firebaseAuth.currentUser?.uid
 
 
-fun Long.getData(): String {
+fun Long.getDate(): String {
     val currentTime = System.currentTimeMillis()
     val difference = currentTime - this
     val seconds = difference / 1000

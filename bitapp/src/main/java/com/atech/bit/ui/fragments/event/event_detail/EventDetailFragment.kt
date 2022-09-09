@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageView
@@ -159,7 +160,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         subjectTextView.text = data.title
         senderTextView.text = data.society
         bodyTextView.text = data.content
-        textViewDate.text = data.created.getData()
+        textViewDate.text = data.created.getDate()
         linkIcon.apply {
             isVisible = data.insta_link.isNotEmpty()
             setOnClickListener {

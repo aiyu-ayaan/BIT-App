@@ -20,10 +20,10 @@ data class Events(
 
 class DiffUtilEvent : DiffUtil.ItemCallback<Events>() {
     override fun areItemsTheSame(oldItem: Events, newItem: Events): Boolean {
-        return oldItem.created == newItem.created
+        return oldItem == newItem
     }
 
     override fun areContentsTheSame(oldItem: Events, newItem: Events): Boolean {
-        return oldItem.content == newItem.content
+        return oldItem == newItem
     }
 }
