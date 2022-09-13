@@ -204,6 +204,8 @@
     <string name="attach_image">Attach Images</string>
     <string name="attach_video">Attach Video</string>
     <string name="delete_my_account">Delete My Account</string>
+    <string name="switch_to_new">Switch To New</string>
+    <string name="switch_to_old">Switch To Old</string>
 
 
 </resources>

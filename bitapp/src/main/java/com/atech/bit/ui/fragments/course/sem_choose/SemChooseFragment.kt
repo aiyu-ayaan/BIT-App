@@ -37,6 +37,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private val prefManagerViewModel: PreferenceManagerViewModel by activityViewModels()
 
     private val binding: FragmentSemChooseBinding by viewBinding()
+    private lateinit var courseTheoryAdapter: SubjectAdapter
+    private lateinit var courseLabAdapter: SubjectAdapter
+    private lateinit var coursePeAdapter: SubjectAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,17 +60,17 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         restoreScroll(binding)
         binding.root.transitionName = viewModel.request
 
-        val courseTheoryAdapter = SubjectAdapter { syllabusModel, view ->
+        courseTheoryAdapter = SubjectAdapter { syllabusModel, view ->
             syllabusClick(syllabusModel, view)
         }
         courseTheoryAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        val courseLabAdapter = SubjectAdapter { syllabusModel, view ->
+        courseLabAdapter = SubjectAdapter { syllabusModel, view ->
             syllabusClick(syllabusModel, view)
         }
         courseLabAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        val coursePeAdapter = SubjectAdapter { syllabusModel, view ->
+        coursePeAdapter = SubjectAdapter { syllabusModel, view ->
             syllabusClick(syllabusModel, view)
         }
         coursePeAdapter.stateRestorationPolicy =
@@ -148,6 +151,20 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
         buttonClick()
         setUpMenu()
+        switchClick()
+    }
+
+    private fun switchClick() = binding.switchOldNew.apply {
+        setOnCheckedChangeListener { _, isChecked ->
+            removeAdapter()
+            viewModel.isOnLine.value = isChecked
+        }
+    }
+
+    private fun removeAdapter() {
+        courseTheoryAdapter.submitList(emptyList())
+        courseLabAdapter.submitList(emptyList())
+        coursePeAdapter.submitList(emptyList())
     }
 
     private fun setUpMenu() {

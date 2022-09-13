@@ -9,108 +9,130 @@
   ~ Last modified 4/22/22, 11:32 PM
   -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_bba"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
     android:transitionGroup="true"
     tools:context=".ui.fragments.course.sem_choose.SemChooseFragment">
 
-    <include
-        android:id="@+id/sem_chose_ext"
-        layout="@layout/sem_choose_ext"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/hor_scroll"
-        android:layout_marginHorizontal="@dimen/grid_1" />
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface">
 
 
-    <HorizontalScrollView
-        android:id="@+id/hor_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:fillViewport="true"
-        android:scrollbars="none">
+        <include
+            android:id="@+id/sem_chose_ext"
+            layout="@layout/sem_choose_ext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linear_layout_top_view"
+            android:layout_marginHorizontal="@dimen/grid_1" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/toggle_chip"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linear_layout_top_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/bottomBar"
-            android:padding="8dp"
-            app:selectionRequired="true"
-            app:singleSelection="true">
+            android:orientation="vertical">
 
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt1"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
+            <HorizontalScrollView
+                android:id="@+id/hor_scroll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/sem1"
-                android:textColor="@color/stroke_tint_text"
-                android:textSize="15sp"
-                app:checkedIconTint="@color/stroke_tint_text"
-                app:chipBackgroundColor="@color/stroke_tint" />
+                android:fillViewport="true"
+                android:scrollbars="none">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt2"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sem2"
-                android:textColor="@color/stroke_tint_text"
-                android:textSize="15sp"
-                app:checkedIconTint="@color/stroke_tint_text"
-                app:chipBackgroundColor="@color/stroke_tint" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/toggle_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/bottomBar"
+                    android:padding="8dp"
+                    app:selectionRequired="true"
+                    app:singleSelection="true">
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt3"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sem3"
-                android:textColor="@color/stroke_tint_text"
-                android:textSize="15sp"
-                app:checkedIconTint="@color/stroke_tint_text"
-                app:chipBackgroundColor="@color/stroke_tint" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt4"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sem4"
-                android:textColor="@color/stroke_tint_text"
-                android:textSize="15sp"
-                app:checkedIconTint="@color/stroke_tint_text"
-                app:chipBackgroundColor="@color/stroke_tint" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bt1"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sem1"
+                        android:textColor="@color/stroke_tint_text"
+                        android:textSize="15sp"
+                        app:checkedIconTint="@color/stroke_tint_text"
+                        app:chipBackgroundColor="@color/stroke_tint" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt5"
-                style="@style/Widget.Material3.Chip.Filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sem5"
-                android:textColor="@color/stroke_tint_text"
-                android:textSize="15sp"
-                app:checkedIconTint="@color/stroke_tint_text"
-                app:chipBackgroundColor="@color/stroke_tint" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bt2"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sem2"
+                        android:textColor="@color/stroke_tint_text"
+                        android:textSize="15sp"
+                        app:checkedIconTint="@color/stroke_tint_text"
+                        app:chipBackgroundColor="@color/stroke_tint" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/bt6"
-                style="@style/Widget.Material3.Chip.Filter"
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bt3"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sem3"
+                        android:textColor="@color/stroke_tint_text"
+                        android:textSize="15sp"
+                        app:checkedIconTint="@color/stroke_tint_text"
+                        app:chipBackgroundColor="@color/stroke_tint" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bt4"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sem4"
+                        android:textColor="@color/stroke_tint_text"
+                        android:textSize="15sp"
+                        app:checkedIconTint="@color/stroke_tint_text"
+                        app:chipBackgroundColor="@color/stroke_tint" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bt5"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sem5"
+                        android:textColor="@color/stroke_tint_text"
+                        android:textSize="15sp"
+                        app:checkedIconTint="@color/stroke_tint_text"
+                        app:chipBackgroundColor="@color/stroke_tint" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/bt6"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sem6"
+                        android:textColor="@color/stroke_tint_text"
+                        android:textSize="15sp"
+                        app:checkedIconTint="@color/stroke_tint_text"
+                        app:chipBackgroundColor="@color/stroke_tint" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_old_new"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/sem6"
-                android:textColor="@color/stroke_tint_text"
-                android:textSize="15sp"
-                app:checkedIconTint="@color/stroke_tint_text"
-                app:chipBackgroundColor="@color/stroke_tint" />
-        </com.google.android.material.chip.ChipGroup>
-    </HorizontalScrollView>
-</RelativeLayout>
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:checked="false"
+                android:padding="@dimen/grid_1"
+                android:text="@string/switch_to_new" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

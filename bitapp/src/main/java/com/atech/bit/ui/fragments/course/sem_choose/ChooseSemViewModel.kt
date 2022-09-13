@@ -5,11 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.atech.core.data.room.syllabus.SyllabusDao
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class ChooseSemViewModel @Inject constructor(
     private val syllabusDao: SyllabusDao,
     val state: SavedStateHandle
@@ -19,21 +22,34 @@ class ChooseSemViewModel @Inject constructor(
 
     val sem = MutableStateFlow("")
 
+    var isOnLine = MutableStateFlow(false)
 
-    val theory = sem.flatMapLatest {
-        syllabusDao.getSyllabusType(it, "Theory")
+    val theory = isOnLine.flatMapLatest {
+        if (it) sem.flatMapLatest {
+            emptyFlow()
+        } else sem.flatMapLatest { sem ->
+            syllabusDao.getSyllabusType(sem, "Theory")
+        }
     }.asLiveData()
 
-    val lab = sem.flatMapLatest {
-        syllabusDao.getSyllabusType(it, "Lab")
+    val lab = isOnLine.flatMapLatest {
+        if (it) sem.flatMapLatest {
+            emptyFlow()
+        } else sem.flatMapLatest { sem ->
+            syllabusDao.getSyllabusType(sem, "Lab")
+        }
     }.asLiveData()
-    val pe = sem.flatMapLatest {
-        syllabusDao.getSyllabusType(it, "PE")
+    val pe = isOnLine.flatMapLatest {
+        if (it) sem.flatMapLatest {
+            emptyFlow()
+        } else sem.flatMapLatest { sem ->
+            syllabusDao.getSyllabusType(sem, "PE")
+        }
     }.asLiveData()
 
-    var chooseSemNestedViewPosition: Int? = state.get("chooseSemNestedViewPosition")
+    var chooseSemNestedViewPosition: Int? = state["chooseSemNestedViewPosition"]
         set(value) {
             field = value
-            state.set("chooseSemNestedViewPosition", value)
+            state["chooseSemNestedViewPosition"] = value
         }
 }
