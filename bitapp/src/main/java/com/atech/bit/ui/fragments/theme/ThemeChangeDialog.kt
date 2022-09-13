@@ -49,7 +49,7 @@ class ThemeChangeDialog : DialogFragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.chooseTheme))
             .setView(binding.root)
-            .setPositiveButton(resources.getString(R.string.done)) { _, _ ->
+            .setPositiveButton(resources.getString(R.string.done)) { dialog, which ->
             }
         return dialog.create()
     }

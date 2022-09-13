@@ -2,34 +2,32 @@ buildscript {
     ext {
         kotlin_version = "1.6.20"
         playStoreCoreVersion = "1.8.1"
-        materail3Version = "1.8.0-alpha01"
-        playServicesAuthVersion = "20.3.0"
-        firebaseFireStoreVersion = "24.3.0"
+        materail3Version = "1.7.0-alpha03"
+        firebaseFireStoreVersion = "24.2.1"
         googleServiceVersion = '4.3.10'
-        coroutines = '1.6.4'
-        lifecycle_version = "2.5.1"
-        fragment_version = "1.5.2"
-        nav_version = "2.5.1"
-        hilt_version = '2.43.2'
-        roomVersion = '2.4.3'
+        coroutines = '1.6.3'
+        lifecycle_version = "2.5.0"
+        fragment_version = "1.5.0"
+        nav_version = "2.5.0"
+        hilt_version = '2.42'
+        roomVersion = '2.4.2'
         glideVersion = '4.13.2'
         dataStoreVersion = "1.0.0"
         lottiVersion = '5.2.0'
         recyclerViewVersion = "1.2.1"
         recyclerViewSelectionVersion = "1.1.0"
         calendarVersion = "3.0.0"
-        gsonVersion = "2.9.1"
+        gsonVersion = "2.9.0"
         viewBindingVersion = "1.0.3"
         crashlyticsVersion = "2.6.1"
         browserVersion = "1.4.0"
-        webKit_version = "1.5.0"
+        webKit_version = "1.4.0"
         palette_version = "28.0.0"
-        splashScreenVersion = "1.0.0"
+        splashScreenVersion = "1.0.0-rc01"
         review_version = "2.0.0"
         graphVersion = "v3.1.0"
         mediaVersion = "1.0.0-beta02"
-        tapTargetVersion = "3.3.2"
-        cryptoreVersion = "1.4.0"
+        tapTargetVersion ="3.3.2"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'
@@ -40,8 +38,8 @@ buildscript {
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.2.2' apply false
-    id 'com.android.library' version '7.2.2' apply false
+    id 'com.android.application' version '7.2.1' apply false
+    id 'com.android.library' version '7.2.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 

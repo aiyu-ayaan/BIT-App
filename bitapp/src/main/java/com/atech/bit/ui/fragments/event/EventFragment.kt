@@ -58,6 +58,14 @@ class EventFragment : Fragment(R.layout.fragment_event) {
             showEvent.apply {
                 adapter = eventAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    }
+                )
             }
         }
         eventAdapter.stateRestorationPolicy =
@@ -100,7 +108,7 @@ class EventFragment : Fragment(R.layout.fragment_event) {
         val action = NavGraphDirections.actionGlobalEventDetailFragment(path = event.path)
         findNavController().navigate(action, extras)
     }
-
+    
 
     private fun detectScroll() {
         activity?.onScrollColorChange(binding.nestedScrollViewEvent, {

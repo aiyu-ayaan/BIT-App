@@ -34,14 +34,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_society"
             android:layout_marginTop="@dimen/grid_1"
-            app:cardBackgroundColor="?attr/bottomBar"
-            app:strokeColor="?attr/bottomBar">
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeColor="@color/divider_color">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_society"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never"
+                android:overScrollMode="ifContentScrolls"
                 android:transitionGroup="true" />
         </com.google.android.material.card.MaterialCardView>
 
@@ -65,15 +65,15 @@
             android:layout_below="@id/text_view_ngos"
             android:layout_marginTop="@dimen/grid_1"
             android:visibility="gone"
-            app:cardBackgroundColor="?attr/bottomBar"
-            app:strokeColor="?attr/bottomBar"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:strokeColor="@color/divider_color"
             tools:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_ngos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:overScrollMode="never"
+                android:overScrollMode="ifContentScrolls"
                 android:transitionGroup="true" />
         </com.google.android.material.card.MaterialCardView>
     </RelativeLayout>

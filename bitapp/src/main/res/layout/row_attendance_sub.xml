@@ -18,7 +18,7 @@
     android:layout_marginVertical="@dimen/grid_0_25"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="0dp"
-    app:strokeColor="?attr/bottomBar">
+    app:strokeColor="@color/divider_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout"

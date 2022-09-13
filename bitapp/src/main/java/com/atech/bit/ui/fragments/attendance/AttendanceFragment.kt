@@ -1,11 +1,10 @@
 package com.atech.bit.ui.fragments.attendance
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
+import androidx.appcompat.view.ActionMode
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -20,21 +19,17 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAttendanceBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
-import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.AttendanceEvent
-import com.atech.bit.utils.getUid
-import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
 import com.atech.core.utils.*
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
@@ -44,17 +39,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private val viewModel: AttendanceViewModel by viewModels()
     private val preferenceViewModel: PreferenceManagerViewModel by activityViewModels()
     private val communicator: CommunicatorViewModel by activityViewModels()
-    private val userDataViewModel by activityViewModels<UserDataViewModel>()
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
-    private var attendanceList: List<AttendanceUploadModel> = listOf()
-    private var hasChange = false
-
-    @Inject
-    lateinit var auth: FirebaseAuth
-
-    @Inject
-    lateinit var pref: SharedPreferences
+    private var actionMode: ActionMode? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,17 +80,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         detectScroll()
         addSubject()
 
-
-    }
-
-    private fun uploadWhenNewLogin() {
-        val isUploadFirstTime = pref.getBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, true)
-        if (auth.currentUser != null)
-            if (isUploadFirstTime && attendanceList.isNotEmpty()) {
-                uploadAttendanceData {
-                    pref.edit().putBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, false).apply()
-                }
-            }
     }
 
     private fun navigateToMenu(attendanceModel: AttendanceModel) {
@@ -133,7 +109,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun populateViewsAndSetPercentage() {
         viewModel.attendance.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
-            convertingData(it)
             binding.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
             var sumTotal = 0
@@ -160,27 +135,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             }
         }
     }
-
-    private fun convertingData(list: List<AttendanceModel>) =
-        lifecycleScope.launchWhenStarted {
-            if (list.isNotEmpty()) {
-                attendanceList = list.map { a ->
-                    AttendanceUploadModel(
-                        a.subject,
-                        a.total,
-                        a.present,
-                        a.teacher,
-                        a.fromSyllabus,
-                        a.created
-                    )
-                }
-            }
-            if (viewModel.isDataSet) {
-                communicator.attendanceManagerSize = attendanceList.size
-                viewModel.isDataSet = false
-            }
-            uploadWhenNewLogin()
-        }
 
     private fun setUpViews() {
         binding.apply {
@@ -318,9 +272,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 fromSyllabus = attendance.fromSyllabus,
                 teacher = attendance.teacher,
             )
-        ).also {
-            hasChange = true
-        }
+        )
     }
 
 
@@ -374,10 +326,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 fromSyllabus = attendance.fromSyllabus,
                 teacher = attendance.teacher
             )
-        ).also {
-            hasChange = true
-        }
-
+        )
     }
 
 
@@ -410,33 +359,43 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
 
-    override fun onPause() {
-        super.onPause()
-        checkForHasChange()
-        if (auth.currentUser != null)
-            if (communicator.maxTimeToUploadAttendanceData <= 2
-                && communicator.attendanceManagerSize != attendanceList.size
+    private fun undoEntry(attendance: AttendanceModel) {
+        val stack: Deque<AttendanceSave> = attendance.stack
+        val save = stack.peekFirst()
+        if (save != null) {
+            stack.pop()
+            val att = attendance.copy(
+                present = save.present,
+                total = save.total,
+                days = save.days,
+                stack = stack,
             )
-                uploadAttendanceData {
-                    Log.d(TAG, "onPause: Done")
-                    communicator.maxTimeToUploadAttendanceData =
-                        communicator.maxTimeToUploadAttendanceData.plus(1)
-                    Log.d(TAG, "onPause: ${communicator.maxTimeToUploadAttendanceData}")
-                }.also {
-                    communicator.attendanceManagerSize = attendanceList.size
-                }
-    }
-
-    private fun checkForHasChange() {
-        if (hasChange)
-            uploadAttendanceData()
-    }
-
-    private fun uploadAttendanceData(action: () -> Unit = {}) {
-        userDataViewModel.setAttendance(getUid(auth)!!, attendanceList, {
-            action.invoke()
-        }) {
-            Log.d(TAG, "onPause: Failed")
+            viewModel.update(att)
+            binding.root.showSnackBar(
+                "Done !!",
+                Snackbar.LENGTH_SHORT
+            )
+        } else {
+            binding.root.showSnackBar(
+                "Stack is empty !!",
+                Snackbar.LENGTH_SHORT
+            )
         }
+        actionMode?.finish()
+    }
+
+    private fun navigateToAddEditFragment(attendance: AttendanceModel) {
+        val action = NavGraphDirections.actionGlobalAddEditSubjectBottomSheet(
+            attendance,
+            UPDATE_REQUEST
+        )
+        findNavController().navigate(action)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        actionMode?.finish()
+        actionMode = null
     }
 }

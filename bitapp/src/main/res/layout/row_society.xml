@@ -12,10 +12,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="0dp"
-    app:cardBackgroundColor="?attr/bottomBar"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardElevation="0dp"
     app:cardMaxElevation="0dp"
-    app:strokeColor="?attr/bottomBar">
+    app:strokeColor="?attr/colorSurface">
 
     <LinearLayout
         android:layout_width="match_parent"

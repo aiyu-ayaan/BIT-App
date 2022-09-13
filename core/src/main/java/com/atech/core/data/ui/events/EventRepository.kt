@@ -10,7 +10,6 @@
 
 package com.atech.core.data.ui.events
 
-import android.util.Log
 import com.atech.core.data.network.events.EventsNetworkEntity
 import com.atech.core.data.network.events.EventsNetworkMapper
 import com.atech.core.data.network.notice.Attach
@@ -47,6 +46,7 @@ class EventRepository @Inject constructor(
                             value.toObjects(EventsNetworkEntity::class.java)
                         val events =
                             networkMapper.mapFromEntityList(networkEvent)
+
                         dao.deleteAll()
                         for (event in events) {
                             dao.insert(
@@ -137,7 +137,6 @@ class EventRepository @Inject constructor(
         val cachedHoliday = dao.getEvents7Days(start, end)
         cachedHoliday.collect {
             emit(cachedMapper.mapFromEntityList(it))
-            Log.d("XXX", "getEvent7Days: ${cachedMapper.mapFromEntityList(it)}")
         }
     }.flowOn(Dispatchers.Main)
 }

@@ -5,7 +5,7 @@ import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
+import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
@@ -35,10 +36,7 @@ import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
-import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.*
-import com.github.mikephil.charting.BuildConfig.VERSION_CODE
-import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -66,10 +64,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     private var reviewInfo: ReviewInfo? = null
     private lateinit var reviewManager: ReviewManager
 
-
-    @Inject
-    lateinit var attendanceDao: AttendanceDao
-
     @Inject
     lateinit var db: FirebaseFirestore
 
@@ -91,7 +85,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             navController = navHostFragment.findNavController()
             appBarConfiguration = AppBarConfiguration(
                 setOf(
-                    R.id.logInFragment,
                     R.id.startUpFragment,
                     R.id.homeFragment,
                     R.id.courseFragment,
@@ -133,6 +126,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         if (!u)
             getWarning()
         shareReview()
+
     }
 
     private fun shareApp() {
@@ -211,8 +205,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
             when (destination.id) {
                 R.id.semChooseFragment, R.id.detailDevFragment,
-                R.id.searchFragment, R.id.noticeDetailFragment,
-                R.id.eventDetailFragment
+                R.id.searchFragment
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     R.attr.bottomBar
@@ -225,26 +218,12 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     R.attr.bottomSheetBackground
-                ).also {
-                    setStatusBarUiTheme(this, !this.isDark())
-                }
-                R.id.logInFragment ->
-                    changeStatusBarToolbarColorImageView(
-                        MaterialColors.getColor(
-                            this,
-                            R.attr.appLogoBackground,
-                            Color.WHITE
-                        ).also {
-                            setStatusBarUiTheme(this, false)
-                        }
-                    )
+                )
 
                 else -> changeStatusBarToolbarColor(
                     R.id.toolbar,
                     com.google.android.material.R.attr.colorSurface
-                ).also {
-                    setStatusBarUiTheme(this, !this.isDark())
-                }
+                )
             }
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
@@ -267,7 +246,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
                 R.id.eventDetailFragment, R.id.searchFragment,
                 R.id.settingDialog, R.id.cgpaCalculatorFragment,
-                R.id.viewVideoFragment, R.id.loadingDataFragment
+                R.id.viewVideoFragment,
                 -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
@@ -276,10 +255,10 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     showBottomAppBar()
                 }
             }
-            val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
+            val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
             if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
                 || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment ||
-                destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment
+                destination.id == R.id.viewVideoFragment
             ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
@@ -376,7 +355,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                         bottomLayout.visibility = View.GONE
                     }
 
-                    override fun onAnimationCancel(animation: Animator) {
+                    override fun onAnimationCancel(animation: Animator?) {
                         isCanceled = true
                     }
                 })
@@ -486,7 +465,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 val link = value?.getString("link")
                 val minVersion = value?.getDouble("minVersion")
                 val isMinEdition =
-                    VERSION_CODE > (minVersion?.toInt() ?: INVALID_BUILD_VERSION)
+                    BuildConfig.VERSION_CODE > (minVersion?.toInt() ?: INVALID_BUILD_VERSION)
                 isEnable?.let { it ->
                     if (it && u && !isMinEdition)
                         link?.let { link ->

@@ -23,7 +23,8 @@ class EventsCacheMapper @Inject constructor() : EntityMapper<Events, EventsCache
 
     override fun mapToEntity(domainModel: EventsCacheEntity): Events =
         Events(
-            domainModel.created.time,
+            domainModel.created.convertDateToTime()
+                .convertStringToLongMillis()!!,
             domainModel.title,
             domainModel.content,
             domainModel.insta_link,

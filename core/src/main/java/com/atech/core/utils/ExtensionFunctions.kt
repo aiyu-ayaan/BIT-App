@@ -138,13 +138,6 @@ fun String.loadImageCircular(
         .into(view)
 
 
-fun String.loadImageCircular(
-    imageView: ImageView
-) = imageView.apply {
-    Glide.with(context).load(this@loadImageCircular).apply(RequestOptions.circleCropTransform())
-        .into(imageView)
-}
-
 /**
  * Load image in ImageView
  * @param parentView Parent View or Context
@@ -280,6 +273,7 @@ fun Activity.openBugLink() =
                 }, resources.getString(R.string.bug_title)
         )
     )
+
 
 
 /**

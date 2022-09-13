@@ -23,7 +23,8 @@ class Notice3CacheMapper @Inject constructor() : EntityMapper<Notice3CacheEntity
             link = entity.link,
             sender = entity.sender,
             path = entity.path,
-            created = entity.created.time
+            created = entity.created.convertDateToTime()
+                .convertStringToLongMillis()!!
         )
 
     override fun mapToEntity(domainModel: Notice3): Notice3CacheEntity =

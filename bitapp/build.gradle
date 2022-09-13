@@ -16,8 +16,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 10
-        versionName "1.2.6"
+        versionCode 5
+        versionName "1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,30 +46,23 @@ dependencies {
     implementation project(':core')
     implementation project(':syllabus')
     implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFireStoreVersion"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:30.3.2')
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
 //    FCM
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-    implementation('com.google.firebase:firebase-auth-ktx') {
-        exclude module: "play-services-safetynet"
-    }
-
-    // Also declare the dependency for the Google Play services library and specify its version
-    implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
 
 //    crashlytics
-//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-//    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     // ViewModel
@@ -132,7 +125,4 @@ dependencies {
     implementation "androidx.media3:media3-exoplayer-dash:$mediaVersion"
 
     implementation "uk.co.samuelwall:material-tap-target-prompt:$tapTargetVersion"
-
-    implementation "com.kazakago.cryptore:cryptore:$cryptoreVersion"
-
 }

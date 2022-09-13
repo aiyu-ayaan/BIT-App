@@ -6,9 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaMetadataRetriever
 import android.net.Uri
-import android.os.Build
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -22,7 +20,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.color.MaterialColors
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
@@ -30,77 +27,6 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-
-fun getUid(firebaseAuth: FirebaseAuth) = firebaseAuth.currentUser?.uid
-
-
-fun Long.getDate(): String {
-    val currentTime = System.currentTimeMillis()
-    val difference = currentTime - this
-    val seconds = difference / 1000
-    val minutes = seconds / 60
-    val hours = minutes / 60
-    val days = hours / 24
-    val months = days / 30
-    return when {
-        seconds < 60 -> {
-            " Just now"
-        }
-        minutes < 60 -> {
-            " $minutes minutes ago"
-        }
-        hours < 24 -> {
-            " $hours hours ago"
-        }
-        days < 30 -> {
-            " ${this.convertLongToTime("dd MMM")}"
-        }
-        months < 12 -> {
-            " ${this.convertLongToTime("dd MMM")}"
-        }
-        else -> {
-            " ${this.convertLongToTime("dd MMM yyyy")}"
-        }
-
-    }
-}
-
-/**
- *
- *Extension function to calculate the time difference between two dates
- * @author Ayaan
- * @since 1.2.2
- */
-fun Long.calculateTimeDifference(): String {
-    val currentTime = System.currentTimeMillis()
-    val difference = currentTime - this
-    val seconds = difference / 1000
-    val minutes = seconds / 60
-    val hours = minutes / 60
-    val days = hours / 24
-    val months = days / 30
-    val years = months / 12
-    return when {
-        seconds < 60 -> {
-            "Just now"
-        }
-        minutes < 60 -> {
-            "$minutes minutes ago"
-        }
-        hours < 24 -> {
-            "$hours hours ago"
-        }
-        days < 30 -> {
-            "$days days ago"
-        }
-        months < 12 -> {
-            "$months months ago"
-        }
-        else -> {
-            "$years years ago"
-        }
-    }
-}
 
 /**
  *Extension function to share link
@@ -114,15 +40,11 @@ fun Activity.openShareLink(link: String) =
             Intent.EXTRA_STREAM,
             saveFileToCaches(
                 this@openShareLink,
-                try {
-                    getBitMapUsingGlide(this@openShareLink, link)!!
-                } catch (e: Exception) {
-                    (ResourcesCompat.getDrawable(
-                        this@openShareLink.resources,
-                        R.drawable.app_logo,
-                        null
-                    ) as BitmapDrawable).toBitmap()
-                }
+                getBitMapUsingGlide(this@openShareLink, link) ?: (ResourcesCompat.getDrawable(
+                    this@openShareLink.resources,
+                    R.drawable.app_logo,
+                    null
+                ) as BitmapDrawable).toBitmap()
             )
         )
         putExtra(
@@ -175,21 +97,17 @@ fun Activity.openShareDeepLink(
 
 fun getBitMapUsingGlide(context: Context, url: String): Bitmap? =
     runBlocking(Dispatchers.IO + handler) {
-        try {
-            val requestOptions = RequestOptions()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .skipMemoryCache(false)
+        val requestOptions = RequestOptions()
+            .centerCrop()
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .skipMemoryCache(false)
 
-            Glide.with(context)
-                .asBitmap()
-                .load(url)
-                .apply(requestOptions)
-                .submit()
-                .get()
-        } catch (e: com.bumptech.glide.load.engine.GlideException) {
-            throw e;
-        }
+        Glide.with(context)
+            .asBitmap()
+            .load(url)
+            .apply(requestOptions)
+            .submit()
+            .get()
     }
 
 
@@ -298,10 +216,10 @@ fun Activity.showMenuPrompt(
         )
         .setPromptStateChangeListener { _, state ->
             if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_DISMISSED
-                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED || state == MaterialTapTargetPrompt.STATE_FINISHED
-            ) {
+                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED ||  state == MaterialTapTargetPrompt.STATE_FINISHED) {
                 listener?.invoke()
             }
         }
         .show()
+
 }

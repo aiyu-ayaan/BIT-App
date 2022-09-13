@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSetUpBinding
-import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.core.utils.KEY_FIRST_TIME_TOGGLE
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -31,6 +31,13 @@ class StartUpFragment : Fragment(R.layout.fragment_set_up) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val u: Boolean = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
+
+        if (u) {
+            val action = StartUpFragmentDirections.actionStartUpFragmentToHomeFragment()
+            findNavController().navigate(action)
+        }
         binding.apply {
             fbNext.setOnClickListener {
                 val action = NavGraphDirections.actionGlobalChooseSemBottomSheet()

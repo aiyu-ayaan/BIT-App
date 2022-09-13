@@ -12,16 +12,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menu_profile"
-        android:title="@string/profile"
-        app:actionLayout="@layout/toolbar_profile_layout"
-        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_search"
         android:title="@string/search_any_thing"
         app:showAsAction="always" />
-
 </menu>
