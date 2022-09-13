@@ -98,11 +98,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     private fun uploadWhenNewLogin() {
         val isUploadFirstTime = pref.getBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, true)
-        if (isUploadFirstTime && attendanceList.isNotEmpty()) {
-            uploadAttendanceData {
-                pref.edit().putBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, false).apply()
+        if (auth.currentUser != null)
+            if (isUploadFirstTime && attendanceList.isNotEmpty()) {
+                uploadAttendanceData {
+                    pref.edit().putBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, false).apply()
+                }
             }
-        }
     }
 
     private fun navigateToMenu(attendanceModel: AttendanceModel) {
