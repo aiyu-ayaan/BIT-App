@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -14,13 +15,14 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetChooseSemBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
-import com.atech.core.utils.KEY_FIRST_TIME_TOGGLE
-import com.atech.core.utils.REQUEST_UPDATE_SEM
-import com.atech.core.utils.REQUEST_UPDATE_SEM_FROM_CGPA
+import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
+import com.atech.bit.utils.getUid
+import com.atech.core.utils.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,6 +32,10 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
     private lateinit var binding: BottomSheetChooseSemBinding
     private val preferencesManagerViewModel: PreferenceManagerViewModel by activityViewModels()
     private val args: ChooseSemBottomSheetArgs by navArgs()
+    private val userDataViewModel: UserDataViewModel by activityViewModels()
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -61,9 +67,10 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         binding.apply {
             btSave.setOnClickListener {
                 if (args.request != REQUEST_UPDATE_SEM && args.request != REQUEST_UPDATE_SEM_FROM_CGPA) {
-                    pref.edit()
-                        .putBoolean(KEY_FIRST_TIME_TOGGLE, true)
-                        .apply()
+                    pref.edit().putBoolean(
+                        KEY_USER_DONE_SET_UP,
+                        true
+                    ).apply()
 
                     exitTransition = MaterialFadeThrough()
                     if (args.type == REQUEST_UPDATE_SEM_FROM_CGPA)
@@ -93,7 +100,29 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         }
         preferencesManagerViewModel.updateCourse(course)
         preferencesManagerViewModel.updateSem(sem)
+        if (auth.currentUser != null) {
+            userDataViewModel.addCourseSem(
+                getUid(auth)!!,
+                course, sem,
+                {
+                    pref.edit()
+                        .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
+                        .apply()
+                    updateIsLogIn()
+                }
+            ) {
+                Toast.makeText(requireContext(), "Data upload failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+        pref.edit().putBoolean(
+            KEY_FIRST_TIME_LOGIN,
+            true
+        ).apply()
         dialog?.dismiss()
+    }
+
+    private fun updateIsLogIn() {
+        pref.edit().putBoolean(KEY_IS_USER_LOG_IN, true).apply()
     }
 
     private fun setViews() {

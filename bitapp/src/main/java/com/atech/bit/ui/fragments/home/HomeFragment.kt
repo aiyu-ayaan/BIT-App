@@ -15,6 +15,8 @@ import android.util.Log
 import android.view.View
 import android.view.animation.LinearInterpolator
 import android.viewbinding.library.fragment.viewBinding
+import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -33,14 +35,19 @@ import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.activity.main_activity.MainActivity
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
+import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
+import com.atech.bit.utils.Encryption.decryptText
+import com.atech.bit.utils.Encryption.getCryptore
 import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.getUid
 import com.atech.bit.utils.showMenuPrompt
+import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
@@ -51,6 +58,7 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
@@ -64,17 +72,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val viewModel: HomeViewModel by viewModels()
     private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
     private val preferencesManagerViewModel: PreferenceManagerViewModel by activityViewModels()
+    private val userDataViewModel by activityViewModels<UserDataViewModel>()
     private var defPercentage = 75
     private lateinit var syllabusPeAdapter: SyllabusHomeAdapter
     private lateinit var syllabusTheoryAdapter: SyllabusHomeAdapter
     private lateinit var syllabusLabAdapter: SyllabusHomeAdapter
     private lateinit var holidayAdapter: HolidayHomeAdapter
+    private var userModel: UserModel? = null
 
     @Inject
     lateinit var db: FirebaseFirestore
 
     @Inject
     lateinit var pref: SharedPreferences
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -147,6 +160,44 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setUpLinkClick()
 
         setPrompt()
+        checkHasData()
+        setPref()
+        restoreScroll()
+    }
+
+    private fun setPref() {
+        pref.edit().putBoolean(
+            KEY_REACH_TO_HOME,
+            true
+        ).apply()
+    }
+
+    private fun checkHasData() {
+        val isLogin = pref.getBoolean(KEY_IS_USER_LOG_IN, false)
+        if (auth.currentUser != null && isLogin)
+            userDataViewModel.checkUserData(getUid(auth)!!, {
+                if (!it) {
+                    preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { dataStore ->
+                        userDataViewModel.addCourseSem(
+                            getUid(auth)!!,
+                            dataStore.course, dataStore.sem,
+                            {
+                                pref.edit()
+                                    .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
+                                    .apply()
+                            }
+                        ) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Data upload failed",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
+            })
+            {
+            }
     }
 
     private fun setPrompt() {
@@ -155,7 +206,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             true
         )
         if (firstTimeOpenNoticeDes)
-            Handler(Looper.getMainLooper()).postDelayed ({
+            Handler(Looper.getMainLooper()).postDelayed({
                 requireActivity().showMenuPrompt(
                     R.id.edit,
                     R.string.home_edit_button,
@@ -163,7 +214,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 ) {
                     setPromptToSetting()
                 }
-            },1000)
+            }, 1000)
+        else {
+            getOldAppWarningDialog()
+        }
     }
 
     private fun setPromptToSetting() {
@@ -185,8 +239,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             pref.edit()
                 .putBoolean(FIRST_TIME_OPEN_HOME, false)
                 .apply()
-
-            getOldAppWarningDialog()
         }
     }
 
@@ -239,7 +291,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun createMenu() {
-        addMenuHost(R.menu.menu_toolbar) {
+        addMenuHost(R.menu.menu_toolbar, {
+            Handler(Looper.getMainLooper()).post {
+                val menuItem = it.findItem(R.id.menu_profile)
+                val view = menuItem.actionView as FrameLayout
+                val imageView = view.findViewById<ImageView>(R.id.toolbar_profile_image)
+                imageView?.let {
+                    setProfileImageView(it)
+                }
+            }
+        }) {
             when (it.itemId) {
                 R.id.menu_search -> {
                     (requireActivity() as MainActivity).onMenuClick()
@@ -248,6 +309,72 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 else -> false
             }
         }
+    }
+
+    private fun setProfileImageView(imageView: ImageView) {
+        imageView.apply {
+            if (auth.currentUser != null) {
+                auth.currentUser?.photoUrl.toString()
+                    .loadImageCircular(this)
+                getDataOFUser()
+                setOnClickListener {
+                    userModel?.let {
+                        navigateToProfile(getUid(auth)!!, it)
+                    }
+                }
+            } else {
+                imageView.setImageResource(
+                    R.drawable.ic_account
+                )
+                setOnClickListener {
+                    navigateToLogin()
+                }
+            }
+        }
+    }
+
+    private fun navigateToLogin() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToLogInFragment(request = REQUEST_LOGIN_FROM_HOME)
+        findNavController().navigate(action)
+    }
+
+    private fun getDataOFUser() = lifecycleScope.launchWhenStarted {
+        val uid = getUid(auth)!!
+        userDataViewModel.getUser(uid, {
+            userModel = convertEncryptedData(uid, it)
+        }, {
+            Toast.makeText(requireContext(), "Something went wrong !!", Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun convertEncryptedData(uid: String, user: UserModel): UserModel? {
+        try {
+            val cryptore = context?.getCryptore(uid)
+            val email = cryptore?.decryptText(user.email)
+            val name = cryptore?.decryptText(user.name)
+            val profilePic = cryptore?.decryptText(user.profilePic)
+            return UserModel(
+                email = email,
+                name = name,
+                profilePic = profilePic,
+                uid = user.uid,
+                syncTime = user.syncTime
+            )
+
+        } catch (e: Exception) {
+            Log.e(TAG, "convertEncryptedData: $e")
+            return null
+        }
+    }
+
+    private fun navigateToProfile(uid: String, userDecrypt: UserModel) {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment(uid, userDecrypt)
+        findNavController().navigate(action)
     }
 
     private fun setHoliday() = binding.apply {
@@ -274,10 +401,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun getEvent() {
         val eventAdapter = EventsAdapter(
-            db, {
+            db,
+            {
                 navigateToImageView(it)
             },
-            REQUEST_ADAPTER_EVENT_FROM_HOME
         ) { event, rootView ->
             navigateToEventDetail(event, rootView)
         }
@@ -301,13 +428,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         lifecycleScope.launchWhenStarted {
-
             viewModel.getEvent(
                 communicatorViewModel.instanceBefore14Days!!,
                 communicatorViewModel.instanceAfter15Days!!
             ).observe(viewLifecycleOwner) {
                 it?.let {
-                    eventAdapter.submitList(it)
+
+                    it.take(3).let { list ->
+                        eventAdapter.submitList(list)
+                    }
                     binding.materialCardViewEventRecyclerView.isVisible =
                         it.isNotEmpty()
                     binding.textEvent.isVisible =
@@ -347,13 +476,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun navigateToEventDetail(event: Events, view: View) {
         val extras = FragmentNavigatorExtras(view to event.path)
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        val action = NavGraphDirections.actionGlobalEventDetailFragment(path = event.path)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        val action = NavGraphDirections.actionGlobalEventDetailFragment(
+            path = event.path,
+            request = REQUEST_EVENT_FROM_HOME
+        )
         findNavController().navigate(action, extras)
     }
 
@@ -666,11 +794,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Log.e("Error", e.message!!)
         }
     }
-
-//    override fun onStop() {
-//        super.onStop()
-//        communicatorViewModel.homeNestedViewPosition = binding.scrollViewHome.scrollY
-//    }
 
 
     override fun onPause() {

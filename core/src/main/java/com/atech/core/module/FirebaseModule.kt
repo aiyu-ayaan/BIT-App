@@ -1,15 +1,8 @@
-/*
- * BIT Lalpur App
- *
- * Created by Ayaan on 9/1/21, 1:09 PM
- * Copyright (c) 2021 . All rights reserved.
- * Last modified 9/1/21, 11:14 AM
- */
-
 
 
 package com.atech.core.module
 
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -29,13 +22,12 @@ object FirebaseModule {
     fun provideFirebase() = Firebase.firestore
 
 
-
     @Singleton
     @Provides
     fun provideFirebaseMessagingService(): FirebaseMessaging =
         Firebase.messaging
 
-
-
-
+    @Singleton
+    @Provides
+    fun providerFirebaseAuth() = Firebase.auth
 }

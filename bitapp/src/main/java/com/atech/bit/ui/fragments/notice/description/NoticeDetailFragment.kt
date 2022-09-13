@@ -23,6 +23,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewM
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.getDate
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.network.notice.Attach
@@ -154,10 +155,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
                 sendNotice.sender,
             )
             textViewDate.text =
-                binding.root.context.resources.getString(
-                    R.string.notice_date,
-                    sendNotice.created.convertLongToTime("dd/MM/yyyy")
-                )
+                sendNotice.created.getDate()
             bodyTextView.text = sendNotice.body.replace("<br/>", "\n")
 
             linkIcon.apply {
@@ -228,12 +226,12 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         activity?.onScrollColorChange(binding.nestedScrollViewNotice, {
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar,
-                com.google.android.material.R.attr.colorSurface
+                R.attr.bottomBar
             )
         }, {
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar,
-                R.attr.bottomBar
+                com.google.android.material.R.attr.colorSurface
             )
         })
     }

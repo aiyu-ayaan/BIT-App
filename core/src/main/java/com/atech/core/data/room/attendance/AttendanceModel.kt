@@ -15,8 +15,8 @@ import androidx.annotation.Keep
 import androidx.room.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.parcelize.Parcelize
 import kotlinx.android.parcel.RawValue
+import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 import java.util.*
 

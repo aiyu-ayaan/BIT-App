@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.cgpa_calculator
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.viewbinding.library.fragment.viewBinding
@@ -15,6 +16,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentCgpaCalculatorBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
+import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.*
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.utils.*
@@ -22,17 +24,23 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.google.android.material.transition.MaterialSharedAxis
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
 
     private val binding: FragmentCgpaCalculatorBinding by viewBinding()
     private val prefManager: PreferenceManagerViewModel by activityViewModels()
+    private val userDataViewModel by activityViewModels<UserDataViewModel>()
     private val textInputLayoutList = mutableListOf<TextInputLayout>()
     private lateinit var cgpa: Cgpa
     private lateinit var course: String
+
+    @Inject
+    lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -102,7 +110,9 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
     }
 
     private fun clearSavedCgpa() {
-        prefManager.updateCgpa(Cgpa())
+        val d = Cgpa()
+        prefManager.updateCgpa(d)
+        updateCGPAToDb(d)
         binding.editTextSem1.requestFocus()
         showUndoMessage(cgpa)
     }
@@ -119,6 +129,7 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
 
     private fun saveClearCgpa(cgpa: Cgpa) {
         prefManager.updateCgpa(cgpa)
+        updateCGPAToDb(cgpa)
     }
 
 
@@ -263,8 +274,18 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
         num6: Double,
         cgpa: Double,
     ) {
-        prefManager.updateCgpa(Cgpa(num1, num2, num3, num4, num5, num6, cgpa))
+        val cgpa = Cgpa(num1, num2, num3, num4, num5, num6, cgpa)
+        prefManager.updateCgpa(cgpa)
+        updateCGPAToDb(cgpa)
+    }
 
+    private fun updateCGPAToDb(cgpa: Cgpa) {
+        if (auth.currentUser != null)
+            userDataViewModel.setCGPA(auth.currentUser!!.uid, cgpa, {
+                Log.d(TAG, "updateCGPAToDb: Updated")
+            }) {
+                Log.d(TAG, "updateCGPAToDb: Failed")
+            }
     }
 
     private fun addGradesIntoBcaCourse(gradeList: List<Double>): List<BcaCourse> {

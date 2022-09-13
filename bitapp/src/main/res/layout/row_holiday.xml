@@ -17,7 +17,7 @@
     android:layout_height="wrap_content"
     android:layout_marginVertical="@dimen/grid_0_5"
     app:cardBackgroundColor="@android:color/transparent"
-    app:strokeColor="@color/divider_color">
+    app:strokeColor="?attr/bottomBar">
 
     <LinearLayout
         android:layout_width="match_parent"

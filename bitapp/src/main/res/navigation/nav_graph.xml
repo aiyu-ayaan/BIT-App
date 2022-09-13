@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/startUpFragment">
+    app:startDestination="@id/logInFragment">
 
     <fragment
         android:id="@+id/startUpFragment"
@@ -33,6 +33,12 @@
         <action
             android:id="@+id/action_homeFragment_to_cgpaCalculatorFragment"
             app:destination="@id/cgpaCalculatorFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_logInFragment"
+            app:destination="@id/logInFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
@@ -398,6 +404,10 @@
             android:id="@+id/deepLink"
             android:autoVerify="true"
             app:uri="bitbyaiyu.github.io/event/path={path}" />
+        <argument
+            android:name="request"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <action
         android:id="@+id/action_global_eventDetailFragment"
@@ -406,7 +416,7 @@
         android:id="@+id/viewVideoFragment"
         android:name="com.atech.bit.ui.fragments.view_video.ViewVideoFragment"
         android:label="@string/blank"
-        tools:layout="@layout/fragment_view_video" >
+        tools:layout="@layout/fragment_view_video">
         <argument
             android:name="link"
             app:argType="string" />
@@ -414,4 +424,55 @@
     <action
         android:id="@+id/action_global_viewVideoFragment"
         app:destination="@id/viewVideoFragment" />
+    <fragment
+        android:id="@+id/logInFragment"
+        android:name="com.atech.bit.ui.fragments.login.LogInFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_logInFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="request"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadingDataFragment"
+        android:name="com.atech.bit.ui.fragments.login.loading_data.LoadingDataFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_loading_data">
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_loadingDataFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_startUpFragment"
+        app:destination="@id/startUpFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <action
+        android:id="@+id/action_global_loadingDataFragment"
+        app:destination="@id/loadingDataFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+    <dialog
+        android:id="@+id/profileFragment"
+        android:name="com.atech.bit.ui.fragments.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="uid"
+            app:argType="string" />
+        <argument
+            android:name="user"
+            app:argType="com.atech.core.data.network.user.UserModel" />
+    </dialog>
 </navigation>

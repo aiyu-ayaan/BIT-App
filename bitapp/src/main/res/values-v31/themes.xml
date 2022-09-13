@@ -15,13 +15,14 @@
         <item name="colorSecondaryContainer">@color/blue_bottom_nav</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >?attr/colorSurface</item>
+        <item name="android:statusBarColor">?attr/colorSurface</item>
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
         <item name="bottomBar">@android:color/system_neutral1_50</item>
         <item name="textColor">@color/textColor</item>
         <item name="textColorSecondary">@color/textColorSecondary</item>
         <item name="bottomSheetBackground">@android:color/system_neutral1_100</item>
+        <item name="appLogoBackground">@color/logo_background</item>
 
 
         <item name="windowActionModeOverlay">true</item>
@@ -48,5 +49,19 @@
 
     <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
         <item name="backgroundTint">?attr/bottomSheetBackground</item>
+    </style>
+
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8dp</item>
     </style>
 </resources>

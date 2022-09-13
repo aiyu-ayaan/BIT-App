@@ -28,9 +28,7 @@ import com.atech.bit.ui.fragments.notice.NoticeAdapter
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
-
 import com.atech.core.data.ui.notice.Notice3
-import com.atech.core.utils.REQUEST_ADAPTER_EVENT_FROM_HOME
 import com.atech.core.utils.REQUEST_ADAPTER_SEARCH
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -137,10 +135,10 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun setEventView() {
         val eventAdapter = EventsAdapter(
-            db, {
+            db,
+            {
                 navigateToImageView(it)
             },
-            REQUEST_ADAPTER_EVENT_FROM_HOME
         ) { event, rootView ->
             navigateToEventDetail(event, rootView)
         }

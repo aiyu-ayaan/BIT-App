@@ -18,6 +18,8 @@ import com.atech.core.utils.DataState
 import com.atech.core.utils.handler
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -36,7 +38,7 @@ class HolidayRepository @Inject constructor(
         try {
             val ref = db.collection("BIT_Holiday").orderBy("sno", Query.Direction.ASCENDING)
             ref.addSnapshotListener { value, _ ->
-                runBlocking ( handler){
+                runBlocking(handler) {
                     if (value != null) {
                         val networkHoliday =
                             value.toObjects(HolidayNetworkEntity::class.java)

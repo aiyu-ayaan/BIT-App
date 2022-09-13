@@ -39,8 +39,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:strokeColor="@color/divider_color">
+            app:cardBackgroundColor="?attr/bottomBar"
+            app:strokeColor="?attr/bottomBar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_theory"
@@ -73,8 +73,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:strokeColor="@color/divider_color">
+            app:cardBackgroundColor="?attr/bottomBar"
+            app:strokeColor="?attr/bottomBar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_lab"
@@ -103,8 +103,8 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:strokeColor="@color/divider_color">
+            app:cardBackgroundColor="?attr/bottomBar"
+            app:strokeColor="?attr/bottomBar">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/show_pe"

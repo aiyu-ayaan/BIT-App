@@ -19,6 +19,13 @@ class AttendanceViewModel @Inject constructor(
     private val syllabusDao: SyllabusDao
 ) : ViewModel() {
 
+
+    var isDataSet = state.get<Boolean>("isDataSet") ?: true
+        set(value) {
+            field = value
+            state["isDataSet"] = value
+        }
+
     private val _attendance = attendanceDao.getAllAttendance()
     val attendance: LiveData<List<AttendanceModel>>
         get() = _attendance.asLiveData()

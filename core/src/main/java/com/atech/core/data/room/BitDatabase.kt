@@ -38,7 +38,7 @@ import javax.inject.Provider
         SyllabusModel::class, Notice3CacheEntity::class,
         EventsCacheEntity::class
     ],
-    version = 6
+    version = 7
 )
 @TypeConverters(
     DaysTypeConvector::class,
@@ -118,7 +118,18 @@ abstract class BitDatabase : RoomDatabase() {
                 database.execSQL("DROP TABLE event_table")
                 database.execSQL("CREATE TABLE `events_table`(`created` INTEGER NOT NULL,`title` TEXT NOT NULL,`content` TEXT NOT NULL, `insta_link` TEXT NOT NULL, `logo_link` TEXT NOT NULL,`path` TEXT NOT NULL,`society` TEXT NOT NULL, `video_link` TEXT NOT NULL,  PRIMARY KEY(`title`))")
             }
+        }
 
+        val migration_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba63' where openCode ='bba53'")
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba64' where openCode ='bba54'")
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba611' where openCode ='bba55'")
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba610' where openCode ='bba56'")
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba619' where openCode ='bba57'")
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba620' where openCode ='bba58'")
+                database.execSQL("UPDATE syllabus_table SET openCode ='bba621' where openCode ='bba59'")
+            }
         }
 
     }
