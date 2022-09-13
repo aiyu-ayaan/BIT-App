@@ -11,7 +11,8 @@
 package com.atech.core.data.room.syllabus
 
 object SyllabusList {
-    val syllabus = listOf( //                BCA
+    val syllabus = listOf(
+        //                BCA
 //                SEM1
         SyllabusModel(
             subject = "Problem Solving And Programming in C",
@@ -745,6 +746,80 @@ object SyllabusList {
             2,
             "BBA52", shortName = "isd", listOrder = 2
         ),
+
+        SyllabusModel(
+            "Banking Concepts and Practices",
+            code = "MT 307",
+            credits = 3,
+            openCode = "BBA53",
+            type = "PE",
+            group = "FINANCE GROUP",
+            shortName = "bcp",
+            listOrder = 3
+        ),
+
+        SyllabusModel(
+            "International Finance",
+            code = " MT308",
+            credits = 3,
+            openCode = "BBA54",
+            type = "PE",
+            group = "FINANCE GROUP",
+            shortName = "if",
+            listOrder = 4
+        ),
+        SyllabusModel(
+            "Training & Development",
+            code = "MT323",
+            credits = 3,
+            openCode = "BBA55",
+            type = "PE",
+            group = "HUMAN RESOURCE GROUP",
+            shortName = "td",
+            listOrder = 5
+        ),
+        SyllabusModel(
+            "Manpower Planning",
+            code = "MT325",
+            credits = 3,
+            openCode = "BBA56",
+            type = "PE",
+            group = "HUMAN RESOURCE GROUP",
+            shortName = "mp",
+            listOrder = 6
+        ),
+        SyllabusModel(
+            "International Marketing",
+            code = "MT316",
+            credits = 3,
+            openCode = "BBA57",
+            type = "PE",
+            group = "MARKETING GROUP",
+            shortName = "im inte",
+            listOrder = 7
+        ),
+        SyllabusModel(
+            "Retail Management",
+            code = "MT318",
+            credits = 3,
+            openCode = "BBA58",
+            type = "PE",
+            group = "MARKETING GROUP",
+            shortName = "rm retail",
+            listOrder = 8
+        ),
+        SyllabusModel(
+            "Services Marketing",
+            code = "MT317",
+            credits = 3,
+            openCode = "BBA59",
+            type = "PE",
+            group = "MARKETING GROUP",
+            shortName = "ds servi",
+            listOrder = 9
+        ),
+
+//        TODO ADD HERE
 //                SEM 6
 
         SyllabusModel(
@@ -767,27 +842,7 @@ object SyllabusList {
             listOrder = 2
         ),
 
-        SyllabusModel(
-            "Banking Concepts and Practices",
-            code = "MT 307",
-            credits = 3,
-            openCode = "BBA63",
-            type = "PE",
-            group = "FINANCE GROUP",
-            shortName = "bcp",
-            listOrder = 3
-        ),
-
-        SyllabusModel(
-            "International Finance",
-            code = " MT308",
-            credits = 3,
-            openCode = "BBA64",
-            type = "PE",
-            group = "FINANCE GROUP",
-            shortName = "if",
-            listOrder = 4
-        ),
+//        TODO REMOVE FROM HERE
 
         SyllabusModel(
             "Equity and Debt Market",
@@ -797,7 +852,7 @@ object SyllabusList {
             type = "PE",
             group = "FINANCE GROUP",
             shortName = "edm",
-            listOrder = 5
+            listOrder = 3
         ),
         SyllabusModel(
             "Auditing",
@@ -807,7 +862,7 @@ object SyllabusList {
             type = "PE",
             group = "FINANCE GROUP",
             shortName = "aud",
-            listOrder = 6
+            listOrder = 4
         ),
         SyllabusModel(
             "Industrial and Labour Legislation",
@@ -817,7 +872,7 @@ object SyllabusList {
             type = "PE",
             group = "HUMAN RESOURCE GROUP",
             shortName = "ill",
-            listOrder = 7
+            listOrder = 5
         ),
         SyllabusModel(
             "Industrial Relations",
@@ -827,17 +882,7 @@ object SyllabusList {
             type = "PE",
             group = "HUMAN RESOURCE GROUP",
             shortName = "ir",
-            listOrder = 8
-        ),
-        SyllabusModel(
-            "Manpower Planning",
-            code = "MT325",
-            credits = 3,
-            openCode = "BBA69",
-            type = "PE",
-            group = "HUMAN RESOURCE GROUP",
-            shortName = "mp",
-            listOrder = 9
+            listOrder = 6
         ),
         SyllabusModel(
             "Performance & Compensation Management",
@@ -847,18 +892,9 @@ object SyllabusList {
             type = "PE",
             group = "HUMAN RESOURCE GROUP",
             shortName = "pcm",
-            listOrder = 10
+            listOrder = 7
         ),
-        SyllabusModel(
-            "Training & Development",
-            code = "MT323",
-            credits = 3,
-            openCode = "BBA611",
-            type = "PE",
-            group = "HUMAN RESOURCE GROUP",
-            shortName = "td",
-            listOrder = 11
-        ),
+
         SyllabusModel(
             "Computer Networks",
             code = "MT311",
@@ -867,7 +903,7 @@ object SyllabusList {
             type = "PE",
             group = "INFORMATION TECHNOLOGY GROUP",
             shortName = "cn",
-            listOrder = 12
+            listOrder = 8
         ),
         SyllabusModel(
             "Internet and Web Page Design",
@@ -877,7 +913,7 @@ object SyllabusList {
             type = "PE",
             group = "INFORMATION TECHNOLOGY GROUP",
             shortName = "iwpd",
-            listOrder = 13
+            listOrder = 9
         ),
         SyllabusModel(
             "Introduction to business analytics",
@@ -887,7 +923,7 @@ object SyllabusList {
             type = "PE",
             group = "INFORMATION TECHNOLOGY GROUP",
             shortName = "iba",
-            listOrder = 14
+            listOrder = 10
         ),
         SyllabusModel(
             "Knowledge Management",
@@ -897,7 +933,7 @@ object SyllabusList {
             type = "PE",
             group = "INFORMATION TECHNOLOGY GROUP",
             shortName = "km",
-            listOrder = 15
+            listOrder = 11
         ),
         SyllabusModel(
             "Programming Technology",
@@ -907,7 +943,7 @@ object SyllabusList {
             type = "PE",
             group = "INFORMATION TECHNOLOGY GROUP",
             shortName = "pt",
-            listOrder = 16
+            listOrder = 12
         ),
         SyllabusModel(
             "Consumer Behaviour",
@@ -917,7 +953,7 @@ object SyllabusList {
             type = "PE",
             group = "MARKETING GROUP",
             shortName = "cb",
-            listOrder = 17
+            listOrder = 13
         ),
         SyllabusModel(
             "Integrated Marketing Communication",
@@ -927,37 +963,7 @@ object SyllabusList {
             type = "PE",
             group = "MARKETING GROUP",
             shortName = "imc",
-            listOrder = 18
+            listOrder = 14
         ),
-        SyllabusModel(
-            "International Marketing",
-            code = "MT316",
-            credits = 3,
-            openCode = "BBA619",
-            type = "PE",
-            group = "MARKETING GROUP",
-            shortName = "im inte",
-            listOrder = 19
-        ),
-        SyllabusModel(
-            "Retail Management",
-            code = "MT318",
-            credits = 3,
-            openCode = "BBA620",
-            type = "PE",
-            group = "MARKETING GROUP",
-            shortName = "rm retail",
-            listOrder = 20
-        ),
-        SyllabusModel(
-            "Services Marketing",
-            code = "MT317",
-            credits = 3,
-            openCode = "BBA621",
-            type = "PE",
-            group = "MARKETING GROUP",
-            shortName = "ds servi",
-            listOrder = 21
-        )
     )
 }

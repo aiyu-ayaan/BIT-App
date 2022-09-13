@@ -77,19 +77,22 @@ fun openCodeBBA(syllabusModel: SyllabusModel): Fragment =
         //sem 5
         syllabusModel.openCode.lowercase() == "bba51" -> FragBba51()
         syllabusModel.openCode.lowercase() == "bba52" -> FragBba52()
+        syllabusModel.openCode.lowercase() == "bba53" -> FragBba53()
+        syllabusModel.openCode.lowercase() == "bba54" -> FragBba54()
+        syllabusModel.openCode.lowercase() == "bba55" -> FragBba56()
+        syllabusModel.openCode.lowercase() == "bba56" -> FragBba55()
+        syllabusModel.openCode.lowercase() == "bba57" -> FragBba57()
+        syllabusModel.openCode.lowercase() == "bba58" -> FragBba58()
+        syllabusModel.openCode.lowercase() == "bba59" -> FragBba59()
 
 
         //sem 6
         syllabusModel.openCode.lowercase() == "bba61" -> FragBba61()
         syllabusModel.openCode.lowercase() == "bba62" -> FragBba62()
-        syllabusModel.openCode.lowercase() == "bba63" -> FragBba63()
-        syllabusModel.openCode.lowercase() == "bba64" -> FragBba64()
         syllabusModel.openCode.lowercase() == "bba65" -> FragBba65()
         syllabusModel.openCode.lowercase() == "bba66" -> FragBba66()
         syllabusModel.openCode.lowercase() == "bba67" -> FragBba68()
         syllabusModel.openCode.lowercase() == "bba68" -> FragBba69()
-        syllabusModel.openCode.lowercase() == "bba69" -> FragBba610()
-        syllabusModel.openCode.lowercase() == "bba610" -> FragBba611()
         syllabusModel.openCode.lowercase() == "bba611" -> FragBba612()
         syllabusModel.openCode.lowercase() == "bba612" -> FragBba67()
         syllabusModel.openCode.lowercase() == "bba613" -> FragBba613()
@@ -98,9 +101,6 @@ fun openCodeBBA(syllabusModel: SyllabusModel): Fragment =
         syllabusModel.openCode.lowercase() == "bba616" -> FragBba616()
         syllabusModel.openCode.lowercase() == "bba617" -> FragBba617()
         syllabusModel.openCode.lowercase() == "bba618" -> FragBba618()
-        syllabusModel.openCode.lowercase() == "bba619" -> FragBba619()
-        syllabusModel.openCode.lowercase() == "bba620" -> FragBba620()
-        syllabusModel.openCode.lowercase() == "bba621" -> FragBba621()
         else -> FragmentNetworkSyllabus(syllabusModel)
     }
 
