@@ -94,6 +94,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/grid_3"
         android:layout_marginBottom="@dimen/grid_2"
+        android:background="?attr/actionBarItemBackground"
         android:text="@string/need_of_log_in"
         android:textAppearance="?attr/textAppearanceCaption"
         app:layout_constraintBottom_toBottomOf="parent"

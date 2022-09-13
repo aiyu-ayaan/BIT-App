@@ -27,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -110,6 +111,26 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
             val firsTimeLogin = pref.getBoolean(KEY_FIRST_TIME_LOGIN, false)
             if (firsTimeLogin && args.request != REQUEST_LOGIN_FROM_HOME)
                 navigateToHome()
+        }
+        whyULogInDialog()
+    }
+
+    private fun whyULogInDialog() {
+        binding.textViewWhyToLogIn.setOnClickListener {
+            val dialog = MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Why do you need to log in?")
+                .setMessage(
+                    """
+                        You need to log in to save your data (e.g. Attendance, GPA, Course preferences) in the cloud.
+                        
+                        This way you can access your data from any device.
+                    """.trimIndent()
+                )
+                .setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+            dialog.show()
         }
     }
 
