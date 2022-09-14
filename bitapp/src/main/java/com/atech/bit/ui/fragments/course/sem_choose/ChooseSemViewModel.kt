@@ -7,7 +7,6 @@ import com.atech.core.data.room.syllabus.SyllabusDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
@@ -22,29 +21,21 @@ class ChooseSemViewModel @Inject constructor(
 
     val sem = MutableStateFlow("")
 
-    var isOnLine = MutableStateFlow(false)
 
-    val theory = isOnLine.flatMapLatest {
-        if (it) sem.flatMapLatest {
-            emptyFlow()
-        } else sem.flatMapLatest { sem ->
+
+    val theory =
+        sem.flatMapLatest { sem ->
             syllabusDao.getSyllabusType(sem, "Theory")
-        }
-    }.asLiveData()
 
-    val lab = isOnLine.flatMapLatest {
-        if (it) sem.flatMapLatest {
-            emptyFlow()
-        } else sem.flatMapLatest { sem ->
-            syllabusDao.getSyllabusType(sem, "Lab")
-        }
+        }.asLiveData()
+
+    val lab = sem.flatMapLatest { sem ->
+        syllabusDao.getSyllabusType(sem, "Lab")
+
     }.asLiveData()
-    val pe = isOnLine.flatMapLatest {
-        if (it) sem.flatMapLatest {
-            emptyFlow()
-        } else sem.flatMapLatest { sem ->
-            syllabusDao.getSyllabusType(sem, "PE")
-        }
+    val pe = sem.flatMapLatest { sem ->
+        syllabusDao.getSyllabusType(sem, "PE")
+
     }.asLiveData()
 
     var chooseSemNestedViewPosition: Int? = state["chooseSemNestedViewPosition"]

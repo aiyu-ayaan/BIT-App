@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.course.sem_choose
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -23,12 +24,14 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.addMenuHost
 import com.atech.core.data.room.syllabus.SyllabusModel
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
 import com.atech.core.utils.openCustomChromeTab
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
@@ -40,6 +43,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private lateinit var courseTheoryAdapter: SubjectAdapter
     private lateinit var courseLabAdapter: SubjectAdapter
     private lateinit var coursePeAdapter: SubjectAdapter
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +141,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             courseTheoryAdapter.submitList(it)
         }
         viewModel.lab.observe(viewLifecycleOwner) {
-
             binding.semChoseExt.showLab.isVisible = it.isNotEmpty()
             binding.semChoseExt.textView7.isVisible = it.isNotEmpty()
             courseLabAdapter.submitList(it)
@@ -152,20 +157,43 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         buttonClick()
         setUpMenu()
         switchClick()
+        setSource()
+    }
+
+    private fun setSource() {
+        val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
+        binding.switchOldNew.isChecked = source
+        setText(source)
+        layoutChanges(source)
     }
 
     private fun switchClick() = binding.switchOldNew.apply {
         setOnCheckedChangeListener { _, isChecked ->
-            removeAdapter()
-            viewModel.isOnLine.value = isChecked
+            saveSource(isChecked)
+            setText(isChecked)
+            layoutChanges(isChecked)
         }
     }
 
-    private fun removeAdapter() {
-        courseTheoryAdapter.submitList(emptyList())
-        courseLabAdapter.submitList(emptyList())
-        coursePeAdapter.submitList(emptyList())
+    private fun setText(isEnable: Boolean) {
+        binding.switchOldNew.text =
+            if (isEnable) resources.getString(R.string.switch_to_old)
+            else resources.getString(R.string.switch_to_new)
     }
+
+    private fun saveSource(isEnable: Boolean) {
+        pref.edit()
+            .putBoolean(
+                KEY_TOGGLE_SYLLABUS_SOURCE,
+                isEnable
+            ).apply()
+    }
+
+    private fun layoutChanges(isEnable: Boolean) = binding.apply {
+        semChoseOnlineExt.root.isVisible = isEnable
+        semChoseExt.root.isVisible = !isEnable
+    }
+
 
     private fun setUpMenu() {
         addMenuHost(R.menu.menu_sem_choose) { item ->

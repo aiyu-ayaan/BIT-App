@@ -34,8 +34,8 @@
 
             <ImageView
                 android:id="@+id/image_no_notice"
-                android:layout_width="300dp"
-                android:layout_height="300dp"
+                android:layout_width="@dimen/image_view_log_in_size"
+                android:layout_height="@dimen/image_view_log_in_size"
                 android:contentDescription="@string/blank"
                 android:src="@drawable/ic_no_data" />
 
