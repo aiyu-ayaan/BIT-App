@@ -412,8 +412,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     override fun onPause() {
         super.onPause()
-        checkForHasChange()
-        if (auth.currentUser != null)
+        if (auth.currentUser != null) {
+            checkForHasChange()
             if (communicator.maxTimeToUploadAttendanceData <= 2
                 && communicator.attendanceManagerSize != attendanceList.size
             )
@@ -425,6 +425,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 }.also {
                     communicator.attendanceManagerSize = attendanceList.size
                 }
+        }
     }
 
     private fun checkForHasChange() {
