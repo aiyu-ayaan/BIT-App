@@ -3,6 +3,7 @@ package com.atech.bit.ui.fragments.course.sem_choose
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.atech.core.api.SyllabusRepository
 import com.atech.core.data.room.syllabus.SyllabusDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,13 +15,13 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 class ChooseSemViewModel @Inject constructor(
     private val syllabusDao: SyllabusDao,
-    val state: SavedStateHandle
+    val state: SavedStateHandle,
+    val repository: SyllabusRepository
 ) : ViewModel() {
 
     val request = state.get<String>("request")
 
     val sem = MutableStateFlow("")
-
 
 
     val theory =
@@ -43,4 +44,7 @@ class ChooseSemViewModel @Inject constructor(
             field = value
             state["chooseSemNestedViewPosition"] = value
         }
+
+    suspend fun getSyllabus() = repository.getSyllabus()
+
 }

@@ -136,7 +136,6 @@ class ProfileFragment : DialogFragment() {
                         "Can't proceed this progress right now. Try again later ",
                         Toast.LENGTH_SHORT
                     ).show()
-                    Log.d("XXX", "deleteAccount: $it")
                 }
             }
             .setNegativeButton("no") { dialog, _ ->

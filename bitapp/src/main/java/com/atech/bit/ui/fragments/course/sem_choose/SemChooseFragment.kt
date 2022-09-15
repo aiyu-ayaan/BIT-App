@@ -30,6 +30,9 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -158,6 +161,19 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         setUpMenu()
         switchClick()
         setSource()
+        getOnlineSyllabus()
+    }
+
+    private fun getOnlineSyllabus() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val d = viewModel.getSyllabus()
+                Log.d("XXX", "getOnlineSyllabus: ${d.semesters.size}")
+            } catch (e: Exception) {
+                Log.d("XXX", "getOnlineSyllabus: ${e.message}")
+            }
+
+        }
     }
 
     private fun setSource() {

@@ -137,7 +137,6 @@ class EventRepository @Inject constructor(
         val cachedHoliday = dao.getEvents7Days(start, end)
         cachedHoliday.collect {
             emit(cachedMapper.mapFromEntityList(it))
-            Log.d("XXX", "getEvent7Days: ${cachedMapper.mapFromEntityList(it)}")
         }
     }.flowOn(Dispatchers.Main)
 }

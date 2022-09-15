@@ -30,6 +30,8 @@ buildscript {
         mediaVersion = "1.0.0-beta02"
         tapTargetVersion = "3.3.2"
         cryptoreVersion = "1.4.0"
+        retrofit_version = "2.4.0"
+        retrofit_json_version = "2.9.0"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.13'

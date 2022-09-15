@@ -84,6 +84,9 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "com.kazakago.cryptore:cryptore:$cryptoreVersion"
 
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_json_version"
+
 
 
 }
