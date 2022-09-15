@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.*
-import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
@@ -38,6 +37,7 @@ import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.*
+import com.github.mikephil.charting.BuildConfig.VERSION_CODE
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
@@ -376,7 +376,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                         bottomLayout.visibility = View.GONE
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         isCanceled = true
                     }
                 })
@@ -486,7 +486,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 val link = value?.getString("link")
                 val minVersion = value?.getDouble("minVersion")
                 val isMinEdition =
-                    BuildConfig.VERSION_CODE > (minVersion?.toInt() ?: INVALID_BUILD_VERSION)
+                    VERSION_CODE > (minVersion?.toInt() ?: INVALID_BUILD_VERSION)
                 isEnable?.let { it ->
                     if (it && u && !isMinEdition)
                         link?.let { link ->
