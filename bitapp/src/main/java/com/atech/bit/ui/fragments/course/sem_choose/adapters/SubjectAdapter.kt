@@ -8,7 +8,7 @@
 
 
 
-package com.atech.bit.ui.fragments.course.sem_choose
+package com.atech.bit.ui.fragments.course.sem_choose.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

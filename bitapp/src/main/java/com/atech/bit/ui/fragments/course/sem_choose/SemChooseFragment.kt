@@ -13,8 +13,10 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
@@ -22,17 +24,22 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSemChooseBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
+import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAdapter
+import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.core.api.model.Semesters
+import com.atech.core.api.model.SubjectContent
+import com.atech.core.api.model.Theory
 import com.atech.core.data.room.syllabus.SyllabusModel
+import com.atech.core.utils.DataState
 import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
 import com.atech.core.utils.openCustomChromeTab
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -46,6 +53,8 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private lateinit var courseTheoryAdapter: SubjectAdapter
     private lateinit var courseLabAdapter: SubjectAdapter
     private lateinit var coursePeAdapter: SubjectAdapter
+    private lateinit var onlineTheoryAdapter: SyllabusTheoryOnlineAdapter
+    private lateinit var onlineLabAdapter: SyllabusLabOnlineAdapter
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -69,6 +78,50 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         restoreScroll(binding)
         binding.root.transitionName = viewModel.request
 
+
+        onlineTheoryAdapter = SyllabusTheoryOnlineAdapter { pos ->
+            navigateToOnlineSyllabus(pos)
+        }
+        onlineLabAdapter = SyllabusLabOnlineAdapter()
+
+        binding.semChoseOnlineExt.recyclerViewOnlineSyllabus.apply {
+            adapter = ConcatAdapter(onlineTheoryAdapter, onlineLabAdapter)
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(
+                DividerItemDecorationNoLast(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL
+                ).apply {
+                    setDrawable(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.divider
+                        )
+                    )
+                }
+            )
+        }
+
+        offlineDataSource()
+        buttonClick()
+        setUpMenu()
+        switchClick()
+        setSource()
+        getOnlineSyllabus()
+    }
+
+    private fun navigateToOnlineSyllabus(theory: Theory) {
+
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+
+        val subject = SubjectContent(theory.subjectName, theory.content, theory.books)
+        val action =
+            SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(subject)
+        findNavController().navigate(action)
+    }
+
+    private fun offlineDataSource() {
         courseTheoryAdapter = SubjectAdapter { syllabusModel, view ->
             syllabusClick(syllabusModel, view)
         }
@@ -84,7 +137,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
         coursePeAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-
         binding.apply {
             semChoseExt.apply {
                 showTheory.apply {
@@ -157,26 +209,50 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             viewModel.sem.value = "${viewModel.request}${it.semSyllabus}"
             buttonColorChange(it.semSyllabus, binding)
         }
-        buttonClick()
-        setUpMenu()
-        switchClick()
-        setSource()
-        getOnlineSyllabus()
     }
 
     private fun getOnlineSyllabus() {
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launchWhenStarted {
             try {
-                val d = viewModel.getSyllabus()
-                Log.d("XXX", "getOnlineSyllabus: ${d.semesters.size}")
+                viewModel.getOnlineSyllabus().collect { dataState ->
+                    when (dataState) {
+                        DataState.Empty -> {
+                            setViewOfOnlineSyllabusExt(false)
+                            onlineTheoryAdapter.submitList(emptyList())
+                        }
+                        is DataState.Error -> {}
+                        DataState.Loading -> {
+                            binding.semChoseOnlineExt.progressBarLoading.isVisible = true
+                            binding.semChoseOnlineExt.noData.isVisible = false
+                            binding.semChoseOnlineExt.noDataText.isVisible = false
+                        }
+                        is DataState.Success -> {
+                            setViewOfOnlineSyllabusExt(true)
+                            setOnLineData(dataState.data)
+                        }
+                    }
+                }
             } catch (e: Exception) {
-                Log.d("XXX", "getOnlineSyllabus: ${e.message}")
+                Log.d("XXX", "getOnlineSyllabus: Error ${e.message}")
             }
 
         }
     }
 
-    private fun setSource() {
+    private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) {
+        binding.semChoseOnlineExt.progressBarLoading.isVisible = false
+        binding.semChoseOnlineExt.noData.isVisible = !isVisible
+        binding.semChoseOnlineExt.noDataText.isVisible = !isVisible
+        binding.semChoseOnlineExt.recyclerViewOnlineSyllabus.isVisible = isVisible
+        binding.semChoseOnlineExt.textView6.isVisible = isVisible
+    }
+
+    private fun setOnLineData(data: Semesters) {
+        onlineTheoryAdapter.submitList(data.subjects.theory)
+        onlineLabAdapter.submitList(data.subjects.lab)
+    }
+
+    fun setSource() {
         val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
         binding.switchOldNew.isChecked = source
         setText(source)

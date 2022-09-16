@@ -207,6 +207,11 @@
     <string name="switch_to_new">Switch To Online</string>
     <string name="switch_to_old">Switch To Offline</string>
     <string name="no_data_choose_syllabus">Syllabus for this semester not added yet 😣.\nWill be added soon 😇</string>
+    <string name="theory_code">Theory . %s</string>
+    <string name="lab_code">Lab . %s</string>
+    <string name="all_subjects">All Subjects</string>
+    <string name="text_book">Text Books :</string>
+    <string name="reference_book">Reference Books :</string>
 
 
 </resources>
