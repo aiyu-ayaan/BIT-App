@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.course.sem_choose
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -26,11 +27,10 @@ class ChooseSemViewModel @Inject constructor(
     val sem = MutableStateFlow("")
 
 
-    val theory =
-        sem.flatMapLatest { sem ->
-            syllabusDao.getSyllabusType(sem, "Theory")
+    val theory = sem.flatMapLatest { sem ->
+        syllabusDao.getSyllabusType(sem, "Theory")
 
-        }.asLiveData()
+    }.asLiveData()
 
     val lab = sem.flatMapLatest { sem ->
         syllabusDao.getSyllabusType(sem, "Lab")
@@ -47,24 +47,21 @@ class ChooseSemViewModel @Inject constructor(
             state["chooseSemNestedViewPosition"] = value
         }
 
-    suspend fun getSyllabus() =
-        repository.getSyllabus()
+//    suspend fun getSyllabus() = repository.getSyllabus()
 
     suspend fun getOnlineSyllabus() = sem.flatMapLatest { semester ->
         flow {
             emit(DataState.Loading)
-            kotlinx.coroutines.delay(100)
             if (semester.lowercase().replace("\\d+".toRegex(), "") == "bca") {
-                val sem = repository.getSyllabus().semesters.filter {
-                    it.sem == semester.replace(
-                        "\\D+".toRegex(),
-                        ""
-                    ).toInt()
-                }
-                if (sem.isNotEmpty()) {
-                    emit(DataState.Success(sem[0]))
-                } else {
-                    emit(DataState.Empty)
+                try {
+                    val sem = repository.getSyllabus(semester.lowercase())
+                    if (sem.semesters.subjects.theory.isNotEmpty()) {
+                        emit(DataState.Success(sem))
+                    } else {
+                        emit(DataState.Empty)
+                    }
+                } catch (e: Exception) {
+                    emit(DataState.Error(e))
                 }
             } else {
                 emit(DataState.Empty)

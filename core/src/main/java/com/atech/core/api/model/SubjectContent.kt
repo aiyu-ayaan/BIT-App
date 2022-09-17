@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SubjectContent(
     val subjectName: String,
-    val content: List<TheoryContent>,
+    val theoryContents: List<TheoryContent> ?= null,
+    val labContent : List<LabContent> ?= null,
     val books: Books
 ) : Parcelable

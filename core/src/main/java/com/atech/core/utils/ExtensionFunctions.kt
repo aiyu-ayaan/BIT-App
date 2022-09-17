@@ -39,6 +39,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.recyclerview.widget.RecyclerView
+import com.atech.core.BuildConfig
 import com.atech.core.R
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.IsPresent
@@ -77,16 +78,12 @@ inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) 
 // */
 fun String.openLinks(activity: Activity, @StringRes string: Int) {
     try {
-        activity.startActivity(
-            Intent(Intent.ACTION_VIEW).also {
-                it.data = Uri.parse(this)
-            }
-        )
+        activity.startActivity(Intent(Intent.ACTION_VIEW).also {
+            it.data = Uri.parse(this)
+        })
     } catch (e: Exception) {
         Toast.makeText(
-            activity,
-            activity.resources.getString(string),
-            Toast.LENGTH_SHORT
+            activity, activity.resources.getString(string), Toast.LENGTH_SHORT
         ).show()
     }
 }
@@ -100,42 +97,32 @@ fun String.openLinks(activity: Activity, @StringRes string: Int) {
  * @since 4.0.2
  */
 fun String.loadImageCircular(
-    parentView: View,
-    view: ImageView,
-    progressBar: ProgressBar,
-    @DrawableRes errorImage: Int
-) =
-    Glide.with(parentView)
-        .load(this)
-        .centerCrop()
-        .apply(RequestOptions().circleCrop())
-        .error(errorImage)
-        .transition(DrawableTransitionOptions.withCrossFade())
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                progressBar.visibility = View.GONE
-                return false
-            }
+    parentView: View, view: ImageView, progressBar: ProgressBar, @DrawableRes errorImage: Int
+) = Glide.with(parentView).load(this).centerCrop().apply(RequestOptions().circleCrop())
+    .error(errorImage).transition(DrawableTransitionOptions.withCrossFade())
+    .listener(object : RequestListener<Drawable> {
+        override fun onLoadFailed(
+            e: GlideException?,
+            model: Any?,
+            target: com.bumptech.glide.request.target.Target<Drawable>?,
+            isFirstResource: Boolean
+        ): Boolean {
+            progressBar.visibility = View.GONE
+            return false
+        }
 
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                progressBar.visibility = View.GONE
-                return false
-            }
+        override fun onResourceReady(
+            resource: Drawable?,
+            model: Any?,
+            target: com.bumptech.glide.request.target.Target<Drawable>?,
+            dataSource: DataSource?,
+            isFirstResource: Boolean
+        ): Boolean {
+            progressBar.visibility = View.GONE
+            return false
+        }
 
-        })
-        .timeout(10000)
-        .into(view)
+    }).timeout(10000).into(view)
 
 
 fun String.loadImageCircular(
@@ -159,49 +146,37 @@ fun String.loadImage(
     progressBar: ProgressBar?,
     cornerRadius: Int = DEFAULT_CORNER_RADIUS,
     @DrawableRes errorImage: Int
-) =
-    Glide.with(parentView)
-        .load(this)
-        .fitCenter()
-        .error(errorImage)
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                progressBar?.visibility = View.GONE
-                return false
-            }
+) = Glide.with(parentView).load(this).fitCenter().error(errorImage)
+    .listener(object : RequestListener<Drawable> {
+        override fun onLoadFailed(
+            e: GlideException?,
+            model: Any?,
+            target: com.bumptech.glide.request.target.Target<Drawable>?,
+            isFirstResource: Boolean
+        ): Boolean {
+            progressBar?.visibility = View.GONE
+            return false
+        }
 
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                progressBar?.visibility = View.GONE
-                return false
-            }
+        override fun onResourceReady(
+            resource: Drawable?,
+            model: Any?,
+            target: com.bumptech.glide.request.target.Target<Drawable>?,
+            dataSource: DataSource?,
+            isFirstResource: Boolean
+        ): Boolean {
+            progressBar?.visibility = View.GONE
+            return false
+        }
 
-        })
-        .apply(RequestOptions.bitmapTransform(RoundedCorners(cornerRadius)))
-        .timeout(10000)
-        .transition(DrawableTransitionOptions.withCrossFade())
-        .into(view)
+    }).apply(RequestOptions.bitmapTransform(RoundedCorners(cornerRadius))).timeout(10000)
+    .transition(DrawableTransitionOptions.withCrossFade()).into(view)
 
 
 fun String.loadImageDefault(
-    parentView: View,
-    view: ImageView,
-    progressBar: ProgressBar?,
-    @DrawableRes errorImage: Int
+    parentView: View, view: ImageView, progressBar: ProgressBar?, @DrawableRes errorImage: Int
 ) = this.apply {
-    Glide.with(parentView)
-        .load(this)
-        .error(errorImage)
+    Glide.with(parentView).load(this).error(errorImage)
         .listener(object : RequestListener<Drawable> {
             override fun onLoadFailed(
                 e: GlideException?,
@@ -225,10 +200,7 @@ fun String.loadImageDefault(
                 return false
             }
 
-        })
-        .timeout(6000)
-        .transition(DrawableTransitionOptions.withCrossFade())
-        .into(view)
+        }).timeout(6000).transition(DrawableTransitionOptions.withCrossFade()).into(view)
 }
 
 fun String.loadImageBitMap(
@@ -236,10 +208,7 @@ fun String.loadImageBitMap(
     @DrawableRes errorImage: Int,
     customAction: ((Bitmap?) -> Unit)? = null,
 ) {
-    Glide.with(parentView)
-        .asBitmap()
-        .load(this@loadImageBitMap)
-        .error(errorImage)
+    Glide.with(parentView).asBitmap().load(this@loadImageBitMap).error(errorImage)
         .listener(object : RequestListener<Bitmap> {
             override fun onLoadFailed(
                 e: GlideException?,
@@ -263,32 +232,13 @@ fun String.loadImageBitMap(
         }).submit(100, 100)
 }
 //
-/**
- * Extension function to open Compose Activity
- * @author Ayaan
- * @since 4.0.3
- */
-fun Activity.openBugLink() =
-    this.startActivity(
-        Intent.createChooser(
-            Intent()
-                .also {
-                    it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
-                    it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(R.string.bug_repost))
-                    it.type = "text/html"
-                    it.setPackage(resources.getString(R.string.gmail_package))
-                }, resources.getString(R.string.bug_title)
-        )
-    )
-
 
 /**
  * Replace all \n or \r to br
  * @return
  * @since 2.0
  */
-fun String.replaceNewLineWithBreak() =
-    this.replace("\n|\r\n".toRegex(), "<br>")
+fun String.replaceNewLineWithBreak() = this.replace("\n|\r\n".toRegex(), "<br>")
 
 
 /**
@@ -298,126 +248,108 @@ fun String.replaceNewLineWithBreak() =
  * @author Ayaan
  * @since 4.0.3
  */
-fun String.applyImageUrl(builder: NotificationCompat.Builder) =
-    runBlocking(Dispatchers.IO) {
-        val url = URL(this@applyImageUrl)
-        withContext(Dispatchers.IO) {
-            try {
-                val input = url.openStream()
-                BitmapFactory.decodeStream(input)
-            } catch (e: IOException) {
-                null
-            }
-        }?.let { bitmap ->
-            builder.setLargeIcon(bitmap)
-            builder.setStyle(
-                NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)
-            )
-        }
-    }
-
-/**
- * @since 4.0.3
- * @author Ayaan
- */
-@SuppressLint("SimpleDateFormat")
-fun Date.convertDateToTime(): String =
-    SimpleDateFormat("dd/MM/yyyy").format(this)
-
-/**
- * @since 4.0.3
- * @author Ayaan
- */
-@SuppressLint("SimpleDateFormat")
-fun Long.convertLongToTime(pattern: String): String =
-    SimpleDateFormat(pattern).run {
-        val date = Date(this@convertLongToTime)
-        this.format(date)
-    }
-
-
-/**
- * @since 4.0.3
- * @author Ayaan
- */
-@SuppressLint("SimpleDateFormat")
-fun String.convertStringToLongMillis(): Long? =
-    SimpleDateFormat("dd/MM/yyyy").run {
+fun String.applyImageUrl(builder: NotificationCompat.Builder) = runBlocking(Dispatchers.IO) {
+    val url = URL(this@applyImageUrl)
+    withContext(Dispatchers.IO) {
         try {
-            val d = this.parse(this@convertStringToLongMillis)
-            d?.time
-        } catch (e: ParseException) {
-            e.printStackTrace()
+            val input = url.openStream()
+            BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
             null
         }
+    }?.let { bitmap ->
+        builder.setLargeIcon(bitmap)
+        builder.setStyle(
+            NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)
+        )
     }
+}
+
+/**
+ * @since 4.0.3
+ * @author Ayaan
+ */
+@SuppressLint("SimpleDateFormat")
+fun Date.convertDateToTime(): String = SimpleDateFormat("dd/MM/yyyy").format(this)
+
+/**
+ * @since 4.0.3
+ * @author Ayaan
+ */
+@SuppressLint("SimpleDateFormat")
+fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).run {
+    val date = Date(this@convertLongToTime)
+    this.format(date)
+}
+
+
+/**
+ * @since 4.0.3
+ * @author Ayaan
+ */
+@SuppressLint("SimpleDateFormat")
+fun String.convertStringToLongMillis(): Long? = SimpleDateFormat("dd/MM/yyyy").run {
+    try {
+        val d = this.parse(this@convertStringToLongMillis)
+        d?.time
+    } catch (e: ParseException) {
+        e.printStackTrace()
+        null
+    }
+}
 
 /**
  * @since 4.0.3
  * @author Ayaan
  */
 inline fun AttendanceModel.showUndoMessage(
-    parentView: View,
-    crossinline action: (AttendanceModel) -> Unit
-) =
-    Snackbar.make(
-        parentView,
-        "Deleted ${this.subject}",
-        Snackbar.LENGTH_SHORT
-    ).setAction("Undo") {
-        action.invoke(this)
-    }.apply {
-        this.setBackgroundTint(
-            MaterialColors.getColor(
-                parentView.context,
-                com.google.android.material.R.attr.colorSurface, Color.WHITE
-            )
+    parentView: View, crossinline action: (AttendanceModel) -> Unit
+) = Snackbar.make(
+    parentView, "Deleted ${this.subject}", Snackbar.LENGTH_SHORT
+).setAction("Undo") {
+    action.invoke(this)
+}.apply {
+    this.setBackgroundTint(
+        MaterialColors.getColor(
+            parentView.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
         )
-        this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
-        this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
-    }.show()
+    )
+    this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
+    this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
+}.show()
 
 @Deprecated("THIS IS DEPRECATED")
 inline fun MutableList<AttendanceModel>.showUndoMessage(
-    parentView: View,
-    crossinline action: (MutableList<AttendanceModel>) -> Unit
-) =
-    Snackbar.make(
-        parentView,
-        "Deleted ${this.size}",
-        Snackbar.LENGTH_SHORT
-    ).setAction("Undo") {
-        action.invoke(this)
-    }.apply {
-        this.setBackgroundTint(
-            MaterialColors.getColor(
-                parentView.context,
-                com.google.android.material.R.attr.colorSurface, Color.WHITE
-            )
+    parentView: View, crossinline action: (MutableList<AttendanceModel>) -> Unit
+) = Snackbar.make(
+    parentView, "Deleted ${this.size}", Snackbar.LENGTH_SHORT
+).setAction("Undo") {
+    action.invoke(this)
+}.apply {
+    this.setBackgroundTint(
+        MaterialColors.getColor(
+            parentView.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
         )
-        this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
-        this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
-    }.show()
+    )
+    this.setActionTextColor(ContextCompat.getColor(parentView.context, R.color.red))
+    this.setTextColor(ContextCompat.getColor(parentView.context, R.color.textColor))
+}.show()
 
 
 /**
  * @since 4.0.3
  * @author Ayaan
  */
-fun View.showSnackBar(message: String, duration: Int) =
-    Snackbar.make(
-        this,
-        message,
-        duration
-    ).apply {
-        this.setBackgroundTint(
-            MaterialColors.getColor(
-                this.context,
-                com.google.android.material.R.attr.colorSurface, Color.WHITE
-            )
+fun View.showSnackBar(message: String, duration: Int) = Snackbar.make(
+    this, message, duration
+).apply {
+    this.setBackgroundTint(
+        MaterialColors.getColor(
+            this.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
         )
-        this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
-    }.show()
+    )
+    this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
+}.show()
 
 
 /**
@@ -425,30 +357,23 @@ fun View.showSnackBar(message: String, duration: Int) =
  * @author Ayaan
  */
 fun View.showSnackBar(
-    message: String,
-    duration: Int,
-    actionName: String?,
-    action: (() -> Unit)?
-) =
-    Snackbar.make(
-        this,
-        message,
-        duration
-    ).apply {
-        this.setBackgroundTint(
-            MaterialColors.getColor(
-                this.context,
-                com.google.android.material.R.attr.colorSurface, Color.WHITE
-            )
+    message: String, duration: Int, actionName: String?, action: (() -> Unit)?
+) = Snackbar.make(
+    this, message, duration
+).apply {
+    this.setBackgroundTint(
+        MaterialColors.getColor(
+            this.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
         )
-        this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
-        action?.let { action ->
-            this.setActionTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.red))
-            setAction(actionName) {
-                action.invoke()
-            }
+    )
+    this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
+    action?.let { action ->
+        this.setActionTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.red))
+        setAction(actionName) {
+            action.invoke()
         }
-    }.show()
+    }
+}.show()
 
 
 /**
@@ -459,10 +384,7 @@ fun ArrayList<IsPresent>.countTotalClass(size: Int, isPresent: Boolean): Int {
     var days = 1
     val removeIndex = arrayListOf<Int>()
     for ((index, i) in this.withIndex()) {
-        if (
-            this.last().day.convertLongToTime("dd/mm/yyyy") == i.day.convertLongToTime("dd/mm/yyyy") &&
-            i.isPresent == isPresent
-        ) {
+        if (this.last().day.convertLongToTime("dd/mm/yyyy") == i.day.convertLongToTime("dd/mm/yyyy") && i.isPresent == isPresent) {
             days++
             if (size - 1 != index) {
                 removeIndex.add(index)
@@ -482,11 +404,10 @@ fun ArrayList<IsPresent>.countTotalClass(size: Int, isPresent: Boolean): Int {
  * @since 4.0.3
  * @author Ayaan
  */
-fun String.getAndSetHint(type: String): Int =
-    when (this) {
-        type -> 0
-        else -> this.toInt()
-    }
+fun String.getAndSetHint(type: String): Int = when (this) {
+    type -> 0
+    else -> this.toInt()
+}
 
 /**
  * Detect current theme
@@ -540,20 +461,14 @@ fun getColorForText(context: Context) = context.run {
  * @author Ayaan
  */
 inline fun RecyclerView.onScrollChange(
-    crossinline lambda1: (RecyclerView) -> Unit,
-    crossinline lambda2: (RecyclerView) -> Unit
-) =
-    this.addOnScrollListener(
-        object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0)
-                    lambda2.invoke(recyclerView)
-                else if (dy < 0)
-                    lambda1.invoke(recyclerView)
-            }
-        }
-    )
+    crossinline lambda1: (RecyclerView) -> Unit, crossinline lambda2: (RecyclerView) -> Unit
+) = this.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+        super.onScrolled(recyclerView, dx, dy)
+        if (dy > 0) lambda2.invoke(recyclerView)
+        else if (dy < 0) lambda1.invoke(recyclerView)
+    }
+})
 
 
 /**
@@ -561,43 +476,37 @@ inline fun RecyclerView.onScrollChange(
  * @since 4.0.4
  * @author Ayaan
 // */
-fun Activity.changeStatusBarToolbarColor(@IdRes id: Int, @AttrRes colorCode: Int) =
-    this.apply {
-        try {
-            val window = window
-            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window?.statusBarColor = MaterialColors.getColor(
-                this,
-                colorCode,
-                Color.WHITE
+fun Activity.changeStatusBarToolbarColor(@IdRes id: Int, @AttrRes colorCode: Int) = this.apply {
+    try {
+        val window = window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.statusBarColor = MaterialColors.getColor(
+            this, colorCode, Color.WHITE
+        )
+        this.findViewById<Toolbar>(id).setBackgroundColor(
+            MaterialColors.getColor(
+                this, colorCode, Color.WHITE
             )
-            this.findViewById<Toolbar>(id).setBackgroundColor(
-                MaterialColors.getColor(
-                    this,
-                    colorCode,
-                    Color.WHITE
-                )
-            )
-        } catch (e: Exception) {
-            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
-        }
+        )
+    } catch (e: Exception) {
+        Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
     }
+}
 
 /**
  * Change Color of ImageView
  * @since 4.0.5
  * @author Ayaan
  */
-fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) =
-    this.apply {
-        try {
-            val window = window
-            window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-            window?.statusBarColor = colorCode
-        } catch (e: Exception) {
-            Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
-        }
+fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) = this.apply {
+    try {
+        val window = window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.statusBarColor = colorCode
+    } catch (e: Exception) {
+        Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
     }
+}
 
 /**
  * Change Status Bar Color
@@ -607,10 +516,9 @@ fun Activity.changeStatusBarToolbarColorImageView(@ColorInt colorCode: Int) =
 @Suppress("DEPRECATION")
 fun setStatusBarUiTheme(activity: Activity?, isLight: Boolean) {
     activity?.window?.decorView?.let {
-        it.systemUiVisibility = if (isLight)
-            it.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // dark icons
-        else
-            it.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() // light icons
+        it.systemUiVisibility =
+            if (isLight) it.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR // dark icons
+            else it.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv() // light icons
     }
 }
 
@@ -620,8 +528,7 @@ fun setStatusBarUiTheme(activity: Activity?, isLight: Boolean) {
  * @author Ayaan
  */
 fun getPendingIntentFlag() =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-        PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
 
 
 /**
@@ -630,15 +537,11 @@ fun getPendingIntentFlag() =
  * @author Ayaan
  */
 fun Context.openCustomChromeTab(link: String) = this.run {
-    val defaultColors = CustomTabColorSchemeParams.Builder()
-        .setToolbarColor(
+    val defaultColors = CustomTabColorSchemeParams.Builder().setToolbarColor(
             MaterialColors.getColor(
-                this,
-                androidx.appcompat.R.attr.colorAccent,
-                Color.RED
+                this, androidx.appcompat.R.attr.colorAccent, Color.RED
             )
-        )
-        .build()
+        ).build()
     try {
         val customTabIntent =
             CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
@@ -655,11 +558,9 @@ fun Context.openCustomChromeTab(link: String) = this.run {
  * @author Ayaan
  */
 fun Activity.changeBottomNav(@AttrRes color: Int) = this.apply {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
-        window.navigationBarColor = MaterialColors.getColor(
-            this,
-            color,
-            Color.RED
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) window.navigationBarColor =
+        MaterialColors.getColor(
+            this, color, Color.RED
         )
 }
 
@@ -670,8 +571,7 @@ fun Activity.changeBottomNav(@AttrRes color: Int) = this.apply {
  * @author Ayaan
  */
 fun Activity.changeBottomNavImageView(@ColorInt color: Int) = this.apply {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1)
-        window.navigationBarColor = color
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) window.navigationBarColor = color
 }
 
 
@@ -701,11 +601,10 @@ fun isColorDark(@ColorInt color: Int): Boolean {
  * @author Ayaan
  * @since 4.0.5
  */
-fun Notice3.getImageLinkNotification(): String =
-    when (this.sender) {
-        "App Notice" -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
-        else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"
-    }
+fun Notice3.getImageLinkNotification(): String = when (this.sender) {
+    "App Notice" -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_notification.png?alt=media&token=0a7babfe-bf59-4d19-8fc0-98d7fde151a6"
+    else -> "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fcollege_notifications.png?alt=media&token=c5bbfda0-c73d-4af1-9c3c-cb29a99d126b"
+}
 
 
 /**
@@ -714,32 +613,26 @@ fun Notice3.getImageLinkNotification(): String =
  * @since 4.0.5
  */
 fun Activity.openPlayStore(name: String) {
-    startActivity(
-        Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse("https://play.google.com/store/apps/details?id=$name")
-        ).also {
-            it.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
-            it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        }
-    )
+    startActivity(Intent(
+        Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$name")
+    ).also {
+        it.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+        it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    })
 }
 
 inline fun Activity.onScrollColorChange(
-    scrollView: NestedScrollView,
-    crossinline to: (() -> Unit),
-    crossinline from: (() -> Unit)
-) =
-    scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-        when (scrollY) {
-            0 -> {
-                to.invoke()
-            }
-            else -> {
-                from.invoke()
-            }
+    scrollView: NestedScrollView, crossinline to: (() -> Unit), crossinline from: (() -> Unit)
+) = scrollView.setOnScrollChangeListener { _, _, scrollY, _, _ ->
+    when (scrollY) {
+        0 -> {
+            to.invoke()
+        }
+        else -> {
+            from.invoke()
         }
     }
+}
 
 fun <T1, T2, T3, T4, T5, T6, R> combine(
     flow: Flow<T1>,
@@ -750,16 +643,10 @@ fun <T1, T2, T3, T4, T5, T6, R> combine(
     flow6: Flow<T6>,
     transform: suspend (T1, T2, T3, T4, T5, T6) -> R
 ): Flow<R> = combine(
-    combine(flow, flow2, flow3, ::Triple),
-    combine(flow4, flow5, flow6, ::Triple)
+    combine(flow, flow2, flow3, ::Triple), combine(flow4, flow5, flow6, ::Triple)
 ) { t1, t2 ->
     transform(
-        t1.first,
-        t1.second,
-        t1.third,
-        t2.first,
-        t2.second,
-        t2.third
+        t1.first, t1.second, t1.third, t2.first, t2.second, t2.third
     )
 }
 
@@ -770,8 +657,7 @@ fun <T1, T2, T3, T4, R> combineFourFlows(
     flow4: Flow<T4>,
     transform: suspend (T1, T2, T3, T4) -> R
 ): Flow<R> = combine(
-    combine(flow, flow2, ::Pair),
-    combine(flow3, flow4, ::Pair)
+    combine(flow, flow2, ::Pair), combine(flow3, flow4, ::Pair)
 ) { t1, t2 ->
     transform(
         t1.first,

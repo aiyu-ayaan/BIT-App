@@ -5,5 +5,5 @@ import javax.inject.Inject
 class SyllabusRepository @Inject constructor(
     private val api: SyllabusApi
 ) {
-    suspend fun getSyllabus() = api.getSubjects()
+    suspend fun getSyllabus(semYear: String) = api.getSubjects(semYear)
 }

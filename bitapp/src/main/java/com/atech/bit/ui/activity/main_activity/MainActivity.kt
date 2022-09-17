@@ -33,6 +33,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
+import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
@@ -268,7 +269,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.eventDetailFragment, R.id.searchFragment,
                 R.id.settingDialog, R.id.cgpaCalculatorFragment,
                 R.id.viewVideoFragment, R.id.loadingDataFragment,
-                R.id.viewSyllabusFragment-> {
+                R.id.viewSyllabusFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }

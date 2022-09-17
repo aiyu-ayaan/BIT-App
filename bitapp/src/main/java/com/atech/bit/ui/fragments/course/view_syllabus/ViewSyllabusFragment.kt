@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.text.Html
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewSyllabusBinding
+import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
+import com.atech.core.utils.loadImage
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,8 +26,8 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
 
@@ -33,7 +37,7 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
         binding.root.transitionName = subject.subjectName
         binding.apply {
             headingTextView.text = subject.subjectName
-            setContent()
+            setContent(arg.type)
             setBook()
         }
     }
@@ -55,8 +59,24 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
         }
     }
 
-    private fun setContent() = binding.contentLinearLayout.run {
-        arg.subject.content.forEach {
+    private fun setContent(type: String) = binding.contentLinearLayout.run {
+        if (type == REQUEST_VIEW_LAB_SYLLABUS) arg.subject.labContent?.forEach {
+            this.addViews(
+                R.layout.layout_syllabus_lab_content, it
+            ) { content, view ->
+                view.findViewById<TextView>(R.id.question_text_view).text =Html.fromHtml(content.question, Html.FROM_HTML_MODE_COMPACT)
+                view.findViewById<ImageView>(R.id.question_image_view).apply {
+                        isVisible = content.image != null
+                        content.image?.loadImage(
+                            this@run,
+                            view.findViewById(R.id.question_image_view),
+                            null,
+                            errorImage = R.drawable.ic_running_error
+                        )
+                    }
+            }
+        }
+        else arg.subject.theoryContents?.forEach {
             this.addViews(
                 R.layout.layout_syllabus_content,
                 it,

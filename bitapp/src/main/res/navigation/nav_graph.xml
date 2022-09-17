@@ -486,5 +486,9 @@
         <argument
             android:name="subject"
             app:argType="com.atech.core.api.model.SubjectContent" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="theory" />
     </fragment>
 </navigation>

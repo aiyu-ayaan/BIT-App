@@ -28,13 +28,14 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.openBugLink
+import com.atech.core.api.model.Lab
 import com.atech.core.api.model.Semesters
 import com.atech.core.api.model.SubjectContent
 import com.atech.core.api.model.Theory
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.utils.DataState
-import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
-import com.atech.core.utils.openCustomChromeTab
+import com.atech.core.utils.*
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -80,26 +81,24 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
 
         onlineTheoryAdapter = SyllabusTheoryOnlineAdapter { pos ->
-            navigateToOnlineSyllabus(pos)
+            napToSubjectContent(theory = pos)
         }
-        onlineLabAdapter = SyllabusLabOnlineAdapter()
+        onlineLabAdapter = SyllabusLabOnlineAdapter {
+            napToSubjectContent(lab = it)
+        }
 
         binding.semChoseOnlineExt.recyclerViewOnlineSyllabus.apply {
             adapter = ConcatAdapter(onlineTheoryAdapter, onlineLabAdapter)
             layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(
-                DividerItemDecorationNoLast(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL
-                ).apply {
-                    setDrawable(
-                        ContextCompat.getDrawable(
-                            requireContext(),
-                            R.drawable.divider
-                        )
+            addItemDecoration(DividerItemDecorationNoLast(
+                requireContext(), LinearLayoutManager.VERTICAL
+            ).apply {
+                setDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(), R.drawable.divider
                     )
-                }
-            )
+                )
+            })
         }
 
         offlineDataSource()
@@ -110,14 +109,28 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         getOnlineSyllabus()
     }
 
-    private fun navigateToOnlineSyllabus(theory: Theory) {
+    private fun napToSubjectContent(theory: Theory? = null, lab: Lab? = null) {
+        if (theory != null)
+            SubjectContent(theory.subjectName, theory.content, books = theory.books)
+                .apply {
+                    navigateToViewSyllabus(this)
+                }
+        else
+            SubjectContent(lab!!.subjectName, labContent = lab.content, books = lab.books)
+                .apply {
+                    navigateToViewSyllabus(this, REQUEST_VIEW_LAB_SYLLABUS)
+                }
 
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+    }
 
-        val subject = SubjectContent(theory.subjectName, theory.content, theory.books)
+    private fun navigateToViewSyllabus(subject: SubjectContent, request: String = "theory") {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action =
-            SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(subject)
+            SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(
+                subject,
+                request
+            )
         findNavController().navigate(action)
     }
 
@@ -142,53 +155,41 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                 showTheory.apply {
                     adapter = courseTheoryAdapter
                     layoutManager = LinearLayoutManager(requireContext())
-                    addItemDecoration(
-                        DividerItemDecorationNoLast(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL
-                        ).apply {
-                            setDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.divider
-                                )
+                    addItemDecoration(DividerItemDecorationNoLast(
+                        requireContext(), LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(), R.drawable.divider
                             )
-                        }
-                    )
+                        )
+                    })
                 }
                 showLab.apply {
                     adapter = courseLabAdapter
                     layoutManager = LinearLayoutManager(requireContext())
-                    addItemDecoration(
-                        DividerItemDecorationNoLast(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL
-                        ).apply {
-                            setDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.divider
-                                )
+                    addItemDecoration(DividerItemDecorationNoLast(
+                        requireContext(), LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(), R.drawable.divider
                             )
-                        }
-                    )
+                        )
+                    })
                 }
                 showPe.apply {
                     adapter = coursePeAdapter
                     layoutManager = LinearLayoutManager(requireContext())
-                    addItemDecoration(
-                        DividerItemDecorationNoLast(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL
-                        ).apply {
-                            setDrawable(
-                                ContextCompat.getDrawable(
-                                    requireContext(),
-                                    R.drawable.divider
-                                )
+                    addItemDecoration(DividerItemDecorationNoLast(
+                        requireContext(), LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(
+                            ContextCompat.getDrawable(
+                                requireContext(), R.drawable.divider
                             )
-                        }
-                    )
+                        )
+                    })
                 }
             }
         }
@@ -220,7 +221,21 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                             setViewOfOnlineSyllabusExt(false)
                             onlineTheoryAdapter.submitList(emptyList())
                         }
-                        is DataState.Error -> {}
+                        is DataState.Error -> {
+                            setViewOfOnlineSyllabusExt(false)
+                            binding.root.showSnackBar(
+                                dataState.exception.message.toString(),
+                                Snackbar.LENGTH_SHORT,
+                                "Report"
+                            ) {
+                                requireActivity()
+                                    .openBugLink(
+                                        com.atech.core.R.string.bug_repost,
+                                        "${this@SemChooseFragment.javaClass.simpleName}.class",
+                                        dataState.exception.message.toString()
+                                    )
+                            }
+                        }
                         DataState.Loading -> {
                             binding.semChoseOnlineExt.progressBarLoading.isVisible = true
                             binding.semChoseOnlineExt.noData.isVisible = false
@@ -228,7 +243,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                         }
                         is DataState.Success -> {
                             setViewOfOnlineSyllabusExt(true)
-                            setOnLineData(dataState.data)
+                            setOnLineData(dataState.data.semesters)
                         }
                     }
                 }
@@ -250,9 +265,10 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private fun setOnLineData(data: Semesters) {
         onlineTheoryAdapter.submitList(data.subjects.theory)
         onlineLabAdapter.submitList(data.subjects.lab)
+        onlineLabAdapter.setStartPos(data.subjects.theory.size)
     }
 
-    fun setSource() {
+    private fun setSource() {
         val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
         binding.switchOldNew.isChecked = source
         setText(source)
@@ -268,17 +284,14 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun setText(isEnable: Boolean) {
-        binding.switchOldNew.text =
-            if (isEnable) resources.getString(R.string.switch_to_old)
-            else resources.getString(R.string.switch_to_new)
+        binding.switchOldNew.text = if (isEnable) resources.getString(R.string.switch_to_old)
+        else resources.getString(R.string.switch_to_new)
     }
 
     private fun saveSource(isEnable: Boolean) {
-        pref.edit()
-            .putBoolean(
-                KEY_TOGGLE_SYLLABUS_SOURCE,
-                isEnable
-            ).apply()
+        pref.edit().putBoolean(
+            KEY_TOGGLE_SYLLABUS_SOURCE, isEnable
+        ).apply()
     }
 
     private fun layoutChanges(isEnable: Boolean) = binding.apply {
@@ -321,10 +334,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
         try {
             val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
-            val action =
-                NavGraphDirections.actionGlobalSubjectHandlerFragment(
-                    syllabusModel
-                )
+            val action = NavGraphDirections.actionGlobalSubjectHandlerFragment(
+                syllabusModel
+            )
             findNavController().navigate(action, extras)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Press one item at a time !!", Toast.LENGTH_SHORT)
@@ -334,14 +346,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
 
     private fun getSyllabus(course: String) {
-        db.collection("Utils")
-            .document("syllabus_download")
-            .addSnapshotListener { value, _ ->
-                val link = value?.getString(course)
-                link?.let {
-                    requireActivity().openCustomChromeTab(it)
-                }
+        db.collection("Utils").document("syllabus_download").addSnapshotListener { value, _ ->
+            val link = value?.getString(course)
+            link?.let {
+                requireActivity().openCustomChromeTab(it)
             }
+        }
     }
 
     /**
@@ -350,13 +360,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
      */
     private fun restoreScroll(binding: FragmentSemChooseBinding) {
         try {
-            if (viewModel.chooseSemNestedViewPosition != null)
-                binding.semChoseExt.nestedViewSyllabus.post {
-                    binding.semChoseExt.nestedViewSyllabus.scrollTo(
-                        0,
-                        viewModel.chooseSemNestedViewPosition!!
-                    )
-                }
+            if (viewModel.chooseSemNestedViewPosition != null) binding.semChoseExt.nestedViewSyllabus.post {
+                binding.semChoseExt.nestedViewSyllabus.scrollTo(
+                    0, viewModel.chooseSemNestedViewPosition!!
+                )
+            }
         } catch (e: Exception) {
             Log.e("Error", e.message!!)
         }

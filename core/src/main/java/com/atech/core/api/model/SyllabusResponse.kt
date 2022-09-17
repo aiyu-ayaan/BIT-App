@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class SyllabusResponse(val semesters: List<Semesters>) : Parcelable
+data class SyllabusResponse(val semesters: Semesters) : Parcelable
 
 @Keep
 @Parcelize
