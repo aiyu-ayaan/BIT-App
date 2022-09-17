@@ -4,12 +4,12 @@ buildscript {
         playStoreCoreVersion = "1.8.1"
         materail3Version = "1.8.0-alpha01"
         playServicesAuthVersion = "20.3.0"
-        firebaseFireStoreVersion = "24.3.0"
+        firebaseFireStoreVersion = "24.3.1"
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.4'
         lifecycle_version = "2.5.1"
         fragment_version = "1.5.2"
-        nav_version = "2.5.1"
+        nav_version = "2.5.2"
         hilt_version = '2.43.2'
         roomVersion = '2.4.3'
         glideVersion = '4.13.2'
@@ -42,8 +42,8 @@ buildscript {
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.2.2' apply false
-    id 'com.android.library' version '7.2.2' apply false
+    id 'com.android.application' version '7.3.0' apply false
+    id 'com.android.library' version '7.3.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 

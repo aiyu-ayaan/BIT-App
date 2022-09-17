@@ -10,17 +10,31 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 12
-        versionName "1.2.8"
+        versionCode 13
+        versionName "2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    flavorDimensions "type"
+
+    productFlavors {
+        playStore {
+            dimension "type"
+            versionNameSuffix ".playstore"
+        }
+        internalBeta {
+            dimension "type"
+            versionNameSuffix ".internalBeta"
+        }
+    }
+
     buildTypes {
         release {
             shrinkResources true
@@ -45,8 +59,8 @@ dependencies {
 
     implementation project(':core')
     implementation project(':syllabus')
-    implementation 'androidx.core:core-ktx:1.8.0'
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFireStoreVersion"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"

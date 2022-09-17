@@ -353,12 +353,12 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 .setDuration(resources.getInteger(R.integer.duration_small).toLong())
                 .setListener(object : AnimatorListenerAdapter() {
                     var isCanceled = false
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         if (isCanceled) return
                         bottomLayout.visibility = View.VISIBLE
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         isCanceled = true
                     }
                 })
@@ -372,7 +372,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 .setDuration(resources.getInteger(R.integer.duration_small).toLong())
                 .setListener(object : AnimatorListenerAdapter() {
                     var isCanceled = false
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         if (isCanceled) return
                         bottomLayout.visibility = View.GONE
                     }
