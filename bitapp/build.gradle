@@ -16,10 +16,15 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 14
+        versionCode 16
         versionName "3.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    bundle {
+        storeArchive {
+            enable = false
+        }
     }
 
     flavorDimensions "type"
@@ -27,11 +32,11 @@ android {
     productFlavors {
         playStore {
             dimension "type"
-            versionNameSuffix ".playstore"
+            versionNameSuffix " [Playstore]"
         }
         internalBeta {
             dimension "type"
-            versionNameSuffix ".internalBeta"
+            versionNameSuffix " [InternalBeta]"
         }
     }
 
@@ -82,8 +87,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
 
 //    crashlytics
-//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-//    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     // ViewModel

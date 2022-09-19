@@ -134,15 +134,16 @@
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
 
-            <!--            <com.google.android.material.materialswitch.MaterialSwitch-->
-            <!--                android:id="@+id/switch_old_new"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:layout_gravity="end"-->
-            <!--                android:layout_marginEnd="@dimen/grid_2"-->
-            <!--                android:checked="false"-->
-            <!--                android:padding="@dimen/grid_1"-->
-            <!--                android:text="@string/switch_to_new" />-->
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/switch_old_new"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:checked="false"
+                android:padding="@dimen/grid_1"
+                android:text="@string/switch_to_new"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>
