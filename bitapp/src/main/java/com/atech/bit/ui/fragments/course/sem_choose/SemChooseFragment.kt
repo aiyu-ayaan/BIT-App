@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -28,14 +27,12 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
 import com.atech.bit.utils.addMenuHost
-import com.atech.bit.utils.openBugLink
 import com.atech.core.api.model.Lab
-import com.atech.core.api.model.Semesters
 import com.atech.core.api.model.SubjectContent
 import com.atech.core.api.model.Theory
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.utils.*
-import com.google.android.material.snackbar.Snackbar
+import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
+import com.atech.core.utils.openCustomChromeTab
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -253,7 +250,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 //
 //        }
 //    }
-
+//
 //    private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) {
 //        binding.semChoseOnlineExt.progressBarLoading.isVisible = false
 //        binding.semChoseOnlineExt.noData.isVisible = !isVisible
@@ -267,14 +264,14 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 //        onlineLabAdapter.submitList(data.subjects.lab)
 //        onlineLabAdapter.setStartPos(data.subjects.theory.size)
 //    }
-
+//
 //    private fun setSource() {
 //        val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
 //        binding.switchOldNew.isChecked = source
 //        setText(source)
 //        layoutChanges(source)
 //    }
-
+//
 //    private fun switchClick() = binding.switchOldNew.apply {
 //        setOnCheckedChangeListener { _, isChecked ->
 //            saveSource(isChecked)
@@ -282,12 +279,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 //            layoutChanges(isChecked)
 //        }
 //    }
-
+//
 //    private fun setText(isEnable: Boolean) {
 //        binding.switchOldNew.text = if (isEnable) resources.getString(R.string.switch_to_old)
 //        else resources.getString(R.string.switch_to_new)
 //    }
-
+//
 //    private fun saveSource(isEnable: Boolean) {
 //        pref.edit().putBoolean(
 //            KEY_TOGGLE_SYLLABUS_SOURCE, isEnable
