@@ -164,6 +164,9 @@
         <argument
             android:name="request"
             app:argType="string" />
+        <action
+            android:id="@+id/action_semChooseFragment_to_viewSyllabusFragment"
+            app:destination="@id/viewSyllabusFragment" />
     </fragment>
     <dialog
         android:id="@+id/themeChangeDialog"
@@ -406,8 +409,8 @@
             app:uri="bitbyaiyu.github.io/event/path={path}" />
         <argument
             android:name="request"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <action
         android:id="@+id/action_global_eventDetailFragment"
@@ -436,8 +439,8 @@
             app:popUpToInclusive="true" />
         <argument
             android:name="request"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/loadingDataFragment"
@@ -475,4 +478,17 @@
             android:name="user"
             app:argType="com.atech.core.data.network.user.UserModel" />
     </dialog>
+    <fragment
+        android:id="@+id/viewSyllabusFragment"
+        android:name="com.atech.bit.ui.fragments.course.view_syllabus.ViewSyllabusFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_view_syllabus">
+        <argument
+            android:name="subject"
+            app:argType="com.atech.core.api.model.SubjectContent" />
+        <argument
+            android:name="type"
+            app:argType="string"
+            android:defaultValue="theory" />
+    </fragment>
 </navigation>

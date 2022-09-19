@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.atech.bit.ui.fragments.course.view_syllabus.ViewSyllabusFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        android:padding="@dimen/grid_1">
+
+        <TextView
+            android:id="@+id/heading_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadline5"
+            android:textColor="@color/textColorSubTitle"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Problem Solving and Programming in C" />
+
+        <LinearLayout
+            android:id="@+id/content_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_2"
+            android:minHeight="@dimen/grid_6"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@+id/heading_text_view"
+            app:layout_constraintStart_toStartOf="@+id/heading_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/heading_text_view" />
+
+        <TextView
+            android:id="@+id/text_book_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_2"
+            android:text="@string/text_book"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/content_linear_layout"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/content_linear_layout"
+            app:layout_constraintTop_toBottomOf="@+id/content_linear_layout" />
+
+        <LinearLayout
+            android:id="@+id/books_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_25"
+            android:minHeight="@dimen/grid_6"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@+id/text_book_text_view"
+            app:layout_constraintStart_toStartOf="@+id/text_book_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/text_book_text_view" />
+
+
+        <TextView
+            android:id="@+id/reference_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_1"
+            android:text="@string/reference_book"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/books_linear_layout"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/books_linear_layout"
+            app:layout_constraintTop_toBottomOf="@+id/books_linear_layout" />
+
+        <LinearLayout
+            android:id="@+id/reference_linear_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_25"
+            android:minHeight="@dimen/grid_6"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="@+id/reference_text_view"
+            app:layout_constraintStart_toStartOf="@+id/reference_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/reference_text_view" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

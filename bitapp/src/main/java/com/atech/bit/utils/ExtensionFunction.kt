@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
-import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Build
 import androidx.annotation.IdRes
@@ -29,9 +28,43 @@ import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
 
 
 fun getUid(firebaseAuth: FirebaseAuth) = firebaseAuth.currentUser?.uid
+
+
+/**
+ * Extension function to open Compose Activity
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openBugLink(
+    @StringRes reportType: Int = R.string.bug_repost,
+    extraString: String = "",
+    reportDes: String? = null
+) = this.startActivity(
+    Intent.createChooser(
+        Intent().also {
+            it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
+            it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(reportType))
+            it.putExtra(
+                Intent.EXTRA_TEXT,
+                if (extraString.isNotBlank()) """Found a bug on $extraString  
+                                |happened on ${Date().time.convertLongToTime("dd/mm/yyyy hh:mm:aa")}
+                                |due to $reportDes .
+                                |
+                                |Device Info: ${Build.MANUFACTURER} ${Build.MODEL}
+                                |Android Version: ${Build.VERSION.RELEASE}
+                                |App Version: ${BuildConfig.VERSION_NAME}
+                                |""".trimMargin()
+                else ""
+            )
+            it.type = "text/html"
+            it.setPackage(resources.getString(R.string.gmail_package))
+        }, resources.getString(R.string.bug_title)
+    )
+)
 
 
 fun Long.getDate(): String {

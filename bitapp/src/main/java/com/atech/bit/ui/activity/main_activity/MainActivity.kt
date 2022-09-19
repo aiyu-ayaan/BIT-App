@@ -33,6 +33,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
+import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
@@ -267,8 +268,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
                 R.id.eventDetailFragment, R.id.searchFragment,
                 R.id.settingDialog, R.id.cgpaCalculatorFragment,
-                R.id.viewVideoFragment, R.id.loadingDataFragment
-                -> {
+                R.id.viewVideoFragment, R.id.loadingDataFragment,
+                R.id.viewSyllabusFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -352,12 +353,12 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 .setDuration(resources.getInteger(R.integer.duration_small).toLong())
                 .setListener(object : AnimatorListenerAdapter() {
                     var isCanceled = false
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         if (isCanceled) return
                         bottomLayout.visibility = View.VISIBLE
                     }
 
-                    override fun onAnimationCancel(animation: Animator?) {
+                    override fun onAnimationCancel(animation: Animator) {
                         isCanceled = true
                     }
                 })
@@ -371,7 +372,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 .setDuration(resources.getInteger(R.integer.duration_small).toLong())
                 .setListener(object : AnimatorListenerAdapter() {
                     var isCanceled = false
-                    override fun onAnimationEnd(animation: Animator?) {
+                    override fun onAnimationEnd(animation: Animator) {
                         if (isCanceled) return
                         bottomLayout.visibility = View.GONE
                     }
