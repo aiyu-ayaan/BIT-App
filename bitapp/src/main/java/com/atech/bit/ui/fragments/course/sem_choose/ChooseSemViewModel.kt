@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,7 +20,7 @@ import javax.inject.Inject
 class ChooseSemViewModel @Inject constructor(
     private val syllabusDao: SyllabusDao,
     val state: SavedStateHandle,
-//    val repository: SyllabusRepository
+    val repository: SyllabusRepository
 ) : ViewModel() {
 
     val request = state.get<String>("request")
@@ -47,26 +48,25 @@ class ChooseSemViewModel @Inject constructor(
             state["chooseSemNestedViewPosition"] = value
         }
 
-//    suspend fun getSyllabus() = repository.getSyllabus()
 
-//    suspend fun getOnlineSyllabus() = sem.flatMapLatest { semester ->
-//        flow {
-//            emit(DataState.Loading)
-//            if (semester.lowercase().replace("\\d+".toRegex(), "") == "bca") {
-//                try {
-//                    val sem = repository.getSyllabus(semester.lowercase())
-//                    if (sem.semesters.subjects.theory.isNotEmpty()) {
-//                        emit(DataState.Success(sem))
-//                    } else {
-//                        emit(DataState.Empty)
-//                    }
-//                } catch (e: Exception) {
-//                    emit(DataState.Error(e))
-//                }
-//            } else {
-//                emit(DataState.Empty)
-//            }
-//        }
-//    }
+    suspend fun getOnlineSyllabus() = sem.flatMapLatest { semester ->
+        flow {
+            emit(DataState.Loading)
+            try {
+                val sem = repository.getSyllabus(semester.lowercase())
+                if (sem.semesters.subjects.theory.isNotEmpty()) {
+                    emit(DataState.Success(sem))
+                } else {
+                    emit(DataState.Empty)
+                }
+            } catch (e: HttpException) {
+                Log.d("XXX", "getOnlineSyllabus: Top $e")
+                emit(DataState.Error(e))
+            } catch (e: Exception) {
+                emit(DataState.Empty)
+                Log.d("XXX", "getOnlineSyllabus: End $e")
+            }
+        }
+    }
 
 }

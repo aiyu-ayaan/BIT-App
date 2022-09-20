@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -27,12 +28,14 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.openBugLink
 import com.atech.core.api.model.Lab
+import com.atech.core.api.model.Semesters
 import com.atech.core.api.model.SubjectContent
 import com.atech.core.api.model.Theory
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
-import com.atech.core.utils.openCustomChromeTab
+import com.atech.core.utils.*
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -101,9 +104,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         offlineDataSource()
         buttonClick()
         setUpMenu()
-//        switchClick()
-//        setSource()
-//        getOnlineSyllabus()
+        switchClick()
+        setSource()
+        getOnlineSyllabus()
     }
 
     private fun napToSubjectContent(theory: Theory? = null, lab: Lab? = null) {
@@ -209,92 +212,92 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
     }
 
-//    private fun getOnlineSyllabus() {
-//        lifecycleScope.launchWhenStarted {
-//            try {
-//                viewModel.getOnlineSyllabus().collect { dataState ->
-//                    when (dataState) {
-//                        DataState.Empty -> {
-//                            setViewOfOnlineSyllabusExt(false)
-//                            onlineTheoryAdapter.submitList(emptyList())
-//                        }
-//                        is DataState.Error -> {
-//                            setViewOfOnlineSyllabusExt(false)
-//                            binding.root.showSnackBar(
-//                                dataState.exception.message.toString(),
-//                                Snackbar.LENGTH_SHORT,
-//                                "Report"
-//                            ) {
-//                                requireActivity()
-//                                    .openBugLink(
-//                                        com.atech.core.R.string.bug_repost,
-//                                        "${this@SemChooseFragment.javaClass.simpleName}.class",
-//                                        dataState.exception.message.toString()
-//                                    )
-//                            }
-//                        }
-//                        DataState.Loading -> {
-//                            binding.semChoseOnlineExt.progressBarLoading.isVisible = true
-//                            binding.semChoseOnlineExt.noData.isVisible = false
-//                            binding.semChoseOnlineExt.noDataText.isVisible = false
-//                        }
-//                        is DataState.Success -> {
-//                            setViewOfOnlineSyllabusExt(true)
-//                            setOnLineData(dataState.data.semesters)
-//                        }
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                Log.d("XXX", "getOnlineSyllabus: Error ${e.message}")
-//            }
-//
-//        }
-//    }
-//
-//    private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) {
-//        binding.semChoseOnlineExt.progressBarLoading.isVisible = false
-//        binding.semChoseOnlineExt.noData.isVisible = !isVisible
-//        binding.semChoseOnlineExt.noDataText.isVisible = !isVisible
-//        binding.semChoseOnlineExt.recyclerViewOnlineSyllabus.isVisible = isVisible
-//        binding.semChoseOnlineExt.textView6.isVisible = isVisible
-//    }
-//
-//    private fun setOnLineData(data: Semesters) {
-//        onlineTheoryAdapter.submitList(data.subjects.theory)
-//        onlineLabAdapter.submitList(data.subjects.lab)
-//        onlineLabAdapter.setStartPos(data.subjects.theory.size)
-//    }
-//
-//    private fun setSource() {
-//        val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
-//        binding.switchOldNew.isChecked = source
-//        setText(source)
-//        layoutChanges(source)
-//    }
-//
-//    private fun switchClick() = binding.switchOldNew.apply {
-//        setOnCheckedChangeListener { _, isChecked ->
-//            saveSource(isChecked)
-//            setText(isChecked)
-//            layoutChanges(isChecked)
-//        }
-//    }
-//
-//    private fun setText(isEnable: Boolean) {
-//        binding.switchOldNew.text = if (isEnable) resources.getString(R.string.switch_to_old)
-//        else resources.getString(R.string.switch_to_new)
-//    }
-//
-//    private fun saveSource(isEnable: Boolean) {
-//        pref.edit().putBoolean(
-//            KEY_TOGGLE_SYLLABUS_SOURCE, isEnable
-//        ).apply()
-//    }
-//
-//    private fun layoutChanges(isEnable: Boolean) = binding.apply {
-//        semChoseOnlineExt.root.isVisible = isEnable
-//        semChoseExt.root.isVisible = !isEnable
-//    }
+    private fun getOnlineSyllabus() {
+        lifecycleScope.launchWhenStarted {
+            try {
+                viewModel.getOnlineSyllabus().collect { dataState ->
+                    when (dataState) {
+                        DataState.Empty -> {
+                            setViewOfOnlineSyllabusExt(false)
+                            onlineTheoryAdapter.submitList(emptyList())
+                        }
+                        is DataState.Error -> {
+                            setViewOfOnlineSyllabusExt(false)
+                            binding.root.showSnackBar(
+                                dataState.exception.message.toString(),
+                                Snackbar.LENGTH_SHORT,
+                                "Report"
+                            ) {
+                                requireActivity()
+                                    .openBugLink(
+                                        com.atech.core.R.string.bug_repost,
+                                        "${this@SemChooseFragment.javaClass.simpleName}.class",
+                                        dataState.exception.message.toString()
+                                    )
+                            }
+                        }
+                        DataState.Loading -> {
+                            binding.semChoseOnlineExt.progressBarLoading.isVisible = true
+                            binding.semChoseOnlineExt.noData.isVisible = false
+                            binding.semChoseOnlineExt.noDataText.isVisible = false
+                        }
+                        is DataState.Success -> {
+                            setViewOfOnlineSyllabusExt(true)
+                            setOnLineData(dataState.data.semesters)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.d("XXX", "getOnlineSyllabus: Error ${e.message}")
+            }
+
+        }
+    }
+
+    private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) {
+        binding.semChoseOnlineExt.progressBarLoading.isVisible = false
+        binding.semChoseOnlineExt.noData.isVisible = !isVisible
+        binding.semChoseOnlineExt.noDataText.isVisible = !isVisible
+        binding.semChoseOnlineExt.recyclerViewOnlineSyllabus.isVisible = isVisible
+        binding.semChoseOnlineExt.textView6.isVisible = isVisible
+    }
+
+    private fun setOnLineData(data: Semesters) {
+        onlineTheoryAdapter.submitList(data.subjects.theory)
+        onlineLabAdapter.submitList(data.subjects.lab)
+        onlineLabAdapter.setStartPos(data.subjects.theory.size)
+    }
+
+    private fun setSource() {
+        val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
+        binding.switchOldNew.isChecked = source
+        setText(source)
+        layoutChanges(source)
+    }
+
+    private fun switchClick() = binding.switchOldNew.apply {
+        setOnCheckedChangeListener { _, isChecked ->
+            saveSource(isChecked)
+            setText(isChecked)
+            layoutChanges(isChecked)
+        }
+    }
+
+    private fun setText(isEnable: Boolean) {
+        binding.switchOldNew.text = if (isEnable) resources.getString(R.string.switch_to_old)
+        else resources.getString(R.string.switch_to_new)
+    }
+
+    private fun saveSource(isEnable: Boolean) {
+        pref.edit().putBoolean(
+            KEY_TOGGLE_SYLLABUS_SOURCE, isEnable
+        ).apply()
+    }
+
+    private fun layoutChanges(isEnable: Boolean) = binding.apply {
+        semChoseOnlineExt.root.isVisible = isEnable
+        semChoseExt.root.isVisible = !isEnable
+    }
 
 
     private fun setUpMenu() {

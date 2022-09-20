@@ -20,13 +20,14 @@ data class Semesters(
 @Keep
 data class Subject(
     val theory: List<Theory>,
-    val lab: List<Lab>
+    val lab: List<Lab>?
 ) : Parcelable
 
 @Keep
 @Parcelize
 data class Theory(
     val subjectName: String,
+    var type :String,
     val code: String,
     val openCode: String,
     val shortName: String,
@@ -47,6 +48,7 @@ data class TheoryContent(
 @Parcelize
 data class Lab(
     val subjectName: String,
+    var type :String,
     val code: String,
     val openCode: String,
     val shortName: String,

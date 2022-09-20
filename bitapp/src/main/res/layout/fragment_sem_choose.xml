@@ -143,7 +143,7 @@
                 android:checked="false"
                 android:padding="@dimen/grid_1"
                 android:text="@string/switch_to_new"
-                android:visibility="gone" />
+                android:visibility="visible" />
         </LinearLayout>
     </RelativeLayout>
 </FrameLayout>
