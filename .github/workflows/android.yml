@@ -31,7 +31,7 @@ jobs:
       with:
         name: bitapp
         if-no-files-found: error
-        path: build/outputs/apk/internalBeta/debug/*.apk
+        path: bitapp/build/outputs/apk/internalBeta/debug/*.apk
         
         
 
