@@ -25,10 +25,10 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
-      run: ./gradlew :bitapp:assembleInternalBetaDebug
+      run: ./gradlew :bitapp:assemblePlayStoreDebug
     - name: Upload Apk
       uses: actions/upload-artifact@v3.1.0
       with:
         name: bitapp
         if-no-files-found: error
-        path: bitapp/build/outputs/bundle/internalBeta/debug/*.aab
+        path: bitapp/build/outputs/apk/playStore/debug/*.apk
