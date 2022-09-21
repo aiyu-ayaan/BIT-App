@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,471 +16,484 @@
         android:overScrollMode="always"
         android:paddingBottom="@dimen/bottom_nav_height">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/grid_1">
+            android:orientation="vertical">
 
-
-            <TextView
-                android:id="@+id/text_hi"
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_2"
-                android:layout_marginTop="@dimen/grid_2"
-                android:background="@android:color/transparent"
-                android:padding="@dimen/grid_0_25"
-                android:text="@string/yourSubjects"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_gravity="center"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-6172727030505608/5014774210" />
 
-            <ImageButton
-                android:id="@+id/edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/text_hi"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="@dimen/grid_2"
-                android:layout_toStartOf="@+id/setting"
-                android:background="?attr/actionBarItemBackground"
-                android:contentDescription="@string/edit"
-                android:scaleType="center"
-                android:src="@drawable/ic_edit"
-                app:layout_constraintBottom_toBottomOf="@+id/setting"
-                app:layout_constraintEnd_toStartOf="@+id/setting"
-                app:layout_constraintTop_toTopOf="@+id/setting"
-                app:tint="?attr/colorPrimary" />
-
-            <ImageButton
-                android:id="@+id/setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/text_hi"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/grid_2"
-                android:layout_marginEnd="@dimen/grid_2"
-                android:background="?attr/actionBarItemBackground"
-                android:contentDescription="@string/setting"
-                android:scaleType="center"
-                android:src="@drawable/ic_settings"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/colorPrimary" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/material_card_view_syllabus_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:padding="8dp"
-                app:cardBackgroundColor="?attr/bottomBar"
-                app:layout_constraintTop_toBottomOf="@+id/text_hi"
-                app:strokeColor="?attr/bottomBar">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:padding="@dimen/grid_1">
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/theory"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/show_theory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:id="@+id/divider_theory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/grid_1"
-                        android:layout_marginTop="@dimen/grid_0_25"
-                        android:layout_marginBottom="@dimen/grid_0_25"
-                        app:dividerColor="@color/divider_color" />
-
-
-                    <TextView
-                        android:id="@id/textView7"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/lab"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/show_theory" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/show_lab"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
-                    <com.google.android.material.divider.MaterialDivider
-                        android:id="@+id/divider_lab"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/grid_1"
-                        android:layout_marginTop="@dimen/grid_0_25"
-                        android:layout_marginBottom="@dimen/grid_0_25"
-                        app:dividerColor="@color/divider_color" />
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pe"
-                        android:textAppearance="?attr/textAppearanceCaption"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/show_lab" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/show_pe"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:overScrollMode="never"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.0"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <TextView
-                android:id="@+id/text_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_2"
-                android:layout_marginTop="@dimen/grid_1"
-                android:padding="@dimen/grid_0_25"
-                android:text="@string/event_this_week"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:textColor="@color/textColor"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/text_show_all_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/text_event"
-                android:layout_alignBottom="@+id/text_event"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/grid_1"
-                android:layout_marginEnd="@dimen/grid_2"
-                android:gravity="center"
-                android:text="@string/show_all"
-                android:textAppearance="?attr/textAppearanceCaption"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view"
-                tools:visibility="visible" />
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/material_card_view_event_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/text_event"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:visibility="gone"
-                app:cardBackgroundColor="?attr/bottomBar"
-                app:layout_constraintTop_toBottomOf="@+id/text_event"
-                app:strokeColor="?attr/bottomBar"
-                tools:visibility="visible">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/show_event"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_event"
-                    tools:listitem="@layout/row_notice_3" />
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <TextView
-                android:id="@+id/text_holiday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:layout_marginBottom="@dimen/grid_1"
-                android:padding="@dimen/grid_0_25"
-                android:text="@string/holidayThisMonth"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
-                app:layout_goneMarginStart="@dimen/grid_2"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/text_show_all_holiday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/text_holiday"
-                android:layout_alignBottom="@+id/text_holiday"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="@dimen/grid_1"
-                android:layout_marginEnd="@dimen/grid_2"
-                android:gravity="center"
-                android:text="@string/show_all"
-                android:textAppearance="?attr/textAppearanceCaption"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
-                tools:visibility="visible" />
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/material_card_view_holiday_recycler_view"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@id/text_holiday"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:visibility="gone"
-                app:cardBackgroundColor="?attr/bottomBar"
-                app:layout_constraintTop_toBottomOf="@+id/text_holiday"
-                app:strokeColor="?attr/bottomBar"
-                tools:visibility="visible">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/showHoliday"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_holiday"
-                    android:overScrollMode="never" />
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <TextView
-                android:id="@+id/text_view_cgpa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:padding="@dimen/grid_0_25"
-                android:text="@string/your_sgpa"
-                android:textAppearance="?attr/textAppearanceTitleSmall"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
-                tools:visibility="visible" />
-
-            <TextView
-                android:id="@+id/text_view_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/grid_1"
-                android:layout_marginEnd="@dimen/grid_2"
-                android:gravity="center"
-                android:text="@string/edit"
-                android:textAppearance="?attr/textAppearanceCaption"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
-                tools:visibility="visible" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/material_card_view_cgpa_graph"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:visibility="gone"
-                app:cardBackgroundColor="?attr/bottomBar"
-                app:layout_constraintTop_toBottomOf="@+id/text_view_cgpa"
-                app:strokeColor="?attr/bottomBar"
-                tools:visibility="visible">
-
-                <com.github.mikephil.charting.charts.LineChart
-                    android:id="@+id/line_chart_cgpa"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/image_view_log_in_size"
-                    android:layout_margin="@dimen/grid_0_5" />
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <RelativeLayout
-                android:id="@+id/card_view_attendance"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="@dimen/grid_1"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/material_card_view_cgpa_graph"
-                tools:visibility="visible">
-
+                android:layout_marginHorizontal="@dimen/grid_1">
 
                 <TextView
-                    android:id="@+id/tv3"
+                    android:id="@+id/text_hi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_1"
-                    android:layout_marginBottom="@dimen/grid_1"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:background="@android:color/transparent"
                     android:padding="@dimen/grid_0_25"
-                    android:text="@string/attendanceStats"
-                    android:textAppearance="?attr/textAppearanceTitleSmall" />
+                    android:text="@string/yourSubjects"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/text_hi"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:layout_toStartOf="@+id/setting"
+                    android:background="?attr/actionBarItemBackground"
+                    android:contentDescription="@string/edit"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_edit"
+                    app:layout_constraintBottom_toBottomOf="@+id/setting"
+                    app:layout_constraintEnd_toStartOf="@+id/setting"
+                    app:layout_constraintTop_toTopOf="@+id/setting"
+                    app:tint="?attr/colorPrimary" />
+
+                <ImageButton
+                    android:id="@+id/setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/text_hi"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:background="?attr/actionBarItemBackground"
+                    android:contentDescription="@string/setting"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_settings"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?attr/colorPrimary" />
 
                 <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/attendance_click"
+                    android:id="@+id/material_card_view_syllabus_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tv3"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:padding="8dp"
                     app:cardBackgroundColor="?attr/bottomBar"
+                    app:layout_constraintTop_toBottomOf="@+id/text_hi"
                     app:strokeColor="?attr/bottomBar">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="vertical"
-                        android:padding="@dimen/grid_0_25">
+                        android:padding="@dimen/grid_1">
 
-                        <RelativeLayout
+                        <TextView
+                            android:id="@+id/textView6"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/grid_1">
+                            android:text="@string/theory"
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                            <TextView
-                                android:id="@+id/text_view_percentage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:textColor="@color/textColor"
-                                android:textSize="30sp"
-                                tools:text="40.4%" />
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/show_theory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="never"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-                            <com.google.android.material.progressindicator.CircularProgressIndicator
-                                android:id="@+id/progress_bar_home"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:indeterminateOnly="false"
-                                android:progress="30"
-                                app:indicatorSize="120dp"
-                                app:trackColor="?attr/colorSurface"
-                                app:trackThickness="7dp" />
-                        </RelativeLayout>
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_theory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/grid_1"
+                            android:layout_marginTop="@dimen/grid_0_25"
+                            android:layout_marginBottom="@dimen/grid_0_25"
+                            app:dividerColor="@color/divider_color" />
 
+
+                        <TextView
+                            android:id="@id/textView7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/lab"
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/show_theory" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/show_lab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="never"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+                        <com.google.android.material.divider.MaterialDivider
+                            android:id="@+id/divider_lab"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/grid_1"
+                            android:layout_marginTop="@dimen/grid_0_25"
+                            android:layout_marginBottom="@dimen/grid_0_25"
+                            app:dividerColor="@color/divider_color" />
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pe"
+                            android:textAppearance="?attr/textAppearanceCaption"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/show_lab" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/show_pe"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:overScrollMode="never"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.0"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:id="@+id/text_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:padding="@dimen/grid_0_25"
+                    android:text="@string/event_this_week"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:textColor="@color/textColor"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_show_all_event"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/text_event"
+                    android:layout_alignBottom="@+id/text_event"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:gravity="center"
+                    android:text="@string/show_all"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_syllabus_recycler_view"
+                    tools:visibility="visible" />
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/material_card_view_event_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_event"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="?attr/bottomBar"
+                    app:layout_constraintTop_toBottomOf="@+id/text_event"
+                    app:strokeColor="?attr/bottomBar"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/show_event"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/text_event"
+                        tools:listitem="@layout/row_notice_3" />
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <TextView
+                    android:id="@+id/text_holiday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginBottom="@dimen/grid_1"
+                    android:padding="@dimen/grid_0_25"
+                    android:text="@string/holidayThisMonth"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
+                    app:layout_goneMarginStart="@dimen/grid_2"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_show_all_holiday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@+id/text_holiday"
+                    android:layout_alignBottom="@+id/text_holiday"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:gravity="center"
+                    android:text="@string/show_all"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
+                    tools:visibility="visible" />
+
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/material_card_view_holiday_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/text_holiday"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="?attr/bottomBar"
+                    app:layout_constraintTop_toBottomOf="@+id/text_holiday"
+                    app:strokeColor="?attr/bottomBar"
+                    tools:visibility="visible">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/showHoliday"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/text_holiday"
+                        android:overScrollMode="never" />
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <TextView
+                    android:id="@+id/text_view_cgpa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:padding="@dimen/grid_0_25"
+                    android:text="@string/your_sgpa"
+                    android:textAppearance="?attr/textAppearanceTitleSmall"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_view_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:gravity="center"
+                    android:text="@string/edit"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
+                    tools:visibility="visible" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/material_card_view_cgpa_graph"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_1"
+                    android:visibility="gone"
+                    app:cardBackgroundColor="?attr/bottomBar"
+                    app:layout_constraintTop_toBottomOf="@+id/text_view_cgpa"
+                    app:strokeColor="?attr/bottomBar"
+                    tools:visibility="visible">
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/line_chart_cgpa"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/image_view_log_in_size"
+                        android:layout_margin="@dimen/grid_0_5" />
+                </com.google.android.material.card.MaterialCardView>
+
+
+                <RelativeLayout
+                    android:id="@+id/card_view_attendance"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/grid_1"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_cgpa_graph"
+                    tools:visibility="visible">
+
+
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/grid_1"
+                        android:layout_marginBottom="@dimen/grid_1"
+                        android:padding="@dimen/grid_0_25"
+                        android:text="@string/attendanceStats"
+                        android:textAppearance="?attr/textAppearanceTitleSmall" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/attendance_click"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv3"
+                        app:cardBackgroundColor="?attr/bottomBar"
+                        app:strokeColor="?attr/bottomBar">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center"
-                            android:orientation="horizontal">
+                            android:orientation="vertical"
+                            android:padding="@dimen/grid_0_25">
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/grid_1">
 
                                 <TextView
-                                    android:id="@+id/text_view_present"
+                                    android:id="@+id/text_view_percentage"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_centerInParent="true"
                                     android:textColor="@color/textColor"
-                                    android:textSize="24sp"
-                                    tools:text="30" />
+                                    android:textSize="30sp"
+                                    tools:text="40.4%" />
 
-                                <TextView
+                                <com.google.android.material.progressindicator.CircularProgressIndicator
+                                    android:id="@+id/progress_bar_home"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/totalPresent"
-                                    android:textColor="@color/textColorSecondary" />
-                            </LinearLayout>
+                                    android:indeterminateOnly="false"
+                                    android:progress="30"
+                                    app:indicatorSize="120dp"
+                                    app:trackColor="?attr/colorSurface"
+                                    app:trackThickness="7dp" />
+                            </RelativeLayout>
 
-                            <!--                Second Layout -->
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/text_view_total"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="24sp"
-                                    tools:text="60" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/totalClasses"
-                                    android:textColor="@color/textColorSecondary" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <com.google.android.material.card.MaterialCardView
-                            style="?attr/materialCardViewFilledStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="20dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="@dimen/grid_2"
-                            app:cardBackgroundColor="?attr/bottomBar"
-                            app:cardCornerRadius="10dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:padding="10dp">
+                                android:gravity="center"
+                                android:orientation="horizontal">
 
-                                <TextView
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/overallAttendanceStatus"
-                                    android:textColor="@color/textColor"
-                                    android:textSize="18sp" />
+                                    android:layout_marginEnd="10dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
 
-                                <TextView
-                                    android:id="@+id/text_view_stats"
+                                    <TextView
+                                        android:id="@+id/text_view_present"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="24sp"
+                                        tools:text="30" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/totalPresent"
+                                        android:textColor="@color/textColorSecondary" />
+                                </LinearLayout>
+
+                                <!--                Second Layout -->
+                                <LinearLayout
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/textColorSecondary"
-                                    android:textSize="16sp" />
+                                    android:layout_marginStart="10dp"
+                                    android:gravity="center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/text_view_total"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="24sp"
+                                        tools:text="60" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/totalClasses"
+                                        android:textColor="@color/textColorSecondary" />
+                                </LinearLayout>
                             </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </RelativeLayout>
 
-            <include
-                android:id="@+id/layout_note_dev"
-                layout="@layout/layout_note_from_dev"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                app:layout_constraintTop_toBottomOf="@+id/card_view_attendance" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                            <com.google.android.material.card.MaterialCardView
+                                style="?attr/materialCardViewFilledStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="80dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="20dp"
+                                android:layout_marginEnd="10dp"
+                                android:layout_marginBottom="@dimen/grid_2"
+                                app:cardBackgroundColor="?attr/bottomBar"
+                                app:cardCornerRadius="10dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/overallAttendanceStatus"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="18sp" />
+
+                                    <TextView
+                                        android:id="@+id/text_view_stats"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:textColor="@color/textColorSecondary"
+                                        android:textSize="16sp" />
+                                </LinearLayout>
+                            </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </RelativeLayout>
+
+                <include
+                    android:id="@+id/layout_note_dev"
+                    layout="@layout/layout_note_from_dev"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginHorizontal="@dimen/grid_1"
+                    app:layout_constraintTop_toBottomOf="@+id/card_view_attendance" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
 
 </FrameLayout>

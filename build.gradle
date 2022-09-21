@@ -4,6 +4,7 @@ buildscript {
         playStoreCoreVersion = "1.8.1"
         materail3Version = "1.8.0-alpha01"
         playServicesAuthVersion = "20.3.0"
+        playServicesAds ="21.2.0"
         firebaseFireStoreVersion = "24.3.1"
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.4'

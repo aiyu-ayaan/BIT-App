@@ -39,6 +39,8 @@ import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.*
 import com.github.mikephil.charting.BuildConfig.VERSION_CODE
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis

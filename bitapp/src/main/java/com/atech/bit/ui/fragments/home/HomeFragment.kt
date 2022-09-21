@@ -41,12 +41,9 @@ import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
+import com.atech.bit.utils.*
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
-import com.atech.bit.utils.MainStateEvent
-import com.atech.bit.utils.addMenuHost
-import com.atech.bit.utils.getUid
-import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.syllabus.SyllabusModel
@@ -163,6 +160,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         checkHasData()
         setPref()
         restoreScroll()
+        setAds()
+    }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun setPref() {
