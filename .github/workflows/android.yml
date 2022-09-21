@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v3.1.0
       with:
         name: bitapp
-        path: bitapp\build\outputs\apk\internalBeta\debug\bitapp-internalBeta-debug.apk
+        path: bitapp/build/outputs/apk/internalBeta/debug/bitapp-internalBeta-debug.apk
         
         
 
