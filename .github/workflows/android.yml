@@ -29,5 +29,5 @@ jobs:
     - name: Upload Apk
       uses: actions/upload-artifact@v3.1.0
       with:
-        name: bitapp
+        name: bitapp-internalBeta
         path: bitapp/build/outputs/apk/internalBeta/debug/bitapp-internalBeta-debug.apk
