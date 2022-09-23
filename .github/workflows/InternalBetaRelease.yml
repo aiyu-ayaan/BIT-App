@@ -35,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v3.1.0
         with:
           name: bitapp-internalBeta-release
-          path:  app/build/outputs/bundle/release/internalBeta/bitapp-internalBeta-release.apk
+          path:  bitapp/build/outputs/apk/internalBeta/release/*.apk
