@@ -1,4 +1,4 @@
-name: Build Release App Bundle
+name: Build Apk For Internal Testing
 
 on: 
  push:
@@ -34,5 +34,5 @@ jobs:
       - name: Upload release bundle
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: app-release
+          name: bitapp-internalBeta-release
           path:  app/build/outputs/bundle/release/internalBeta/bitapp-internalBeta-release.apk
