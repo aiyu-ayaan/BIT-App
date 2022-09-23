@@ -34,5 +34,5 @@ jobs:
       - name: Upload release bundle
         uses: actions/upload-artifact@v3.1.0
         with:
-          name: bitapp-internalBeta-release
+          name: bitapp
           path:  bitapp/build/outputs/apk/internalBeta/release/*.apk
