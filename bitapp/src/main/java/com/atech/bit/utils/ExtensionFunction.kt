@@ -343,7 +343,6 @@ fun Activity.showMenuPrompt(
 }
 
 fun Context.loadAdds(adsView : AdView) =this.apply {
-    MobileAds.initialize(this) {}
     val adRequest = AdRequest.Builder().build()
     adsView.loadAd(adRequest)
 }
