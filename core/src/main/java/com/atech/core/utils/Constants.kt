@@ -71,7 +71,3 @@ const val APP_LOGO_LINK =
 const val SHARE_EVENT = "event"
 const val SHARE_NOTICE = "notice"
 
-const val FIRST_TIME_OPEN_NOTICE_DES = "first_time_open_notice_des"
-const val FIRST_TIME_OPEN_EVENT_DES = "first_time_open_event_des"
-const val FIRST_TIME_OPEN_SYLLABUS_DES = "first_time_open_syllabus_des"
-const val FIRST_TIME_OPEN_HOME = "first_time_open_home"

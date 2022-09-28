@@ -4,9 +4,6 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageView
@@ -24,7 +21,9 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentEventDetailBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewModel
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
-import com.atech.bit.utils.*
+import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.getDate
+import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.Events
 import com.atech.core.data.ui.notice.SendNotice3
@@ -231,27 +230,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
 
 
     private fun menuHost() {
-        addMenuHost(R.menu.notice_description_menu, {
-            Handler(Looper.getMainLooper()).post {
-                val firstTimeOpenNoticeDes = pref.getBoolean(
-                    FIRST_TIME_OPEN_EVENT_DES,
-                    true
-                )
-                if (firstTimeOpenNoticeDes) {
-                    requireActivity().showMenuPrompt(
-                        R.id.menu_notice_share,
-                        R.string.sharable,
-                        resources.getString(
-                            R.string.sharable_des,
-                            resources.getString(R.string.event)
-                        )
-                    )
-                    pref.edit()
-                        .putBoolean(FIRST_TIME_OPEN_EVENT_DES, false)
-                        .apply()
-                }
-            }
-        }) { menuItem ->
+        addMenuHost(R.menu.notice_description_menu) { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_notice_share -> {
                     shareNotice()

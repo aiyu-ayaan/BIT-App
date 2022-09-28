@@ -41,9 +41,12 @@ import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
-import com.atech.bit.utils.*
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
+import com.atech.bit.utils.MainStateEvent
+import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.getUid
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.syllabus.SyllabusModel
@@ -156,7 +159,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setUpLinkClick()
 
-        setPrompt()
         checkHasData()
         setPref()
         restoreScroll()
@@ -200,48 +202,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             })
             {
             }
-    }
-
-    private fun setPrompt() {
-        val firstTimeOpenNoticeDes = pref.getBoolean(
-            FIRST_TIME_OPEN_HOME,
-            true
-        )
-        if (firstTimeOpenNoticeDes)
-            Handler(Looper.getMainLooper()).postDelayed({
-                requireActivity().showMenuPrompt(
-                    R.id.edit,
-                    R.string.home_edit_button,
-                    resources.getString(R.string.home_edit_button_des)
-                ) {
-                    setPromptToSetting()
-                }
-            }, 1000)
-        else {
-            getOldAppWarningDialog()
-        }
-    }
-
-    private fun setPromptToSetting() {
-        requireActivity().showMenuPrompt(
-            R.id.setting,
-            R.string.home_setting_button,
-            resources.getString(R.string.home_setting_button_des)
-        ) {
-            setPromptToSearch()
-        }
-    }
-
-    private fun setPromptToSearch() {
-        requireActivity().showMenuPrompt(
-            R.id.menu_search,
-            R.string.home_search,
-            resources.getString(R.string.searchAnything)
-        ) {
-            pref.edit()
-                .putBoolean(FIRST_TIME_OPEN_HOME, false)
-                .apply()
-        }
     }
 
     private fun setUpLinkClick() {

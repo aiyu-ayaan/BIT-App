@@ -4,13 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -22,12 +19,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
-import com.google.android.material.color.MaterialColors
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -52,8 +46,7 @@ fun Activity.openBugLink(
             it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
             it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(reportType))
             it.putExtra(
-                Intent.EXTRA_TEXT,
-                if (extraString.isNotBlank()) """Found a bug on $extraString  
+                Intent.EXTRA_TEXT, if (extraString.isNotBlank()) """Found a bug on $extraString  
                                 |happened on ${Date().time.convertLongToTime("dd/mm/yyyy hh:mm:aa")}
                                 |due to $reportDes .
                                 |
@@ -143,33 +136,28 @@ fun Long.calculateTimeDifference(): String {
  * @author Ayaan
  * @since 4.0.3
  */
-fun Activity.openShareLink(link: String) =
-    this.startActivity(Intent.createChooser(Intent().apply {
-        action = Intent.ACTION_SEND
-        putExtra(
-            Intent.EXTRA_STREAM,
-            saveFileToCaches(
-                this@openShareLink,
-                try {
-                    getBitMapUsingGlide(this@openShareLink, link)!!
-                } catch (e: Exception) {
-                    (ResourcesCompat.getDrawable(
-                        this@openShareLink.resources,
-                        R.drawable.app_logo,
-                        null
-                    ) as BitmapDrawable).toBitmap()
-                }
-            )
+fun Activity.openShareLink(link: String) = this.startActivity(Intent.createChooser(Intent().apply {
+    action = Intent.ACTION_SEND
+    putExtra(
+        Intent.EXTRA_STREAM, saveFileToCaches(
+            this@openShareLink, try {
+                getBitMapUsingGlide(this@openShareLink, link)!!
+            } catch (e: Exception) {
+                (ResourcesCompat.getDrawable(
+                    this@openShareLink.resources, R.drawable.app_logo, null
+                ) as BitmapDrawable).toBitmap()
+            }
         )
-        putExtra(
-            Intent.EXTRA_TEXT, "${resources.getString(R.string.app_share_content)} \n" +
-                    "${resources.getString(R.string.play_store_link)}$packageName"
-        )
-        type = "image/*"
-        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
+    )
+    putExtra(
+        Intent.EXTRA_TEXT,
+        "${resources.getString(R.string.app_share_content)} \n" + "${resources.getString(R.string.play_store_link)}$packageName"
+    )
+    type = "image/*"
+    putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
 
-        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    }, null))
+    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+}, null))
 //
 /**
  *Extension function to open Share
@@ -177,52 +165,43 @@ fun Activity.openShareLink(link: String) =
  * @since 4.0.3
  */
 fun Activity.openShareDeepLink(
-    title: String,
-    path: String,
-    share_type: String = SHARE_TYPE_NOTICE
-) =
-    this.startActivity(Intent.createChooser(Intent().apply {
-        action = Intent.ACTION_SEND
+    title: String, path: String, share_type: String = SHARE_TYPE_NOTICE
+) = this.startActivity(Intent.createChooser(Intent().apply {
+    action = Intent.ACTION_SEND
 
-        putExtra(
-            Intent.EXTRA_TEXT, """
+    putExtra(
+        Intent.EXTRA_TEXT, """
             $title .
             Link: ${
-                Uri.parse(
-                    resources.getString(
-                        when (share_type) {
-                            SHARE_TYPE_SYLLABUS -> R.string.deep_link_share_syllabus
-                            SHARE_TYPE_EVENT -> R.string.deep_link_share_event_link
-                            else -> R.string.deep_link_share_notice
-                        }, path.trim()
-                    )
+            Uri.parse(
+                resources.getString(
+                    when (share_type) {
+                        SHARE_TYPE_SYLLABUS -> R.string.deep_link_share_syllabus
+                        SHARE_TYPE_EVENT -> R.string.deep_link_share_event_link
+                        else -> R.string.deep_link_share_notice
+                    }, path.trim()
                 )
-            }
+            )
+        }
 
             Sauce: ${resources.getString(R.string.play_store_link)}$packageName
         """.trimIndent()
-        )
-        type = "text/plain"
-        putExtra(Intent.EXTRA_TITLE, title)
+    )
+    type = "text/plain"
+    putExtra(Intent.EXTRA_TITLE, title)
 
-        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    }, null))
+    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+}, null))
 
 
 fun getBitMapUsingGlide(context: Context, url: String): Bitmap? =
     runBlocking(Dispatchers.IO + handler) {
         try {
-            val requestOptions = RequestOptions()
-                .centerCrop()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .skipMemoryCache(false)
+            val requestOptions =
+                RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .skipMemoryCache(false)
 
-            Glide.with(context)
-                .asBitmap()
-                .load(url)
-                .apply(requestOptions)
-                .submit()
-                .get()
+            Glide.with(context).asBitmap().load(url).apply(requestOptions).submit().get()
         } catch (e: com.bumptech.glide.load.engine.GlideException) {
             throw e;
         }
@@ -244,9 +223,7 @@ fun saveFileToCaches(context: Context, bitmap: Bitmap): Uri? =
             val imagePath = File(context.cacheDir, "images")
             val newFile = File(imagePath, "image.jpeg")
             return@runBlocking FileProvider.getUriForFile(
-                context,
-                BuildConfig.APPLICATION_ID + ".provider",
-                newFile
+                context, BuildConfig.APPLICATION_ID + ".provider", newFile
             )
         } catch (e: IOException) {
             null
@@ -264,85 +241,79 @@ fun Activity.openShareImageDeepLink(
     path: String,
     imageLink: String,
     share_type: String = SHARE_EVENT
-) =
-    this.startActivity(Intent.createChooser(Intent().apply {
-        action = Intent.ACTION_SEND
-        putExtra(
-            Intent.EXTRA_STREAM,
-            saveFileToCaches(
-                context,
-                getBitMapUsingGlide(context, imageLink) ?: (ResourcesCompat.getDrawable(
-                    context.resources,
-                    R.drawable.app_logo,
-                    null
-                ) as BitmapDrawable).toBitmap()
-            )
+) = this.startActivity(Intent.createChooser(Intent().apply {
+    action = Intent.ACTION_SEND
+    putExtra(
+        Intent.EXTRA_STREAM, saveFileToCaches(
+            context, getBitMapUsingGlide(context, imageLink) ?: (ResourcesCompat.getDrawable(
+                context.resources, R.drawable.app_logo, null
+            ) as BitmapDrawable).toBitmap()
         )
-        putExtra(
-            Intent.EXTRA_TEXT, """
+    )
+    putExtra(
+        Intent.EXTRA_TEXT, """
             $title .
             Link: ${
-                Uri.parse(
-                    when (share_type) {
-                        SHARE_EVENT -> resources.getString(
-                            R.string.deep_link_share_event_link,
-                            path.trim()
-                        )
-                        else -> resources.getString(R.string.deep_link_share_notice, path.trim())
-                    }
-                )
-            }
+            Uri.parse(
+                when (share_type) {
+                    SHARE_EVENT -> resources.getString(
+                        R.string.deep_link_share_event_link, path.trim()
+                    )
+                    else -> resources.getString(R.string.deep_link_share_notice, path.trim())
+                }
+            )
+        }
 
             Sauce: ${resources.getString(R.string.play_store_link)}$packageName
         """.trimIndent()
-        )
-        type = "image/*"
-        putExtra(Intent.EXTRA_TITLE, title)
+    )
+    type = "image/*"
+    putExtra(Intent.EXTRA_TITLE, title)
 
-        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-    }, null))
+    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+}, null))
 
 
-fun Activity.showMenuPrompt(
-    @IdRes targetId: Int,
-    @StringRes title: Int,
-    description: String,
-    listener: (() -> Unit)? = null
-) = this.apply {
-    MaterialTapTargetPrompt.Builder(this)
-        .setTarget(targetId)
-        .setPrimaryText(resources.getString(title))
-        .setSecondaryText(description)
-        .setBackgroundColour(
-            MaterialColors.getColor(
-                this,
-                androidx.appcompat.R.attr.colorPrimary,
-                Color.CYAN
-            )
-        )
-        .setPrimaryTextColour(
-            ContextCompat.getColor(
-                this,
-                com.atech.bit.R.color.textColor_oppo
-            )
-        )
-        .setSecondaryTextColour(
-            ContextCompat.getColor(
-                this,
-                com.atech.bit.R.color.textColorSecondary_oppo
-            )
-        )
-        .setPromptStateChangeListener { _, state ->
-            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_DISMISSED
-                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED || state == MaterialTapTargetPrompt.STATE_FINISHED
-            ) {
-                listener?.invoke()
-            }
-        }
-        .show()
-}
+//fun Activity.showMenuPrompt(
+//    @IdRes targetId: Int,
+//    @StringRes title: Int,
+//    description: String,
+//    listener: (() -> Unit)? = null
+//) = this.apply {
+//    MaterialTapTargetPrompt.Builder(this)
+//        .setTarget(targetId)
+//        .setPrimaryText(resources.getString(title))
+//        .setSecondaryText(description)
+//        .setBackgroundColour(
+//            MaterialColors.getColor(
+//                this,
+//                androidx.appcompat.R.attr.colorPrimary,
+//                Color.CYAN
+//            )
+//        )
+//        .setPrimaryTextColour(
+//            ContextCompat.getColor(
+//                this,
+//                com.atech.bit.R.color.textColor_oppo
+//            )
+//        )
+//        .setSecondaryTextColour(
+//            ContextCompat.getColor(
+//                this,
+//                com.atech.bit.R.color.textColorSecondary_oppo
+//            )
+//        )
+//        .setPromptStateChangeListener { _, state ->
+//            if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED || state == MaterialTapTargetPrompt.STATE_DISMISSED
+//                || state == MaterialTapTargetPrompt.STATE_BACK_BUTTON_PRESSED || state == MaterialTapTargetPrompt.STATE_FINISHED
+//            ) {
+//                listener?.invoke()
+//            }
+//        }
+//        .show()
+//}
 
-fun Context.loadAdds(adsView : AdView) =this.apply {
+fun Context.loadAdds(adsView: AdView) = this.apply {
     val adRequest = AdRequest.Builder().build()
     adsView.loadAd(adRequest)
 }
