@@ -23,8 +23,8 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
     private val viewModel: DetailDevViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,9 +76,9 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                     requireActivity().openCustomChromeTab(dev.linkedin!!)
                 }
                 imageViewProfile.setOnClickListener {
-                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
                     reenterTransition =
-                        MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+                        MaterialSharedAxis(MaterialSharedAxis.Z,  false)
                     findNavController().navigate(
                         NavGraphDirections.actionGlobalViewImageFragment(
                             dev.img_link!!,

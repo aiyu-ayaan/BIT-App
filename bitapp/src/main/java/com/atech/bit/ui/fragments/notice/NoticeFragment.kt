@@ -39,8 +39,8 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
 
@@ -88,8 +88,8 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }

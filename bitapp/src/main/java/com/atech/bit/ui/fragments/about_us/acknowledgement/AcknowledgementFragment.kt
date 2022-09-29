@@ -23,8 +23,8 @@ class AcknowledgementFragment : Fragment(R.layout.fragment_acknowledgement) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

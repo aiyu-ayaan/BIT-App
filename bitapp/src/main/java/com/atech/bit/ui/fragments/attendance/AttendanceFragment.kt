@@ -23,6 +23,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.AttendanceEvent
 import com.atech.bit.utils.getUid
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
@@ -59,8 +60,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
 
@@ -93,7 +94,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         detectScroll()
         addSubject()
 
-
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun uploadWhenNewLogin() {

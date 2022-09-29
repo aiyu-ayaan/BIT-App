@@ -13,8 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewSyllabusBinding
+import com.atech.bit.utils.loadAdds
 import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
 import com.atech.core.utils.loadImage
+import com.google.android.gms.ads.AdView
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -64,16 +66,19 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
             this.addViews(
                 R.layout.layout_syllabus_lab_content, it
             ) { content, view ->
-                view.findViewById<TextView>(R.id.question_text_view).text =Html.fromHtml(content.question, Html.FROM_HTML_MODE_COMPACT)
+                view.findViewById<TextView>(R.id.question_text_view).text =
+                    Html.fromHtml(content.question, Html.FROM_HTML_MODE_COMPACT)
                 view.findViewById<ImageView>(R.id.question_image_view).apply {
-                        isVisible = content.image != null
-                        content.image?.loadImage(
-                            this@run,
-                            view.findViewById(R.id.question_image_view),
-                            null,
-                            errorImage = R.drawable.ic_running_error
-                        )
-                    }
+                    isVisible = content.image != null
+                    content.image?.loadImage(
+                        this@run,
+                        view.findViewById(R.id.question_image_view),
+                        null,
+                        errorImage = R.drawable.ic_running_error
+                    )
+                    val adsView = view.findViewById<AdView>(R.id.adViewSyllabusLabContent)
+                    requireContext().loadAdds(adsView)
+                }
             }
         }
         else arg.subject.theoryContents?.forEach {
@@ -83,8 +88,10 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
             ) { content, view ->
                 val moduleTextView = view.findViewById<TextView>(R.id.module_text_view)
                 val contentTextView = view.findViewById<TextView>(R.id.content_text_view)
+                val adsView = view.findViewById<AdView>(R.id.adViewSyllabusContent)
                 moduleTextView.text = content.module
                 contentTextView.text = Html.fromHtml(content.content, Html.FROM_HTML_MODE_COMPACT)
+                requireContext().loadAdds(adsView)
             }
         }
     }

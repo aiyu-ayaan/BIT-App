@@ -18,6 +18,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.MainStateEvent
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.society.SocietyNetworkEntity
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -36,8 +37,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -132,6 +133,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
         }
         detectScroll()
 
+        requireContext().loadAdds(binding.adView)
+
     }
 
 
@@ -146,7 +149,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                 )
             findNavController().navigate(action)
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

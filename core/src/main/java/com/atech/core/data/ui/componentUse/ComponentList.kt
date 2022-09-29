@@ -120,9 +120,6 @@ object ComponentList {
         Component(
             "org.jetbrains.kotlinx:kotlinx-coroutines-core",
             "https://github.com/Kotlin/kotlinx.coroutines"
-        ),Component(
-            "uk.co.samuelwall:material-tap-target-prompt",
-            "https://github.com/sjwall/MaterialTapTargetPrompt"
         )
     )
 }

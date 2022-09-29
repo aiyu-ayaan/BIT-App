@@ -22,6 +22,7 @@ import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.notice.Notice3
@@ -69,6 +70,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         getNotice()
         setIsConnected()
         menuHost()
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun getNotice() = lifecycleScope.launchWhenStarted {
@@ -189,8 +191,8 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
 
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }

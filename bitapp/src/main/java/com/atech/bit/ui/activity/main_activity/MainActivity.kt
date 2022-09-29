@@ -338,8 +338,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
     private fun setExitTransition() {
         getCurrentFragment()?.apply {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
         }
     }
 

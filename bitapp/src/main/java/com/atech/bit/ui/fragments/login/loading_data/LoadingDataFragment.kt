@@ -29,8 +29,8 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
     }
 
 
@@ -120,8 +120,8 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
             KEY_FIRST_TIME_LOGIN,
             true
         ).apply()
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
         findNavController()
             .navigate(
                 LoadingDataFragmentDirections.actionLoadingDataFragmentToHomeFragment()
@@ -129,8 +129,8 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
     }
 
     private fun navigateToStartUp() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
         findNavController()
             .navigate(
                 NavGraphDirections.actionGlobalStartUpFragment()

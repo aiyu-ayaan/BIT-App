@@ -23,6 +23,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewM
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.Events
@@ -59,8 +60,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arg.request == REQUEST_EVENT_FROM_HOME) {
-            enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-            returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
         } else sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.fragment
             duration = resources.getInteger(R.integer.duration_medium).toLong()
@@ -76,6 +77,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         getEvent(viewModel.path)
         menuHost()
         detectScroll()
+
+        requireContext().loadAdds(binding.adView)
     }
 
 
@@ -222,8 +225,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     }
 
     private fun navigateToViewVideo(videoLink: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewVideoFragment(videoLink)
         findNavController().navigate(action)
     }
@@ -298,8 +301,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
 
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }
