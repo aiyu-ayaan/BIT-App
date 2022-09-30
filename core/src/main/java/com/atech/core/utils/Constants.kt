@@ -71,3 +71,4 @@ const val APP_LOGO_LINK =
 const val SHARE_EVENT = "event"
 const val SHARE_NOTICE = "notice"
 
+const val CURRENT_YEAR = "Current_Year"

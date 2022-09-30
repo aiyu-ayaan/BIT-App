@@ -60,6 +60,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     @Inject
     lateinit var pref: SharedPreferences
 
+    @Inject
+    lateinit var remoteConfigUtil: RemoteConfigUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = MaterialContainerTransform().apply {
@@ -346,11 +349,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
 
     private fun getSyllabus(course: String) {
-        db.collection("Utils").document("syllabus_download").addSnapshotListener { value, _ ->
-            val link = value?.getString(course)
-            link?.let {
-                requireActivity().openCustomChromeTab(it)
-            }
+        remoteConfigUtil.fetchData({}) {
+            val link = remoteConfigUtil.getString("SYLLABUS_$course")
+            requireActivity().openCustomChromeTab(link)
         }
     }
 

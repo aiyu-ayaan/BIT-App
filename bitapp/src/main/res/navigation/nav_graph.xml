@@ -356,6 +356,9 @@
         <argument
             android:name="link"
             app:argType="string" />
+        <argument
+            android:name="button_text"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_warningFragment"

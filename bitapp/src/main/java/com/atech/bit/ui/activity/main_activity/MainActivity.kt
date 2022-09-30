@@ -84,6 +84,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     @Inject
     lateinit var fcm: FirebaseMessaging
 
+    @Inject
+    lateinit var remoteConfigUtil: RemoteConfigUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -101,18 +104,19 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     R.id.attendanceFragment,
                     R.id.noticeFragment,
                     R.id.warningFragment
-                ),
-                drawer
+                ), drawer
             )
             setSupportActionBar(toolbar)
             bottomNavigation.setupWithNavController(navController)
             bottomNavigation.setOnItemSelectedListener {
-                if (it.itemId == R.id.homeFragment)
-                    navController.popBackStack(R.id.homeFragment, false)
-                else
-                    NavigationUI.onNavDestinationSelected(it, navController)
+                if (it.itemId == R.id.homeFragment) navController.popBackStack(
+                    R.id.homeFragment,
+                    false
+                )
+                else NavigationUI.onNavDestinationSelected(it, navController)
                 true
             }
+            bottomNavigation.setOnItemReselectedListener { }
             setupActionBarWithNavController(navController, appBarConfiguration)
             navigationView.setupWithNavController(navController)
             navigationView.setNavigationItemSelectedListener {
@@ -133,42 +137,36 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         searchFragmentCommunication()
         checkForUpdate()
         val u = pref.getBoolean(KEY_DO_NOT_SHOW_AGAIN, false)
-        if (!u)
+        if (u)
             getWarning()
         shareReview()
     }
 
+
     private fun shareApp() {
-        db.collection("Utils")
-            .document("AppLogoShare")
-            .addSnapshotListener { value, _ ->
-                val title = value?.getString("appLogo")
-                this@MainActivity.openShareLink(
-                    title
-                        ?: APP_LOGO_LINK
-                )
-            }
+        db.collection("Utils").document("AppLogoShare").addSnapshotListener { value, _ ->
+            val title = value?.getString("appLogo")
+            this@MainActivity.openShareLink(
+                title ?: APP_LOGO_LINK
+            )
+        }
     }
 
     private fun shareReview() {
         reviewManager = ReviewManagerFactory.create(this)
         val managerInfoTask = reviewManager.requestReviewFlow()
         managerInfoTask.addOnCompleteListener { task ->
-            if (task.isSuccessful)
-                reviewInfo = task.result
-            else
-                Log.e(ERROR_LOG, "shareReview:  Can't open review manager")
+            if (task.isSuccessful) reviewInfo = task.result
+            else Log.e(ERROR_LOG, "shareReview:  Can't open review manager")
         }
     }
 
     private fun startReviewFlow() {
-        if (reviewInfo != null)
-            reviewManager.launchReviewFlow(this, reviewInfo!!)
-                .addOnCompleteListener {
-                    Toast.makeText(this, "Review is completed", Toast.LENGTH_SHORT).show()
-                }
-        else
-            openPlayStore(packageName)
+        if (reviewInfo != null) reviewManager.launchReviewFlow(this, reviewInfo!!)
+            .addOnCompleteListener {
+                Toast.makeText(this, "Review is completed", Toast.LENGTH_SHORT).show()
+            }
+        else openPlayStore(packageName)
 
 
     }
@@ -176,11 +174,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     private fun onDestinationChange() {
         navController.onDestinationChange { destination ->
             when (destination.id) {
-                R.id.noticeFragment,
-                R.id.attendanceFragment,
-                R.id.homeFragment,
-                R.id.courseFragment
-                -> getCurrentFragment().apply {
+                R.id.noticeFragment, R.id.attendanceFragment, R.id.homeFragment, R.id.courseFragment -> getCurrentFragment().apply {
                     setDrawerEnabled(true)
                 }
 
@@ -190,21 +184,17 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
             }
             when (destination.id) {
-                R.id.searchFragment, R.id.settingDialog -> binding.searchToolbar.isVisible =
-                    true
+                R.id.searchFragment, R.id.settingDialog -> binding.searchToolbar.isVisible = true
                 else -> binding.searchToolbar.isVisible = false
             }
-            if (destination.id == R.id.searchFragment)
-                binding.apply {
-                    searchInput.isEnabled = true
-                    searchInput.requestFocus()
-                    when {
-                        communicator.openFirst ->
-                            showKeyboard()
-                    }
+            if (destination.id == R.id.searchFragment) binding.apply {
+                searchInput.isEnabled = true
+                searchInput.requestFocus()
+                when {
+                    communicator.openFirst -> showKeyboard()
                 }
-            else
-                binding.searchInput.isEnabled = false
+            }
+            else binding.searchInput.isEnabled = false
             when (destination.id) {
                 R.id.homeFragment, R.id.noticeFragment, R.id.attendanceFragment,
                 R.id.courseFragment, R.id.holidayFragment, R.id.societyFragment,
@@ -213,65 +203,36 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             }
 
             when (destination.id) {
-                R.id.semChooseFragment, R.id.detailDevFragment,
-                R.id.searchFragment, R.id.noticeDetailFragment,
-                R.id.eventDetailFragment
-                -> changeStatusBarToolbarColor(
-                    R.id.toolbar,
+                R.id.semChooseFragment, R.id.detailDevFragment, R.id.searchFragment, R.id.noticeDetailFragment, R.id.eventDetailFragment -> changeStatusBarToolbarColor(
+                    R.id.toolbar, R.attr.bottomBar
+                )
+
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.attendanceMenu, R.id.chooseImageBottomSheet -> changeStatusBarToolbarColor(
+                    R.id.toolbar, R.attr.bottomSheetBackground
+                ).also {
+                    setStatusBarUiTheme(this, !this.isDark())
+                }
+                R.id.logInFragment -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
+                    this, R.attr.appLogoBackground, Color.WHITE
+                ).also {
+                    setStatusBarUiTheme(this, false)
+                })
+
+                else -> changeStatusBarToolbarColor(
+                    R.id.toolbar, com.google.android.material.R.attr.colorSurface
+                ).also {
+                    setStatusBarUiTheme(this, !this.isDark())
+                }
+            }
+            when (destination.id) {
+                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu -> changeBottomNav(
                     R.attr.bottomBar
                 )
 
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
-                R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet, R.id.attendanceMenu,
-                R.id.chooseImageBottomSheet
-                -> changeStatusBarToolbarColor(
-                    R.id.toolbar,
-                    R.attr.bottomSheetBackground
-                ).also {
-                    setStatusBarUiTheme(this, !this.isDark())
-                }
-                R.id.logInFragment ->
-                    changeStatusBarToolbarColorImageView(
-                        MaterialColors.getColor(
-                            this,
-                            R.attr.appLogoBackground,
-                            Color.WHITE
-                        ).also {
-                            setStatusBarUiTheme(this, false)
-                        }
-                    )
-
-                else -> changeStatusBarToolbarColor(
-                    R.id.toolbar,
-                    com.google.android.material.R.attr.colorSurface
-                ).also {
-                    setStatusBarUiTheme(this, !this.isDark())
-                }
+                else -> changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
-                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
-                R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet,
-                R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu
-                -> changeBottomNav(R.attr.bottomBar)
-
-                else ->
-                    changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
-            }
-            when (destination.id) {
-                R.id.startUpFragment, R.id.noticeDetailFragment,
-                R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
-                R.id.semChooseFragment, R.id.holidayFragment,
-                R.id.aboutUsFragment, R.id.detailDevFragment,
-                R.id.acknowledgementFragment, R.id.societyFragment,
-                R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
-                R.id.eventDetailFragment, R.id.searchFragment,
-                R.id.settingDialog, R.id.cgpaCalculatorFragment,
-                R.id.viewVideoFragment, R.id.loadingDataFragment,
-                R.id.viewSyllabusFragment -> {
+                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment, R.id.searchFragment, R.id.settingDialog, R.id.cgpaCalculatorFragment, R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -280,10 +241,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 }
             }
             val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
-            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
-                || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment ||
-                destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment
-            ) {
+            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
             }
@@ -299,8 +257,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             communicator.query.value = text.toString()
             lifecycleScope.launchWhenStarted {
                 communicator.query.collect {
-                    if (it.isBlank())
-                        setText(getString(R.string.blank))
+                    if (it.isBlank()) setText(getString(R.string.blank))
                 }
             }
             addTextChangedListener {
@@ -330,21 +287,19 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
      * @since 4.0.4
      */
     private fun showKeyboard() = binding.apply {
-        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager)
-            .apply {
-                this.showSoftInput(binding.searchInput, 0)
-            }
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply {
+            this.showSoftInput(binding.searchInput, 0)
+        }
     }
 
     private fun setExitTransition() {
         getCurrentFragment()?.apply {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
         }
     }
 
-    private fun getCurrentFragment(): Fragment? =
-        supportFragmentManager.currentNavigationFragment
+    private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment
 
 
     private fun showBottomAppBar() {
@@ -413,15 +368,15 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
                 duration = resources.getInteger(R.integer.duration_medium).toLong()
             }
-            reenterTransition =
-                MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                    duration = resources.getInteger(R.integer.duration_medium).toLong()
-                }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
         }
         val action = NavGraphDirections.actionGlobalSearchFragment()
         navController.navigate(action)
     }
 
+    @Suppress("deprecation")
     override fun onBackPressed() {
         when {
             binding.drawer.isDrawerOpen(GravityCompat.START) -> {
@@ -460,8 +415,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 )
             ) {
                 appUpdateManager.startUpdateFlowForResult(
-                    it, AppUpdateType.FLEXIBLE, this,
-                    UPDATE_REQUEST_CODE
+                    it, AppUpdateType.FLEXIBLE, this, UPDATE_REQUEST_CODE
                 )
             }
         }.addOnFailureListener {
@@ -480,29 +434,28 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     }
 
     private fun getWarning() {
-        val u = pref.getBoolean(KEY_FIRST_TIME_TOGGLE, false)
-        db.collection("Utils")
-            .document("Warning")
-            .addSnapshotListener { value, _ ->
-                val isEnable = value?.getBoolean("isEnable")
-                val title = value?.getString("title")
-                val link = value?.getString("link")
-                val minVersion = value?.getDouble("minVersion")
-                val isMinEdition =
-                    VERSION_CODE > (minVersion?.toInt() ?: INVALID_BUILD_VERSION)
-                isEnable?.let { it ->
-                    if (it && u && !isMinEdition)
-                        link?.let { link ->
-                            openWarningDialog(title ?: "", link)
-                        }
-
-                }
+        val u = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
+        remoteConfigUtil.fetchData({
+            Log.e(TAG, "getWarning: $it")
+        }) {
+            val isEnable = remoteConfigUtil.getBoolean("isEnable")
+            val title = remoteConfigUtil.getString("title")
+            val link = remoteConfigUtil.getString("link")
+            val minVersion = remoteConfigUtil.getLong("minVersion").toInt()
+            val text = remoteConfigUtil.getString("title")
+            val buttonText = remoteConfigUtil.getString("button_text")
+            val isMinEdition = VERSION_CODE > minVersion
+            Log.d("XXX", "getWarning: $isEnable $title $link $minVersion $buttonText $isMinEdition")
+            Log.d("XXX", "$u , $isEnable , $isMinEdition")
+            if (isEnable && u && !isMinEdition) {
+                openWarningDialog(title, link, buttonText)
             }
+        }
     }
 
-    private fun openWarningDialog(title: String, link: String) {
+    private fun openWarningDialog(title: String, link: String, buttonText: String) {
         try {
-            val action = NavGraphDirections.actionGlobalWarningFragment(title, link)
+            val action = NavGraphDirections.actionGlobalWarningFragment(title, link, buttonText)
             navController.navigate(action)
         } catch (e: Exception) {
             e.printStackTrace()

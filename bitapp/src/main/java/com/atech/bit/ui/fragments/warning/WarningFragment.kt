@@ -10,6 +10,7 @@ import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentWarningBinding
+import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.openPlayStore
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -24,10 +25,13 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
 
     @Inject
     lateinit var db: FirebaseFirestore
+
+    @Inject
+    lateinit var remoteConfig: RemoteConfigUtil
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,23 +44,18 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
             buttonQuit.setOnClickListener {
                 exitProcess(0)
             }
-
+            buttonOpenApp.text = args.buttonText
         }
         getWarning()
     }
 
     private fun getWarning() {
-        db.collection("Utils")
-            .document("Warning")
-            .addSnapshotListener { value, _ ->
-                val isEnable = value?.getBoolean("isEnable")
-                val minVersion = value?.getDouble("minVersion")
-                val isMinEdition = BuildConfig.VERSION_CODE > minVersion!!.toInt()
-                isEnable?.let { it ->
-                    if (!it || isMinEdition)
-                        navigateToHome()
-                }
-            }
+        remoteConfig.fetchData({}) {
+            val isEnable = remoteConfig.getBoolean("isEnable")
+            val minVersion = remoteConfig.getLong("minVersion").toInt()
+            val isMinEdition = BuildConfig.VERSION_CODE > minVersion.toInt()
+            if (!isEnable || isMinEdition) navigateToHome()
+        }
     }
 
     private fun navigateToHome() {

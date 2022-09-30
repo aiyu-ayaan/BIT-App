@@ -212,6 +212,7 @@
     <string name="all_subjects">All Subjects</string>
     <string name="text_book">Text Books :</string>
     <string name="reference_book">Reference Books :</string>
+    <string name="holiday_title">Holiday %s</string>
 
 
 </resources>
