@@ -58,4 +58,10 @@
         </value>
     </entry>
 
+    <entry>
+        <key>Remove_Caches</key>
+        <value>
+            false
+        </value>
+    </entry>
 </defaultMap>

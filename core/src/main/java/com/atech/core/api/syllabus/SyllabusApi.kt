@@ -1,6 +1,6 @@
-package com.atech.core.api
+package com.atech.core.api.syllabus
 
-import com.atech.core.api.model.SyllabusResponse
+import com.atech.core.api.syllabus.model.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -35,6 +35,7 @@ import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
+import com.atech.core.api.syllabus.SyllabusCacheDao
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.*
@@ -86,6 +87,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
     @Inject
     lateinit var remoteConfigUtil: RemoteConfigUtil
+
+    @Inject
+    lateinit var syllabusDao: SyllabusCacheDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -140,6 +144,21 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         if (u)
             getWarning()
         shareReview()
+        checkForClearCaches()
+    }
+
+    private fun checkForClearCaches() {
+        remoteConfigUtil.fetchData({
+            Log.d("XXX", "checkForClearCaches: ${it.message}")
+        }) {
+            val removeCaches = remoteConfigUtil.getBoolean(REMOVE_CACHES)
+            Log.d("XXX", "checkForClearCaches: $removeCaches")
+            if (removeCaches)
+                lifecycleScope.launchWhenStarted {
+                    syllabusDao.deleteAll()
+                    Log.d("XXX", "checkForClearCaches: Remove")
+                }
+        }
     }
 
 

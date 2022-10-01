@@ -1,7 +1,7 @@
 package com.atech.core.module
 
-import com.atech.core.api.SyllabusApi
-import com.atech.core.api.SyllabusApi.Companion.BASE_URL
+import com.atech.core.api.syllabus.SyllabusApi
+import com.atech.core.api.syllabus.SyllabusApi.Companion.BASE_URL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

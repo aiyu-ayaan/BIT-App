@@ -488,7 +488,7 @@
         tools:layout="@layout/fragment_view_syllabus">
         <argument
             android:name="subject"
-            app:argType="com.atech.core.api.model.SubjectContent" />
+            app:argType="com.atech.core.api.syllabus.model.SubjectContent" />
         <argument
             android:name="type"
             app:argType="string"

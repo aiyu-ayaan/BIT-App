@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
@@ -29,10 +28,10 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAd
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.openBugLink
-import com.atech.core.api.model.Lab
-import com.atech.core.api.model.Semesters
-import com.atech.core.api.model.SubjectContent
-import com.atech.core.api.model.Theory
+import com.atech.core.api.syllabus.model.Lab
+import com.atech.core.api.syllabus.model.Semesters
+import com.atech.core.api.syllabus.model.SubjectContent
+import com.atech.core.api.syllabus.model.Theory
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.utils.*
 import com.google.android.material.snackbar.Snackbar
@@ -41,6 +40,7 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.HttpException
 import javax.inject.Inject
 
 
@@ -113,27 +113,25 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun napToSubjectContent(theory: Theory? = null, lab: Lab? = null) {
-        if (theory != null)
-            SubjectContent(theory.subjectName, theory.content, books = theory.books)
-                .apply {
-                    navigateToViewSyllabus(this)
-                }
-        else
-            SubjectContent(lab!!.subjectName, labContent = lab.content, books = lab.books)
-                .apply {
-                    navigateToViewSyllabus(this, REQUEST_VIEW_LAB_SYLLABUS)
-                }
+        if (theory != null) SubjectContent(
+            theory.subjectName,
+            theory.content,
+            books = theory.books
+        ).apply {
+            navigateToViewSyllabus(this)
+        }
+        else SubjectContent(lab!!.subjectName, labContent = lab.content, books = lab.books).apply {
+            navigateToViewSyllabus(this, REQUEST_VIEW_LAB_SYLLABUS)
+        }
 
     }
 
     private fun navigateToViewSyllabus(subject: SubjectContent, request: String = "theory") {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        val action =
-            SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(
-                subject,
-                request
-            )
+        val action = SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(
+            subject, request
+        )
         findNavController().navigate(action)
     }
 
@@ -216,45 +214,42 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun getOnlineSyllabus() {
-        lifecycleScope.launchWhenStarted {
-            try {
-                viewModel.getOnlineSyllabus().collect { dataState ->
-                    when (dataState) {
-                        DataState.Empty -> {
+        viewModel.getOnlineSyllabus().observe(viewLifecycleOwner) {
+            it.data?.let { response ->
+                setViewOfOnlineSyllabusExt(true)
+                setOnLineData(response)
+            }
+            when (it) {
+                is Resource.Error -> {
+                    if (it.error is HttpException) {
+                        binding.root.showSnackBar(
+                            "${it.error?.message}", Snackbar.LENGTH_SHORT, "Report"
+                        ) {
                             setViewOfOnlineSyllabusExt(false)
-                            onlineTheoryAdapter.submitList(emptyList())
+                            requireActivity().openBugLink(
+                                com.atech.core.R.string.bug_repost,
+                                "${this@SemChooseFragment.javaClass.simpleName}.class",
+                                it.error?.message
+                            )
                         }
-                        is DataState.Error -> {
+                    } else {
+                        if (it.data == null) {
                             setViewOfOnlineSyllabusExt(false)
-                            binding.root.showSnackBar(
-                                dataState.exception.message.toString(),
-                                Snackbar.LENGTH_SHORT,
-                                "Report"
-                            ) {
-                                requireActivity()
-                                    .openBugLink(
-                                        com.atech.core.R.string.bug_repost,
-                                        "${this@SemChooseFragment.javaClass.simpleName}.class",
-                                        dataState.exception.message.toString()
-                                    )
-                            }
-                        }
-                        DataState.Loading -> {
-                            binding.semChoseOnlineExt.progressBarLoading.isVisible = true
-                            binding.semChoseOnlineExt.noData.isVisible = false
-                            binding.semChoseOnlineExt.noDataText.isVisible = false
-                        }
-                        is DataState.Success -> {
-                            setViewOfOnlineSyllabusExt(true)
-                            setOnLineData(dataState.data.semesters)
+
                         }
                     }
                 }
-            } catch (e: Exception) {
-                Log.d("XXX", "getOnlineSyllabus: Error ${e.message}")
-            }
+                is Resource.Loading -> {
+                    binding.semChoseOnlineExt.progressBarLoading.isVisible = true
+                    binding.semChoseOnlineExt.noData.isVisible = false
+                    binding.semChoseOnlineExt.noDataText.isVisible = false
+                }
 
+                else -> {}
+            }
         }
+
+
     }
 
     private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) {
