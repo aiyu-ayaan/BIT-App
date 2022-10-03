@@ -89,6 +89,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var remoteConfig: RemoteConfigUtil
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -207,13 +210,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpLinkClick() {
         binding.layoutNoteDev.tagInfo.setOnClickListener {
-            db.collection("AboutUs")
-                .document("WfsbaT4g1wGZkDwFS7iQ")
-                .addSnapshotListener { value, _ ->
-                    value?.getString("github")?.let {
-                        requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
-                    }
-                }
+            remoteConfig.fetchData({
+                Log.e(TAG, "setUpLinkClick: ${it.message}")
+            }) {
+                val link = remoteConfig.getString(GITHUB_LINK)
+                requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
+            }
         }
     }
 
@@ -269,6 +271,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     (requireActivity() as MainActivity).onMenuClick()
                     true
                 }
+
                 else -> false
             }
         }
@@ -516,10 +519,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 binding.textViewStats.text = when {
                     per == defPercentage || day <= 0 ->
                         "On track don't miss next class"
+
                     day != 0 -> "You can leave $day class"
                     else -> "Error !!"
                 }
             }
+
             per < defPercentage -> {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
@@ -668,6 +673,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     holidayAdapter.submitList(dateState.data)
                 }
+
                 DataState.Empty -> binding.apply {
                     textHoliday.isVisible = false
                     materialCardViewHolidayRecyclerView.isVisible = false
