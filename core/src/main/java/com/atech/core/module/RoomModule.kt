@@ -70,7 +70,7 @@ object RoomModule {
     @Singleton
     @Provides
     fun getSyllabusDao(noticeDatabase: BitDatabase): SyllabusDao =
-        noticeDatabase.syllabusDap()
+        noticeDatabase.syllabusDao()
 
     @Singleton
     @Provides

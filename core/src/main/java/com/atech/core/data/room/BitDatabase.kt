@@ -49,7 +49,7 @@ import javax.inject.Provider
 abstract class BitDatabase : RoomDatabase() {
     abstract fun holidayDao(): HolidayDao
     abstract fun attendanceDao(): AttendanceDao
-    abstract fun syllabusDap(): SyllabusDao
+    abstract fun syllabusDao(): SyllabusDao
     abstract fun notice3Dao(): Notice3Dao
     abstract fun eventDao(): EventsDao
 
@@ -158,12 +158,10 @@ abstract class BitDatabase : RoomDatabase() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            val dao = database.get().syllabusDap()
+            val dao = database.get().syllabusDao()
             appScope.launch {
                 val syllabus = SyllabusList.syllabus
-                for (s in syllabus) {
-                    dao.insert(s)
-                }
+                dao.insertAll(syllabus)
             }
         }
     }
