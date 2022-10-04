@@ -27,6 +27,7 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
 import com.atech.core.api.syllabus.model.Lab
 import com.atech.core.api.syllabus.model.Semesters
@@ -110,7 +111,14 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         switchClick()
         setSource()
         getOnlineSyllabus()
+        setAds()
+
     }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
+    }
+
 
     private fun napToSubjectContent(theory: Theory? = null, lab: Lab? = null) {
         if (theory != null) SubjectContent(

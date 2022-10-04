@@ -8,10 +8,10 @@ import retrofit2.http.Path
 interface SyllabusApi {
 
     companion object {
-        const val BASE_URL = "https://aiyu-ayaan.github.io/BIT-App-Syllabus/"
+        const val BASE_URL = "https://aiyu-ayaan.github.io/BIT-App-Data/"
     }
 
-    @GET("data/{sem_year}.json")
+    @GET("syllabus/data/{sem_year}.json")
     suspend fun getSubjects(@Path("sem_year") semYear: String): SyllabusResponse
 
 

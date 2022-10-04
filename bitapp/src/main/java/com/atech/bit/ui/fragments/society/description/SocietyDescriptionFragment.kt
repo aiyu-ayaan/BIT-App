@@ -17,7 +17,15 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyDescriptionBinding
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.handleCustomBackPressed
-import com.atech.core.utils.*
+import com.atech.bit.utils.loadAdds
+import com.atech.core.utils.DEFAULT_CORNER_RADIUS
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.getColorForText
+import com.atech.core.utils.getColorFromAttr
+import com.atech.core.utils.getRgbFromHex
+import com.atech.core.utils.loadImage
+import com.atech.core.utils.onScrollColorChange
+import com.atech.core.utils.openLinks
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,8 +42,8 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,7 +56,13 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         handleCustomBackPressed { customAction() }
         detectScroll()
         setMenu()
+        setAds()
     }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
+    }
+
 
     private fun setMenu() {
         addMenuHost(R.menu.menu_event_society_des, { menu ->
@@ -61,6 +75,7 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
                     insta.openLinks(requireActivity(), R.string.no_intent_available)
                     true
                 }
+
                 else -> false
             }
         }
@@ -131,8 +146,8 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }
