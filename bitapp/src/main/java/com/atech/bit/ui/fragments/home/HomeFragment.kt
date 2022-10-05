@@ -241,8 +241,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             remoteConfig.fetchData({
                 Log.e(TAG, "setUpLinkClick: ${it.message}")
             }) {
-                val link = remoteConfig.getString(GITHUB_LINK)
-                requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
+                try {
+                    val link = remoteConfig.getString(GITHUB_LINK).trim()
+                    requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
+                } catch (e: Exception) {
+                    Log.e(TAG, "setUpLinkClick: ${e.message}")
+                }
             }
         }
     }
