@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.home
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,6 +20,9 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -68,6 +73,7 @@ import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.TAG
 import com.atech.core.utils.calculatedDays
 import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.checkForAPI33
 import com.atech.core.utils.findPercentage
 import com.atech.core.utils.loadImageCircular
 import com.atech.core.utils.onScrollColorChange
@@ -76,6 +82,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
@@ -115,6 +122,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var bitDatabase: BitDatabase
 
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -191,6 +199,44 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setAds()
         getOldAppWarningDialog()
         clearAndAddSyllabusDatabase()
+
+        checkPermission()
+    }
+
+    private fun checkPermission() {
+        if (checkForAPI33()) {
+            checkNotificationPermission()
+            requestPermission()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkNotificationPermission() {
+        requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    Log.d(TAG, "checkNotificationPermission: Granted")
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        "Please grant Notification permission from App Settings",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "requestPermission: Granted")
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
     }
 
     private fun clearAndAddSyllabusDatabase() {
@@ -533,14 +579,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     (((100 * p) - (defPercentage * t)) / defPercentage)
                 }.toInt()
                 binding.textViewStats.text = when {
-                    per == defPercentage || day <= 0 -> "On track don't miss next class"
+                    per == defPercentage || day == 0 -> "On track don't miss next class"
 
-                    day != 0 -> "You can leave $day class"
+                    day > 0 -> "You can leave $day class"
                     else -> "Error !!"
                 }
             }
 
-            per < defPercentage -> {
+            else -> {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
                 }

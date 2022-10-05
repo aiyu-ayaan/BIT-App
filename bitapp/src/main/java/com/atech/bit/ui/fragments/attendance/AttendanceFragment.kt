@@ -28,13 +28,21 @@ import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
-import com.atech.core.utils.*
+import com.atech.core.utils.KEY_ATTENDANCE_UPLOAD_FIRST_TIME
+import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
+import com.atech.core.utils.TAG
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.convertLongToTime
+import com.atech.core.utils.countTotalClass
+import com.atech.core.utils.findPercentage
+import com.atech.core.utils.onScrollChange
+import com.atech.core.utils.showUndoMessage
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.util.*
+import java.util.Deque
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -60,8 +68,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
 
@@ -95,6 +103,36 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         addSubject()
 
         requireContext().loadAdds(binding.adView)
+        setUpBottomAppBar()
+    }
+
+    private fun setUpBottomAppBar() = binding.bottomAppBar.apply {
+        setNavigationOnClickListener {
+            navigateToListAll()
+        }
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_book -> navigateToAddSubjectFromSyllabus().let {
+                    true
+                }
+
+                R.id.menu_archive ->
+                    Toast.makeText(
+                        requireContext(),
+                        "TODO : Implement Soon", Toast.LENGTH_SHORT
+                    ).show()
+                        .let {
+                            true
+                        }
+
+                R.id.menu_setting ->
+                    navigateToSetting().let {
+                        true
+                    }
+
+                else -> false
+            }
+        }
     }
 
     private fun uploadWhenNewLogin() {
@@ -195,13 +233,17 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
             //            ..List All
             attendanceTopBar.tvAddSub.setOnClickListener {
-                val action =
-                    AttendanceFragmentDirections.actionAttendanceFragmentToListAllBottomSheet()
-                try {
-                    findNavController().navigate(action)
-                } catch (e: Exception) {
-                }
+                navigateToListAll()
             }
+        }
+    }
+
+    private fun navigateToListAll() {
+        val action =
+            AttendanceFragmentDirections.actionAttendanceFragmentToListAllBottomSheet()
+        try {
+            findNavController().navigate(action)
+        } catch (e: Exception) {
         }
     }
 
@@ -230,12 +272,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun addSubjectFromSyllabus() {
         binding.attendanceTopBar.apply {
             tvAddSubSyllabus.setOnClickListener {
-                navigateToEdit()
+                navigateToAddSubjectFromSyllabus()
             }
         }
     }
 
-    private fun navigateToEdit() {
+    private fun navigateToAddSubjectFromSyllabus() {
         val directions =
             NavGraphDirections.actionGlobalEditSubjectBottomSheet(REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
         findNavController().navigate(directions)
@@ -244,14 +286,18 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun setTopView() {
         binding.attendanceTopBar.apply {
             tvSetting.setOnClickListener {
-                try {
-                    val action =
-                        NavGraphDirections.actionGlobalChangePercentageDialog(defPercentage)
-                    findNavController().navigate(action)
-                } catch (e: Exception) {
-
-                }
+                navigateToSetting()
             }
+        }
+    }
+
+    private fun navigateToSetting() {
+        try {
+            val action =
+                NavGraphDirections.actionGlobalChangePercentageDialog(defPercentage)
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -391,7 +437,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             {
                 binding.extendedFab.apply {
                     show()
-                    extend()
+//                    extend()
                 }
 //                       Status bar
                 activity?.changeStatusBarToolbarColor(
@@ -401,7 +447,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
             },
             {
-                binding.extendedFab.shrink()
+//                binding.extendedFab.shrink()
 //                        Color change
                 activity?.changeStatusBarToolbarColor(
                     R.id.toolbar,

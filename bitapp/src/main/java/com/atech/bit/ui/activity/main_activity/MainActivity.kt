@@ -25,7 +25,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.*
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
@@ -38,7 +42,26 @@ import com.atech.bit.utils.openShareLink
 import com.atech.core.api.syllabus.SyllabusCacheDao
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
-import com.atech.core.utils.*
+import com.atech.core.utils.APP_LOGO_LINK
+import com.atech.core.utils.ERROR_LOG
+import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
+import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.core.utils.KEY_USER_DONE_SET_UP
+import com.atech.core.utils.REMOVE_CACHES
+import com.atech.core.utils.RemoteConfigUtil
+import com.atech.core.utils.TAG
+import com.atech.core.utils.UPDATE_REQUEST_CODE
+import com.atech.core.utils.changeBottomNav
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.changeStatusBarToolbarColorImageView
+import com.atech.core.utils.currentNavigationFragment
+import com.atech.core.utils.isDark
+import com.atech.core.utils.onDestinationChange
+import com.atech.core.utils.openCustomChromeTab
+import com.atech.core.utils.openLinks
+import com.atech.core.utils.openPlayStore
+import com.atech.core.utils.setStatusBarUiTheme
+import com.atech.core.utils.showSnackBar
 import com.github.mikephil.charting.BuildConfig.VERSION_CODE
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.color.MaterialColors
@@ -127,6 +150,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 when (it.itemId) {
                     R.id.nav_connect -> resources.getString(R.string.instaLink)
                         .openLinks(this@MainActivity, R.string.no_intent_available)
+
                     R.id.nav_share -> shareApp()
                     R.id.nav_bug -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
@@ -231,6 +255,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 ).also {
                     setStatusBarUiTheme(this, !this.isDark())
                 }
+
                 R.id.logInFragment -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
                     this, R.attr.appLogoBackground, Color.WHITE
                 ).also {
@@ -244,23 +269,42 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 }
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu -> changeBottomNav(
+                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment,
+                R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
+                R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
+                R.id.attendanceMenu -> changeBottomNav(
                     R.attr.bottomBar
                 )
 
                 else -> changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
             }
             when (destination.id) {
-                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment, R.id.searchFragment, R.id.settingDialog, R.id.cgpaCalculatorFragment, R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment -> {
+                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet,
+                R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment,
+                R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment,
+                R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
+                R.id.eventDetailFragment, R.id.searchFragment, R.id.settingDialog,
+                R.id.cgpaCalculatorFragment, R.id.viewVideoFragment,
+                R.id.loadingDataFragment, R.id.viewSyllabusFragment,
+                R.id.attendanceFragment, R.id.listAllBottomSheet,
+                R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet,
+                R.id.editSubjectBottomSheet, R.id.attendanceMenu
+                -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
+
                 else -> {
                     showBottomAppBar()
                 }
             }
             val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
-            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment) {
+            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
+                || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment
+                || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment
+                || destination.id == R.id.loadingDataFragment
+            ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
             }
@@ -401,6 +445,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             binding.drawer.isDrawerOpen(GravityCompat.START) -> {
                 binding.drawer.closeDrawer(GravityCompat.START)
             }
+
             else -> super.onBackPressed()
         }
     }
