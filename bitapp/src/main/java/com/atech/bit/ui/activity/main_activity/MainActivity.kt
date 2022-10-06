@@ -216,6 +216,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
     private fun onDestinationChange() {
         navController.onDestinationChange { destination ->
+
             when (destination.id) {
                 R.id.noticeFragment, R.id.attendanceFragment, R.id.homeFragment, R.id.courseFragment -> getCurrentFragment().apply {
                     setDrawerEnabled(true)
@@ -289,7 +290,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.loadingDataFragment, R.id.viewSyllabusFragment,
                 R.id.attendanceFragment, R.id.listAllBottomSheet,
                 R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet,
-                R.id.editSubjectBottomSheet, R.id.attendanceMenu
+                R.id.attendanceMenu
                 -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
@@ -297,6 +298,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
 
                 else -> {
                     showBottomAppBar()
+                }
+            }
+            when (navController.previousBackStackEntry?.destination?.id) {
+                R.id.attendanceFragment -> {
+                    hideBottomAppBar()
                 }
             }
             val u = pref.getBoolean(KEY_REACH_TO_HOME, false)

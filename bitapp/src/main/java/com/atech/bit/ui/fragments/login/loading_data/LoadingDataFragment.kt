@@ -18,7 +18,11 @@ import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.Days
-import com.atech.core.utils.*
+import com.atech.core.data.room.syllabus.SyllabusDao
+import com.atech.core.utils.KEY_FIRST_TIME_LOGIN
+import com.atech.core.utils.KEY_IS_USER_LOG_IN
+import com.atech.core.utils.KEY_USER_DONE_SET_UP
+import com.atech.core.utils.TAG
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -29,8 +33,8 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
     }
 
 
@@ -43,6 +47,10 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
 
     @Inject
     lateinit var pref: SharedPreferences
+
+
+    @Inject
+    lateinit var syllabusDao: SyllabusDao
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -101,6 +109,13 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
                     ),
                 )
             }
+            list.forEach {
+                if (it.fromSyllabus == true) {
+                    syllabusDao.getSyllabus(it.subject)?.let { syllabus ->
+                        syllabusDao.updateSyllabus(syllabus.copy(isAdded = true))
+                    }
+                }
+            }
             attendanceDao.insertAll(list)
         }
     }
@@ -120,8 +135,8 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
             KEY_FIRST_TIME_LOGIN,
             true
         ).apply()
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         findNavController()
             .navigate(
                 LoadingDataFragmentDirections.actionLoadingDataFragmentToHomeFragment()
@@ -129,8 +144,8 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
     }
 
     private fun navigateToStartUp() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         findNavController()
             .navigate(
                 NavGraphDirections.actionGlobalStartUpFragment()

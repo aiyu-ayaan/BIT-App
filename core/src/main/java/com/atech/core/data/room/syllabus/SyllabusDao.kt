@@ -106,4 +106,12 @@ interface SyllabusDao {
      */
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(syllabus: List<SyllabusModel>)
+
+    /**
+     * Get syllabus by their name
+     * @since 4.0.3
+     * @author Ayaan
+     */
+    @Query("SELECT * FROM syllabus_table WHERE subject = :subject")
+    suspend fun getSyllabus(subject: String): SyllabusModel?
 }
