@@ -101,6 +101,7 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
                     present = it.present,
                     teacher = it.teacher,
                     fromSyllabus = it.fromSyllabus,
+                    isArchive = it.isArchive,
                     created = it.created,
                     days = Days(
                         presetDays = arrayListOf(),

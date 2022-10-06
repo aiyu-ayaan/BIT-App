@@ -57,7 +57,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
     private var attendanceList: List<AttendanceUploadModel> = listOf()
-    private var hasChange = false
 
     @Inject
     lateinit var auth: FirebaseAuth
@@ -117,10 +116,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 }
 
                 R.id.menu_archive ->
-                    Toast.makeText(
-                        requireContext(),
-                        "TODO : Implement Soon", Toast.LENGTH_SHORT
-                    ).show()
+                    navigateToArchive()
                         .let {
                             true
                         }
@@ -170,9 +166,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
     private fun populateViewsAndSetPercentage() {
-        viewModel.attendance.observe(viewLifecycleOwner) { it ->
+        viewModel.unArchive.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
-            convertingData(it)
             binding.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
             var sumTotal = 0
@@ -198,6 +193,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 )
             }
         }
+        viewModel.allAttendance.observe(viewLifecycleOwner) { it ->
+            convertingData(it)
+        }
     }
 
     private fun convertingData(list: List<AttendanceModel>) =
@@ -210,13 +208,14 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                         a.present,
                         a.teacher,
                         a.fromSyllabus,
+                        a.isArchive,
                         a.created
                     )
                 }
             }
-            if (viewModel.isDataSet) {
+            if (communicator.isDataSet) {
                 communicator.attendanceManagerSize = attendanceList.size
-                viewModel.isDataSet = false
+                communicator.isDataSet = false
             }
             uploadWhenNewLogin()
         }
@@ -244,6 +243,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         try {
             findNavController().navigate(action)
         } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -366,11 +366,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 teacher = attendance.teacher,
             )
         ).also {
-            hasChange = true
+            communicator.hasChange = true
         }
     }
 
-
+    @Suppress("UNCHECKED_CAST")
     private fun onWrongClick(attendance: AttendanceModel) {
         val stack: Deque<AttendanceSave> = attendance.stack
         val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
@@ -422,9 +422,15 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 teacher = attendance.teacher
             )
         ).also {
-            hasChange = true
+            communicator.hasChange = true
         }
 
+    }
+
+    private fun navigateToArchive() {
+        val action =
+            AttendanceFragmentDirections.actionAttendanceFragmentToArchiveBottomSheet(defPercentage)
+        findNavController().navigate(action)
     }
 
 
@@ -476,13 +482,15 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
     private fun checkForHasChange() {
-        if (hasChange)
+        if (communicator.hasChange)
             uploadAttendanceData()
     }
 
     private fun uploadAttendanceData(action: () -> Unit = {}) {
         userDataViewModel.setAttendance(getUid(auth)!!, attendanceList, {
-            action.invoke()
+            action.invoke().also {
+                communicator.hasChange = false
+            }
         }) {
             Log.d(TAG, "onPause: Failed")
         }

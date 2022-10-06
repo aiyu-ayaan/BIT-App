@@ -251,7 +251,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     R.id.toolbar, R.attr.bottomBar
                 )
 
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.attendanceMenu, R.id.chooseImageBottomSheet -> changeStatusBarToolbarColor(
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
+                R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
+                R.id.calenderViewBottomSheet, R.id.attendanceMenu,
+                R.id.chooseImageBottomSheet, R.id.archiveBottomSheet ->
+                    changeStatusBarToolbarColor(
                     R.id.toolbar, R.attr.bottomSheetBackground
                 ).also {
                     setStatusBarUiTheme(this, !this.isDark())
@@ -274,7 +278,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu -> changeBottomNav(
+                R.id.attendanceMenu, R.id.archiveBottomSheet -> changeBottomNav(
                     R.attr.bottomBar
                 )
 

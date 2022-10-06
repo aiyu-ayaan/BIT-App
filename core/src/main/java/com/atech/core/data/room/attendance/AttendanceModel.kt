@@ -35,6 +35,7 @@ data class AttendanceModel(
     val present: Int,
     val teacher: String?,
     val fromSyllabus: Boolean? = false,
+    val isArchive : Boolean? = false,
     @Embedded
     val days: Days,
     val stack: @RawValue Deque<AttendanceSave> = ArrayDeque(),

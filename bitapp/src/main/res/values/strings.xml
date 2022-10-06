@@ -214,6 +214,7 @@
     <string name="reference_book">Reference Books :</string>
     <string name="holiday_title">Holiday %s</string>
     <string name="archive">Archive</string>
+    <string name="unarchive">Unarchive</string>
 
 
 </resources>

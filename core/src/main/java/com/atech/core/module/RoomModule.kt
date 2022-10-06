@@ -48,6 +48,7 @@ object RoomModule {
             .addMigrations(BitDatabase.migration_6_7)
             .addMigrations(BitDatabase.migration_7_8)
             .addMigrations(BitDatabase.migration_8_9)
+            .addMigrations(BitDatabase.migration_9_10)
             .addCallback(callback)
             .build()
 

@@ -58,6 +58,31 @@
         android:orientation="vertical"
         android:padding="8dp">
 
+
+
+        <LinearLayout
+            android:id="@+id/bs_archive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/iv_archive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_archive" />
+
+            <TextView
+                android:id="@+id/tv_archive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="@string/unarchive"
+                android:textAppearance="?attr/textAppearanceBody1" />
+        </LinearLayout>
+
         <LinearLayout
             android:id="@+id/bs_undo"
             android:layout_width="match_parent"

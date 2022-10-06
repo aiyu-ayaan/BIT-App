@@ -38,7 +38,7 @@ import javax.inject.Provider
         SyllabusModel::class, Notice3CacheEntity::class,
         EventsCacheEntity::class
     ],
-    version = 9
+    version = 10
 )
 @TypeConverters(
     DaysTypeConvector::class,
@@ -144,6 +144,11 @@ abstract class BitDatabase : RoomDatabase() {
         var migration_8_9 = object : Migration(8, 9) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("UPDATE syllabus_table SET openCode ='BBA56' where openCode ='BBA611'")
+            }
+        }
+        var migration_9_10 = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE attendance_table ADD COLUMN isArchive INTEGER DEFAULT 0")
             }
         }
 

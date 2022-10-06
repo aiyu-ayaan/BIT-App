@@ -93,7 +93,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:backgroundTint="?attr/bottomBar"
-        android:navigationIcon="@drawable/ic_list_all"
+        app:navigationIcon="@drawable/ic_list_all"
         app:navigationIconTint="?attr/colorPrimary"
         app:menu="@menu/attendance_app_bar" />
 

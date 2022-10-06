@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
         syllabusDao.getSyllabusHome(it, "PE")
     }.asLiveData()
 
-    val attAttendance = attendanceDao.getAllAttendance().asLiveData()
+    val attAttendance = attendanceDao.getNonArchiveAttendance().asLiveData()
 
     fun getSyllabus() = viewModelScope.launch {
         syllabusRepository.getSyllabus()
