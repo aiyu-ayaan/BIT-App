@@ -7,7 +7,6 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -96,12 +95,10 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
         listenForUndoMessage()
 
-        setTopView()
-        addSubjectFromSyllabus()
         detectScroll()
         addSubject()
 
-        requireContext().loadAdds(binding.adView)
+        requireContext().loadAdds(binding.attendanceView.adView)
         setUpBottomAppBar()
     }
 
@@ -168,7 +165,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun populateViewsAndSetPercentage() {
         viewModel.unArchive.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
-            binding.emptyAnimation.isVisible = it.isEmpty()
+//            binding.attendanceView.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
             var sumTotal = 0
             it.forEach {
@@ -182,14 +179,18 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                         else -> ((present / total) * 100)
                     }
                 }
-            binding.attendanceTopBar.apply {
+            binding.attendanceView.apply {
                 tvPercentage.text = "${finalPercentage.toInt()}%"
-                progressBarOuter.progress = finalPercentage.toInt()
+                progressCircularOuter.progress = finalPercentage.toInt()
                 val df = DecimalFormat("#.#")
                 df.roundingMode = RoundingMode.FLOOR
                 tvOverAll.text = resources.getString(
                     R.string.overallAttendance,
-                    "${df.format(finalPercentage)}%"
+                    df.format(finalPercentage)
+                )
+                tv4.text = resources.getString(
+                    R.string.overallAttendance,
+                    df.format(finalPercentage)
                 )
             }
         }
@@ -221,7 +222,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
 
     private fun setUpViews() {
-        binding.apply {
+        binding.attendanceView.apply {
             showAtt.apply {
                 adapter = attendanceAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -230,10 +231,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             attendanceAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-            //            ..List All
-            attendanceTopBar.tvAddSub.setOnClickListener {
-                navigateToListAll()
-            }
+
         }
     }
 
@@ -249,9 +247,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     private fun setUpTopView() {
         preferenceViewModel.preferencesFlow.observe(viewLifecycleOwner) {
-            binding.attendanceTopBar.tvGoal.text =
+            binding.attendanceView.tvGoal.text =
                 resources.getString(R.string.goal, it.defPercentage.toString())
-            binding.attendanceTopBar.progressCircularInner.progress = it.defPercentage
+            binding.attendanceView.tv3.text =
+                resources.getString(R.string.goal, it.defPercentage.toString())
+            binding.attendanceView.progressCircularInner.progress = it.defPercentage
             attendanceAdapter.setProgress(it.defPercentage)
             defPercentage = it.defPercentage
         }
@@ -269,27 +269,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
 
-    private fun addSubjectFromSyllabus() {
-        binding.attendanceTopBar.apply {
-            tvAddSubSyllabus.setOnClickListener {
-                navigateToAddSubjectFromSyllabus()
-            }
-        }
-    }
-
     private fun navigateToAddSubjectFromSyllabus() {
         val directions =
             NavGraphDirections.actionGlobalEditSubjectBottomSheet(REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
         findNavController().navigate(directions)
     }
 
-    private fun setTopView() {
-        binding.attendanceTopBar.apply {
-            tvSetting.setOnClickListener {
-                navigateToSetting()
-            }
-        }
-    }
 
     private fun navigateToSetting() {
         try {
@@ -439,7 +424,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
      * @author Ayaan
      */
     private fun detectScroll() {
-        binding.showAtt.onScrollChange(
+        binding.attendanceView.showAtt.onScrollChange(
             {
                 binding.extendedFab.apply {
                     show()
