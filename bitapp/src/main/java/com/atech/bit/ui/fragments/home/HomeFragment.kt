@@ -174,8 +174,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        set Progress
         setProgressBar()
 
-//        Get syllabus from network
-        getSyllabus()
 
 //        setUp Event
         getEvent()
@@ -307,6 +305,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         findNavController().navigate(action)
     }
 
+    @Suppress("deprecation")
     private fun isOldAppInstalled(): Boolean {
         var available = true
         try {
@@ -518,11 +517,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         findNavController().navigate(action, extras)
     }
 
-    private fun getSyllabus() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.getSyllabus()
-        }
-    }
 
     private fun navigateToEdit() {
         val directions = NavGraphDirections.actionGlobalEditSubjectBottomSheet()

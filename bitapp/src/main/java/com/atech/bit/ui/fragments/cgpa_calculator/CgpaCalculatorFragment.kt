@@ -274,9 +274,9 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
         num6: Double,
         cgpa: Double,
     ) {
-        val cgpa = Cgpa(num1, num2, num3, num4, num5, num6, cgpa)
-        prefManager.updateCgpa(cgpa)
-        updateCGPAToDb(cgpa)
+        val mCgpa = Cgpa(num1, num2, num3, num4, num5, num6, cgpa)
+        prefManager.updateCgpa(mCgpa)
+        updateCGPAToDb(mCgpa)
     }
 
     private fun updateCGPAToDb(cgpa: Cgpa) {

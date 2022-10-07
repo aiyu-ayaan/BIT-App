@@ -50,8 +50,8 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         restoreColor()
-        val noticeAdapter = NoticeAdapter(db, { notice, view ->
-            navigationToNotice3Description(notice, view)
+        val noticeAdapter = NoticeAdapter(db, { notice, mView ->
+            navigationToNotice3Description(notice, mView)
         }, { it ->
             navigateToImageView(it)
         })

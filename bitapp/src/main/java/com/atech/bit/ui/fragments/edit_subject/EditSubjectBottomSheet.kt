@@ -94,7 +94,6 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
         }
 
         preferenceManager()
-        setHasOptionsMenu(true)
         fragmentEditSyllabusEvent()
         binding.ibDismiss.setOnClickListener {
             dismiss()

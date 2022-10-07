@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.society.description
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -117,8 +118,7 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
             """.trimIndent()
 
             showContent.apply {
-                settings.javaScriptEnabled = true
-                val initialScale = getScale(400.0)
+                val initialScale = this@SocietyDescriptionFragment.getScale()
                 setInitialScale(initialScale)
                 loadData(
                     body,
@@ -216,7 +216,8 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         )
     }
 
-    private fun getScale(contentWidth: Double): Int {
+    @Suppress("DEPRECATION")
+    private fun getScale(contentWidth: Double = 400.0): Int {
         return if (this.activity != null) {
             val displayMetrics = DisplayMetrics()
             this.requireActivity().windowManager.defaultDisplay.getMetrics(displayMetrics)

@@ -37,19 +37,19 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        val societyAdapter = SocietyAdapter { society, view ->
-            setOnSocietyClickListener(society, view)
+        val societyAdapter = SocietyAdapter { society, _ ->
+            setOnSocietyClickListener(society)
         }
-        val ngosAdapter = SocietyAdapter { society, view ->
-            setOnSocietyClickListener(society, view)
+        val ngosAdapter = SocietyAdapter { society, _ ->
+            setOnSocietyClickListener(society)
         }
         binding.apply {
             showSociety.apply {
@@ -88,15 +88,18 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                     DataState.Loading -> {
 
                     }
+
                     is DataState.Success -> {
                         binding.materialCardViewMain.isVisible = dataState.society.data.isNotEmpty()
                         binding.textViewSociety.isVisible = dataState.society.data.isNotEmpty()
                         societyAdapter.submitList(dataState.society.data)
                     }
+
                     DataState.Empty -> {
                         binding.materialCardViewMain.isVisible = false
                         binding.textViewSociety.isVisible = false
                     }
+
                     is DataState.Error -> {
                         binding.materialCardViewMain.isVisible = false
                         binding.textViewSociety.isVisible = false
@@ -111,15 +114,18 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                     DataState.Loading -> {
 
                     }
+
                     is DataState.Success -> {
                         binding.materialCardViewNgo.isVisible = dataState.ngos.data.isNotEmpty()
                         binding.textViewNgos.isVisible = dataState.ngos.data.isNotEmpty()
                         ngosAdapter.submitList(dataState.ngos.data)
                     }
+
                     DataState.Empty -> {
                         binding.materialCardViewNgo.isVisible = false
                         binding.textViewNgos.isVisible = false
                     }
+
                     is DataState.Error -> {
                         binding.materialCardViewNgo.isVisible = false
                         binding.textViewNgos.isVisible = false
@@ -138,7 +144,7 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
     }
 
 
-    private fun setOnSocietyClickListener(society: SocietyNetworkEntity, view: View) {
+    private fun setOnSocietyClickListener(society: SocietyNetworkEntity) {
         try {
             exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
             reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)

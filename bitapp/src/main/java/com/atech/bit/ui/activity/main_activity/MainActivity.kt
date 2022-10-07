@@ -516,7 +516,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             val title = remoteConfigUtil.getString("title")
             val link = remoteConfigUtil.getString("link")
             val minVersion = remoteConfigUtil.getLong("minVersion").toInt()
-            val text = remoteConfigUtil.getString("title")
             val buttonText = remoteConfigUtil.getString("button_text")
             val isMinEdition = VERSION_CODE > minVersion
             Log.d("XXX", "getWarning: $isEnable $title $link $minVersion $buttonText $isMinEdition")

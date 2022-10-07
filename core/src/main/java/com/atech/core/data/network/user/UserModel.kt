@@ -6,6 +6,7 @@ import androidx.room.ColumnInfo
 import kotlinx.android.parcel.Parcelize
 
 @Keep
+@Suppress("")
 @Parcelize
 data class UserModel(
     var uid: String? = null,
