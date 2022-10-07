@@ -10,6 +10,24 @@
             motion:touchAnchorId="@+id/relativeLayout2"
             motion:dragDirection="dragDown"
             motion:touchAnchorSide="bottom" />
+        <KeyFrameSet >
+            <KeyAttribute
+                motion:motionTarget="@+id/expand_layout"
+                motion:framePosition="20"
+                android:alpha="0.5" />
+            <KeyAttribute
+                motion:motionTarget="@+id/expand_layout"
+                motion:framePosition="60"
+                android:alpha="0.3" />
+            <KeyAttribute
+                motion:motionTarget="@+id/cardView"
+                motion:framePosition="70"
+                android:alpha="0.5" />
+            <KeyAttribute
+                motion:motionTarget="@+id/cardView"
+                motion:framePosition="84"
+                android:alpha="0.5" />
+        </KeyFrameSet>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
