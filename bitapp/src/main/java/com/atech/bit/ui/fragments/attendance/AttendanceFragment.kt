@@ -7,6 +7,7 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -156,7 +157,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun populateViewsAndSetPercentage() {
         viewModel.unArchive.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
-//            binding.attendanceView.emptyAnimation.isVisible = it.isEmpty()
+            binding.attendanceView.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
             var sumTotal = 0
             it.forEach {
