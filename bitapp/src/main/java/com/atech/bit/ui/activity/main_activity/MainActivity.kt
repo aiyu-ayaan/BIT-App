@@ -278,7 +278,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu, R.id.archiveBottomSheet -> changeBottomNav(
+                R.id.attendanceMenu, R.id.archiveBottomSheet,R.id.profileFragment
+                -> changeBottomNav(
                     R.attr.bottomBar
                 )
 

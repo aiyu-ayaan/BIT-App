@@ -8,8 +8,8 @@
     <string name="topic_update">UpdateByAiyu</string>
     <string name="topic_app">AppByAiyu</string>
     <!--    App -->
-    <string name="app_version">4.0.5</string>
-    <string name="full_version">Version 4.0.5</string>
+    <string name="app_version">4.0.6</string>
+    <string name="full_version">Version 4.0.6</string>
     <string name="instaLink">https://www.instagram.com/bit.app_</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 
@@ -215,6 +215,10 @@
     <string name="holiday_title">Holiday %s</string>
     <string name="archive">Archive</string>
     <string name="unarchive">Unarchive</string>
-
+    <string name="moreThan80">😎</string>
+    <string name="moreThanDefault">😁</string>
+    <string name="lessThanDefault">😥</string>
+    <string name="lessThan60">😣</string>
+    <string name="def_emoji">🤓</string>
 
 </resources>

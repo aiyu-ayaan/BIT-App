@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -62,7 +61,6 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
 
             else -> {
                 activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.let {
-                    Toast.makeText(requireContext(), "True", Toast.LENGTH_SHORT).show()
                     it.isVisible = true
                 }
                 REQUEST_ADAPTER_EDIT

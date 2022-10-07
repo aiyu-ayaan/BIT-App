@@ -31,6 +31,7 @@
                 android:layout_centerInParent="true"
                 android:indeterminate="false"
                 android:progress="75"
+                ads:trackCornerRadius="@dimen/grid_1"
                 app:indicatorSize="80dp"
                 app:trackColor="?attr/colorSurface"
                 app:trackThickness="10dp" />
@@ -42,6 +43,7 @@
                 android:layout_centerInParent="true"
                 android:indeterminate="false"
                 android:progress="80"
+                ads:trackCornerRadius="@dimen/grid_1"
                 app:indicatorColor="?attr/colorSecondaryContainer"
                 app:indicatorSize="101dp"
                 app:trackThickness="10dp" />
@@ -51,8 +53,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textAppearance="?attr/textAppearanceBodyMedium"
-                tools:text="100" />
+                android:textAppearance="?attr/textAppearanceBodyLarge"
+                tools:text="@string/moreThan80" />
         </RelativeLayout>
 
         <TextView
@@ -61,6 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_1"
             android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/upperLayout"
             app:layout_constraintStart_toEndOf="@+id/upperLayout"
             app:layout_constraintTop_toTopOf="@+id/upperLayout"
@@ -73,6 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_1"
             android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:textColor="?attr/colorPrimary"
             app:layout_constraintBottom_toBottomOf="@+id/upperLayout"
             app:layout_constraintStart_toEndOf="@+id/upperLayout"
             app:layout_constraintTop_toBottomOf="@+id/tv_goal"
@@ -98,15 +102,17 @@
             android:layout_height="match_parent"
             android:paddingVertical="16dp">
 
-            <com.google.android.material.divider.MaterialDivider
+            <TextView
                 android:id="@+id/materialDivider"
-                android:layout_width="@dimen/grid_0_5"
+                android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                app:dividerColor="?attr/colorPrimary"
+                android:layout_centerInParent="true"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/moreThan80" />
 
             <TextView
                 android:id="@+id/tv_3"

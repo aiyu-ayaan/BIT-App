@@ -3,7 +3,7 @@ package com.atech.core.data.network.user
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Keep
 @Suppress("")
