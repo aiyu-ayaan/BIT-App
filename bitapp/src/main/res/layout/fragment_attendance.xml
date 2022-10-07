@@ -9,82 +9,34 @@
     android:background="?attr/colorSurface"
     tools:context=".ui.fragments.attendance.AttendanceFragment">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/upperLayout"
-        android:background="?attr/colorSurface"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider_attendance"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/grid_1_5"
-            android:layout_marginVertical="@dimen/grid_0_5"
-            app:dividerColor="@color/divider_color" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/show_att"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/divider_attendance"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/min_padding_attendance"
-            android:scrollbarStyle="outsideOverlay"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/empty_animation"
-            android:layout_width="200.0dip"
-            android:layout_height="200.0dip"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/grid_6"
-            android:scaleType="fitCenter"
-            android:visibility="visible"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="empty.json"
-            app:lottie_loop="true" />
-    </RelativeLayout>
-
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/collapsing_appbar"
+    <include
+        android:id="@+id/attendance_view"
+        layout="@layout/fragment_attendance_ext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:contentScrim="?attr/colorSurface"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.Material3.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="?attr/bottomBar"
+        app:menu="@menu/attendance_app_bar"
+        app:navigationIcon="@drawable/ic_list_all"
+        app:navigationIconTint="?attr/colorPrimary" />
 
-            <include
-                android:id="@+id/attendance_top_bar"
-                layout="@layout/fragment_attendance_top_ext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1_5"
-                android:layout_marginVertical="@dimen/grid_0_5" />
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-    </com.google.android.material.appbar.AppBarLayout>
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/extended_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
         android:backgroundTint="?attr/colorSecondary"
         android:contentDescription="@string/add_subject"
-        android:text="@string/add_subject"
-        android:textColor="?attr/bottomBar"
-        app:icon="@drawable/ic_add"
-        app:iconTint="?attr/bottomBar" />
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="?attr/bottomBar" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

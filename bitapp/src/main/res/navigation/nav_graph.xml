@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_calenderViewBottomSheet"
             app:destination="@id/calenderViewBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_archiveBottomSheet"
+            app:destination="@id/archiveBottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"
@@ -356,6 +359,9 @@
         <argument
             android:name="link"
             app:argType="string" />
+        <argument
+            android:name="button_text"
+            app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_warningFragment"
@@ -375,6 +381,10 @@
         <argument
             android:name="attendance"
             app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
+        <argument
+            android:name="request"
+            app:argType="integer"
+            android:defaultValue="0" />
     </dialog>
     <action
         android:id="@+id/action_global_attendanceMenu"
@@ -485,10 +495,22 @@
         tools:layout="@layout/fragment_view_syllabus">
         <argument
             android:name="subject"
-            app:argType="com.atech.core.api.model.SubjectContent" />
+            app:argType="com.atech.core.api.syllabus.model.SubjectContent" />
         <argument
             android:name="type"
             app:argType="string"
             android:defaultValue="theory" />
     </fragment>
+    <dialog
+        android:id="@+id/archiveBottomSheet"
+        tools:layout="@layout/bottom_sheet_archive"
+        android:name="com.atech.bit.ui.fragments.attendance.archive.ArchiveBottomSheet"
+        android:label="ArchiveBottomSheet" >
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_calenderViewBottomSheet"
+            app:destination="@id/calenderViewBottomSheet" />
+        <argument
+            android:name="defPercentage"
+            app:argType="integer" />
+    </dialog>
 </navigation>

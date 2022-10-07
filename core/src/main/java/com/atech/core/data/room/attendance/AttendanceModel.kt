@@ -15,8 +15,8 @@ import androidx.annotation.Keep
 import androidx.room.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlinx.android.parcel.RawValue
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.RawValue
 import java.io.Serializable
 import java.util.*
 
@@ -35,6 +35,7 @@ data class AttendanceModel(
     val present: Int,
     val teacher: String?,
     val fromSyllabus: Boolean? = false,
+    val isArchive : Boolean? = false,
     @Embedded
     val days: Days,
     val stack: @RawValue Deque<AttendanceSave> = ArrayDeque(),

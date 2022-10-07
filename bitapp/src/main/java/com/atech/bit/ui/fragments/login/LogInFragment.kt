@@ -61,8 +61,8 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
     }
 
     private val activityResult =
@@ -135,8 +135,8 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToHome() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
         findNavController().navigate(
             LogInFragmentDirections.actionLogInFragmentToHomeFragment()
         )
@@ -223,16 +223,16 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToLoading() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
         findNavController().navigate(
             NavGraphDirections.actionGlobalLoadingDataFragment(auth.currentUser!!.uid)
         )
     }
 
     private fun navigateToSetup() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
 
         pref.edit().putBoolean(
             KEY_REACH_TO_HOME,

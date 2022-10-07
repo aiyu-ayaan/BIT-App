@@ -1,7 +1,9 @@
 package com.atech.bit.ui.fragments.course
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Parcelable
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageButton
@@ -13,6 +15,9 @@ import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentCourseBinding
 import com.atech.core.utils.Course
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
+import com.atech.core.utils.RemoteConfigUtil
+import com.atech.core.utils.TAG
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,10 +32,16 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     @Inject
     lateinit var db: FirebaseFirestore
 
+    @Inject
+    lateinit var remoteConfigUtil: RemoteConfigUtil
+
+    @Inject
+    lateinit var pref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,6 +68,18 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
             textViewBba.setOnClickListener {
                 navigateToSemChoose(Course.Bba.name, imageButtonBba)
             }
+        }
+        setDefaultValueForSwitch()
+    }
+
+    private fun setDefaultValueForSwitch() {
+        remoteConfigUtil.fetchData({
+            Log.e(TAG, "setDefaultValueForSwitch: $it")
+        }) {
+            val isSwitchOn = remoteConfigUtil.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE)
+            pref.edit()
+                .putBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, isSwitchOn)
+                .apply()
         }
     }
 

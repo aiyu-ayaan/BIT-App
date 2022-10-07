@@ -26,6 +26,17 @@ class CommunicatorViewModel @Inject constructor(
     private val calendar: Calendar
 ) : ViewModel() {
 
+    var isDataSet = state.get<Boolean>("isDataSet") ?: true
+        set(value) {
+            field = value
+            state["isDataSet"] = value
+        }
+
+    var hasChange = state.get<Boolean>("hasChange") ?: false
+        set(value) {
+            field = value
+            state["hasChange"] = value
+        }
 
     val instanceBefore14Days = calendar.run {
         this.add(Calendar.DATE, -14)

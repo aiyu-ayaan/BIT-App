@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_book"
+        android:icon="@drawable/ic_outline_book"
+        android:title="@string/add_subject_syllabus"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_archive"
+        android:icon="@drawable/ic_archive"
+        android:title="@string/archive"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_setting"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/setting"
+        app:showAsAction="ifRoom" />
+
+</menu>

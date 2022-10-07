@@ -15,6 +15,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentNoticeBinding
 import com.atech.bit.utils.MainStateEvent
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -38,8 +39,8 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
 
@@ -49,8 +50,8 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         restoreColor()
-        val noticeAdapter = NoticeAdapter(db, { notice, view ->
-            navigationToNotice3Description(notice, view)
+        val noticeAdapter = NoticeAdapter(db, { notice, mView ->
+            navigationToNotice3Description(notice, mView)
         }, { it ->
             navigateToImageView(it)
         })
@@ -74,8 +75,7 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                 is DataState.Error -> {
                     binding.empty.visibility = View.VISIBLE
                     binding.root.showSnackBar(
-                        dataState.exception.message!!,
-                        Snackbar.LENGTH_SHORT
+                        dataState.exception.message!!, Snackbar.LENGTH_SHORT
                     )
                 }
                 DataState.Empty -> binding.empty.visibility = View.VISIBLE
@@ -84,11 +84,12 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
             }
         }
         detectScroll()
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }
@@ -113,14 +114,12 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
     private fun detectScroll() {
         binding.showNotice.onScrollChange({
             activity?.changeStatusBarToolbarColor(
-                R.id.toolbar,
-                com.google.android.material.R.attr.colorSurface
+                R.id.toolbar, com.google.android.material.R.attr.colorSurface
             )
             viewModel.isColored.value = false
         }, {
             activity?.changeStatusBarToolbarColor(
-                R.id.toolbar,
-                R.attr.bottomBar
+                R.id.toolbar, R.attr.bottomBar
             )
             viewModel.isColored.value = true
         })
@@ -131,13 +130,11 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
             viewModel.isColored.collect {
                 if (it) {
                     activity?.changeStatusBarToolbarColor(
-                        R.id.toolbar,
-                        R.attr.bottomBar
+                        R.id.toolbar, R.attr.bottomBar
                     )
                 } else {
                     activity?.changeStatusBarToolbarColor(
-                        R.id.toolbar,
-                        com.google.android.material.R.attr.colorSurface
+                        R.id.toolbar, com.google.android.material.R.attr.colorSurface
                     )
                 }
             }

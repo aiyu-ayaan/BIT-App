@@ -1,6 +1,10 @@
 package com.atech.bit.ui.fragments.attendance
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.attendance.AttendanceModel
@@ -20,15 +24,13 @@ class AttendanceViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    var isDataSet = state.get<Boolean>("isDataSet") ?: true
-        set(value) {
-            field = value
-            state["isDataSet"] = value
-        }
 
-    private val _attendance = attendanceDao.getAllAttendance()
-    val attendance: LiveData<List<AttendanceModel>>
+
+    private val _attendance = attendanceDao.getNonArchiveAttendance()
+    val unArchive: LiveData<List<AttendanceModel>>
         get() = _attendance.asLiveData()
+
+    val allAttendance = attendanceDao.getAllAttendance().asLiveData()
 
 
     private val _attendanceEvent = Channel<AttendanceEvent>()

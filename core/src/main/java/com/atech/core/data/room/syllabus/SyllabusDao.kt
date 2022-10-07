@@ -10,7 +10,12 @@
 
 package com.atech.core.data.room.syllabus
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -84,4 +89,29 @@ interface SyllabusDao {
      */
     @Query("UPDATE syllabus_table SET isAdded =:isAdded WHERE subject = :attendance")
     suspend fun updateSyllabusAddedInAttendance(attendance: String, isAdded: Int)
+
+
+    /**
+     * Delete all the data from the table
+     * @since 4.0.3
+     * @author Ayaan
+     */
+    @Query("DELETE FROM syllabus_table")
+    suspend fun deleteAll()
+
+    /**
+     * Insert all the syllabus at ones
+     * @since 4.0.3
+     * @author Ayaan
+     */
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAll(syllabus: List<SyllabusModel>)
+
+    /**
+     * Get syllabus by their name
+     * @since 4.0.3
+     * @author Ayaan
+     */
+    @Query("SELECT * FROM syllabus_table WHERE subject = :subject")
+    suspend fun getSyllabus(subject: String): SyllabusModel?
 }

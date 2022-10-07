@@ -16,6 +16,7 @@ import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.data.ui.notice.NoticeRepository
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
@@ -23,6 +24,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val state: SavedStateHandle,

@@ -18,6 +18,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.MainStateEvent
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.society.SocietyNetworkEntity
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -36,19 +37,19 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        val societyAdapter = SocietyAdapter { society, view ->
-            setOnSocietyClickListener(society, view)
+        val societyAdapter = SocietyAdapter { society, _ ->
+            setOnSocietyClickListener(society)
         }
-        val ngosAdapter = SocietyAdapter { society, view ->
-            setOnSocietyClickListener(society, view)
+        val ngosAdapter = SocietyAdapter { society, _ ->
+            setOnSocietyClickListener(society)
         }
         binding.apply {
             showSociety.apply {
@@ -87,15 +88,18 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                     DataState.Loading -> {
 
                     }
+
                     is DataState.Success -> {
                         binding.materialCardViewMain.isVisible = dataState.society.data.isNotEmpty()
                         binding.textViewSociety.isVisible = dataState.society.data.isNotEmpty()
                         societyAdapter.submitList(dataState.society.data)
                     }
+
                     DataState.Empty -> {
                         binding.materialCardViewMain.isVisible = false
                         binding.textViewSociety.isVisible = false
                     }
+
                     is DataState.Error -> {
                         binding.materialCardViewMain.isVisible = false
                         binding.textViewSociety.isVisible = false
@@ -110,15 +114,18 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                     DataState.Loading -> {
 
                     }
+
                     is DataState.Success -> {
                         binding.materialCardViewNgo.isVisible = dataState.ngos.data.isNotEmpty()
                         binding.textViewNgos.isVisible = dataState.ngos.data.isNotEmpty()
                         ngosAdapter.submitList(dataState.ngos.data)
                     }
+
                     DataState.Empty -> {
                         binding.materialCardViewNgo.isVisible = false
                         binding.textViewNgos.isVisible = false
                     }
+
                     is DataState.Error -> {
                         binding.materialCardViewNgo.isVisible = false
                         binding.textViewNgos.isVisible = false
@@ -132,10 +139,12 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
         }
         detectScroll()
 
+        requireContext().loadAdds(binding.adView)
+
     }
 
 
-    private fun setOnSocietyClickListener(society: SocietyNetworkEntity, view: View) {
+    private fun setOnSocietyClickListener(society: SocietyNetworkEntity) {
         try {
             exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
             reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
@@ -146,7 +155,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                 )
             findNavController().navigate(action)
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

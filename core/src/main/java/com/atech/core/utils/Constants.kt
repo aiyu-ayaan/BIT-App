@@ -19,6 +19,7 @@ const val KEY_IS_USER_LOG_IN = "KEY_IS_USER_LOG_IN"
 const val KEY_FIRST_TIME_LOGIN = "KEY_FIRST_TIME_LOGIN"
 const val KEY_ATTENDANCE_UPLOAD_FIRST_TIME = "KEY_ATTENDANCE_UPLOAD_FIRST_TIME"
 const val KEY_TOGGLE_SYLLABUS_SOURCE = "KEY_TOGGLE_SYLLABUS_SOURCE"
+const val KEY_COURSE_OPEN_FIRST_TIME = "KEY_COURSE_OPEN_FIRST_TIME"
 const val REQUEST_UPDATE_SEM = 345 * 33434
 const val REQUEST_UPDATE_SEM_FROM_CGPA = 345 * 33434 + 1
 const val REQUEST_ADAPTER_SEARCH = 356 * 445
@@ -30,6 +31,7 @@ const val REQUEST_LOGIN_FROM_HOME = 334 * 56 + 1
 const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
 const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
+const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
 const val REQUEST_VIEW_LAB_SYLLABUS = "REQUEST_VIEW_LAB_SYLLABUS"
 
 const val CHANNEL_ID_NOTICE = "Notice"
@@ -70,8 +72,6 @@ const val APP_LOGO_LINK =
 
 const val SHARE_EVENT = "event"
 const val SHARE_NOTICE = "notice"
-
-const val FIRST_TIME_OPEN_NOTICE_DES = "first_time_open_notice_des"
-const val FIRST_TIME_OPEN_EVENT_DES = "first_time_open_event_des"
-const val FIRST_TIME_OPEN_SYLLABUS_DES = "first_time_open_syllabus_des"
-const val FIRST_TIME_OPEN_HOME = "first_time_open_home"
+const val REMOVE_CACHES = "Remove_Caches"
+const val CURRENT_YEAR = "Current_Year"
+const val GITHUB_LINK= "Github_Link"

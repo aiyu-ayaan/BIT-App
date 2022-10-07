@@ -21,6 +21,8 @@ class MenuViewModel @Inject constructor(
 
     val attendance: AttendanceModel? = state.get<AttendanceModel>("attendance")
 
+    val request = state.get<Int>("request") ?: 0
+
 
     fun delete(attendanceModel: AttendanceModel) =
         viewModelScope.launch {

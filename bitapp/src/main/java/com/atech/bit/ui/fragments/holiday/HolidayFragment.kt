@@ -11,11 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
-import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.databinding.FragmentHolidayBinding
-import com.atech.core.utils.changeStatusBarToolbarColor
-import com.atech.core.utils.showSnackBar
-import com.atech.core.utils.DataState
+import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.utils.loadAdds
+import com.atech.core.utils.*
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -32,10 +31,13 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
     @Inject
     lateinit var db: FirebaseFirestore
 
+    @Inject
+    lateinit var remoteConfigUtil: RemoteConfigUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -96,15 +98,21 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
         }
         detectScroll()
 
+        setAds()
+    }
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
     }
 
+
     private fun setTitle(toolbar: Toolbar?) {
-        db.collection("Utils")
-            .document("holiday_title")
-            .addSnapshotListener { value, _ ->
-                val title = value?.get("Title")
-                toolbar?.title = (title ?: "Holiday").toString()
-            }
+        remoteConfigUtil.fetchData({
+            toolbar?.title = "Holiday"
+        }
+        ) {
+            val year = remoteConfigUtil.getString(CURRENT_YEAR)
+            toolbar?.title = resources.getString(R.string.holiday_title, year)
+        }
     }
 
     private fun detectScroll() {
@@ -113,7 +121,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
                 0 -> {
                     activity?.changeStatusBarToolbarColor(
                         R.id.toolbar,
-                     com.google.android.material.R.attr.colorSurface
+                        com.google.android.material.R.attr.colorSurface
                     )
                 }
                 else -> {

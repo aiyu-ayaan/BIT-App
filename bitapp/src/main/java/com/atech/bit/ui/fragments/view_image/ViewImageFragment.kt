@@ -25,8 +25,8 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
     }
 
 

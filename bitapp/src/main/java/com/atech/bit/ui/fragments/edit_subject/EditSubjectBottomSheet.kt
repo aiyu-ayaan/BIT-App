@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,12 +15,10 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
-import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.databinding.BottomSheetEditSubjectBinding
+import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.AttendanceEvent
-import com.atech.core.utils.showSnackBar
-import com.atech.core.utils.showUndoMessage
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.Days
 import com.atech.core.data.room.syllabus.SyllabusModel
@@ -26,6 +26,8 @@ import com.atech.core.utils.REQUEST_ADAPTER_EDIT
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
 import com.atech.core.utils.REQUEST_EDIT_SUBJECT_FROM_SYLLABUS
 import com.atech.core.utils.UPDATE_REQUEST
+import com.atech.core.utils.showSnackBar
+import com.atech.core.utils.showUndoMessage
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
@@ -56,7 +58,13 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
                 binding.bottomSheetTitle.text = resources.getString(R.string.add_subject_syllabus)
                 REQUEST_ADD_SUBJECT_FROM_SYLLABUS
             }
-            else -> REQUEST_ADAPTER_EDIT
+
+            else -> {
+                activity?.findViewById<LinearLayout>(R.id.bottomLayout)?.let {
+                    it.isVisible = true
+                }
+                REQUEST_ADAPTER_EDIT
+            }
         }
         val syllabusAdapter =
             SyllabusHomeAdapter(request = request, clickListener = { checkBox, syllabus ->
@@ -66,6 +74,7 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
                         checkBox.isChecked,
                         syllabus
                     )
+
                     else -> viewModel.updateSyllabus(syllabus.copy(isChecked = checkBox.isChecked))
                 }
             }, editListener = {
@@ -83,7 +92,6 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
         }
 
         preferenceManager()
-        setHasOptionsMenu(true)
         fragmentEditSyllabusEvent()
         binding.ibDismiss.setOnClickListener {
             dismiss()
@@ -154,8 +162,8 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
                 )
                 viewModel.updateSyllabus(syllabus.copy(isAdded = true))
             }
-            !checked
-            -> {
+
+            else -> {
                 viewLifecycleOwner.lifecycleScope.launchWhenCreated {
                     viewModel.updateSyllabus(syllabus.copy(isAdded = false))
                     viewModel.findSyllabus(syllabus.subject)?.let {

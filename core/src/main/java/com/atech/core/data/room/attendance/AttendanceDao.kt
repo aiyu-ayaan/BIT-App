@@ -10,7 +10,12 @@
 
 package com.atech.core.data.room.attendance
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Delete
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -27,8 +32,15 @@ interface AttendanceDao {
     @Delete
     suspend fun delete(attendance: AttendanceModel)
 
+    //select * from attendance_table where  isArchive is NULL or isArchive = 0 ;
+    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY id ASC")
+    fun getNonArchiveAttendance(): Flow<List<AttendanceModel>>
+
     @Query("SELECT * FROM attendance_table ORDER BY id ASC")
     fun getAllAttendance(): Flow<List<AttendanceModel>>
+
+    @Query("SELECT * FROM attendance_table WHERE isArchive = 1 ORDER BY id ASC")
+    fun getAllArchiveAttendance(): Flow<List<AttendanceModel>>
 
     @Query("SELECT * FROM attendance_table WHERE subject_name LIKE '%'||:query||'%'")
     suspend fun getAttendance(query: String): AttendanceModel
@@ -43,4 +55,8 @@ interface AttendanceDao {
      */
     @Query("SELECT * FROM attendance_table WHERE subject_name = :query")
     suspend fun findSyllabus(query: String): AttendanceModel?
+
+
+    @Query("DELETE FROM attendance_table WHERE isArchive = 1")
+    suspend fun deleteAllArchiveAttendance()
 }

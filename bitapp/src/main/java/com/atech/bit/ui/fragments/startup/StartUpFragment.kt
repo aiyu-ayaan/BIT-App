@@ -25,8 +25,8 @@ class StartUpFragment : Fragment(R.layout.fragment_set_up) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

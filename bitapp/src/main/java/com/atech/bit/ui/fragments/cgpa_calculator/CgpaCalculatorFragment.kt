@@ -44,8 +44,8 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -274,9 +274,9 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
         num6: Double,
         cgpa: Double,
     ) {
-        val cgpa = Cgpa(num1, num2, num3, num4, num5, num6, cgpa)
-        prefManager.updateCgpa(cgpa)
-        updateCGPAToDb(cgpa)
+        val mCgpa = Cgpa(num1, num2, num3, num4, num5, num6, cgpa)
+        prefManager.updateCgpa(mCgpa)
+        updateCGPAToDb(mCgpa)
     }
 
     private fun updateCGPAToDb(cgpa: Cgpa) {

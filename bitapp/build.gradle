@@ -16,8 +16,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 16
-        versionName "3.0"
+        versionCode 26
+        versionName "4.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -57,6 +57,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+        kotlinOptions {
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        }
+    }
     namespace 'com.atech.bit'
 }
 
@@ -72,7 +77,7 @@ dependencies {
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:30.3.2')
+    implementation platform('com.google.firebase:firebase-bom:30.5.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
 //    FCM
@@ -85,6 +90,7 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
+    implementation "com.google.android.gms:play-services-ads:$playServicesAds"
 
 //    crashlytics
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -150,8 +156,8 @@ dependencies {
     implementation "androidx.media3:media3-ui:$mediaVersion"
     implementation "androidx.media3:media3-exoplayer-dash:$mediaVersion"
 
-    implementation "uk.co.samuelwall:material-tap-target-prompt:$tapTargetVersion"
 
     implementation "com.kazakago.cryptore:cryptore:$cryptoreVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
 
 }

@@ -44,10 +44,10 @@ class ChangePercentageDialog : DialogFragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.changePercentage))
             .setView(binding.root)
-            .setPositiveButton(resources.getString(R.string.done)) { dialog, which ->
+            .setPositiveButton(resources.getString(R.string.done)) { _, _ ->
                 viewModel.updatePercentage(binding.seekBar.progress)
             }
-            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
 
             }
 

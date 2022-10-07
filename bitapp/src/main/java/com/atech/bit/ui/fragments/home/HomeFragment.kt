@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.home
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,6 +20,9 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -29,6 +34,7 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.withTransaction
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
@@ -46,16 +52,37 @@ import com.atech.bit.utils.Encryption.getCryptore
 import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getUid
-import com.atech.bit.utils.showMenuPrompt
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
+import com.atech.core.data.room.BitDatabase
+import com.atech.core.data.room.syllabus.SyllabusList
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
-import com.atech.core.utils.*
+import com.atech.core.utils.DataState
+import com.atech.core.utils.GITHUB_LINK
+import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
+import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
+import com.atech.core.utils.KEY_IS_USER_LOG_IN
+import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
+import com.atech.core.utils.REQUEST_EVENT_FROM_HOME
+import com.atech.core.utils.REQUEST_LOGIN_FROM_HOME
+import com.atech.core.utils.REQUEST_UPDATE_SEM
+import com.atech.core.utils.RemoteConfigUtil
+import com.atech.core.utils.TAG
+import com.atech.core.utils.calculatedDays
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.checkForAPI33
+import com.atech.core.utils.findPercentage
+import com.atech.core.utils.loadImageCircular
+import com.atech.core.utils.onScrollColorChange
+import com.atech.core.utils.showSnackBar
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
@@ -89,11 +116,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var auth: FirebaseAuth
 
+    @Inject
+    lateinit var remoteConfig: RemoteConfigUtil
+
+    @Inject
+    lateinit var bitDatabase: BitDatabase
+
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
 
@@ -140,8 +174,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        set Progress
         setProgressBar()
 
-//        Get syllabus from network
-        getSyllabus()
 
 //        setUp Event
         getEvent()
@@ -159,105 +191,113 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         setUpLinkClick()
 
-        setPrompt()
         checkHasData()
         setPref()
         restoreScroll()
+        setAds()
+        getOldAppWarningDialog()
+        clearAndAddSyllabusDatabase()
+
+        checkPermission()
+    }
+
+    private fun checkPermission() {
+        if (checkForAPI33()) {
+            checkNotificationPermission()
+            requestPermission()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun checkNotificationPermission() {
+        requestPermissionLauncher =
+            registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+                if (it) {
+                    Log.d(TAG, "checkNotificationPermission: Granted")
+                } else {
+                    Snackbar.make(
+                        binding.root,
+                        "Please grant Notification permission from App Settings",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun requestPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "requestPermission: Granted")
+        } else {
+            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+    }
+
+    private fun clearAndAddSyllabusDatabase() {
+        val isSyllabusDataRefresh = pref.getBoolean(KEY_COURSE_OPEN_FIRST_TIME, true)
+        if (isSyllabusDataRefresh) lifecycleScope.launchWhenStarted {
+            bitDatabase.withTransaction {
+                bitDatabase.syllabusDao().deleteAll()
+                SyllabusList.syllabus.also {
+                    bitDatabase.syllabusDao().insertAll(it)
+                }
+                pref.edit().putBoolean(KEY_COURSE_OPEN_FIRST_TIME, false).apply()
+            }
+        }
+    }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun setPref() {
         pref.edit().putBoolean(
-            KEY_REACH_TO_HOME,
-            true
+            KEY_REACH_TO_HOME, true
         ).apply()
     }
 
     private fun checkHasData() {
         val isLogin = pref.getBoolean(KEY_IS_USER_LOG_IN, false)
-        if (auth.currentUser != null && isLogin)
-            userDataViewModel.checkUserData(getUid(auth)!!, {
-                if (!it) {
-                    preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { dataStore ->
-                        userDataViewModel.addCourseSem(
-                            getUid(auth)!!,
-                            dataStore.course, dataStore.sem,
-                            {
-                                pref.edit()
-                                    .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
-                                    .apply()
-                            }
-                        ) {
-                            Toast.makeText(
-                                requireContext(),
-                                "Data upload failed",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+        if (auth.currentUser != null && isLogin) userDataViewModel.checkUserData(getUid(auth)!!, {
+            if (!it) {
+                preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) { dataStore ->
+                    userDataViewModel.addCourseSem(getUid(auth)!!,
+                        dataStore.course,
+                        dataStore.sem,
+                        {
+                            pref.edit().putBoolean(KEY_USER_HAS_DATA_IN_DB, true).apply()
+                        }) {
+                        Toast.makeText(
+                            requireContext(), "Data upload failed", Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-            })
-            {
             }
-    }
-
-    private fun setPrompt() {
-        val firstTimeOpenNoticeDes = pref.getBoolean(
-            FIRST_TIME_OPEN_HOME,
-            true
-        )
-        if (firstTimeOpenNoticeDes)
-            Handler(Looper.getMainLooper()).postDelayed({
-                requireActivity().showMenuPrompt(
-                    R.id.edit,
-                    R.string.home_edit_button,
-                    resources.getString(R.string.home_edit_button_des)
-                ) {
-                    setPromptToSetting()
-                }
-            }, 1000)
-        else {
-            getOldAppWarningDialog()
-        }
-    }
-
-    private fun setPromptToSetting() {
-        requireActivity().showMenuPrompt(
-            R.id.setting,
-            R.string.home_setting_button,
-            resources.getString(R.string.home_setting_button_des)
-        ) {
-            setPromptToSearch()
-        }
-    }
-
-    private fun setPromptToSearch() {
-        requireActivity().showMenuPrompt(
-            R.id.menu_search,
-            R.string.home_search,
-            resources.getString(R.string.searchAnything)
-        ) {
-            pref.edit()
-                .putBoolean(FIRST_TIME_OPEN_HOME, false)
-                .apply()
-        }
+        }) {}
     }
 
     private fun setUpLinkClick() {
         binding.layoutNoteDev.tagInfo.setOnClickListener {
-            db.collection("AboutUs")
-                .document("WfsbaT4g1wGZkDwFS7iQ")
-                .addSnapshotListener { value, _ ->
-                    value?.getString("github")?.let {
-                        requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(it)))
-                    }
+            remoteConfig.fetchData({
+                Log.e(TAG, "setUpLinkClick: ${it.message}")
+            }) {
+                try {
+                    val link = remoteConfig.getString(GITHUB_LINK).trim()
+                    requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
+                } catch (e: Exception) {
+                    Log.e(TAG, "setUpLinkClick: ${e.message}")
                 }
+            }
         }
     }
 
     private fun getOldAppWarningDialog() {
         val u = pref.getBoolean(KEY_DO_NOT_SHOW_AGAIN, false)
-        if (isOldAppInstalled() && !communicatorViewModel.uninstallDialogSeen && !u)
-            navigateToUninstallOldAppDialog()
+        if (isOldAppInstalled() && !communicatorViewModel.uninstallDialogSeen && !u) navigateToUninstallOldAppDialog()
     }
 
     private fun navigateToUninstallOldAppDialog() {
@@ -265,6 +305,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         findNavController().navigate(action)
     }
 
+    @Suppress("deprecation")
     private fun isOldAppInstalled(): Boolean {
         var available = true
         try {
@@ -279,10 +320,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToCGPA() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true).apply {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false).apply {
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
         val action = HomeFragmentDirections.actionHomeFragmentToCgpaCalculatorFragment()
@@ -306,6 +347,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     (requireActivity() as MainActivity).onMenuClick()
                     true
                 }
+
                 else -> false
             }
         }
@@ -314,8 +356,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setProfileImageView(imageView: ImageView) {
         imageView.apply {
             if (auth.currentUser != null) {
-                auth.currentUser?.photoUrl.toString()
-                    .loadImageCircular(this)
+                auth.currentUser?.photoUrl.toString().loadImageCircular(this)
                 getDataOFUser()
                 setOnClickListener {
                     userModel?.let {
@@ -334,8 +375,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToLogin() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action =
             HomeFragmentDirections.actionHomeFragmentToLogInFragment(request = REQUEST_LOGIN_FROM_HOME)
         findNavController().navigate(action)
@@ -371,8 +412,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToProfile(uid: String, userDecrypt: UserModel) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment(uid, userDecrypt)
         findNavController().navigate(action)
     }
@@ -380,12 +421,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setHoliday() = binding.apply {
         showHoliday.apply {
             addItemDecoration(DividerItemDecorationNoLast(
-                requireContext(),
-                LinearLayoutManager.VERTICAL
+                requireContext(), LinearLayoutManager.VERTICAL
             ).apply {
                 setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-            }
-            )
+            })
             adapter = holidayAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
@@ -412,14 +451,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             showEvent.apply {
                 adapter = eventAdapter
                 layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(
-                    DividerItemDecorationNoLast(
-                        requireContext(),
-                        LinearLayoutManager.VERTICAL
-                    ).apply {
-                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-                    }
-                )
+                addItemDecoration(DividerItemDecorationNoLast(
+                    requireContext(), LinearLayoutManager.VERTICAL
+                ).apply {
+                    setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                })
             }
             eventAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -437,20 +473,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     it.take(3).let { list ->
                         eventAdapter.submitList(list)
                     }
-                    binding.materialCardViewEventRecyclerView.isVisible =
-                        it.isNotEmpty()
-                    binding.textEvent.isVisible =
-                        it.isNotEmpty()
-                    binding.textShowAllEvent.isVisible =
-                        it.isNotEmpty()
+                    binding.materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
+                    binding.textEvent.isVisible = it.isNotEmpty()
+                    binding.textShowAllEvent.isVisible = it.isNotEmpty()
                 }
             }
         }
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }
@@ -460,10 +493,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun navigateToEvent() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true).apply {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false).apply {
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
         val action = HomeFragmentDirections.actionHomeFragmentToEventFragment()
@@ -476,31 +509,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun navigateToEventDetail(event: Events, view: View) {
         val extras = FragmentNavigatorExtras(view to event.path)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         val action = NavGraphDirections.actionGlobalEventDetailFragment(
-            path = event.path,
-            request = REQUEST_EVENT_FROM_HOME
+            path = event.path, request = REQUEST_EVENT_FROM_HOME
         )
         findNavController().navigate(action, extras)
     }
 
-    private fun getSyllabus() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.getSyllabus()
-        }
-    }
 
     private fun navigateToEdit() {
-        val directions =
-            NavGraphDirections.actionGlobalEditSubjectBottomSheet()
+        val directions = NavGraphDirections.actionGlobalEditSubjectBottomSheet()
         findNavController().navigate(directions)
     }
 
 
     private fun navigateToAttendance() {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         val action = HomeFragmentDirections.actionHomeFragmentToAttendanceFragment()
         findNavController().navigate(action)
     }
@@ -528,13 +554,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 df.roundingMode = RoundingMode.FLOOR
                 textViewPercentage.text = df.format(finalPercentage)
                 progressBarHome.progress = finalPercentage.toInt()
-                val progressAnimator =
-                    ObjectAnimator.ofInt(
-                        binding.progressBarHome,
-                        "progress",
-                        0,
-                        finalPercentage.toInt()
-                    )
+                val progressAnimator = ObjectAnimator.ofInt(
+                    binding.progressBarHome, "progress", 0, finalPercentage.toInt()
+                )
                 progressAnimator.duration = 2000
                 progressAnimator.interpolator = LinearInterpolator()
                 progressAnimator.start()
@@ -551,18 +573,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     (((100 * p) - (defPercentage * t)) / defPercentage)
                 }.toInt()
                 binding.textViewStats.text = when {
-                    per == defPercentage || day <= 0 ->
-                        "On track don't miss next class"
-                    day != 0 -> "You can leave $day class"
+                    per == defPercentage || day == 0 -> "On track don't miss next class"
+
+                    day > 0 -> "You can leave $day class"
                     else -> "Error !!"
                 }
             }
-            per < defPercentage -> {
+
+            else -> {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
                 }
-                binding.textViewStats.text =
-                    "Attend Next ${(ceil(day)).toInt()} Class"
+                binding.textViewStats.text = "Attend Next ${(ceil(day)).toInt()} Class"
             }
         }
     }
@@ -579,8 +601,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.materialCardViewCgpaGraph.isVisible = !it.cgpa.isAllZero
             binding.textViewCgpa.isVisible = !it.cgpa.isAllZero
             binding.textViewEdit.isVisible = !it.cgpa.isAllZero
-            if (!it.cgpa.isAllZero)
-                setUpChart(it.cgpa)
+            if (!it.cgpa.isAllZero) setUpChart(it.cgpa)
         }
     }
 
@@ -593,9 +614,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val barDataSet = LineDataSet(list, "SGPA")
             barDataSet.apply {
                 color = MaterialColors.getColor(
-                    binding.root,
-                    androidx.appcompat.R.attr.colorPrimary,
-                    Color.WHITE
+                    binding.root, androidx.appcompat.R.attr.colorPrimary, Color.WHITE
                 )
                 valueTextSize = 10f
                 valueTextColor =
@@ -619,36 +638,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun addData(list: MutableList<Entry>, cgpa: Cgpa) {
-        if (cgpa.sem1 != 0.0)
-            list.add(Entry(1f, cgpa.sem1.toFloat()))
-        if (cgpa.sem2 != 0.0)
-            list.add(Entry(2f, cgpa.sem2.toFloat()))
-        if (cgpa.sem3 != 0.0)
-            list.add(Entry(3f, cgpa.sem3.toFloat()))
-        if (cgpa.sem4 != 0.0)
-            list.add(Entry(4f, cgpa.sem4.toFloat()))
-        if (cgpa.sem5 != 0.0)
-            list.add(Entry(5f, cgpa.sem5.toFloat()))
-        if (cgpa.sem6 != 0.0)
-            list.add(Entry(6f, cgpa.sem6.toFloat()))
+        if (cgpa.sem1 != 0.0) list.add(Entry(1f, cgpa.sem1.toFloat()))
+        if (cgpa.sem2 != 0.0) list.add(Entry(2f, cgpa.sem2.toFloat()))
+        if (cgpa.sem3 != 0.0) list.add(Entry(3f, cgpa.sem3.toFloat()))
+        if (cgpa.sem4 != 0.0) list.add(Entry(4f, cgpa.sem4.toFloat()))
+        if (cgpa.sem5 != 0.0) list.add(Entry(5f, cgpa.sem5.toFloat()))
+        if (cgpa.sem6 != 0.0) list.add(Entry(6f, cgpa.sem6.toFloat()))
     }
 
     private fun settingUpSyllabus() {
-        syllabusTheoryAdapter = SyllabusHomeAdapter(
-            listener = { s, v ->
-                setOnSyllabusClickListener(s, v)
-            }
-        )
-        syllabusLabAdapter = SyllabusHomeAdapter(
-            listener = { s, v ->
-                setOnSyllabusClickListener(s, v)
-            }
-        )
-        syllabusPeAdapter = SyllabusHomeAdapter(
-            listener = { s, v ->
-                setOnSyllabusClickListener(s, v)
-            }
-        )
+        syllabusTheoryAdapter = SyllabusHomeAdapter(listener = { s, v ->
+            setOnSyllabusClickListener(s, v)
+        })
+        syllabusLabAdapter = SyllabusHomeAdapter(listener = { s, v ->
+            setOnSyllabusClickListener(s, v)
+        })
+        syllabusPeAdapter = SyllabusHomeAdapter(listener = { s, v ->
+            setOnSyllabusClickListener(s, v)
+        })
         binding.apply {
 
             showTheory.apply {
@@ -691,8 +698,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.pe.observe(viewLifecycleOwner) {
             binding.showPe.isVisible = it.isNotEmpty()
             binding.textView8.isVisible = it.isNotEmpty()
-            binding.dividerLab.isVisible =
-                it.isNotEmpty()
+            binding.dividerLab.isVisible = it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
         }
         viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
@@ -705,14 +711,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     holidayAdapter.submitList(dateState.data)
                 }
+
                 DataState.Empty -> binding.apply {
                     textHoliday.isVisible = false
                     materialCardViewHolidayRecyclerView.isVisible = false
                     textShowAllHoliday.isVisible = false
                 }
 
-                is DataState.Error ->
-                    binding.root.showSnackBar("${dateState.exception.message}", -1)
+                is DataState.Error -> binding.root.showSnackBar(
+                    "${dateState.exception.message}",
+                    -1
+                )
 
                 DataState.Loading -> {
                 }
@@ -721,16 +730,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToHoliday() {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
         try {
             val action = HomeFragmentDirections.actionHomeFragmentToHolidayFragment()
             findNavController().navigate(action)
         } catch (e: Exception) {
             Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.click_warning),
-                Toast.LENGTH_SHORT
+                requireContext(), resources.getString(R.string.click_warning), Toast.LENGTH_SHORT
             ).show()
         }
     }
@@ -746,16 +753,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         try {
             val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
-            val action =
-                NavGraphDirections.actionGlobalSubjectHandlerFragment(syllabusModel)
+            val action = NavGraphDirections.actionGlobalSubjectHandlerFragment(syllabusModel)
             findNavController().navigate(action, extras)
         } catch (e: Exception) {
             Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.click_warning),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                requireContext(), resources.getString(R.string.click_warning), Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -766,13 +769,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun detectScroll() {
         activity?.onScrollColorChange(binding.scrollViewHome, {
             activity?.changeStatusBarToolbarColor(
-                R.id.toolbar,
-                com.google.android.material.R.attr.colorSurface
+                R.id.toolbar, com.google.android.material.R.attr.colorSurface
             )
         }, {
             activity?.changeStatusBarToolbarColor(
-                R.id.toolbar,
-                R.attr.bottomBar
+                R.id.toolbar, R.attr.bottomBar
             )
         })
 
@@ -786,8 +787,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         try {
             if (communicatorViewModel.homeNestedViewPosition != null) {
                 binding.scrollViewHome.scrollTo(
-                    0,
-                    communicatorViewModel.homeNestedViewPosition!!
+                    0, communicatorViewModel.homeNestedViewPosition!!
                 )
             }
         } catch (e: Exception) {
@@ -798,8 +798,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onPause() {
         super.onPause()
-        myScrollViewerInstanceState =
-            binding.scrollViewHome.onSaveInstanceState()
+        myScrollViewerInstanceState = binding.scrollViewHome.onSaveInstanceState()
     }
 
     companion object {

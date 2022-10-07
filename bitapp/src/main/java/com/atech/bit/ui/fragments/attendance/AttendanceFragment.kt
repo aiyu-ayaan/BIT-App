@@ -23,17 +23,26 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.AttendanceEvent
 import com.atech.bit.utils.getUid
+import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
-import com.atech.core.utils.*
+import com.atech.core.utils.KEY_ATTENDANCE_UPLOAD_FIRST_TIME
+import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
+import com.atech.core.utils.TAG
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.convertLongToTime
+import com.atech.core.utils.countTotalClass
+import com.atech.core.utils.findPercentage
+import com.atech.core.utils.onScrollChange
+import com.atech.core.utils.showUndoMessage
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import java.math.RoundingMode
 import java.text.DecimalFormat
-import java.util.*
+import java.util.Deque
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -48,7 +57,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private var defPercentage = 75
     private lateinit var attendanceAdapter: AttendanceAdapter
     private var attendanceList: List<AttendanceUploadModel> = listOf()
-    private var hasChange = false
 
     @Inject
     lateinit var auth: FirebaseAuth
@@ -59,8 +67,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
 
 
@@ -68,16 +76,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         super.onViewCreated(view, savedInstanceState)
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
-        attendanceAdapter = AttendanceAdapter(
-            {
-                onItemClickListener(it)
-            },
-            { onCheckClick(it) },
-            { onWrongClick(it) },
-            {
-                navigateToMenu(it)
-            }
-        )
+        attendanceAdapter = AttendanceAdapter({
+            onItemClickListener(it)
+        }, { onCheckClick(it) }, { onWrongClick(it) }, {
+            navigateToMenu(it)
+        })
 
         //        Percentage
         setUpTopView()
@@ -88,22 +91,43 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
         listenForUndoMessage()
 
-        setTopView()
-        addSubjectFromSyllabus()
         detectScroll()
         addSubject()
 
+        requireContext().loadAdds(binding.attendanceView.adView)
+        setUpBottomAppBar()
+    }
 
+    private fun setUpBottomAppBar() = binding.bottomAppBar.apply {
+        setNavigationOnClickListener {
+            navigateToListAll()
+        }
+        setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.menu_book -> navigateToAddSubjectFromSyllabus().let {
+                    true
+                }
+
+                R.id.menu_archive -> navigateToArchive().let {
+                    true
+                }
+
+                R.id.menu_setting -> navigateToSetting().let {
+                    true
+                }
+
+                else -> false
+            }
+        }
     }
 
     private fun uploadWhenNewLogin() {
         val isUploadFirstTime = pref.getBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, true)
-        if (auth.currentUser != null)
-            if (isUploadFirstTime && attendanceList.isNotEmpty()) {
-                uploadAttendanceData {
-                    pref.edit().putBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, false).apply()
-                }
+        if (auth.currentUser != null) if (isUploadFirstTime && attendanceList.isNotEmpty()) {
+            uploadAttendanceData {
+                pref.edit().putBoolean(KEY_ATTENDANCE_UPLOAD_FIRST_TIME, false).apply()
             }
+        }
     }
 
     private fun navigateToMenu(attendanceModel: AttendanceModel) {
@@ -131,10 +155,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
     private fun populateViewsAndSetPercentage() {
-        viewModel.attendance.observe(viewLifecycleOwner) { it ->
+        viewModel.unArchive.observe(viewLifecycleOwner) { it ->
             attendanceAdapter.submitList(it)
-            convertingData(it)
-            binding.emptyAnimation.isVisible = it.isEmpty()
+            binding.attendanceView.emptyAnimation.isVisible = it.isEmpty()
             var sumPresent = 0
             var sumTotal = 0
             it.forEach {
@@ -148,42 +171,52 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                         else -> ((present / total) * 100)
                     }
                 }
-            binding.attendanceTopBar.apply {
-                tvPercentage.text = "${finalPercentage.toInt()}%"
-                progressBarOuter.progress = finalPercentage.toInt()
+            binding.attendanceView.apply {
+                val emoji = when {
+                    finalPercentage >= 80F -> resources.getString(R.string.moreThan80)
+                    finalPercentage >= defPercentage -> resources.getString(R.string.moreThanDefault)
+                    finalPercentage < defPercentage && finalPercentage > 60F -> resources.getString(
+                        R.string.lessThanDefault
+                    )
+
+                    finalPercentage < 60F && finalPercentage != 0F -> resources.getString(R.string.lessThan60)
+                    else -> resources.getString(R.string.def_emoji)
+                }
+                tvPercentage.text = emoji
+                materialDivider.text = emoji
+                progressCircularOuter.progress = finalPercentage.toInt()
                 val df = DecimalFormat("#.#")
                 df.roundingMode = RoundingMode.FLOOR
                 tvOverAll.text = resources.getString(
-                    R.string.overallAttendance,
-                    "${df.format(finalPercentage)}%"
+                    R.string.overallAttendance, df.format(finalPercentage)
+                )
+                tv4.text = resources.getString(
+                    R.string.overallAttendance, df.format(finalPercentage)
                 )
             }
         }
+        viewModel.allAttendance.observe(viewLifecycleOwner) { it ->
+            convertingData(it)
+        }
     }
 
-    private fun convertingData(list: List<AttendanceModel>) =
-        lifecycleScope.launchWhenStarted {
-            if (list.isNotEmpty()) {
-                attendanceList = list.map { a ->
-                    AttendanceUploadModel(
-                        a.subject,
-                        a.total,
-                        a.present,
-                        a.teacher,
-                        a.fromSyllabus,
-                        a.created
-                    )
-                }
+    private fun convertingData(list: List<AttendanceModel>) = lifecycleScope.launchWhenStarted {
+        if (list.isNotEmpty()) {
+            attendanceList = list.map { a ->
+                AttendanceUploadModel(
+                    a.subject, a.total, a.present, a.teacher, a.fromSyllabus, a.isArchive, a.created
+                )
             }
-            if (viewModel.isDataSet) {
-                communicator.attendanceManagerSize = attendanceList.size
-                viewModel.isDataSet = false
-            }
-            uploadWhenNewLogin()
         }
+        if (communicator.isDataSet) {
+            communicator.attendanceManagerSize = attendanceList.size
+            communicator.isDataSet = false
+        }
+        uploadWhenNewLogin()
+    }
 
     private fun setUpViews() {
-        binding.apply {
+        binding.attendanceView.apply {
             showAtt.apply {
                 adapter = attendanceAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -192,23 +225,26 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             attendanceAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-            //            ..List All
-            attendanceTopBar.tvAddSub.setOnClickListener {
-                val action =
-                    AttendanceFragmentDirections.actionAttendanceFragmentToListAllBottomSheet()
-                try {
-                    findNavController().navigate(action)
-                } catch (e: Exception) {
-                }
-            }
+
+        }
+    }
+
+    private fun navigateToListAll() {
+        val action = AttendanceFragmentDirections.actionAttendanceFragmentToListAllBottomSheet()
+        try {
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
     private fun setUpTopView() {
         preferenceViewModel.preferencesFlow.observe(viewLifecycleOwner) {
-            binding.attendanceTopBar.tvGoal.text =
+            binding.attendanceView.tvGoal.text =
                 resources.getString(R.string.goal, it.defPercentage.toString())
-            binding.attendanceTopBar.progressCircularInner.progress = it.defPercentage
+            binding.attendanceView.tv3.text =
+                resources.getString(R.string.goal, it.defPercentage.toString())
+            binding.attendanceView.progressCircularInner.progress = it.defPercentage
             attendanceAdapter.setProgress(it.defPercentage)
             defPercentage = it.defPercentage
         }
@@ -226,31 +262,19 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
 
-    private fun addSubjectFromSyllabus() {
-        binding.attendanceTopBar.apply {
-            tvAddSubSyllabus.setOnClickListener {
-                navigateToEdit()
-            }
-        }
-    }
-
-    private fun navigateToEdit() {
+    private fun navigateToAddSubjectFromSyllabus() {
         val directions =
             NavGraphDirections.actionGlobalEditSubjectBottomSheet(REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
         findNavController().navigate(directions)
     }
 
-    private fun setTopView() {
-        binding.attendanceTopBar.apply {
-            tvSetting.setOnClickListener {
-                try {
-                    val action =
-                        NavGraphDirections.actionGlobalChangePercentageDialog(defPercentage)
-                    findNavController().navigate(action)
-                } catch (e: Exception) {
 
-                }
-            }
+    private fun navigateToSetting() {
+        try {
+            val action = NavGraphDirections.actionGlobalChangePercentageDialog(defPercentage)
+            findNavController().navigate(action)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
@@ -258,9 +282,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         try {
             val action =
                 AttendanceFragmentDirections.actionAttendanceFragmentToCalenderViewBottomSheet(
-                    attendance,
-                    attendance.subject,
-                    defPercentage
+                    attendance, attendance.subject, defPercentage
                 )
             findNavController().navigate(action)
         } catch (e: Exception) {
@@ -276,15 +298,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
         stack.push(
             AttendanceSave(
-                attendance.total,
-                attendance.present,
-                attendance.days.copy(
+                attendance.total, attendance.present, attendance.days.copy(
                     presetDays = attendance.days.presetDays,
                     totalDays = ArrayList(attendance.days.totalDays.map {
                         IsPresent(
-                            it.day,
-                            it.isPresent,
-                            it.totalClasses
+                            it.day, it.isPresent, it.totalClasses
                         )
                     })
                 )
@@ -296,8 +314,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
          * @author Ayaan
          */
         when {
-            totalDays.isEmpty() ||
-                    totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
+            totalDays.isEmpty() || totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
                 .convertLongToTime("DD/MM/yyyy") || !totalDays.last().isPresent ->//new Entry or new day or new session
                 totalDays.add(IsPresent(System.currentTimeMillis(), true, totalClasses = 1))
 
@@ -319,11 +336,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 teacher = attendance.teacher,
             )
         ).also {
-            hasChange = true
+            communicator.hasChange = true
         }
     }
 
-
+    @Suppress("UNCHECKED_CAST")
     private fun onWrongClick(attendance: AttendanceModel) {
         val stack: Deque<AttendanceSave> = attendance.stack
         val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
@@ -336,9 +353,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                     absentDays = attendance.days.absentDays,
                     totalDays = ArrayList(attendance.days.totalDays.map {
                         IsPresent(
-                            it.day,
-                            it.isPresent,
-                            it.totalClasses
+                            it.day, it.isPresent, it.totalClasses
                         )
                     })
                 ),
@@ -367,17 +382,22 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 present = attendance.present,
                 total = attendance.total + 1,
                 days = attendance.days.copy(
-                    absentDays = absentDays,
-                    totalDays = totalDays
+                    absentDays = absentDays, totalDays = totalDays
                 ),
                 stack = stack,
                 fromSyllabus = attendance.fromSyllabus,
                 teacher = attendance.teacher
             )
         ).also {
-            hasChange = true
+            communicator.hasChange = true
         }
 
+    }
+
+    private fun navigateToArchive() {
+        val action =
+            AttendanceFragmentDirections.actionAttendanceFragmentToArchiveBottomSheet(defPercentage)
+        findNavController().navigate(action)
     }
 
 
@@ -386,27 +406,23 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
      * @author Ayaan
      */
     private fun detectScroll() {
-        binding.showAtt.onScrollChange(
-            {
-                binding.extendedFab.apply {
-                    show()
-                    extend()
-                }
+        binding.attendanceView.showAtt.onScrollChange({
+            binding.extendedFab.apply {
+                show()
+//                    extend()
+            }
 //                       Status bar
-                activity?.changeStatusBarToolbarColor(
-                    R.id.toolbar,
-                    com.google.android.material.R.attr.colorSurface
-                )
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar, com.google.android.material.R.attr.colorSurface
+            )
 
-            },
-            {
-                binding.extendedFab.shrink()
+        }, {
+//                binding.extendedFab.shrink()
 //                        Color change
-                activity?.changeStatusBarToolbarColor(
-                    R.id.toolbar,
-                    R.attr.bottomBar
-                )
-            })
+            activity?.changeStatusBarToolbarColor(
+                R.id.toolbar, R.attr.bottomBar
+            )
+        })
     }
 
 
@@ -414,28 +430,26 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         super.onPause()
         if (auth.currentUser != null) {
             checkForHasChange()
-            if (communicator.maxTimeToUploadAttendanceData <= 2
-                && communicator.attendanceManagerSize != attendanceList.size
-            )
-                uploadAttendanceData {
-                    Log.d(TAG, "onPause: Done")
-                    communicator.maxTimeToUploadAttendanceData =
-                        communicator.maxTimeToUploadAttendanceData.plus(1)
-                    Log.d(TAG, "onPause: ${communicator.maxTimeToUploadAttendanceData}")
-                }.also {
-                    communicator.attendanceManagerSize = attendanceList.size
-                }
+            if (communicator.maxTimeToUploadAttendanceData <= 2 && communicator.attendanceManagerSize != attendanceList.size) uploadAttendanceData {
+                Log.d(TAG, "onPause: Done")
+                communicator.maxTimeToUploadAttendanceData =
+                    communicator.maxTimeToUploadAttendanceData.plus(1)
+                Log.d(TAG, "onPause: ${communicator.maxTimeToUploadAttendanceData}")
+            }.also {
+                communicator.attendanceManagerSize = attendanceList.size
+            }
         }
     }
 
     private fun checkForHasChange() {
-        if (hasChange)
-            uploadAttendanceData()
+        if (communicator.hasChange) uploadAttendanceData()
     }
 
     private fun uploadAttendanceData(action: () -> Unit = {}) {
         userDataViewModel.setAttendance(getUid(auth)!!, attendanceList, {
-            action.invoke()
+            action.invoke().also {
+                communicator.hasChange = false
+            }
         }) {
             Log.d(TAG, "onPause: Failed")
         }

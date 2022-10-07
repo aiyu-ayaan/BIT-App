@@ -38,7 +38,7 @@ import javax.inject.Provider
         SyllabusModel::class, Notice3CacheEntity::class,
         EventsCacheEntity::class
     ],
-    version = 9
+    version = 10
 )
 @TypeConverters(
     DaysTypeConvector::class,
@@ -49,7 +49,7 @@ import javax.inject.Provider
 abstract class BitDatabase : RoomDatabase() {
     abstract fun holidayDao(): HolidayDao
     abstract fun attendanceDao(): AttendanceDao
-    abstract fun syllabusDap(): SyllabusDao
+    abstract fun syllabusDao(): SyllabusDao
     abstract fun notice3Dao(): Notice3Dao
     abstract fun eventDao(): EventsDao
 
@@ -146,6 +146,11 @@ abstract class BitDatabase : RoomDatabase() {
                 database.execSQL("UPDATE syllabus_table SET openCode ='BBA56' where openCode ='BBA611'")
             }
         }
+        var migration_9_10 = object : Migration(9, 10) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE attendance_table ADD COLUMN isArchive INTEGER DEFAULT 0")
+            }
+        }
 
     }
 
@@ -158,12 +163,10 @@ abstract class BitDatabase : RoomDatabase() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            val dao = database.get().syllabusDap()
+            val dao = database.get().syllabusDao()
             appScope.launch {
                 val syllabus = SyllabusList.syllabus
-                for (s in syllabus) {
-                    dao.insert(s)
-                }
+                dao.insertAll(syllabus)
             }
         }
     }

@@ -3,8 +3,6 @@ package com.atech.bit.ui.fragments.notice.description
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.os.Parcelable
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -24,8 +22,8 @@ import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
-import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.data.ui.notice.SendNotice3
@@ -72,6 +70,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         getNotice()
         setIsConnected()
         menuHost()
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun getNotice() = lifecycleScope.launchWhenStarted {
@@ -179,27 +178,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
 
     private fun menuHost() {
 
-        addMenuHost(R.menu.notice_description_menu, {
-            Handler(Looper.getMainLooper()).post {
-                val firstTimeOpenNoticeDes = pref.getBoolean(
-                    FIRST_TIME_OPEN_NOTICE_DES,
-                    true
-                )
-                if (firstTimeOpenNoticeDes) {
-                    requireActivity().showMenuPrompt(
-                        R.id.menu_notice_share,
-                        R.string.sharable,
-                        resources.getString(
-                            R.string.sharable_des,
-                            resources.getString(R.string.notice)
-                        )
-                    )
-                    pref.edit()
-                        .putBoolean(FIRST_TIME_OPEN_NOTICE_DES, false)
-                        .apply()
-                }
-            }
-        }) { menuItem ->
+        addMenuHost(R.menu.notice_description_menu) { menuItem ->
             when (menuItem.itemId) {
                 R.id.menu_notice_share -> {
                     shareNotice()
@@ -212,8 +191,8 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
 
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }

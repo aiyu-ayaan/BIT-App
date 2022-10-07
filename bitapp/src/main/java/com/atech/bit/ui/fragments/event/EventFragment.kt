@@ -17,6 +17,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentEventBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.MainStateEvent
+import com.atech.bit.utils.loadAdds
 
 import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
@@ -40,8 +41,8 @@ class EventFragment : Fragment(R.layout.fragment_event) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, /* forward= */ false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,6 +88,7 @@ class EventFragment : Fragment(R.layout.fragment_event) {
         }
         detectScroll()
 
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun navigateToEventDetail(event: Events, view: View) {
@@ -117,8 +119,8 @@ class EventFragment : Fragment(R.layout.fragment_event) {
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }

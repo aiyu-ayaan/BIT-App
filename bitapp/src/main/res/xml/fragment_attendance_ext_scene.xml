@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@id/start"
+        motion:duration="1000">
+        <OnSwipe
+            motion:touchAnchorId="@+id/relativeLayout2"
+            motion:dragDirection="dragDown"
+            motion:touchAnchorSide="bottom" />
+        <KeyFrameSet >
+            <KeyAttribute
+                motion:motionTarget="@+id/expand_layout"
+                motion:framePosition="20"
+                android:alpha="0.5" />
+            <KeyAttribute
+                motion:motionTarget="@+id/expand_layout"
+                motion:framePosition="60"
+                android:alpha="0.3" />
+            <KeyAttribute
+                motion:motionTarget="@+id/cardView"
+                motion:framePosition="70"
+                android:alpha="0.5" />
+            <KeyAttribute
+                motion:motionTarget="@+id/cardView"
+                motion:framePosition="84"
+                android:alpha="0.5" />
+        </KeyFrameSet>
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:alpha="0"
+            android:translationX="-500dp"
+            android:visibility="gone"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/expand_layout" />
+        <Constraint
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/grid_1"
+            motion:layout_constraintTop_toBottomOf="@+id/cardView" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/expand_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:translationY="-120dp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:translationY="-110dp"
+            android:visibility="visible"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@+id/expand_layout" />
+        <Constraint
+            android:id="@+id/relativeLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:translationY="-100dp"
+            motion:layout_constraintTop_toBottomOf="@+id/cardView" />
+    </ConstraintSet>
+</MotionScene>

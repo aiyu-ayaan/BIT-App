@@ -3,8 +3,6 @@ package com.atech.bit.ui.fragments.course.subject_handler
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.fragment.app.Fragment
@@ -13,11 +11,10 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSubjectHandlerBinding
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
-import com.atech.bit.utils.showMenuPrompt
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.utils.FIRST_TIME_OPEN_SYLLABUS_DES
 import com.atech.core.utils.SHARE_TYPE_SYLLABUS
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.syllabus.setFragment
@@ -60,7 +57,13 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
 
         detectScroll()
         addingMenuHost()
+        setAds()
     }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
+    }
+
 
     private fun forSyllabusFromChooseSemFragment() {
         args.syllabus?.let {
@@ -71,30 +74,7 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
     }
 
     private fun addingMenuHost() {
-        addMenuHost(R.menu.notice_description_menu, {
-            if (subject == null)
-                it.findItem(R.id.menu_notice_share).isVisible = false
-
-            Handler(Looper.getMainLooper()).post {
-                val firstTimeOpenNoticeDes = pref.getBoolean(
-                    FIRST_TIME_OPEN_SYLLABUS_DES,
-                    true
-                )
-                if (firstTimeOpenNoticeDes) {
-                    requireActivity().showMenuPrompt(
-                        R.id.menu_notice_share,
-                        R.string.sharable,
-                        resources.getString(
-                            R.string.sharable_des,
-                            resources.getString(R.string.subject)
-                        )
-                    )
-                    pref.edit()
-                        .putBoolean(FIRST_TIME_OPEN_SYLLABUS_DES, false)
-                        .apply()
-                }
-            }
-        }) { it ->
+        addMenuHost(R.menu.notice_description_menu) { it ->
             when (it.itemId) {
                 R.id.menu_notice_share -> {
                     subject?.let { subject ->
@@ -106,6 +86,7 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
                     }
                     true
                 }
+
                 else -> false
             }
         }
@@ -134,6 +115,7 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
                         com.google.android.material.R.attr.colorSurface
                     )
                 }
+
                 else -> {
                     activity?.changeStatusBarToolbarColor(
                         R.id.toolbar,

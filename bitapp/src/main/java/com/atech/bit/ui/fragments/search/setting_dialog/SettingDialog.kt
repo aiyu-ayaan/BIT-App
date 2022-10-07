@@ -28,7 +28,7 @@ class SettingDialog : DialogFragment() {
         val dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(R.string.search_setting))
             .setView(binding.root)
-            .setPositiveButton(resources.getString(R.string.save)) { dialog, which ->
+            .setPositiveButton(resources.getString(R.string.save)) { _, _ ->
                 binding.apply {
                     saveSettingInDataStore(
                         checkEvent.isChecked,
@@ -38,7 +38,7 @@ class SettingDialog : DialogFragment() {
                     )
                 }
             }
-            .setNegativeButton(resources.getString(R.string.cancel)) { dialog, which ->
+            .setNegativeButton(resources.getString(R.string.cancel)) { _, _ ->
 
             }
 

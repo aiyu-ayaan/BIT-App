@@ -28,7 +28,12 @@ import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.annotation.*
+import androidx.annotation.AttrRes
+import androidx.annotation.ChecksSdkIntAtLeast
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -39,7 +44,6 @@ import androidx.core.widget.NestedScrollView
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.recyclerview.widget.RecyclerView
-import com.atech.core.BuildConfig
 import com.atech.core.R
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.IsPresent
@@ -62,7 +66,7 @@ import java.io.IOException
 import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 
 inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) -> Unit)) =
@@ -531,6 +535,9 @@ fun getPendingIntentFlag() =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
 
 
+@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.TIRAMISU)
+fun checkForAPI33() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
 /**
  * Open Custom Tab
  * @since 4.0.4
@@ -538,10 +545,10 @@ fun getPendingIntentFlag() =
  */
 fun Context.openCustomChromeTab(link: String) = this.run {
     val defaultColors = CustomTabColorSchemeParams.Builder().setToolbarColor(
-            MaterialColors.getColor(
-                this, androidx.appcompat.R.attr.colorAccent, Color.RED
-            )
-        ).build()
+        MaterialColors.getColor(
+            this, androidx.appcompat.R.attr.colorAccent, Color.RED
+        )
+    ).build()
     try {
         val customTabIntent =
             CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
@@ -628,6 +635,7 @@ inline fun Activity.onScrollColorChange(
         0 -> {
             to.invoke()
         }
+
         else -> {
             from.invoke()
         }

@@ -120,9 +120,14 @@ object ComponentList {
         Component(
             "org.jetbrains.kotlinx:kotlinx-coroutines-core",
             "https://github.com/Kotlin/kotlinx.coroutines"
-        ),Component(
-            "uk.co.samuelwall:material-tap-target-prompt",
-            "https://github.com/sjwall/MaterialTapTargetPrompt"
+        ),
+        Component(
+            "com.squareup.retrofit2:retrofit",
+            "https://square.github.io/retrofit/"
+        ),
+        Component(
+            "com.squareup.retrofit2:converter-gson",
+            "https://square.github.io/retrofit/#:~:text=Gson%3A%20com.squareup.retrofit2%3Aconverter%2Dgson"
         )
     )
 }

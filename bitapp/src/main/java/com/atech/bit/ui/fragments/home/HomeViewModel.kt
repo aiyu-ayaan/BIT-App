@@ -10,24 +10,31 @@
 
 package com.atech.bit.ui.fragments.home
 
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.MainStateEvent
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.ui.events.EventRepository
 import com.atech.core.data.ui.holiday.Holiday
 import com.atech.core.data.ui.holiday.HolidayRepository
-import com.atech.core.data.ui.syllabus.SyllabusRepository
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val state: SavedStateHandle,
@@ -35,7 +42,6 @@ class HomeViewModel @Inject constructor(
     private val calendar: Calendar,
     private val syllabusDao: SyllabusDao,
     private val attendanceDao: AttendanceDao,
-    private val syllabusRepository: SyllabusRepository,
     private val eventRepository: EventRepository,
 ) : ViewModel() {
 
@@ -57,6 +63,7 @@ class HomeViewModel @Inject constructor(
                             _dataStateMain.value = dataState
                         }.launchIn(viewModelScope)
                 }
+
                 MainStateEvent.NoInternet -> {
                 }
             }
@@ -81,11 +88,7 @@ class HomeViewModel @Inject constructor(
         syllabusDao.getSyllabusHome(it, "PE")
     }.asLiveData()
 
-    val attAttendance = attendanceDao.getAllAttendance().asLiveData()
-
-    fun getSyllabus() = viewModelScope.launch {
-        syllabusRepository.getSyllabus()
-    }
+    val attAttendance = attendanceDao.getNonArchiveAttendance().asLiveData()
 
 
     fun getEvent(start: Long, end: Long) =

@@ -1,4 +1,4 @@
-package com.atech.core.api.model
+package com.atech.core.api.syllabus.model
 
 import android.os.Parcelable
 import androidx.annotation.Keep

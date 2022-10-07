@@ -4,15 +4,16 @@ buildscript {
         playStoreCoreVersion = "1.8.1"
         materail3Version = "1.8.0-alpha01"
         playServicesAuthVersion = "20.3.0"
+        playServicesAds ="21.2.0"
         firebaseFireStoreVersion = "24.3.1"
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.4'
         lifecycle_version = "2.5.1"
-        fragment_version = "1.5.2"
+        fragment_version = '1.5.3'
         nav_version = "2.5.2"
-        hilt_version = '2.43.2'
+        hilt_version = '2.44'
         roomVersion = '2.4.3'
-        glideVersion = '4.13.2'
+        glideVersion = '4.14.1'
         dataStoreVersion = "1.0.0"
         lottiVersion = '5.2.0'
         recyclerViewVersion = "1.2.1"
@@ -28,9 +29,8 @@ buildscript {
         review_version = "2.0.0"
         graphVersion = "v3.1.0"
         mediaVersion = "1.0.0-beta02"
-        tapTargetVersion = "3.3.2"
         cryptoreVersion = "1.4.0"
-        retrofit_version = "2.4.0"
+        retrofit_version = '2.9.0'
         retrofit_json_version = "2.9.0"
     }
     dependencies {

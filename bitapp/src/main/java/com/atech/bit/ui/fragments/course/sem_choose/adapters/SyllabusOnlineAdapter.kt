@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowSyllabusOnlineBinding
-import com.atech.core.api.model.DiffUtilLabSyllabusCallback
-import com.atech.core.api.model.DiffUtilTheorySyllabusCallback
-import com.atech.core.api.model.Lab
-import com.atech.core.api.model.Theory
+import com.atech.core.api.syllabus.model.DiffUtilLabSyllabusCallback
+import com.atech.core.api.syllabus.model.DiffUtilTheorySyllabusCallback
+import com.atech.core.api.syllabus.model.Lab
+import com.atech.core.api.syllabus.model.Theory
 
 class SyllabusTheoryOnlineAdapter(
     private val onClick: (Theory) -> Unit
@@ -30,8 +30,9 @@ class SyllabusTheoryOnlineAdapter(
         holder.bind(getItem(position)) { binding, theory ->
             binding.apply {
                 subjectTextView.text = theory.subjectName.trim()
-                subjectCodeTextView.text =
-                    binding.root.context.resources.getString(R.string.theory_code, theory.code)
+                subjectCodeTextView.text = binding.root.context.resources.getString(
+                    R.string.theory_code, theory.code, theory.type
+                )
                 creditTextView.text = theory.credit.toString()
             }
         }
@@ -56,10 +57,9 @@ class SyllabusLabOnlineAdapter(
             LayoutInflater.from(parent.context), parent, false
         )
     ) { pos ->
-        if (pos != RecyclerView.NO_POSITION)
-            startPos?.let {
-                onClick(getItem(pos - it))
-            }
+        if (pos != RecyclerView.NO_POSITION) startPos?.let {
+            onClick(getItem(pos - it))
+        }
     }
 
     override fun onBindViewHolder(holder: SyllabusOnlineViewHolder<Lab>, position: Int) {
@@ -67,8 +67,9 @@ class SyllabusLabOnlineAdapter(
             binding.apply {
 
                 subjectTextView.text = lab.subjectName.trim()
-                subjectCodeTextView.text =
-                    binding.root.context.resources.getString(R.string.lab_code, lab.code)
+                subjectCodeTextView.text = binding.root.context.resources.getString(
+                    R.string.lab_code, lab.code, lab.type
+                )
                 creditTextView.text = lab.credit.toString()
             }
         }

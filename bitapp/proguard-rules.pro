@@ -10,3 +10,12 @@
 -keepclassmembers class * implements android.os.Parcelable {
     static ** CREATOR;
 }
+-keep public class com.google.android.gms.ads.** {
+    public *;
+}
+
+-keep public class com.google.ads.** {
+    public *;
+}
+
+-dontwarn com.google.android.gms.**

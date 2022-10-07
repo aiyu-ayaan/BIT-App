@@ -32,7 +32,7 @@ class ListAllViewModel @Inject constructor(
 ) : ViewModel() {
     private val _attendanceEventFlow = Channel<AttendanceEvent>()
     private val _allAttendanceEvent: Flow<List<AttendanceModel>> =
-        attendanceDao.getAllAttendance()
+        attendanceDao.getNonArchiveAttendance()
     val allAttendance = _allAttendanceEvent.asLiveData()
 
     val attendanceEvent = _attendanceEventFlow.receiveAsFlow()
