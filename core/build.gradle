@@ -23,11 +23,9 @@ android {
     productFlavors {
         playStore {
             dimension "type"
-            versionNameSuffix ".playstore"
         }
         internalBeta {
             dimension "type"
-            versionNameSuffix ".internalBeta"
         }
     }
 
