@@ -16,8 +16,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 26
-        versionName "4.0"
+        versionCode 27
+        versionName "4.1.1 Patch 1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,11 +32,11 @@ android {
     productFlavors {
         playStore {
             dimension "type"
-            versionNameSuffix " [Playstore]"
+            versionNameSuffix "-global"
         }
         internalBeta {
             dimension "type"
-            versionNameSuffix " [InternalBeta]"
+            versionNameSuffix "-beta"
         }
     }
 

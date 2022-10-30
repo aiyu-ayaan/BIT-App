@@ -1,7 +1,6 @@
 package com.atech.bit.ui.fragments.home
 
 import android.Manifest
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,7 +14,6 @@ import android.os.Looper
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
-import android.view.animation.LinearInterpolator
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -46,6 +44,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
+import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.Encryption.decryptText
@@ -148,7 +147,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 navigateToWelcomeScreen()
             }
 
-            attendanceClick.setOnClickListener {
+            attendanceClick.root.setOnClickListener {
                 navigateToAttendance()
             }
             edit.setOnClickListener {
@@ -531,7 +530,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setProgressBar() {
+        val attendanceHomeAdapter = AttendanceHomeAdapter(defPercentage)
+        binding.attendanceClick.recyclerViewShowAttendance.apply {
+            adapter = attendanceHomeAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(false)
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+            binding.attendanceClick.attendanceIndicator.attachToRecyclerView(this, snapHelper)
+            attendanceHomeAdapter.registerAdapterDataObserver(binding.attendanceClick.attendanceIndicator.adapterDataObserver);
+        }
         viewModel.attAttendance.observe(viewLifecycleOwner) {
+            attendanceHomeAdapter.submitList(it)
             var sumPresent = 0
             var sumTotal = 0
             it.forEach { at ->
@@ -546,19 +557,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
             setCondition(finalPercentage.toInt(), sumPresent, sumTotal)
-            binding.apply {
+            binding.attendanceClick.apply {
                 textViewTotal.text = sumTotal.toString()
                 textViewPresent.text = sumPresent.toString()
                 val df = DecimalFormat("#.#")
                 df.roundingMode = RoundingMode.FLOOR
-                textViewPercentage.text = df.format(finalPercentage)
-                progressBarHome.progress = finalPercentage.toInt()
-                val progressAnimator = ObjectAnimator.ofInt(
-                    binding.progressBarHome, "progress", 0, finalPercentage.toInt()
-                )
-                progressAnimator.duration = 2000
-                progressAnimator.interpolator = LinearInterpolator()
-                progressAnimator.start()
+                textViewOverAllAttendance.text =
+                    resources.getString(R.string.overallAttendance, df.format(finalPercentage))
             }
         }
     }
@@ -571,7 +576,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val day = calculatedDays(present, total) { p, t ->
                     (((100 * p) - (defPercentage * t)) / defPercentage)
                 }.toInt()
-                binding.textViewStats.text = when {
+                binding.attendanceClick.textViewStats.text = when {
                     per == defPercentage || day == 0 -> "On track don't miss next class"
 
                     day > 0 -> "You can leave $day class"
@@ -583,7 +588,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
                 }
-                binding.textViewStats.text = "Attend Next ${(ceil(day)).toInt()} Class"
+                binding.attendanceClick.textViewStats.text =
+                    "Attend Next ${(ceil(day)).toInt()} Class"
             }
         }
     }
