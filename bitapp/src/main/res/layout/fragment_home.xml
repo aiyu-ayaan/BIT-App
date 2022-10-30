@@ -226,24 +226,31 @@
                         android:id="@+id/show_event"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/text_event"
-                        tools:listitem="@layout/row_notice_3" />
+                        android:layout_below="@id/text_event" />
                 </com.google.android.material.card.MaterialCardView>
-
+                <me.relex.circleindicator.CircleIndicator2
+                    android:id="@+id/event_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/grid_2"
+                    android:layout_marginTop="@dimen/grid_1"
+                    ads:ci_drawable="@drawable/dots_indicator_selected"
+                    ads:layout_constraintEnd_toEndOf="parent"
+                    ads:layout_constraintStart_toStartOf="@+id/material_card_view_event_recycler_view"
+                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view" />
 
                 <TextView
                     android:id="@+id/text_holiday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/grid_1"
-                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_0_5"
                     android:layout_marginBottom="@dimen/grid_1"
                     android:padding="@dimen/grid_0_25"
                     android:text="@string/holidayThisMonth"
                     android:textAppearance="?attr/textAppearanceTitleSmall"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
+                    app:layout_constraintTop_toBottomOf="@+id/event_indicator"
                     app:layout_goneMarginStart="@dimen/grid_2"
                     tools:visibility="visible" />
 
@@ -254,14 +261,14 @@
                     android:layout_alignTop="@+id/text_holiday"
                     android:layout_alignBottom="@+id/text_holiday"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_0_5"
                     android:layout_marginEnd="@dimen/grid_2"
                     android:gravity="center"
                     android:text="@string/show_all"
                     android:textAppearance="?attr/textAppearanceCaption"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view"
+                    app:layout_constraintTop_toBottomOf="@+id/event_indicator"
                     tools:visibility="visible" />
 
 

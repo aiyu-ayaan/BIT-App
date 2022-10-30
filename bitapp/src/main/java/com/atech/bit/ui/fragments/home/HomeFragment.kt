@@ -33,6 +33,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.withTransaction
 import com.atech.bit.NavGraphDirections
@@ -420,14 +421,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setHoliday() = binding.apply {
         showHoliday.apply {
-            addItemDecoration(DividerItemDecorationNoLast(
-                requireContext(), LinearLayoutManager.VERTICAL
-            ).apply {
-                setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-            })
             adapter = holidayAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
+            addItemDecoration(
+                DividerItemDecorationNoLast(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL
+                ).apply {
+                    setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                })
         }
         holidayAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -450,12 +453,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.apply {
             showEvent.apply {
                 adapter = eventAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(DividerItemDecorationNoLast(
-                    requireContext(), LinearLayoutManager.VERTICAL
-                ).apply {
-                    setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-                })
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                val snapHelper = PagerSnapHelper()
+                snapHelper.attachToRecyclerView(this)
+                eventIndicator.attachToRecyclerView(this, snapHelper)
+                eventAdapter.registerAdapterDataObserver(eventIndicator.adapterDataObserver);
             }
             eventAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -463,22 +465,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 navigateToEvent()
             }
         }
-        lifecycleScope.launchWhenStarted {
-            viewModel.getEvent(
-                communicatorViewModel.instanceBefore14Days!!,
-                communicatorViewModel.instanceAfter15Days!!
-            ).observe(viewLifecycleOwner) {
-                it?.let {
-
-                    it.take(3).let { list ->
-                        eventAdapter.submitList(list)
-                    }
-                    binding.materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
-                    binding.textEvent.isVisible = it.isNotEmpty()
-                    binding.textShowAllEvent.isVisible = it.isNotEmpty()
-                }
+        viewModel.getEvent(
+            communicatorViewModel.instanceBefore14Days!!,
+            communicatorViewModel.instanceAfter15Days!!
+        ).observe(viewLifecycleOwner) {
+            it?.let {
+                eventAdapter.submitList(it)
+                binding.materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
+                binding.textEvent.isVisible = it.isNotEmpty()
+                binding.textShowAllEvent.isVisible = it.isNotEmpty()
+                binding.eventIndicator.isVisible = it.isNotEmpty()
             }
         }
+
     }
 
     private fun navigateToImageView(link: String) {
@@ -719,8 +718,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
                 is DataState.Error -> binding.root.showSnackBar(
-                    "${dateState.exception.message}",
-                    -1
+                    "${dateState.exception.message}", -1
                 )
 
                 DataState.Loading -> {

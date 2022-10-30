@@ -32,6 +32,7 @@ buildscript {
         cryptoreVersion = "1.4.0"
         retrofit_version = '2.9.0'
         retrofit_json_version = "2.9.0"
+        circleIndicatorVersion= "2.1.6"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'

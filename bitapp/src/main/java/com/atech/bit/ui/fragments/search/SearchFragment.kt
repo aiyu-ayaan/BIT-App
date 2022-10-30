@@ -5,6 +5,7 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSearchBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
+import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
@@ -162,6 +164,13 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             showSearchHoliday.apply {
                 adapter = holidayAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    })
             }
         }
         viewModel.holiday.observe(viewLifecycleOwner) {
@@ -194,8 +203,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }
