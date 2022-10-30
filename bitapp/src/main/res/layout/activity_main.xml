@@ -9,51 +9,58 @@
     tools:context=".ui.activity.main_activity.MainActivity">
 
 
-    <RelativeLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_alignParentTop="true"
-            android:background="?attr/colorSurface"
-            android:clipChildren="false"
-            android:paddingEnd="@dimen/grid_1"
-            app:contentInsetStartWithNavigation="0dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
-            <LinearLayout
-                android:id="@+id/search_toolbar"
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/grid_6"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentTop="true"
+                android:layout_gravity="top"
+                android:background="?attr/colorSurface"
+                android:clipChildren="false"
+                android:paddingEnd="@dimen/grid_1"
+                app:contentInsetStartWithNavigation="0dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
 
-                <EditText
-                    android:id="@+id/searchInput"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/searchForSubject"
-                    android:imeOptions="flagNoExtractUi|actionSearch"
-                    android:inputType="textNoSuggestions" />
+                <LinearLayout
+                    android:id="@+id/search_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/grid_6"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                <ImageButton
-                    android:id="@+id/settingDialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/actionBarItemBackground"
-                    android:padding="@dimen/grid_2"
-                    app:srcCompat="@drawable/ic_settings"
-                    app:tint="?attr/colorPrimary" />
-            </LinearLayout>
-        </com.google.android.material.appbar.MaterialToolbar>
+                    <EditText
+                        android:id="@+id/searchInput"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/searchForSubject"
+                        android:imeOptions="flagNoExtractUi|actionSearch"
+                        android:inputType="textNoSuggestions" />
 
+                    <ImageButton
+                        android:id="@+id/settingDialog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/actionBarItemBackground"
+                        android:padding="@dimen/grid_2"
+                        app:srcCompat="@drawable/ic_settings"
+                        app:tint="?attr/colorPrimary" />
+                </LinearLayout>
+            </com.google.android.material.appbar.MaterialToolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragment"
@@ -63,6 +70,7 @@
             android:layout_above="@id/bottomLayout"
             android:layout_below="@id/toolbar"
             app:defaultNavHost="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:navGraph="@navigation/nav_graph" />
 
 
@@ -71,6 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_nav_height"
             android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
             android:orientation="vertical">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -78,12 +88,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="?attr/bottomBar"
-                app:itemRippleColor="?attr/bottomSheetBackground"
-                app:labelVisibilityMode="labeled"
+                app:itemRippleColor="?attr/bottomBar"
+                app:labelVisibilityMode="unlabeled"
                 app:menu="@menu/menu_bottom_nav" />
 
         </LinearLayout>
-    </RelativeLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigationView"
@@ -93,6 +103,7 @@
         android:background="?attr/colorSurface"
         app:dividerInsetEnd="0dp"
         app:dividerInsetStart="0dp"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:headerLayout="@layout/navigation_slider_header"
         app:menu="@menu/navigation_slider" />
 </androidx.drawerlayout.widget.DrawerLayout>
