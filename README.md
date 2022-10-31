@@ -23,7 +23,12 @@ https://github.com/aiyu-ayaan/BIT-App.git
 To build this app you need `google-services.json`. To get this [Fill out](https://docs.google.com/forms/d/e/1FAIpQLSdyDC_3ZNr8JhodGCgAyC_02Ba_p8pXtngEdBER1obwYx-4Qg/viewform?usp=sf_link) 
 this form to gain access to `google-services.json`.
 
+Use this to build the app . 
+```
+./gradlew :bitapp:assembleInternalBetaDebug
+```
+
 Here are a few contribution tips:
 - You can use either Java or, preferably, Kotlin.
 - Make sure your code is logical and well formatted. If using Kotlin, see [“Coding conventions” in the Kotlin documentation](https://kotlinlang.org/docs/coding-conventions.html).
-- Set development as the base branch for pull requests.
+- Set `development` as the base branch for pull requests.
