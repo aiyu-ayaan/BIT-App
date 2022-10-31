@@ -15,7 +15,7 @@ and tools needed for BIT students.
 
 ## Contribute code
 Anyone and everyone is welcome to contribute. Please take a moment to review
-our [code of conduct](https://github.com/auth0/open-source-template/blob/master/CODE-OF-CONDUCT.md)
+our [code of conduct](CODE_OF_CONDUCT.md)
 You can use Git to clone
 ```
 https://github.com/aiyu-ayaan/BIT-App.git
