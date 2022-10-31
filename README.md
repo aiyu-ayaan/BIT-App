@@ -32,3 +32,6 @@ Here are a few contribution tips:
 - You can use either Java or, preferably, Kotlin.
 - Make sure your code is logical and well formatted. If using Kotlin, see [“Coding conventions” in the Kotlin documentation](https://kotlinlang.org/docs/coding-conventions.html).
 - Set `development` as the base branch for pull requests.
+
+## License
+[MIT License](LICENSE)
