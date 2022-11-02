@@ -23,9 +23,15 @@ https://github.com/aiyu-ayaan/BIT-App.git
 To build this app you need `google-services.json`. To get this [Fill out](https://docs.google.com/forms/d/e/1FAIpQLSdyDC_3ZNr8JhodGCgAyC_02Ba_p8pXtngEdBER1obwYx-4Qg/viewform?usp=sf_link) 
 this form to gain access to `google-services.json`.
 
-Use this to build the app . 
+Use this to build the app.
+
+`On Mac/Linux`
 ```
 ./gradlew :bitapp:assembleInternalBetaDebug
+```
+`On Windows`
+```
+gradle :bitapp:assembleInternalBetaDebug
 ```
 
 Here are a few contribution tips:
@@ -33,5 +39,32 @@ Here are a few contribution tips:
 - Make sure your code is logical and well formatted. If using Kotlin, see [“Coding conventions” in the Kotlin documentation](https://kotlinlang.org/docs/coding-conventions.html).
 - Set `development` as the base branch for pull requests.
 
+## Quick Links
+- [App Website](https://bitbyaiyu.github.io/)
+- [Repo Link](https://github.com/bitbyaiyu/bitbyaiyu.github.io)
+- [Join Internal Testing](https://docs.google.com/forms/d/e/1FAIpQLSeDtpzZTi0u4HIBm2JWwqNvcOnkJnlIfXJeHgrUwn57kgwk9w/viewform?usp=sf_link)
+
 ## License
-[MIT License](LICENSE)
+```
+MIT License
+
+Copyright (c) 2022 Ayaan
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
