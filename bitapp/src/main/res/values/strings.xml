@@ -8,8 +8,8 @@
     <string name="topic_update">UpdateByAiyu</string>
     <string name="topic_app">AppByAiyu</string>
     <!--    App -->
-    <string name="app_version">4.1.1 Patch 1</string>
-    <string name="full_version">Version 4.1.1 Patch 1</string>
+    <string name="app_version">4.1.1 Patch 2</string>
+    <string name="full_version">Version 4.1.1 Patch 2</string>
     <string name="instaLink">https://www.instagram.com/bit.app_</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 
@@ -82,7 +82,7 @@
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="connect">Connect With Us</string>
-    <string name="report">Report Bug</string>
+    <string name="report">Issue</string>
     <string name="home">Home</string>
     <string name="notice">Notice</string>
     <string name="courses">Courses</string>
@@ -221,5 +221,9 @@
     <string name="lessThanDefault">😥</string>
     <string name="lessThan60">😣</string>
     <string name="def_emoji">🤓</string>
+    <string name="mail">Mail</string>
+    <string name="about_app">About App</string>
+    <string name="issue_link">https://github.com/aiyu-ayaan/BIT-App/issues/new/choose</string>
+    <string name="github_link">https://github.com/aiyu-ayaan/BIT-App</string>
 
 </resources>

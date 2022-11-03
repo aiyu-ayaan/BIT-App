@@ -152,9 +152,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                         .openLinks(this@MainActivity, R.string.no_intent_available)
 
                     R.id.nav_share -> shareApp()
-                    R.id.nav_bug -> this@MainActivity.openBugLink()
+                    R.id.nav_mail -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
                     R.id.nav_rate -> startReviewFlow()
+                    R.id.nav_issue-> this@MainActivity.openCustomChromeTab(resources.getString(R.string.issue_link))
+                    R.id.nav_github-> this@MainActivity.openCustomChromeTab(resources.getString(R.string.github_link))
                     else -> NavigationUI.onNavDestinationSelected(it, navController)
                 }
                 true
