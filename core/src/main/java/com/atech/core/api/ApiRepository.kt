@@ -3,8 +3,11 @@ package com.atech.core.api
 import android.util.Log
 import androidx.room.withTransaction
 import com.atech.core.utils.DataState
+import com.atech.core.utils.handler
 import com.atech.core.utils.networkBoundResource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(
@@ -34,5 +37,5 @@ class ApiRepository @Inject constructor(
         } catch (e: Exception) {
             emit(DataState.Error(e))
         }
-    }
+    }.flowOn(handler)
 }

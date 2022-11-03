@@ -4,6 +4,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
+@Keep
 data class AboutUsModel(
     val devs: List<Devs>,
     val managers: List<Devs>,
