@@ -202,7 +202,7 @@
         tools:layout="@layout/fragment_detail_dev">
         <argument
             android:name="dev"
-            app:argType="com.atech.core.data.network.aboutus.Devs" />
+            app:argType="com.atech.core.api.aboutus.Devs" />
     </fragment>
     <fragment
         android:id="@+id/acknowledgementFragment"

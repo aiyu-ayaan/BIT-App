@@ -2,12 +2,13 @@ package com.atech.core.api
 
 import android.util.Log
 import androidx.room.withTransaction
-import com.atech.core.api.syllabus.SyllabusApi
+import com.atech.core.utils.DataState
 import com.atech.core.utils.networkBoundResource
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(
-    private val api: SyllabusApi, private val db: ApiCacheDatabase
+    private val api: BITApiClient, private val db: ApiCacheDatabase
 ) {
     private val syllabusDao = db.syllabusCacheDao()
 
@@ -20,8 +21,18 @@ class ApiRepository @Inject constructor(
             try {
                 syllabusDao.insertSyllabus(syllabus)
             } catch (e: Exception) {
-                Log.d("XXX", "getSyllabus: $e")
+                Log.d("XXX", "getSyllabus: ${e.localizedMessage}")
             }
         }
     })
+
+    fun getAboutUsData() = flow {
+        emit(DataState.Loading)
+        try {
+            val data = api.getAboutUs()
+            emit(DataState.Success(data))
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
 }

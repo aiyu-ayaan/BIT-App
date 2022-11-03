@@ -149,7 +149,7 @@
     <string name="open_new_app">Open New App</string>
     <string name="choose_image">Choose Your Image</string>
     <string name="about">About</string>
-    <string name="contributor">App Managers</string>
+    <string name="managers">App Managers</string>
     <string name="viewInPlayStore">View in Play Store</string>
     <string name="no_data">No data found</string>
     <string name="chooseTheme">Choose Theme</string>
@@ -180,7 +180,7 @@
     <string name="may_be_next_time">"May be next time "</string>
     <string name="note_from_dev">This app is made by one of the student of BIT Lalpur. It is not made by any society !!</string>
     <string name="dev">Know About <a href="https://github.com/aiyu-ayaan">Dev</a></string>
-    <string name="management">Society / NGO Managers</string>
+    <string name="contributors">Contributors</string>
     <string name="ngos">NGOs</string>
     <string name="societies_and_ngos">Societies &#38; NGOs</string>
     <string name="watch_video"><a href="https://github.com/aiyu-ayaan">Watch Video</a></string>

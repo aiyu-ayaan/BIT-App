@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowDevlopersBinding
-import com.atech.core.data.network.aboutus.Devs
+import com.atech.core.api.aboutus.Devs
 import com.atech.core.utils.loadImageCircular
 
 class DevsAdapter(
@@ -40,7 +40,7 @@ class DevsAdapter(
         fun bind(devs: Devs) {
             binding.root.transitionName = devs.name
             binding.apply {
-                devs.img_link?.loadImageCircular(
+                devs.img_link.loadImageCircular(
                     itemView,
                     photo,
                     binding.progressBarDev,

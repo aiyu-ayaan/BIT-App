@@ -33,7 +33,7 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
 
         binding.apply {
             viewModel.dev?.let { dev ->
-                dev.img_link?.loadImageCircular(
+                dev.img_link.loadImageCircular(
                     binding.root,
                     imageViewProfile,
                     binding.progressBarDescription,
@@ -43,37 +43,37 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                 binding.textViewRole.text = dev.des
 
 
-                buttonWeb.isVisible = dev.website!!.isNotBlank()
-                divWebsite.isVisible = dev.website!!.isNotBlank()
+                buttonWeb.isVisible = dev.website.isNotBlank()
+                divWebsite.isVisible = dev.website.isNotBlank()
 
-                buttonStackOverFlow.isVisible = dev.stackoverflow!!.isNotBlank()
-                divStack.isVisible = dev.stackoverflow!!.isNotBlank()
+                buttonStackOverFlow.isVisible = dev.stackoverflow.isNotBlank()
+                divStack.isVisible = dev.stackoverflow.isNotBlank()
 
-                buttonGit.isVisible = dev.github!!.isNotBlank()
-                divGit.isVisible = dev.github!!.isNotBlank()
+                buttonGit.isVisible = dev.github.isNotBlank()
+                divGit.isVisible = dev.github.isNotBlank()
 
-                buttonLinkedin.isVisible = dev.linkedin!!.isNotBlank()
-                divLink.isVisible = dev.linkedin!!.isNotBlank()
+                buttonLinkedin.isVisible = dev.linkedin.isNotBlank()
+                divLink.isVisible = dev.linkedin.isNotBlank()
 
 
-                buttonInstagram.isVisible = dev.instagram!!.isNotBlank()
+                buttonInstagram.isVisible = dev.instagram.isNotBlank()
 
 
 
                 buttonStackOverFlow.setOnClickListener {
-                    requireActivity().openCustomChromeTab(dev.stackoverflow!!)
+                    requireActivity().openCustomChromeTab(dev.stackoverflow)
                 }
                 buttonWeb.setOnClickListener {
-                    requireActivity().openCustomChromeTab(dev.website!!)
+                    requireActivity().openCustomChromeTab(dev.website)
                 }
                 buttonInstagram.setOnClickListener {
-                    dev.instagram?.openLinks(requireActivity(), R.string.no_intent_available)
+                    dev.instagram.openLinks(requireActivity(), R.string.no_intent_available)
                 }
                 buttonGit.setOnClickListener {
-                    requireActivity().openCustomChromeTab(dev.github!!)
+                    requireActivity().openCustomChromeTab(dev.github)
                 }
                 buttonLinkedin.setOnClickListener {
-                    requireActivity().openCustomChromeTab(dev.linkedin!!)
+                    requireActivity().openCustomChromeTab(dev.linkedin)
                 }
                 imageViewProfile.setOnClickListener {
                     exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
@@ -81,8 +81,8 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
                         MaterialSharedAxis(MaterialSharedAxis.Z,  false)
                     findNavController().navigate(
                         NavGraphDirections.actionGlobalViewImageFragment(
-                            dev.img_link!!,
-                            dev.name!!
+                            dev.img_link,
+                            dev.name
                         )
                     )
                 }

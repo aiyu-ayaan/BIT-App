@@ -21,6 +21,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
 import android.view.View
@@ -691,4 +693,15 @@ fun getRgbFromHex(hex: String): String {
     val g = Color.green(initColor)
     val b = Color.blue(initColor)
     return "rgb($r,$g,$b)"
+}
+
+@Suppress("DEPRECATION")
+fun hasNetwork(context: Context): Boolean? {
+    var isConnected: Boolean? = false // Initial Value
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
+    if (activeNetwork != null && activeNetwork.isConnected)
+        isConnected = true
+    return isConnected
 }
