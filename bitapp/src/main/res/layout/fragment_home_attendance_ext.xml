@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/bottomBar"
+    app:strokeColor="?attr/bottomBar">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/grid_1">
+
+        <TextView
+            android:id="@+id/text_view_over_all_attendance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_0_5"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/overallAttendance" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_show_attendance"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/recycler_view_height_attendance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_over_all_attendance" />
+
+        <me.relex.circleindicator.CircleIndicator2
+            android:id="@+id/attendance_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_0_25"
+            ads:ci_drawable="@drawable/dots_indicator_selected"
+            app:layout_constraintEnd_toEndOf="@+id/recycler_view_show_attendance"
+            app:layout_constraintStart_toStartOf="@+id/recycler_view_show_attendance"
+            app:layout_constraintTop_toBottomOf="@+id/recycler_view_show_attendance" />
+
+
+        <TextView
+            android:id="@+id/text_view_stats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:textAlignment="center"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintEnd_toEndOf="@+id/attendance_indicator"
+            app:layout_constraintStart_toStartOf="@+id/attendance_indicator"
+            app:layout_constraintTop_toBottomOf="@+id/attendance_indicator"
+            tools:text="You can leave 3 classes" />
+
+        <TextView
+            android:id="@+id/text_view_present"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_stats"
+            tools:text="30" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/totalPresent"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_present"
+            app:layout_constraintStart_toStartOf="@+id/text_view_present"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_present" />
+
+
+        <TextView
+            android:id="@+id/text_view_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_stats"
+            tools:text="60" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/totalClasses"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_total"
+            app:layout_constraintStart_toStartOf="@+id/text_view_total"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_total" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

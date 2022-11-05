@@ -10,7 +10,7 @@ package com.atech.bit.ui.fragments.about_us.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.atech.core.data.network.aboutus.Devs
+import com.atech.core.api.aboutus.Devs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

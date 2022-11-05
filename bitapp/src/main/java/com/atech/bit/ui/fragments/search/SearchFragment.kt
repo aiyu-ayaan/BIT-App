@@ -5,6 +5,7 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSearchBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
+import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
@@ -29,6 +31,7 @@ import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
 import com.atech.core.data.ui.notice.Notice3
+import com.atech.core.utils.DataState
 import com.atech.core.utils.REQUEST_ADAPTER_SEARCH
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -162,13 +165,29 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             showSearchHoliday.apply {
                 adapter = holidayAdapter
                 layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(
+                    DividerItemDecorationNoLast(
+                        requireContext(),
+                        LinearLayoutManager.VERTICAL
+                    ).apply {
+                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                    })
             }
         }
-        viewModel.holiday.observe(viewLifecycleOwner) {
-            binding.holidayView.isVisible =
-                it.isNotEmpty() && searchPreference.holiday
-            holidayAdapter.submitList(it)
-            if (isEmpty) checkNoResult()
+        viewModel.getHolidays().observe(viewLifecycleOwner) {
+            when (it) {
+                is DataState.Error -> binding.holidayView.isVisible = false
+                is DataState.Success -> {
+                    binding.holidayView.isVisible =
+                        it.data.holidays.isNotEmpty() && searchPreference.holiday
+                    holidayAdapter.submitList(it.data.holidays)
+                    if (isEmpty) checkNoResult()
+                }
+
+                else -> {
+
+                }
+            }
         }
     }
 
@@ -194,8 +213,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }

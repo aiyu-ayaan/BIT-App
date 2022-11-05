@@ -74,4 +74,6 @@ const val SHARE_EVENT = "event"
 const val SHARE_NOTICE = "notice"
 const val REMOVE_CACHES = "Remove_Caches"
 const val CURRENT_YEAR = "Current_Year"
-const val GITHUB_LINK= "Github_Link"
+const val GITHUB_LINK = "Github_Link"
+const val VIEW_SEARCH = 435 * 345
+const val VIEW_HOME = 435 * 345 + 1

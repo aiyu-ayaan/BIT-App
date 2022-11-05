@@ -10,12 +10,14 @@
 
 package com.atech.bit.ui.fragments.search
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.atech.core.api.ApiRepository
+import com.atech.core.api.holiday.Holiday
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.ui.events.EventRepository
-import com.atech.core.data.ui.holiday.HolidayRepository
 import com.atech.core.data.ui.notice.NoticeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,10 +31,9 @@ class SearchViewModel @Inject constructor(
     private val state: SavedStateHandle,
     private val syllabusDao: SyllabusDao,
     private val noticeRepository: NoticeRepository,
-    private val holidayRepository: HolidayRepository,
-    private val eventRepository: EventRepository
+    private val eventRepository: EventRepository,
+    private val apiRepository: ApiRepository
 ) : ViewModel() {
-
 
 
     val query = MutableStateFlow("")
@@ -46,11 +47,21 @@ class SearchViewModel @Inject constructor(
         noticeRepository.getNoticeSearch(it)
     }.asLiveData()
 
-    val holiday = query.flatMapLatest {
-        holidayRepository.getSearchHoliday(it)
-    }.asLiveData()
 
     val event = query.flatMapLatest {
         eventRepository.getSearchEvent(it)
+    }.asLiveData()
+
+    fun getHolidays() = query.flatMapLatest { query ->
+        apiRepository.getHolidayData(query.lowercase()) { q, allHoliday ->
+            val list = mutableListOf<Holiday>()
+            allHoliday.holidays.filter { it.day.lowercase().contains(q) }.forEach { list.add(it) }
+            allHoliday.holidays.filter { it.date.lowercase().contains(q) }.forEach { list.add(it) }
+            allHoliday.holidays.filter { it.month.lowercase().contains(q) }.forEach { list.add(it) }
+            allHoliday.holidays.filter { it.occasion.lowercase().contains(q) }
+                .forEach { list.add(it) }
+            Log.d("AAA", "getHolidays: ${list.size}")
+            list
+        }
     }.asLiveData()
 }

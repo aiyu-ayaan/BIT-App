@@ -128,6 +128,10 @@ object ComponentList {
         Component(
             "com.squareup.retrofit2:converter-gson",
             "https://square.github.io/retrofit/#:~:text=Gson%3A%20com.squareup.retrofit2%3Aconverter%2Dgson"
+        ),
+        Component(
+            "me.relex:circleindicator",
+            "https://github.com/ongakuer/CircleIndicator"
         )
     )
 }

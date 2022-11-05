@@ -8,9 +8,9 @@
     <string name="topic_update">UpdateByAiyu</string>
     <string name="topic_app">AppByAiyu</string>
     <!--    App -->
-    <string name="app_version">4.0</string>
-    <string name="full_version">Version 4.0</string>
-    <string name="instaLink">https://www.instagram.com/bit.app_</string>
+    <string name="app_version">4.1.1 Patch 3</string>
+    <string name="full_version">Version 4.1.1 Patch 3</string>
+    <string name="instaLink">https://bitapp.page.link/insta</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 
     <string name="theory">Theory</string>
@@ -82,7 +82,7 @@
     <string name="communicate">Communicate</string>
     <string name="share">Share</string>
     <string name="connect">Connect With Us</string>
-    <string name="report">Report Bug</string>
+    <string name="report">Issue</string>
     <string name="home">Home</string>
     <string name="notice">Notice</string>
     <string name="courses">Courses</string>
@@ -149,7 +149,7 @@
     <string name="open_new_app">Open New App</string>
     <string name="choose_image">Choose Your Image</string>
     <string name="about">About</string>
-    <string name="contributor">App Managers</string>
+    <string name="managers">App Managers</string>
     <string name="viewInPlayStore">View in Play Store</string>
     <string name="no_data">No data found</string>
     <string name="chooseTheme">Choose Theme</string>
@@ -180,7 +180,7 @@
     <string name="may_be_next_time">"May be next time "</string>
     <string name="note_from_dev">This app is made by one of the student of BIT Lalpur. It is not made by any society !!</string>
     <string name="dev">Know About <a href="https://github.com/aiyu-ayaan">Dev</a></string>
-    <string name="management">Society / NGO Managers</string>
+    <string name="contributors">Contributors</string>
     <string name="ngos">NGOs</string>
     <string name="societies_and_ngos">Societies &#38; NGOs</string>
     <string name="watch_video"><a href="https://github.com/aiyu-ayaan">Watch Video</a></string>
@@ -215,10 +215,15 @@
     <string name="holiday_title">Holiday %s</string>
     <string name="archive">Archive</string>
     <string name="unarchive">Unarchive</string>
+    <string name="present_by_total">%s / %s</string>
     <string name="moreThan80">😎</string>
     <string name="moreThanDefault">😁</string>
     <string name="lessThanDefault">😥</string>
     <string name="lessThan60">😣</string>
     <string name="def_emoji">🤓</string>
+    <string name="mail">Mail</string>
+    <string name="about_app">About App</string>
+    <string name="issue_link">https://bitapp.page.link/issue</string>
+    <string name="github_link">https://bitapp.page.link/BIT</string>
 
 </resources>

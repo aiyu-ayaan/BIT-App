@@ -1,7 +1,6 @@
 package com.atech.bit.ui.fragments.home
 
 import android.Manifest
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,7 +14,6 @@ import android.os.Looper
 import android.os.Parcelable
 import android.util.Log
 import android.view.View
-import android.view.animation.LinearInterpolator
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -33,6 +31,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.withTransaction
 import com.atech.bit.NavGraphDirections
@@ -45,14 +44,15 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.event.EventsAdapter
+import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
-import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.loadAdds
+import com.atech.bit.utils.sortBySno
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.BitDatabase
@@ -147,7 +147,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 navigateToWelcomeScreen()
             }
 
-            attendanceClick.setOnClickListener {
+            attendanceClick.root.setOnClickListener {
                 navigateToAttendance()
             }
             edit.setOnClickListener {
@@ -161,9 +161,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.setStateListener(MainStateEvent.GetData)
-        }
 
 //        SetUpSyllabus
         settingUpSyllabus()
@@ -420,14 +417,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setHoliday() = binding.apply {
         showHoliday.apply {
-            addItemDecoration(DividerItemDecorationNoLast(
-                requireContext(), LinearLayoutManager.VERTICAL
-            ).apply {
-                setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-            })
             adapter = holidayAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(false)
+            addItemDecoration(
+                DividerItemDecorationNoLast(
+                    requireContext(),
+                    LinearLayoutManager.VERTICAL
+                ).apply {
+                    setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
+                })
         }
         holidayAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -450,12 +449,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.apply {
             showEvent.apply {
                 adapter = eventAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                addItemDecoration(DividerItemDecorationNoLast(
-                    requireContext(), LinearLayoutManager.VERTICAL
-                ).apply {
-                    setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-                })
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                val snapHelper = PagerSnapHelper()
+                snapHelper.attachToRecyclerView(this)
+                eventIndicator.attachToRecyclerView(this, snapHelper)
+                eventAdapter.registerAdapterDataObserver(eventIndicator.adapterDataObserver);
             }
             eventAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -463,22 +461,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 navigateToEvent()
             }
         }
-        lifecycleScope.launchWhenStarted {
-            viewModel.getEvent(
-                communicatorViewModel.instanceBefore14Days!!,
-                communicatorViewModel.instanceAfter15Days!!
-            ).observe(viewLifecycleOwner) {
-                it?.let {
-
-                    it.take(3).let { list ->
-                        eventAdapter.submitList(list)
-                    }
-                    binding.materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
-                    binding.textEvent.isVisible = it.isNotEmpty()
-                    binding.textShowAllEvent.isVisible = it.isNotEmpty()
-                }
+        viewModel.getEvent(
+            communicatorViewModel.instanceBefore14Days!!,
+            communicatorViewModel.instanceAfter15Days!!
+        ).observe(viewLifecycleOwner) {
+            it?.let {
+                eventAdapter.submitList(it)
+                binding.materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
+                binding.textEvent.isVisible = it.isNotEmpty()
+                binding.textShowAllEvent.isVisible = it.isNotEmpty()
+                binding.eventIndicator.isVisible = it.isNotEmpty()
             }
         }
+
     }
 
     private fun navigateToImageView(link: String) {
@@ -532,7 +527,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setProgressBar() {
+        val attendanceHomeAdapter = AttendanceHomeAdapter(defPercentage)
+        binding.attendanceClick.recyclerViewShowAttendance.apply {
+            adapter = attendanceHomeAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(false)
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+            binding.attendanceClick.attendanceIndicator.attachToRecyclerView(this, snapHelper)
+            attendanceHomeAdapter.registerAdapterDataObserver(binding.attendanceClick.attendanceIndicator.adapterDataObserver);
+        }
         viewModel.attAttendance.observe(viewLifecycleOwner) {
+            attendanceHomeAdapter.submitList(it)
             var sumPresent = 0
             var sumTotal = 0
             it.forEach { at ->
@@ -547,19 +554,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
             setCondition(finalPercentage.toInt(), sumPresent, sumTotal)
-            binding.apply {
+            binding.attendanceClick.apply {
                 textViewTotal.text = sumTotal.toString()
                 textViewPresent.text = sumPresent.toString()
                 val df = DecimalFormat("#.#")
                 df.roundingMode = RoundingMode.FLOOR
-                textViewPercentage.text = df.format(finalPercentage)
-                progressBarHome.progress = finalPercentage.toInt()
-                val progressAnimator = ObjectAnimator.ofInt(
-                    binding.progressBarHome, "progress", 0, finalPercentage.toInt()
-                )
-                progressAnimator.duration = 2000
-                progressAnimator.interpolator = LinearInterpolator()
-                progressAnimator.start()
+                textViewOverAllAttendance.text =
+                    resources.getString(R.string.overallAttendance, df.format(finalPercentage))
             }
         }
     }
@@ -572,7 +573,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val day = calculatedDays(present, total) { p, t ->
                     (((100 * p) - (defPercentage * t)) / defPercentage)
                 }.toInt()
-                binding.textViewStats.text = when {
+                binding.attendanceClick.textViewStats.text = when {
                     per == defPercentage || day == 0 -> "On track don't miss next class"
 
                     day > 0 -> "You can leave $day class"
@@ -584,7 +585,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
                 }
-                binding.textViewStats.text = "Attend Next ${(ceil(day)).toInt()} Class"
+                binding.attendanceClick.textViewStats.text =
+                    "Attend Next ${(ceil(day)).toInt()} Class"
             }
         }
     }
@@ -701,7 +703,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.dividerLab.isVisible = it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
         }
-        viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
+        viewModel.getHoliday().observe(viewLifecycleOwner) { dateState ->
             when (dateState) {
                 is DataState.Success -> {
                     binding.apply {
@@ -709,7 +711,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         materialCardViewHolidayRecyclerView.isVisible = true
                         textShowAllHoliday.isVisible = true
                     }
-                    holidayAdapter.submitList(dateState.data)
+                    holidayAdapter.submitList(dateState.data.holidays.sortBySno())
                 }
 
                 DataState.Empty -> binding.apply {
@@ -719,8 +721,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
                 is DataState.Error -> binding.root.showSnackBar(
-                    "${dateState.exception.message}",
-                    -1
+                    "${dateState.exception.message}", -1
                 )
 
                 DataState.Loading -> {

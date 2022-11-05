@@ -2,15 +2,15 @@ buildscript {
     ext {
         kotlin_version = "1.6.20"
         playStoreCoreVersion = "1.8.1"
-        materail3Version = "1.8.0-alpha01"
+        materail3Version = "1.8.0-alpha02"
         playServicesAuthVersion = "20.3.0"
-        playServicesAds ="21.2.0"
-        firebaseFireStoreVersion = "24.3.1"
+        playServicesAds ="21.3.0"
+        firebaseFireStoreVersion = "24.4.0"
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.4'
         lifecycle_version = "2.5.1"
-        fragment_version = '1.5.3'
-        nav_version = "2.5.2"
+        fragment_version = '1.5.4'
+        nav_version = "2.5.3"
         hilt_version = '2.44'
         roomVersion = '2.4.3'
         glideVersion = '4.14.1'
@@ -32,6 +32,7 @@ buildscript {
         cryptoreVersion = "1.4.0"
         retrofit_version = '2.9.0'
         retrofit_json_version = "2.9.0"
+        circleIndicatorVersion= "2.1.6"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'
@@ -42,8 +43,8 @@ buildscript {
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id 'com.android.application' version '7.3.0' apply false
-    id 'com.android.library' version '7.3.0' apply false
+    id 'com.android.application' version '7.3.1' apply false
+    id 'com.android.library' version '7.3.1' apply false
     id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
 }
 

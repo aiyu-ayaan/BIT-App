@@ -60,10 +60,11 @@
                     android:id="@+id/nav_connect"
                     android:icon="@drawable/ic_cwu"
                     android:title="@string/connect" />
+
                 <item
-                    android:id="@+id/nav_bug"
-                    android:icon="@drawable/ic_bug"
-                    android:title="@string/report" />
+                    android:id="@+id/nav_mail"
+                    android:icon="@drawable/ic_mail"
+                    android:title="@string/mail" />
             </menu>
         </item>
     </group>
@@ -94,6 +95,22 @@
                     android:icon="@drawable/ic_color"
                     android:title="@string/theme" />
 
+            </menu>
+        </item>
+    </group>
+    <group
+        android:id="@+id/group_7"
+        android:checkableBehavior="single">
+        <item android:title="@string/about_app">
+            <menu>
+                <item
+                    android:id="@+id/nav_github"
+                    android:icon="@drawable/ic_github"
+                    android:title="@string/git" />
+                <item
+                    android:id="@+id/nav_issue"
+                    android:icon="@drawable/ic_issue"
+                    android:title="@string/report" />
             </menu>
         </item>
     </group>

@@ -12,7 +12,8 @@ package com.atech.bit.ui.fragments.holiday
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.atech.core.data.ui.holiday.HolidayRepository
+import androidx.lifecycle.asLiveData
+import com.atech.core.api.ApiRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,15 +21,15 @@ import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
+@OptIn(ExperimentalCoroutinesApi::class)
 class HolidayViewModel @Inject constructor(
     private val state: SavedStateHandle,
-    private val repository: HolidayRepository
+    private val apiRepository: ApiRepository
 ) : ViewModel() {
 
     val query = MutableStateFlow("")
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val holidays = query.flatMapLatest {
-        repository.getHoliday(it)
-    }
+    fun getHoliday() = query.flatMapLatest {
+        apiRepository.getHolidayData(it)
+    }.asLiveData()
 }
