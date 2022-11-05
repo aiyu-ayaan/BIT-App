@@ -31,6 +31,7 @@ import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
 import com.atech.core.data.ui.notice.Notice3
+import com.atech.core.utils.DataState
 import com.atech.core.utils.REQUEST_ADAPTER_SEARCH
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -173,11 +174,20 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     })
             }
         }
-        viewModel.holiday.observe(viewLifecycleOwner) {
-            binding.holidayView.isVisible =
-                it.isNotEmpty() && searchPreference.holiday
-            holidayAdapter.submitList(it)
-            if (isEmpty) checkNoResult()
+        viewModel.getHolidays().observe(viewLifecycleOwner) {
+            when (it) {
+                is DataState.Error -> binding.holidayView.isVisible = false
+                is DataState.Success -> {
+                    binding.holidayView.isVisible =
+                        it.data.holidays.isNotEmpty() && searchPreference.holiday
+                    holidayAdapter.submitList(it.data.holidays)
+                    if (isEmpty) checkNoResult()
+                }
+
+                else -> {
+
+                }
+            }
         }
     }
 

@@ -13,7 +13,13 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.atech.bit.BuildConfig
 import com.atech.core.R
-import com.atech.core.utils.*
+import com.atech.core.api.holiday.Holiday
+import com.atech.core.utils.SHARE_EVENT
+import com.atech.core.utils.SHARE_TYPE_EVENT
+import com.atech.core.utils.SHARE_TYPE_NOTICE
+import com.atech.core.utils.SHARE_TYPE_SYLLABUS
+import com.atech.core.utils.convertLongToTime
+import com.atech.core.utils.handler
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
@@ -25,7 +31,7 @@ import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
+import java.util.Date
 
 
 fun getUid(firebaseAuth: FirebaseAuth) = firebaseAuth.currentUser?.uid
@@ -75,18 +81,23 @@ fun Long.getDate(): String {
         seconds < 60 -> {
             " Just now"
         }
+
         minutes < 60 -> {
             " $minutes minutes ago"
         }
+
         hours < 24 -> {
             " $hours hours ago"
         }
+
         days < 30 -> {
             " ${this.convertLongToTime("dd MMM")}"
         }
+
         months < 12 -> {
             " ${this.convertLongToTime("dd MMM")}"
         }
+
         else -> {
             " ${this.convertLongToTime("dd MMM yyyy")}"
         }
@@ -113,18 +124,23 @@ fun Long.calculateTimeDifference(): String {
         seconds < 60 -> {
             "Just now"
         }
+
         minutes < 60 -> {
             "$minutes minutes ago"
         }
+
         hours < 24 -> {
             "$hours hours ago"
         }
+
         days < 30 -> {
             "$days days ago"
         }
+
         months < 12 -> {
             "$months months ago"
         }
+
         else -> {
             "$years years ago"
         }
@@ -259,6 +275,7 @@ fun Activity.openShareImageDeepLink(
                     SHARE_EVENT -> resources.getString(
                         R.string.deep_link_share_event_link, path.trim()
                     )
+
                     else -> resources.getString(R.string.deep_link_share_notice, path.trim())
                 }
             )
@@ -316,4 +333,8 @@ fun Activity.openShareImageDeepLink(
 fun Context.loadAdds(adsView: AdView) = this.apply {
     val adRequest = AdRequest.Builder().build()
     adsView.loadAd(adRequest)
+}
+
+fun List<Holiday>?.sortBySno(): List<Holiday> {
+    return this?.sortedBy { it.sno } ?: emptyList()
 }

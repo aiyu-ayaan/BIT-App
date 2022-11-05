@@ -15,8 +15,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.databinding.RowHolidayHomeBinding
-import com.atech.core.data.ui.holiday.DiffCallbackHoliday
-import com.atech.core.data.ui.holiday.Holiday
+import com.atech.core.api.holiday.DiffCallbackHoliday
+import com.atech.core.api.holiday.Holiday
 
 class HolidayHomeAdapter(
     private val clickListener: (() -> Unit)? = null

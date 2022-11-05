@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.holiday
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.appcompat.widget.Toolbar
@@ -8,13 +9,18 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHolidayBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.loadAdds
-import com.atech.core.utils.*
+import com.atech.bit.utils.sortBySno
+import com.atech.core.utils.CURRENT_YEAR
+import com.atech.core.utils.DataState
+import com.atech.core.utils.RemoteConfigUtil
+import com.atech.core.utils.TAG
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.showSnackBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -34,6 +40,8 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
     @Inject
     lateinit var remoteConfigUtil: RemoteConfigUtil
 
+    private lateinit var holidayAdapter: HolidayAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
@@ -45,7 +53,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
         val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
         setTitle(toolbar)
 
-        val holidayAdapter = HolidayAdapter()
+        holidayAdapter = HolidayAdapter()
         binding.apply {
             showHoliday.apply {
                 addItemDecoration(
@@ -62,30 +70,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
         }
         viewModel.query.value = "main"
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.holidays.collect { main ->
-                when (main) {
-                    DataState.Loading -> {
-                        binding.progressBarHoliday.isVisible = true
-                    }
 
-                    is DataState.Success -> {
-                        binding.progressBarHoliday.isVisible = false
-                        holidayAdapter.submitList(main.data)
-                    }
-                    DataState.Empty -> {
-
-                    }
-                    is DataState.Error -> {
-
-                        binding.root.showSnackBar(
-                            "${main.exception.message}",
-                            Snackbar.LENGTH_SHORT
-                        )
-                    }
-                }
-            }
-        }
         binding.apply {
             toggleChip.check(R.id.bt_main)
 
@@ -99,7 +84,35 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
         detectScroll()
 
         setAds()
+        getData()
     }
+
+    private fun getData() {
+        viewModel.getHoliday().observe(viewLifecycleOwner) {
+            when (it) {
+                DataState.Empty -> {
+                    binding.progressBarHoliday.isVisible = true
+                }
+
+                is DataState.Error -> binding.root.showSnackBar(
+                    "${it.exception.message}",
+                    Snackbar.LENGTH_SHORT
+                )
+
+                DataState.Loading -> {
+
+                }
+
+                is DataState.Success -> {
+                    Log.d(TAG, "getData:${it.data.holidays} ")
+                    binding.progressBarHoliday.isVisible = false
+                    holidayAdapter.submitList(it.data.holidays.sortBySno())
+                }
+            }
+        }
+    }
+
+
     private fun setAds() {
         requireContext().loadAdds(binding.adView)
     }
@@ -124,6 +137,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
                         com.google.android.material.R.attr.colorSurface
                     )
                 }
+
                 else -> {
                     activity?.changeStatusBarToolbarColor(
                         R.id.toolbar,

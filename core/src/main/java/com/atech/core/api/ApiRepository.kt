@@ -2,12 +2,10 @@ package com.atech.core.api
 
 import android.util.Log
 import androidx.room.withTransaction
-import com.atech.core.utils.DataState
-import com.atech.core.utils.handler
+import com.atech.core.api.holiday.Holiday
+import com.atech.core.api.holiday.HolidayModel
 import com.atech.core.utils.networkBoundResource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import com.atech.core.utils.networkFetchData
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(
@@ -29,13 +27,26 @@ class ApiRepository @Inject constructor(
         }
     })
 
-    fun getAboutUsData() = flow {
-        emit(DataState.Loading)
-        try {
-            val data = api.getAboutUs()
-            emit(DataState.Success(data))
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
+    fun getAboutUsData() = networkFetchData(
+        fetch = {
+            api.getAboutUs()
         }
-    }.flowOn(handler)
+    )
+
+    fun getHolidayData(
+        query: String = "all", filter: (query: String, HolidayModel) -> List<Holiday> = { q, h ->
+            h.holidays.filter { holiday ->
+                holiday.type == q
+            }
+        }
+    ) = networkFetchData(
+        fetch = {
+            api.getHoliday()
+        },
+        action = { holidays ->
+            HolidayModel(filter(query,holidays))
+        }
+    )
+
+
 }

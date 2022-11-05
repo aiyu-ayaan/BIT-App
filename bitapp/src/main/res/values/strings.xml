@@ -10,7 +10,7 @@
     <!--    App -->
     <string name="app_version">4.1.1 Patch 2</string>
     <string name="full_version">Version 4.1.1 Patch 2</string>
-    <string name="instaLink">https://www.instagram.com/bit.app_</string>
+    <string name="instaLink">https://bitapp.page.link/insta</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 
     <string name="theory">Theory</string>
@@ -223,7 +223,7 @@
     <string name="def_emoji">🤓</string>
     <string name="mail">Mail</string>
     <string name="about_app">About App</string>
-    <string name="issue_link">https://github.com/aiyu-ayaan/BIT-App/issues/new/choose</string>
-    <string name="github_link">https://github.com/aiyu-ayaan/BIT-App</string>
+    <string name="issue_link">https://bitapp.page.link/issue</string>
+    <string name="github_link">https://bitapp.page.link/BIT</string>
 
 </resources>
