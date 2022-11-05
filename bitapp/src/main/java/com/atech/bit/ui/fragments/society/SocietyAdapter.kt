@@ -18,13 +18,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowSocietyBinding
+import com.atech.core.api.society.Society
 import com.atech.core.utils.loadImage
-import com.atech.core.data.network.society.SocietyNetworkEntity
 
 class SocietyAdapter(
-    private val listener: (society: SocietyNetworkEntity, view: View) -> Unit
+    private val listener: (society: Society, view: View) -> Unit
 ) :
-    ListAdapter<SocietyNetworkEntity, SocietyAdapter.SocietyViewHolder>(SocietyDiff()) {
+    ListAdapter<Society, SocietyAdapter.SocietyViewHolder>(SocietyDiff()) {
 
     inner class SocietyViewHolder(
         private val binding: RowSocietyBinding
@@ -38,7 +38,7 @@ class SocietyAdapter(
             }
         }
 
-        fun onBind(societyNetworkEntity: SocietyNetworkEntity) {
+        fun onBind(societyNetworkEntity: Society) {
             binding.apply {
                 binding.root.transitionName = societyNetworkEntity.name
                 textViewAbout.text = societyNetworkEntity.name
@@ -65,15 +65,15 @@ class SocietyAdapter(
         holder.onBind(getItem(position))
     }
 
-    private class SocietyDiff : DiffUtil.ItemCallback<SocietyNetworkEntity>() {
+    private class SocietyDiff : DiffUtil.ItemCallback<Society>() {
         override fun areItemsTheSame(
-            oldItem: SocietyNetworkEntity,
-            newItem: SocietyNetworkEntity
+            oldItem: Society,
+            newItem: Society
         ): Boolean = oldItem.name == newItem.name
 
         override fun areContentsTheSame(
-            oldItem: SocietyNetworkEntity,
-            newItem: SocietyNetworkEntity
+            oldItem: Society,
+            newItem: Society
         ): Boolean = oldItem.name == newItem.name &&
                 oldItem.des == newItem.des &&
                 oldItem.ins == newItem.ins &&

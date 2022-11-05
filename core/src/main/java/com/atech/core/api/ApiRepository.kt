@@ -48,5 +48,10 @@ class ApiRepository @Inject constructor(
         }
     )
 
+    fun getSocietyData() = networkFetchData(
+        fetch = {
+            api.getSociety()
+        }
+    )
 
 }

@@ -2,6 +2,7 @@ package com.atech.core.api
 
 import com.atech.core.api.aboutus.AboutUsModel
 import com.atech.core.api.holiday.HolidayModel
+import com.atech.core.api.society.SocietyModel
 import com.atech.core.api.syllabus.model.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -23,7 +24,7 @@ interface BITApiClient {
     @GET("data/holiday/holiday.json")
     suspend fun getHoliday(): HolidayModel
 
-
-
+    @GET("data/society/society.json")
+    suspend fun getSociety(): SocietyModel
 
 }

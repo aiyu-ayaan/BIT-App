@@ -230,7 +230,7 @@
         <argument
             android:name="society"
             android:defaultValue="@null"
-            app:argType="com.atech.core.data.network.society.SocietyNetworkEntity"
+            app:argType="com.atech.core.api.society.Society"
             app:nullable="true" />
 
     </fragment>

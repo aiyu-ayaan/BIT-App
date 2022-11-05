@@ -10,7 +10,7 @@ package com.atech.bit.ui.fragments.society.description
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.atech.core.data.network.society.SocietyNetworkEntity
+import com.atech.core.api.society.Society
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,14 +19,14 @@ class SocietyViewModel @Inject constructor(
     private val state: SavedStateHandle,
 ) : ViewModel() {
 
-    var society = state.get<SocietyNetworkEntity>("society")
+    var society = state.get<Society>("society")
         set(value) {
             field = value
-            state.set("society", value)
+            state["society"] = value
         }
     var title = state.get<String>("title")
         set(value) {
             field = value
-            state.set("title", value)
+            state["title"] = value
         }
 }
