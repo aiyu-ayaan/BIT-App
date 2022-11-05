@@ -10,17 +10,22 @@
 
 package com.atech.core.data.room
 
+import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteTable
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.atech.core.data.room.attendance.*
+import com.atech.core.data.room.attendance.AttendanceDao
+import com.atech.core.data.room.attendance.AttendanceModel
+import com.atech.core.data.room.attendance.DaysTypeConvector
+import com.atech.core.data.room.attendance.IsPresentTypeConvector
+import com.atech.core.data.room.attendance.StackTypeConvector
 import com.atech.core.data.room.events.DateConverter
 import com.atech.core.data.room.events.EventsCacheEntity
 import com.atech.core.data.room.events.EventsDao
-import com.atech.core.data.room.holiday.HolidayCacheEntity
-import com.atech.core.data.room.holiday.HolidayDao
 import com.atech.core.data.room.notice.Notice3CacheEntity
 import com.atech.core.data.room.notice.Notice3Dao
 import com.atech.core.data.room.syllabus.SyllabusDao
@@ -34,11 +39,19 @@ import javax.inject.Provider
 
 @Database(
     entities = [
-        HolidayCacheEntity::class, AttendanceModel::class,
+        AttendanceModel::class,
         SyllabusModel::class, Notice3CacheEntity::class,
         EventsCacheEntity::class
     ],
-    version = 10
+    autoMigrations = [
+        AutoMigration(
+            from = 10,
+            to = 11,
+            spec = BitDatabase.DeleteMigration::class
+        )
+    ],
+    version = 11,
+    exportSchema = true
 )
 @TypeConverters(
     DaysTypeConvector::class,
@@ -47,7 +60,7 @@ import javax.inject.Provider
     DateConverter::class
 )
 abstract class BitDatabase : RoomDatabase() {
-    abstract fun holidayDao(): HolidayDao
+
     abstract fun attendanceDao(): AttendanceDao
     abstract fun syllabusDao(): SyllabusDao
     abstract fun notice3Dao(): Notice3Dao
@@ -154,6 +167,9 @@ abstract class BitDatabase : RoomDatabase() {
 
     }
 
+
+    @DeleteTable(tableName = "holiday_table")
+    class DeleteMigration : AutoMigrationSpec
 
     //Adding Syllabus
     class SyllabusCallback @Inject constructor(

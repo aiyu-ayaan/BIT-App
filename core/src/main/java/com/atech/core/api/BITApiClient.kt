@@ -1,6 +1,7 @@
 package com.atech.core.api
 
 import com.atech.core.api.aboutus.AboutUsModel
+import com.atech.core.api.holiday.HolidayModel
 import com.atech.core.api.syllabus.model.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,8 +17,13 @@ interface BITApiClient {
     suspend fun getSubjects(@Path("sem_year") semYear: String): SyllabusResponse
 
 
-    @GET("data/aboutUs.json")
+    @GET("data/aboutUs/aboutUs.json")
     suspend fun getAboutUs(): AboutUsModel
+
+    @GET("data/holiday/holiday.json")
+    suspend fun getHoliday(): HolidayModel
+
+
 
 
 }

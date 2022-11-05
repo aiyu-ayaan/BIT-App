@@ -10,26 +10,17 @@
 
 package com.atech.bit.ui.fragments.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
-import com.atech.bit.utils.MainStateEvent
+import com.atech.core.api.ApiRepository
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.ui.events.EventRepository
-import com.atech.core.data.ui.holiday.Holiday
-import com.atech.core.data.ui.holiday.HolidayRepository
-import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
@@ -38,37 +29,21 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val state: SavedStateHandle,
-    private val holidayRepository: HolidayRepository,
+    private val apiRepository: ApiRepository,
     private val calendar: Calendar,
     private val syllabusDao: SyllabusDao,
     private val attendanceDao: AttendanceDao,
     private val eventRepository: EventRepository,
 ) : ViewModel() {
 
-
-    private val _dataStateMain: MutableLiveData<DataState<List<Holiday>>> = MutableLiveData()
-    val dataStateMain: LiveData<DataState<List<Holiday>>>
-        get() = _dataStateMain
-
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
 
 
-    fun setStateListener(mainStateEvent: MainStateEvent) {
-        viewModelScope.launch {
-            when (mainStateEvent) {
-                MainStateEvent.GetData -> {
-                    holidayRepository.getHolidayByMonth(calenderQuery)
-                        .onEach { dataState ->
-                            _dataStateMain.value = dataState
-                        }.launchIn(viewModelScope)
-                }
+    fun getHoliday() = apiRepository.getHolidayData(calenderQuery, filter = { query, allHoliday ->
+        allHoliday.holidays.filter { it.month == query }
+    }).asLiveData()
 
-                MainStateEvent.NoInternet -> {
-                }
-            }
-        }
-    }
 
     //    Syllabus
     val syllabusQuery = MutableStateFlow("-fdfjdfk")

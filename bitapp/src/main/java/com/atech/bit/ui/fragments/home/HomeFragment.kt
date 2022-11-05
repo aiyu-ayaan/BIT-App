@@ -49,10 +49,10 @@ import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
-import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.loadAdds
+import com.atech.bit.utils.sortBySno
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.BitDatabase
@@ -161,9 +161,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.setStateListener(MainStateEvent.GetData)
-        }
 
 //        SetUpSyllabus
         settingUpSyllabus()
@@ -706,7 +703,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.dividerLab.isVisible = it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
         }
-        viewModel.dataStateMain.observe(viewLifecycleOwner) { dateState ->
+        viewModel.getHoliday().observe(viewLifecycleOwner) { dateState ->
             when (dateState) {
                 is DataState.Success -> {
                     binding.apply {
@@ -714,7 +711,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                         materialCardViewHolidayRecyclerView.isVisible = true
                         textShowAllHoliday.isVisible = true
                     }
-                    holidayAdapter.submitList(dateState.data)
+                    holidayAdapter.submitList(dateState.data.holidays.sortBySno())
                 }
 
                 DataState.Empty -> binding.apply {
