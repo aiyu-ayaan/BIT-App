@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
@@ -37,6 +39,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
+import com.atech.bit.utils.getVersion
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
 import com.atech.core.api.syllabus.SyllabusCacheDao
@@ -155,8 +158,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     R.id.nav_mail -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
                     R.id.nav_rate -> startReviewFlow()
-                    R.id.nav_issue-> this@MainActivity.openCustomChromeTab(resources.getString(R.string.issue_link))
-                    R.id.nav_github-> this@MainActivity.openCustomChromeTab(resources.getString(R.string.github_link))
+                    R.id.nav_issue -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.issue_link))
+                    R.id.nav_github -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.github_link))
                     else -> NavigationUI.onNavDestinationSelected(it, navController)
                 }
                 true
@@ -258,10 +261,10 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.calenderViewBottomSheet, R.id.attendanceMenu,
                 R.id.chooseImageBottomSheet, R.id.archiveBottomSheet ->
                     changeStatusBarToolbarColor(
-                    R.id.toolbar, R.attr.bottomSheetBackground
-                ).also {
-                    setStatusBarUiTheme(this, !this.isDark())
-                }
+                        R.id.toolbar, R.attr.bottomSheetBackground
+                    ).also {
+                        setStatusBarUiTheme(this, !this.isDark())
+                    }
 
                 R.id.logInFragment -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
                     this, R.attr.appLogoBackground, Color.WHITE
@@ -280,7 +283,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu, R.id.archiveBottomSheet,R.id.profileFragment
+                R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )
@@ -421,6 +424,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         val headerView = binding.navigationView.getHeaderView(0)
         val root = headerView.findViewById<RelativeLayout>(R.id.parent_layout)
         val button = headerView.findViewById<ImageButton>(R.id.button_about_us)
+        headerView.findViewById<TextView>(R.id.version).apply {
+            text = resources.getString(R.string.full_version,
+                getVersion()
+            )
+        }
         root?.setOnClickListener {
             navigateToAboutUs()
         }
