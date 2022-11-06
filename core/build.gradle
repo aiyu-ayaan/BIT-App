@@ -42,6 +42,9 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            aaptOptions {
+                ignoreAssetsPattern '!*.json'
+            }
         }
     }
     compileOptions {
