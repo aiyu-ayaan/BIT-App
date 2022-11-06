@@ -1,0 +1,79 @@
+
+name : Build 🏗️ and Release 🚀
+
+on :
+  push :
+    tags:
+      - v*_*
+
+jobs :
+  build :
+    runs-on : ubuntu-latest
+    steps:
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
+
+      - uses : actions/checkout@v2
+      - name : set up JDK 11
+        uses : actions/setup-java@v1
+        with :
+          java-version : 11
+          distribution : 'temurin'
+          cache : gradle
+
+      - name : Make gradlew executable
+        run : chmod +x ./gradlew
+
+      - name: Decode google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.APP_GOOGLE_JSON }}
+        run: echo $GOOGLE_SERVICES_JSON > ./bitapp/google-services.json
+
+      - name : Build Release APK and Bundle
+        run : ./gradlew :bitapp:assembleInternalBetaRelease
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name : Upload APK
+        uses : actions/upload-artifact@v2
+        with :
+          name : apk
+          path : bitapp/build/outputs/apk/internalBeta/release/bitapp-internalBeta-release-unsigned.apk
+
+  release:
+    name : Publish APK to GitHub
+    needs : build
+    runs-on : ubuntu-latest
+    steps :
+      - name : Download APK from build
+        uses: actions/download-artifact@v3
+        with:
+          name: apk
+      - name : Create Release
+        id : create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+        with:
+          tag_name: ${{ github.ref  }}
+          release_name: ${{ github.event.repository.name }} ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - ${{ github.event.head_commit.message }}
+          prerelease: true
+      - name : Upload APK to Release
+        id : upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bitapp-internalBeta-release-unsigned.apk
+          asset_name: BIT App ${{ github.ref }}.apk
+          asset_content_type: application/vnd.android.package-archive
