@@ -43,13 +43,6 @@ import javax.inject.Provider
         SyllabusModel::class, Notice3CacheEntity::class,
         EventsCacheEntity::class
     ],
-    autoMigrations = [
-        AutoMigration(
-            from = 10,
-            to = 11,
-            spec = BitDatabase.DeleteMigration::class
-        )
-    ],
     version = 11,
     exportSchema = true
 )
@@ -164,12 +157,12 @@ abstract class BitDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE attendance_table ADD COLUMN isArchive INTEGER DEFAULT 0")
             }
         }
-
+        var migration_10_11 = object : Migration(10, 11) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("DELETE FROM holiday_table")
+            }
+        }
     }
-
-
-    @DeleteTable(tableName = "holiday_table")
-    class DeleteMigration : AutoMigrationSpec
 
     //Adding Syllabus
     class SyllabusCallback @Inject constructor(
