@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAboutUsBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.utils.getVersion
 import com.atech.core.api.aboutus.Devs
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -44,6 +45,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
         restoreScroll()
+
         devAdapter = DevsAdapter { devs ->
             setOnAboutUsClickListener(devs)
         }
@@ -55,6 +57,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
         }
 
         binding.apply {
+            textView4.text =  getVersion()
             showDevs.apply {
                 addItemDecoration(
                     DividerItemDecorationNoLast(

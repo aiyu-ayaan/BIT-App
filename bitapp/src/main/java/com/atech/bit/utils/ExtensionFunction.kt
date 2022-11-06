@@ -338,3 +338,7 @@ fun Context.loadAdds(adsView: AdView) = this.apply {
 fun List<Holiday>?.sortBySno(): List<Holiday> {
     return this?.sortedBy { it.sno } ?: emptyList()
 }
+
+fun getVersion() = BuildConfig.VERSION_NAME
+    .replace("-beta", "")
+    .replace("-playStore", "")
