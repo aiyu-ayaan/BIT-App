@@ -87,8 +87,8 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                     binding.textViewSociety.isVisible = dataState.data.societies.isNotEmpty()
                     binding.materialCardViewNgo.isVisible = dataState.data.ngos.isNotEmpty()
                     binding.textViewNgos.isVisible = dataState.data.ngos.isNotEmpty()
-                    societyAdapter.submitList(dataState.data.societies)
-                    ngosAdapter.submitList(dataState.data.ngos)
+                    societyAdapter.submitList(dataState.data.societies.sortBySno())
+                    ngosAdapter.submitList(dataState.data.ngos.sortBySno())
                 }
 
                 is DataState.Error -> {
@@ -144,5 +144,15 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
                 R.attr.bottomBar
             )
         })
+    }
+
+    
+
+    /**
+    * @auther Nilay
+    * @since 4.1.1 Patch 3
+    */
+    private fun List<Society>?.sortBySno(): List<Society> {
+        return this?.sortedBy { it.sno } ?: emptyList()
     }
 }
