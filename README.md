@@ -40,9 +40,9 @@ Here are a few contribution tips:
 - Set `development` as the base branch for pull requests.
 
 ## Quick Links
-- [App Website](https://bitbyaiyu.github.io/)
-- [Repo Link](https://github.com/bitbyaiyu/bitbyaiyu.github.io)
-- [Join Internal Testing](https://docs.google.com/forms/d/e/1FAIpQLSeDtpzZTi0u4HIBm2JWwqNvcOnkJnlIfXJeHgrUwn57kgwk9w/viewform?usp=sf_link)
+- [WEBSITE](https://bitbyaiyu.github.io/) `&` [REPO LINK](https://github.com/bitbyaiyu/bitbyaiyu.github.io)
+- [JSON Rest API](https://aiyu-ayaan.github.io/BIT-App-Data/) `&` [REPO LINK](https://github.com/aiyu-ayaan/BIT-App-Data)
+- [JOIN INTERNAL TESTING](https://docs.google.com/forms/d/e/1FAIpQLSeDtpzZTi0u4HIBm2JWwqNvcOnkJnlIfXJeHgrUwn57kgwk9w/viewform?usp=sf_link)
 
 ## License
 ```
