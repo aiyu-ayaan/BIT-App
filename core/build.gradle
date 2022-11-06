@@ -23,6 +23,12 @@ android {
                 arg("room.schemaLocation", "$projectDir/schemas")
             }
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
     }
     sourceSets {
         getByName("androidTest").assets.srcDir("$projectDir/schemas")
