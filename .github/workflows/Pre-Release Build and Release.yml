@@ -1,10 +1,10 @@
 
-name : Build 🏗️ and Release 🚀
+name : Pre-Release 🏗️ and 🚀
 
 on :
   push :
     tags:
-      - v*_*
+      - pre-release-v*
 
 jobs :
   build :
