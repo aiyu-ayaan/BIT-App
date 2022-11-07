@@ -3,7 +3,7 @@ package com.atech.core.api
 import com.atech.core.api.aboutus.AboutUsModel
 import com.atech.core.api.holiday.HolidayModel
 import com.atech.core.api.society.SocietyModel
-import com.atech.core.api.syllabus.model.SyllabusResponse
+import com.atech.core.api.syllabus.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -14,8 +14,8 @@ interface BITApiClient {
         const val BASE_URL = "https://aiyu-ayaan.github.io/BIT-App-Data/"
     }
 
-    @GET("syllabus/data/{sem_year}.json")
-    suspend fun getSubjects(@Path("sem_year") semYear: String): SyllabusResponse
+    @GET("data/syllabus/{course}/{course_sem}.json")
+    suspend fun getSubjects(@Path("course")course : String,@Path("course_sem") courseYear: String): SyllabusResponse
 
 
     @GET("data/aboutUs/aboutUs.json")

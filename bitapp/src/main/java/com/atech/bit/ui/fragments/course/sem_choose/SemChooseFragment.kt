@@ -29,12 +29,17 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlin
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
-import com.atech.core.api.syllabus.model.Lab
-import com.atech.core.api.syllabus.model.Semesters
-import com.atech.core.api.syllabus.model.SubjectContent
-import com.atech.core.api.syllabus.model.Theory
+import com.atech.core.api.syllabus.Lab
+import com.atech.core.api.syllabus.Semesters
+import com.atech.core.api.syllabus.SubjectContent
+import com.atech.core.api.syllabus.Theory
 import com.atech.core.data.room.syllabus.SyllabusModel
-import com.atech.core.utils.*
+import com.atech.core.utils.DataState
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
+import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
+import com.atech.core.utils.RemoteConfigUtil
+import com.atech.core.utils.openCustomChromeTab
+import com.atech.core.utils.showSnackBar
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
@@ -222,42 +227,41 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun getOnlineSyllabus() {
-        viewModel.getOnlineSyllabus().observe(viewLifecycleOwner) {
-            it.data?.let { response ->
-                setViewOfOnlineSyllabusExt(true)
-                setOnLineData(response)
-            }
-            when (it) {
-                is Resource.Error -> {
-                    if (it.error is HttpException) {
+        viewModel.getOnlineSyllabus().observe(viewLifecycleOwner) { dataState ->
+            when (dataState) {
+                DataState.Empty -> {}
+                is DataState.Error -> {
+                    Log.d("AAA", "getOnlineSyllabus: ${dataState.exception}")
+                    if (dataState.exception is HttpException) {
                         binding.root.showSnackBar(
-                            "${it.error?.message}", Snackbar.LENGTH_SHORT, "Report"
+                            "${dataState.exception.message}", Snackbar.LENGTH_SHORT, "Report"
                         ) {
                             setViewOfOnlineSyllabusExt(false)
                             requireActivity().openBugLink(
                                 com.atech.core.R.string.bug_repost,
                                 "${this@SemChooseFragment.javaClass.simpleName}.class",
-                                it.error?.message
+                                dataState.exception.message
                             )
                         }
-                    } else {
-                        if (it.data == null) {
-                            setViewOfOnlineSyllabusExt(false)
-
-                        }
                     }
+
                 }
-                is Resource.Loading -> {
+
+                DataState.Loading -> {
                     binding.semChoseOnlineExt.progressBarLoading.isVisible = true
                     binding.semChoseOnlineExt.noData.isVisible = false
                     binding.semChoseOnlineExt.noDataText.isVisible = false
                 }
 
-                else -> {}
+                is DataState.Success -> {
+//                    setViewOfOnlineSyllabusExt(true)
+                    dataState.data.semesters?.let { syllabus ->
+                        setOnLineData(syllabus)
+                    }
+                    setViewOfOnlineSyllabusExt(dataState.data.semesters != null)
+                }
             }
         }
-
-
     }
 
     private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) {
@@ -313,6 +317,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                     getSyllabus(viewModel.request?.uppercase() ?: "BCA")
                     true
                 }
+
                 else -> false
             }
         }

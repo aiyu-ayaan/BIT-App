@@ -31,7 +31,6 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
@@ -42,7 +41,6 @@ import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.getVersion
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
-import com.atech.core.api.syllabus.SyllabusCacheDao
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.utils.APP_LOGO_LINK
@@ -50,7 +48,6 @@ import com.atech.core.utils.ERROR_LOG
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
 import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_USER_DONE_SET_UP
-import com.atech.core.utils.REMOVE_CACHES
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.TAG
 import com.atech.core.utils.UPDATE_REQUEST_CODE
@@ -114,8 +111,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     @Inject
     lateinit var remoteConfigUtil: RemoteConfigUtil
 
-    @Inject
-    lateinit var syllabusDao: SyllabusCacheDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -173,21 +168,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         if (u)
             getWarning()
         shareReview()
-        checkForClearCaches()
-    }
-
-    private fun checkForClearCaches() {
-        remoteConfigUtil.fetchData({
-            Log.d("XXX", "checkForClearCaches: ${it.message}")
-        }) {
-            val removeCaches = remoteConfigUtil.getBoolean(REMOVE_CACHES)
-            Log.d("XXX", "checkForClearCaches: $removeCaches")
-            if (removeCaches)
-                lifecycleScope.launchWhenStarted {
-                    syllabusDao.deleteAll()
-                    Log.d("XXX", "checkForClearCaches: Remove")
-                }
-        }
     }
 
 
@@ -425,7 +405,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         val root = headerView.findViewById<RelativeLayout>(R.id.parent_layout)
         val button = headerView.findViewById<ImageButton>(R.id.button_about_us)
         headerView.findViewById<TextView>(R.id.version).apply {
-            text = resources.getString(R.string.full_version,
+            text = resources.getString(
+                R.string.full_version,
                 getVersion()
             )
         }

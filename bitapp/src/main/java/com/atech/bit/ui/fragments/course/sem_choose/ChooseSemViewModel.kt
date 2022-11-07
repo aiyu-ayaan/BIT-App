@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.course.sem_choose
 
+import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -46,6 +47,7 @@ class ChooseSemViewModel @Inject constructor(
 
 
     fun getOnlineSyllabus() = sem.flatMapLatest { semester ->
+        Log.d("AAA", "getOnlineSyllabus: ${semester.lowercase()}")
         apiRepository.getSyllabus(semester.lowercase())
     }.asLiveData()
 }

@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowSyllabusOnlineBinding
-import com.atech.core.api.syllabus.model.DiffUtilLabSyllabusCallback
-import com.atech.core.api.syllabus.model.DiffUtilTheorySyllabusCallback
-import com.atech.core.api.syllabus.model.Lab
-import com.atech.core.api.syllabus.model.Theory
+import com.atech.core.api.syllabus.DiffUtilLabSyllabusCallback
+import com.atech.core.api.syllabus.DiffUtilTheorySyllabusCallback
+import com.atech.core.api.syllabus.Lab
+import com.atech.core.api.syllabus.Theory
 
 class SyllabusTheoryOnlineAdapter(
     private val onClick: (Theory) -> Unit
