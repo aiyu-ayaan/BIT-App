@@ -16,8 +16,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 30
-        versionName "4.1.1 Patch 4"
+        versionCode 31
+        versionName "4.1.1 Patch 5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,11 +30,11 @@ android {
     flavorDimensions "type"
 
     productFlavors {
-        playStore {
+        global {
             dimension "type"
             versionNameSuffix "-global"
         }
-        internalBeta {
+        beta {
             dimension "type"
             versionNameSuffix "-beta"
         }
@@ -93,8 +93,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-ads:$playServicesAds"
 
 //    crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     // ViewModel

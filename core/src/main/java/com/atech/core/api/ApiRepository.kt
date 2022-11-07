@@ -1,31 +1,26 @@
 package com.atech.core.api
 
-import android.util.Log
-import androidx.room.withTransaction
 import com.atech.core.api.holiday.Holiday
 import com.atech.core.api.holiday.HolidayModel
-import com.atech.core.utils.networkBoundResource
+import com.atech.core.api.syllabus.SyllabusResponse
+import com.atech.core.utils.DataState
 import com.atech.core.utils.networkFetchData
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ApiRepository @Inject constructor(
-    private val api: BITApiClient, private val db: ApiCacheDatabase
+    private val api: BITApiClient
 ) {
-    private val syllabusDao = db.syllabusCacheDao()
+    
 
-    fun getSyllabus(id: String) = networkBoundResource(query = {
-        syllabusDao.getSyllabus(id)
-    }, fetch = {
-        api.getSubjects(id).semesters
-    }, saveFetchResult = { syllabus ->
-        db.withTransaction {
-            try {
-                syllabusDao.insertSyllabus(syllabus)
-            } catch (e: Exception) {
-                Log.d("XXX", "getSyllabus: ${e.localizedMessage}")
-            }
+    fun getSyllabus(id: String): Flow<DataState<SyllabusResponse>> = networkFetchData(
+        fetch = {
+            api.getSubjects(
+                course = id.replace("\\d".toRegex(), ""),
+                courseYear = id
+            )
         }
-    })
+    )
 
     fun getAboutUsData() = networkFetchData(
         fetch = {
@@ -44,7 +39,7 @@ class ApiRepository @Inject constructor(
             api.getHoliday()
         },
         action = { holidays ->
-            HolidayModel(filter(query,holidays))
+            HolidayModel(filter(query, holidays))
         }
     )
 

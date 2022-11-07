@@ -77,7 +77,10 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
                         errorImage = R.drawable.ic_running_error
                     )
                     val adsView = view.findViewById<AdView>(R.id.adViewSyllabusLabContent)
-                    requireContext().loadAdds(adsView)
+                    if (it == arg.subject.labContent!!.first() || it == arg.subject.labContent!!.last()) {
+                        requireContext().loadAdds(adsView)
+                    } else
+                        adsView.isVisible = false
                 }
             }
         }
@@ -91,7 +94,12 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
                 val adsView = view.findViewById<AdView>(R.id.adViewSyllabusContent)
                 moduleTextView.text = content.module
                 contentTextView.text = Html.fromHtml(content.content, Html.FROM_HTML_MODE_COMPACT)
-                requireContext().loadAdds(adsView)
+                // trigger only when iteration is first
+                if (it == arg.subject.theoryContents!!.first() || it == arg.subject.theoryContents!!.last()) {
+                    adsView.isVisible = true
+                    requireContext().loadAdds(adsView)
+                } else
+                    adsView.isVisible = false
             }
         }
     }

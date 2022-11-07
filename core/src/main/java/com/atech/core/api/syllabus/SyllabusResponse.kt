@@ -1,4 +1,4 @@
-package com.atech.core.api.syllabus.model
+package com.atech.core.api.syllabus
 
 import android.os.Parcelable
 import androidx.annotation.Keep
@@ -13,15 +13,13 @@ import kotlinx.parcelize.Parcelize
 
 @Keep
 @Parcelize
-data class SyllabusResponse( val semesters: Semesters) : Parcelable
+data class SyllabusResponse( val semesters: Semesters?) : Parcelable
 
 @Keep
 @Parcelize
-@Entity(tableName = "syllabus_cached_table")
 data class Semesters(
-    @PrimaryKey
     val id: String,
-    @Embedded val subjects: Subject
+    val subjects: Subject
 ) : Parcelable
 
 @Parcelize
@@ -32,29 +30,7 @@ data class Subject(
 ) : Parcelable
 
 
-object TheoryListTypeConverter {
-    @TypeConverter
-    @JvmStatic
-    fun toString(value: String): List<Theory> =
-        Gson().fromJson(value, object : TypeToken<List<Theory>>() {}.type)
 
-
-    @TypeConverter
-    @JvmStatic
-    fun toArrayList(list: List<Theory>): String = Gson().toJson(list)
-}
-
-object LabListTypeConverter {
-    @TypeConverter
-    @JvmStatic
-    fun toString(value: String): List<Lab> =
-        Gson().fromJson(value, object : TypeToken<List<Lab>>() {}.type)
-
-
-    @TypeConverter
-    @JvmStatic
-    fun toArrayList(list: List<Lab>): String = Gson().toJson(list)
-}
 
 @Keep
 @Parcelize
@@ -104,17 +80,6 @@ data class Lab(
     @Embedded val books: Books
 ) : Parcelable
 
-object LabContentTypeConverter {
-    @TypeConverter
-    @JvmStatic
-    fun toString(value: String): List<LabContent> =
-        Gson().fromJson(value, object : TypeToken<List<LabContent>>() {}.type)
-
-
-    @TypeConverter
-    @JvmStatic
-    fun toArrayList(list: List<LabContent>): String = Gson().toJson(list)
-}
 
 
 @Keep
@@ -131,18 +96,6 @@ data class Books(
     val referenceBooks: List<BookName>
 ) : Parcelable
 
-
-object BooksNameTypeConverter {
-    @TypeConverter
-    @JvmStatic
-    fun toString(value: String): List<BookName> =
-        Gson().fromJson(value, object : TypeToken<List<BookName>>() {}.type)
-
-
-    @TypeConverter
-    @JvmStatic
-    fun toArrayList(list: List<BookName>): String = Gson().toJson(list)
-}
 
 
 @Keep

@@ -34,7 +34,7 @@ jobs :
         run: echo $GOOGLE_SERVICES_JSON > ./bitapp/google-services.json
 
       - name : Build Release APK and Bundle
-        run : ./gradlew :bitapp:assembleInternalBetaRelease --stacktrace
+        run : ./gradlew :bitapp:assembleBetaRelease --stacktrace
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
@@ -44,7 +44,7 @@ jobs :
         uses : actions/upload-artifact@v2
         with :
           name : apk
-          path : bitapp/build/outputs/apk/internalBeta/release/bitapp-internalBeta-release-unsigned.apk
+          path : bitapp/build/outputs/apk/beta/release/bitapp-beta-release-unsigned.apk
 
   release:
     name : Publish APK to GitHub
@@ -74,6 +74,6 @@ jobs :
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bitapp-internalBeta-release-unsigned.apk
+          asset_path: ./bitapp-beta-release-unsigned.apk
           asset_name: BIT App ${{ github.ref }}.apk
           asset_content_type: application/vnd.android.package-archive

@@ -18,10 +18,10 @@ android {
     flavorDimensions "type"
 
     productFlavors {
-        playStore {
+        global {
             dimension "type"
         }
-        internalBeta {
+        beta {
             dimension "type"
         }
     }
@@ -29,7 +29,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

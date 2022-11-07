@@ -24,10 +24,10 @@ android {
     flavorDimensions "type"
 
     productFlavors {
-        playStore {
+        global {
             dimension "type"
         }
-        internalBeta {
+        beta {
             dimension "type"
         }
     }
