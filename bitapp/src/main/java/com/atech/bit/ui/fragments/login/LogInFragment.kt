@@ -22,12 +22,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.Encryption.encryptText
 import com.atech.bit.utils.Encryption.getCryptore
 import com.atech.core.data.network.user.UserModel
-import com.atech.core.utils.KEY_FIRST_TIME_LOGIN
-import com.atech.core.utils.KEY_REACH_TO_HOME
-import com.atech.core.utils.KEY_USER_DONE_SET_UP
-import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
-import com.atech.core.utils.REQUEST_LOGIN_FROM_HOME
-import com.atech.core.utils.isDark
+import com.atech.core.utils.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.common.SignInButton
@@ -66,8 +61,8 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
     }
 
     private val activityResult =
@@ -140,8 +135,8 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToHome() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
         findNavController().navigate(
             LogInFragmentDirections.actionLogInFragmentToHomeFragment()
         )
@@ -228,35 +223,26 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToLoading() {
-        try {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-            findNavController().navigate(
-                NavGraphDirections.actionGlobalLoadingDataFragment(auth.currentUser!!.uid)
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "navigateToLoading: ${e.message}")
-        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+        findNavController().navigate(
+            NavGraphDirections.actionGlobalLoadingDataFragment(auth.currentUser!!.uid)
+        )
     }
 
     private fun navigateToSetup() {
-        try {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
 
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-
-            pref.edit().putBoolean(
-                KEY_REACH_TO_HOME,
-                false
-            ).apply()
-            val action =
-                NavGraphDirections.actionGlobalStartUpFragment()
-            findNavController().navigate(
-                action
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "navigateToSetup: ${e.message}")
-        }
+        pref.edit().putBoolean(
+            KEY_REACH_TO_HOME,
+            false
+        ).apply()
+        val action =
+            NavGraphDirections.actionGlobalStartUpFragment()
+        findNavController().navigate(
+            action
+        )
     }
 
     private fun signIn() {
