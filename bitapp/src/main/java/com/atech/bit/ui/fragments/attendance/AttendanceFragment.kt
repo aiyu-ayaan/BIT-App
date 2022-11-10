@@ -424,7 +424,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         binding.attendanceView.showAtt.onScrollChange({
             binding.extendedFab.apply {
                 show()
-//                    extend()
             }
 //                       Status bar
             activity?.changeStatusBarToolbarColor(
@@ -432,8 +431,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             )
 
         }, {
-//                binding.extendedFab.shrink()
-//                        Color change
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar, R.attr.bottomBar
             )
