@@ -3,7 +3,7 @@ name: Pre-Release 🏗️ and 🚀
 on:
   push:
     tags:
-      - v*
+      - pre-release-v*
 
 jobs:
   build:
