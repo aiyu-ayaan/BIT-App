@@ -43,7 +43,7 @@ fun getUid(firebaseAuth: FirebaseAuth) = firebaseAuth.currentUser?.uid
  * @since 4.0.3
  */
 fun Activity.openBugLink(
-    @StringRes reportType: Int = com.atech.bit.R.string.feedback,
+    @StringRes reportType: Int = R.string.bug_repost,
     extraString: String = "",
     reportDes: String? = null
 ) = this.startActivity(

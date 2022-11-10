@@ -76,5 +76,3 @@ const val CURRENT_YEAR = "Current_Year"
 const val GITHUB_LINK = "Github_Link"
 const val VIEW_SEARCH = 435 * 345
 const val VIEW_HOME = 435 * 345 + 1
-const val MAX_STACK_SIZE = 30
-const val MAX_DELAY_TIME  : Long= 1000

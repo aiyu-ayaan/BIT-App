@@ -2,8 +2,6 @@ package com.atech.bit.ui.fragments.login.loading_data
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -27,6 +25,7 @@ import com.atech.core.utils.KEY_USER_DONE_SET_UP
 import com.atech.core.utils.TAG
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -58,7 +57,7 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
         setData()
     }
 
-    private fun setData() {
+    private fun setData() = lifecycleScope.launchWhenStarted {
         userDataViewModel.getCourseSem(args.uid, {
             val split = it.split(" ")
             if (split.size == 2) {
@@ -84,11 +83,9 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
             {
                 Log.e(TAG, "onViewCreated: $it")
             })
+        delay(500)
+        navigateToHome()
         updateIsLogIn()
-        // delay of 2 seconds
-        Handler(Looper.getMainLooper()).postDelayed({
-            navigateToHome()
-        }, 2000)
     }
 
     private fun updateIsLogIn() {
@@ -130,38 +127,30 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
     }
 
     private fun navigateToHome() {
-        try {
-            pref.edit().putBoolean(
-                KEY_USER_DONE_SET_UP,
-                true
-            ).apply()
+        pref.edit().putBoolean(
+            KEY_USER_DONE_SET_UP,
+            true
+        ).apply()
 
-            pref.edit().putBoolean(
-                KEY_FIRST_TIME_LOGIN,
-                true
-            ).apply()
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-            findNavController()
-                .navigate(
-                    LoadingDataFragmentDirections.actionLoadingDataFragmentToHomeFragment()
-                )
-        } catch (e: Exception) {
-            Log.e(TAG, "navigateToHome: ${e.message}")
-        }
+        pref.edit().putBoolean(
+            KEY_FIRST_TIME_LOGIN,
+            true
+        ).apply()
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        findNavController()
+            .navigate(
+                LoadingDataFragmentDirections.actionLoadingDataFragmentToHomeFragment()
+            )
     }
 
     private fun navigateToStartUp() {
-        try {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-            findNavController()
-                .navigate(
-                    NavGraphDirections.actionGlobalStartUpFragment()
-                )
-        } catch (e: Exception) {
-            Log.e(TAG, "navigateToHome: ${e.message}")
-        }
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        findNavController()
+            .navigate(
+                NavGraphDirections.actionGlobalStartUpFragment()
+            )
     }
 
 }

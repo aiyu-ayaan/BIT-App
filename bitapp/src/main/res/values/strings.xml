@@ -64,7 +64,6 @@
         <item>ayaan35200@gmail.com</item>
     </string-array>
     <string name="bug_repost">BUG Report 😰</string>
-    <string name="feedback">Feedback 🤩</string>
     <string name="bug_title">Send Mail</string>
     <string name="gmail_package">com.google.android.gm</string>
     <string name="no_intent_available">No Activity found to handle Intent</string>
