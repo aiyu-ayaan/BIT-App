@@ -33,8 +33,15 @@ jobs :
           GOOGLE_SERVICES_JSON: ${{ secrets.APP_GOOGLE_JSON }}
         run: echo $GOOGLE_SERVICES_JSON > ./bitapp/google-services.json
 
+      - name: Copy Keystore to Project
+        run: |
+          mkdir -p ./bitapp/keystore
+          cp ${{ steps.decode_keystore.outputs.filePath }} './bitapp/keystore/keystore.jks'
+          echo ${{ steps.decode_keystore.outputs.filePath }}
+          ls -la ./bitapp
+
       - name : Build Release APK and Bundle
-        run : ./gradlew :bitapp:assembleGlobalRelease
+        run : ./gradlew :bitapp:assembleGlobalRelease --stacktrace :bitapp:bundleBetaRelease --stacktrace
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
@@ -44,7 +51,12 @@ jobs :
         uses : actions/upload-artifact@v2
         with :
             name : apk
-            path : bitapp/build/outputs/apk/global/release/bitapp-global-release-unsigned.apk
+            path : bitapp/build/outputs/apk/global/release/bitapp-global-release.apk
+      - name : Upload Bundle
+        uses : actions/upload-artifact@v2
+        with :
+            name : bundle
+            path : bitapp/build/outputs/bundle/global/bitapp-global-release.aab
 
   release:
     name : Publish APK to GitHub
@@ -55,6 +67,12 @@ jobs :
         uses: actions/download-artifact@v3
         with:
           name: apk
+
+      - name: Download Bundle from build
+        uses: actions/download-artifact@v3
+        with:
+          name: bundle
+
       - name : Create Release
         id : create_release
         uses: actions/create-release@v1
@@ -74,6 +92,16 @@ jobs :
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
         with:
             upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./bitapp-global-release-unsigned.apk
+            asset_path: ./bitapp-global-release.apk
             asset_name: BIT App ${{ github.ref }}.apk
+            asset_content_type: application/vnd.android.package-archive
+      - name : Upload Bundle to Release
+        id : upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+        with:
+            upload_url: ${{ steps.create_release.outputs.upload_url }}
+            asset_path: ./bitapp-global-release.aab
+            asset_name: BIT App ${{ github.ref }}.aab
             asset_content_type: application/vnd.android.package-archive
