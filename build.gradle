@@ -13,13 +13,13 @@ buildscript {
         nav_version = "2.5.3"
         hilt_version = '2.44'
         roomVersion = '2.4.3'
-        glideVersion = '4.14.1'
+        glideVersion = '4.14.2'
         dataStoreVersion = "1.0.0"
         lottiVersion = '5.2.0'
         recyclerViewVersion = "1.2.1"
         recyclerViewSelectionVersion = "1.1.0"
         calendarVersion = "3.0.0"
-        gsonVersion = "2.9.1"
+        gsonVersion = '2.10'
         viewBindingVersion = "1.0.3"
         crashlyticsVersion = "2.6.1"
         browserVersion = "1.4.0"
