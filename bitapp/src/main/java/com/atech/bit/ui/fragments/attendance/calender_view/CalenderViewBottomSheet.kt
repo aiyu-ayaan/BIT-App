@@ -25,8 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import kotlin.math.ceil
 
 @AndroidEntryPoint
@@ -131,7 +130,7 @@ class CalenderViewBottomSheet : BottomSheetDialogFragment() {
         list.clear()
         val sf = SimpleDateFormat("MMMM/yyyy", Locale.getDefault())
         val compare = sf.format(date)
-        attendance?.days?.totalDays?.getOnly50Data()?.forEach {
+        attendance?.days?.totalDays?.forEach {
             if (compare.equals(sf.format(it.day))) {
                 list.add(it)
             }
@@ -141,18 +140,8 @@ class CalenderViewBottomSheet : BottomSheetDialogFragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = historyAdapter
         }
-        historyAdapter.submitList(list)
-    }
+        historyAdapter.submitList(list.asReversed())
 
-
-    private fun ArrayList<IsPresent>.getOnly50Data(): ArrayList<IsPresent> {
-        val list = arrayListOf<IsPresent>()
-        this.asReversed().forEach { isPresent ->
-            if (list.size < 50) {
-                list.add(isPresent)
-            }
-        }
-        return list
     }
 
     private fun setUpPercentage(model: AttendanceModel) {
@@ -170,7 +159,6 @@ class CalenderViewBottomSheet : BottomSheetDialogFragment() {
             percentage.toInt() == 0 -> {
                 binding.tvStatus.text = resources.getString(R.string.blank)
             }
-
             percentage >= viewModel.minPercentage!! -> {
                 binding.progressBarOuter.setIndicatorColor(
                     ContextCompat.getColor(
@@ -184,12 +172,10 @@ class CalenderViewBottomSheet : BottomSheetDialogFragment() {
                 binding.tvStatus.text = when {
                     percentage.toInt() == viewModel.minPercentage!! || day <= 0 ->
                         resources.getString(R.string.on_track)
-
                     day != 0 -> resources.getString(R.string.leave_class, day.toString())
                     else -> resources.getString(R.string.error)
                 }
             }
-
             percentage < viewModel.minPercentage!! -> {
                 binding.progressBarOuter.setIndicatorColor(
                     ContextCompat.getColor(
