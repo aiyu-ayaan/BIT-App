@@ -29,7 +29,6 @@ import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
 import com.atech.core.utils.KEY_ATTENDANCE_UPLOAD_FIRST_TIME
-import com.atech.core.utils.MAX_STACK_SIZE
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
 import com.atech.core.utils.TAG
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -294,16 +293,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     @Suppress("UNCHECKED_CAST")
     private fun onCheckClick(attendance: AttendanceModel) {
-        val stack: Deque<AttendanceSave> = attendance.stack.also {
-            if (it.size > MAX_STACK_SIZE) {
-                for (i in 0 until MAX_STACK_SIZE) {
-                    it.removeLast()
-                }
-            }
-        }
+        val stack: Deque<AttendanceSave> = attendance.stack
         val presentDays = attendance.days.presetDays.clone() as ArrayList<Long>
         val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
-
         stack.push(
             AttendanceSave(
                 attendance.total, attendance.present, attendance.days.copy(
@@ -351,13 +343,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     @Suppress("UNCHECKED_CAST")
     private fun onWrongClick(attendance: AttendanceModel) {
         val stack: Deque<AttendanceSave> = attendance.stack
-            .also {
-                if (it.size > MAX_STACK_SIZE) {
-                    for (i in 0 until MAX_STACK_SIZE) {
-                        it.removeLast()
-                    }
-                }
-            }
         val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
         val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
         stack.push(
@@ -424,7 +409,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         binding.attendanceView.showAtt.onScrollChange({
             binding.extendedFab.apply {
                 show()
-//                    extend()
             }
 //                       Status bar
             activity?.changeStatusBarToolbarColor(
@@ -432,8 +416,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             )
 
         }, {
-//                binding.extendedFab.shrink()
-//                        Color change
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar, R.attr.bottomBar
             )
