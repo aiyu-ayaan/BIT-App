@@ -91,13 +91,3 @@ jobs:
           asset_path: ./bitapp-beta-release.apk
           asset_name: BIT App ${{ github.ref }}.apk
           asset_content_type: application/vnd.android.package-archive
-      - name : Upload Bundle to Release
-        id : upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bitapp-beta-release.aab
-          asset_name: BIT App ${{ github.ref }}.aab
-          asset_content_type: application/vnd.android.package-archive
