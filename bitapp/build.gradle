@@ -57,6 +57,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
         kotlinOptions {
             freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
@@ -93,8 +94,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-ads:$playServicesAds"
 
 //    crashlytics
-    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+//    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     // ViewModel
@@ -162,4 +163,5 @@ dependencies {
 
     implementation "me.relex:circleindicator:$circleIndicatorVersion"
 
+    implementation "com.github.mukeshsolanki:MarkdownView-Android:$markdownViewVersion"
 }

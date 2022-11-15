@@ -4,6 +4,7 @@ import android.content.Context
 import com.atech.core.api.BITApiClient
 import com.atech.core.api.BITApiClient.Companion.BASE_URL
 import com.atech.core.utils.hasNetwork
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +14,7 @@ import okhttp3.Cache
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
 
@@ -23,7 +25,11 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideConvertor(): GsonConverterFactory =
-        GsonConverterFactory.create()
+        GsonConverterFactory.create(
+            GsonBuilder()
+                .setLenient()
+                .create()
+        )
 
 
     @Provides
@@ -57,6 +63,7 @@ object RetrofitModule {
     ): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
             .build()

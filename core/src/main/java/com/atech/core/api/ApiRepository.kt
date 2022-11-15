@@ -11,7 +11,7 @@ import javax.inject.Inject
 class ApiRepository @Inject constructor(
     private val api: BITApiClient
 ) {
-    
+
 
     fun getSyllabus(id: String): Flow<DataState<SyllabusResponse>> = networkFetchData(
         fetch = {
@@ -49,4 +49,13 @@ class ApiRepository @Inject constructor(
         }
     )
 
+    fun fetchSyllabusMarkdown(
+        course: String,
+        courseSem: String,
+        subject: String
+    ) = networkFetchData(
+        fetch = {
+            api.getSubjectMarkdown(course,courseSem, subject)
+        }
+    )
 }

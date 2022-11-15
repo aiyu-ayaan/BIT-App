@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSetUpBinding
-import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.bit.utils.getVersion
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -25,13 +25,17 @@ class StartUpFragment : Fragment(R.layout.fragment_set_up) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            textView3.text = resources.getString(
+                R.string.full_version,
+                getVersion()
+            )
             fbNext.setOnClickListener {
                 val action = NavGraphDirections.actionGlobalChooseSemBottomSheet()
                 findNavController().navigate(action)

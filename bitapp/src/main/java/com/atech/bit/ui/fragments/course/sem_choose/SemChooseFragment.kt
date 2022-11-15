@@ -24,19 +24,15 @@ import com.atech.bit.databinding.FragmentSemChooseBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
-import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusLabOnlineAdapter
-import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusTheoryOnlineAdapter
+import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
-import com.atech.core.api.syllabus.Lab
-import com.atech.core.api.syllabus.Semesters
-import com.atech.core.api.syllabus.SubjectContent
-import com.atech.core.api.syllabus.Theory
+import com.atech.core.api.syllabus.Semester
+import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.utils.DataState
 import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
-import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
@@ -60,8 +56,10 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private lateinit var courseTheoryAdapter: SubjectAdapter
     private lateinit var courseLabAdapter: SubjectAdapter
     private lateinit var coursePeAdapter: SubjectAdapter
-    private lateinit var onlineTheoryAdapter: SyllabusTheoryOnlineAdapter
-    private lateinit var onlineLabAdapter: SyllabusLabOnlineAdapter
+    private lateinit var onlineTheoryAdapter: SyllabusOnlineAdapter
+    private lateinit var onlineLabAdapter: SyllabusOnlineAdapter
+    private lateinit var onlinePEAdapter: SyllabusOnlineAdapter
+    private var courseSem: String = ""
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -89,15 +87,18 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         binding.root.transitionName = viewModel.request
 
 
-        onlineTheoryAdapter = SyllabusTheoryOnlineAdapter { pos ->
-            napToSubjectContent(theory = pos)
+        onlineTheoryAdapter = SyllabusOnlineAdapter { pos ->
+            navigateToViewOnlineSyllabus(pos)
         }
-        onlineLabAdapter = SyllabusLabOnlineAdapter {
-            napToSubjectContent(lab = it)
-        }
+        onlineLabAdapter = SyllabusOnlineAdapter {
+            navigateToViewOnlineSyllabus(it)
+        }.also { it.setType("Lab") }
+        onlinePEAdapter = SyllabusOnlineAdapter {
+            navigateToViewOnlineSyllabus(it)
+        }.also { it.setType("Pe") }
 
         binding.semChoseOnlineExt.recyclerViewOnlineSyllabus.apply {
-            adapter = ConcatAdapter(onlineTheoryAdapter, onlineLabAdapter)
+            adapter = ConcatAdapter(onlineTheoryAdapter, onlineLabAdapter, onlinePEAdapter)
             layoutManager = LinearLayoutManager(requireContext())
             addItemDecoration(DividerItemDecorationNoLast(
                 requireContext(), LinearLayoutManager.VERTICAL
@@ -120,33 +121,21 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
     }
 
+    private fun navigateToViewOnlineSyllabus(model: SubjectModel) {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        val action =
+            SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(
+                model.subjectName,
+                courseSem
+            )
+        findNavController().navigate(action)
+    }
+
     private fun setAds() {
         requireContext().loadAdds(binding.adView)
     }
 
-
-    private fun napToSubjectContent(theory: Theory? = null, lab: Lab? = null) {
-        if (theory != null) SubjectContent(
-            theory.subjectName,
-            theory.content,
-            books = theory.books
-        ).apply {
-            navigateToViewSyllabus(this)
-        }
-        else SubjectContent(lab!!.subjectName, labContent = lab.content, books = lab.books).apply {
-            navigateToViewSyllabus(this, REQUEST_VIEW_LAB_SYLLABUS)
-        }
-
-    }
-
-    private fun navigateToViewSyllabus(subject: SubjectContent, request: String = "theory") {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
-        val action = SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusFragment(
-            subject, request
-        )
-        findNavController().navigate(action)
-    }
 
     private fun offlineDataSource() {
         courseTheoryAdapter = SubjectAdapter { syllabusModel, view ->
@@ -222,6 +211,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
         prefManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             viewModel.sem.value = "${viewModel.request}${it.semSyllabus}"
+            courseSem = "${viewModel.request}${it.semSyllabus}".lowercase()
             buttonColorChange(it.semSyllabus, binding)
         }
     }
@@ -254,11 +244,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                 }
 
                 is DataState.Success -> {
-//                    setViewOfOnlineSyllabusExt(true)
-                    dataState.data.semesters?.let { syllabus ->
+                    Log.d("XXX", "getOnlineSyllabus: ${dataState.data}")
+                    dataState.data.semester?.let { syllabus ->
                         setOnLineData(syllabus)
                     }
-                    setViewOfOnlineSyllabusExt(dataState.data.semesters != null)
+                    setViewOfOnlineSyllabusExt(dataState.data.semester != null)
                 }
             }
         }
@@ -272,10 +262,13 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         binding.semChoseOnlineExt.textView6.isVisible = isVisible
     }
 
-    private fun setOnLineData(data: Semesters) {
+    private fun setOnLineData(data: Semester) {
         onlineTheoryAdapter.submitList(data.subjects.theory)
-        onlineLabAdapter.submitList(data.subjects.lab)
         onlineLabAdapter.setStartPos(data.subjects.theory.size)
+        onlineLabAdapter.submitList(data.subjects.lab)
+        onlinePEAdapter.setStartPos(data.subjects.theory.size + data.subjects.lab.size)
+
+        onlinePEAdapter.submitList(data.subjects.pe)
     }
 
     private fun setSource() {

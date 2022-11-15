@@ -47,7 +47,6 @@ class ChooseSemViewModel @Inject constructor(
 
 
     fun getOnlineSyllabus() = sem.flatMapLatest { semester ->
-        Log.d("AAA", "getOnlineSyllabus: ${semester.lowercase()}")
         apiRepository.getSyllabus(semester.lowercase())
     }.asLiveData()
 }

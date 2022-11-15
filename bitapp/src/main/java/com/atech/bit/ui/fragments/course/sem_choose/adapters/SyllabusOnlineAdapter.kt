@@ -6,45 +6,19 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.RowSyllabusOnlineBinding
-import com.atech.core.api.syllabus.DiffUtilLabSyllabusCallback
 import com.atech.core.api.syllabus.DiffUtilTheorySyllabusCallback
-import com.atech.core.api.syllabus.Lab
-import com.atech.core.api.syllabus.Theory
+import com.atech.core.api.syllabus.SubjectModel
 
-class SyllabusTheoryOnlineAdapter(
-    private val onClick: (Theory) -> Unit
-) : ListAdapter<Theory, SyllabusOnlineViewHolder<Theory>>(DiffUtilTheorySyllabusCallback()) {
+class SyllabusOnlineAdapter(
+    private val onClick: (SubjectModel) -> Unit
+) : ListAdapter<SubjectModel, SyllabusOnlineViewHolder<SubjectModel>>(DiffUtilTheorySyllabusCallback()) {
 
+    private var type = "Theory"
+    private var startPos: Int = 0
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup, viewType: Int
-    ): SyllabusOnlineViewHolder<Theory> = SyllabusOnlineViewHolder(
-        RowSyllabusOnlineBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
-        )
-    ) { pos ->
-        if (pos != RecyclerView.NO_POSITION) onClick(getItem(pos))
+    fun setType(type: String) {
+        this.type = type
     }
-
-    override fun onBindViewHolder(holder: SyllabusOnlineViewHolder<Theory>, position: Int) {
-        holder.bind(getItem(position)) { binding, theory ->
-            binding.apply {
-                subjectTextView.text = theory.subjectName.trim()
-                subjectCodeTextView.text = binding.root.context.resources.getString(
-                    R.string.theory_code, theory.code, theory.type
-                )
-                creditTextView.text = theory.credit.toString()
-            }
-        }
-    }
-}
-
-// Lab Adapter
-
-class SyllabusLabOnlineAdapter(
-    private val onClick: (Lab) -> Unit
-) : ListAdapter<Lab, SyllabusOnlineViewHolder<Lab>>(DiffUtilLabSyllabusCallback()) {
-    private var startPos: Int? = null
 
     fun setStartPos(pos: Int) {
         startPos = pos
@@ -52,25 +26,23 @@ class SyllabusLabOnlineAdapter(
 
     override fun onCreateViewHolder(
         parent: ViewGroup, viewType: Int
-    ): SyllabusOnlineViewHolder<Lab> = SyllabusOnlineViewHolder(
+    ): SyllabusOnlineViewHolder<SubjectModel> = SyllabusOnlineViewHolder(
         RowSyllabusOnlineBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
     ) { pos ->
-        if (pos != RecyclerView.NO_POSITION) startPos?.let {
-            onClick(getItem(pos - it))
-        }
+        if (pos != RecyclerView.NO_POSITION)
+            onClick(getItem(pos - startPos))
     }
 
-    override fun onBindViewHolder(holder: SyllabusOnlineViewHolder<Lab>, position: Int) {
-        holder.bind(getItem(position)) { binding, lab ->
+    override fun onBindViewHolder(holder: SyllabusOnlineViewHolder<SubjectModel>, position: Int) {
+        holder.bind(getItem(position)) { binding, theory ->
             binding.apply {
-
-                subjectTextView.text = lab.subjectName.trim()
+                subjectTextView.text = theory.subjectName.trim()
                 subjectCodeTextView.text = binding.root.context.resources.getString(
-                    R.string.lab_code, lab.code, lab.type
+                    R.string.theory_code, type, theory.code
                 )
-                creditTextView.text = lab.credit.toString()
+                creditTextView.text = theory.credit.toString()
             }
         }
     }

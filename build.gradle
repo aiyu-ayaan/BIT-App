@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_version = "1.6.20"
+        kotlin_version = "1.7.10"
         playStoreCoreVersion = "1.8.1"
         materail3Version = "1.8.0-alpha02"
         playServicesAuthVersion = "20.3.0"
@@ -33,6 +33,7 @@ buildscript {
         retrofit_version = '2.9.0'
         retrofit_json_version = "2.9.0"
         circleIndicatorVersion= "2.1.6"
+        markdownViewVersion= "1.1.1"
     }
     dependencies {
         classpath 'com.google.gms:google-services:4.3.14'
@@ -40,12 +41,13 @@ buildscript {
         classpath "com.google.gms:google-services:$googleServiceVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion"
+        classpath 'com.android.tools.build:gradle:4.2.2'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.6.21' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
 }
 
 task clean(type: Delete) {
