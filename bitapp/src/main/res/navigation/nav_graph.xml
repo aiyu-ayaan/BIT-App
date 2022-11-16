@@ -383,8 +383,8 @@
             app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
         <argument
             android:name="request"
-            app:argType="integer"
-            android:defaultValue="0" />
+            android:defaultValue="0"
+            app:argType="integer" />
     </dialog>
     <action
         android:id="@+id/action_global_attendanceMenu"
@@ -492,20 +492,19 @@
         android:id="@+id/viewSyllabusFragment"
         android:name="com.atech.bit.ui.fragments.course.view_syllabus.ViewSyllabusFragment"
         android:label="@string/blank"
-        tools:layout="@layout/fragment_view_syllabus">
+        tools:layout="@layout/fragment_view_syllabus" >
         <argument
-            android:name="subject"
-            app:argType="com.atech.core.api.syllabus.SubjectContent" />
+            android:name="subjectName"
+            app:argType="string" />
         <argument
-            android:name="type"
-            app:argType="string"
-            android:defaultValue="theory" />
+            android:name="courseSem"
+            app:argType="string" />
     </fragment>
     <dialog
         android:id="@+id/archiveBottomSheet"
-        tools:layout="@layout/bottom_sheet_archive"
         android:name="com.atech.bit.ui.fragments.attendance.archive.ArchiveBottomSheet"
-        android:label="ArchiveBottomSheet" >
+        android:label="ArchiveBottomSheet"
+        tools:layout="@layout/bottom_sheet_archive">
         <action
             android:id="@+id/action_archiveBottomSheet_to_calenderViewBottomSheet"
             app:destination="@id/calenderViewBottomSheet" />

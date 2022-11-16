@@ -1,32 +1,31 @@
+name: Build 🏗️ and Release 🚀
 
-name : Build 🏗️ and Release 🚀
-
-on :
-  push :
+on:
+  push:
     tags:
       - v*
 
-jobs :
-  build :
-    runs-on : ubuntu-latest
+jobs:
+  build:
+    runs-on: ubuntu-latest
     steps:
       - name: Decode Keystore
         id: decode_keystore
         uses: timheuer/base64-to-file@v1
         with:
-            fileName: 'keystore/keystore.jks'
-            encodedString: ${{ secrets.KEYSTORE }}
+          fileName: 'keystore/keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
 
-      - uses : actions/checkout@v2
-      - name : set up JDK 11
-        uses : actions/setup-java@v1
-        with :
-            java-version : 11
-            distribution : 'temurin'
-            cache : gradle
+      - uses: actions/checkout@v2
+      - name: set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          distribution: 'temurin'
+          cache: gradle
 
-      - name : Make gradlew executable
-        run : chmod +x ./gradlew
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
       - name: Decode google-services.json
         env:
@@ -40,30 +39,30 @@ jobs :
           echo ${{ steps.decode_keystore.outputs.filePath }}
           ls -la ./bitapp
 
-      - name : Build Release APK and Bundle
-        run : ./gradlew :bitapp:assembleGlobalRelease --stacktrace :bitapp:bundleBetaRelease --stacktrace
+      - name: Build Release APK and Bundle
+        run: ./gradlew :bitapp:assembleGlobalRelease --stacktrace :bitapp:bundleBetaRelease --stacktrace
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
-      - name : Upload APK
-        uses : actions/upload-artifact@v2
-        with :
-            name : apk
-            path : bitapp/build/outputs/apk/global/release/bitapp-global-release.apk
-      - name : Upload Bundle
-        uses : actions/upload-artifact@v2
-        with :
-            name : bundle
-            path : bitapp/build/outputs/bundle/global/bitapp-global-release.aab
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          path: bitapp/build/outputs/apk/global/release/bitapp-global-release.apk
+      - name: Upload Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundle
+          path: bitapp/build/outputs/bundle/global/bitapp-global-release.aab
 
   release:
-    name : Publish APK to GitHub
-    needs : build
-    runs-on : ubuntu-latest
-    steps :
-      - name : Download APK from build
+    name: Publish APK to GitHub
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from build
         uses: actions/download-artifact@v3
         with:
           name: apk
@@ -73,35 +72,25 @@ jobs :
         with:
           name: bundle
 
-      - name : Create Release
-        id : create_release
+      - name: Create Release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
         with:
-            tag_name: ${{ github.ref  }}
-            release_name: ${{ github.event.repository.name }} ${{ github.ref }}
-            body: |
-                Changes in this Release
-                - ${{ github.event.head_commit.message }}
-            prerelease: false
-      - name : Upload APK to Release
-        id : upload-release-asset
+          tag_name: ${{ github.ref  }}
+          release_name: ${{ github.event.repository.name }} ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - ${{ github.event.head_commit.message }}
+          prerelease: false
+      - name: Upload APK to Release
+        id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
         with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./bitapp-global-release.apk
-            asset_name: BIT App ${{ github.ref }}.apk
-            asset_content_type: application/vnd.android.package-archive
-      - name : Upload Bundle to Release
-        id : upload-release-asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
-        with:
-            upload_url: ${{ steps.create_release.outputs.upload_url }}
-            asset_path: ./bitapp-global-release.aab
-            asset_name: BIT App ${{ github.ref }}.aab
-            asset_content_type: application/vnd.android.package-archive
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./bitapp-global-release.apk
+          asset_name: BIT App ${{ github.ref }}.apk
+          asset_content_type: application/vnd.android.package-archive

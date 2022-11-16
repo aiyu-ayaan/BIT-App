@@ -1,30 +1,36 @@
 package com.atech.bit.ui.fragments.course.view_syllabus
 
 import android.os.Bundle
-import android.text.Html
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import androidx.annotation.LayoutRes
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewSyllabusBinding
-import com.atech.bit.utils.loadAdds
-import com.atech.core.utils.REQUEST_VIEW_LAB_SYLLABUS
-import com.atech.core.utils.loadImage
-import com.google.android.gms.ads.AdView
+import com.atech.core.api.ApiRepository
+import com.atech.core.utils.DataState
+import com.atech.core.utils.getColorForText
+import com.atech.core.utils.getColorFromAttr
+import com.atech.core.utils.getRgbFromHex
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.HttpException
+import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
 
     private val binding: FragmentViewSyllabusBinding by viewBinding()
     private val arg: ViewSyllabusFragmentArgs by navArgs()
+
+    @Inject
+    lateinit var apiRepository: ApiRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,80 +41,82 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val subject = arg.subject
-        binding.root.transitionName = subject.subjectName
+        val subject = arg.subjectName
+        binding.root.transitionName = subject
         binding.apply {
-            headingTextView.text = subject.subjectName
-            setContent(arg.type)
-            setBook()
-        }
-    }
+            apiRepository.fetchSyllabusMarkdown(
+                arg.courseSem.replace("\\d".toRegex(), ""), arg.courseSem, subject
+            ).asLiveData().observe(viewLifecycleOwner) { dataState ->
+                when (dataState) {
+                    DataState.Empty -> {}
+                    is DataState.Error -> {
+                        when (dataState.exception) {
+                            // HTTP 504 Unsatisfiable Request (only-if-cached)
+                            is HttpException -> {
+                                if ((dataState.exception as HttpException).code() == 504) {
+                                    setViewsVisible(false)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        resources.getString(R.string.no_internet),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                                if ((dataState.exception as HttpException).code() == 404) {
+                                    setViewsVisible(false)
+                                    binding.emptyText.text =
+                                        resources.getString(com.atech.syllabus.R.string.no_syllabus_found)
+                                    Toast.makeText(
+                                        requireContext(),
+                                        resources.getString(com.atech.syllabus.R.string.no_syllabus_found),
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
 
-    private fun setBook() = binding.apply {
-        booksLinearLayout.run {
-            arg.subject.books.textBooks.forEach {
-                addViews(R.layout.layout_syllabus_book, it) { content, view ->
-                    view.findViewById<TextView>(R.id.books_text_view).text = content.bookName
+                            else -> {
+                                Toast.makeText(
+                                    requireContext(), "Something went wrong", Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        Log.d("AAA", "onViewCreated: ${dataState.exception}")
+                    }
+
+                    DataState.Loading -> {}
+                    is DataState.Success -> {
+                        setMarkDownFile(dataState)
+                    }
                 }
             }
         }
-        referenceLinearLayout.run {
-            arg.subject.books.referenceBooks.forEach {
-                addViews(R.layout.layout_syllabus_book, it) { content, view ->
-                    view.findViewById<TextView>(R.id.books_text_view).text = content.bookName
-                }
-            }
-        }
     }
 
-    private fun setContent(type: String) = binding.contentLinearLayout.run {
-        if (type == REQUEST_VIEW_LAB_SYLLABUS) arg.subject.labContent?.forEach {
-            this.addViews(
-                R.layout.layout_syllabus_lab_content, it
-            ) { content, view ->
-                view.findViewById<TextView>(R.id.question_text_view).text =
-                    Html.fromHtml(content.question, Html.FROM_HTML_MODE_COMPACT)
-                view.findViewById<ImageView>(R.id.question_image_view).apply {
-                    isVisible = content.image != null
-                    content.image?.loadImage(
-                        this@run,
-                        view.findViewById(R.id.question_image_view),
-                        null,
-                        errorImage = R.drawable.ic_running_error
+    private fun setViewsVisible(isVisible: Boolean) = binding.apply {
+        markdown.isVisible = isVisible
+        emptyText.isVisible = !isVisible
+        emptyMarkdown.isVisible = !isVisible
+    }
+
+    private fun FragmentViewSyllabusBinding.setMarkDownFile(dataState: DataState.Success<String>) {
+        markdown.apply {
+            setViewsVisible(true)
+            setBackgroundColor(
+                MaterialColors.getColor(
+                    requireView(), me.relex.circleindicator.R.attr.colorSurface
+                )
+            )
+            setMarkDownText(
+                dataState.data + "<br> <br><style> body{background-color: ${
+                    getRgbFromHex(
+                        String.format(
+                            "#%06X",
+                            (context?.getColorFromAttr(com.google.android.material.R.attr.colorSurface))
+                        )
                     )
-                    val adsView = view.findViewById<AdView>(R.id.adViewSyllabusLabContent)
-                    if (it == arg.subject.labContent!!.first() || it == arg.subject.labContent!!.last()) {
-                        requireContext().loadAdds(adsView)
-                    } else
-                        adsView.isVisible = false
-                }
-            }
-        }
-        else arg.subject.theoryContents?.forEach {
-            this.addViews(
-                R.layout.layout_syllabus_content,
-                it,
-            ) { content, view ->
-                val moduleTextView = view.findViewById<TextView>(R.id.module_text_view)
-                val contentTextView = view.findViewById<TextView>(R.id.content_text_view)
-                val adsView = view.findViewById<AdView>(R.id.adViewSyllabusContent)
-                moduleTextView.text = content.module
-                contentTextView.text = Html.fromHtml(content.content, Html.FROM_HTML_MODE_COMPACT)
-                // trigger only when iteration is first
-                if (it == arg.subject.theoryContents!!.first() || it == arg.subject.theoryContents!!.last()) {
-                    adsView.isVisible = true
-                    requireContext().loadAdds(adsView)
-                } else
-                    adsView.isVisible = false
-            }
+                } ; color:${getColorForText(requireContext())};}</style>"
+            )
         }
     }
 
 
-    private fun <T> LinearLayout.addViews(@LayoutRes id: Int, t: T, action: (T, View) -> Unit) =
-        this.apply {
-            val view = layoutInflater.inflate(id, this, false)
-            action(t, view)
-            addView(view)
-        }
 }
