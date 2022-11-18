@@ -1,6 +1,5 @@
 package com.atech.bit.ui.fragments.course.sem_choose
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
@@ -44,6 +43,9 @@ class ChooseSemViewModel @Inject constructor(
             field = value
             state["chooseSemNestedViewPosition"] = value
         }
+
+    var syllabusEnableModel: SemChooseFragment.SyllabusEnableModel =
+        SemChooseFragment.SyllabusEnableModel()
 
 
     fun getOnlineSyllabus() = sem.flatMapLatest { semester ->

@@ -11,6 +11,7 @@ import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewSyllabusBinding
+import com.atech.bit.utils.loadAdds
 import com.atech.core.api.ApiRepository
 import com.atech.core.utils.DataState
 import com.atech.core.utils.getColorForText
@@ -98,6 +99,7 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_syllabus) {
     }
 
     private fun FragmentViewSyllabusBinding.setMarkDownFile(dataState: DataState.Success<String>) {
+        requireContext().loadAdds(adViewSyllabusLabContent)
         markdown.apply {
             setViewsVisible(true)
             setBackgroundColor(

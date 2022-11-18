@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentCourseBinding
 import com.atech.core.utils.Course
-import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.TAG
 import com.google.android.material.transition.MaterialElevationScale
@@ -76,9 +76,9 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
         remoteConfigUtil.fetchData({
             Log.e(TAG, "setDefaultValueForSwitch: $it")
         }) {
-            val isSwitchOn = remoteConfigUtil.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE)
+            val switchState = remoteConfigUtil.getString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY)
             pref.edit()
-                .putBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, isSwitchOn)
+                .putString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, switchState)
                 .apply()
         }
     }

@@ -5,8 +5,8 @@
         <value>2022-23</value>
     </entry>
     <entry>
-        <key>KEY_TOGGLE_SYLLABUS_SOURCE</key>
-        <value>false</value>
+        <key>KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY</key>
+        <value>{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false }</value>
     </entry>
     <entry>
         <key>SYLLABUS_BCA</key>
