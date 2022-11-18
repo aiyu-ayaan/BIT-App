@@ -2,7 +2,7 @@
 name: "Bug report \U0001F40A"
 about: Create a report to help us improve
 title: BUG
-labels: bug
+labels: bug, invalid
 assignees: aiyu-ayaan
 
 ---
