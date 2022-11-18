@@ -15,7 +15,7 @@ import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentCourseBinding
 import com.atech.core.utils.Course
-import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.TAG
 import com.google.android.material.transition.MaterialElevationScale
@@ -32,8 +32,6 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    @Inject
-    lateinit var remoteConfigUtil: RemoteConfigUtil
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -69,20 +67,7 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
                 navigateToSemChoose(Course.Bba.name, imageButtonBba)
             }
         }
-        setDefaultValueForSwitch()
     }
-
-    private fun setDefaultValueForSwitch() {
-        remoteConfigUtil.fetchData({
-            Log.e(TAG, "setDefaultValueForSwitch: $it")
-        }) {
-            val isSwitchOn = remoteConfigUtil.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE)
-            pref.edit()
-                .putBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, isSwitchOn)
-                .apply()
-        }
-    }
-
 
     override fun onPause() {
         super.onPause()

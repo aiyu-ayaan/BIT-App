@@ -30,6 +30,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -43,16 +44,22 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.CourseFragment
+import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapter
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
+import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.loadAdds
+import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.sortBySno
+import com.atech.core.api.syllabus.Semester
+import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.BitDatabase
@@ -65,6 +72,7 @@ import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
 import com.atech.core.utils.KEY_IS_USER_LOG_IN
 import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
 import com.atech.core.utils.REQUEST_EVENT_FROM_HOME
 import com.atech.core.utils.REQUEST_LOGIN_FROM_HOME
@@ -87,7 +95,9 @@ import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import retrofit2.HttpException
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import javax.inject.Inject
@@ -105,6 +115,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private lateinit var syllabusTheoryAdapter: SyllabusHomeAdapter
     private lateinit var syllabusLabAdapter: SyllabusHomeAdapter
     private lateinit var holidayAdapter: HolidayHomeAdapter
+    private lateinit var onlineTheoryAdapter: SyllabusOnlineAdapter
+    private lateinit var onlineLabAdapter: SyllabusOnlineAdapter
+    private lateinit var onlinePEAdapter: SyllabusOnlineAdapter
     private var userModel: UserModel? = null
 
     @Inject
@@ -121,6 +134,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     @Inject
     lateinit var bitDatabase: BitDatabase
+
+
+    @Inject
+    lateinit var remoteConfigUtil: RemoteConfigUtil
+
+    private var courseSem: String = ""
 
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
@@ -143,16 +162,20 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         holidayAdapter = HolidayHomeAdapter()
         binding.apply {
             lineChartCgpa.setNoDataText(resources.getString(R.string.loading))
-            setting.setOnClickListener {
-                navigateToWelcomeScreen()
+            fragmentHomeExt.apply {
+                setting.setOnClickListener {
+                    navigateToWelcomeScreen()
+                }
+                edit.setOnClickListener {
+                    navigateToEdit()
+                }
             }
 
             attendanceClick.root.setOnClickListener {
                 navigateToAttendance()
             }
-            edit.setOnClickListener {
-                navigateToEdit()
-            }
+
+
             textShowAllHoliday.setOnClickListener {
                 navigateToHoliday()
             }
@@ -178,8 +201,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 //        Handle on Destroy
         detectScroll()
 
+        setDefaultValueForSwitch()
+
 //        setTimeTable()
         getData()
+        getOnlineSyllabus()
         setHoliday()
 
         createMenu()
@@ -196,6 +222,75 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         clearAndAddSyllabusDatabase()
 
         checkPermission()
+        getHoliday()
+        setOnlineSyllabusView()
+        switchClick()
+    }
+
+    private fun setSource(courseSem: String) {
+        val source = viewModel.syllabusEnableModel.compareToCourseSem(courseSem)
+        binding.fragmentHomeExt.switchOldNew.isChecked = source
+        setText(source)
+        layoutChanges(source)
+    }
+
+    private fun setOnlineSyllabusView() {
+        onlineTheoryAdapter = SyllabusOnlineAdapter(true) { pos ->
+            navigateToViewOnlineSyllabus(pos)
+        }
+        onlineLabAdapter = SyllabusOnlineAdapter(true) {
+            navigateToViewOnlineSyllabus(it)
+        }.also { it.setType("Lab") }
+        onlinePEAdapter = SyllabusOnlineAdapter(true) {
+            navigateToViewOnlineSyllabus(it)
+        }.also { it.setType("Pe") }
+
+        binding.fragmentHomeExt.semChoseOnlineExt
+            .constraintLayoutOnline.setPadding(0, 0, 0, 0)
+        binding.fragmentHomeExt.semChoseOnlineExt.recyclerViewOnlineSyllabus.apply {
+            adapter = ConcatAdapter(onlineTheoryAdapter, onlineLabAdapter, onlinePEAdapter)
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecorationNoLast(
+                requireContext(), LinearLayoutManager.VERTICAL
+            ).apply {
+                setDrawable(
+                    ContextCompat.getDrawable(
+                        requireContext(), R.drawable.divider
+                    )
+                )
+            })
+        }
+    }
+
+    private fun navigateToViewOnlineSyllabus(model: SubjectModel) {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        Log.d(TAG, "navigateToViewOnlineSyllabus: $courseSem")
+        val action =
+            HomeFragmentDirections.actionHomeFragmentToViewSyllabusFragment(
+                model.subjectName,
+                courseSem.lowercase()
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun switchClick() = binding.fragmentHomeExt.switchOldNew.apply {
+        setOnCheckedChangeListener { _, isChecked ->
+            setText(isChecked)
+            layoutChanges(isChecked)
+            binding.fragmentHomeExt.edit.isVisible = !isChecked
+        }
+    }
+
+    private fun setText(isEnable: Boolean) {
+        binding.fragmentHomeExt.switchOldNew.text =
+            if (isEnable) resources.getString(R.string.online)
+            else resources.getString(R.string.offline)
+    }
+
+    private fun layoutChanges(isEnable: Boolean) = binding.fragmentHomeExt.apply {
+        semChoseOnlineExt.root.isVisible = isEnable
+        materialCardViewSyllabusRecyclerView.isVisible = !isEnable
     }
 
     private fun checkPermission() {
@@ -453,7 +548,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val snapHelper = PagerSnapHelper()
                 snapHelper.attachToRecyclerView(this)
                 eventIndicator.attachToRecyclerView(this, snapHelper)
-                eventAdapter.registerAdapterDataObserver(eventIndicator.adapterDataObserver);
+                eventAdapter.registerAdapterDataObserver(eventIndicator.adapterDataObserver)
             }
             eventAdapter.stateRestorationPolicy =
                 RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -536,7 +631,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(this)
             binding.attendanceClick.attendanceIndicator.attachToRecyclerView(this, snapHelper)
-            attendanceHomeAdapter.registerAdapterDataObserver(binding.attendanceClick.attendanceIndicator.adapterDataObserver);
+            attendanceHomeAdapter.registerAdapterDataObserver(binding.attendanceClick.attendanceIndicator.adapterDataObserver)
         }
         viewModel.attAttendance.observe(viewLifecycleOwner) {
             attendanceHomeAdapter.submitList(it)
@@ -599,7 +694,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun preferenceManager() {
         preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
-            viewModel.syllabusQuery.value = "${it.course}${it.sem}"
+            courseSem = "${it.course}${it.sem}"
+            setSource(courseSem.lowercase())
+            viewModel.syllabusQuery.value = courseSem
             binding.materialCardViewCgpaGraph.isVisible = !it.cgpa.isAllZero
             binding.textViewCgpa.isVisible = !it.cgpa.isAllZero
             binding.textViewEdit.isVisible = !it.cgpa.isAllZero
@@ -658,7 +755,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         syllabusPeAdapter = SyllabusHomeAdapter(listener = { s, v ->
             setOnSyllabusClickListener(s, v)
         })
-        binding.apply {
+        binding.fragmentHomeExt.apply {
 
             showTheory.apply {
                 adapter = syllabusTheoryAdapter
@@ -684,25 +781,88 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     }
 
-    private fun getData() = lifecycleScope.launchWhenStarted {
+    private fun getOnlineSyllabus() {
+        viewModel.getOnlineSyllabus().observe(viewLifecycleOwner) { dataState ->
+            when (dataState) {
+                DataState.Empty -> {}
+                is DataState.Error -> {
+                    Log.d("AAA", "getOnlineSyllabus: ${dataState.exception}")
+                    if (dataState.exception is HttpException) {
+                        binding.root.showSnackBar(
+                            "${dataState.exception.message}", Snackbar.LENGTH_SHORT, "Report"
+                        ) {
+//                            setViewOfOnlineSyllabusExt(false)
+                            requireActivity().openBugLink(
+                                com.atech.core.R.string.bug_repost,
+                                "${this.javaClass.simpleName}.class",
+                                dataState.exception.message
+                            )
+                        }
+                    }
+
+                }
+
+                DataState.Loading -> {
+                    binding.fragmentHomeExt.semChoseOnlineExt.apply {
+                        progressBarLoading.isVisible = true
+                        noData.isVisible = false
+                        noDataText.isVisible = false
+                    }
+                }
+
+                is DataState.Success -> {
+                    Log.d("AAA", "getOnlineSyllabus: ${dataState.data}")
+                    dataState.data.semester?.let { syllabus ->
+                        setOnLineData(syllabus) //
+                    }
+                    setViewOfOnlineSyllabusExt(dataState.data.semester != null)
+                }
+            }
+        }
+    }
+
+    private fun setOnLineData(data: Semester) {
+        onlineTheoryAdapter.submitList(data.subjects.theory)
+        onlineLabAdapter.setStartPos(data.subjects.theory.size)
+        onlineLabAdapter.submitList(data.subjects.lab)
+        onlinePEAdapter.setStartPos(data.subjects.theory.size + data.subjects.lab.size)
+
+        onlinePEAdapter.submitList(data.subjects.pe)
+    }
+
+
+    private fun setViewOfOnlineSyllabusExt(isVisible: Boolean) =
+        binding.fragmentHomeExt.semChoseOnlineExt.apply {
+            progressBarLoading.isVisible = false
+            noData.isVisible = !isVisible
+            noDataText.isVisible = !isVisible
+            recyclerViewOnlineSyllabus.isVisible = isVisible
+            textView6.isVisible = false
+        }
+
+    private fun getData() {
         viewModel.theory.observe(viewLifecycleOwner) {
-            binding.showTheory.isVisible = it.isNotEmpty()
-            binding.textView6.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.showTheory.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.textView6.isVisible = it.isNotEmpty()
             syllabusTheoryAdapter.submitList(it)
         }
 
         viewModel.lab.observe(viewLifecycleOwner) {
-            binding.showLab.isVisible = it.isNotEmpty()
-            binding.textView7.isVisible = it.isNotEmpty()
-            binding.dividerTheory.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.showLab.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.textView7.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.dividerTheory.isVisible = it.isNotEmpty()
             syllabusLabAdapter.submitList(it)
         }
         viewModel.pe.observe(viewLifecycleOwner) {
-            binding.showPe.isVisible = it.isNotEmpty()
-            binding.textView8.isVisible = it.isNotEmpty()
-            binding.dividerLab.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.showPe.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.textView8.isVisible = it.isNotEmpty()
+            binding.fragmentHomeExt.dividerLab.isVisible = it.isNotEmpty()
             syllabusPeAdapter.submitList(it)
         }
+
+    }
+
+    private fun getHoliday() {
         viewModel.getHoliday().observe(viewLifecycleOwner) { dateState ->
             when (dateState) {
                 is DataState.Success -> {
@@ -794,6 +954,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         } catch (e: Exception) {
             Log.e("Error", e.message!!)
         }
+    }
+
+    private fun setDefaultValueForSwitch() {
+        remoteConfigUtil.fetchData({
+            Log.e(TAG, "setDefaultValueForSwitch: $it")
+        }) {
+            val switchState = remoteConfigUtil.getString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY)
+            pref.edit()
+                .putString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, switchState)
+                .apply()
+        }
+        setSyllabusEnableModel()
+    }
+
+    private fun setSyllabusEnableModel() {
+        val source = pref.getString(
+            KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY,
+            resources.getString(R.string.def_value_online_syllabus)
+        )
+        viewModel.syllabusEnableModel =
+            Gson().fromJson(source, SyllabusEnableModel::class.java)
     }
 
 

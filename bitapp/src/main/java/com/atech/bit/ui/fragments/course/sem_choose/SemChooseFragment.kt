@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
+import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -25,14 +26,16 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapter
+import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
 import com.atech.core.api.syllabus.Semester
 import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.utils.DataState
-import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE
+import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
@@ -41,6 +44,7 @@ import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.HttpException
 import javax.inject.Inject
@@ -115,9 +119,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         buttonClick()
         setUpMenu()
         switchClick()
-        setSource()
         getOnlineSyllabus()
         setAds()
+        setSyllabusEnableModel()
 
     }
 
@@ -212,9 +216,27 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         prefManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             viewModel.sem.value = "${viewModel.request}${it.semSyllabus}"
             courseSem = "${viewModel.request}${it.semSyllabus}".lowercase()
+            setSource(courseSem)
             buttonColorChange(it.semSyllabus, binding)
         }
     }
+
+    private fun setSyllabusEnableModel() {
+        val source = pref.getString(
+            KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY,
+            resources.getString(R.string.def_value_online_syllabus)
+        )
+        viewModel.syllabusEnableModel = Gson().fromJson(source, SyllabusEnableModel::class.java)
+    }
+
+    private fun setSource(courseSem: String) {
+        val source = viewModel.syllabusEnableModel.compareToCourseSem(courseSem)
+        binding.switchOldNew.isChecked = source
+        setText(source)
+        layoutChanges(source)
+    }
+
+
 
     private fun getOnlineSyllabus() {
         viewModel.getOnlineSyllabus().observe(viewLifecycleOwner) { dataState ->
@@ -271,16 +293,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         onlinePEAdapter.submitList(data.subjects.pe)
     }
 
-    private fun setSource() {
-        val source = pref.getBoolean(KEY_TOGGLE_SYLLABUS_SOURCE, false)
-        binding.switchOldNew.isChecked = source
-        setText(source)
-        layoutChanges(source)
-    }
 
     private fun switchClick() = binding.switchOldNew.apply {
         setOnCheckedChangeListener { _, isChecked ->
-            saveSource(isChecked)
             setText(isChecked)
             layoutChanges(isChecked)
         }
@@ -291,11 +306,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         else resources.getString(R.string.switch_to_new)
     }
 
-    private fun saveSource(isEnable: Boolean) {
-        pref.edit().putBoolean(
-            KEY_TOGGLE_SYLLABUS_SOURCE, isEnable
-        ).apply()
-    }
 
     private fun layoutChanges(isEnable: Boolean) = binding.apply {
         semChoseOnlineExt.root.isVisible = isEnable
@@ -392,4 +402,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             else -> Log.d("Error", "buttonColorChange: Error")
         }
     }
+
+
 }
