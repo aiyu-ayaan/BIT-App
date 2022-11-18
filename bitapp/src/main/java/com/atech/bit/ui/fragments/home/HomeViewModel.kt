@@ -13,6 +13,7 @@ package com.atech.bit.ui.fragments.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.core.api.ApiRepository
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.syllabus.SyllabusDao
@@ -45,6 +46,9 @@ class HomeViewModel @Inject constructor(
     }).asLiveData()
 
 
+    var syllabusEnableModel: SyllabusEnableModel =
+        SyllabusEnableModel()
+
     //    Syllabus
     val syllabusQuery = MutableStateFlow("-fdfjdfk")
 
@@ -69,5 +73,7 @@ class HomeViewModel @Inject constructor(
     fun getEvent(start: Long, end: Long) =
         eventRepository.getEvent7Days(start, end).asLiveData()
 
-
+    fun getOnlineSyllabus() = syllabusQuery.flatMapLatest { semester ->
+        apiRepository.getSyllabus(semester.lowercase())
+    }.asLiveData()
 }

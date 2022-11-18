@@ -26,7 +26,9 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SubjectAdapter
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapter
+import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
 import com.atech.core.api.syllabus.Semester
@@ -228,32 +230,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun setSource(courseSem: String) {
-
         val source = viewModel.syllabusEnableModel.compareToCourseSem(courseSem)
         binding.switchOldNew.isChecked = source
         setText(source)
         layoutChanges(source)
     }
 
-    private fun SyllabusEnableModel.compareToCourseSem(courseSem: String) = this.run {
-        when (courseSem) {
-            "bca1" -> bca1
-            "bca2" -> bca2
-            "bca3" -> bca3
-            "bca4" -> bca4
-            "bca5" -> bca5
-            "bca6" -> bca6
-            "bba1" -> bba1
-            "bba2" -> bba2
-            "bba3" -> bba3
-            "bba4" -> bba4
-            "bba5" -> bba5
-            "bba6" -> bba6
-            else -> {
-                false
-            }
-        }
-    }
 
 
     private fun getOnlineSyllabus() {
@@ -421,19 +403,5 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
     }
 
-    @Keep
-    data class SyllabusEnableModel(
-        val bca1: Boolean = false,
-        val bca2: Boolean = false,
-        val bca3: Boolean = false,
-        val bca4: Boolean = false,
-        val bca5: Boolean = false,
-        val bca6: Boolean = false,
-        val bba1: Boolean = false,
-        val bba2: Boolean = false,
-        val bba3: Boolean = false,
-        val bba4: Boolean = false,
-        val bba5: Boolean = false,
-        val bba6: Boolean = false,
-    )
+
 }

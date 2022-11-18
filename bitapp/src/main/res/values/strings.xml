@@ -226,6 +226,8 @@
     <string name="issue_link">https://bitapp.page.link/issue</string>
     <string name="github_link">https://bitapp.page.link/BIT</string>
     <string name="no_internet">No Internet</string>
-    <string name="def_value_online_syllabus">"bca1": false,   "bca2": false,   "bca3": false,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false</string>
+    <string name="def_value_online_syllabus">{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false }</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
 
 </resources>

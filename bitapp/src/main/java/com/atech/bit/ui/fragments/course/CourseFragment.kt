@@ -32,8 +32,6 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     @Inject
     lateinit var db: FirebaseFirestore
 
-    @Inject
-    lateinit var remoteConfigUtil: RemoteConfigUtil
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -69,20 +67,7 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
                 navigateToSemChoose(Course.Bba.name, imageButtonBba)
             }
         }
-        setDefaultValueForSwitch()
     }
-
-    private fun setDefaultValueForSwitch() {
-        remoteConfigUtil.fetchData({
-            Log.e(TAG, "setDefaultValueForSwitch: $it")
-        }) {
-            val switchState = remoteConfigUtil.getString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY)
-            pref.edit()
-                .putString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, switchState)
-                .apply()
-        }
-    }
-
 
     override fun onPause() {
         super.onPause()

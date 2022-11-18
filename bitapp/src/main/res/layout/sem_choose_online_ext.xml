@@ -10,9 +10,10 @@
     android:paddingBottom="@dimen/grid_2">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutOnline"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="@dimen/grid_2">
 
         <TextView
             android:id="@+id/textView6"

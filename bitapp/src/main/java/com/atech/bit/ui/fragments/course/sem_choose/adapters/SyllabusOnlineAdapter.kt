@@ -10,6 +10,7 @@ import com.atech.core.api.syllabus.DiffUtilTheorySyllabusCallback
 import com.atech.core.api.syllabus.SubjectModel
 
 class SyllabusOnlineAdapter(
+    private val isFromHome: Boolean = false,
     private val onClick: (SubjectModel) -> Unit
 ) : ListAdapter<SubjectModel, SyllabusOnlineViewHolder<SubjectModel>>(DiffUtilTheorySyllabusCallback()) {
 
@@ -43,6 +44,11 @@ class SyllabusOnlineAdapter(
                     R.string.theory_code, type, theory.code
                 )
                 creditTextView.text = theory.credit.toString()
+                if (isFromHome) {
+                    subjectTextView.textSize = 16f
+                    subjectCodeTextView.textSize = 12f
+                    creditTextView.textSize = 12f
+                }
             }
         }
     }

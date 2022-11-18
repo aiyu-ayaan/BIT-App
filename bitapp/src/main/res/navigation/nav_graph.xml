@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_homeFragment_to_logInFragment"
             app:destination="@id/logInFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_viewSyllabusFragment"
+            app:destination="@id/viewSyllabusFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"
