@@ -16,8 +16,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 33
-        versionName "4.1.1 Patch 7"
+        versionCode 34
+        versionName "4.1.1 Patch 8"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -103,8 +103,8 @@ dependencies {
     implementation "com.google.android.gms:play-services-ads:$playServicesAds"
 
 //    crashlytics
-//    implementation 'com.google.firebase:firebase-crashlytics-ktx'
-//    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     // ViewModel

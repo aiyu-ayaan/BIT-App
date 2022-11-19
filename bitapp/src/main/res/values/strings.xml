@@ -221,7 +221,7 @@
     <string name="lessThanDefault">😥</string>
     <string name="lessThan60">😣</string>
     <string name="def_emoji">🤓</string>
-    <string name="mail">Mail</string>
+    <string name="feedback_to_dev">Feedback</string>
     <string name="about_app">About App</string>
     <string name="issue_link">https://bitapp.page.link/issue</string>
     <string name="github_link">https://bitapp.page.link/BIT</string>

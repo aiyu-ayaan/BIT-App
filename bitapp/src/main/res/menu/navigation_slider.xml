@@ -8,6 +8,14 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/nav_github"
+        android:icon="@drawable/ic_github"
+        android:title="@string/git" />
+    <item
+        android:id="@+id/nav_issue"
+        android:icon="@drawable/ic_issue"
+        android:title="@string/report" />
     <group
         android:id="@+id/group_3"
         android:checkableBehavior="single">
@@ -64,7 +72,7 @@
                 <item
                     android:id="@+id/nav_mail"
                     android:icon="@drawable/ic_mail"
-                    android:title="@string/mail" />
+                    android:title="@string/feedback_to_dev" />
             </menu>
         </item>
     </group>
@@ -95,22 +103,6 @@
                     android:icon="@drawable/ic_color"
                     android:title="@string/theme" />
 
-            </menu>
-        </item>
-    </group>
-    <group
-        android:id="@+id/group_7"
-        android:checkableBehavior="single">
-        <item android:title="@string/about_app">
-            <menu>
-                <item
-                    android:id="@+id/nav_github"
-                    android:icon="@drawable/ic_github"
-                    android:title="@string/git" />
-                <item
-                    android:id="@+id/nav_issue"
-                    android:icon="@drawable/ic_issue"
-                    android:title="@string/report" />
             </menu>
         </item>
     </group>
