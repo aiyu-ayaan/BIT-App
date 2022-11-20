@@ -40,7 +40,7 @@ jobs:
           ls -la ./bitapp
 
       - name: Build Release APK and Bundle
-        run: ./gradlew :bitapp:assembleGlobalRelease --stacktrace :bitapp:bundleBetaRelease --stacktrace
+        run: ./gradlew :bitapp:assembleGlobalRelease --stacktrace :bitapp:bundleGlobalRelease --stacktrace
         env:
           SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
           SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
