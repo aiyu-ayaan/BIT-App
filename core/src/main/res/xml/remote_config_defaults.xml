@@ -6,7 +6,7 @@
     </entry>
     <entry>
         <key>KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY</key>
-        <value>{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false }</value>
+        <value>{"bca1":true,"bca2":false,"bca3":true,"bca4":false,"bca5":false,"bca6":false,"bba1":false,"bba2":false,"bba3":false,"bba4":false,"bba5":false,"bba6":false,"mca1":false,"mca2":false,"mca3":false,"mba4":false,"mba1":false,"mba2":false,"mba3":false}</value>
     </entry>
     <entry>
         <key>SYLLABUS_BCA</key>

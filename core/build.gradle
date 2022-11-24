@@ -82,7 +82,7 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     implementation "androidx.webkit:webkit:$webKit_version"
-    implementation 'com.google.android.gms:play-services-fido:18.1.0'
+    implementation 'com.google.android.gms:play-services-fido:19.0.0'
     implementation 'androidx.browser:browser:1.4.0'
 
     // Coroutines
