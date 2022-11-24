@@ -2,8 +2,8 @@ buildscript {
     ext {
         kotlin_version = "1.7.10"
         playStoreCoreVersion = "1.8.1"
-        materail3Version = "1.8.0-alpha02"
-        playServicesAuthVersion = "20.3.0"
+        materail3Version = "1.8.0-alpha03"
+        playServicesAuthVersion = "20.4.0"
         playServicesAds ="21.3.0"
         firebaseFireStoreVersion = "24.4.0"
         googleServiceVersion = '4.3.10'
@@ -28,7 +28,7 @@ buildscript {
         splashScreenVersion = "1.0.0"
         review_version = "2.0.0"
         graphVersion = "v3.1.0"
-        mediaVersion = "1.0.0-beta02"
+        mediaVersion = "1.0.0-beta03"
         cryptoreVersion = "1.4.0"
         retrofit_version = '2.9.0'
         retrofit_json_version = "2.9.0"

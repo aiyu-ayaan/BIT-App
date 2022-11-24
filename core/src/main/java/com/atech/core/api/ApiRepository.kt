@@ -55,7 +55,14 @@ class ApiRepository @Inject constructor(
         subject: String
     ) = networkFetchData(
         fetch = {
-            api.getSubjectMarkdown(course,courseSem, subject)
+            api.getSubjectMarkdown(course, courseSem, subject)
+        }
+    )
+
+    fun fetchCourse() = networkFetchData(
+        fetch =
+        {
+            api.getCourse()
         }
     )
 }

@@ -786,7 +786,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (dataState) {
                 DataState.Empty -> {}
                 is DataState.Error -> {
-                    Log.d("AAA", "getOnlineSyllabus: ${dataState.exception}")
                     if (dataState.exception is HttpException) {
                         binding.root.showSnackBar(
                             "${dataState.exception.message}", Snackbar.LENGTH_SHORT, "Report"
@@ -811,7 +810,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
 
                 is DataState.Success -> {
-                    Log.d("AAA", "getOnlineSyllabus: ${dataState.data}")
                     dataState.data.semester?.let { syllabus ->
                         setOnLineData(syllabus) //
                     }

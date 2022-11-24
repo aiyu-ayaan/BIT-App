@@ -3,22 +3,20 @@ package com.atech.bit.ui.fragments.course
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Parcelable
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentCourseBinding
-import com.atech.core.utils.Course
-import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
-import com.atech.core.utils.RemoteConfigUtil
-import com.atech.core.utils.TAG
-import com.google.android.material.transition.MaterialElevationScale
+import com.atech.bit.utils.addViews
+import com.atech.bit.utils.setExitShareAxisTransition
+import com.atech.core.api.ApiRepository
+import com.atech.core.utils.DataState
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,6 +34,9 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     @Inject
     lateinit var pref: SharedPreferences
 
+    @Inject
+    lateinit var api: ApiRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
@@ -51,41 +52,56 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         binding.apply {
-            imageButtonBba.transitionName = Course.Bba.name
-            imageButtonBca.transitionName = Course.Bca.name
-            imageButtonBca.setOnClickListener {
-                navigateToSemChoose(Course.Bca.name, imageButtonBca)
-            }
-            imageButtonBba.setOnClickListener {
-                navigateToSemChoose(Course.Bba.name, imageButtonBba)
-            }
-            textViewBca.setOnClickListener {
-                navigateToSemChoose(Course.Bca.name, imageButtonBca)
-            }
+            setUi()
 
-            textViewBba.setOnClickListener {
-                navigateToSemChoose(Course.Bba.name, imageButtonBba)
+        }
+    }
+
+    private fun setUi() {
+        api.fetchCourse().asLiveData().observe(viewLifecycleOwner) { dataState ->
+            when (dataState) {
+                DataState.Empty -> {}
+                is DataState.Error -> {
+                    Toast.makeText(
+                        requireContext(),
+                        dataState.exception.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                DataState.Loading -> {}
+                is DataState.Success -> {
+                    bindUi(dataState.data)
+                }
             }
         }
     }
+
+    private fun bindUi(course: List<String>) = binding.llCourse.run {
+        course.forEach { s ->
+            addViews(requireActivity(), R.layout.row_course, s) { course, view ->
+                view.findViewById<TextView>(R.id.tv_course_name).text = course
+                view.rootView.apply {
+                    setOnClickListener {
+                        navigateToSemChoose(course)
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun onPause() {
         super.onPause()
         myScrollViewerInstanceState = binding.nestedViewSyllabus.onSaveInstanceState()
     }
 
-    private fun navigateToSemChoose(request: String, view: ImageButton) {
-        val extras = FragmentNavigatorExtras(view to request)
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
+    private fun navigateToSemChoose(request: String) {
+        setExitShareAxisTransition()
         try {
             val action =
                 CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request)
-            findNavController().navigate(action, extras)
+            findNavController().navigate(action)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Press one item at a time !!", Toast.LENGTH_SHORT)
                 .show()

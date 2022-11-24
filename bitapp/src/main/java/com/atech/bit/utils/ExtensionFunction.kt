@@ -7,10 +7,14 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
+import android.view.View
+import android.widget.LinearLayout
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.Fragment
 import com.atech.bit.BuildConfig
 import com.atech.core.R
 import com.atech.core.api.holiday.Holiday
@@ -25,6 +29,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -342,3 +347,29 @@ fun List<Holiday>?.sortBySno(): List<Holiday> {
 fun getVersion() = BuildConfig.VERSION_NAME
     .replace("-beta", "")
     .replace("-playStore", "")
+
+fun <T> LinearLayout.addViews(
+    activity: Activity,
+    @LayoutRes id: Int,
+    t: T,
+    action: (T, View) -> Unit = { _, _ -> }
+
+) =
+    this.apply {
+        val view = activity.layoutInflater.inflate(id, this, false)
+        action(t, view)
+        addView(view)
+    }
+
+
+fun Fragment.setExitShareAxisTransition(@MaterialSharedAxis.Axis axis: Int = MaterialSharedAxis.X) =
+    this.apply {
+        exitTransition = MaterialSharedAxis(axis, true)
+        reenterTransition = MaterialSharedAxis(axis, false)
+    }
+
+fun Fragment.setEnterShareAxisTransition(@MaterialSharedAxis.Axis axis: Int = MaterialSharedAxis.X) =
+    this.apply {
+        enterTransition = MaterialSharedAxis(axis,  true)
+        returnTransition = MaterialSharedAxis(axis, false)
+    }

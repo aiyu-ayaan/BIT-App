@@ -37,4 +37,7 @@ interface BITApiClient {
         @Path("subject") subject: String
     ): String
 
+    @GET("syllabus/course.json")
+    suspend fun getCourse(): List<String>
+
 }

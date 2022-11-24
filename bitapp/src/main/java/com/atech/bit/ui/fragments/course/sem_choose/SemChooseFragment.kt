@@ -1,13 +1,11 @@
 package com.atech.bit.ui.fragments.course.sem_choose
 
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
-import androidx.annotation.Keep
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
@@ -31,6 +29,7 @@ import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
+import com.atech.bit.utils.setEnterShareAxisTransition
 import com.atech.core.api.syllabus.Semester
 import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.room.syllabus.SyllabusModel
@@ -40,7 +39,6 @@ import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -73,12 +71,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.fragment
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-            scrimColor = Color.TRANSPARENT
-            setAllContainerColors(Color.TRANSPARENT)
-        }
+        setEnterShareAxisTransition()
     }
 
     @Inject
@@ -237,13 +230,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
 
-
     private fun getOnlineSyllabus() {
         viewModel.getOnlineSyllabus().observe(viewLifecycleOwner) { dataState ->
             when (dataState) {
                 DataState.Empty -> {}
                 is DataState.Error -> {
-                    Log.d("AAA", "getOnlineSyllabus: ${dataState.exception}")
                     if (dataState.exception is HttpException) {
                         binding.root.showSnackBar(
                             "${dataState.exception.message}", Snackbar.LENGTH_SHORT, "Report"
@@ -266,7 +257,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                 }
 
                 is DataState.Success -> {
-                    Log.d("XXX", "getOnlineSyllabus: ${dataState.data}")
                     dataState.data.semester?.let { syllabus ->
                         setOnLineData(syllabus)
                     }

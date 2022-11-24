@@ -14,54 +14,24 @@
         android:layout_height="match_parent"
         android:padding="@dimen/grid_2">
 
-        <ImageButton
-            android:id="@+id/image_button_bca"
-            android:layout_width="@dimen/course_image_size"
-            android:layout_height="@dimen/course_image_size"
-            android:layout_marginStart="@dimen/grid_1"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/bca"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_bca_logo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/image_button_bba"
-            app:layout_constraintHorizontal_bias="0.0"
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_view_log_in_size"
+            android:src="@drawable/ic_course"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/blank" />
 
-        <TextView
-            android:id="@+id/text_view_bca"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1"
-            android:text="@string/bca"
-            android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintEnd_toEndOf="@+id/image_button_bca"
-            app:layout_constraintStart_toStartOf="@+id/image_button_bca"
-            app:layout_constraintTop_toBottomOf="@+id/image_button_bca" />
-
-        <ImageButton
-            android:id="@+id/image_button_bba"
-            android:layout_width="@dimen/course_image_size"
-            android:layout_height="@dimen/course_image_size"
-            android:layout_marginEnd="@dimen/grid_1"
-            android:background="@android:color/transparent"
-            android:contentDescription="@string/bca"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_bba_logo"
+        <LinearLayout
+            android:id="@+id/ll_course"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/text_view_bba"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1"
-            android:text="@string/bba"
-            android:textAppearance="?attr/textAppearanceHeadline5"
-            app:layout_constraintEnd_toEndOf="@+id/image_button_bba"
-            app:layout_constraintStart_toStartOf="@+id/image_button_bba"
-            app:layout_constraintTop_toBottomOf="@+id/image_button_bba" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
