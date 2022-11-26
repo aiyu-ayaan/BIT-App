@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Button
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -39,7 +38,6 @@ import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
-import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
@@ -198,7 +196,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         viewModel.theory.observe(viewLifecycleOwner) {
             binding.semChoseExt.showTheory.isVisible = it.isNotEmpty()
             binding.semChoseExt.textView6.isVisible = it.isNotEmpty()
-            setOfflineNoData(binding.semChoseExt.showTheory.isVisible, binding.semChoseExt.showLab.isVisible, binding.semChoseExt.showPe.isVisible)
+            setOfflineNoData(
+                binding.semChoseExt.showTheory.isVisible,
+                binding.semChoseExt.showLab.isVisible,
+                binding.semChoseExt.showPe.isVisible
+            )
             courseTheoryAdapter.submitList(it)
         }
         viewModel.lab.observe(viewLifecycleOwner) {
@@ -256,7 +258,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                                 dataState.exception.message
                             )
                         }
-                    }else{
+                    } else {
                         Log.d("AAA", "getOnlineSyllabus: ${dataState.exception.message}")
                     }
 
@@ -271,7 +273,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                 is DataState.Success -> {
                     Log.d("AAA", "getOnlineSyllabus: ${dataState.data}")
                     dataState.data.semester?.let { syllabus ->
-
                         setOnLineData(syllabus)
                     }
                     setViewOfOnlineSyllabusExt(dataState.data.semester != null)
@@ -330,10 +331,12 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         }
     }
 
-    private fun setSemButtons() = binding.apply{
-        for(i in 1..viewModel.totalSem){
-            val button = binding.javaClass.getField("bt$i").get(binding) as Chip
-            button.isVisible = true
+    private fun setSemButtons() = binding.apply {
+        val list = listOf(
+            bt1, bt2, bt3, bt4, bt5, bt6
+        )
+        for (i in 0 until viewModel.totalSem) {
+            list[i].isVisible = true
         }
     }
 
