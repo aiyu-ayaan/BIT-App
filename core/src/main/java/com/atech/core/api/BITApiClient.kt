@@ -3,6 +3,7 @@ package com.atech.core.api
 import com.atech.core.api.aboutus.AboutUsModel
 import com.atech.core.api.holiday.HolidayModel
 import com.atech.core.api.society.SocietyModel
+import com.atech.core.api.syllabus.CourseDetail
 import com.atech.core.api.syllabus.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -38,6 +39,6 @@ interface BITApiClient {
     ): String
 
     @GET("syllabus/course.json")
-    suspend fun getCourse(): List<String>
+    suspend fun getCourse(): List<CourseDetail>
 
 }

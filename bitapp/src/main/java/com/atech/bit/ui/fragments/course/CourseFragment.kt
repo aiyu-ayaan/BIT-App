@@ -16,6 +16,7 @@ import com.atech.bit.databinding.FragmentCourseBinding
 import com.atech.bit.utils.addViews
 import com.atech.bit.utils.setExitShareAxisTransition
 import com.atech.core.api.ApiRepository
+import com.atech.core.api.syllabus.CourseDetail
 import com.atech.core.utils.DataState
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
@@ -77,13 +78,14 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
         }
     }
 
-    private fun bindUi(course: List<String>) = binding.llCourse.run {
+    private fun bindUi(course: List<CourseDetail>) = binding.llCourse.run {
+
         course.forEach { s ->
             addViews(requireActivity(), R.layout.row_course, s) { course, view ->
-                view.findViewById<TextView>(R.id.tv_course_name).text = course
+                view.findViewById<TextView>(R.id.tv_course_name).text = course.courseName
                 view.rootView.apply {
                     setOnClickListener {
-                        navigateToSemChoose(course)
+                        navigateToSemChoose(course.courseName, course.totalSemester)
                     }
                 }
             }
@@ -91,16 +93,17 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     }
 
 
+
     override fun onPause() {
         super.onPause()
         myScrollViewerInstanceState = binding.nestedViewSyllabus.onSaveInstanceState()
     }
 
-    private fun navigateToSemChoose(request: String) {
+    private fun navigateToSemChoose(request: String,sem :Int) {
         setExitShareAxisTransition()
         try {
             val action =
-                CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request)
+                CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request,sem)
             findNavController().navigate(action)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Press one item at a time !!", Toast.LENGTH_SHORT)

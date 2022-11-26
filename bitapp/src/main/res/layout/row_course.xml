@@ -7,25 +7,33 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/grid_1"
     android:layout_marginVertical="@dimen/grid_0_25"
-    app:cardBackgroundColor="?attr/colorSurface">
+    android:padding="@dimen/grid_1"
+    app:cardBackgroundColor="?attr/bottomBar">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:padding="@dimen/grid_1"
+        android:orientation="horizontal"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/blank"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_book"
+            android:padding="@dimen/grid_2"
+            app:tint="?attr/colorPrimary" />
 
         <TextView
             android:id="@+id/tv_course_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:padding="@dimen/grid_2"
-            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
             tools:text="Course Name" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:dividerColor="@color/divider_color" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
 

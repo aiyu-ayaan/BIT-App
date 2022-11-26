@@ -959,6 +959,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Log.e(TAG, "setDefaultValueForSwitch: $it")
         }) {
             val switchState = remoteConfigUtil.getString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY)
+            Log.d(TAG, "setDefaultValueForSwitch: $switchState")
             pref.edit()
                 .putString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, switchState)
                 .apply()

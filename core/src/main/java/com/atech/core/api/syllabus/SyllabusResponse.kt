@@ -31,7 +31,7 @@ data class SubjectModel(
     val subjectName: String,
     val code: String,
     val shortName: String,
-    val credit: Int,
+    val credit: Double,
 ) : Parcelable
 
 
@@ -44,3 +44,10 @@ class DiffUtilTheorySyllabusCallback : DiffUtil.ItemCallback<SubjectModel>() {
         return oldItem == newItem
     }
 }
+
+
+@Keep
+data class CourseDetail(
+    val courseName: String,
+    val totalSemester: Int,
+)
