@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/imageView3"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/image_view_log_in_size"
             android:layout_height="@dimen/image_view_log_in_size"
             android:src="@drawable/ic_course"
             app:layout_constraintEnd_toEndOf="parent"

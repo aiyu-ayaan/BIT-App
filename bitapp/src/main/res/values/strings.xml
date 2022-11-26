@@ -84,6 +84,7 @@
     <string name="share">Share</string>
     <string name="connect">Connect With Us</string>
     <string name="report">Issue</string>
+    <string name="report_app_data">Issue (App Data)</string>
     <string name="home">Home</string>
     <string name="notice">Notice</string>
     <string name="courses">Courses</string>
@@ -226,8 +227,10 @@
     <string name="issue_link">https://bitapp.page.link/issue</string>
     <string name="github_link">https://bitapp.page.link/BIT</string>
     <string name="no_internet">No Internet</string>
-    <string name="def_value_online_syllabus">{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false }</string>
+    <string name="def_value_online_syllabus">{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false ,"mca1": true, "mca2": false, "mca3": false, "mba4": false, "mba1": false, "mba2": false, "mba3": false}</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
+    <string name="no_offline_data">Data not fount in offline database😣😣😣</string>
+    <string name="issue_link_app_data">https://bitapp.page.link/issue_app_data</string>
 
 </resources>

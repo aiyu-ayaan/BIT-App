@@ -16,6 +16,14 @@ data class SyllabusEnableModel(
     val bba4: Boolean = false,
     val bba5: Boolean = false,
     val bba6: Boolean = false,
+    val mca1: Boolean = false,
+    val mca2: Boolean = false,
+    val mca3: Boolean = false,
+    val mca4: Boolean = false,
+    val mba1: Boolean = false,
+    val mba2: Boolean = false,
+    val mba3: Boolean = false,
+    val mba4: Boolean = false
 )
 
 fun SyllabusEnableModel.compareToCourseSem(courseSem: String) = this.run {
@@ -32,8 +40,15 @@ fun SyllabusEnableModel.compareToCourseSem(courseSem: String) = this.run {
         "bba4" -> bba4
         "bba5" -> bba5
         "bba6" -> bba6
-        else -> {
+        "mca1" -> mca1
+        "mca2" -> mca2
+        "mca3" -> mca3
+        "mca4" -> mca4
+        "mba1" -> mba1
+        "mba2" -> mba2
+        "mba3" -> mba3
+        "mba4" -> mba4
+        else ->
             false
-        }
     }
 }

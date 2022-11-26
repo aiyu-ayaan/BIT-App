@@ -16,6 +16,10 @@
         android:id="@+id/nav_issue"
         android:icon="@drawable/ic_issue"
         android:title="@string/report" />
+    <item
+        android:id="@+id/nav_issue_app_data"
+        android:icon="@drawable/ic_issue"
+        android:title="@string/report_app_data" />
     <group
         android:id="@+id/group_3"
         android:checkableBehavior="single">

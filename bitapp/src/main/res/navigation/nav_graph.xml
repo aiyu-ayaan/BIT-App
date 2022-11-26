@@ -173,6 +173,10 @@
         <action
             android:id="@+id/action_semChooseFragment_to_viewSyllabusFragment"
             app:destination="@id/viewSyllabusFragment" />
+        <argument
+            android:name="sem"
+            app:argType="integer"
+            android:defaultValue="6" />
     </fragment>
     <dialog
         android:id="@+id/themeChangeDialog"

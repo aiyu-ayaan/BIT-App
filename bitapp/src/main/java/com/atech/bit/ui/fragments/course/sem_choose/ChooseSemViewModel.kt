@@ -39,6 +39,8 @@ class ChooseSemViewModel @Inject constructor(
 
     }.asLiveData()
 
+    val totalSem = state.get<Int>("sem") ?: 6
+
     var chooseSemNestedViewPosition: Int? = state["chooseSemNestedViewPosition"]
         set(value) {
             field = value
