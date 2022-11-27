@@ -373,3 +373,5 @@ fun Fragment.setEnterShareAxisTransition(@MaterialSharedAxis.Axis axis: Int = Ma
         enterTransition = MaterialSharedAxis(axis,  true)
         returnTransition = MaterialSharedAxis(axis, false)
     }
+
+fun Context.isBeta(): Boolean = BuildConfig.VERSION_NAME.contains("-beta")
