@@ -179,8 +179,8 @@
     <string name="uninstall">Uninstall</string>
     <string name="do_not_show_this">Don\'t show this again</string>
     <string name="may_be_next_time">"May be next time "</string>
-    <string name="note_from_dev">This app is made by one of the student of BIT Lalpur. It is not made by any society !!</string>
-    <string name="dev">Know About <a href="https://github.com/aiyu-ayaan">Dev</a></string>
+    <string name="note_from_dev">The owner of this application is a student of BIT Lalpur and does not have any affiliation with BIT itself.</string>
+    <string name="dev">This app is now open source🤗.\nKnow About <a href="https://github.com/aiyu-ayaan">Dev</a></string>
     <string name="contributors">Contributors</string>
     <string name="ngos">NGOs</string>
     <string name="societies_and_ngos">Societies &#38; NGOs</string>

@@ -224,19 +224,29 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             )
         }
         prefManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
-            viewModel.sem.value = "${viewModel.request}${it.semSyllabus}"
+            val request =  viewModel.request?.let { it1 -> setSem(it1, it.semSyllabus) }.toString()
+            viewModel.sem.value = request
             courseSem = "${viewModel.request}${it.semSyllabus}".lowercase()
             setSource(courseSem)
-            buttonColorChange(it.semSyllabus, binding)
+            buttonColorChange(request.replace("[M,B][A-C]+".toRegex(),""), binding)
         }
     }
+
+    private fun setSem(course: String, sem: String): String =
+        if (course.contains("M[A-C]+".toRegex())) {
+            when (sem) {
+                "5" -> "${course}3"
+                "6" -> "${course}4"
+                else -> "${course}$sem"
+            }
+        } else {
+            "$course$sem"
+        }
 
     private fun setOfflineNoData(theory: Boolean, lab: Boolean, pe: Boolean) {
 
         binding.semChoseExt.lvNoData.isVisible = !(theory || lab || pe)
         binding.semChoseExt.lvContent.isVisible = theory || lab || pe
-        Log.d("AAA", "setOfflineNoData: $theory $lab $pe")
-        Log.d("AAA", "setOfflineNoData: ${theory || lab || pe} ")
     }
 
     private fun setSyllabusEnableModel() {
