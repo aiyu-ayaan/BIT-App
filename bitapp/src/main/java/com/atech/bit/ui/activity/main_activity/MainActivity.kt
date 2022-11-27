@@ -31,6 +31,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
@@ -39,6 +40,7 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewM
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.MenuClick
 import com.atech.bit.utils.getVersion
+import com.atech.bit.utils.isBeta
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
@@ -152,10 +154,16 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     R.id.nav_share -> shareApp()
                     R.id.nav_mail -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
-                    R.id.nav_issue_app_data -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.issue_link_app_data))
+                    R.id.nav_issue_app_data -> this@MainActivity.openCustomChromeTab(
+                        resources.getString(
+                            R.string.issue_link_app_data
+                        )
+                    )
+
                     R.id.nav_rate -> startReviewFlow()
                     R.id.nav_issue -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.issue_link))
                     R.id.nav_github -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.github_link))
+                    R.id.nav_whats_new -> openReleaseNotes()
                     else -> NavigationUI.onNavDestinationSelected(it, navController)
                 }
                 true
@@ -169,6 +177,21 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         if (u)
             getWarning()
         shareReview()
+    }
+
+    private fun openReleaseNotes() {
+        val link = isBeta().let {
+            val version = if (BuildConfig.VERSION_NAME.contains("\\sPatch\\s".toRegex()))
+                BuildConfig.VERSION_NAME.replace("\\sPatch\\s".toRegex(), ".")
+            else BuildConfig.VERSION_NAME
+                if (it) resources.getString(
+                    R.string.release_notes,
+                    "pre-release-v$version"
+                )
+                else resources.getString(R.string.release_notes, "v$version")
+        }
+        this@MainActivity.openCustomChromeTab(link.replace("-[b,g]\\w+".toRegex(), ""))
+
     }
 
 
