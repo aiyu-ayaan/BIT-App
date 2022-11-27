@@ -207,11 +207,21 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             binding.semChoseExt.showLab.isVisible = it.isNotEmpty()
             binding.semChoseExt.textView7.isVisible = it.isNotEmpty()
             courseLabAdapter.submitList(it)
+            setOfflineNoData(
+                binding.semChoseExt.showTheory.isVisible,
+                binding.semChoseExt.showLab.isVisible,
+                binding.semChoseExt.showPe.isVisible
+            )
         }
         viewModel.pe.observe(viewLifecycleOwner) {
             binding.semChoseExt.showPe.isVisible = it.isNotEmpty()
             binding.semChoseExt.textView8.isVisible = it.isNotEmpty()
             coursePeAdapter.submitList(it)
+            setOfflineNoData(
+                binding.semChoseExt.showTheory.isVisible,
+                binding.semChoseExt.showLab.isVisible,
+                binding.semChoseExt.showPe.isVisible
+            )
         }
         prefManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             viewModel.sem.value = "${viewModel.request}${it.semSyllabus}"
@@ -222,8 +232,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun setOfflineNoData(theory: Boolean, lab: Boolean, pe: Boolean) {
-        binding.semChoseExt.lvNoData.isVisible = !(theory && lab && pe)
-        binding.semChoseExt.lvContent.isVisible = theory && lab && pe
+
+        binding.semChoseExt.lvNoData.isVisible = !(theory || lab || pe)
+        binding.semChoseExt.lvContent.isVisible = theory || lab || pe
+        Log.d("AAA", "setOfflineNoData: $theory $lab $pe")
+        Log.d("AAA", "setOfflineNoData: ${theory || lab || pe} ")
     }
 
     private fun setSyllabusEnableModel() {
