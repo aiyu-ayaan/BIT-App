@@ -235,5 +235,6 @@
     <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>
     <string name="mca">MCA</string>
     <string name="mba">MBA</string>
+    <string name="library">Library</string>
 
 </resources>

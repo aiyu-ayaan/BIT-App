@@ -26,6 +26,8 @@ import com.atech.core.data.room.attendance.StackTypeConvector
 import com.atech.core.data.room.events.DateConverter
 import com.atech.core.data.room.events.EventsCacheEntity
 import com.atech.core.data.room.events.EventsDao
+import com.atech.core.data.room.library.LibraryDao
+import com.atech.core.data.room.library.LibraryModel
 import com.atech.core.data.room.notice.Notice3CacheEntity
 import com.atech.core.data.room.notice.Notice3Dao
 import com.atech.core.data.room.syllabus.SyllabusDao
@@ -41,9 +43,9 @@ import javax.inject.Provider
     entities = [
         AttendanceModel::class,
         SyllabusModel::class, Notice3CacheEntity::class,
-        EventsCacheEntity::class
+        EventsCacheEntity::class, LibraryModel::class
     ],
-    version = 11,
+    version = 12,
     exportSchema = true
 )
 @TypeConverters(
@@ -58,6 +60,8 @@ abstract class BitDatabase : RoomDatabase() {
     abstract fun syllabusDao(): SyllabusDao
     abstract fun notice3Dao(): Notice3Dao
     abstract fun eventDao(): EventsDao
+
+    abstract fun libraryDao(): LibraryDao
 
 
     companion object {
@@ -160,6 +164,11 @@ abstract class BitDatabase : RoomDatabase() {
         var migration_10_11 = object : Migration(10, 11) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("DELETE FROM holiday_table")
+            }
+        }
+        var migration_11_12 = object : Migration(11, 12) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("CREATE TABLE `library_table`( `id` INTEGER NOT NULL,`bookName` TEXT NOT NULL,`bookId` TEXT NOT NULL,`issueDate` INTEGER NOT NULL,`returnDate` INTEGER NOT NULL,`alertDate` INTEGER NOT NULL, PRIMARY KEY(`id`))")
             }
         }
     }

@@ -70,3 +70,5 @@ const val SHARE_NOTICE = "notice"
 const val CURRENT_YEAR = "Current_Year"
 const val GITHUB_LINK = "Github_Link"
 const val MAX_STACK_SIZE = 30
+
+const val DEFAULT_DATE_FORMAT = "dd/MM/yyyy"

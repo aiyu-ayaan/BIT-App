@@ -519,4 +519,9 @@
             android:name="defPercentage"
             app:argType="integer" />
     </dialog>
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.atech.bit.ui.fragments.library.LibraryFragment"
+        android:label="@string/library"
+        tools:layout="@layout/fragment_library" />
 </navigation>
