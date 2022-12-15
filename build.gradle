@@ -11,7 +11,7 @@ buildscript {
         lifecycle_version = "2.5.1"
         fragment_version = '1.5.4'
         nav_version = "2.5.3"
-        hilt_version = '2.44'
+        hilt_version = '2.44.2'
         roomVersion = '2.4.3'
         glideVersion = '4.14.2'
         dataStoreVersion = "1.0.0"
