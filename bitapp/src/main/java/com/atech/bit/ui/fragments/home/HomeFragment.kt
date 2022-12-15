@@ -842,6 +842,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.theory.observe(viewLifecycleOwner) {
             binding.fragmentHomeExt.showTheory.isVisible = it.isNotEmpty()
             binding.fragmentHomeExt.textView6.isVisible = it.isNotEmpty()
+            setOfflineNoData(
+                binding.fragmentHomeExt.showTheory.isVisible,
+                binding.fragmentHomeExt.showPe.isVisible,
+                binding.fragmentHomeExt.showLab.isVisible
+            )
             syllabusTheoryAdapter.submitList(it)
         }
 
@@ -849,16 +854,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             binding.fragmentHomeExt.showLab.isVisible = it.isNotEmpty()
             binding.fragmentHomeExt.textView7.isVisible = it.isNotEmpty()
             binding.fragmentHomeExt.dividerTheory.isVisible = it.isNotEmpty()
+            setOfflineNoData(
+                binding.fragmentHomeExt.showTheory.isVisible,
+                binding.fragmentHomeExt.showPe.isVisible,
+                binding.fragmentHomeExt.showLab.isVisible
+            )
             syllabusLabAdapter.submitList(it)
         }
         viewModel.pe.observe(viewLifecycleOwner) {
             binding.fragmentHomeExt.showPe.isVisible = it.isNotEmpty()
             binding.fragmentHomeExt.textView8.isVisible = it.isNotEmpty()
             binding.fragmentHomeExt.dividerLab.isVisible = it.isNotEmpty()
+            setOfflineNoData(
+                binding.fragmentHomeExt.showTheory.isVisible,
+                binding.fragmentHomeExt.showPe.isVisible,
+                binding.fragmentHomeExt.showLab.isVisible
+            )
             syllabusPeAdapter.submitList(it)
         }
 
     }
+
+    private fun setOfflineNoData(theory: Boolean, lab: Boolean, pe: Boolean) =
+        binding.fragmentHomeExt.apply {
+            lvNoData.isVisible = !(theory || lab || pe)
+            lvContent.isVisible = theory || lab || pe
+        }
 
     private fun getHoliday() {
         viewModel.getHoliday().observe(viewLifecycleOwner) { dateState ->

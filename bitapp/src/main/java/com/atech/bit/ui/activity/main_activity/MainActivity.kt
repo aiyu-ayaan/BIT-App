@@ -184,11 +184,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             val version = if (BuildConfig.VERSION_NAME.contains("\\sPatch\\s".toRegex()))
                 BuildConfig.VERSION_NAME.replace("\\sPatch\\s".toRegex(), ".")
             else BuildConfig.VERSION_NAME
-                if (it) resources.getString(
-                    R.string.release_notes,
-                    "pre-release-v$version"
-                )
-                else resources.getString(R.string.release_notes, "v$version")
+            if (it) resources.getString(
+                R.string.release_notes,
+                "pre-release-v$version"
+            )
+            else resources.getString(R.string.release_notes, "v$version")
         }
         this@MainActivity.openCustomChromeTab(link.replace("-[b,g]\\w+".toRegex(), ""))
 
@@ -287,7 +287,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment
+                R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )

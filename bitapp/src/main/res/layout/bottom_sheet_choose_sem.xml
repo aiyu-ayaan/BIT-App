@@ -118,6 +118,27 @@
                     app:chipBackgroundColor="@color/stroke_tint" />
 
 
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bt_mca"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mca"
+                    android:textColor="@color/stroke_tint_text"
+                    android:textSize="15sp"
+                    app:checkedIconTint="@color/stroke_tint_text"
+                    app:chipBackgroundColor="@color/stroke_tint" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/bt_mba"
+                    style="@style/Widget.Material3.Chip.Filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mba"
+                    android:textColor="@color/stroke_tint_text"
+                    android:textSize="15sp"
+                    app:checkedIconTint="@color/stroke_tint_text"
+                    app:chipBackgroundColor="@color/stroke_tint" />
             </com.google.android.material.chip.ChipGroup>
 
             <TextView

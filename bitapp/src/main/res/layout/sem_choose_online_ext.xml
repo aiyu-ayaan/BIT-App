@@ -1,82 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
-    android:clipToPadding="false"
-    android:fillViewport="true"
-    android:paddingBottom="@dimen/grid_2">
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:layout_marginTop="@dimen/grid_1"
+    app:cardBackgroundColor="?attr/bottomBar"
+    app:strokeColor="?attr/bottomBar">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutOnline"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/grid_2">
+        android:background="@android:color/transparent"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="@dimen/grid_2">
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_1"
-            android:text="@string/all_subjects"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/progress_bar_loading" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/wrapper_card_view"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutOnline"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1"
-            app:cardBackgroundColor="?attr/bottomBar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6"
-            app:layout_constraintVertical_bias="0.0"
-            app:strokeColor="?attr/bottomBar"
-            tools:layout_editor_absoluteX="16dp">
+            android:layout_height="match_parent"
+            android:padding="@dimen/grid_2">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_online_syllabus"
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:text="@string/all_subjects"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_bar_loading" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/wrapper_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_0_25"
-                android:layout_marginVertical="@dimen/grid_1" />
-        </com.google.android.material.card.MaterialCardView>
+                android:layout_marginTop="@dimen/grid_1"
+                app:cardBackgroundColor="?attr/bottomBar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                app:layout_constraintVertical_bias="0.0"
+                app:strokeColor="?attr/bottomBar"
+                tools:layout_editor_absoluteX="16dp">
 
-        <com.google.android.material.progressindicator.LinearProgressIndicator
-            android:id="@+id/progress_bar_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminate="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:trackColor="?attr/colorSurface" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_online_syllabus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/grid_0_25"
+                    android:layout_marginVertical="@dimen/grid_1" />
+            </com.google.android.material.card.MaterialCardView>
 
-        <ImageView
-            android:id="@+id/no_data"
-            android:layout_width="@dimen/image_view_thumbnail"
-            android:layout_height="@dimen/image_view_thumbnail"
-            android:contentDescription="@string/blank"
-            android:src="@drawable/ic_no_data"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/wrapper_card_view"
-            app:layout_constraintStart_toStartOf="@+id/wrapper_card_view"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/progress_bar_loading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:trackColor="?attr/colorSurface" />
 
-        <TextView
-            android:id="@+id/no_data_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/no_data_choose_syllabus"
-            android:textAppearance="?attr/textAppearanceCaption"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="@+id/no_data"
-            app:layout_constraintStart_toStartOf="@+id/no_data"
-            app:layout_constraintTop_toBottomOf="@+id/no_data" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.core.widget.NestedScrollView>
+            <ImageView
+                android:id="@+id/no_data"
+                android:layout_width="@dimen/image_view_thumbnail"
+                android:layout_height="@dimen/image_view_thumbnail"
+                android:contentDescription="@string/blank"
+                android:src="@drawable/ic_no_data"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/wrapper_card_view"
+                app:layout_constraintStart_toStartOf="@+id/wrapper_card_view"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/no_data_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_data_choose_syllabus"
+                android:textAppearance="?attr/textAppearanceCaption"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/no_data"
+                app:layout_constraintStart_toStartOf="@+id/no_data"
+                app:layout_constraintTop_toBottomOf="@+id/no_data" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</com.google.android.material.card.MaterialCardView>

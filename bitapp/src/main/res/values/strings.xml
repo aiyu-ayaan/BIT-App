@@ -233,5 +233,7 @@
     <string name="issue_link_app_data">https://bitapp.page.link/issue_app_data</string>
     <string name="whats_new">What\'s new</string>
     <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>
+    <string name="mca">MCA</string>
+    <string name="mba">MBA</string>
 
 </resources>
