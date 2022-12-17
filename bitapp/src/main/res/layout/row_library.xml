@@ -2,20 +2,20 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_subject"
     style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/grid_1"
     android:layout_marginVertical="@dimen/grid_0_5"
     android:animateLayoutChanges="true"
-    android:id="@+id/card_view_subject"
-    android:padding="@dimen/grid_1"
+
     app:cardBackgroundColor="?attr/bottomBar">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/grid_2">
+        android:padding="@dimen/grid_1">
 
         <TextView
             android:id="@+id/text_view_return_date"
@@ -32,17 +32,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/grid_1"
+            android:drawablePadding="@dimen/grid_1"
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="@dimen/grid_1"
             android:textAppearance="?attr/textAppearanceHeadline6"
+            app:drawableStartCompat="@drawable/ic_check_circle"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_return_date"
             app:layout_constraintEnd_toStartOf="@+id/text_view_return_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_view_return_date"
-            tools:text="Logical Operation in C"
-            android:drawablePadding="@dimen/grid_1"
-            app:drawableStartCompat="@drawable/ic_check_circle" />
+            tools:text="Logical Operation in C" />
 
         <TextView
             android:id="@+id/text_view_book_id"
@@ -87,42 +87,78 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_view_return_date" />
 
-        <com.google.android.material.divider.MaterialDivider
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
+
+        <Button
+            android:id="@+id/button_menu"
+            style="?attr/materialIconButtonStyle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_1"
+            android:padding="@dimen/grid_1"
+            app:cornerRadius="@dimen/grid_1"
+            app:icon="@drawable/ic_list_all"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/text_view_issue_date"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_issue_date"
+            tools:visibility="visible" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
             android:visibility="gone"
-            app:dividerColor="@color/divider_color"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/button_menu"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/floatingActionButton"
-            tools:visibility="visible" />
+            app:layout_constraintTop_toTopOf="@+id/text_view_issue_book_name" />
 
-        <Button
-            android:id="@+id/button_mark_as_returned"
-            style="?attr/materialIconButtonStyle"
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/grid_2"
-            android:padding="@dimen/grid_2"
-            android:visibility="gone"
-            app:icon="@drawable/ic_check"
-            app:layout_constraintEnd_toStartOf="@+id/button_delete"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            tools:visibility="visible" />
+            android:transitionGroup="true"
+            app:layout_constraintBottom_toBottomOf="@+id/button_menu"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/button_menu"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_issue_book_name"
+            app:layout_editor_absoluteY="500dp">
 
-        <Button
-            android:id="@+id/button_delete"
-            style="?attr/materialIconButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/grid_2"
-            android:visibility="gone"
-            app:icon="@drawable/ic_delete"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            tools:visibility="visible" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/grid_1"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <Button
+                    android:id="@+id/button_mark_as_returned"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:padding="@dimen/grid_2"
+                    app:icon="@drawable/ic_check"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_delete"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button_delete"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/grid_2"
+                    app:icon="@drawable/ic_delete"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

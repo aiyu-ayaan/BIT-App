@@ -1,13 +1,10 @@
 package com.atech.bit.ui.fragments.library
 
-import android.animation.LayoutTransition
-import android.transition.Fade
+import android.graphics.Color
 import android.transition.TransitionManager
-import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
@@ -15,6 +12,8 @@ import com.atech.bit.databinding.RowLibraryBinding
 import com.atech.core.data.room.library.DiffUtilCallbackLibrary
 import com.atech.core.data.room.library.LibraryModel
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.transition.platform.MaterialArcMotion
+import com.google.android.material.transition.platform.MaterialContainerTransform
 
 class LibraryAdapter(
     private val onDeleteClick: (LibraryModel) -> Unit = {},
@@ -31,9 +30,7 @@ class LibraryAdapter(
                 absoluteAdapterPosition.let { position ->
                     if (position != RecyclerView.NO_POSITION) {
                         val library = getItem(position)
-                        binding.divider.isVisible = false
-                        binding.buttonDelete.visibility = View.GONE
-                        binding.buttonMarkAsReturned.visibility = View.GONE
+                        collapseView()
                         onMarkAsReturnClick(library)
                     }
                 }
@@ -42,27 +39,31 @@ class LibraryAdapter(
                 absoluteAdapterPosition.let { position ->
                     if (position != RecyclerView.NO_POSITION) {
                         val library = getItem(position)
+                        collapseView()
                         onDeleteClick(library)
                     }
                 }
             }
 
-            binding.root.setOnClickListener {
+            binding.buttonMenu.setOnClickListener {
                 absoluteAdapterPosition.let {
-                    if (it != RecyclerView.NO_POSITION) {
-//                        val isVisible = binding.divider.visibility == View.VISIBLE
-//                        TransitionManager.beginDelayedTransition(
-//                            binding.root, TransitionSet().addTransition(Fade())
-//                        )
-//                        binding.apply {
-//                            root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
-//                            divider.visibility = if (isVisible) View.GONE else View.VISIBLE
-//                            buttonDelete.visibility = if (isVisible) View.GONE else View.VISIBLE
-//                            buttonMarkAsReturned.visibility =
-//                                if (isVisible) View.GONE else View.VISIBLE
-//                        }
+                    val transform = MaterialContainerTransform().apply {
+                        startView = binding.buttonMenu
+                        endView = binding.constraintLayoutMenu
+                        addTarget(endView)
+                        pathMotion = MaterialArcMotion()
+                        scrimColor = Color.TRANSPARENT
+                        duration = binding.root.resources.getInteger(R.integer.duration_medium).toLong()
+                        endElevation = 10f
                     }
+                    TransitionManager.beginDelayedTransition(binding.root, transform)
+                    binding.buttonMenu.visibility = View.INVISIBLE
+                    binding.view.visibility = View.VISIBLE
+                    binding.constraintLayoutMenu.visibility = View.VISIBLE
                 }
+            }
+            binding.view.setOnClickListener {
+                collapseView()
             }
             binding.floatingActionButton.setOnClickListener {
                 absoluteAdapterPosition.let {
@@ -71,6 +72,22 @@ class LibraryAdapter(
                     }
                 }
             }
+        }
+
+        private fun collapseView() {
+            val transform = MaterialContainerTransform().apply {
+                startView = binding.constraintLayoutMenu
+                endView = binding.buttonMenu
+                duration = binding.root.resources.getInteger(R.integer.duration_medium).toLong()
+                addTarget(endView)
+                pathMotion = MaterialArcMotion()
+                scrimColor = Color.TRANSPARENT
+                startElevation = 10f
+            }
+            TransitionManager.beginDelayedTransition(binding.root, transform)
+            binding.buttonMenu.visibility = View.VISIBLE
+            binding.view.visibility = View.GONE
+            binding.constraintLayoutMenu.visibility = View.GONE
         }
 
         fun bind(libraryModel: LibraryModel) {
