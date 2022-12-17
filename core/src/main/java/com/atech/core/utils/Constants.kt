@@ -79,3 +79,5 @@ const val DEFAULT_TIME_FORMAT = "hh:mm a"
 const val DD_MM = "dd MMM"
 const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
 
+val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
+

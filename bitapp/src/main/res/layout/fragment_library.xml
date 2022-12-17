@@ -1,25 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.atech.bit.ui.fragments.library.LibraryFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_library"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/row_library" />
+        android:layout_height="match_parent">
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/empty_animation"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/grid_7"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="empty.json"
+            app:lottie_loop="true"
+            tools:visibility="visible" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_library"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/min_padding_attendance"
+            android:clipToPadding="false"
+            tools:listitem="@layout/row_library" />
+    </RelativeLayout>
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.Material3.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="?attr/bottomBar"
+        app:navigationIcon="@drawable/ic_delete_all"
+        app:navigationIconTint="?attr/colorPrimary" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/grid_3"
-        android:text="@string/add_books"
-        app:icon="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:backgroundTint="?attr/colorSecondary"
+        android:contentDescription="@string/add_subject"
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="?attr/bottomBar" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

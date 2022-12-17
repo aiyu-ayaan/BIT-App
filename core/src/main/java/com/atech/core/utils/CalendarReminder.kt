@@ -19,7 +19,7 @@ object CalendarReminder {
     fun addEventAndReminderToCalendar(
         context: Context,
         calendar: Calendar,
-        setContent: () -> Pair<String, String> = { Pair("Book Reminder", "Reminder for book") },
+        setContent: () -> Pair<String, String> = {DEFAULT_PAIR },
         action: (Long) -> Unit = {},
         error: (String) -> Unit = {}
     ) {
@@ -113,7 +113,7 @@ object CalendarReminder {
         context: Context,
         calendar: Calendar,
         eventID: Long,
-        setContent: () -> Pair<String, String> = { Pair("Book Reminder", "Reminder for book") },
+        setContent: () -> Pair<String, String> = { DEFAULT_PAIR},
         action: () -> Unit = {},
         error: (String) -> Unit = {}
     ) {

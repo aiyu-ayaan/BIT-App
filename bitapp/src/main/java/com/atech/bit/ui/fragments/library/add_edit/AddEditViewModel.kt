@@ -1,6 +1,5 @@
 package com.atech.bit.ui.fragments.library.add_edit
 
-import android.widget.TextView.SavedState
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,14 +24,14 @@ class AddEditViewModel @Inject constructor(
 
 
     fun addBook(libraryModel: LibraryModel) = viewModelScope.launch {
-        dao.insertLibrary(libraryModel)
+        dao.insertBook(libraryModel)
     }
 
     fun updateBook(libraryModel: LibraryModel) = viewModelScope.launch {
-        dao.updateLibrary(libraryModel)
+        dao.updateBook(libraryModel)
     }
 
     fun deleteBook(libraryModel: LibraryModel) = viewModelScope.launch {
-        dao.deleteLibrary(libraryModel)
+        dao.deleteBook(libraryModel)
     }
 }

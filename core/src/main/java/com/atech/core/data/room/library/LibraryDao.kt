@@ -12,20 +12,18 @@ import kotlinx.coroutines.flow.Flow
 interface LibraryDao {
 
 
-    @Query("SELECT * FROM library_table order by returnDate desc")
+    @Query("SELECT * FROM library_table order by markAsReturn asc,returnDate asc")
     fun getAll(): Flow<List<LibraryModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertLibrary(library: LibraryModel)
+    suspend fun insertBook(library: LibraryModel)
 
     @Update
-    suspend fun updateLibrary(library: LibraryModel)
+    suspend fun updateBook(library: LibraryModel)
 
 
     @Delete
-    suspend fun deleteLibrary(library: LibraryModel)
+    suspend fun deleteBook(library: LibraryModel)
 
-    @Query("DELETE FROM library_table")
-    suspend fun deleteAllLibrary()
 
 }

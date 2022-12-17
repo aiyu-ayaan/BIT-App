@@ -26,6 +26,7 @@ import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.handleCustomBackPressed
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DATE_PICKER_DIALOG
+import com.atech.core.utils.DEFAULT_PAIR
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
 import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.convertLongToTime
@@ -338,6 +339,15 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             context = requireContext(),
             calendar = calendar,
             eventID = viewModel.libraryModel.eventId,
+            setContent = {
+                if (viewModel.libraryModel.bookName.isBlank())
+                    DEFAULT_PAIR
+                else
+                    Pair(
+                        viewModel.libraryModel.bookName,
+                        "Return ${viewModel.libraryModel.bookName} to library"
+                    )
+            },
             action = {
                 viewModel.libraryModel = viewModel.libraryModel.copy(
                     alertDate = calendar.timeInMillis
@@ -354,6 +364,15 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
         CalendarReminder.addEventAndReminderToCalendar(
             context = requireContext(),
             calendar = calendar,
+            setContent = {
+                if (viewModel.libraryModel.bookName.isBlank())
+                    DEFAULT_PAIR
+                else
+                    Pair(
+                        viewModel.libraryModel.bookName,
+                        "Return ${viewModel.libraryModel.bookName} to library"
+                    )
+            },
             error = {
                 showSnackBar(
                     "Please grant Calendar permission from App Settings",

@@ -180,8 +180,8 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/empty_animation"
-            android:layout_width="200.0dip"
-            android:layout_height="200.0dip"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_below="@id/divider_attendance"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/grid_4"
