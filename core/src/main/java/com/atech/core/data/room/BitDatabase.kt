@@ -10,12 +10,9 @@
 
 package com.atech.core.data.room
 
-import androidx.room.AutoMigration
 import androidx.room.Database
-import androidx.room.DeleteTable
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.atech.core.data.room.attendance.AttendanceDao
@@ -46,7 +43,7 @@ import javax.inject.Provider
         EventsCacheEntity::class, LibraryModel::class
     ],
     version = 12,
-    exportSchema = true
+    exportSchema = false
 )
 @TypeConverters(
     DaysTypeConvector::class,

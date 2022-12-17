@@ -235,9 +235,9 @@
     <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>
     <string name="mca">MCA</string>
     <string name="mba">MBA</string>
-    <string name="library">Library</string>
+    <string name="library">Library Manager</string>
     <string name="mark_as_returned">Mark as Return</string>
-    <string name="add_books">Add books</string>
+    <string name="add_books">Add book</string>
     <string name="book_name">Book Name</string>
     <string name="book_id">Book Id</string>
     <string name="issued_on">Issued On</string>

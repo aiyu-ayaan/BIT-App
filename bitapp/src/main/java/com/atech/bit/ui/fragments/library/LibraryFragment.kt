@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentLibraryBinding
+import com.atech.core.data.room.library.LibraryModel
 import com.google.android.material.transition.MaterialElevationScale
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,7 +27,9 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        libraryAdapter = LibraryAdapter()
+        libraryAdapter = LibraryAdapter { l, fab ->
+            navigateToAddEdit(l.bookName, fab, l)
+        }
         binding.apply {
             setRecyclerView()
             buttonClick()
@@ -46,11 +49,16 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         fabAddBook.setOnClickListener {
             navigateToAddEdit(
                 transitionName,
+                it
             )
         }
     }
 
-    private fun FragmentLibraryBinding.navigateToAddEdit(string: String) {
+    private fun navigateToAddEdit(
+        string: String,
+        fabAddBook: View,
+        libraryModel: LibraryModel? = null
+    ) {
         val extras =
             FragmentNavigatorExtras(fabAddBook to string)
         exitTransition = MaterialElevationScale(false).apply {
@@ -60,7 +68,7 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
             duration = resources.getInteger(R.integer.duration_medium).toLong()
         }
         val action = LibraryFragmentDirections.actionLibraryFragmentToAddEditFragment(
-            string
+            string, libraryModel
         )
         findNavController().navigate(action, extras)
     }

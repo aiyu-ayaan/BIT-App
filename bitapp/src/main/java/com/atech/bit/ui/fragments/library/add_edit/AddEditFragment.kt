@@ -52,9 +52,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
         requestPermissionLauncher =
             registerForActivityResult(ActivityResultContracts.RequestPermission()) {
                 if (it) {
-                    datePicker(binding.textFieldReminderDate.editText!!) { c ->
-                        addOrUpdateEventAndReminder(c)
-                    }
+//                    datePicker(binding.textFieldReminderDate.editText!!) { c ->
+//                        addOrUpdateEventAndReminder(c)
+//                    }
                 } else {
                     Snackbar.make(
                         binding.root,
@@ -172,7 +172,10 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
                 bookName = bookName,
                 bookId = bookId
             )
-            viewModel.addBook(viewModel.libraryModel)
+            if (viewModel.title == resources.getString(R.string.add_books))
+                viewModel.addBook(viewModel.libraryModel)
+            else
+                viewModel.updateBook(viewModel.libraryModel)
             findNavController().navigateUp()
         }
         binding.buttonCancel.setOnClickListener {
@@ -191,24 +194,28 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             else getString(R.string.show_less)
 
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
+            imageButtonRemoveEvent.visibility = if (isVisible) View.GONE else View.VISIBLE
             textFieldReminderDate.apply {
                 visibility = if (isVisible) View.GONE else View.VISIBLE
-                if (isVisible) {
+                if (isVisible && viewModel.libraryModel.eventId == -1L) {
                     editText?.text?.clear()
                 }
             }
-            imageButtonRemoveEvent.visibility = if (isVisible) View.GONE else View.VISIBLE
         }
     }
 
     private fun removeEvent() {
         binding.imageButtonRemoveEvent.apply {
-            visibility = if (isVisible) View.GONE else View.VISIBLE
             setOnClickListener {
-                binding.textFieldReminderDate.editText?.text?.clear()
-                binding.textFieldReminderDate.error = null
                 if (viewModel.libraryModel.eventId != -1L)
-                    showConfirmationDeleteReminderDialog()
+                    showConfirmationDeleteReminderDialog {
+                        binding.textFieldReminderDate.editText?.text?.clear()
+                        binding.textFieldReminderDate.error = null
+                    }
+                else {
+                    binding.textFieldReminderDate.editText?.text?.clear()
+                    binding.textFieldReminderDate.error = null
+                }
             }
         }
     }
@@ -332,6 +339,11 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             calendar = calendar,
             eventID = viewModel.libraryModel.eventId,
             action = {
+                viewModel.libraryModel = viewModel.libraryModel.copy(
+                    alertDate = calendar.timeInMillis
+                )
+                if (viewModel.libraryModel.bookName.isNotEmpty())
+                    viewModel.updateBook(viewModel.libraryModel)
                 showSnackBar("Reminder Updated")
             }
         )
@@ -351,8 +363,11 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
                 if (eventID > 0) {
                     showSnackBar("Added successfully")
                     viewModel.libraryModel = viewModel.libraryModel.copy(
-                        eventId = eventID
+                        eventId = eventID,
+                        alertDate = calendar.timeInMillis
                     )
+                    if (viewModel.libraryModel.bookName.isNotEmpty())
+                        viewModel.updateBook(viewModel.libraryModel)
                 }
             }
         )
@@ -366,6 +381,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             deleteEvent()
         }
         findNavController().navigateUp()
+
     }
 
     private fun deleteEvent() {
@@ -373,6 +389,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             context = requireContext(),
             eventID = viewModel.libraryModel.eventId,
             action = {
+                viewModel.libraryModel = viewModel.libraryModel.copy(
+                    eventId = -1L,
+                    alertDate = 0L
+                )
+                viewModel.updateBook(
+                    viewModel.libraryModel
+                )
                 showSnackBar("Event deleted")
             },
             error = {
@@ -381,13 +404,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
         )
     }
 
-    private fun showConfirmationDeleteReminderDialog() {
+    private fun showConfirmationDeleteReminderDialog(action: () -> Unit = {}) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Delete Reminder")
             .setMessage("Are you sure you want to delete reminder?")
             .setPositiveButton("Yes") { _, _ ->
                 deleteEvent()
-
+                action.invoke()
             }
             .setNegativeButton("No") { dialog, _ ->
                 dialog.dismiss()

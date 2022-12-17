@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.library
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -8,17 +9,19 @@ import com.atech.bit.databinding.RowLibraryBinding
 import com.atech.core.data.room.library.DiffUtilCallbackLibrary
 import com.atech.core.data.room.library.LibraryModel
 
-class LibraryAdapter() :
+class LibraryAdapter(
+    private val listener: (LibraryModel, View) -> Unit
+) :
     ListAdapter<LibraryModel, LibraryAdapter.LibraryViewHolder>(DiffUtilCallbackLibrary()) {
 
     inner class LibraryViewHolder(
         private val binding: RowLibraryBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener {
+            binding.floatingActionButton.setOnClickListener {
                 absoluteAdapterPosition.let {
                     if (it != RecyclerView.NO_POSITION) {
-
+                        listener(getItem(it), binding.floatingActionButton)
                     }
                 }
             }
@@ -31,6 +34,7 @@ class LibraryAdapter() :
                 textViewIssueBookName.text = libraryModel.bookName
                 textViewIssueDate.text =
                     String.format("Issued on : %s", libraryModel.issueFormatData)
+                floatingActionButton.transitionName = libraryModel.bookName
                 textViewReturnDate.text = libraryModel.returnFormatData
             }
         }
