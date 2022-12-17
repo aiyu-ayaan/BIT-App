@@ -236,5 +236,14 @@
     <string name="mca">MCA</string>
     <string name="mba">MBA</string>
     <string name="library">Library</string>
-
+    <string name="mark_as_returned">Mark as Return</string>
+    <string name="add_books">Add books</string>
+    <string name="book_name">Book Name</string>
+    <string name="book_id">Book Id</string>
+    <string name="issued_on">Issued On</string>
+    <string name="return_by">Return By</string>
+    <string name="add_reminder">Add Reminder</string>
+    <string name="reminder">Reminder</string>
+    <string name="remove_reminder">Remove Reminder</string>
+    <string name="show_less">Show Less</string>
 </resources>

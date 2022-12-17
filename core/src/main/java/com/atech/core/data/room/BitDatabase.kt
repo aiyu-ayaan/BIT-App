@@ -168,7 +168,7 @@ abstract class BitDatabase : RoomDatabase() {
         }
         var migration_11_12 = object : Migration(11, 12) {
             override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE `library_table`( `id` INTEGER NOT NULL,`bookName` TEXT NOT NULL,`bookId` TEXT NOT NULL,`issueDate` INTEGER NOT NULL,`returnDate` INTEGER NOT NULL,`alertDate` INTEGER NOT NULL, PRIMARY KEY(`id`))")
+                database.execSQL("CREATE TABLE `library_table`( `id` INTEGER NOT NULL,`bookName` TEXT NOT NULL,`bookId` TEXT NOT NULL,`issueDate` INTEGER NOT NULL,`returnDate` INTEGER NOT NULL,`alertDate` INTEGER NOT NULL,`markAsReturn` INTEGER NOT NULL, `eventId` INTEGER NOT NULL  , PRIMARY KEY(`id`))")
             }
         }
     }

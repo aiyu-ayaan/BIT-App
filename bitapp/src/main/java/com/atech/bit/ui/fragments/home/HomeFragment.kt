@@ -79,6 +79,7 @@ import com.atech.core.utils.REQUEST_LOGIN_FROM_HOME
 import com.atech.core.utils.REQUEST_UPDATE_SEM
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.TAG
+import com.atech.core.utils.TAG_REMOTE
 import com.atech.core.utils.calculatedDays
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.core.utils.checkForAPI33
@@ -977,10 +978,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setDefaultValueForSwitch() {
         remoteConfigUtil.fetchData({
-            Log.e(TAG, "setDefaultValueForSwitch: $it")
+            Log.e(TAG_REMOTE, "setDefaultValueForSwitch: $it")
         }) {
             val switchState = remoteConfigUtil.getString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY)
-            Log.d(TAG, "setDefaultValueForSwitch: $switchState")
+            Log.d(TAG_REMOTE, "setDefaultValueForSwitch: $switchState")
             pref.edit()
                 .putString(KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, switchState)
                 .apply()

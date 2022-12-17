@@ -15,6 +15,7 @@ import androidx.room.Room
 import com.atech.core.data.room.BitDatabase
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.events.EventsDao
+import com.atech.core.data.room.library.LibraryDao
 import com.atech.core.data.room.notice.Notice3Dao
 import com.atech.core.data.room.syllabus.SyllabusDao
 import dagger.Module
@@ -75,4 +76,8 @@ object RoomModule {
         noticeDatabase.notice3Dao()
 
 
+    @Singleton
+    @Provides
+    fun getLibraryDao(noticeDatabase: BitDatabase): LibraryDao =
+        noticeDatabase.libraryDao()
 }

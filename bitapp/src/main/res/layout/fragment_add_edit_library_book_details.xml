@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:padding="@dimen/grid_1"
+    tools:context="com.atech.bit.ui.fragments.library.add_edit.AddEditFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_book_name"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/book_name"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_book_id"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_field_book_name"
+        android:layout_marginTop="@dimen/grid_1"
+        android:hint="@string/book_id"
+        app:endIconMode="clear_text">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textCapSentences" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout_dates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_field_book_id"
+        android:layout_marginTop="@dimen/grid_1"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_field_issue_date"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:layout_weight="1"
+            android:hint="@string/issued_on"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_field_return_date"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:layout_weight="1"
+            android:hint="@string/return_by"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:inputType="date" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_field_reminder_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/linear_layout_dates"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/grid_1"
+        android:layout_marginEnd="@dimen/grid_1"
+        android:layout_toStartOf="@id/image_button_remove_event"
+        android:hint="@string/reminder"
+        android:visibility="gone"
+        app:endIconMode="clear_text"
+        tools:visibility="visible">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:inputType="date" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/image_button_remove_event"
+        style="?attr/materialIconButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/text_view_add_reminder"
+        android:layout_below="@+id/linear_layout_dates"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/grid_1"
+        android:layout_marginEnd="@dimen/grid_1"
+        android:contentDescription="@string/remove_reminder"
+        android:padding="@dimen/grid_1"
+        android:visibility="gone"
+        app:icon="@drawable/ic_close"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/text_view_add_reminder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_field_reminder_date"
+        android:layout_marginTop="@dimen/grid_1"
+        android:paddingHorizontal="@dimen/grid_0_5"
+        android:paddingVertical="@dimen/grid_2"
+        android:text="@string/add_reminder"
+        android:textAppearance="?attr/textAppearanceBody1" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_view_add_reminder"
+        android:layout_marginTop="@dimen/grid_1"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <Button
+            android:id="@+id/button_save"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:layout_weight="1"
+            android:padding="@dimen/grid_1"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            app:cornerRadius="@dimen/grid_1"
+            tools:ignore="ButtonStyle" />
+
+        <Button
+            android:id="@+id/button_cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/grid_1"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            app:cornerRadius="@dimen/grid_1" />
+    </LinearLayout>
+</RelativeLayout>

@@ -6,6 +6,7 @@ enum class CourseCapital { BBA, BCA }
 enum class AppTheme { Light, Dark, Sys }
 
 const val TAG = "aiyu"
+const val TAG_REMOTE = "remote_config"
 const val SHARED_PREFERENCE_NAME = "sharedPref"
 const val KEY_APP_THEME = "KEY_APP_THEME"
 const val KEY_DO_NOT_SHOW_AGAIN = "KEY_DO_NOT_SHOW_AGAIN"
@@ -42,6 +43,8 @@ const val CHANNEL_UPDATE = "App Update"
 const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
 
+const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
+
 
 const val UPDATE_REQUEST_CODE = 444
 const val ERROR_LOG = "BIT App Error :- "
@@ -71,4 +74,8 @@ const val CURRENT_YEAR = "Current_Year"
 const val GITHUB_LINK = "Github_Link"
 const val MAX_STACK_SIZE = 30
 
-const val DEFAULT_DATE_FORMAT = "dd/MM/yyyy"
+const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
+const val DEFAULT_TIME_FORMAT = "hh:mm a"
+const val DD_MM = "dd MMM"
+const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
+

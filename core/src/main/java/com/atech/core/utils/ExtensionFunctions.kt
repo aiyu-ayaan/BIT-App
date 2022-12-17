@@ -69,6 +69,7 @@ import java.net.URL
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 
 inline fun NavController.onDestinationChange(crossinline des: ((NavDestination) -> Unit)) =
@@ -288,6 +289,11 @@ fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).
     this.format(date)
 }
 
+
+fun Date.compareDifferenceInDays(date: Date): Int {
+    val diff = this.time - date.time
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
+}
 
 /**
  * @since 4.0.3

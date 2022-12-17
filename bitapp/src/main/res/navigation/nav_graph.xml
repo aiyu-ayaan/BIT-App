@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/libraryFragment">
 
     <fragment
         android:id="@+id/startUpFragment"
@@ -175,8 +175,8 @@
             app:destination="@id/viewSyllabusFragment" />
         <argument
             android:name="sem"
-            app:argType="integer"
-            android:defaultValue="6" />
+            android:defaultValue="6"
+            app:argType="integer" />
     </fragment>
     <dialog
         android:id="@+id/themeChangeDialog"
@@ -499,7 +499,7 @@
         android:id="@+id/viewSyllabusFragment"
         android:name="com.atech.bit.ui.fragments.course.view_syllabus.ViewSyllabusFragment"
         android:label="@string/blank"
-        tools:layout="@layout/fragment_view_syllabus" >
+        tools:layout="@layout/fragment_view_syllabus">
         <argument
             android:name="subjectName"
             app:argType="string" />
@@ -523,5 +523,23 @@
         android:id="@+id/libraryFragment"
         android:name="com.atech.bit.ui.fragments.library.LibraryFragment"
         android:label="@string/library"
-        tools:layout="@layout/fragment_library" />
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_addEditFragment"
+            app:destination="@id/addEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditFragment"
+        android:name="com.atech.bit.ui.fragments.library.add_edit.AddEditFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_edit_library_book_details">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="library"
+            android:defaultValue="@null"
+            app:argType="com.atech.core.data.room.library.LibraryModel"
+            app:nullable="true" />
+    </fragment>
 </navigation>
