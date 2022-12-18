@@ -13,15 +13,19 @@ package com.atech.bit.ui.fragments.home
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.core.api.ApiRepository
 import com.atech.core.data.room.attendance.AttendanceDao
+import com.atech.core.data.room.library.LibraryDao
+import com.atech.core.data.room.library.LibraryModel
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.ui.events.EventRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.launch
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
@@ -35,6 +39,7 @@ class HomeViewModel @Inject constructor(
     private val syllabusDao: SyllabusDao,
     private val attendanceDao: AttendanceDao,
     private val eventRepository: EventRepository,
+    private val libraryDao: LibraryDao
 ) : ViewModel() {
 
     private val calenderQuery =
@@ -76,4 +81,13 @@ class HomeViewModel @Inject constructor(
     fun getOnlineSyllabus() = syllabusQuery.flatMapLatest { semester ->
         apiRepository.getSyllabus(semester.lowercase())
     }.asLiveData()
+
+    fun getLibrary() = libraryDao.getAll().asLiveData()
+
+    fun updateBook(libraryModel: LibraryModel) = viewModelScope.launch {
+        libraryDao.updateBook(libraryModel)
+    }
+    fun deleteBook(libraryModel: LibraryModel) = viewModelScope.launch {
+        libraryDao.deleteBook(libraryModel)
+    }
 }

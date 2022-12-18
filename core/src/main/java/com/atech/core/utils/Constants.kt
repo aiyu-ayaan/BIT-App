@@ -1,15 +1,13 @@
 package com.atech.core.utils
 
-enum class Course { Bba, Bca }
-
 enum class CourseCapital { BBA, BCA }
 
 
 enum class AppTheme { Light, Dark, Sys }
 
 const val TAG = "aiyu"
+const val TAG_REMOTE = "remote_config"
 const val SHARED_PREFERENCE_NAME = "sharedPref"
-const val KEY_FIRST_TIME_TOGGLE = "KEY_FIRST_TIME_TOGGLE"
 const val KEY_APP_THEME = "KEY_APP_THEME"
 const val KEY_DO_NOT_SHOW_AGAIN = "KEY_DO_NOT_SHOW_AGAIN"
 const val KEY_USER_HAS_DATA_IN_DB = "KEY_USER_HAS_DATA_IN_DB"
@@ -25,14 +23,12 @@ const val REQUEST_UPDATE_SEM_FROM_CGPA = 345 * 33434 + 1
 const val REQUEST_ADAPTER_SEARCH = 356 * 445
 const val REQUEST_EVENT_FROM_HOME = 356 * 445 + 1
 const val REQUEST_ADAPTER_EDIT = 354 * 445
-const val INVALID_BUILD_VERSION = 334 * 56
 const val REQUEST_LOGIN_FROM_HOME = 334 * 56 + 1
 
 const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
 const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
 const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
-const val REQUEST_VIEW_LAB_SYLLABUS = "REQUEST_VIEW_LAB_SYLLABUS"
 
 const val CHANNEL_ID_NOTICE = "Notice"
 const val CHANNEL_NOTICE = "Notice Section"
@@ -46,6 +42,8 @@ const val CHANNEL_UPDATE = "App Update"
 
 const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
+
+const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
 
 
 const val UPDATE_REQUEST_CODE = 444
@@ -74,7 +72,12 @@ const val SHARE_EVENT = "event"
 const val SHARE_NOTICE = "notice"
 const val CURRENT_YEAR = "Current_Year"
 const val GITHUB_LINK = "Github_Link"
-const val VIEW_SEARCH = 435 * 345
-const val VIEW_HOME = 435 * 345 + 1
 const val MAX_STACK_SIZE = 30
-const val MAX_DELAY_TIME  : Long= 1000
+
+const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
+const val DEFAULT_TIME_FORMAT = "hh:mm a"
+const val DD_MM = "dd MMM"
+const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
+
+val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
+

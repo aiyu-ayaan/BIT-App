@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view_subject"
+    style="@style/Widget.Material3.CardView.Filled"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    app:cardBackgroundColor="?attr/bottomBar">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/grid_1">
+
+        <TextView
+            android:id="@+id/text_view_return_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="23 Sep" />
+
+        <TextView
+            android:id="@+id/text_view_issue_book_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:drawablePadding="@dimen/grid_1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:padding="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:drawableStartCompat="@drawable/ic_check_circle"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_return_date"
+            app:layout_constraintEnd_toStartOf="@+id/text_view_return_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_return_date"
+            tools:text="Logical Operation in C" />
+
+        <TextView
+            android:id="@+id/text_view_book_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:paddingStart="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceBody2"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@+id/text_view_issue_book_name"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_issue_book_name"
+            tools:ignore="RtlSymmetry"
+            tools:text="CA304" />
+
+
+        <TextView
+            android:id="@+id/text_view_issue_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_5"
+            android:layout_marginEnd="@dimen/grid_1"
+            android:paddingStart="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/text_view_book_id"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_book_id"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="RtlSymmetry"
+            tools:text="Issued on : 20 Sep" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:contentDescription="@string/blank"
+            android:src="@drawable/ic_list_all"
+            app:cornerRadius="40dp"
+            app:elevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_return_date" />
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_view_issue_book_name" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Material3.CardView.Filled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:transitionGroup="true"
+            app:cardBackgroundColor="?attr/colorPrimaryContainer"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_issue_date"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
+            app:layout_constraintStart_toStartOf="@+id/text_view_book_id"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_editor_absoluteY="500dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraint_layout_menu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/grid_1"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <Button
+                    android:id="@+id/button_mark_as_returned"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/grid_2"
+                    android:padding="@dimen/grid_2"
+                    app:icon="@drawable/ic_check"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_delete"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+
+                <Button
+                    android:id="@+id/button_delete"
+                    style="?attr/materialIconButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/grid_2"
+                    app:icon="@drawable/ic_delete"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

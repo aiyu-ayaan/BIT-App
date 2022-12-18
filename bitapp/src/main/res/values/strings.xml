@@ -233,5 +233,19 @@
     <string name="issue_link_app_data">https://bitapp.page.link/issue_app_data</string>
     <string name="whats_new">What\'s new</string>
     <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>
-
+    <string name="mca">MCA</string>
+    <string name="mba">MBA</string>
+    <string name="library">Library Manager</string>
+    <string name="mark_as_returned">Mark as Return</string>
+    <string name="add_books">Add book</string>
+    <string name="book_name">Book Name</string>
+    <string name="book_id">Book Id</string>
+    <string name="issued_on">Issued On</string>
+    <string name="return_by">Return By</string>
+    <string name="add_reminder">Add Reminder</string>
+    <string name="reminder">Reminder</string>
+    <string name="remove_reminder">Remove Reminder</string>
+    <string name="show_less">Show Less</string>
+    <string name="info">Info</string>
+    <string name="return_these_books">Return these books to the library</string>
 </resources>

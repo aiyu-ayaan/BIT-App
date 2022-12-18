@@ -40,6 +40,7 @@
             layout="@layout/sem_choose_online_ext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:layout_below="@id/adView"
             android:visibility="gone" />
 
@@ -51,7 +52,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-6172727030505608/3976092502" />
+            ads:adUnitId="ca-app-pub-6172727030505608/3976092501" />
 
         <LinearLayout
             android:id="@+id/linear_layout_top_view"

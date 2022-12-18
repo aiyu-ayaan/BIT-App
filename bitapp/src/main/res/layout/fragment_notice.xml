@@ -35,8 +35,8 @@
         android:visibility="visible">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="200.0dip"
-            android:layout_height="200.0dip"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
             android:layout_centerHorizontal="true"
             android:scaleType="fitCenter"
             android:visibility="visible"

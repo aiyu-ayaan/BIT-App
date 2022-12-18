@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/grid_2"
-        android:layout_marginTop="@dimen/grid_2"
+        android:layout_marginTop="@dimen/grid_1"
         android:background="@android:color/transparent"
         android:padding="@dimen/grid_0_25"
         android:text="@string/yourSubjects"
@@ -62,7 +62,7 @@
         android:layout_alignBottom="@+id/text_hi"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/grid_2"
+        android:layout_marginTop="@dimen/grid_1"
         android:layout_marginEnd="@dimen/grid_2"
         android:background="?attr/actionBarItemBackground"
         android:contentDescription="@string/setting"
@@ -84,88 +84,128 @@
         app:layout_constraintTop_toBottomOf="@+id/text_hi"
         app:strokeColor="?attr/bottomBar">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/grid_1">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView6"
+            <LinearLayout
+                android:id="@+id/lv_no_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/theory"
-                android:textAppearance="?attr/textAppearanceCaption"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_centerInParent="true"
+                android:orientation="vertical"
+                tools:ignore="UseCompoundDrawables">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/show_theory"
+                <ImageView
+                    android:id="@+id/no_data"
+                    android:layout_width="@dimen/image_view_thumbnail"
+                    android:layout_height="@dimen/image_view_thumbnail"
+                    android:layout_marginTop="@dimen/grid_2"
+                    android:contentDescription="@string/blank"
+                    android:src="@drawable/ic_no_data"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/wrapper_card_view"
+                    app:layout_constraintStart_toStartOf="@+id/wrapper_card_view"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/no_data_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="@dimen/grid_1"
+                    android:text="@string/no_offline_data"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintEnd_toEndOf="@+id/no_data"
+                    app:layout_constraintStart_toStartOf="@+id/no_data"
+                    app:layout_constraintTop_toBottomOf="@+id/no_data" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lvContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/grid_1"
+                android:visibility="gone">
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider_theory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_0_25"
-                android:layout_marginBottom="@dimen/grid_0_25"
-                app:dividerColor="@color/divider_color" />
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/theory"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/show_theory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_theory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_0_25"
+                    android:layout_marginBottom="@dimen/grid_0_25"
+                    app:dividerColor="@color/divider_color" />
 
 
-            <TextView
-                android:id="@id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lab"
-                android:textAppearance="?attr/textAppearanceCaption"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/show_theory" />
+                <TextView
+                    android:id="@id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/lab"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/show_theory" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/show_lab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/show_lab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider_lab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_0_25"
-                android:layout_marginBottom="@dimen/grid_0_25"
-                app:dividerColor="@color/divider_color" />
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider_lab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:layout_marginTop="@dimen/grid_0_25"
+                    android:layout_marginBottom="@dimen/grid_0_25"
+                    app:dividerColor="@color/divider_color" />
 
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pe"
-                android:textAppearance="?attr/textAppearanceCaption"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/show_lab" />
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pe"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/show_lab" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/show_pe"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:overScrollMode="never"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
-        </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/show_pe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:overScrollMode="never"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            </LinearLayout>
+        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <include
@@ -174,6 +214,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/grid_1"
+        android:layout_marginTop="@dimen/grid_1"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_hi"
