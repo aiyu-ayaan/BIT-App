@@ -2,8 +2,9 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Important note: **Old BIT App**  is unsupported. Use the newer version named `BIT App - BIT Lalpur Std's App`
+
+The latest version of Lawnchair is the only supported version.
 
 |      Version     |     Supported     |
 | -----------------| ------------------|
@@ -13,11 +14,3 @@ currently being supported with security updates.
 |        V1        | :white_check_mark: |
 |        V1        | :white_check_mark: |
 | V4.0.5(BIT_old)  | :x:                |
-
-## Reporting a Vulnerability
-
-Use this section to tell people how to report a vulnerability.
-
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
