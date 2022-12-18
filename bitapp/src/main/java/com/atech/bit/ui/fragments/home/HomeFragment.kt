@@ -48,6 +48,7 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapt
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
+import com.atech.bit.ui.fragments.home.adapter.HomeLibraryAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
@@ -63,9 +64,11 @@ import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.data.preferences.Cgpa
 import com.atech.core.data.room.BitDatabase
+import com.atech.core.data.room.library.LibraryModel
 import com.atech.core.data.room.syllabus.SyllabusList
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
+import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DataState
 import com.atech.core.utils.GITHUB_LINK
 import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
@@ -83,6 +86,7 @@ import com.atech.core.utils.TAG_REMOTE
 import com.atech.core.utils.calculatedDays
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.core.utils.checkForAPI33
+import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.findPercentage
 import com.atech.core.utils.loadImageCircular
 import com.atech.core.utils.onScrollColorChange
@@ -101,6 +105,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.HttpException
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.util.Date
 import javax.inject.Inject
 import kotlin.math.ceil
 
@@ -226,7 +231,59 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         getHoliday()
         setOnlineSyllabusView()
         switchClick()
+        setLibraryWarningScreen()
     }
+
+    private fun setLibraryWarningScreen() = binding.layoutHomeLibrary.apply {
+        val homeLibraryAdapter = HomeLibraryAdapter(
+            onDeleteClick = {
+                deleteBook(it)
+            },
+            onMarkAsReturnClick = {
+                markAsReturn(it)
+            }
+        )
+        recyclerViewShowBooks.apply {
+            adapter = homeLibraryAdapter
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(false)
+            val snapHelper = PagerSnapHelper()
+            snapHelper.attachToRecyclerView(this)
+            libraryIndicator.attachToRecyclerView(this, snapHelper)
+            homeLibraryAdapter.registerAdapterDataObserver(libraryIndicator.adapterDataObserver)
+        }
+        viewModel.getLibrary().observe(viewLifecycleOwner) {
+            val v = it.filter { book ->
+                val diff = Date(book.returnDate).compareDifferenceInDays(
+                    Date(System.currentTimeMillis())
+                )
+                diff in 0..3 && !book.markAsReturn
+            }
+            root.isVisible = v.isNotEmpty()
+            homeLibraryAdapter.submitList(v)
+        }
+    }
+
+    private fun deleteBook(it: LibraryModel) {
+        if (it.eventId != -1L) {
+            CalendarReminder.deleteEvent(requireContext(), it.eventId)
+        }
+        viewModel.deleteBook(it)
+    }
+
+    private fun markAsReturn(it: LibraryModel) {
+        val markAsReturn = it.markAsReturn
+        if (it.eventId != -1L) {
+            CalendarReminder.deleteEvent(requireContext(), it.eventId)
+        }
+        viewModel.updateBook(
+            it.copy(
+                eventId = -1L, alertDate = 0L, markAsReturn = !markAsReturn
+            )
+        )
+    }
+
 
     private fun setSource(courseSem: String) {
         val source = viewModel.syllabusEnableModel.compareToCourseSem(courseSem)

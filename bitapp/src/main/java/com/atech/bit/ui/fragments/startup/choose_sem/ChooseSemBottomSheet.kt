@@ -129,21 +129,29 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
         preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             course = when (it.course) {
                 "BBA" -> {
+                    binding.bt5.isVisible = true
+                    binding.bt6.isVisible = true
                     binding.chipGroupCourse.check(R.id.bt_bba)
                     resources.getString(R.string.bba)
                 }
 
                 "BCA" -> {
+                    binding.bt5.isVisible = true
+                    binding.bt6.isVisible = true
                     binding.chipGroupCourse.check(R.id.bt_bca)
                     resources.getString(R.string.bca)
                 }
 
                 "MCA" -> {
+                    binding.bt5.isVisible = false
+                    binding.bt6.isVisible = false
                     binding.chipGroupCourse.check(R.id.bt_mca)
                     resources.getString(R.string.mca)
                 }
 
                 "MBA" -> {
+                    binding.bt5.isVisible = false
+                    binding.bt6.isVisible = false
                     binding.chipGroupCourse.check(R.id.bt_mba)
                     resources.getString(R.string.mba)
                 }
@@ -194,15 +202,27 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
     private fun courseClick() {
         binding.btBba.setOnClickListener {
             course = resources.getString(R.string.bba)
+            binding.bt5.isVisible = true
+            binding.bt6.isVisible = true
         }
         binding.btBca.setOnClickListener {
             course = resources.getString(R.string.bca)
+            binding.bt5.isVisible = true
+            binding.bt6.isVisible = true
         }
         binding.btMba.setOnClickListener {
             course = resources.getString(R.string.mba)
+            binding.bt5.isVisible = false
+            binding.bt6.isVisible = false
+            binding.chipGroupSem.check(R.id.bt1)
+            course = resources.getString(R.string.sem1)
         }
         binding.btMca.setOnClickListener {
             course = resources.getString(R.string.mca)
+            binding.bt5.isVisible = false
+            binding.bt6.isVisible = false
+            binding.chipGroupSem.check(R.id.bt1)
+            course = resources.getString(R.string.sem1)
         }
     }
 

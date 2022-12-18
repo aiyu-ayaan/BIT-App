@@ -6,8 +6,6 @@
     style="@style/Widget.Material3.CardView.Filled"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/grid_1"
-    android:layout_marginVertical="@dimen/grid_0_5"
     android:animateLayoutChanges="true"
     app:cardBackgroundColor="?attr/bottomBar">
 
@@ -80,26 +78,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_1"
             android:contentDescription="@string/blank"
-            android:src="@drawable/ic_edit"
+            android:src="@drawable/ic_list_all"
             app:cornerRadius="40dp"
             app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_view_return_date" />
 
-
-        <Button
-            android:id="@+id/button_menu"
-            style="?attr/materialIconButtonStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1"
-            android:padding="@dimen/grid_1"
-            app:cornerRadius="@dimen/grid_1"
-            app:icon="@drawable/ic_list_all"
-            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
-            app:layout_constraintStart_toStartOf="@+id/text_view_issue_date"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_issue_date"
-            tools:visibility="visible" />
 
         <View
             android:id="@+id/view"
@@ -107,7 +91,7 @@
             android:layout_height="0dp"
             android:background="@android:color/transparent"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/button_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/floatingActionButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_view_issue_book_name" />
 
@@ -117,10 +101,10 @@
             android:layout_height="wrap_content"
             android:transitionGroup="true"
             app:cardBackgroundColor="?attr/colorPrimaryContainer"
-            app:layout_constraintBottom_toBottomOf="@+id/button_menu"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_issue_date"
             app:layout_constraintEnd_toStartOf="@+id/floatingActionButton"
-            app:layout_constraintStart_toStartOf="@+id/button_menu"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_issue_book_name"
+            app:layout_constraintStart_toStartOf="@+id/text_view_book_id"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_editor_absoluteY="500dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout

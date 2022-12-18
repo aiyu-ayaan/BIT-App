@@ -22,12 +22,13 @@
             app:lottie_fileName="empty.json"
             app:lottie_loop="true"
             tools:visibility="visible" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view_library"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/min_padding_attendance"
             android:clipToPadding="false"
+            android:paddingBottom="@dimen/min_padding_attendance"
             tools:listitem="@layout/row_library" />
     </RelativeLayout>
 
@@ -39,8 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:backgroundTint="?attr/bottomBar"
-        app:navigationIcon="@drawable/ic_delete"
         app:menu="@menu/library_menu"
+        app:navigationIcon="@drawable/ic_delete"
         app:navigationIconTint="?attr/colorPrimary" />
 
 
@@ -48,7 +49,7 @@
         android:id="@+id/fab_add_book"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorSecondary"
+        android:backgroundTint="?attr/colorPrimary"
         android:contentDescription="@string/add_subject"
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@drawable/ic_add"

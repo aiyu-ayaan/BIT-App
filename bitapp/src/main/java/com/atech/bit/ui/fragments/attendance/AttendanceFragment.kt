@@ -179,7 +179,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                     finalPercentage < defPercentage && finalPercentage > 60F -> resources.getString(
                         R.string.lessThanDefault
                     )
-
                     finalPercentage < 60F && finalPercentage != 0F -> resources.getString(R.string.lessThan60)
                     else -> resources.getString(R.string.def_emoji)
                 }
