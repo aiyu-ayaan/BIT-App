@@ -196,7 +196,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 )
             }
         }
-        viewModel.allAttendance.observe(viewLifecycleOwner) { it ->
+        viewModel.allAttendance.observe(viewLifecycleOwner) {
             convertingData(it)
         }
     }

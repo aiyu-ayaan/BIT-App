@@ -39,7 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:backgroundTint="?attr/bottomBar"
-        app:navigationIcon="@drawable/ic_delete_all"
+        app:navigationIcon="@drawable/ic_delete"
+        app:menu="@menu/library_menu"
         app:navigationIconTint="?attr/colorPrimary" />
 
 

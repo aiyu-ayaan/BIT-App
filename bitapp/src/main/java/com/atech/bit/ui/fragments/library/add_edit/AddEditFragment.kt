@@ -30,6 +30,7 @@ import com.atech.core.utils.DEFAULT_PAIR
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
 import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.convertLongToTime
+import com.atech.core.utils.openAppSettings
 import com.atech.core.utils.showSnackBar
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -57,11 +58,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
 //                        addOrUpdateEventAndReminder(c)
 //                    }
                 } else {
-                    Snackbar.make(
-                        binding.root,
-                        "Please grant Notification permission from App Settings",
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    binding.root.showSnackBar(
+                        "Please grant Calendar permission from App Settings",
+                        Snackbar.LENGTH_LONG,
+                        actionName = "Settings",
+                    ){
+                        requireContext().openAppSettings()
+                    }
                 }
             }
     }

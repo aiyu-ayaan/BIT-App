@@ -53,7 +53,8 @@ class LibraryAdapter(
                         addTarget(endView)
                         pathMotion = MaterialArcMotion()
                         scrimColor = Color.TRANSPARENT
-                        duration = binding.root.resources.getInteger(R.integer.duration_medium).toLong()
+                        duration =
+                            binding.root.resources.getInteger(R.integer.duration_medium).toLong()
                         endElevation = 10f
                     }
                     TransitionManager.beginDelayedTransition(binding.root, transform)
@@ -95,7 +96,11 @@ class LibraryAdapter(
                 textViewBookId.text = libraryModel.bookId.ifBlank { "No Id" }
                 textViewIssueBookName.text = libraryModel.bookName
                 textViewIssueBookName.setCompoundDrawablesWithIntrinsicBounds(
-                    if (libraryModel.markAsReturn) R.drawable.ic_check_circle else 0, 0, 0, 0
+                    when {
+                        libraryModel.eventId != -1L -> R.drawable.ic_bell_active
+                        libraryModel.markAsReturn -> R.drawable.ic_check_circle
+                        else -> 0
+                    }, 0, 0, 0
                 )
 //                buttonMarkAsReturned set icon image button
                 (buttonMarkAsReturned as MaterialButton).setIconResource(

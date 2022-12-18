@@ -15,7 +15,9 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentLibraryBinding
 import com.atech.core.data.room.library.LibraryModel
 import com.atech.core.utils.CalendarReminder
+import com.atech.core.utils.showSnackBar
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -68,6 +70,19 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
                             deleteBook(it)
                         }
                     }.setNegativeButton("No", null).show()
+            }
+            setOnMenuItemClickListener {
+                when (it.itemId == R.id.action_info) {
+                    true -> {
+                        binding.root.showSnackBar(
+                            "Data is store locally in your device",
+                            Snackbar.LENGTH_SHORT
+                        )
+                        true
+                    }
+
+                    false -> false
+                }
             }
         }
     }

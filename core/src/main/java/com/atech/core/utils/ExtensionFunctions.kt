@@ -25,6 +25,7 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -710,4 +711,13 @@ fun hasNetwork(context: Context): Boolean? {
     if (activeNetwork != null && activeNetwork.isConnected)
         isConnected = true
     return isConnected
+}
+
+// fun to open app settings page
+fun Context.openAppSettings() = this.apply {
+    val intent = Intent()
+    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+    val uri = Uri.fromParts("package", this.packageName, null)
+    intent.data = uri
+    this.startActivity(intent)
 }
