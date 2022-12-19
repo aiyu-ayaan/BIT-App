@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:padding="@dimen/grid_1">
+
+
+    <TextView
+        android:id="@+id/text_view_shortcuts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_2"
+        android:layout_marginTop="@dimen/grid_1"
+        android:text="@string/shortcuts"
+        android:textAppearance="?attr/textAppearanceTitleSmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/grid_1"
+        app:cardBackgroundColor="?attr/bottomBar"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_shortcuts"
+        app:strokeColor="?attr/bottomBar"
+        tools:layout_editor_absoluteX="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_library_manager"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/grid_2"
+                android:text="@string/library"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/grid_1"
+                app:icon="@drawable/ic_library" />
+
+            <Button
+                android:id="@+id/button_cgpa"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/grid_2"
+                android:text="@string/cgpa_calculator"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/grid_1"
+                app:icon="@drawable/ic_cgpa_calculator" />
+
+            <Button
+                android:id="@+id/button_society"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/grid_2"
+                android:text="@string/societies"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/grid_1"
+                app:icon="@drawable/ic_society" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

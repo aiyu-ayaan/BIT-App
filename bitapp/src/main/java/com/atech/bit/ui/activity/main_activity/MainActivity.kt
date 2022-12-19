@@ -52,6 +52,7 @@ import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_USER_DONE_SET_UP
 import com.atech.core.utils.RemoteConfigUtil
 import com.atech.core.utils.TAG
+import com.atech.core.utils.TAG_REMOTE
 import com.atech.core.utils.UPDATE_REQUEST_CODE
 import com.atech.core.utils.changeBottomNav
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -287,7 +288,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment
+                R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
+                R.id.libraryFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )
@@ -534,8 +536,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             val minVersion = remoteConfigUtil.getLong("minVersion").toInt()
             val buttonText = remoteConfigUtil.getString("button_text")
             val isMinEdition = VERSION_CODE > minVersion
-            Log.d("XXX", "getWarning: $isEnable $title $link $minVersion $buttonText $isMinEdition")
-            Log.d("XXX", "$u , $isEnable , $isMinEdition")
+            Log.d(
+                TAG_REMOTE,
+                "getWarning: $isEnable $title $link $minVersion $buttonText $isMinEdition"
+            )
+            Log.d(TAG_REMOTE, "$u , $isEnable , $isMinEdition")
             if (isEnable && u && !isMinEdition) {
                 openWarningDialog(title, link, buttonText)
             }
