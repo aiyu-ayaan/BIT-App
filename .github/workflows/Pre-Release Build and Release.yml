@@ -90,5 +90,5 @@ jobs:
                 bitapp-*.aab
             prerelease: true
             tag_name: ${{ steps.create_release.outputs.tag_name }}
-            name: BitApp ${{ steps.create_release.outputs.tag_name }}
+            name: ${{ github.event.inputs.releaseName }}
             token: ${{ secrets.ACCOUNT_TOKEN }}
