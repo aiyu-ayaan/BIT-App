@@ -65,6 +65,16 @@
                 android:textAllCaps="false"
                 app:cornerRadius="@dimen/grid_1"
                 app:icon="@drawable/ic_society" />
+            <Button
+                android:id="@+id/button_issue"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/grid_2"
+                android:text="@string/report"
+                android:textAllCaps="false"
+                app:cornerRadius="@dimen/grid_1"
+                app:icon="@drawable/ic_issue" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

@@ -130,7 +130,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     R.id.homeFragment,
                     R.id.courseFragment,
                     R.id.attendanceFragment,
-                    R.id.noticeFragment,
                     R.id.warningFragment
                 ), drawer
             )
@@ -306,7 +305,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.loadingDataFragment, R.id.viewSyllabusFragment,
                 R.id.attendanceFragment, R.id.listAllBottomSheet,
                 R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet,
-                R.id.attendanceMenu, R.id.libraryFragment, R.id.addEditFragment
+                R.id.attendanceMenu, R.id.libraryFragment, R.id.addEditFragment,
+                R.id.noticeFragment
                 -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
