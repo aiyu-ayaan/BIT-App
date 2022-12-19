@@ -42,6 +42,12 @@
         <action
             android:id="@+id/action_homeFragment_to_viewSyllabusFragment"
             app:destination="@id/viewSyllabusFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_societyFragment"
+            app:destination="@id/societyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseFragment"

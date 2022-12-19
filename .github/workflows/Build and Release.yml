@@ -50,11 +50,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: apk
+          retention-days: 1
           path: bitapp/build/outputs/apk/global/release/bitapp-global-release.apk
       - name: Upload Bundle
         uses: actions/upload-artifact@v2
         with:
           name: bundle
+          retention-days: 1
           path: bitapp/build/outputs/bundle/global/bitapp-global-release.aab
 
   release:
@@ -71,26 +73,24 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bundle
+      - name : Rename file to match tag
+        run : |
+          echo ${{ github.ref }}
+          v=$(echo ${{ github.ref }} | cut -c 11-)
+          echo $v
+          mv bitapp-global-release.apk bitapp-$v.apk
+          mv bitapp-global-release.aab bitapp-$v.aab
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
-        with:
-          tag_name: ${{ github.ref  }}
-          release_name: ${{ github.event.repository.name }} ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - ${{ github.event.head_commit.message }}
-          prerelease: false
       - name: Upload APK to Release
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./bitapp-global-release.apk
-          asset_name: BIT App ${{ github.ref }}.apk
-          asset_content_type: application/vnd.android.package-archive
+          fail_on_missing: true
+          files: |
+            bitapp-*.apk
+            bitapp-*.aab
+          prerelease: true
+          tag_name: ${{ steps.create_release.outputs.tag_name }}
+          name: ${{ github.event.inputs.releaseName }}
+          token: ${{ secrets.ACCOUNT_TOKEN }}

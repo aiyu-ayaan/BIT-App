@@ -51,6 +51,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <include
+                    android:id="@+id/fragment_shortcuts_ext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext"
+                    layout="@layout/layout_shortcuts_home"/>
                 <TextView
                     android:id="@+id/text_event"
                     android:layout_width="wrap_content"
@@ -63,7 +70,7 @@
                     android:textColor="@color/textColor"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext"
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_shortcuts_ext"
                     tools:visibility="visible" />
 
                 <TextView
@@ -80,7 +87,7 @@
                     android:textAppearance="?attr/textAppearanceCaption"
                     android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext"
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_shortcuts_ext"
                     tools:visibility="visible" />
 
 
