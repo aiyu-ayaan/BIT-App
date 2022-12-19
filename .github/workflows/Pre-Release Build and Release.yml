@@ -48,12 +48,14 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: apk
+          retention-days: 1
           path: bitapp/build/outputs/apk/beta/release/bitapp-beta-release.apk
 
       - name: Upload Bundle
         uses: actions/upload-artifact@v2
         with:
           name: bundle
+          retention-days: 1
           path: bitapp/build/outputs/bundle/betaRelease/bitapp-beta-release.aab
 
   release:

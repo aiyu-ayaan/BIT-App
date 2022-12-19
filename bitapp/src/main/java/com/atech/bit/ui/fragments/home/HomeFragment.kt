@@ -232,6 +232,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setOnlineSyllabusView()
         switchClick()
         setLibraryWarningScreen()
+        setShortcuts()
     }
 
     private fun setLibraryWarningScreen() = binding.layoutHomeLibrary.apply {
@@ -1055,6 +1056,33 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Gson().fromJson(source, SyllabusEnableModel::class.java)
     }
 
+    private fun setShortcuts() = binding.fragmentShortcutsExt.apply {
+        buttonCgpa.setOnClickListener { navigateToCGPA() }
+        buttonLibraryManager.setOnClickListener { navigateToLibraryManager() }
+        buttonSociety.setOnClickListener { navigateToSociety() }
+    }
+
+    private fun navigateToLibraryManager() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = HomeFragmentDirections.actionHomeFragmentToLibraryFragment()
+        findNavController().navigate(action)
+    }
+
+    private fun navigateToSociety() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = HomeFragmentDirections.actionHomeFragmentToSocietyFragment()
+        findNavController().navigate(action)
+    }
 
     override fun onPause() {
         super.onPause()
