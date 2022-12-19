@@ -38,7 +38,6 @@ import androidx.room.withTransaction
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
-import com.atech.bit.ui.activity.main_activity.MainActivity
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
@@ -90,6 +89,7 @@ import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.findPercentage
 import com.atech.core.utils.loadImageCircular
 import com.atech.core.utils.onScrollColorChange
+import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -494,14 +494,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }) {
             when (it.itemId) {
-                R.id.menu_search -> {
-                    (requireActivity() as MainActivity).onMenuClick()
+                R.id.menu_notice -> {
+                    navigateToNotice()
                     true
                 }
 
                 else -> false
             }
         }
+    }
+
+    private fun navigateToNotice() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = HomeFragmentDirections.actionHomeFragmentToNoticeFragment()
+        findNavController().navigate(action)
     }
 
     private fun setProfileImageView(imageView: ImageView) {
@@ -1060,6 +1071,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonCgpa.setOnClickListener { navigateToCGPA() }
         buttonLibraryManager.setOnClickListener { navigateToLibraryManager() }
         buttonSociety.setOnClickListener { navigateToSociety() }
+        buttonIssue.setOnClickListener { activity?.openCustomChromeTab(resources.getString(R.string.issue_link)) }
     }
 
     private fun navigateToLibraryManager() {
