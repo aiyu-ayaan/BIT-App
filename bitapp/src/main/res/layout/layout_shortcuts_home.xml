@@ -41,8 +41,15 @@
                 android:padding="@dimen/grid_2"
                 android:text="@string/library"
                 android:textAllCaps="false"
+                android:textColor="?attr/textColor"
                 app:cornerRadius="@dimen/grid_1"
-                app:icon="@drawable/ic_library" />
+                app:icon="@drawable/ic_library"
+                app:iconTint="?attr/textColor" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerColor="@color/divider_color" />
 
             <Button
                 android:id="@+id/button_cgpa"
@@ -52,8 +59,15 @@
                 android:padding="@dimen/grid_2"
                 android:text="@string/cgpa_calculator"
                 android:textAllCaps="false"
+                android:textColor="?attr/textColor"
                 app:cornerRadius="@dimen/grid_1"
-                app:icon="@drawable/ic_cgpa_calculator" />
+                app:icon="@drawable/ic_cgpa_calculator"
+                app:iconTint="?attr/textColor" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerColor="@color/divider_color" />
 
             <Button
                 android:id="@+id/button_society"
@@ -63,8 +77,16 @@
                 android:padding="@dimen/grid_2"
                 android:text="@string/societies"
                 android:textAllCaps="false"
+                android:textColor="?attr/textColor"
                 app:cornerRadius="@dimen/grid_1"
-                app:icon="@drawable/ic_society" />
+                app:icon="@drawable/ic_society"
+                app:iconTint="?attr/textColor" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerColor="@color/divider_color" />
+
             <Button
                 android:id="@+id/button_issue"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
@@ -73,8 +95,10 @@
                 android:padding="@dimen/grid_2"
                 android:text="@string/report"
                 android:textAllCaps="false"
+                android:textColor="?attr/textColor"
                 app:cornerRadius="@dimen/grid_1"
-                app:icon="@drawable/ic_issue" />
+                app:icon="@drawable/ic_issue"
+                app:iconTint="?attr/textColor" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 

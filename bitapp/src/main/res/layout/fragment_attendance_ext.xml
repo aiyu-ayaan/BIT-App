@@ -166,11 +166,21 @@
             android:layout_marginVertical="@dimen/grid_0_5"
             app:dividerColor="@color/divider_color" />
 
+        <include
+            android:id="@+id/card_view_info"
+            layout="@layout/card_view_highlight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/divider_attendance"
+            android:layout_marginHorizontal="@dimen/grid_2"
+            android:layout_marginVertical="@dimen/grid_0_5"
+            android:visibility="gone" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/show_att"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/divider_attendance"
+            android:layout_below="@id/card_view_info"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/min_padding_attendance"
             android:scrollbarStyle="outsideOverlay"
@@ -187,9 +197,9 @@
             android:layout_marginTop="@dimen/grid_4"
             android:scaleType="fitCenter"
             android:visibility="gone"
-            tools:visibility="visible"
             app:lottie_autoPlay="true"
             app:lottie_fileName="empty.json"
-            app:lottie_loop="true" />
+            app:lottie_loop="true"
+            tools:visibility="visible" />
     </RelativeLayout>
 </androidx.constraintlayout.motion.widget.MotionLayout>

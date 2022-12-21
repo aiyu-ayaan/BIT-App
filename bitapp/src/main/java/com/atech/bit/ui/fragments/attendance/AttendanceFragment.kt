@@ -22,12 +22,15 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.AttendanceEvent
+import com.atech.bit.utils.CardViewHighlightContent
+import com.atech.bit.utils.bindData
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
+import com.atech.core.utils.KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW
 import com.atech.core.utils.KEY_ATTENDANCE_UPLOAD_FIRST_TIME
 import com.atech.core.utils.MAX_STACK_SIZE
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
@@ -97,6 +100,35 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
         requireContext().loadAdds(binding.attendanceView.adView)
         setUpBottomAppBar()
+        setCardInfo()
+    }
+
+    private fun setCardInfo() = binding.attendanceView.cardViewInfo.apply {
+        root.isVisible = pref.getBoolean(KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW, true)
+        CardViewHighlightContent(
+            resources.getString(R.string.library),
+            "Use to track your books and their status",
+            R.drawable.ic_library,
+            true
+        ).also { content ->
+            bindData(content, onVisibilityClick = {
+                pref.edit().putBoolean(KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW, false).apply()
+                root.isVisible = false
+            }){
+                navigateToLibrary()
+            }
+        }
+    }
+
+    private fun navigateToLibrary() {
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        }
+        val action = AttendanceFragmentDirections.actionAttendanceFragmentToLibraryFragment()
+        findNavController().navigate(action)
     }
 
     private fun setUpBottomAppBar() = binding.bottomAppBar.apply {
@@ -179,6 +211,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                     finalPercentage < defPercentage && finalPercentage > 60F -> resources.getString(
                         R.string.lessThanDefault
                     )
+
                     finalPercentage < 60F && finalPercentage != 0F -> resources.getString(R.string.lessThan60)
                     else -> resources.getString(R.string.def_emoji)
                 }
@@ -349,14 +382,13 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     @Suppress("UNCHECKED_CAST")
     private fun onWrongClick(attendance: AttendanceModel) {
-        val stack: Deque<AttendanceSave> = attendance.stack
-            .also {
-                if (it.size > MAX_STACK_SIZE) {
-                    for (i in 0 until MAX_STACK_SIZE) {
-                        it.removeLast()
-                    }
+        val stack: Deque<AttendanceSave> = attendance.stack.also {
+            if (it.size > MAX_STACK_SIZE) {
+                for (i in 0 until MAX_STACK_SIZE) {
+                    it.removeLast()
                 }
             }
+        }
         val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
         val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
         stack.push(

@@ -49,10 +49,12 @@ import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HomeLibraryAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
+import com.atech.bit.utils.CardViewHighlightContent
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.bindData
 import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.loadAdds
@@ -72,10 +74,12 @@ import com.atech.core.utils.DataState
 import com.atech.core.utils.GITHUB_LINK
 import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
+import com.atech.core.utils.KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW
 import com.atech.core.utils.KEY_IS_USER_LOG_IN
 import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
+import com.atech.core.utils.MAX_TIME_TO_SHOW_CARD
 import com.atech.core.utils.REQUEST_EVENT_FROM_HOME
 import com.atech.core.utils.REQUEST_LOGIN_FROM_HOME
 import com.atech.core.utils.REQUEST_UPDATE_SEM
@@ -233,6 +237,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         switchClick()
         setLibraryWarningScreen()
         setShortcuts()
+        setAnnouncement()
+    }
+
+    private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
+        val times = pref.getInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, 1)
+        root.isVisible = times < MAX_TIME_TO_SHOW_CARD
+        Log.d(TAG, "setAnnouncement: $times")
+        if (times < MAX_TIME_TO_SHOW_CARD) {
+            CardViewHighlightContent(
+                "Notice Section",
+                "Notice Section is now on top of the appbar",
+                R.drawable.ic_notice
+            ).also {
+                bindData(it)
+                pref.edit().putInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, times + 1)
+                    .apply()
+            }
+        }
     }
 
     private fun setLibraryWarningScreen() = binding.layoutHomeLibrary.apply {

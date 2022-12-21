@@ -80,6 +80,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_archiveBottomSheet"
             app:destination="@id/archiveBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_libraryFragment"
+            app:destination="@id/libraryFragment" />
     </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"

@@ -20,7 +20,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <com.google.android.gms.ads.AdView
                 android:id="@+id/adView"
                 android:layout_width="wrap_content"
@@ -29,6 +28,17 @@
                 ads:adSize="BANNER"
                 ads:adUnitId="ca-app-pub-6172727030505608/5014774210" />
             <!--            ads:adUnitId="ca-app-pub-6172727030505608/5014774210"-->
+
+            <include
+                android:id="@+id/card_view_announcement"
+                layout="@layout/card_view_highlight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_2"
+                android:layout_marginVertical="@dimen/grid_0_5"
+                android:visibility="gone"
+                tools:visibility="visible"
+                />
 
             <include
                 android:id="@+id/layout_home_library"
@@ -53,11 +63,12 @@
 
                 <include
                     android:id="@+id/fragment_shortcuts_ext"
+                    layout="@layout/layout_shortcuts_home"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext"
-                    layout="@layout/layout_shortcuts_home"/>
+                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext" />
+
                 <TextView
                     android:id="@+id/text_event"
                     android:layout_width="wrap_content"
