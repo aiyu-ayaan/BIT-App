@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">BIT App</string>
     <string name="welcome_with_app_name">Welcome to BIT App</string>
     <string name="welcome_with_account_des">Create an account to save all setting\nand attendance data.</string>
@@ -226,7 +226,8 @@
     <string name="issue_link">https://bitapp.page.link/issue</string>
     <string name="github_link">https://bitapp.page.link/BIT</string>
     <string name="no_internet">No Internet</string>
-    <string name="def_value_online_syllabus">{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false ,"mca1": true, "mca2": false, "mca3": false, "mba4": false, "mba1": false, "mba2": false, "mba3": false}</string>
+    <string name="def_value_online_syllabus" tools:ignore="Typos">{   "bca1": true,   "bca2": false,   "bca3": true,   "bca4": false,   "bca5": false,   "bca6": false,   "bba1": false,   "bba2": false,   "bba3": false,   "bba4": false,   "bba5": false,   "bba6": false ,"mca1": true, "mca2": false, "mca3": false, "mba4": false, "mba1": false, "mba2": false, "mba3": false}</string>
+    <string name="def_value_syllabus_visibility">{ 	"bca": true, 	"bba": true, 	"mca": true, 	"mba": false }</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
     <string name="no_offline_data">Data not found in offline database😣😣😣</string>

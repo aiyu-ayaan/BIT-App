@@ -23,7 +23,7 @@ class RemoteConfigUtil @Inject constructor(
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("XXX", "Config params updated: ${task.result}")
+                    Log.d(TAG_REMOTE, "Config params updated: ${task.result}")
                     success(remoteConfig)
                 } else {
                     failure(task.exception!!)

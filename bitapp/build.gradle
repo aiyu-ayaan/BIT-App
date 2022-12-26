@@ -92,6 +92,7 @@ dependencies {
 //    FCM
     implementation 'com.google.firebase:firebase-messaging-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-config-ktx'
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation('com.google.firebase:firebase-auth-ktx') {
         exclude module: "play-services-safetynet"

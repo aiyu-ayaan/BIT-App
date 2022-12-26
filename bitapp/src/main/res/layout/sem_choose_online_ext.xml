@@ -49,6 +49,7 @@
                     android:id="@+id/recycler_view_online_syllabus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overScrollMode="never"
                     android:layout_marginHorizontal="@dimen/grid_0_25"
                     android:layout_marginVertical="@dimen/grid_1" />
             </com.google.android.material.card.MaterialCardView>

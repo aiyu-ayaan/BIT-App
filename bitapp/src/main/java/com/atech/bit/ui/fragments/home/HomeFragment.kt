@@ -139,8 +139,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var auth: FirebaseAuth
 
-    @Inject
-    lateinit var remoteConfig: RemoteConfigUtil
 
     @Inject
     lateinit var bitDatabase: BitDatabase
@@ -243,7 +241,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
         val times = pref.getInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, 1)
         root.isVisible = times < MAX_TIME_TO_SHOW_CARD
-        Log.d(TAG, "setAnnouncement: $times")
         if (times < MAX_TIME_TO_SHOW_CARD) {
             CardViewHighlightContent(
                 "Notice Section",
@@ -251,8 +248,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.drawable.ic_notice
             ).also {
                 bindData(it)
-                pref.edit().putInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, times + 1)
-                    .apply()
             }
         }
     }
@@ -455,11 +450,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpLinkClick() {
         binding.layoutNoteDev.tagInfo.setOnClickListener {
-            remoteConfig.fetchData({
+            remoteConfigUtil.fetchData({
                 Log.e(TAG, "setUpLinkClick: ${it.message}")
             }) {
                 try {
-                    val link = remoteConfig.getString(GITHUB_LINK).trim()
+                    val link = remoteConfigUtil.getString(GITHUB_LINK).trim()
                     requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
                 } catch (e: Exception) {
                     Log.e(TAG, "setUpLinkClick: ${e.message}")

@@ -88,6 +88,7 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
             }
         }
         viewModel.syllabus.observe(viewLifecycleOwner) {
+            binding.emptyAnimation.isVisible = it.isEmpty()
             syllabusAdapter.submitList(it)
         }
 

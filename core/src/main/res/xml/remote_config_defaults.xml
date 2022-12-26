@@ -1,67 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<defaultMap>
+<?xml version="1.0" encoding="UTF-8"?>
+<defaults>
+    <entry>
+        <key>SYLLABUS_BBA</key>
+        <value>https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Syllabus%2FBBA_CBCS_Syllabus.pdf?alt=media&amp;token=ab41c141-c565-45c2-bfe6-7270b8296e49</value>
+    </entry>
+    <entry>
+        <key>KEY_TOGGLE_SYLLABUS_SOURCE</key>
+        <value>false</value>
+    </entry>
+    <entry>
+        <key>SYLLABUS_BCA</key>
+        <value>https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Syllabus%2FBCA_CBCS_Syllabus.pdf?alt=media&amp;token=78a6bf0a-1694-4556-816f-dd4d0c2395e3</value>
+    </entry>
+    <entry>
+        <key>KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY</key>
+        <value>{"bca1":true,"bca2":false,"bca3":true,"bca4":false,"bca5":false,"bca6":false,"bba1":false,"bba2":false,"bba3":false,"bba4":false,"bba5":false,"bba6":false,"mca1":true,"mca2":false,"mca3":false,"mba4":false,"mba1":false,"mba2":false,"mba3":false}</value>
+    </entry>
+    <entry>
+        <key>SYLLABUS_VISIBILITY</key>
+        <value>{ 	"bca": true, 	"bba": true, 	"mca": true, 	"mba": false }</value>
+    </entry>
     <entry>
         <key>Current_Year</key>
         <value>2022-23</value>
     </entry>
     <entry>
-        <key>KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY</key>
-        <value>{"bca1":true,"bca2":false,"bca3":true,"bca4":false,"bca5":false,"bca6":false,"bba1":false,"bba2":false,"bba3":false,"bba4":false,"bba5":false,"bba6":false,"mca1":false,"mca2":false,"mca3":false,"mba4":false,"mba1":false,"mba2":false,"mba3":false}</value>
+        <key>Github_Link</key>
+        <value>https://github.com/aiyu-ayaan</value>
     </entry>
-    <entry>
-        <key>SYLLABUS_BCA</key>
-        <value>
-            https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Syllabus%2FBCA_CBCS_Syllabus.pdf?alt=media&#38;token=78a6bf0a-1694-4556-816f-dd4d0c2395e3
-        </value>
-    </entry>
-    <entry>
-        <key>SYLLABUS_BBA</key>
-        <value>
-            https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Syllabus%2FBBA_CBCS_Syllabus.pdf?alt=media&#38;token=ab41c141-c565-45c2-bfe6-7270b8296e49
-        </value>
-    </entry>
-
     <entry>
         <key>button_text</key>
-        <value>
-            Open New App
-        </value>
+        <value>Open New App</value>
     </entry>
     <entry>
         <key>isEnable</key>
-        <value>
-            false
-        </value>
+        <value>false</value>
     </entry>
     <entry>
         <key>link</key>
-        <value>
-            com.atech.bit
-        </value>
+        <value>com.atech.bit</value>
     </entry>
     <entry>
         <key>minVersion</key>
-        <value>
-            0
-        </value>
+        <value>0</value>
     </entry>
     <entry>
         <key>title</key>
-        <value>
-            This app is ending it's support.
-        </value>
+        <value>This app is ending it's support.</value>
     </entry>
-    <entry>
-        <key>button_text</key>
-        <value>
-            Open New App
-        </value>
-    </entry>
-
-    <entry>
-        <key>Github_Link</key>
-        <value>
-            https://github.com/aiyu-ayaan
-        </value>
-    </entry>
-</defaultMap>
+</defaults>
