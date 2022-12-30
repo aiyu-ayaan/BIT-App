@@ -554,4 +554,12 @@
             app:argType="com.atech.core.data.room.library.LibraryModel"
             app:nullable="true" />
     </fragment>
+    <dialog
+        android:id="@+id/universalDialogFragment"
+        android:name="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment"
+        android:label="UniversalDialogFragment" >
+        <argument
+            android:name="universal_dialog_data"
+            app:argType="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment$UniversalDialogData" />
+    </dialog><action android:id="@+id/action_global_universalDialogFragment" app:destination="@id/universalDialogFragment"/>
 </navigation>

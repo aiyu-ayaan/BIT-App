@@ -45,6 +45,12 @@ class HomeViewModel @Inject constructor(
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
 
+    var isAnnouncementDialogShown: Boolean = state["isAnnouncementDialogShown"] ?: true
+        set(value) {
+            field = value
+            state["isAnnouncementDialogShown"] = value
+        }
+
 
     fun getHoliday() = apiRepository.getHolidayData(calenderQuery, filter = { query, allHoliday ->
         allHoliday.holidays.filter { it.month == query }
@@ -87,6 +93,7 @@ class HomeViewModel @Inject constructor(
     fun updateBook(libraryModel: LibraryModel) = viewModelScope.launch {
         libraryDao.updateBook(libraryModel)
     }
+
     fun deleteBook(libraryModel: LibraryModel) = viewModelScope.launch {
         libraryDao.deleteBook(libraryModel)
     }

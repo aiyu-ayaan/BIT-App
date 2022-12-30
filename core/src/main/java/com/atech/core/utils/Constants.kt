@@ -90,3 +90,18 @@ const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
 
+const val SHOW_TIMES = "show_times"
+const val KEY_SHOW_TIMES = "key_show_times"
+const val KEY_CURRENT_SHOW_TIME = "key_current_show_time"
+const val KEY_ANN_VERSION = "key_ann_version"
+
+// Announcement Dialog
+
+const val ANN_TITLE = "ann_title"
+const val ANN_MESSAGE = "ann_message"
+const val ANN_LINK = "ann_link"
+const val ANN_POS_BUTTON = "ann_pos_button"
+const val ANN_NEG_BUTTON = "ann_neg_button"
+const val ANN_VERSION = "ann_version"
+
+

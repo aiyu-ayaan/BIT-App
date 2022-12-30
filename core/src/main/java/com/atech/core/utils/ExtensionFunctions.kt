@@ -41,6 +41,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
@@ -720,4 +722,17 @@ fun Context.openAppSettings() = this.apply {
     val uri = Uri.fromParts("package", this.packageName, null)
     intent.data = uri
     this.startActivity(intent)
+}
+
+fun ConstraintLayout.setHorizontalBias(
+    @IdRes targetViewId: Int,
+    verticalBias: Float,
+    horizontalBias: Float = 0.0f
+
+) {
+    val constraintSet = ConstraintSet()
+    constraintSet.clone(this)
+    constraintSet.setHorizontalBias(targetViewId, horizontalBias)
+    constraintSet.setVerticalBias(targetViewId, verticalBias)
+    constraintSet.applyTo(this)
 }
