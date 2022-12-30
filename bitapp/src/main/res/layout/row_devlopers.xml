@@ -20,6 +20,7 @@
     app:cardElevation="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_layout_dev"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -77,6 +78,7 @@
             tools:text="Dev OPS" />
 
         <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_2"

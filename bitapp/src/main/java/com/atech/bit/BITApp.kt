@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.atech.core.utils.*
@@ -22,6 +23,10 @@ class BITApp : Application() {
 
     @Inject
     lateinit var fcm: FirebaseMessaging
+
+
+    @Inject
+    lateinit var remoteConfigUtil: RemoteConfigUtil
     override fun onCreate() {
         super.onCreate()
         DynamicColors.applyToActivitiesIfAvailable(this)
@@ -38,7 +43,31 @@ class BITApp : Application() {
             createAppNotificationChannel()
         }
         setUpFcm()
+        setButtonVisibility()
+        setPosterVisibility()
     }
+
+    private fun setPosterVisibility() {
+        val times = pref.getInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, 1)
+        pref.edit().putInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, times + 1)
+            .apply()
+    }
+
+    private fun setButtonVisibility() {
+        remoteConfigUtil.fetchData({
+            Log.d(TAG_REMOTE, "setButtonVisibility: ${it.message}")
+        }) {
+            val syllabusVisibilityJson = it.getString(
+                KEY_SYLLABUS_VISIBILITY
+            )
+            pref.edit()
+                .putString(
+                    KEY_SYLLABUS_VISIBILITY_PREF_CONFIG,
+                    syllabusVisibilityJson
+                ).apply()
+        }
+    }
+
 
     private fun setUpFcm() {
         fcm.subscribeToTopic(resources.getString(R.string.topic_notice))

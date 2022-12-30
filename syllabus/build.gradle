@@ -54,5 +54,6 @@ dependencies {
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.github.yogacp:android-viewbinding:$viewBindingVersion"
     implementation("com.google.dagger:hilt-android:$hilt_version")
+    implementation 'androidx.core:core-ktx:1.9.0'
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 }

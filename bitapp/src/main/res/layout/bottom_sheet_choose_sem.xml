@@ -46,7 +46,7 @@
         android:layout_height="1dp"
         android:layout_below="@id/bottom_sheet_title"
         android:layout_marginTop="16dp"
-        app:dividerColor="@color/divider_color"/>
+        app:dividerColor="@color/divider_color" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -126,8 +126,10 @@
                     android:text="@string/mca"
                     android:textColor="@color/stroke_tint_text"
                     android:textSize="15sp"
+                    android:visibility="gone"
                     app:checkedIconTint="@color/stroke_tint_text"
-                    app:chipBackgroundColor="@color/stroke_tint" />
+                    app:chipBackgroundColor="@color/stroke_tint"
+                    tools:visibility="visible" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/bt_mba"
@@ -137,8 +139,10 @@
                     android:text="@string/mba"
                     android:textColor="@color/stroke_tint_text"
                     android:textSize="15sp"
+                    android:visibility="gone"
                     app:checkedIconTint="@color/stroke_tint_text"
-                    app:chipBackgroundColor="@color/stroke_tint" />
+                    app:chipBackgroundColor="@color/stroke_tint"
+                    tools:visibility="visible" />
             </com.google.android.material.chip.ChipGroup>
 
             <TextView

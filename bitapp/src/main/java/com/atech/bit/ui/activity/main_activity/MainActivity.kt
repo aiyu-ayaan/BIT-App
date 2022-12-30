@@ -45,13 +45,17 @@ import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openShareLink
 import com.atech.core.data.preferences.SearchPreference
 import com.atech.core.data.room.attendance.AttendanceDao
+import com.atech.core.utils.ANN_VERSION
 import com.atech.core.utils.APP_LOGO_LINK
 import com.atech.core.utils.ERROR_LOG
+import com.atech.core.utils.KEY_ANN_VERSION
+import com.atech.core.utils.KEY_CURRENT_SHOW_TIME
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
 import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.core.utils.KEY_SHOW_TIMES
 import com.atech.core.utils.KEY_USER_DONE_SET_UP
 import com.atech.core.utils.RemoteConfigUtil
-import com.atech.core.utils.TAG
+import com.atech.core.utils.SHOW_TIMES
 import com.atech.core.utils.TAG_REMOTE
 import com.atech.core.utils.UPDATE_REQUEST_CODE
 import com.atech.core.utils.changeBottomNav
@@ -137,8 +141,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             bottomNavigation.setupWithNavController(navController)
             bottomNavigation.setOnItemSelectedListener {
                 if (it.itemId == R.id.homeFragment) navController.popBackStack(
-                    R.id.homeFragment,
-                    false
+                    R.id.homeFragment, false
                 )
                 else NavigationUI.onNavDestinationSelected(it, navController)
                 true
@@ -174,19 +177,20 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         searchFragmentCommunication()
         checkForUpdate()
         val u = pref.getBoolean(KEY_DO_NOT_SHOW_AGAIN, false)
-        if (u)
-            getWarning()
+        if (u) getWarning()
         shareReview()
+        getShowTimes()
     }
 
     private fun openReleaseNotes() {
         val link = isBeta().let {
-            val version = if (BuildConfig.VERSION_NAME.contains("\\sPatch\\s".toRegex()))
-                BuildConfig.VERSION_NAME.replace("\\sPatch\\s".toRegex(), ".")
-            else BuildConfig.VERSION_NAME
+            val version =
+                if (BuildConfig.VERSION_NAME.contains("\\sPatch\\s".toRegex())) BuildConfig.VERSION_NAME.replace(
+                    "\\sPatch\\s".toRegex(), "."
+                )
+                else BuildConfig.VERSION_NAME
             if (it) resources.getString(
-                R.string.release_notes,
-                "pre-release-v$version"
+                R.string.release_notes, "pre-release-v$version"
             )
             else resources.getString(R.string.release_notes, "v$version")
         }
@@ -260,15 +264,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                     R.id.toolbar, R.attr.bottomBar
                 )
 
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
-                R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet, R.id.attendanceMenu,
-                R.id.chooseImageBottomSheet, R.id.archiveBottomSheet ->
-                    changeStatusBarToolbarColor(
-                        R.id.toolbar, R.attr.bottomSheetBackground
-                    ).also {
-                        setStatusBarUiTheme(this, !this.isDark())
-                    }
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.attendanceMenu, R.id.chooseImageBottomSheet, R.id.archiveBottomSheet -> changeStatusBarToolbarColor(
+                    R.id.toolbar, R.attr.bottomSheetBackground
+                ).also {
+                    setStatusBarUiTheme(this, !this.isDark())
+                }
 
                 R.id.logInFragment -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
                     this, R.attr.appLogoBackground, Color.WHITE
@@ -283,31 +283,19 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 }
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment,
-                R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet,
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog,
-                R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
-                R.id.libraryFragment
-                -> changeBottomNav(
+                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
+                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.addEditSubjectBottomSheet,
+                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet,
+                R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu,
+                R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
+                R.id.libraryFragment, R.id.universalDialogFragment -> changeBottomNav(
                     R.attr.bottomBar
                 )
 
                 else -> changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
             }
             when (destination.id) {
-                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet,
-                R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment,
-                R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment,
-                R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment,
-                R.id.eventDetailFragment, R.id.searchFragment, R.id.settingDialog,
-                R.id.cgpaCalculatorFragment, R.id.viewVideoFragment,
-                R.id.loadingDataFragment, R.id.viewSyllabusFragment,
-                R.id.attendanceFragment, R.id.listAllBottomSheet,
-                R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet,
-                R.id.attendanceMenu, R.id.libraryFragment, R.id.addEditFragment,
-                R.id.noticeFragment
-                -> {
+                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment, R.id.searchFragment, R.id.settingDialog, R.id.cgpaCalculatorFragment, R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment, R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment, R.id.addEditFragment, R.id.noticeFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -322,11 +310,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 }
             }
             val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
-            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u)
-                || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment
-                || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment
-                || destination.id == R.id.loadingDataFragment
-            ) {
+            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
             }
@@ -432,8 +416,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
         val button = headerView.findViewById<ImageButton>(R.id.button_about_us)
         headerView.findViewById<TextView>(R.id.version).apply {
             text = resources.getString(
-                R.string.full_version,
-                getVersion()
+                R.string.full_version, getVersion()
             )
         }
         root?.setOnClickListener {
@@ -528,7 +511,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
     private fun getWarning() {
         val u = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
         remoteConfigUtil.fetchData({
-            Log.e(TAG, "getWarning: $it")
+            Log.e(TAG_REMOTE, "getWarning: $it")
         }) {
             val isEnable = remoteConfigUtil.getBoolean("isEnable")
             val title = remoteConfigUtil.getString("title")
@@ -546,6 +529,34 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             }
         }
     }
+
+
+    private fun getShowTimes() {
+        val u = pref.getBoolean(KEY_USER_DONE_SET_UP, false)
+        if (u) {
+            remoteConfigUtil.fetchData({}) {
+                val showTimes = remoteConfigUtil.getLong(SHOW_TIMES).toInt()
+                pref.edit().putInt(KEY_SHOW_TIMES, showTimes).apply()
+                val annVersion = remoteConfigUtil.getLong(ANN_VERSION).toInt().also { annVersion ->
+                    pref.getInt(KEY_ANN_VERSION, 0).let {
+                        if (it == 0) {
+                            pref.edit().putInt(KEY_ANN_VERSION, annVersion).apply()
+                        }
+                    }
+                }
+                val currentAnnVersion = pref.getInt(KEY_ANN_VERSION, 0)
+                if (annVersion != currentAnnVersion && annVersion != 1) {
+                    pref.edit().putInt(KEY_CURRENT_SHOW_TIME, 1).apply()
+                    pref.edit().putInt(KEY_ANN_VERSION, annVersion).apply()
+                }
+                Log.d(
+                    TAG_REMOTE,
+                    "getShowTimes: showTime : $showTimes, annVersion : $annVersion,currentAnnVersion :$currentAnnVersion"
+                )
+            }
+        }
+    }
+
 
     private fun openWarningDialog(title: String, link: String, buttonText: String) {
         try {

@@ -10,10 +10,14 @@
 
 package com.atech.bit.service
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -67,6 +71,14 @@ class FcmService : FirebaseMessagingService() {
         }
         builder.setContentIntent(pendingIntent)
         val managerCompat = NotificationManagerCompat.from(this)
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d(TAG, "createNotice: Permission not granted")
+            return
+        }
         managerCompat.notify(Random.nextInt(), builder.build())
     }
 

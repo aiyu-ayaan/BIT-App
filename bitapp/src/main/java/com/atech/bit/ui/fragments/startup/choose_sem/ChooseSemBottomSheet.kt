@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.Keep
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -23,6 +24,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.firebase.auth.FirebaseAuth
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -85,7 +87,23 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
             }
         }
         courseClick()
+        setButtonVisibility()
         return binding.root
+    }
+
+    private fun setButtonVisibility() {
+        val source = pref.getString(
+            KEY_SYLLABUS_VISIBILITY_PREF_CONFIG,
+            resources.getString(R.string.def_value_syllabus_visibility)
+        )
+        Gson().fromJson(source, SyllabusVisibility::class.java).also {
+            binding.apply {
+                btBba.isVisible = it.bba
+                btBca.isVisible = it.bca
+                btMba.isVisible = it.mba
+                btMca.isVisible = it.mca
+            }
+        }
     }
 
     private fun navigationToHome() {
@@ -215,14 +233,14 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
             binding.bt5.isVisible = false
             binding.bt6.isVisible = false
             binding.chipGroupSem.check(R.id.bt1)
-            course = resources.getString(R.string.sem1)
+            sem = resources.getString(R.string.sem1)
         }
         binding.btMca.setOnClickListener {
             course = resources.getString(R.string.mca)
             binding.bt5.isVisible = false
             binding.bt6.isVisible = false
             binding.chipGroupSem.check(R.id.bt1)
-            course = resources.getString(R.string.sem1)
+            sem = resources.getString(R.string.sem1)
         }
     }
 
@@ -263,5 +281,13 @@ class ChooseSemBottomSheet : BottomSheetDialogFragment() {
             }
         }
     }
+
+    @Keep
+    data class SyllabusVisibility(
+        val bca: Boolean,
+        val bba: Boolean,
+        val mca: Boolean,
+        val mba: Boolean
+    )
 
 }

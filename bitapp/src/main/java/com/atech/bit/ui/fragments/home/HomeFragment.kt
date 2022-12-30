@@ -49,6 +49,7 @@ import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HolidayHomeAdapter
 import com.atech.bit.ui.fragments.home.adapter.HomeLibraryAdapter
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
+import com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment
 import com.atech.bit.utils.CardViewHighlightContent
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
@@ -69,14 +70,22 @@ import com.atech.core.data.room.library.LibraryModel
 import com.atech.core.data.room.syllabus.SyllabusList
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.core.data.ui.events.Events
+import com.atech.core.utils.ANN_LINK
+import com.atech.core.utils.ANN_MESSAGE
+import com.atech.core.utils.ANN_NEG_BUTTON
+import com.atech.core.utils.ANN_POS_BUTTON
+import com.atech.core.utils.ANN_TITLE
+import com.atech.core.utils.ANN_VERSION
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DataState
 import com.atech.core.utils.GITHUB_LINK
 import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
+import com.atech.core.utils.KEY_CURRENT_SHOW_TIME
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
 import com.atech.core.utils.KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW
 import com.atech.core.utils.KEY_IS_USER_LOG_IN
 import com.atech.core.utils.KEY_REACH_TO_HOME
+import com.atech.core.utils.KEY_SHOW_TIMES
 import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
 import com.atech.core.utils.MAX_TIME_TO_SHOW_CARD
@@ -139,8 +148,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var auth: FirebaseAuth
 
-    @Inject
-    lateinit var remoteConfig: RemoteConfigUtil
 
     @Inject
     lateinit var bitDatabase: BitDatabase
@@ -238,12 +245,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setLibraryWarningScreen()
         setShortcuts()
         setAnnouncement()
+        showAnnouncementDialog()
     }
 
     private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
         val times = pref.getInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, 1)
         root.isVisible = times < MAX_TIME_TO_SHOW_CARD
-        Log.d(TAG, "setAnnouncement: $times")
         if (times < MAX_TIME_TO_SHOW_CARD) {
             CardViewHighlightContent(
                 "Notice Section",
@@ -251,8 +258,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 R.drawable.ic_notice
             ).also {
                 bindData(it)
-                pref.edit().putInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, times + 1)
-                    .apply()
             }
         }
     }
@@ -455,11 +460,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpLinkClick() {
         binding.layoutNoteDev.tagInfo.setOnClickListener {
-            remoteConfig.fetchData({
+            remoteConfigUtil.fetchData({
                 Log.e(TAG, "setUpLinkClick: ${it.message}")
             }) {
                 try {
-                    val link = remoteConfig.getString(GITHUB_LINK).trim()
+                    val link = remoteConfigUtil.getString(GITHUB_LINK).trim()
                     requireActivity().startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
                 } catch (e: Exception) {
                     Log.e(TAG, "setUpLinkClick: ${e.message}")
@@ -1125,6 +1130,39 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     companion object {
         var myScrollViewerInstanceState: Parcelable? = null
+    }
+
+    private fun showAnnouncementDialog() {
+        if (viewModel.isAnnouncementDialogShown) {
+            viewModel.isAnnouncementDialogShown = false
+            val currentShowTime = pref.getInt(KEY_CURRENT_SHOW_TIME, 1)
+            val showTimes = pref.getInt(KEY_SHOW_TIMES, MAX_TIME_TO_SHOW_CARD)
+            val annVersion = remoteConfigUtil.getLong(ANN_VERSION).toInt()
+            if (currentShowTime <= showTimes && annVersion != 1) {
+                remoteConfigUtil.fetchData({}) {
+                    val annTitle = remoteConfigUtil.getString(ANN_TITLE)
+                    val annMessage = remoteConfigUtil.getString(ANN_MESSAGE)
+                    val annLink = remoteConfigUtil.getString(ANN_LINK)
+                    val annPosButton = remoteConfigUtil.getString(ANN_POS_BUTTON)
+                    val annNegButton = remoteConfigUtil.getString(ANN_NEG_BUTTON)
+                    UniversalDialogFragment.UniversalDialogData(
+                        annTitle,
+                        annMessage,
+                        annPosButton,
+                        annNegButton,
+                        annLink
+                    ).also {
+                        navigateToUniversalDialog(it)
+                    }
+                }
+                pref.edit().putInt(KEY_CURRENT_SHOW_TIME, currentShowTime + 1).apply()
+            }
+        }
+    }
+
+    private fun navigateToUniversalDialog(data: UniversalDialogFragment.UniversalDialogData) {
+        val action = NavGraphDirections.actionGlobalUniversalDialogFragment(data)
+        findNavController().navigate(action)
     }
 
 

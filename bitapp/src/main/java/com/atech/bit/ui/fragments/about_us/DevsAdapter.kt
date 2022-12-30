@@ -12,6 +12,7 @@ package com.atech.bit.ui.fragments.about_us
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.RowDevlopersBinding
 import com.atech.core.api.aboutus.Devs
 import com.atech.core.utils.loadImageCircular
+import com.atech.core.utils.setHorizontalBias
 
 class DevsAdapter(
     private val listener: (devs: Devs) -> Unit
@@ -47,6 +49,12 @@ class DevsAdapter(
                     R.drawable.ic_running_error
                 )
                 name.text = devs.name
+                textViewDes.isVisible = devs.des.isNotEmpty()
+                if(devs.des.isEmpty())
+                    binding.constraintLayoutDev.setHorizontalBias(
+                        binding.name.id,
+                        0.50f
+                    )
                 textViewDes.text = devs.des
             }
         }

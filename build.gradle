@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_version = "1.7.10"
+        kotlin_version = '1.8.0-RC2'
         playStoreCoreVersion = "1.8.1"
         materail3Version = '1.8.0-beta01'
         playServicesAuthVersion = "20.4.0"
@@ -42,8 +42,12 @@ buildscript {
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion"
         classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+    repositories {
+        mavenCentral()
+    }
+}
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false

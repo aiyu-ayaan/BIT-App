@@ -20,6 +20,8 @@ const val KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY = "KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"
 const val KEY_COURSE_OPEN_FIRST_TIME = "KEY_COURSE_OPEN_FIRST_TIME"
 const val KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW = "KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW"
 const val KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW = "KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW"
+const val KEY_SYLLABUS_VISIBILITY = "SYLLABUS_VISIBILITY"
+const val KEY_SYLLABUS_VISIBILITY_PREF_CONFIG = "SYLLABUS_VISIBILITY_PREF_CONFIG"
 
 
 const val REQUEST_UPDATE_SEM = 345 * 33434
@@ -87,4 +89,19 @@ const val DD_MM = "dd MMM"
 const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
+
+const val SHOW_TIMES = "show_times"
+const val KEY_SHOW_TIMES = "key_show_times"
+const val KEY_CURRENT_SHOW_TIME = "key_current_show_time"
+const val KEY_ANN_VERSION = "key_ann_version"
+
+// Announcement Dialog
+
+const val ANN_TITLE = "ann_title"
+const val ANN_MESSAGE = "ann_message"
+const val ANN_LINK = "ann_link"
+const val ANN_POS_BUTTON = "ann_pos_button"
+const val ANN_NEG_BUTTON = "ann_neg_button"
+const val ANN_VERSION = "ann_version"
+
 
