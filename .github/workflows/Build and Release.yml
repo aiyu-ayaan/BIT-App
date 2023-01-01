@@ -57,7 +57,7 @@ jobs:
         with:
           name: bundle
           retention-days: 1
-          path: bitapp/build/outputs/bundle/global/bitapp-global-release.aab
+          path: bitapp/build/outputs/bundle/globalRelease/bitapp-global-release.aab
 
   release:
     name: Publish APK to GitHub
