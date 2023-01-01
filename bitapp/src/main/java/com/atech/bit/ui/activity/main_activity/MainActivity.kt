@@ -260,11 +260,15 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
             }
 
             when (destination.id) {
-                R.id.semChooseFragment, R.id.detailDevFragment, R.id.searchFragment, R.id.noticeDetailFragment, R.id.eventDetailFragment -> changeStatusBarToolbarColor(
+                R.id.semChooseFragment, R.id.detailDevFragment, R.id.searchFragment,
+                R.id.noticeDetailFragment, R.id.eventDetailFragment -> changeStatusBarToolbarColor(
                     R.id.toolbar, R.attr.bottomBar
                 )
 
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.attendanceMenu, R.id.chooseImageBottomSheet, R.id.archiveBottomSheet -> changeStatusBarToolbarColor(
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
+                R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
+                R.id.calenderViewBottomSheet, R.id.attendanceMenu,
+                R.id.chooseImageBottomSheet, R.id.archiveBottomSheet -> changeStatusBarToolbarColor(
                     R.id.toolbar, R.attr.bottomSheetBackground
                 ).also {
                     setStatusBarUiTheme(this, !this.isDark())
@@ -283,7 +287,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 }
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.noticeFragment, R.id.courseFragment, R.id.attendanceFragment,
+                R.id.homeFragment, R.id.noticeDetailFragment, R.id.courseFragment, R.id.attendanceFragment,
                 R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.addEditSubjectBottomSheet,
                 R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet,
                 R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu,

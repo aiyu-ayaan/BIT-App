@@ -250,4 +250,5 @@
     <string name="info">Info</string>
     <string name="return_these_books">Return these books to the library</string>
     <string name="shortcuts">Shortcuts</string>
+    <string name="ok">Ok</string>
 </resources>
