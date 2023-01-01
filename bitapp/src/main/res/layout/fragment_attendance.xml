@@ -33,7 +33,7 @@
         android:id="@+id/extended_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorSecondary"
+        android:backgroundTint="?attr/colorPrimary"
         android:contentDescription="@string/add_subject"
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@drawable/ic_add"

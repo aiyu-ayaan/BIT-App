@@ -235,7 +235,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
             } else {
                 Toast.makeText(
                     requireContext(),
-                    resources.getString(R.string.no_internet_detected, "Notice"),
+                    if(!hasAttach) "No attachments found" else "No internet connection",
                     Toast.LENGTH_SHORT
                 ).show()
                 requireActivity().openShareDeepLink(

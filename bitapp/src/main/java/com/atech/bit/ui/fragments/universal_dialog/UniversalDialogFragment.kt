@@ -6,6 +6,7 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import com.atech.bit.databinding.FragmentUniversalAlertBinding
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.openPlayStore
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -16,18 +17,36 @@ import kotlinx.parcelize.Parcelize
 class UniversalDialogFragment : DialogFragment() {
 
     private val viewModel: UniversalDialogViewModel by viewModels()
+    private lateinit var binding: FragmentUniversalAlertBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val data = viewModel.data ?: return super.onCreateDialog(savedInstanceState)
-        val dialog = MaterialAlertDialogBuilder(requireContext()).setTitle(data.title)
-            .setMessage(data.message).setNegativeButton(data.negativeButtonText) { _, _ ->
+        binding = FragmentUniversalAlertBinding.inflate(layoutInflater).also {
+            it.bindData(data)
+        }
+        return MaterialAlertDialogBuilder(requireContext())
+            .setView(binding.root)
+            .create()
+    }
+
+    private fun FragmentUniversalAlertBinding.bindData(data: UniversalDialogData) = this.apply {
+        textViewTitle.text = data.title.trim()
+        textViewMessage.text = data.message.trim()
+        buttonActionCancel.apply {
+            text = data.negativeButtonText
+            setOnClickListener {
                 dismiss()
-            }.setPositiveButton(data.positiveButtonText) { _, _ ->
+            }
+        }
+        buttonActionOk.apply {
+            text = data.positiveButtonText
+            setOnClickListener {
                 handleClick(data.link)
                 dismiss()
-            }.create()
-        return dialog
+            }
+        }
     }
+
 
     private fun handleClick(link: String) {
         if (link.contains("https://play.google.com/store/apps/details")) {

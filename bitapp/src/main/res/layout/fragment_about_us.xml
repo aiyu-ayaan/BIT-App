@@ -147,42 +147,6 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
-            android:id="@+id/text_view_managers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_1"
-            android:layout_marginTop="@dimen/grid_1"
-            android:text="@string/managers"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/material_card_view_dev"
-            tools:visibility="visible" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/material_card_view_managers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1"
-            android:visibility="gone"
-            app:cardBackgroundColor="?attr/bottomBar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_managers"
-            app:strokeColor="?attr/colorSurface"
-            tools:visibility="visible">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/showManagers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                android:overScrollMode="never"
-                android:padding="@dimen/grid_1"
-                android:paddingBottom="@dimen/grid_1" />
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
             android:id="@+id/text_view_contributors"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -192,7 +156,7 @@
             android:textAppearance="?attr/textAppearanceTitleSmall"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/material_card_view_managers"
+            app:layout_constraintTop_toBottomOf="@+id/material_card_view_dev"
             tools:visibility="visible" />
 
         <com.google.android.material.card.MaterialCardView
@@ -218,6 +182,43 @@
                 android:paddingBottom="@dimen/grid_1" />
         </com.google.android.material.card.MaterialCardView>
 
+        <TextView
+            android:id="@+id/text_view_managers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_1"
+            android:text="@string/managers"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/material_card_view_contributors"
+            tools:visibility="visible" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/material_card_view_managers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            android:visibility="gone"
+            app:cardBackgroundColor="?attr/bottomBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_managers"
+            app:strokeColor="?attr/colorSurface"
+            tools:visibility="visible">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/showManagers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1"
+                android:overScrollMode="never"
+                android:padding="@dimen/grid_1"
+                android:paddingBottom="@dimen/grid_1" />
+        </com.google.android.material.card.MaterialCardView>
+
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/material_card_view_app"
             android:layout_width="match_parent"
@@ -226,7 +227,7 @@
             android:layout_marginTop="@dimen/grid_2"
             app:cardBackgroundColor="?attr/bottomBar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/material_card_view_contributors"
+            app:layout_constraintTop_toBottomOf="@+id/material_card_view_managers"
             app:strokeColor="?attr/colorSurface">
 
             <LinearLayout
