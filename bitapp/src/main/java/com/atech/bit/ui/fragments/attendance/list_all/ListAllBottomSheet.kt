@@ -15,7 +15,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetListAllBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.utils.AttendanceEvent
+import com.atech.core.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
 import com.atech.core.utils.REQUEST_EDIT_SUBJECT_FROM_LIST_ALL

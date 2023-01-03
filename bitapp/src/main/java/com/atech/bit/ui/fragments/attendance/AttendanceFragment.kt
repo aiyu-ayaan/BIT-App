@@ -21,7 +21,7 @@ import com.atech.bit.databinding.FragmentAttendanceBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
-import com.atech.bit.utils.AttendanceEvent
+import com.atech.core.utils.AttendanceEvent
 import com.atech.bit.utils.CardViewHighlightContent
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.getUid
@@ -140,7 +140,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 R.id.menu_book -> navigateToAddSubjectFromSyllabus().let {
                     true
                 }
-
+                R.id.menu_book_online-> navigateToAddFromOnlineSyllabus().let {
+                    true
+                }
                 R.id.menu_archive -> navigateToArchive().let {
                     true
                 }
@@ -469,6 +471,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 R.id.toolbar, R.attr.bottomBar
             )
         })
+    }
+
+    private fun navigateToAddFromOnlineSyllabus(){
+        val action = AttendanceFragmentDirections.actionAttendanceFragmentToAddFromOnlineSyllabusBottomSheet()
+        findNavController().navigate(action)
     }
 
 

@@ -10,7 +10,7 @@ package com.atech.bit.ui.activity.main_activity.viewmodels
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.atech.bit.utils.AttendanceEvent
+import com.atech.core.utils.AttendanceEvent
 import com.atech.core.utils.convertDateToTime
 import com.atech.core.utils.convertStringToLongMillis
 import dagger.hilt.android.lifecycle.HiltViewModel

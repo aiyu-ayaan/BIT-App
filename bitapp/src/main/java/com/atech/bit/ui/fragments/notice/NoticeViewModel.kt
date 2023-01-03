@@ -11,7 +11,7 @@
 package com.atech.bit.ui.fragments.notice
 
 import androidx.lifecycle.*
-import com.atech.bit.utils.MainStateEvent
+import com.atech.core.utils.MainStateEvent
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.data.ui.notice.NoticeRepository
 import com.atech.core.utils.DataState

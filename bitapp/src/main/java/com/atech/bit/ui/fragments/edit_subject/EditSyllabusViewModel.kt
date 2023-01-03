@@ -13,7 +13,7 @@ package com.atech.bit.ui.fragments.edit_subject
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.atech.bit.utils.AttendanceEvent
+import com.atech.core.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.syllabus.SyllabusDao

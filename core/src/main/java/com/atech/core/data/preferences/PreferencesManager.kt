@@ -14,7 +14,12 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.Keep
-import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
@@ -50,7 +55,10 @@ data class FilterPreferences(
     val semSyllabus: String,
     val searchPreference: SearchPreference,
     val cgpa: Cgpa
-) : Parcelable
+) : Parcelable {
+    @IgnoredOnParcel
+    val courseWithSem = "$course$sem"
+}
 
 @Keep
 @Parcelize
@@ -75,6 +83,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
                     emit(emptyPreferences())
                     Log.e(TAG, "$exception")
                 }
+
                 else -> throw exception
             }
         }
