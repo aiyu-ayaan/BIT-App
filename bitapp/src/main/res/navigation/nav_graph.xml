@@ -83,6 +83,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_libraryFragment"
             app:destination="@id/libraryFragment" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_addFromOnlineSyllabusBottomSheet"
+            app:destination="@id/addFromOnlineSyllabusBottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/chooseSemBottomSheet"
@@ -562,4 +565,9 @@
             android:name="universal_dialog_data"
             app:argType="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment$UniversalDialogData" />
     </dialog><action android:id="@+id/action_global_universalDialogFragment" app:destination="@id/universalDialogFragment"/>
+    <dialog
+        android:id="@+id/addFromOnlineSyllabusBottomSheet"
+        tools:layout="@layout/bottom_sheet_edit_subject"
+        android:name="com.atech.bit.ui.fragments.attendance.add_from_online_syllabus.AddFromOnlineSyllabusBottomSheet"
+        android:label="AddFromOnlineSyllabusBottomSheet" />
 </navigation>

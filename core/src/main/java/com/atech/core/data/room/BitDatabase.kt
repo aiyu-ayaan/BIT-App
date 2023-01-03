@@ -42,7 +42,7 @@ import javax.inject.Provider
         SyllabusModel::class, Notice3CacheEntity::class,
         EventsCacheEntity::class, LibraryModel::class
     ],
-    version = 12,
+    version = 13,
     exportSchema = false
 )
 @TypeConverters(
@@ -166,6 +166,11 @@ abstract class BitDatabase : RoomDatabase() {
         var migration_11_12 = object : Migration(11, 12) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("CREATE TABLE `library_table`( `id` INTEGER NOT NULL,`bookName` TEXT NOT NULL,`bookId` TEXT NOT NULL,`issueDate` INTEGER NOT NULL,`returnDate` INTEGER NOT NULL,`alertDate` INTEGER NOT NULL,`markAsReturn` INTEGER NOT NULL, `eventId` INTEGER NOT NULL  , PRIMARY KEY(`id`))")
+            }
+        }
+        val migration_12_13 = object : Migration(12, 13) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE attendance_table ADD COLUMN fromOnlineSyllabus INTEGER DEFAULT 0")
             }
         }
     }

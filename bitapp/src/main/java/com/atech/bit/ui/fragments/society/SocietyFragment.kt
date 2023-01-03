@@ -9,7 +9,6 @@ import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.utils.MainStateEvent
 import com.atech.bit.utils.loadAdds
 import com.atech.core.api.society.Society
 import com.atech.core.utils.DataState
@@ -26,7 +24,6 @@ import com.atech.core.utils.onScrollColorChange
 import com.atech.core.utils.showSnackBar
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class SocietyFragment : Fragment(R.layout.fragment_society) {

@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentNoticeBinding
-import com.atech.bit.utils.MainStateEvent
+import com.atech.core.utils.MainStateEvent
 import com.atech.bit.utils.loadAdds
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.utils.DataState

@@ -736,3 +736,11 @@ fun ConstraintLayout.setHorizontalBias(
     constraintSet.setVerticalBias(targetViewId, verticalBias)
     constraintSet.applyTo(this)
 }
+
+fun <T> mergeList(list1: List<T>, list2: List<T>, list3: List<T>): List<T> {
+    val list = mutableListOf<T>()
+    list.addAll(list1)
+    list.addAll(list2)
+    list.addAll(list3)
+    return list
+}

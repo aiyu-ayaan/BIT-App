@@ -15,7 +15,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetAttendanceBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
-import com.atech.bit.utils.AttendanceEvent
+import com.atech.core.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.utils.REQUEST_MENU_FROM_ARCHIVE

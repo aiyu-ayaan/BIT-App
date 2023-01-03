@@ -3,7 +3,6 @@ package com.atech.bit.ui.fragments.event
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -15,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentEventBinding
-import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.utils.MainStateEvent
+import com.atech.core.utils.MainStateEvent
 import com.atech.bit.utils.loadAdds
 
 import com.atech.core.data.ui.events.Events

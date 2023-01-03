@@ -18,7 +18,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetEditSubjectBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
-import com.atech.bit.utils.AttendanceEvent
+import com.atech.core.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.Days
 import com.atech.core.data.room.syllabus.SyllabusModel

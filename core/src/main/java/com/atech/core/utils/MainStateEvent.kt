@@ -8,7 +8,7 @@
 
 
 
-package com.atech.bit.utils
+package com.atech.core.utils
 
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.syllabus.SyllabusModel

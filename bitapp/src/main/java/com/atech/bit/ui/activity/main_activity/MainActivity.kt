@@ -268,7 +268,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
                 R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
                 R.id.calenderViewBottomSheet, R.id.attendanceMenu,
-                R.id.chooseImageBottomSheet, R.id.archiveBottomSheet -> changeStatusBarToolbarColor(
+                R.id.chooseImageBottomSheet, R.id.archiveBottomSheet,
+                R.id.addFromOnlineSyllabusBottomSheet
+                -> changeStatusBarToolbarColor(
                     R.id.toolbar, R.attr.bottomSheetBackground
                 ).also {
                     setStatusBarUiTheme(this, !this.isDark())
@@ -292,14 +294,25 @@ class MainActivity : AppCompatActivity(), DrawerLocker, MenuClick {
                 R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet,
                 R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu,
                 R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
-                R.id.libraryFragment, R.id.universalDialogFragment -> changeBottomNav(
+                R.id.libraryFragment, R.id.universalDialogFragment,
+                R.id.addFromOnlineSyllabusBottomSheet
+                -> changeBottomNav(
                     R.attr.bottomBar
                 )
 
                 else -> changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
             }
             when (destination.id) {
-                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment, R.id.searchFragment, R.id.settingDialog, R.id.cgpaCalculatorFragment, R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment, R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment, R.id.addEditFragment, R.id.noticeFragment -> {
+                R.id.startUpFragment, R.id.noticeDetailFragment,
+                R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
+                R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment,
+                R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment,
+                R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment,
+                R.id.searchFragment, R.id.settingDialog, R.id.cgpaCalculatorFragment,
+                R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment,
+                R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
+                R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
+                R.id.addEditFragment, R.id.noticeFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
