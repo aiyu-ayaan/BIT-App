@@ -114,7 +114,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             bindData(content, onVisibilityClick = {
                 pref.edit().putBoolean(KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW, false).apply()
                 root.isVisible = false
-            }){
+            }) {
                 navigateToLibrary()
             }
         }
@@ -140,9 +140,11 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 R.id.menu_book -> navigateToAddSubjectFromSyllabus().let {
                     true
                 }
-                R.id.menu_book_online-> navigateToAddFromOnlineSyllabus().let {
+
+                R.id.menu_book_online -> navigateToAddFromOnlineSyllabus().let {
                     true
                 }
+
                 R.id.menu_archive -> navigateToArchive().let {
                     true
                 }
@@ -239,7 +241,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         if (list.isNotEmpty()) {
             attendanceList = list.map { a ->
                 AttendanceUploadModel(
-                    a.subject, a.total, a.present, a.teacher, a.fromSyllabus, a.isArchive, a.created
+                    a.subject, a.total, a.present, a.teacher,
+                    a.fromSyllabus, a.isArchive,
+                    a.fromOnlineSyllabus, a.created
                 )
             }
         }
@@ -473,8 +477,9 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         })
     }
 
-    private fun navigateToAddFromOnlineSyllabus(){
-        val action = AttendanceFragmentDirections.actionAttendanceFragmentToAddFromOnlineSyllabusBottomSheet()
+    private fun navigateToAddFromOnlineSyllabus() {
+        val action =
+            AttendanceFragmentDirections.actionAttendanceFragmentToAddFromOnlineSyllabusBottomSheet()
         findNavController().navigate(action)
     }
 

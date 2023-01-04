@@ -111,6 +111,7 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
                         absentDays = arrayListOf(),
                         totalDays = arrayListOf()
                     ),
+                    fromOnlineSyllabus = if(it.isFromOnlineSyllabus == null) false else it.isFromOnlineSyllabus
                 )
             }
             list.forEach {

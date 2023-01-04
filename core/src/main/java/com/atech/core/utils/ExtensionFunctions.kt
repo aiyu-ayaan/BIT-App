@@ -46,8 +46,11 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.core.R
 import com.atech.core.data.room.attendance.AttendanceModel
@@ -62,6 +65,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialSharedAxis
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -743,4 +747,23 @@ fun <T> mergeList(list1: List<T>, list2: List<T>, list3: List<T>): List<T> {
     list.addAll(list2)
     list.addAll(list3)
     return list
+}
+
+inline fun <F : Fragment> navigateToDestination(
+    fragment: F,
+    direction: NavDirections,
+    crossinline transition: (F) -> Unit = {
+        it.apply {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        }
+    },
+    crossinline onError: (Exception) -> Unit = {}
+) = fragment.apply {
+    try {
+        transition.invoke(this)
+        findNavController().navigate(direction)
+    } catch (e: Exception) {
+        onError.invoke(e)
+    }
 }
