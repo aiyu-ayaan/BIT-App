@@ -104,7 +104,7 @@ dependencies {
 
 //    crashlytics
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
+    releaseImplementation 'com.google.firebase:firebase-analytics-ktx'
 
 
     // ViewModel
