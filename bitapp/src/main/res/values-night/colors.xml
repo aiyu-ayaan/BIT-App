@@ -16,6 +16,6 @@
     <color name="accent_color">#a0d490</color>
 
     <color name="icon_color">#4d6356</color>
-
+    <color name="bottom_sheet_color">#171c15</color>
 
 </resources>
