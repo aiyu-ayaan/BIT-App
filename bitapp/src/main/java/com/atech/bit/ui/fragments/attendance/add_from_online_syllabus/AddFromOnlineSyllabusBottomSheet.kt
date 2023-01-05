@@ -32,6 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
 
 @AndroidEntryPoint
@@ -53,17 +54,20 @@ class AddFromOnlineSyllabusBottomSheet : BottomSheetDialogFragment() {
     ): View {
         binding = BottomSheetEditSubjectBinding.inflate(layoutInflater)
         binding.bottomSheetTitle.text = resources.getString(R.string.add_subject_syllabus_online)
-        setRecyclerView()
         getCurrentCourseSem()
         getAllOnlineSyllabusData()
         binding.ibDismiss.setOnClickListener {
             dismiss()
         }
+        runBlocking { setRecyclerView() }
         return binding.root
     }
 
-    private fun setRecyclerView() = binding.showSyllabus.apply {
-        adapter = OnlineSyllabusAdapter({ onClick(it) }) { model, isChecked ->
+    private suspend fun setRecyclerView() = binding.showSyllabus.apply {
+        adapter = OnlineSyllabusAdapter(
+            viewModel.getAttendance(),
+            viewLifecycleOwner,
+            { onClick(it) }) { model, isChecked ->
             addOrRemoveData(model, isChecked)
         }.also { onlineAdapter = it }
         layoutManager = LinearLayoutManager(requireContext())
@@ -155,13 +159,9 @@ class AddFromOnlineSyllabusBottomSheet : BottomSheetDialogFragment() {
             viewModel.courseWithSem.value = it.courseWithSem.lowercase()
         }
 
-        viewModel.getAttendance().observe(viewLifecycleOwner) {
-            onlineAdapter.setAttendanceList(it)
-        }
 
 
         viewModel.editFromOnlineSyllabusFlow.asLiveData().observe(viewLifecycleOwner) {
-            Log.d(TAG, "getCurrentCourseSem: $it")
             it.showUndoMessage(
                 binding.root,
             ) { attendance ->

@@ -25,5 +25,6 @@ data class AttendanceUploadModel(
     val teacher: String?,
     val fromSyllabus: Boolean? = false,
     val isArchive : Boolean? = false,
+    val isFromOnlineSyllabus: Boolean? = false,
     val created: Long? = System.currentTimeMillis()
 )

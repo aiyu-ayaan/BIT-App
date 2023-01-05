@@ -1,33 +1,27 @@
 package com.atech.bit.ui.fragments.attendance.add_from_online_syllabus
 
-import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.databinding.RowSyllabusHomeBinding
 import com.atech.core.api.syllabus.DiffUtilTheorySyllabusCallback
 import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.room.attendance.AttendanceModel
-import com.atech.core.utils.TAG
 
 class OnlineSyllabusAdapter(
+    private val attendanceList: LiveData<List<AttendanceModel>>,
+    private val owner: LifecycleOwner,
     private val editListener: ((SubjectModel) -> Unit)? = null,
-    private val listener: ((SubjectModel, Boolean) -> Unit)? = null,
+    private val listener: ((SubjectModel, Boolean) -> Unit)? = null
 ) :
     ListAdapter<SubjectModel, OnlineSyllabusAdapter.OnlineSyllabusViewHolder>(
         DiffUtilTheorySyllabusCallback()
     ) {
 
-    private var attendanceList: List<AttendanceModel>? = null
-
-    @SuppressLint("NotifyDataSetChanged")
-    fun setAttendanceList(list: List<AttendanceModel>) {
-        attendanceList = list
-        notifyDataSetChanged()
-    }
 
     inner class OnlineSyllabusViewHolder(
         private val binding: RowSyllabusHomeBinding
@@ -61,12 +55,13 @@ class OnlineSyllabusAdapter(
                     isVisible = true
                     isClickable = false
                 }
-                attendanceList?.filter { attendanceModel ->
-                    attendanceModel.subject == model.subjectName
-                }?.let {
-                    if (it.isNotEmpty()) {
-                        checkBox.isChecked = true
-                        ibEdit.isVisible = true
+
+                attendanceList.observe(owner) {
+                    it.forEach { attendanceModel ->
+                        if (attendanceModel.subject.equals(model.subjectName, false)) {
+                            checkBox.isChecked = true
+                            ibEdit.isVisible = true
+                        }
                     }
                 }
             }

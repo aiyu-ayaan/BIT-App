@@ -101,6 +101,7 @@ import com.atech.core.utils.checkForAPI33
 import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.findPercentage
 import com.atech.core.utils.loadImageCircular
+import com.atech.core.utils.navigateToDestination
 import com.atech.core.utils.onScrollColorChange
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
@@ -564,11 +565,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToLogin() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action =
             HomeFragmentDirections.actionHomeFragmentToLogInFragment(request = REQUEST_LOGIN_FROM_HOME)
         findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
     private fun getDataOFUser() = lifecycleScope.launchWhenStarted {
