@@ -16,8 +16,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 46
-        versionName "4.1.1 Patch 20"
+        versionCode 47
+        versionName "4.1.1 Patch 21"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

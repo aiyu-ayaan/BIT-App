@@ -17,7 +17,7 @@
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:transitionGroup="true"
-    app:cardBackgroundColor="@android:color/transparent"
+    app:cardBackgroundColor="?attr/bottomBar"
     app:cardElevation="-10dp">
 
 
