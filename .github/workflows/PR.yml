@@ -22,3 +22,6 @@ jobs:
           checks_enabled: true
           method: squash
           delete_source_branch: true
+          merge_message: "Merged by Merge Bot"
+          merge_message_regex: "Merged by Merge Bot"
+
