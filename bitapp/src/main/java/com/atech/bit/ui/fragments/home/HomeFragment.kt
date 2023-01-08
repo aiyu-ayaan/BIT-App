@@ -350,15 +350,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToViewOnlineSyllabus(model: SubjectModel) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         Log.d(TAG, "navigateToViewOnlineSyllabus: $courseSem")
         val action =
             HomeFragmentDirections.actionHomeFragmentToViewSyllabusFragment(
                 model.subjectName,
                 courseSem.lowercase()
             )
-        findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
     private fun switchClick() = binding.fragmentHomeExt.switchOldNew.apply {
@@ -481,7 +479,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun navigateToUninstallOldAppDialog() {
         val action = NavGraphDirections.actionGlobalUninstallOldAppDialog()
-        findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
     @Suppress("deprecation")
@@ -499,14 +497,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToCGPA() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
         val action = HomeFragmentDirections.actionHomeFragmentToCgpaCalculatorFragment()
-        findNavController().navigate(action)
+        navigateToDestination(this, action, transition = {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+        })
     }
 
 
@@ -533,14 +532,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToNotice() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
         val action = HomeFragmentDirections.actionHomeFragmentToNoticeFragment()
-        findNavController().navigate(action)
+        navigateToDestination(this, action, transition = {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+        })
     }
 
     private fun setProfileImageView(imageView: ImageView) {
@@ -567,7 +567,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun navigateToLogin() {
         val action =
             HomeFragmentDirections.actionHomeFragmentToLogInFragment(request = REQUEST_LOGIN_FROM_HOME)
-        findNavController().navigate(action)
         navigateToDestination(this, action)
     }
 
@@ -601,10 +600,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToProfile(uid: String, userDecrypt: UserModel) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = HomeFragmentDirections.actionHomeFragmentToProfileFragment(uid, userDecrypt)
-        findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
     private fun setHoliday() = binding.apply {
@@ -669,10 +666,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
-        findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
     /**
@@ -680,14 +675,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      * @since 4.0.3
      */
     private fun navigateToEvent() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
         val action = HomeFragmentDirections.actionHomeFragmentToEventFragment()
-        findNavController().navigate(action)
+        navigateToDestination(this, action, transition = {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+        })
     }
 
     /**
@@ -696,26 +692,28 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
      */
     private fun navigateToEventDetail(event: Events, view: View) {
         val extras = FragmentNavigatorExtras(view to event.path)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         val action = NavGraphDirections.actionGlobalEventDetailFragment(
             path = event.path, request = REQUEST_EVENT_FROM_HOME
         )
-        findNavController().navigate(action, extras)
+        navigateToDestination(this, action, extras = extras, transition = {
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        })
     }
 
 
     private fun navigateToEdit() {
         val directions = NavGraphDirections.actionGlobalEditSubjectBottomSheet()
-        findNavController().navigate(directions)
+        navigateToDestination(this, directions)
     }
 
 
     private fun navigateToAttendance() {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
         val action = HomeFragmentDirections.actionHomeFragmentToAttendanceFragment()
-        findNavController().navigate(action)
+        navigateToDestination(this, action, transition = {
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+        })
     }
 
     private fun setProgressBar() {
@@ -786,7 +784,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun navigateToWelcomeScreen() {
         val action = NavGraphDirections.actionGlobalChooseSemBottomSheet(REQUEST_UPDATE_SEM)
-        findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
     private fun preferenceManager() {
@@ -1007,36 +1005,26 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToHoliday() {
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        try {
-            val action = HomeFragmentDirections.actionHomeFragmentToHolidayFragment()
-            findNavController().navigate(action)
-        } catch (e: Exception) {
-            Toast.makeText(
-                requireContext(), resources.getString(R.string.click_warning), Toast.LENGTH_SHORT
-            ).show()
-        }
+        val action = HomeFragmentDirections.actionHomeFragmentToHolidayFragment()
+        navigateToDestination(this, action, transition = {
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        })
     }
 
     //        Syllabus
     private fun setOnSyllabusClickListener(syllabusModel: SyllabusModel, view: View) {
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.duration_small).toLong()
-        }
-
-        try {
-            val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
-            val action = NavGraphDirections.actionGlobalSubjectHandlerFragment(syllabusModel)
-            findNavController().navigate(action, extras)
-        } catch (e: Exception) {
-            Toast.makeText(
-                requireContext(), resources.getString(R.string.click_warning), Toast.LENGTH_SHORT
-            ).show()
-        }
+        val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
+        val action = NavGraphDirections.actionGlobalSubjectHandlerFragment(syllabusModel)
+        findNavController().navigate(action, extras)
+        navigateToDestination(this, action, extras, transition = {
+            exitTransition = MaterialElevationScale(false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialElevationScale(true).apply {
+                duration = resources.getInteger(R.integer.duration_small).toLong()
+            }
+        })
     }
 
     /**
@@ -1102,25 +1090,27 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToLibraryManager() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
         val action = HomeFragmentDirections.actionHomeFragmentToLibraryFragment()
-        findNavController().navigate(action)
+        navigateToDestination(this, action, transition = {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+        })
     }
 
     private fun navigateToSociety() {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
         val action = HomeFragmentDirections.actionHomeFragmentToSocietyFragment()
-        findNavController().navigate(action)
+        navigateToDestination(this, action, transition = {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+        })
     }
 
     override fun onPause() {
@@ -1162,7 +1152,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun navigateToUniversalDialog(data: UniversalDialogFragment.UniversalDialogData) {
         val action = NavGraphDirections.actionGlobalUniversalDialogFragment(data)
-        findNavController().navigate(action)
+        navigateToDestination(this, action)
     }
 
 

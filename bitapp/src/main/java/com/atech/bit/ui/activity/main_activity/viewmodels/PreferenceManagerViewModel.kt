@@ -50,14 +50,6 @@ class PreferenceManagerViewModel @Inject constructor(
         preferencesManager.updateCgpa(cgpa)
     }
 
-    fun updateSearchSetting(
-        event: Boolean,
-        holiday: Boolean,
-        notice: Boolean,
-        subject: Boolean
-    ) = viewModelScope.launch {
-        preferencesManager.updateSearchSetting(event, holiday, notice, subject)
-    }
 
 
     fun reset(openCode: String) = viewModelScope.launch {

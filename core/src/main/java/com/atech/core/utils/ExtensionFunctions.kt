@@ -50,6 +50,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDirections
+import androidx.navigation.Navigator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.core.R
@@ -752,6 +753,7 @@ fun <T> mergeList(list1: List<T>, list2: List<T>, list3: List<T>): List<T> {
 inline fun <F : Fragment> navigateToDestination(
     fragment: F,
     direction: NavDirections,
+    extras: Navigator.Extras? = null,
     crossinline transition: (F) -> Unit = {
         it.apply {
             exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
@@ -762,7 +764,11 @@ inline fun <F : Fragment> navigateToDestination(
 ) = fragment.apply {
     try {
         transition.invoke(this)
-        findNavController().navigate(direction)
+        if (extras != null) {
+            findNavController().navigate(direction, extras)
+        } else {
+            findNavController().navigate(direction)
+        }
     } catch (e: Exception) {
         onError.invoke(e)
     }
