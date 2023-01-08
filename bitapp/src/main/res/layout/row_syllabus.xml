@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:cardBackgroundColor="@android:color/transparent"
+    app:cardBackgroundColor="?attr/bottomBar"
     app:cardElevation="-10dp">
 
     <LinearLayout

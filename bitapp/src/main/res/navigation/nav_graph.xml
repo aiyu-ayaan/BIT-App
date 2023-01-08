@@ -347,29 +347,8 @@
     <action
         android:id="@+id/action_global_resetDialog"
         app:destination="@id/resetDialog" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.atech.bit.ui.fragments.search.SearchFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_search">
-        <action
-            android:id="@+id/action_searchFragment_to_holidayFragment"
-            app:destination="@id/holidayFragment" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_searchFragment"
-        app:destination="@id/searchFragment" />
-    <dialog
-        android:id="@+id/settingDialog"
-        android:name="com.atech.bit.ui.fragments.search.setting_dialog.SettingDialog"
-        android:label="SettingDialog">
-        <argument
-            android:name="searchPreference"
-            app:argType="com.atech.core.data.preferences.SearchPreference" />
-    </dialog>
-    <action
-        android:id="@+id/action_global_settingDialog"
-        app:destination="@id/settingDialog" />
+
+
     <fragment
         android:id="@+id/warningFragment"
         android:name="com.atech.bit.ui.fragments.warning.WarningFragment"
@@ -560,14 +539,17 @@
     <dialog
         android:id="@+id/universalDialogFragment"
         android:name="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment"
-        android:label="UniversalDialogFragment" >
+        android:label="UniversalDialogFragment">
         <argument
             android:name="universal_dialog_data"
             app:argType="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment$UniversalDialogData" />
-    </dialog><action android:id="@+id/action_global_universalDialogFragment" app:destination="@id/universalDialogFragment"/>
+    </dialog>
+    <action
+        android:id="@+id/action_global_universalDialogFragment"
+        app:destination="@id/universalDialogFragment" />
     <dialog
         android:id="@+id/addFromOnlineSyllabusBottomSheet"
-        tools:layout="@layout/bottom_sheet_edit_subject"
         android:name="com.atech.bit.ui.fragments.attendance.add_from_online_syllabus.AddFromOnlineSyllabusBottomSheet"
-        android:label="AddFromOnlineSyllabusBottomSheet" />
+        android:label="AddFromOnlineSyllabusBottomSheet"
+        tools:layout="@layout/bottom_sheet_edit_subject" />
 </navigation>

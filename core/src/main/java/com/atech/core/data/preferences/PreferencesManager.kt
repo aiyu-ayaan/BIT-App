@@ -14,7 +14,6 @@ import android.content.Context
 import android.os.Parcelable
 import android.util.Log
 import androidx.annotation.Keep
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
@@ -53,21 +52,11 @@ data class FilterPreferences(
     val course: String,
     val sem: String,
     val semSyllabus: String,
-    val searchPreference: SearchPreference,
     val cgpa: Cgpa
 ) : Parcelable {
     @IgnoredOnParcel
     val courseWithSem = "$course$sem"
 }
-
-@Keep
-@Parcelize
-data class SearchPreference(
-    val event: Boolean,
-    val holiday: Boolean,
-    val notice: Boolean,
-    val subject: Boolean,
-) : Parcelable
 
 
 @Singleton
@@ -93,10 +82,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
             val sem = preferences[PreferencesKeys.DEF_SEM] ?: "1"
             val semSyllabus = preferences[PreferencesKeys.DEF_SEM_SYLLABUS] ?: "1"
 
-            val settingEvent = preferences[PreferencesKeys.DEF_SETTING_EVENT] ?: true
-            val settingHoliday = preferences[PreferencesKeys.DEF_SETTING_HOLIDAY] ?: true
-            val settingNotice = preferences[PreferencesKeys.DEF_SETTING_NOTICE] ?: true
-            val settingSubject = preferences[PreferencesKeys.DEF_SETTING_SUBJECT] ?: true
             val sem1Cgpa = preferences[PreferencesKeys.DEF_SEM_1_CGPA] ?: 0.0
             val sem2Cgpa = preferences[PreferencesKeys.DEF_SEM_2_CGPA] ?: 0.0
             val sem3Cgpa = preferences[PreferencesKeys.DEF_SEM_3_CGPA] ?: 0.0
@@ -112,12 +97,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
                 course,
                 sem,
                 semSyllabus,
-                SearchPreference(
-                    settingEvent,
-                    settingHoliday,
-                    settingNotice,
-                    settingSubject
-                ),
                 Cgpa(
                     sem1Cgpa,
                     sem2Cgpa,
@@ -168,30 +147,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
-    suspend fun updateSearchSetting(
-        event: Boolean,
-        holiday: Boolean,
-        notice: Boolean,
-        subject: Boolean
-    ) {
-        context.dataStore.edit { preference ->
-            preference[PreferencesKeys.DEF_SETTING_EVENT] = event
-            preference[PreferencesKeys.DEF_SETTING_HOLIDAY] = holiday
-            preference[PreferencesKeys.DEF_SETTING_NOTICE] = notice
-            preference[PreferencesKeys.DEF_SETTING_SUBJECT] = subject
-        }
-    }
-
 
     private object PreferencesKeys {
         val DEF_COURSE = stringPreferencesKey("def_course")
         val DEF_SEM = stringPreferencesKey("def_sem")
         val DEFAULT_PERCENTAGE = intPreferencesKey("default_percentage")
         val DEF_SEM_SYLLABUS = stringPreferencesKey("default_sem_syllabus")
-        val DEF_SETTING_EVENT = booleanPreferencesKey("default_setting_event")
-        val DEF_SETTING_HOLIDAY = booleanPreferencesKey("default_setting_holiday")
-        val DEF_SETTING_NOTICE = booleanPreferencesKey("default_setting_notice")
-        val DEF_SETTING_SUBJECT = booleanPreferencesKey("default_setting_subject")
         val DEF_SEM_1_CGPA = doublePreferencesKey("default_sem_1_cgpa")
         val DEF_SEM_2_CGPA = doublePreferencesKey("default_sem_2_cgpa")
         val DEF_SEM_3_CGPA = doublePreferencesKey("default_sem_3_cgpa")

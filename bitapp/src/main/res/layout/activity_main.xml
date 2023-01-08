@@ -27,39 +27,8 @@
                 android:layout_gravity="top"
                 android:background="?attr/colorSurface"
                 android:clipChildren="false"
-                android:paddingEnd="@dimen/grid_1"
                 app:contentInsetStartWithNavigation="0dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight">
-
-                <LinearLayout
-                    android:id="@+id/search_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/grid_6"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <EditText
-                        android:id="@+id/searchInput"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:hint="@string/searchForSubject"
-                        android:imeOptions="flagNoExtractUi|actionSearch"
-                        android:inputType="textNoSuggestions" />
-
-                    <ImageButton
-                        android:id="@+id/settingDialog"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="?attr/actionBarItemBackground"
-                        android:padding="@dimen/grid_2"
-                        app:srcCompat="@drawable/ic_settings"
-                        app:tint="?attr/colorPrimary" />
-                </LinearLayout>
-            </com.google.android.material.appbar.MaterialToolbar>
+                app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
@@ -80,8 +49,8 @@
             android:layout_height="@dimen/bottom_nav_height"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNavigation"
@@ -103,7 +72,7 @@
         android:background="?attr/colorSurface"
         app:dividerInsetEnd="0dp"
         app:dividerInsetStart="0dp"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:headerLayout="@layout/navigation_slider_header"
+        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:menu="@menu/navigation_slider" />
 </androidx.drawerlayout.widget.DrawerLayout>

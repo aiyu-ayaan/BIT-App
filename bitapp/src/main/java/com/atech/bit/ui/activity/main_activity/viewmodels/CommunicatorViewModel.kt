@@ -47,11 +47,7 @@ class CommunicatorViewModel @Inject constructor(
         this.time.convertDateToTime().convertStringToLongMillis() //Day after today
     }
 
-    var openFirst = state.get<Boolean>("openFirst") ?: true
-        set(value) {
-            field = value
-            state["openFirst"] = value
-        }
+
 
     var homeNestedViewPosition = state.get<Int?>("homeNestedViewPosition")
         set(value) {
@@ -59,7 +55,6 @@ class CommunicatorViewModel @Inject constructor(
             state["homeNestedViewPosition"] = value
         }
 
-    val query = MutableStateFlow("")
 
 
     val _attendanceEvent = Channel<AttendanceEvent>()
