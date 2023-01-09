@@ -19,7 +19,7 @@ buildscript {
         recyclerViewVersion = "1.2.1"
         recyclerViewSelectionVersion = "1.1.0"
         calendarVersion = "3.0.0"
-        gsonVersion = '2.10'
+        gsonVersion = '2.10.1'
         viewBindingVersion = "1.0.3"
         crashlyticsVersion = "2.6.1"
         browserVersion = "1.4.0"
