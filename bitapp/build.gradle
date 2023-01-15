@@ -65,6 +65,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 
     tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
@@ -83,6 +84,19 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
+
+//    Compose
+    implementation 'androidx.activity:activity-compose:1.6.1'
+    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+
 
 //    FireStore
     // Import the Firebase BoM
@@ -124,6 +138,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:$hilt_version")
     implementation 'androidx.core:core-ktx:1.9.0'
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_version_compose"
+
     implementation "androidx.webkit:webkit:$webKit_version"
 
     // Coroutines
@@ -175,4 +191,6 @@ dependencies {
 
     //noinspection GradleDependency
     implementation "com.github.mukeshsolanki:MarkdownView-Android:$markdownViewVersion"
+
+
 }
