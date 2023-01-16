@@ -22,6 +22,7 @@ import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
@@ -73,7 +74,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
         requireContext().loadAdds(binding.adView)
     }
 
-    private fun getNotice() = lifecycleScope.launchWhenStarted {
+    private fun getNotice() = launchWhenStarted {
         viewModel.notice(viewModel.path!!).combine(
             viewModel.attach(viewModel.path!!)
         ) { notice, attach ->

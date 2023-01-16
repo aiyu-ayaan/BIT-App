@@ -15,6 +15,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetListAllBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
@@ -73,7 +74,7 @@ class ListAllBottomSheet : BottomSheetDialogFragment(), ListAllAdapter.ClickList
             binding.ivAdd.isVisible = it.isEmpty()
             listAllAdapter.submitList(it)
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             viewModel.attendanceEvent.collect { event ->
                 when (event) {
                     is AttendanceEvent.ShowUndoDeleteMessage -> event.attendance.showUndoMessage(

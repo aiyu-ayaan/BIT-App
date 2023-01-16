@@ -133,7 +133,7 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa_calculator) {
     }
 
 
-    private fun getPref() = lifecycleScope.launchWhenStarted {
+    private fun getPref() = launchWhenStarted {
         prefManager.preferencesFlow.asFlow().collect {
             cgpa = it.cgpa
             course = it.course

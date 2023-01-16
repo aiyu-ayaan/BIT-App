@@ -17,6 +17,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetArchiveBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.fragments.attendance.AttendanceAdapter
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.data.room.attendance.IsPresent
@@ -83,7 +84,7 @@ class ArchiveBottomSheet : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    private fun getData() = lifecycleScope.launchWhenStarted {
+    private fun getData() = launchWhenStarted {
         viewModel.archiveAttendance.collect {
             binding.ivEmpty.isVisible = it.isEmpty()
             attendanceAdapter.submitList(it)

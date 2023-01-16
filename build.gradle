@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlin_version = '1.8.0-RC2'
+        kotlin_version = '1.7.20'
         playStoreCoreVersion = "1.8.1"
         materail3Version = '1.8.0-rc01'
         playServicesAuthVersion = "20.4.0"
@@ -52,7 +52,7 @@ buildscript {
 plugins {
     id 'com.android.application' version '7.3.1' apply false
     id 'com.android.library' version '7.3.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.8.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
 }
 
 task clean(type: Delete) {

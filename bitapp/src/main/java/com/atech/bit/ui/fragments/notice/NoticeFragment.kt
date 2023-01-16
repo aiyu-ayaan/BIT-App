@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentNoticeBinding
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.utils.MainStateEvent
 import com.atech.bit.utils.loadAdds
 import com.atech.core.data.ui.notice.Notice3
@@ -126,7 +127,7 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
     }
 
     private fun restoreColor() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             viewModel.isColored.collect {
                 if (it) {
                     activity?.changeStatusBarToolbarColor(

@@ -24,6 +24,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAddEditLibraryBookDetailsBinding
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.handleCustomBackPressed
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DATE_PICKER_DIALOG
 import com.atech.core.utils.DEFAULT_PAIR
@@ -304,7 +305,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
     }
 
     private fun addOrUpdateEventAndReminder(calendar: Calendar) =
-        lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             val issueDayDifferance = Date(calendar.timeInMillis).compareDifferenceInDays(
                 Date(viewModel.libraryModel.issueDate)
             )

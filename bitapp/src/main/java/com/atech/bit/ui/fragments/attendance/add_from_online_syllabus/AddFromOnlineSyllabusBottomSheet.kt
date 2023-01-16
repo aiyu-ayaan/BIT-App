@@ -16,6 +16,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetEditSubjectBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.openBugLink
 import com.atech.core.api.syllabus.SubjectModel
 import com.atech.core.data.room.attendance.AttendanceModel
@@ -81,7 +82,7 @@ class AddFromOnlineSyllabusBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun removeSubjectFromAttendanceDb(model: SubjectModel) =
-        lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             viewModel.findSyllabus(model.subjectName).let {
                 it?.let {
                     viewModel.deleteAttendance(it)
@@ -112,7 +113,7 @@ class AddFromOnlineSyllabusBottomSheet : BottomSheetDialogFragment() {
     }
 
 
-    private fun getAllOnlineSyllabusData() = lifecycleScope.launchWhenStarted {
+    private fun getAllOnlineSyllabusData() = launchWhenStarted {
         viewModel.onlineSyllabus.collect { dataState ->
             when (dataState) {
                 DataState.Empty -> {}
@@ -154,7 +155,7 @@ class AddFromOnlineSyllabusBottomSheet : BottomSheetDialogFragment() {
         }
     }
 
-    private fun getCurrentCourseSem() = lifecycleScope.launchWhenStarted {
+    private fun getCurrentCourseSem() = launchWhenStarted {
         preferencesManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
             viewModel.courseWithSem.value = it.courseWithSem.lowercase()
         }
@@ -171,7 +172,7 @@ class AddFromOnlineSyllabusBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun onClick(it: SubjectModel) {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             val job = viewLifecycleOwner.lifecycleScope.async {
                 val attendanceModel = viewModel.findSyllabus(it.subjectName)
                 attendanceModel

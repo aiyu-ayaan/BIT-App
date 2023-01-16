@@ -21,6 +21,7 @@ import com.atech.bit.databinding.FragmentLoginBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.utils.Encryption.encryptText
 import com.atech.bit.utils.Encryption.getCryptore
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.data.network.user.UserModel
 import com.atech.core.utils.KEY_FIRST_TIME_LOGIN
 import com.atech.core.utils.KEY_REACH_TO_HOME
@@ -173,7 +174,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
         userName: String?,
         userEmail: String?,
         userPhoto: Uri?
-    ) = lifecycleScope.launchWhenStarted {
+    ) = launchWhenStarted {
         try {
             cryptore = context?.getCryptore(userId)
             val encryptedUserName = userName?.let { cryptore?.encryptText(it) }
