@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentEventBinding
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.utils.MainStateEvent
 import com.atech.bit.utils.loadAdds
 
@@ -124,7 +125,7 @@ class EventFragment : Fragment(R.layout.fragment_event) {
     }
 
     private fun restoreColor() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             viewModel.isColored.collect {
                 if (it) {
                     activity?.changeStatusBarToolbarColor(

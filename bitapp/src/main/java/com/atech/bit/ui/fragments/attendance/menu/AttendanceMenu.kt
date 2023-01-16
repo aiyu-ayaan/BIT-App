@@ -15,6 +15,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetAttendanceBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.utils.AttendanceEvent
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
@@ -71,7 +72,7 @@ class AttendanceMenu : BottomSheetDialogFragment() {
                 }
                 bsDelete.setOnClickListener {
                     viewModel.delete(attendance)
-                    lifecycleScope.launchWhenStarted {
+                    launchWhenStarted {
                         communicator._attendanceEvent.send(
                             AttendanceEvent.ShowUndoDeleteMessage(
                                 attendance

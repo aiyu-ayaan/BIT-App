@@ -287,7 +287,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment,
                 R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
-                R.id.addEditFragment, R.id.noticeFragment -> {
+                R.id.addEditFragment, R.id.noticeFragment, R.id.searchFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }

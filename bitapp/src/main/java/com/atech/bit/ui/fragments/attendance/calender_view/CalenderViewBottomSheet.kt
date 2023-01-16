@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetCalendarViewBinding
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.IsPresent
 import com.atech.core.utils.calculatedDays
@@ -85,7 +86,7 @@ class CalenderViewBottomSheet : BottomSheetDialogFragment() {
         }
         attendance?.let {
             binding.apply {
-                lifecycleScope.launchWhenStarted {
+                launchWhenStarted {
                     withContext(Dispatchers.IO) {
                         val event = mutableListOf<Event>()
                         attendance.days.totalDays.asReversed().forEach {

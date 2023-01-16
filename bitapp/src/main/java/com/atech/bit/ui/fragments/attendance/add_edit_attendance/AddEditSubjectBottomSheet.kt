@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetAddSubjectBinding
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.data.room.attendance.AttendanceSave
 import com.atech.core.utils.ERROR_IN_UPDATE
 import com.atech.core.utils.REQUEST_EDIT_SUBJECT_FROM_LIST_ALL
@@ -203,7 +204,7 @@ class AddEditSubjectBottomSheet : BottomSheetDialogFragment() {
 
 
     private fun addOrUpdateData(subject: String, teacher: String, present: Int, total: Int) =
-        lifecycleScope.launchWhenCreated {
+        launchWhenStarted {
             when (viewModel.type) {
                 "Update" ->
                     when (updateLogic(subject, teacher, present, total)) {
@@ -213,7 +214,7 @@ class AddEditSubjectBottomSheet : BottomSheetDialogFragment() {
                                 R.string.uniques_key_warning,
                                 Toast.LENGTH_SHORT
                             ).show()
-                            return@launchWhenCreated
+                            return@launchWhenStarted
                         }
                     }
                 else -> {
@@ -264,7 +265,7 @@ class AddEditSubjectBottomSheet : BottomSheetDialogFragment() {
                     )
                 }
                 else -> {
-                    val ques: Deque<AttendanceSave> = ArrayDeque<AttendanceSave>()
+                    val ques: Deque<AttendanceSave> = ArrayDeque()
                     viewModel.update(
                         viewModel.attendance.copy(
                             subject = subjectName,

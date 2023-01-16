@@ -18,10 +18,12 @@ import com.atech.bit.R
 import com.atech.bit.databinding.BottomSheetEditSubjectBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.fragments.home.adapter.SyllabusHomeAdapter
-import com.atech.core.utils.AttendanceEvent
+import com.atech.bit.utils.launchWhenCreated
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.Days
 import com.atech.core.data.room.syllabus.SyllabusModel
+import com.atech.core.utils.AttendanceEvent
 import com.atech.core.utils.REQUEST_ADAPTER_EDIT
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
 import com.atech.core.utils.REQUEST_EDIT_SUBJECT_FROM_SYLLABUS
@@ -101,7 +103,7 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun onClick(it: SyllabusModel) {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             val job = viewLifecycleOwner.lifecycleScope.async {
                 val attendanceModel = viewModel.getAttendance(it.subject)
                 attendanceModel
@@ -121,7 +123,7 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
      * @since 4.0.3
      */
     private fun fragmentEditSyllabusEvent() {
-        viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+        launchWhenCreated {
             viewModel.editSyllabusEventFlow.collect { attendanceEvent ->
                 when (attendanceEvent) {
                     is AttendanceEvent.ShowUndoDeleteMessage ->
@@ -165,7 +167,7 @@ class EditSubjectBottomSheet : BottomSheetDialogFragment() {
             }
 
             else -> {
-                viewLifecycleOwner.lifecycleScope.launchWhenCreated {
+                launchWhenCreated {
                     viewModel.updateSyllabus(syllabus.copy(isAdded = false))
                     viewModel.findSyllabus(syllabus.subject)?.let {
                         viewModel.delete(it, syllabus)

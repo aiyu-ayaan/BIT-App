@@ -552,4 +552,11 @@
         android:name="com.atech.bit.ui.fragments.attendance.add_from_online_syllabus.AddFromOnlineSyllabusBottomSheet"
         android:label="AddFromOnlineSyllabusBottomSheet"
         tools:layout="@layout/bottom_sheet_edit_subject" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.atech.bit.ui.fragments.search.SearchFragment"
+        android:label="@string/blank" />
+    <action
+        android:id="@+id/action_global_searchFragment"
+        app:destination="@id/searchFragment" />
 </navigation>

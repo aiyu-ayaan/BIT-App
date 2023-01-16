@@ -23,6 +23,8 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.ConnectionManagerViewM
 import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
+import com.atech.bit.utils.launchWhenCreated
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
@@ -82,7 +84,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     }
 
 
-    private fun getEvent(path: String) = lifecycleScope.launchWhenCreated {
+    private fun getEvent(path: String) = launchWhenCreated {
         viewModel.getEvent(path).combine(viewModel.getAttach(path)) { event, attachs ->
             FullEvent(event, attachs)
         }.collect { fullEvent ->
@@ -192,7 +194,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         }
     }
 
-    private fun ImageView.getThumbnail(data: Events) = lifecycleScope.launchWhenStarted {
+    private fun ImageView.getThumbnail(data: Events) = launchWhenStarted {
         val requestOptions = RequestOptions()
         requestOptions.isMemoryCacheable
         Glide.with(context).setDefaultRequestOptions(requestOptions)

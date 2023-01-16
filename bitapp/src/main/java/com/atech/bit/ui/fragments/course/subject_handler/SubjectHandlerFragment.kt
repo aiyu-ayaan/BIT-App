@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSubjectHandlerBinding
 import com.atech.bit.utils.addMenuHost
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.room.syllabus.SyllabusDao
@@ -74,7 +75,7 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
     }
 
     private fun addingMenuHost() {
-        addMenuHost(R.menu.notice_description_menu) { it ->
+        addMenuHost(R.menu.notice_description_menu) {
             when (it.itemId) {
                 R.id.menu_notice_share -> {
                     subject?.let { subject ->
@@ -92,7 +93,7 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
         }
     }
 
-    private fun forDeepLink() = lifecycleScope.launchWhenStarted {
+    private fun forDeepLink() = launchWhenStarted {
         if (args.openCode.isNotBlank()) {
             subject = syllabusDao.getSyllabusDeepLink(args.openCode)
             if (subject != null)

@@ -58,6 +58,7 @@ import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.getUid
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.sortBySno
@@ -416,7 +417,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun clearAndAddSyllabusDatabase() {
         val isSyllabusDataRefresh = pref.getBoolean(KEY_COURSE_OPEN_FIRST_TIME, true)
-        if (isSyllabusDataRefresh) lifecycleScope.launchWhenStarted {
+        if (isSyllabusDataRefresh) launchWhenStarted {
             bitDatabase.withTransaction {
                 bitDatabase.syllabusDao().deleteAll()
                 SyllabusList.syllabus.also {
@@ -570,7 +571,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         navigateToDestination(this, action)
     }
 
-    private fun getDataOFUser() = lifecycleScope.launchWhenStarted {
+    private fun getDataOFUser() = launchWhenStarted {
         val uid = getUid(auth)!!
         userDataViewModel.getUser(uid, {
             userModel = convertEncryptedData(uid, it)
@@ -799,7 +800,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun setUpChart(cgpa: Cgpa) = lifecycleScope.launchWhenStarted {
+    private fun setUpChart(cgpa: Cgpa) = launchWhenStarted {
         binding.lineChartCgpa.apply {
             val list = mutableListOf(
                 Entry(0f, 0f)
@@ -1087,6 +1088,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonLibraryManager.setOnClickListener { navigateToLibraryManager() }
         buttonSociety.setOnClickListener { navigateToSociety() }
         buttonIssue.setOnClickListener { activity?.openCustomChromeTab(resources.getString(R.string.issue_link)) }
+//        buttonSearch.setOnClickListener {
+//            navigateToSearch()
+//        }
+    }
+
+    private fun navigateToSearch() {
+        val action = NavGraphDirections.actionGlobalSearchFragment()
+        navigateToDestination(this, action, transition = {
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        })
     }
 
     private fun navigateToLibraryManager() {

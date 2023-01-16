@@ -17,6 +17,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAboutUsBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
 import com.atech.bit.utils.getVersion
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.api.aboutus.Devs
 import com.atech.core.utils.DataState
 import com.atech.core.utils.TAG
@@ -163,7 +164,7 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
 
     private fun restoreScroll() {
         try {
-            lifecycleScope.launchWhenStarted {
+            launchWhenStarted {
                 viewModel.aboutNestedViewPosition.collect { position ->
                     binding.nestedViewAboutUs.post {
                         binding.nestedViewAboutUs.scrollTo(0, position)

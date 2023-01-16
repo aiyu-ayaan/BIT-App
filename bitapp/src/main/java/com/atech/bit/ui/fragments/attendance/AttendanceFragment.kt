@@ -25,6 +25,7 @@ import com.atech.core.utils.AttendanceEvent
 import com.atech.bit.utils.CardViewHighlightContent
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.getUid
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
@@ -174,7 +175,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
 
     private fun listenForUndoMessage() {
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             communicator.attendanceEvent.collect { attendanceEvent ->
                 when (attendanceEvent) {
                     is AttendanceEvent.ShowUndoDeleteMessage -> {
@@ -237,7 +238,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
     }
 
-    private fun convertingData(list: List<AttendanceModel>) = lifecycleScope.launchWhenStarted {
+    private fun convertingData(list: List<AttendanceModel>) = launchWhenStarted {
         if (list.isNotEmpty()) {
             attendanceList = list.map { a ->
                 AttendanceUploadModel(

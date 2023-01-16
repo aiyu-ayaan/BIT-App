@@ -16,6 +16,7 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
+import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceDao
 import com.atech.core.data.room.attendance.AttendanceModel
@@ -96,7 +97,7 @@ class LoadingDataFragment : Fragment(R.layout.fragment_loading_data) {
     }
 
     private fun addAttendanceToDatabase(attendanceUploadModel: List<AttendanceUploadModel>) {
-        lifecycleScope.launchWhenStarted {
+        launchWhenStarted {
             val list = attendanceUploadModel.map {
                 AttendanceModel(
                     subject = it.subject,
