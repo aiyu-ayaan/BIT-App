@@ -1088,9 +1088,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonLibraryManager.setOnClickListener { navigateToLibraryManager() }
         buttonSociety.setOnClickListener { navigateToSociety() }
         buttonIssue.setOnClickListener { activity?.openCustomChromeTab(resources.getString(R.string.issue_link)) }
-//        buttonSearch.setOnClickListener {
-//            navigateToSearch()
-//        }
+        buttonSearch.setOnClickListener {
+            navigateToSearch()
+        }
     }
 
     private fun navigateToSearch() {

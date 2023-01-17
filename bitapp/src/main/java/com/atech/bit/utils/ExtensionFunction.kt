@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.view.View
 import android.widget.LinearLayout
+import androidx.annotation.AttrRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
@@ -29,6 +31,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
@@ -370,7 +373,7 @@ fun Fragment.setExitShareAxisTransition(@MaterialSharedAxis.Axis axis: Int = Mat
 
 fun Fragment.setEnterShareAxisTransition(@MaterialSharedAxis.Axis axis: Int = MaterialSharedAxis.X) =
     this.apply {
-        enterTransition = MaterialSharedAxis(axis,  true)
+        enterTransition = MaterialSharedAxis(axis, true)
         returnTransition = MaterialSharedAxis(axis, false)
     }
 

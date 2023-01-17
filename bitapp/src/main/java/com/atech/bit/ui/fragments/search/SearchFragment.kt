@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
@@ -22,11 +19,13 @@ class SearchFragment : Fragment() {
 
     private lateinit var composeView: ComposeView
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
     }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -40,7 +39,7 @@ class SearchFragment : Fragment() {
         composeView.setContent {
             Mdc3Theme {
                 Surface(Modifier.fillMaxSize()) {
-                   SearchScreen(modifier = Modifier)
+                    SearchScreen(modifier = Modifier)
                 }
             }
         }
