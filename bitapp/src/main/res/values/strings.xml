@@ -36,7 +36,7 @@
     <string name="notice_a">Notice</string>
     <string name="holiday">Holiday</string>
     <string name="event_a">Event</string>
-    <string name="searchAnything">Search for anything</string>
+    <string name="search_for_syllabus">Search for syllabus</string>
     <string name="setting">Setting</string>
     <string name="edit">Edit</string>
     <string name="dot">.</string>
@@ -250,7 +250,9 @@
     <string name="info">Info</string>
     <string name="return_these_books">Return these books to the library</string>
     <string name="shortcuts">Shortcuts</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="add_subject_syllabus_online">Add From Online Syllabus</string>
     <string name="search">Search</string>
+    <string name="syllabus">Syllabus</string>
+    <string name="no_subject_found">No Subject found !!</string>
 </resources>

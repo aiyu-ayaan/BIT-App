@@ -36,4 +36,5 @@
     <dimen name="image_view_thumbnail">230dp</dimen>
     <dimen name="card_view_attendance">110dp</dimen>
     <dimen name="recycler_view_height_attendance">120dp</dimen>
+    <dimen name="bottom_app_bar_height">56dp</dimen>
 </resources>

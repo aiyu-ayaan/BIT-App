@@ -40,7 +40,7 @@ fun SearchBarComponent(
         modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(horizontal = 20.dp),
+            .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(30.dp),
         colors = CardDefaults.cardColors(
             containerColor = LocalContext.current.getComposeColor(R.attr.bottomBar),
@@ -49,7 +49,7 @@ fun SearchBarComponent(
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(20.dp)
+                .padding(16.dp)
                 .wrapContentHeight(),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
@@ -77,7 +77,7 @@ fun TransparentHiltTextField(
     isHintVisible: Boolean = true,
     onValueChange: (String) -> Unit,
     textStyle: TextStyle = TextStyle(),
-    singleLine: Boolean = false,
+    singleLine: Boolean = true,
     onFocusChange: (FocusState) -> Unit
 ) {
     Box(modifier) {
