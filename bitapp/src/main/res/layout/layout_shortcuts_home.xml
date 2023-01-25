@@ -34,22 +34,6 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/button_search"
-                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/grid_2"
-                android:text="@string/search"
-                android:textAllCaps="false"
-                android:textColor="?attr/textColor"
-                app:cornerRadius="@dimen/grid_1"
-                app:icon="@drawable/ic_search"
-                app:iconTint="?attr/textColor" />
-            <com.google.android.material.divider.MaterialDivider
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dividerColor="@color/divider_color" />
-            <Button
                 android:id="@+id/button_library_manager"
                 style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                 android:layout_width="match_parent"

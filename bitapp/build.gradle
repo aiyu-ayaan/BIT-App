@@ -18,8 +18,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 48
-        versionName "4.1.1 Patch 22"
+        versionCode 49
+        versionName "4.1.1 Patch 23"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

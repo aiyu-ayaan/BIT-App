@@ -11,13 +11,16 @@ import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.asLiveData
 import androidx.navigation.fragment.findNavController
+import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentCourseBinding
+import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.addViews
 import com.atech.bit.utils.setExitShareAxisTransition
 import com.atech.core.api.ApiRepository
 import com.atech.core.api.syllabus.CourseDetail
 import com.atech.core.utils.DataState
+import com.atech.core.utils.navigateToDestination
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,6 +59,28 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
             setUi()
 
         }
+        addingMenuHost()
+    }
+
+    private fun addingMenuHost() {
+        addMenuHost(R.menu.menu_course) {
+            when (it.itemId) {
+                R.id.action_search -> {
+                    navigateToSearch()
+                    true
+                }
+
+                else -> false
+            }
+        }
+    }
+
+    private fun navigateToSearch() {
+        val action = NavGraphDirections.actionGlobalSearchFragment()
+        navigateToDestination(this , action, transition = {
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
+        })
     }
 
     private fun setUi() {
@@ -93,17 +118,16 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     }
 
 
-
     override fun onPause() {
         super.onPause()
         myScrollViewerInstanceState = binding.nestedViewSyllabus.onSaveInstanceState()
     }
 
-    private fun navigateToSemChoose(request: String,sem :Int) {
+    private fun navigateToSemChoose(request: String, sem: Int) {
         setExitShareAxisTransition()
         try {
             val action =
-                CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request,sem)
+                CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(request, sem)
             findNavController().navigate(action)
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Press one item at a time !!", Toast.LENGTH_SHORT)

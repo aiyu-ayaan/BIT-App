@@ -9,7 +9,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.ui.fragments.search.components.SearchScreen
 import com.atech.core.data.room.syllabus.SyllabusModel

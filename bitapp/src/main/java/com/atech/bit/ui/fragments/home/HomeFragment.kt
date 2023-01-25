@@ -27,9 +27,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -1087,18 +1085,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonLibraryManager.setOnClickListener { navigateToLibraryManager() }
         buttonSociety.setOnClickListener { navigateToSociety() }
         buttonIssue.setOnClickListener { activity?.openCustomChromeTab(resources.getString(R.string.issue_link)) }
-        buttonSearch.setOnClickListener {
-            navigateToSearch()
-        }
     }
 
-    private fun navigateToSearch() {
-        val action = NavGraphDirections.actionGlobalSearchFragment()
-        navigateToDestination(this, action, transition = {
-            enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-            returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        })
-    }
+
 
     private fun navigateToLibraryManager() {
         val action = HomeFragmentDirections.actionHomeFragmentToLibraryFragment()
