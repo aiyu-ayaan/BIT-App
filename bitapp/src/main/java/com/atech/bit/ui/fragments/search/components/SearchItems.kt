@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +39,8 @@ import com.atech.core.data.room.syllabus.SyllabusModel
 @Composable
 fun SearchedContent(
     modifier: Modifier = Modifier,
-    state: List<SyllabusModel>
+    state: List<SyllabusModel>,
+    onClick: (SyllabusModel) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -59,22 +61,24 @@ fun SearchedContent(
                 style = MaterialTheme.typography.titleSmall,
             )
         }
-        state.forEachIndexed { index, syllabus ->
+        state.forEachIndexed { index, _ ->
             item {
                 SyllabusComponent(
                     modifier = Modifier.padding(bottom = GRID_1),
                     state = state[index],
+                    onClick = onClick
                 )
             }
         }
     }
-//    }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SyllabusComponent(
     modifier: Modifier,
-    state: SyllabusModel
+    state: SyllabusModel,
+    onClick : (SyllabusModel) -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -82,7 +86,10 @@ private fun SyllabusComponent(
             .wrapContentHeight(),
         colors = CardDefaults.cardColors(
             containerColor = LocalContext.current.getComposeColor(R.attr.bottomBar)
-        )
+        ),
+        onClick = {
+            onClick(state)
+        }
     ) {
         Column(
             Modifier
@@ -102,13 +109,13 @@ private fun SyllabusComponent(
                     text = state.code,
                     style = MaterialTheme.typography.bodySmall
                 )
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(GRID_1))
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
                         modifier = Modifier
-                            .width(16.dp)
+                            .width(GRID_2)
                             .wrapContentHeight(),
                         imageVector = Icons.Default.Star,
                         contentDescription = "Books",
@@ -116,9 +123,25 @@ private fun SyllabusComponent(
                             LocalContext.current.getComposeColor(androidx.appcompat.R.attr.colorPrimary)
                         )
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.width(GRID_1))
                     Text(
                         text = state.credits.toString(),
+                        style = MaterialTheme.typography.bodySmall
+                    )
+                    Spacer(modifier = Modifier.width(GRID_1))
+                    Image(
+                        modifier = Modifier
+                            .width(GRID_2)
+                            .wrapContentHeight(),
+                        painter = painterResource(id = R.drawable.ic_book),
+                        contentDescription = "Books",
+                        colorFilter = ColorFilter.tint(
+                            LocalContext.current.getComposeColor(androidx.appcompat.R.attr.colorPrimary)
+                        )
+                    )
+                    Spacer(modifier = Modifier.width(GRID_1))
+                    Text(
+                        text = state.type,
                         style = MaterialTheme.typography.bodySmall
                     )
                 }

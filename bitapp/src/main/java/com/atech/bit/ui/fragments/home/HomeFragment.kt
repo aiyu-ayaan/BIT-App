@@ -1017,7 +1017,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun setOnSyllabusClickListener(syllabusModel: SyllabusModel, view: View) {
         val extras = FragmentNavigatorExtras(view to syllabusModel.openCode)
         val action = NavGraphDirections.actionGlobalSubjectHandlerFragment(syllabusModel)
-        findNavController().navigate(action, extras)
         navigateToDestination(this, action, extras, transition = {
             exitTransition = MaterialElevationScale(false).apply {
                 duration = resources.getInteger(R.integer.duration_medium).toLong()

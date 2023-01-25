@@ -14,12 +14,15 @@ import com.atech.bit.ui.fragments.search.SearchEvent
 import com.atech.bit.ui.fragments.search.SearchViewModel
 import com.atech.bit.utils.DPS.GRID_1
 import com.atech.bit.utils.DPS.GRID_2
+import com.atech.core.data.room.syllabus.SyllabusModel
 import com.google.accompanist.themeadapter.material3.Mdc3Theme
 
 
 @Composable
 fun SearchScreen(
-    modifier: Modifier = Modifier, searchViewModel: SearchViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    searchViewModel: SearchViewModel = hiltViewModel(),
+    onClick: (SyllabusModel) -> Unit = {}
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -29,12 +32,15 @@ fun SearchScreen(
         }, onFocusChange = {
             searchViewModel.setEvent(SearchEvent.ChangeTitleFocus(it))
         })
-        SearchSyllabusComponent(searchViewModel)
+        SearchSyllabusComponent(searchViewModel, onClick)
     }
 }
 
 @Composable
-private fun SearchSyllabusComponent(searchViewModel: SearchViewModel) {
+private fun SearchSyllabusComponent(
+    searchViewModel: SearchViewModel,
+    onClick: (SyllabusModel) -> Unit = {}
+) {
     Spacer(modifier = Modifier.height(GRID_1))
     if (searchViewModel.searchSyllabus.value.isEmpty()
         || searchViewModel.searchTitle.value.text.isEmpty()
@@ -46,11 +52,11 @@ private fun SearchSyllabusComponent(searchViewModel: SearchViewModel) {
     } else {
         SearchedContent(
             modifier = Modifier.padding(horizontal = GRID_2),
-            state = searchViewModel.searchSyllabus.value
+            state = searchViewModel.searchSyllabus.value,
+            onClick = onClick
         )
     }
 }
-
 
 @Preview(name = "Light Mode")
 @Composable
