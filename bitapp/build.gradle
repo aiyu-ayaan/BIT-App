@@ -105,7 +105,7 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     // Compatible with Compose Material 3, includes Mdc3Theme
-    implementation "com.google.accompanist:accompanist-themeadapter-material3:0.29.0-alpha"
+    implementation "com.google.accompanist:accompanist-themeadapter-material3:0.29.1-alpha"
 
 
 //    FireStore
