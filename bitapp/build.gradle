@@ -18,8 +18,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 49
-        versionName "4.1.1 Patch 23"
+        versionCode 50
+        versionName "4.1.1 Patch 24"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -95,7 +95,7 @@ dependencies {
 
 //    Compose
     implementation 'androidx.activity:activity-compose:1.6.1'
-    implementation platform('androidx.compose:compose-bom:2022.10.00')
+    implementation platform('androidx.compose:compose-bom:2023.01.00')
     implementation 'androidx.compose.ui:ui'
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
@@ -105,12 +105,12 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
     // Compatible with Compose Material 3, includes Mdc3Theme
-    implementation "com.google.accompanist:accompanist-themeadapter-material3:0.29.0-alpha"
+    implementation 'com.google.accompanist:accompanist-themeadapter-material3:0.29.1-alpha'
 
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.1.1')
+    implementation platform('com.google.firebase:firebase-bom:31.2.0')
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
 //    FCM

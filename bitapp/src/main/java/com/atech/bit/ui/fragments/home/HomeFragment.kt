@@ -104,6 +104,7 @@ import com.atech.core.utils.navigateToDestination
 import com.atech.core.utils.onScrollColorChange
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -800,9 +801,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpChart(cgpa: Cgpa) = launchWhenStarted {
         binding.lineChartCgpa.apply {
-            val list = mutableListOf(
-                Entry(0f, 0f)
-            )
+
+            legend.isEnabled = false
+            xAxis.setDrawGridLines(false)
+            axisRight.isEnabled = false
+            axisLeft.setDrawGridLines(false)
+
+            // set x axis values to down
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+            val list: MutableList<Entry> = mutableListOf()
             addData(list, cgpa)
             val barDataSet = LineDataSet(list, "SGPA")
             barDataSet.apply {
@@ -826,6 +834,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
             setPinchZoom(false)
             setScaleEnabled(false)
+            animateXY(1000, 1000)
+            invalidate()
             this.data = barData
         }
     }
@@ -909,6 +919,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     setViewOfOnlineSyllabusExt(dataState.data.semester != null)
                 }
+
+                else -> {}
             }
         }
     }
@@ -999,6 +1011,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 DataState.Loading -> {
                 }
+
+                else -> {}
             }
         }
     }
@@ -1086,7 +1100,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         buttonSociety.setOnClickListener { navigateToSociety() }
         buttonIssue.setOnClickListener { activity?.openCustomChromeTab(resources.getString(R.string.issue_link)) }
     }
-
 
 
     private fun navigateToLibraryManager() {
