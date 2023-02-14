@@ -16,7 +16,7 @@ buildscript {
         roomVersion = '2.5.0'
         glideVersion = '4.14.2'
         dataStoreVersion = "1.0.0"
-        lottiVersion = '5.2.0'
+        lottiVersion = '6.0.0'
         recyclerViewVersion = "1.2.1"
         recyclerViewSelectionVersion = "1.1.0"
         calendarVersion = "3.0.0"
