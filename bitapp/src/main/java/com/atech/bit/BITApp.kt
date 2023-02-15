@@ -45,6 +45,13 @@ class BITApp : Application() {
         setUpFcm()
         setButtonVisibility()
         setPosterVisibility()
+        setMaxTimeOpen()
+    }
+
+    private fun setMaxTimeOpen() {
+        val currentTime = pref.getInt(KEY_APP_OPEN_MINIMUM_TIME, 0)
+        if (currentTime <= MAX_APP_OPEN_TIME)
+            pref.edit().putInt(KEY_APP_OPEN_MINIMUM_TIME, currentTime + 1).apply()
     }
 
     private fun setPosterVisibility() {
