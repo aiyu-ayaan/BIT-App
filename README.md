@@ -2,6 +2,12 @@
 An android application for the student of BIT Lalpur students to access [Erp](https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=iF6gEp4ArHiXP7jJ9QlgUyiC5t8GbTA5A/9xbk1Vtqk=)
 and tools needed for BIT students.
 
+![GitHub release](https://img.shields.io/github/v/release/aiyu-ayaan/BIT-App)
+![GitHub](https://img.shields.io/github/license/IBM/dp-config-batch-import)
+![Github Build](https://img.shields.io/github/actions/workflow/status/aiyu-ayaan/BIT-App/Build%20and%20Release.yml)
+![Github Issue](https://img.shields.io/github/issues/aiyu-ayaan/BIT-App)
+![Github Size](https://img.shields.io/github/repo-size/aiyu-ayaan/BIT-App)
+
 ![Preview alt](/preview.gif)
 
 ## Features
