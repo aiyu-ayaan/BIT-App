@@ -58,7 +58,7 @@ android {
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation "com.google.android.material:material:$materail3Version"
     implementation "com.google.firebase:firebase-firestore-ktx:$firebaseFireStoreVersion"
     implementation "com.google.android.play:core-ktx:$playStoreCoreVersion"
@@ -86,7 +86,7 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     implementation "androidx.webkit:webkit:$webKit_version"
     implementation 'com.google.android.gms:play-services-fido:19.0.1'
-    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'androidx.browser:browser:1.5.0'
 
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
