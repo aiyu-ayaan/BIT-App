@@ -78,6 +78,7 @@ import com.atech.core.utils.ANN_VERSION
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DataState
 import com.atech.core.utils.GITHUB_LINK
+import com.atech.core.utils.KEY_APP_OPEN_MINIMUM_TIME
 import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
 import com.atech.core.utils.KEY_CURRENT_SHOW_TIME
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
@@ -87,6 +88,7 @@ import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_SHOW_TIMES
 import com.atech.core.utils.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY
 import com.atech.core.utils.KEY_USER_HAS_DATA_IN_DB
+import com.atech.core.utils.MAX_APP_OPEN_TIME
 import com.atech.core.utils.MAX_TIME_TO_SHOW_CARD
 import com.atech.core.utils.REQUEST_EVENT_FROM_HOME
 import com.atech.core.utils.REQUEST_LOGIN_FROM_HOME
@@ -102,8 +104,8 @@ import com.atech.core.utils.findPercentage
 import com.atech.core.utils.loadImageCircular
 import com.atech.core.utils.navigateToDestination
 import com.atech.core.utils.onScrollColorChange
-import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.showSnackBar
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -243,7 +245,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setOnlineSyllabusView()
         switchClick()
         setLibraryWarningScreen()
-        setShortcuts()
         setAnnouncement()
         showAnnouncementDialog()
     }
@@ -800,9 +801,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setUpChart(cgpa: Cgpa) = launchWhenStarted {
         binding.lineChartCgpa.apply {
-            val list = mutableListOf(
-                Entry(0f, 0f)
-            )
+
+            legend.isEnabled = false
+            xAxis.setDrawGridLines(false)
+            axisRight.isEnabled = false
+            axisLeft.setDrawGridLines(false)
+
+            // set x axis values to down
+            xAxis.position = XAxis.XAxisPosition.BOTTOM
+
+            val list: MutableList<Entry> = mutableListOf()
             addData(list, cgpa)
             val barDataSet = LineDataSet(list, "SGPA")
             barDataSet.apply {
@@ -826,6 +834,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 MaterialColors.getColor(binding.root, R.attr.textColor, Color.WHITE)
             setPinchZoom(false)
             setScaleEnabled(false)
+            animateXY(1000, 1000)
+            invalidate()
             this.data = barData
         }
     }
@@ -909,6 +919,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                     setViewOfOnlineSyllabusExt(dataState.data.semester != null)
                 }
+
+                else -> {}
             }
         }
     }
@@ -999,6 +1011,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
                 DataState.Loading -> {
                 }
+
+                else -> {}
             }
         }
     }
@@ -1080,38 +1094,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             Gson().fromJson(source, SyllabusEnableModel::class.java)
     }
 
-    private fun setShortcuts() = binding.fragmentShortcutsExt.apply {
-        buttonCgpa.setOnClickListener { navigateToCGPA() }
-        buttonLibraryManager.setOnClickListener { navigateToLibraryManager() }
-        buttonSociety.setOnClickListener { navigateToSociety() }
-        buttonIssue.setOnClickListener { activity?.openCustomChromeTab(resources.getString(R.string.issue_link)) }
-    }
-
-
-
-    private fun navigateToLibraryManager() {
-        val action = HomeFragmentDirections.actionHomeFragmentToLibraryFragment()
-        navigateToDestination(this, action, transition = {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-                duration = resources.getInteger(R.integer.duration_medium).toLong()
-            }
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-                duration = resources.getInteger(R.integer.duration_medium).toLong()
-            }
-        })
-    }
-
-    private fun navigateToSociety() {
-        val action = HomeFragmentDirections.actionHomeFragmentToSocietyFragment()
-        navigateToDestination(this, action, transition = {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true).apply {
-                duration = resources.getInteger(R.integer.duration_medium).toLong()
-            }
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false).apply {
-                duration = resources.getInteger(R.integer.duration_medium).toLong()
-            }
-        })
-    }
 
     override fun onPause() {
         super.onPause()
@@ -1123,6 +1105,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun showAnnouncementDialog() {
+        val currentTime = pref.getInt(KEY_APP_OPEN_MINIMUM_TIME, 0)
+        if (currentTime < MAX_APP_OPEN_TIME) {
+            return
+        }
         if (viewModel.isAnnouncementDialogShown) {
             viewModel.isAnnouncementDialogShown = false
             val currentShowTime = pref.getInt(KEY_CURRENT_SHOW_TIME, 1)
