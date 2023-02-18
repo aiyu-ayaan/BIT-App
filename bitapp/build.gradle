@@ -18,8 +18,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 51
-        versionName "4.1.1 Patch 25"
+        versionCode 52
+        versionName "4.1.1 Patch 26"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -110,7 +110,7 @@ dependencies {
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.2.0')
+    implementation platform('com.google.firebase:firebase-bom:31.2.1')
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
 //    FCM
