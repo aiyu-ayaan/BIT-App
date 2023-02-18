@@ -22,6 +22,7 @@ import com.atech.core.api.aboutus.Devs
 import com.atech.core.utils.DataState
 import com.atech.core.utils.TAG
 import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.openPlayStore
 import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,6 +78,11 @@ class AboutUsFragment : Fragment(R.layout.fragment_about_us) {
             }
             textViewPlayStore.setOnClickListener {
                 requireActivity().openPlayStore(requireActivity().packageName)
+            }
+            textViewPrivacy.setOnClickListener {
+                requireActivity().openCustomChromeTab(
+                    resources.getString(R.string.privacy_policy_link)
+                )
             }
             showContributors.apply {
                 addItemDecoration(

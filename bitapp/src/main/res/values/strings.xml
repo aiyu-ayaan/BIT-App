@@ -255,4 +255,6 @@
     <string name="search">Search</string>
     <string name="syllabus">Syllabus</string>
     <string name="no_subject_found">No Subject found !!</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_link">https://aiyu-ayaan.github.io/BIT-App-Data/privacy_polocy/privacy-policy</string>
 </resources>
