@@ -22,7 +22,8 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
@@ -709,14 +710,27 @@ fun getRgbFromHex(hex: String): String {
     return "rgb($r,$g,$b)"
 }
 
-@Suppress("DEPRECATION")
+/**
+ * Get the color from the attribute
+ * @param context Context
+ * @since 4.0.5
+ * @author Ayaan
+ */
 fun hasNetwork(context: Context): Boolean? {
     var isConnected: Boolean? = false // Initial Value
     val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
-    if (activeNetwork != null && activeNetwork.isConnected)
-        isConnected = true
+    val activeNetwork: Network? = connectivityManager.activeNetwork
+    val capabilities = connectivityManager.getNetworkCapabilities(activeNetwork)
+    if (capabilities != null) {
+        if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+            isConnected = true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+            isConnected = true
+        } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+            isConnected = true
+        }
+    }
     return isConnected
 }
 
