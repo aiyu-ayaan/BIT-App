@@ -18,7 +18,6 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyDescriptionBinding
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.handleCustomBackPressed
-import com.atech.bit.utils.loadAdds
 import com.atech.core.utils.DEFAULT_CORNER_RADIUS
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.core.utils.getColorForText
@@ -57,11 +56,6 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
         handleCustomBackPressed { customAction() }
         detectScroll()
         setMenu()
-        setAds()
-    }
-
-    private fun setAds() {
-        requireContext().loadAdds(binding.adView)
     }
 
 
@@ -83,6 +77,7 @@ class SocietyDescriptionFragment : Fragment(R.layout.fragment_society_descriptio
     }
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setSociety() = binding.apply {
         val s = viewModel.society
         s?.let { society ->

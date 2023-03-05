@@ -16,7 +16,6 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentNoticeBinding
 import com.atech.bit.utils.launchWhenStarted
 import com.atech.core.utils.MainStateEvent
-import com.atech.bit.utils.loadAdds
 import com.atech.core.data.ui.notice.Notice3
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -85,7 +84,6 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
             }
         }
         detectScroll()
-        requireContext().loadAdds(binding.adView)
     }
 
     private fun navigateToImageView(link: String) {

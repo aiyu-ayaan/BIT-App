@@ -9,7 +9,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
-    id 'com.google.devtools.ksp'
+//    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -125,7 +125,7 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
-    implementation "com.google.android.gms:play-services-ads:$playServicesAds"
+
 
 //    crashlytics
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -159,7 +159,8 @@ dependencies {
 
 /// Room components
     implementation "androidx.room:room-ktx:$roomVersion"
-    ksp "androidx.room:room-compiler:$roomVersion"
+    //noinspection KaptUsageInsteadOfKsp
+    kapt "androidx.room:room-compiler:$roomVersion"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glideVersion"

@@ -61,7 +61,6 @@ import com.atech.core.utils.openPlayStore
 import com.atech.core.utils.setStatusBarUiTheme
 import com.atech.core.utils.showSnackBar
 import com.github.mikephil.charting.BuildConfig.VERSION_CODE
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
@@ -110,7 +109,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        MobileAds.initialize(this) {}
         binding.apply {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment

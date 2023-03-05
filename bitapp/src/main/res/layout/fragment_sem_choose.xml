@@ -10,7 +10,6 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_bba"
@@ -31,28 +30,18 @@
             layout="@layout/sem_choose_ext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/adView"
+            android:layout_below="@id/linear_layout_top_view"
             android:layout_marginHorizontal="@dimen/grid_1"
             android:visibility="visible" />
 
         <include
             android:id="@+id/sem_chose_online_ext"
             layout="@layout/sem_choose_online_ext"
+            android:layout_below="@id/linear_layout_top_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
-            android:layout_below="@id/adView"
             android:visibility="gone" />
 
-        <com.google.android.gms.ads.AdView
-            android:id="@+id/adView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/linear_layout_top_view"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            ads:adSize="BANNER"
-            ads:adUnitId="ca-app-pub-6172727030505608/3976092501" />
 
         <LinearLayout
             android:id="@+id/linear_layout_top_view"

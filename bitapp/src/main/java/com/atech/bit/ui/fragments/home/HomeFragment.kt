@@ -57,7 +57,6 @@ import com.atech.bit.utils.bindData
 import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.launchWhenStarted
-import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.sortBySno
 import com.atech.core.api.syllabus.Semester
@@ -236,7 +235,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         checkHasData()
         setPref()
         restoreScroll()
-        setAds()
         getOldAppWarningDialog()
         clearAndAddSyllabusDatabase()
 
@@ -425,10 +423,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 pref.edit().putBoolean(KEY_COURSE_OPEN_FIRST_TIME, false).apply()
             }
         }
-    }
-
-    private fun setAds() {
-        requireContext().loadAdds(binding.adView)
     }
 
     private fun setPref() {

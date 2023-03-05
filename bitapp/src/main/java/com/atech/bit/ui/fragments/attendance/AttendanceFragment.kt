@@ -26,7 +26,6 @@ import com.atech.bit.utils.CardViewHighlightContent
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.launchWhenStarted
-import com.atech.bit.utils.loadAdds
 import com.atech.core.data.network.user.AttendanceUploadModel
 import com.atech.core.data.room.attendance.AttendanceModel
 import com.atech.core.data.room.attendance.AttendanceSave
@@ -98,8 +97,6 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
         detectScroll()
         addSubject()
-
-        requireContext().loadAdds(binding.attendanceView.adView)
         setUpBottomAppBar()
         setCardInfo()
     }
