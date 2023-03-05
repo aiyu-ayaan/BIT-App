@@ -57,3 +57,7 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.9.0'
     kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 }
+kapt {
+    correctErrorTypes true
+    useBuildCache true
+}
