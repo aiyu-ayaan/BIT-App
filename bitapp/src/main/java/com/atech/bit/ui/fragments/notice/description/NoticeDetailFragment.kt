@@ -63,7 +63,7 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (myScrollViewerInstanceState != null) {
-            binding.nestedScrollViewNotice.onRestoreInstanceState(CourseFragment.myScrollViewerInstanceState)
+            binding.nestedScrollViewNotice.onRestoreInstanceState(myScrollViewerInstanceState)
         }
         binding.root.transitionName = viewModel.path
         detectScroll()

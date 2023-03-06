@@ -174,7 +174,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         view.doOnPreDraw { startPostponedEnterTransition() }
 
         if (myScrollViewerInstanceState != null) {
-            binding.scrollViewHome.onRestoreInstanceState(CourseFragment.myScrollViewerInstanceState)
+            binding.scrollViewHome.onRestoreInstanceState(myScrollViewerInstanceState)
         }
 
         holidayAdapter = HolidayHomeAdapter()
