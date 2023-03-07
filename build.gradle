@@ -5,7 +5,7 @@ buildscript {
         materail3Version = '1.9.0-alpha02'
         playServicesAuthVersion = "20.4.1"
         playServicesAds = '21.5.0'
-        firebaseFireStoreVersion = '24.4.3'
+        firebaseFireStoreVersion = '24.4.4'
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.4'
         lifecycle_version = '2.6.0-rc01'

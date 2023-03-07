@@ -33,6 +33,7 @@
         android:text="@string/show_all"
         android:textAppearance="?attr/textAppearanceCaption"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/text_holiday"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
@@ -48,6 +49,7 @@
         app:cardBackgroundColor="?attr/bottomBar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_holiday"
+        app:layout_constraintVertical_bias="0.0"
         app:strokeColor="?attr/bottomBar"
         tools:layout_editor_absoluteX="8dp"
         tools:visibility="visible">
