@@ -23,7 +23,6 @@ import com.atech.bit.ui.fragments.notice.ImageGridAdapter
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
 import com.atech.bit.utils.launchWhenStarted
-import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.notice.Notice3
@@ -64,14 +63,13 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (myScrollViewerInstanceState != null) {
-            binding.nestedScrollViewNotice.onRestoreInstanceState(CourseFragment.myScrollViewerInstanceState)
+            binding.nestedScrollViewNotice.onRestoreInstanceState(myScrollViewerInstanceState)
         }
         binding.root.transitionName = viewModel.path
         detectScroll()
         getNotice()
         setIsConnected()
         menuHost()
-        requireContext().loadAdds(binding.adView)
     }
 
     private fun getNotice() = launchWhenStarted {

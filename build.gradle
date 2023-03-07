@@ -2,13 +2,13 @@ buildscript {
     ext {
         kotlin_version = '1.7.20'
         playStoreCoreVersion = "1.8.1"
-        materail3Version = '1.9.0-alpha01'
+        materail3Version = '1.9.0-alpha02'
         playServicesAuthVersion = "20.4.1"
         playServicesAds = '21.5.0'
-        firebaseFireStoreVersion = '24.4.3'
+        firebaseFireStoreVersion = '24.4.4'
         googleServiceVersion = '4.3.10'
         coroutines = '1.6.4'
-        lifecycle_version = "2.6.0-beta01"
+        lifecycle_version = '2.6.0-rc01'
         fragment_version = '1.5.5'
         nav_version = "2.5.3"
         hilt_version = '2.45'
@@ -29,7 +29,7 @@ buildscript {
         splashScreenVersion = "1.0.0"
         review_version = "2.0.0"
         graphVersion = "v3.1.0"
-        mediaVersion = "1.0.0-beta03"
+        mediaVersion = '1.0.0-rc01'
         cryptoreVersion = "1.4.0"
         retrofit_version = '2.9.0'
         retrofit_json_version = "2.9.0"
@@ -42,7 +42,6 @@ buildscript {
         classpath "com.google.gms:google-services:$googleServiceVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion"
-        classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
     repositories {
@@ -50,9 +49,10 @@ buildscript {
     }
 }
 plugins {
-    id 'com.android.application' version '7.3.1' apply false
-    id 'com.android.library' version '7.3.1' apply false
+    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.library' version '7.4.2' apply false
     id 'org.jetbrains.kotlin.android' version '1.7.20' apply false
+//    id 'com.google.devtools.ksp' version '1.7.20' apply false
 }
 
 tasks.register('clean') {

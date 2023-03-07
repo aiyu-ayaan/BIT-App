@@ -49,9 +49,9 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (myScrollViewerInstanceState != null) {
-            binding.nestedViewSyllabus.onRestoreInstanceState(myScrollViewerInstanceState)
-        }
+//        if (myScrollViewerInstanceState != null) {
+//            binding.nestedViewSyllabus.onRestoreInstanceState(myScrollViewerInstanceState)
+//        }
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
@@ -120,7 +120,7 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
 
     override fun onPause() {
         super.onPause()
-        myScrollViewerInstanceState = binding.nestedViewSyllabus.onSaveInstanceState()
+//        myScrollViewerInstanceState = binding.nestedViewSyllabus.onSaveInstanceState()
     }
 
     private fun navigateToSemChoose(request: String, sem: Int) {
@@ -136,8 +136,8 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     }
 
 
-    companion object {
-        var myScrollViewerInstanceState: Parcelable? = null
-    }
+//    companion object {
+//        var myScrollViewerInstanceState: Parcelable? = null
+//    }
 
 }

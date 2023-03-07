@@ -13,6 +13,7 @@ import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -61,7 +62,6 @@ import com.atech.core.utils.openPlayStore
 import com.atech.core.utils.setStatusBarUiTheme
 import com.atech.core.utils.showSnackBar
 import com.github.mikephil.charting.BuildConfig.VERSION_CODE
-import com.google.android.gms.ads.MobileAds
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
@@ -110,7 +110,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        MobileAds.initialize(this) {}
         binding.apply {
             val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
@@ -145,11 +144,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     R.id.nav_share -> shareApp()
                     R.id.nav_mail -> this@MainActivity.openBugLink()
                     R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.erp_link))
-                    R.id.nav_issue_app_data -> this@MainActivity.openCustomChromeTab(
-                        resources.getString(
-                            R.string.issue_link_app_data
-                        )
-                    )
+//                    R.id.nav_issue_app_data -> this@MainActivity.openCustomChromeTab(
+//                        resources.getString(
+//                            R.string.issue_link_app_data
+//                        )
+//                    )
 
                     R.id.nav_rate -> startReviewFlow()
                     R.id.nav_issue -> this@MainActivity.openCustomChromeTab(resources.getString(R.string.issue_link))
@@ -167,6 +166,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         if (u) getWarning()
         shareReview()
         getShowTimes()
+        onBackPressDispatcher()
     }
 
     private fun openReleaseNotes() {
@@ -386,17 +386,26 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     }
 
 
-    @Suppress("deprecation")
-    override fun onBackPressed() {
-        when {
-            binding.drawer.isDrawerOpen(GravityCompat.START) -> {
-                binding.drawer.closeDrawer(GravityCompat.START)
+    private fun onBackPressDispatcher(){
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                when {
+                    binding.drawer.isDrawerOpen(GravityCompat.START) -> {
+                        binding.drawer.closeDrawer(GravityCompat.START)
+                    }
+                    else -> {
+                        if (navController.currentDestination?.id == R.id.homeFragment) {
+                            finish()
+                        } else {
+                            navController.popBackStack()
+                        }
+                    }
+                }
             }
-
-            else -> super.onBackPressed()
-        }
+        })
     }
 
+//
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }

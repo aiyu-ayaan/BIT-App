@@ -9,6 +9,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+//    id 'com.google.devtools.ksp'
 }
 
 android {
@@ -18,8 +19,8 @@ android {
         applicationId "com.atech.bit"
         minSdk 24
         targetSdk 33
-        versionCode 52
-        versionName "4.1.1 Patch 26"
+        versionCode 53
+        versionName "4.1.1 Patch 27"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -100,7 +101,7 @@ dependencies {
     implementation 'androidx.compose.ui:ui-graphics'
     implementation 'androidx.compose.ui:ui-tooling-preview'
     implementation 'androidx.compose.material3:material3'
-    implementation "androidx.navigation:navigation-compose:2.6.0-alpha05"
+    implementation 'androidx.navigation:navigation-compose:2.6.0-alpha06'
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
@@ -110,7 +111,7 @@ dependencies {
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.2.1')
+    implementation platform('com.google.firebase:firebase-bom:31.2.2')
     implementation 'com.google.firebase:firebase-firestore-ktx'
 
 //    FCM
@@ -124,7 +125,7 @@ dependencies {
 
     // Also declare the dependency for the Google Play services library and specify its version
     implementation "com.google.android.gms:play-services-auth:$playServicesAuthVersion"
-    implementation "com.google.android.gms:play-services-ads:$playServicesAds"
+
 
 //    crashlytics
     releaseImplementation 'com.google.firebase:firebase-crashlytics-ktx'
@@ -158,6 +159,7 @@ dependencies {
 
 /// Room components
     implementation "androidx.room:room-ktx:$roomVersion"
+    //noinspection KaptUsageInsteadOfKsp
     kapt "androidx.room:room-compiler:$roomVersion"
 
     // Glide
@@ -203,4 +205,9 @@ dependencies {
     implementation "com.github.mukeshsolanki:MarkdownView-Android:$markdownViewVersion"
 
 
+}
+
+kapt {
+    correctErrorTypes true
+    useBuildCache true
 }

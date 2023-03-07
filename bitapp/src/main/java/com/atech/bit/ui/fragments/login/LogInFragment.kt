@@ -197,7 +197,7 @@ class LogInFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun addUserToDatabase(userModel: UserModel) = lifecycleScope.launchWhenStarted {
+    private fun addUserToDatabase(userModel: UserModel) = launchWhenStarted {
 
         viewModel.addUser(
             userModel,

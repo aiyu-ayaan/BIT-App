@@ -9,19 +9,10 @@
     tools:context=".ui.fragments.notice.NoticeFragment">
 
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-6172727030505608/7285714339" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/showNotice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/adView"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/bottom_nav_height"
         android:transitionGroup="true" />

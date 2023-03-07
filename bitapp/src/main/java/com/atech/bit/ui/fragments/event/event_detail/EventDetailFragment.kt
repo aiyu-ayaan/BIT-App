@@ -25,7 +25,6 @@ import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
 import com.atech.bit.utils.launchWhenCreated
 import com.atech.bit.utils.launchWhenStarted
-import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.Events
@@ -79,8 +78,6 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         getEvent(viewModel.path)
         menuHost()
         detectScroll()
-
-        requireContext().loadAdds(binding.adView)
     }
 
 
