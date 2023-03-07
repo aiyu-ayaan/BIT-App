@@ -11,7 +11,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcelable
 import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -40,7 +39,6 @@ import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.ui.fragments.course.CourseFragment
 import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapter
 import com.atech.bit.ui.fragments.event.EventsAdapter
 import com.atech.bit.ui.fragments.home.adapter.AttendanceHomeAdapter
@@ -55,6 +53,8 @@ import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.compareToCourseSem
+import com.atech.bit.utils.delegates.RestoreScroll
+import com.atech.bit.utils.delegates.RestoreScrollDelegate
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.openBugLink
@@ -124,7 +124,7 @@ import javax.inject.Inject
 import kotlin.math.ceil
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreScrollDelegate() {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
     private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
@@ -173,13 +173,10 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
 
-        if (myScrollViewerInstanceState != null) {
-            binding.scrollViewHome.onRestoreInstanceState(myScrollViewerInstanceState)
-        }
 
         holidayAdapter = HolidayHomeAdapter()
         binding.apply {
-            lineChartCgpa.setNoDataText(resources.getString(R.string.loading))
+            fragmentHomeCgpaExt.lineChartCgpa.setNoDataText(resources.getString(R.string.loading))
             fragmentHomeExt.apply {
                 setting.setOnClickListener {
                     navigateToWelcomeScreen()
@@ -189,15 +186,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 }
             }
 
-            attendanceClick.root.setOnClickListener {
+            fragmentHomeAttendanceExt.attendanceClick.root.setOnClickListener {
                 navigateToAttendance()
             }
 
 
-            textShowAllHoliday.setOnClickListener {
+            fragmentHomeHolidayExt.textShowAllHoliday.setOnClickListener {
                 navigateToHoliday()
             }
-            textViewEdit.setOnClickListener {
+            fragmentHomeCgpaExt.textViewEdit.setOnClickListener {
                 navigateToCGPA()
             }
         }
@@ -245,6 +242,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setLibraryWarningScreen()
         setAnnouncement()
         showAnnouncementDialog()
+        setLifecycleOwner(this, binding.scrollViewHome)
     }
 
     private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
@@ -452,7 +450,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun setUpLinkClick() {
-        binding.layoutNoteDev.tagInfo.setOnClickListener {
+        binding.fragmentHomeAttendanceExt.layoutNoteDev.tagInfo.setOnClickListener {
             remoteConfigUtil.fetchData({
                 Log.e(TAG, "setUpLinkClick: ${it.message}")
             }) {
@@ -598,7 +596,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         navigateToDestination(this, action)
     }
 
-    private fun setHoliday() = binding.apply {
+    private fun setHoliday() = binding.fragmentHomeHolidayExt.apply {
         showHoliday.apply {
             adapter = holidayAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -629,7 +627,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         ) { event, rootView ->
             navigateToEventDetail(event, rootView)
         }
-        binding.apply {
+        binding.fragmentHomeEventExt.apply {
             showEvent.apply {
                 adapter = eventAdapter
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -650,10 +648,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         ).observe(viewLifecycleOwner) {
             it?.let {
                 eventAdapter.submitList(it)
-                binding.materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
-                binding.textEvent.isVisible = it.isNotEmpty()
-                binding.textShowAllEvent.isVisible = it.isNotEmpty()
-                binding.eventIndicator.isVisible = it.isNotEmpty()
+                binding.fragmentHomeEventExt.apply {
+                    materialCardViewEventRecyclerView.isVisible = it.isNotEmpty()
+                    textEvent.isVisible = it.isNotEmpty()
+                    textShowAllEvent.isVisible = it.isNotEmpty()
+                    eventIndicator.isVisible = it.isNotEmpty()
+                }
             }
         }
 
@@ -712,15 +712,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun setProgressBar() {
         val attendanceHomeAdapter = AttendanceHomeAdapter(defPercentage)
-        binding.attendanceClick.recyclerViewShowAttendance.apply {
+        binding.fragmentHomeAttendanceExt.attendanceClick.recyclerViewShowAttendance.apply {
             adapter = attendanceHomeAdapter
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(false)
             val snapHelper = PagerSnapHelper()
             snapHelper.attachToRecyclerView(this)
-            binding.attendanceClick.attendanceIndicator.attachToRecyclerView(this, snapHelper)
-            attendanceHomeAdapter.registerAdapterDataObserver(binding.attendanceClick.attendanceIndicator.adapterDataObserver)
+            binding.fragmentHomeAttendanceExt.attendanceClick.attendanceIndicator.attachToRecyclerView(
+                this,
+                snapHelper
+            )
+            attendanceHomeAdapter.registerAdapterDataObserver(
+                binding.fragmentHomeAttendanceExt
+                    .attendanceClick.attendanceIndicator.adapterDataObserver
+            )
         }
         viewModel.attAttendance.observe(viewLifecycleOwner) {
             attendanceHomeAdapter.submitList(it)
@@ -738,7 +744,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
             setCondition(finalPercentage.toInt(), sumPresent, sumTotal)
-            binding.attendanceClick.apply {
+            binding.fragmentHomeAttendanceExt.attendanceClick.apply {
                 textViewTotal.text = sumTotal.toString()
                 textViewPresent.text = sumPresent.toString()
                 val df = DecimalFormat("#.#")
@@ -751,13 +757,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     @SuppressLint("SetTextI18n")
     private fun setCondition(per: Int, present: Int, total: Int) {
-        binding.cardViewAttendance.isVisible = per != 0
+        binding.fragmentHomeAttendanceExt.cardViewAttendance.isVisible = per != 0
         when {
             per >= defPercentage -> {
                 val day = calculatedDays(present, total) { p, t ->
                     (((100 * p) - (defPercentage * t)) / defPercentage)
                 }.toInt()
-                binding.attendanceClick.textViewStats.text = when {
+                binding.fragmentHomeAttendanceExt.attendanceClick.textViewStats.text = when {
                     per == defPercentage || day == 0 -> "On track don't miss next class"
 
                     day > 0 -> "You can leave $day class"
@@ -769,7 +775,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 val day = calculatedDays(present, total) { p, t ->
                     (((defPercentage * t) - (100 * p)) / (100 - defPercentage))
                 }
-                binding.attendanceClick.textViewStats.text =
+                binding.fragmentHomeAttendanceExt.attendanceClick.textViewStats.text =
                     "Attend Next ${(ceil(day)).toInt()} Class"
             }
         }
@@ -786,16 +792,17 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             courseSem = "${it.course}${it.sem}"
             setSource(courseSem.lowercase())
             viewModel.syllabusQuery.value = courseSem
-            binding.materialCardViewCgpaGraph.isVisible = !it.cgpa.isAllZero
-            binding.textViewCgpa.isVisible = !it.cgpa.isAllZero
-            binding.textViewEdit.isVisible = !it.cgpa.isAllZero
+            binding.fragmentHomeCgpaExt.apply {
+                materialCardViewCgpaGraph.isVisible = !it.cgpa.isAllZero
+                textViewCgpa.isVisible = !it.cgpa.isAllZero
+                textViewEdit.isVisible = !it.cgpa.isAllZero
+            }
             if (!it.cgpa.isAllZero) setUpChart(it.cgpa)
         }
     }
 
     private fun setUpChart(cgpa: Cgpa) = launchWhenStarted {
-        binding.lineChartCgpa.apply {
-
+        binding.fragmentHomeCgpaExt.lineChartCgpa.apply {
             legend.isEnabled = false
             xAxis.setDrawGridLines(false)
             axisRight.isEnabled = false
@@ -985,7 +992,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.getHoliday().observe(viewLifecycleOwner) { dateState ->
             when (dateState) {
                 is DataState.Success -> {
-                    binding.apply {
+                    binding.fragmentHomeHolidayExt.apply {
                         textHoliday.isVisible = true
                         materialCardViewHolidayRecyclerView.isVisible = true
                         textShowAllHoliday.isVisible = true
@@ -993,7 +1000,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     holidayAdapter.submitList(dateState.data.holidays.sortBySno())
                 }
 
-                DataState.Empty -> binding.apply {
+                DataState.Empty -> binding.fragmentHomeHolidayExt.apply {
                     textHoliday.isVisible = false
                     materialCardViewHolidayRecyclerView.isVisible = false
                     textShowAllHoliday.isVisible = false
@@ -1091,11 +1098,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onPause() {
         super.onPause()
-        myScrollViewerInstanceState = binding.scrollViewHome.onSaveInstanceState()
-    }
-
-    companion object {
-        var myScrollViewerInstanceState: Parcelable? = null
     }
 
     private fun showAnnouncementDialog() {

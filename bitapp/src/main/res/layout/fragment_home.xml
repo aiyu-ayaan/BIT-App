@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:overScrollMode="always"
     tools:context=".ui.fragments.home.HomeFragment">
 
-
     <com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer
-        android:id="@+id/scroll_view_home"
+        android:id="@+id/scrollViewHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
+        android:fillViewport="true"
         android:overScrollMode="always"
         android:paddingBottom="@dimen/bottom_nav_height">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <!--            ads:adUnitId="ca-app-pub-6172727030505608/5014774210"-->
 
             <include
                 android:id="@+id/card_view_announcement"
@@ -33,6 +31,7 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
+
             <include
                 android:id="@+id/layout_home_library"
                 layout="@layout/layout_home_library"
@@ -43,222 +42,40 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <include
+                android:id="@+id/fragment_home_ext"
+                layout="@layout/fragment_home_ext"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="@dimen/grid_1">
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1" />
 
-                <include
-                    android:id="@+id/fragment_home_ext"
-                    layout="@layout/fragment_home_ext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <include
+                android:id="@+id/fragment_home_holiday_ext"
+                layout="@layout/layout_home_holiday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1" />
 
-                <TextView
-                    android:id="@+id/text_holiday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_1"
-                    android:layout_marginTop="@dimen/grid_0_5"
-                    android:layout_marginBottom="@dimen/grid_1"
-                    android:padding="@dimen/grid_0_25"
-                    android:text="@string/holidayThisMonth"
-                    android:textAppearance="?attr/textAppearanceTitleSmall"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext"
-                    app:layout_goneMarginStart="@dimen/grid_2"
-                    tools:visibility="visible" />
+            <include
+                android:id="@+id/fragment_home_event_ext"
+                layout="@layout/layout_home_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1" />
 
-                <TextView
-                    android:id="@+id/text_show_all_holiday"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/text_holiday"
-                    android:layout_alignBottom="@+id/text_holiday"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/grid_0_5"
-                    android:layout_marginEnd="@dimen/grid_2"
-                    android:gravity="center"
-                    android:text="@string/show_all"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/fragment_home_ext"
-                    tools:visibility="visible" />
+            <include
+                android:id="@+id/fragment_home_cgpa_ext"
+                layout="@layout/layout_home_sgpa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1" />
 
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/material_card_view_holiday_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/text_holiday"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:visibility="gone"
-                    app:cardBackgroundColor="?attr/bottomBar"
-                    app:layout_constraintTop_toBottomOf="@+id/text_holiday"
-                    app:strokeColor="?attr/bottomBar"
-                    tools:visibility="visible">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/showHoliday"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/text_holiday"
-                        android:overScrollMode="never" />
-                </com.google.android.material.card.MaterialCardView>
-
-
-                <TextView
-                    android:id="@+id/text_event"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_2"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:padding="@dimen/grid_0_25"
-                    android:text="@string/event_this_week"
-                    android:textAppearance="?attr/textAppearanceTitleSmall"
-                    android:textColor="@color/textColor"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/text_show_all_event"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/text_event"
-                    android:layout_alignBottom="@+id/text_event"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:layout_marginEnd="@dimen/grid_2"
-                    android:gravity="center"
-                    android:text="@string/show_all"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_holiday_recycler_view"
-                    tools:visibility="visible" />
-
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/material_card_view_event_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/text_event"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:visibility="gone"
-                    app:cardBackgroundColor="?attr/bottomBar"
-                    app:layout_constraintTop_toBottomOf="@+id/text_event"
-                    app:strokeColor="?attr/bottomBar"
-                    tools:visibility="visible">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/show_event"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/text_event" />
-                </com.google.android.material.card.MaterialCardView>
-
-                <me.relex.circleindicator.CircleIndicator2
-                    android:id="@+id/event_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/grid_2"
-                    android:layout_marginTop="@dimen/grid_1"
-                    ads:ci_drawable="@drawable/dots_indicator_selected"
-                    ads:layout_constraintEnd_toEndOf="parent"
-                    ads:layout_constraintStart_toStartOf="@+id/material_card_view_event_recycler_view"
-                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_event_recycler_view" />
-
-                <TextView
-                    android:id="@+id/text_view_cgpa"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/grid_1"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:padding="@dimen/grid_0_25"
-                    android:text="@string/your_sgpa"
-                    android:textAppearance="?attr/textAppearanceTitleSmall"
-                    android:visibility="gone"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/event_indicator"
-                    tools:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/text_view_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:layout_marginEnd="@dimen/grid_2"
-                    android:gravity="center"
-                    android:text="@string/edit"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    android:visibility="gone"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/event_indicator"
-                    tools:visibility="visible" />
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/material_card_view_cgpa_graph"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                    android:layout_marginTop="@dimen/grid_1"
-                    android:visibility="gone"
-                    app:cardBackgroundColor="?attr/bottomBar"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_cgpa"
-                    app:strokeColor="?attr/bottomBar"
-                    tools:visibility="visible">
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/line_chart_cgpa"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/image_view_log_in_size"
-                        android:layout_margin="@dimen/grid_0_5" />
-                </com.google.android.material.card.MaterialCardView>
-
-
-                <RelativeLayout
-                    android:id="@+id/card_view_attendance"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="@dimen/grid_1"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/material_card_view_cgpa_graph"
-                    tools:visibility="visible">
-
-
-                    <TextView
-                        android:id="@+id/tv3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/grid_1"
-                        android:layout_marginBottom="@dimen/grid_1"
-                        android:padding="@dimen/grid_0_25"
-                        android:text="@string/attendanceStats"
-                        android:textAppearance="?attr/textAppearanceTitleSmall" />
-
-                    <include
-                        android:id="@+id/attendance_click"
-                        layout="@layout/fragment_home_attendance_ext"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv3" />
-                </RelativeLayout>
-
-                <include
-                    android:id="@+id/layout_note_dev"
-                    layout="@layout/layout_note_from_dev"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                    app:layout_constraintTop_toBottomOf="@+id/card_view_attendance" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            <include
+                android:id="@+id/fragment_home_attendance_ext"
+                layout="@layout/layout_home_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1" />
         </LinearLayout>
     </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
-
 </FrameLayout>
