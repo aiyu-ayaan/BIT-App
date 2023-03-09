@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageView
@@ -109,6 +110,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                     event = fullEvent.event.data
                     setView(fullEvent.event.data)
                 }
+
+                else -> {}
             }
 
             when (fullEvent.attach) {
@@ -160,7 +163,10 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         cardViewEvent.isVisible = true
         subjectTextView.text = data.title
         senderTextView.text = data.society
-        bodyTextView.text = data.content
+        bodyTextView.apply {
+            movementMethod = LinkMovementMethod.getInstance()
+            text = data.content
+        }
         textViewDate.text = data.created.getDate()
         linkIcon.apply {
             isVisible = data.insta_link.isNotEmpty()
