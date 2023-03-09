@@ -559,4 +559,9 @@
     <action
         android:id="@+id/action_global_searchFragment"
         app:destination="@id/searchFragment" />
+    <fragment
+        android:id="@+id/administrationFragment"
+        android:name="com.atech.bit.ui.fragments.administration.AdministrationFragment"
+        android:label="@string/administration"
+        tools:layout="@layout/fragment_administration" />
 </navigation>

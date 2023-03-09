@@ -41,4 +41,7 @@ interface BITApiClient {
     @GET("syllabus/course.json")
     suspend fun getCourse(): List<CourseDetail>
 
+    @GET("admin/admin.md")
+    suspend fun getAdministration(): String
+
 }

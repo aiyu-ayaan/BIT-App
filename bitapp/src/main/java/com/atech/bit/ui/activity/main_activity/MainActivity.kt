@@ -283,7 +283,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment,
                 R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment,
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment,
-                R.id.cgpaCalculatorFragment,
+                R.id.cgpaCalculatorFragment,R.id.administrationFragment,
                 R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment,
                 R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
