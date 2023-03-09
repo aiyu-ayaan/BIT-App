@@ -270,7 +270,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu,
                 R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
                 R.id.libraryFragment, R.id.universalDialogFragment,
-                R.id.addFromOnlineSyllabusBottomSheet
+                R.id.addFromOnlineSyllabusBottomSheet,R.id.eventDetailFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )

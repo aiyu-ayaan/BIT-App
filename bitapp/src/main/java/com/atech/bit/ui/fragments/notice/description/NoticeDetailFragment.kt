@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
@@ -155,6 +156,10 @@ class NoticeDetailFragment : Fragment(R.layout.fragment_notice_detail) {
             textViewDate.text =
                 sendNotice.created.getDate()
             bodyTextView.text = sendNotice.body.replace("<br/>", "\n")
+            bodyTextView.apply {
+                movementMethod = LinkMovementMethod.getInstance()
+                text = sendNotice.body.replace("<br/>", "\n")
+            }
 
             linkIcon.apply {
                 isVisible = sendNotice.link.isNotEmpty()
