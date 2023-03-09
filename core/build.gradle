@@ -66,7 +66,7 @@ dependencies {
 
 //    FireStore
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.2.2')
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation('com.google.firebase:firebase-auth-ktx') {
@@ -95,6 +95,7 @@ dependencies {
 
 /// Room components
     implementation "androidx.room:room-ktx:$roomVersion"
+    //noinspection KaptUsageInsteadOfKsp
     kapt "androidx.room:room-compiler:$roomVersion"
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
 
