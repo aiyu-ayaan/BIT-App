@@ -65,4 +65,11 @@ class ApiRepository @Inject constructor(
             api.getCourse()
         }
     )
+
+    fun fetAdministration() = networkFetchData(
+        fetch =
+        {
+            api.getAdministration()
+        }
+    )
 }

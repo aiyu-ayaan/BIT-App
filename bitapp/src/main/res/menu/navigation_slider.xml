@@ -34,6 +34,10 @@
                     android:checkable="false"
                     android:icon="@drawable/ic_web"
                     android:title="@string/erp" />
+                    <item
+                        android:id="@+id/administrationFragment"
+                        android:icon="@drawable/ic_admin"
+                        android:title="@string/administration" />
                 <item
                     android:id="@+id/libraryFragment"
                     android:icon="@drawable/ic_library"
