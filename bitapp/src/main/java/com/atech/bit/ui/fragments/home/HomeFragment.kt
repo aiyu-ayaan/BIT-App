@@ -53,8 +53,6 @@ import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.compareToCourseSem
-import com.atech.bit.utils.delegates.RestoreScroll
-import com.atech.bit.utils.delegates.RestoreScrollDelegate
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.openBugLink
@@ -124,7 +122,8 @@ import javax.inject.Inject
 import kotlin.math.ceil
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreScrollDelegate() {
+class HomeFragment :
+    Fragment(R.layout.fragment_home)/* RestoreScroll by RestoreScrollDelegate()*/ {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
     private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
@@ -242,7 +241,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreS
         setLibraryWarningScreen()
         setAnnouncement()
         showAnnouncementDialog()
-        setLifecycleOwner(this, binding.scrollViewHome)
+//        setLifecycleOwner(this, binding.scrollViewHome)
     }
 
     private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
