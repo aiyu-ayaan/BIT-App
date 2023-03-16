@@ -7,7 +7,10 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
@@ -377,3 +380,36 @@ fun Fragment.setEnterShareAxisTransition(@MaterialSharedAxis.Axis axis: Int = Ma
     }
 
 fun Context.isBeta(): Boolean = BuildConfig.VERSION_NAME.contains("-beta")
+
+
+fun Fragment.setEnterAnimation(
+    @MaterialSharedAxis.Axis axis: Int = MaterialSharedAxis.X,
+
+    ) = this.apply {
+    enterTransition = MaterialSharedAxis(axis, true)
+    returnTransition = MaterialSharedAxis(axis, false)
+}
+
+
+inline fun EditText.addTextChangeListener(
+    crossinline listener: (String) -> Unit,
+) = this.apply {
+    addTextChangedListener(object : TextWatcher {
+        override fun afterTextChanged(s: Editable?) {
+            if (s?.length == 1) {
+                if (s.toString() == "0") {
+                    setText("")
+                }
+            }
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            s?.let {
+                listener(s.toString())
+            }
+        }
+    })
+}

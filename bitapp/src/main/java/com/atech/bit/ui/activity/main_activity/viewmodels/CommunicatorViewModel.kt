@@ -47,6 +47,17 @@ class CommunicatorViewModel @Inject constructor(
         this.time.convertDateToTime().convertStringToLongMillis() //Day after today
     }
 
+    var openFirst = state.get<Boolean>("openFirst") ?: true
+        set(value) {
+            field = value
+            state["openFirst"] = value
+        }
+
+    var query : MutableStateFlow<String> = MutableStateFlow("none")
+        set(value) {
+            field = value
+            state["query"] = value
+        }
 
 
     var homeNestedViewPosition = state.get<Int?>("homeNestedViewPosition")

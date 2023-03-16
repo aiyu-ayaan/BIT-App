@@ -7,10 +7,10 @@
         android:icon="@drawable/ic_home_selector"
         android:title="@string/home" />
 
-<!--    <item-->
-<!--        android:id="@id/noticeFragment"-->
-<!--        android:icon="@drawable/ic_notice_selector"-->
-<!--        android:title="@string/notice" />-->
+    <item
+        android:id="@id/noticeFragment"
+        android:icon="@drawable/ic_notice_selector"
+        android:title="@string/notice" />
     <item
         android:id="@id/courseFragment"
         android:icon="@drawable/ic_syllabus_selector"

@@ -2,23 +2,29 @@ package com.atech.bit.ui.activity.main_activity
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -31,7 +37,9 @@ import com.atech.bit.BuildConfig
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
+import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.utils.DrawerLocker
+import com.atech.bit.utils.addTextChangeListener
 import com.atech.bit.utils.getVersion
 import com.atech.bit.utils.isBeta
 import com.atech.bit.utils.openBugLink
@@ -75,6 +83,7 @@ import com.google.android.play.core.review.ReviewManagerFactory
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -87,6 +96,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     private var reviewInfo: ReviewInfo? = null
     private lateinit var reviewManager: ReviewManager
 
+    private val communicator: CommunicatorViewModel by viewModels()
 
     @Inject
     lateinit var attendanceDao: AttendanceDao
@@ -121,7 +131,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     R.id.homeFragment,
                     R.id.courseFragment,
                     R.id.attendanceFragment,
-                    R.id.warningFragment
+                    R.id.warningFragment,
+                    R.id.noticeFragment
                 ), drawer
             )
             setSupportActionBar(toolbar)
@@ -167,6 +178,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         shareReview()
         getShowTimes()
         onBackPressDispatcher()
+        setQuery()
     }
 
     private fun openReleaseNotes() {
@@ -270,24 +282,41 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu,
                 R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
                 R.id.libraryFragment, R.id.universalDialogFragment,
-                R.id.addFromOnlineSyllabusBottomSheet,R.id.eventDetailFragment
+                R.id.addFromOnlineSyllabusBottomSheet, R.id.eventDetailFragment,
+                R.id.globalSearchFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )
 
                 else -> changeBottomNav(android.viewbinding.library.R.attr.colorSurface)
             }
+
+            when (destination.id) {
+                R.id.globalSearchFragment -> binding.searchToolbar.isVisible = true
+                else -> binding.searchToolbar.isVisible = false
+            }
+
+            if (destination.id == R.id.globalSearchFragment) binding.apply {
+                searchInput.isEnabled = true
+                searchInput.requestFocus()
+                when {
+                    communicator.openFirst -> showKeyboard()
+                }
+            }
+            else binding.searchInput.isEnabled = false
+
             when (destination.id) {
                 R.id.startUpFragment, R.id.noticeDetailFragment,
                 R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
                 R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment,
                 R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment,
                 R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment,
-                R.id.cgpaCalculatorFragment,R.id.administrationFragment,
+                R.id.cgpaCalculatorFragment, R.id.administrationFragment,
                 R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment,
                 R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
-                R.id.addEditFragment, R.id.noticeFragment, R.id.searchFragment -> {
+                R.id.addEditFragment, R.id.noticeFragment, R.id.searchFragment,
+                R.id.globalSearchFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -302,7 +331,14 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 }
             }
             val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
-            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment) {
+            if (destination.id == R.id.startUpFragment
+                || (destination.id == R.id.chooseSemBottomSheet && !u)
+                || destination.id == R.id.viewImageFragment
+                || destination.id == R.id.warningFragment
+                || destination.id == R.id.viewVideoFragment
+                || destination.id == R.id.logInFragment
+                || destination.id == R.id.loadingDataFragment
+            ) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
             }
@@ -386,13 +422,14 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
     }
 
 
-    private fun onBackPressDispatcher(){
+    private fun onBackPressDispatcher() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 when {
                     binding.drawer.isDrawerOpen(GravityCompat.START) -> {
                         binding.drawer.closeDrawer(GravityCompat.START)
                     }
+
                     else -> {
                         if (navController.currentDestination?.id == R.id.homeFragment) {
                             finish()
@@ -405,7 +442,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         })
     }
 
-//
+    //
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
@@ -517,4 +554,27 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         setIntent(intent)
     }
 
+    /**
+     * @author Ayaan
+     * @since 4.0.4
+     */
+    private fun showKeyboard() = binding.apply {
+        (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).apply {
+            this.showSoftInput(binding.searchInput, 0)
+        }
+    }
+
+    private fun setQuery() = binding.searchInput.apply {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                communicator.query.collect {
+                    if (it == "none")
+                        this@apply.setText("")
+                }
+            }
+        }
+        addTextChangeListener {
+            communicator.query.value = it.ifBlank { "none" }
+        }
+    }
 }

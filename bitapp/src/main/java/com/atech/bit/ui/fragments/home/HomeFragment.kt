@@ -513,7 +513,8 @@ class HomeFragment :
         }) {
             when (it.itemId) {
                 R.id.menu_notice -> {
-                    navigateToNotice()
+//                    navigateToNotice()
+                    navigateToGlobalSearch()
                     true
                 }
 
@@ -521,6 +522,19 @@ class HomeFragment :
             }
         }
     }
+
+    private fun navigateToGlobalSearch() {
+        val action = NavGraphDirections.actionGlobalGlobalSearchFragment()
+        navigateToDestination(this, action, transition = {
+            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                duration = resources.getInteger(R.integer.duration_medium).toLong()
+            }
+        })
+    }
+
 
     private fun navigateToNotice() {
         val action = HomeFragmentDirections.actionHomeFragmentToNoticeFragment()
