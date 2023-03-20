@@ -258,4 +258,5 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_link">https://aiyu-ayaan.github.io/BIT-App-Data/privacy_polocy/privacy-policy</string>
     <string name="administration">Administration</string>
+    <string name="all">All</string>
 </resources>

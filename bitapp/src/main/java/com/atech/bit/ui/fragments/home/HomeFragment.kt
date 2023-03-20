@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.AttrRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -35,6 +36,7 @@ import androidx.room.withTransaction
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
+import com.atech.bit.ui.activity.main_activity.MainActivity
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
@@ -53,8 +55,6 @@ import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.bindData
 import com.atech.bit.utils.compareToCourseSem
-import com.atech.bit.utils.delegates.RestoreScroll
-import com.atech.bit.utils.delegates.RestoreScrollDelegate
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.launchWhenStarted
 import com.atech.bit.utils.openBugLink
@@ -108,6 +108,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
@@ -124,7 +125,8 @@ import javax.inject.Inject
 import kotlin.math.ceil
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreScrollDelegate() {
+class HomeFragment :
+    Fragment(R.layout.fragment_home)/* RestoreScroll by RestoreScrollDelegate()*/ {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
     private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
@@ -242,7 +244,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreS
         setLibraryWarningScreen()
         setAnnouncement()
         showAnnouncementDialog()
-        setLifecycleOwner(this, binding.scrollViewHome)
+//        setLifecycleOwner(this, binding.scrollViewHome)
     }
 
     private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
@@ -515,6 +517,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreS
             when (it.itemId) {
                 R.id.menu_notice -> {
                     navigateToNotice()
+//                    navigateToGlobalSearch()
                     true
                 }
 
@@ -522,6 +525,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreS
             }
         }
     }
+
 
     private fun navigateToNotice() {
         val action = HomeFragmentDirections.actionHomeFragmentToNoticeFragment()
@@ -536,23 +540,27 @@ class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreS
     }
 
     private fun setProfileImageView(imageView: ImageView) {
-        imageView.apply {
-            if (auth.currentUser != null) {
-                auth.currentUser?.photoUrl.toString().loadImageCircular(this)
-                getDataOFUser()
-                setOnClickListener {
-                    userModel?.let {
-                        navigateToProfile(getUid(auth)!!, it)
+        try {
+            imageView.apply {
+                if (auth.currentUser != null) {
+                    auth.currentUser?.photoUrl.toString().loadImageCircular(this)
+                    getDataOFUser()
+                    setOnClickListener {
+                        userModel?.let {
+                            navigateToProfile(getUid(auth)!!, it)
+                        }
+                    }
+                } else {
+                    imageView.setImageResource(
+                        R.drawable.ic_account
+                    )
+                    setOnClickListener {
+                        navigateToLogin()
                     }
                 }
-            } else {
-                imageView.setImageResource(
-                    R.drawable.ic_account
-                )
-                setOnClickListener {
-                    navigateToLogin()
-                }
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "setProfileImageView: ${e.message}")
         }
     }
 
@@ -1049,12 +1057,26 @@ class HomeFragment : Fragment(R.layout.fragment_home), RestoreScroll by RestoreS
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar, com.google.android.material.R.attr.colorSurface
             )
+            getScrollBarFromActivity(R.attr.bottomBar)
         }, {
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar, R.attr.bottomBar
             )
+            getScrollBarFromActivity(com.google.accompanist.themeadapter.material3.R.attr.colorSurface)
         })
+    }
 
+    private fun getScrollBarFromActivity(
+        @AttrRes color: Int
+    ) {
+        (activity as MainActivity).findViewById<MaterialCardView>(R.id.search_bar)
+            ?.setCardBackgroundColor(
+                MaterialColors.getColor(
+                    requireContext(),
+                    color,
+                    Color.WHITE
+                )
+            )
     }
 
     /**
