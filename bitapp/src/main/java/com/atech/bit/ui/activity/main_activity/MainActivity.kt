@@ -7,6 +7,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.transition.Fade
+import android.transition.Transition
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -63,6 +68,7 @@ import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.core.utils.changeStatusBarToolbarColorImageView
 import com.atech.core.utils.currentNavigationFragment
 import com.atech.core.utils.isDark
+import com.atech.core.utils.navigateToDestination
 import com.atech.core.utils.onDestinationChange
 import com.atech.core.utils.openCustomChromeTab
 import com.atech.core.utils.openLinks
@@ -132,7 +138,6 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     R.id.courseFragment,
                     R.id.attendanceFragment,
                     R.id.warningFragment,
-                    R.id.noticeFragment
                 ), drawer
             )
             setSupportActionBar(toolbar)
@@ -179,6 +184,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         getShowTimes()
         onBackPressDispatcher()
         setQuery()
+        setSearchBar()
     }
 
     private fun openReleaseNotes() {
@@ -283,7 +289,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
                 R.id.libraryFragment, R.id.universalDialogFragment,
                 R.id.addFromOnlineSyllabusBottomSheet, R.id.eventDetailFragment,
-                R.id.globalSearchFragment,R.id.noticeFragment
+                R.id.globalSearchFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )
@@ -296,14 +302,37 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 else -> binding.searchToolbar.isVisible = false
             }
 
-            if (destination.id == R.id.globalSearchFragment) binding.apply {
-                searchInput.isEnabled = true
-                searchInput.requestFocus()
-                when {
-                    communicator.openFirst -> showKeyboard()
+            when (destination.id) {
+                R.id.globalSearchFragment -> binding.apply {
+                    searchInput.isEnabled = true
+                    searchInput.requestFocus()
+                    when {
+                        communicator.openFirst -> showKeyboard()
+                    }
                 }
+
+                else -> binding.searchInput.isEnabled = false
             }
-            else binding.searchInput.isEnabled = false
+            when (destination.id) {
+                R.id.homeFragment -> {
+                    binding.searchBar.setCardBackgroundColor(
+                        MaterialColors.getColor(
+                            this,
+                            R.attr.bottomBar,
+                            Color.WHITE
+                        )
+                    )
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val transition: Transition = Fade()
+                        transition.duration = 600
+                        transition.addTarget(binding.searchBar)
+                        TransitionManager.beginDelayedTransition(binding.root, transition)
+                        binding.searchBar.isVisible = true
+                    }, 1000)
+                }
+
+                else -> binding.searchBar.isVisible = false
+            }
 
             when (destination.id) {
                 R.id.startUpFragment, R.id.noticeDetailFragment,
@@ -316,7 +345,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
                 R.id.addEditFragment, R.id.searchFragment,
-                R.id.globalSearchFragment -> {
+                R.id.globalSearchFragment, R.id.noticeFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -575,6 +604,27 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         }
         addTextChangeListener {
             communicator.query.value = it.ifBlank { "none" }
+        }
+    }
+
+    private fun setSearchBar() =
+        binding.searchBar.setOnClickListener {
+            navigateToGlobalSearch()
+        }
+
+    private fun navigateToGlobalSearch() {
+        val action = NavGraphDirections.actionGlobalGlobalSearchFragment()
+        getCurrentFragment().apply {
+            this?.let {
+                navigateToDestination(this, action, transition = {
+                    exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
+                        duration = resources.getInteger(R.integer.duration_medium).toLong()
+                    }
+                    reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
+                        duration = resources.getInteger(R.integer.duration_medium).toLong()
+                    }
+                })
+            }
         }
     }
 }

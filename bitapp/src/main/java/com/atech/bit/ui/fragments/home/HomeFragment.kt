@@ -19,6 +19,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.AttrRes
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
@@ -35,6 +36,7 @@ import androidx.room.withTransaction
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
+import com.atech.bit.ui.activity.main_activity.MainActivity
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.PreferenceManagerViewModel
 import com.atech.bit.ui.activity.main_activity.viewmodels.UserDataViewModel
@@ -106,6 +108,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.google.android.material.card.MaterialCardView
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialElevationScale
@@ -513,26 +516,14 @@ class HomeFragment :
         }) {
             when (it.itemId) {
                 R.id.menu_notice -> {
-//                    navigateToNotice()
-                    navigateToGlobalSearch()
+                    navigateToNotice()
+//                    navigateToGlobalSearch()
                     true
                 }
 
                 else -> false
             }
         }
-    }
-
-    private fun navigateToGlobalSearch() {
-        val action = NavGraphDirections.actionGlobalGlobalSearchFragment()
-        navigateToDestination(this, action, transition = {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true).apply {
-                duration = resources.getInteger(R.integer.duration_medium).toLong()
-            }
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false).apply {
-                duration = resources.getInteger(R.integer.duration_medium).toLong()
-            }
-        })
     }
 
 
@@ -568,7 +559,7 @@ class HomeFragment :
                     }
                 }
             }
-        } catch (e : Exception){
+        } catch (e: Exception) {
             Log.e(TAG, "setProfileImageView: ${e.message}")
         }
     }
@@ -1066,12 +1057,26 @@ class HomeFragment :
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar, com.google.android.material.R.attr.colorSurface
             )
+            getScrollBarFromActivity(R.attr.bottomBar)
         }, {
             activity?.changeStatusBarToolbarColor(
                 R.id.toolbar, R.attr.bottomBar
             )
+            getScrollBarFromActivity(com.google.accompanist.themeadapter.material3.R.attr.colorSurface)
         })
+    }
 
+    private fun getScrollBarFromActivity(
+        @AttrRes color: Int
+    ) {
+        (activity as MainActivity).findViewById<MaterialCardView>(R.id.search_bar)
+            ?.setCardBackgroundColor(
+                MaterialColors.getColor(
+                    requireContext(),
+                    color,
+                    Color.WHITE
+                )
+            )
     }
 
     /**
