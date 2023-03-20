@@ -42,7 +42,6 @@ class GlobalSearchViewModel @Inject constructor(
             query.combine(filterState) { query, content ->
                 Pair(query, content)
             }.collectLatest { (query, content) ->
-                Log.d("AAA", ": $content")
                 val list = mutableListOf<SearchItem>()
                 if (content.syllabus)
                     dao.getSyllabusSearchSync(query).map { syllabus ->
@@ -109,10 +108,26 @@ class GlobalSearchViewModel @Inject constructor(
     private fun CoroutineScope.holidayAsync(query: String) = async {
         apiRepository.getHolidayData(query, filter = { q, h ->
             val filterList = mutableListOf<Holiday>()
-            h.holidays.filter { it.day.contains(q, true) }.forEach { filterList.add(it) }
-            h.holidays.filter { it.date.lowercase().contains(q) }.forEach { filterList.add(it) }
-            h.holidays.filter { it.month.lowercase().contains(q) }.forEach { filterList.add(it) }
-            h.holidays.filter { it.occasion.lowercase().contains(q) }.forEach { filterList.add(it) }
+            h.holidays.filter { it.day.contains(q, true) }.toCollection(filterList)
+            h.holidays.filter { it.date.lowercase().contains(q) }
+                .let {
+                    it.filter { date ->
+                        !filterList.any { it.date == date.date }
+                    }.toCollection(filterList)
+                }
+
+            h.holidays.filter { it.month.lowercase().contains(q) }
+                .let {
+                    it.filter { month ->
+                        !filterList.any { it.month == month.month }
+                    }.toCollection(filterList)
+                }
+            h.holidays.filter { it.occasion.lowercase().contains(q) }
+                .let {
+                    it.filter { occasion ->
+                        !filterList.any { it.occasion == occasion.occasion }
+                    }.toCollection(filterList)
+                }
             filterList
         }).map { dataState ->
             when (dataState) {

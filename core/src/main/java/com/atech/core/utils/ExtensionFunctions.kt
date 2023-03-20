@@ -27,6 +27,7 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
@@ -114,38 +115,46 @@ fun String.openLinks(activity: Activity, @StringRes string: Int) {
  */
 fun String.loadImageCircular(
     parentView: View, view: ImageView, progressBar: ProgressBar, @DrawableRes errorImage: Int
-) = Glide.with(parentView).load(this).centerCrop().apply(RequestOptions().circleCrop())
-    .error(errorImage).transition(DrawableTransitionOptions.withCrossFade())
-    .listener(object : RequestListener<Drawable> {
-        override fun onLoadFailed(
-            e: GlideException?,
-            model: Any?,
-            target: com.bumptech.glide.request.target.Target<Drawable>?,
-            isFirstResource: Boolean
-        ): Boolean {
-            progressBar.visibility = View.GONE
-            return false
-        }
+) = try {
+    Glide.with(parentView).load(this).centerCrop().apply(RequestOptions().circleCrop())
+        .error(errorImage).transition(DrawableTransitionOptions.withCrossFade())
+        .listener(object : RequestListener<Drawable> {
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: com.bumptech.glide.request.target.Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                progressBar.visibility = View.GONE
+                return false
+            }
 
-        override fun onResourceReady(
-            resource: Drawable?,
-            model: Any?,
-            target: com.bumptech.glide.request.target.Target<Drawable>?,
-            dataSource: DataSource?,
-            isFirstResource: Boolean
-        ): Boolean {
-            progressBar.visibility = View.GONE
-            return false
-        }
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: com.bumptech.glide.request.target.Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+                progressBar.visibility = View.GONE
+                return false
+            }
 
-    }).timeout(10000).into(view)
+        }).timeout(10000).into(view)
+} catch (e: Exception) {
+    Log.d(TAG, "loadImageCircular: ${e.message}")
+}
 
 
 fun String.loadImageCircular(
     imageView: ImageView
 ) = imageView.apply {
-    Glide.with(context).load(this@loadImageCircular).apply(RequestOptions.circleCropTransform())
-        .into(imageView)
+    try {
+        Glide.with(context).load(this@loadImageCircular).apply(RequestOptions.circleCropTransform())
+            .into(imageView)
+    } catch (e: Exception) {
+        Log.d(TAG, "loadImageCircular: ${e.message}")
+    }
 }
 
 /**
@@ -192,31 +201,35 @@ fun String.loadImage(
 fun String.loadImageDefault(
     parentView: View, view: ImageView, progressBar: ProgressBar?, @DrawableRes errorImage: Int
 ) = this.apply {
-    Glide.with(parentView).load(this).error(errorImage)
-        .listener(object : RequestListener<Drawable> {
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                progressBar?.visibility = View.GONE
-                return false
-            }
+    try {
+        Glide.with(parentView).load(this).error(errorImage)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar?.visibility = View.GONE
+                    return false
+                }
 
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                progressBar?.visibility = View.GONE
+                override fun onResourceReady(
+                    resource: Drawable?,
+                    model: Any?,
+                    target: com.bumptech.glide.request.target.Target<Drawable>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    progressBar?.visibility = View.GONE
 
-                return false
-            }
+                    return false
+                }
 
-        }).timeout(6000).transition(DrawableTransitionOptions.withCrossFade()).into(view)
+            }).timeout(6000).transition(DrawableTransitionOptions.withCrossFade()).into(view)
+    } catch (e: Exception) {
+        Log.d(TAG, "loadImageDefault: ${e.message}")
+    }
 }
 
 fun String.loadImageBitMap(

@@ -8,12 +8,12 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,7 +30,14 @@ import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.Events
 import com.atech.core.data.ui.notice.SendNotice3
-import com.atech.core.utils.*
+import com.atech.core.utils.DataState
+import com.atech.core.utils.MAX_SPAWN
+import com.atech.core.utils.NoItemFoundException
+import com.atech.core.utils.REQUEST_EVENT_FROM_HOME
+import com.atech.core.utils.changeStatusBarToolbarColor
+import com.atech.core.utils.loadImageCircular
+import com.atech.core.utils.onScrollColorChange
+import com.atech.core.utils.openCustomChromeTab
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -56,14 +63,16 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     private val connectionManager: ConnectionManagerViewModel by activityViewModels()
     private lateinit var event: Events
 
+    private var progressBar: ProgressBar? = null
+
     @Inject
     lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arg.request == REQUEST_EVENT_FROM_HOME) {
-            enterTransition = MaterialSharedAxis(MaterialSharedAxis.X,  true)
-            returnTransition = MaterialSharedAxis(MaterialSharedAxis.X,  false)
+            enterTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
+            returnTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
         } else sharedElementEnterTransition = MaterialContainerTransform().apply {
             drawingViewId = R.id.fragment
             duration = resources.getInteger(R.integer.duration_medium).toLong()
@@ -77,6 +86,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         binding.root.transitionName = viewModel.path
         setIsConnected()
         getEvent(viewModel.path)
+        progressBar = binding.progressBarThumbnail
         menuHost()
         detectScroll()
     }
@@ -90,6 +100,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                 DataState.Empty -> {
 
                 }
+
                 is DataState.Error -> {
                     if (fullEvent.event.exception is NoItemFoundException) {
                         binding.imageViewNoData.isVisible = true
@@ -103,9 +114,11 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                         ).show()
                     }
                 }
+
                 DataState.Loading -> {
 
                 }
+
                 is DataState.Success -> {
                     event = fullEvent.event.data
                     setView(fullEvent.event.data)
@@ -128,9 +141,11 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                         ).show()
                     }
                 }
+
                 DataState.Loading -> {
 
                 }
+
                 is DataState.Success -> {
                     hasAttach = fullEvent.attach.data.isNotEmpty()
                     binding.textImage.isVisible = hasAttach
@@ -210,7 +225,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                     target: com.bumptech.glide.request.target.Target<Drawable>?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    binding.progressBarThumbnail.visibility = View.GONE
+                    progressBar?.visibility = View.GONE
                     return false
                 }
 
@@ -221,7 +236,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                     dataSource: DataSource?,
                     isFirstResource: Boolean
                 ): Boolean {
-                    binding.progressBarThumbnail.visibility = View.GONE
+                    progressBar?.visibility = View.GONE
                     return false
                 }
 
@@ -230,8 +245,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
     }
 
     private fun navigateToViewVideo(videoLink: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewVideoFragment(videoLink)
         findNavController().navigate(action)
     }
@@ -244,6 +259,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
                     shareNotice()
                     true
                 }
+
                 else -> false
             }
         }
@@ -306,8 +322,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
 
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }
@@ -317,4 +333,9 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         val event: DataState<Events>,
         val attach: DataState<List<Attach>>
     )
+
+    override fun onDestroy() {
+        super.onDestroy()
+        progressBar = null
+    }
 }

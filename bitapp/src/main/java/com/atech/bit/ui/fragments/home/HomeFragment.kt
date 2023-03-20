@@ -549,23 +549,27 @@ class HomeFragment :
     }
 
     private fun setProfileImageView(imageView: ImageView) {
-        imageView.apply {
-            if (auth.currentUser != null) {
-                auth.currentUser?.photoUrl.toString().loadImageCircular(this)
-                getDataOFUser()
-                setOnClickListener {
-                    userModel?.let {
-                        navigateToProfile(getUid(auth)!!, it)
+        try {
+            imageView.apply {
+                if (auth.currentUser != null) {
+                    auth.currentUser?.photoUrl.toString().loadImageCircular(this)
+                    getDataOFUser()
+                    setOnClickListener {
+                        userModel?.let {
+                            navigateToProfile(getUid(auth)!!, it)
+                        }
+                    }
+                } else {
+                    imageView.setImageResource(
+                        R.drawable.ic_account
+                    )
+                    setOnClickListener {
+                        navigateToLogin()
                     }
                 }
-            } else {
-                imageView.setImageResource(
-                    R.drawable.ic_account
-                )
-                setOnClickListener {
-                    navigateToLogin()
-                }
             }
+        } catch (e : Exception){
+            Log.e(TAG, "setProfileImageView: ${e.message}")
         }
     }
 

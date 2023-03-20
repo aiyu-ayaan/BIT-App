@@ -283,7 +283,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
                 R.id.libraryFragment, R.id.universalDialogFragment,
                 R.id.addFromOnlineSyllabusBottomSheet, R.id.eventDetailFragment,
-                R.id.globalSearchFragment
+                R.id.globalSearchFragment,R.id.noticeFragment
                 -> changeBottomNav(
                     R.attr.bottomBar
                 )
@@ -315,7 +315,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment,
                 R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
                 R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
-                R.id.addEditFragment, R.id.noticeFragment, R.id.searchFragment,
+                R.id.addEditFragment, R.id.searchFragment,
                 R.id.globalSearchFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
