@@ -44,6 +44,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
 import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
 import com.atech.bit.utils.DrawerLocker
+import com.atech.bit.utils.SearchViewVisible
 import com.atech.bit.utils.addTextChangeListener
 import com.atech.bit.utils.getVersion
 import com.atech.bit.utils.isBeta
@@ -94,7 +95,7 @@ import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), DrawerLocker {
+class MainActivity : AppCompatActivity(), DrawerLocker, SearchViewVisible {
 
     private val binding: ActivityMainBinding by viewBinding()
     private lateinit var navController: NavController
@@ -146,7 +147,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 if (it.itemId == R.id.homeFragment) navController.popBackStack(
                     R.id.homeFragment, false
                 )
-                else NavigationUI.onNavDestinationSelected(it, navController)
+                else NavigationUI.onNavDestinationSelected(it, navController).also {
+                    setSearchViewVisible(false)
+                }
                 true
             }
             bottomNavigation.setOnItemReselectedListener { }
@@ -253,17 +256,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
             }
 
             when (destination.id) {
-                R.id.semChooseFragment, R.id.detailDevFragment,
-                R.id.noticeDetailFragment, R.id.eventDetailFragment -> changeStatusBarToolbarColor(
+                R.id.semChooseFragment, R.id.detailDevFragment, R.id.noticeDetailFragment, R.id.eventDetailFragment -> changeStatusBarToolbarColor(
                     R.id.toolbar, R.attr.bottomBar
                 )
 
-                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet,
-                R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet,
-                R.id.calenderViewBottomSheet, R.id.attendanceMenu,
-                R.id.chooseImageBottomSheet, R.id.archiveBottomSheet,
-                R.id.addFromOnlineSyllabusBottomSheet
-                -> changeStatusBarToolbarColor(
+                R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.chooseSemBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.attendanceMenu, R.id.chooseImageBottomSheet, R.id.archiveBottomSheet, R.id.addFromOnlineSyllabusBottomSheet -> changeStatusBarToolbarColor(
                     R.id.toolbar, R.attr.bottomSheetBackground
                 ).also {
                     setStatusBarUiTheme(this, !this.isDark())
@@ -282,15 +279,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 }
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.noticeDetailFragment, R.id.courseFragment, R.id.attendanceFragment,
-                R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.addEditSubjectBottomSheet,
-                R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet,
-                R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu,
-                R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment,
-                R.id.libraryFragment, R.id.universalDialogFragment,
-                R.id.addFromOnlineSyllabusBottomSheet, R.id.eventDetailFragment,
-                R.id.globalSearchFragment
-                -> changeBottomNav(
+                R.id.homeFragment, R.id.noticeDetailFragment, R.id.courseFragment, R.id.attendanceFragment, R.id.chooseImageBottomSheet, R.id.chooseSemBottomSheet, R.id.addEditSubjectBottomSheet, R.id.listAllBottomSheet, R.id.editSubjectBottomSheet, R.id.calenderViewBottomSheet, R.id.themeChangeDialog, R.id.changePercentageDialog, R.id.attendanceMenu, R.id.archiveBottomSheet, R.id.profileFragment, R.id.logInFragment, R.id.libraryFragment, R.id.universalDialogFragment, R.id.addFromOnlineSyllabusBottomSheet, R.id.eventDetailFragment, R.id.globalSearchFragment -> changeBottomNav(
                     R.attr.bottomBar
                 )
 
@@ -314,38 +303,12 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 else -> binding.searchInput.isEnabled = false
             }
             when (destination.id) {
-                R.id.homeFragment -> {
-                    binding.searchBar.setCardBackgroundColor(
-                        MaterialColors.getColor(
-                            this,
-                            R.attr.bottomBar,
-                            Color.WHITE
-                        )
-                    )
-                    Handler(Looper.getMainLooper()).postDelayed({
-                        val transition: Transition = Fade()
-                        transition.duration = 600
-                        transition.addTarget(binding.searchBar)
-                        TransitionManager.beginDelayedTransition(binding.root, transition)
-                        binding.searchBar.isVisible = true
-                    }, 1000)
-                }
-
-                else -> binding.searchBar.isVisible = false
+                R.id.homeFragment, R.id.profileFragment -> setSearchViewVisible(true)
+                else -> setSearchViewVisible(false)
             }
 
             when (destination.id) {
-                R.id.startUpFragment, R.id.noticeDetailFragment,
-                R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment,
-                R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment,
-                R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment,
-                R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment,
-                R.id.cgpaCalculatorFragment, R.id.administrationFragment,
-                R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment,
-                R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog,
-                R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment,
-                R.id.addEditFragment, R.id.searchFragment,
-                R.id.globalSearchFragment, R.id.noticeFragment -> {
+                R.id.startUpFragment, R.id.noticeDetailFragment, R.id.chooseImageBottomSheet, R.id.subjectHandlerFragment, R.id.semChooseFragment, R.id.holidayFragment, R.id.aboutUsFragment, R.id.detailDevFragment, R.id.acknowledgementFragment, R.id.societyFragment, R.id.eventSocietyDescriptionFragment, R.id.eventFragment, R.id.eventDetailFragment, R.id.cgpaCalculatorFragment, R.id.administrationFragment, R.id.viewVideoFragment, R.id.loadingDataFragment, R.id.viewSyllabusFragment, R.id.attendanceFragment, R.id.listAllBottomSheet, R.id.changePercentageDialog, R.id.addEditSubjectBottomSheet, R.id.attendanceMenu, R.id.libraryFragment, R.id.addEditFragment, R.id.searchFragment, R.id.globalSearchFragment, R.id.noticeFragment -> {
                     hideBottomAppBar()
                     binding.toolbar.visibility = View.VISIBLE
                 }
@@ -360,14 +323,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                 }
             }
             val u = pref.getBoolean(KEY_REACH_TO_HOME, false)
-            if (destination.id == R.id.startUpFragment
-                || (destination.id == R.id.chooseSemBottomSheet && !u)
-                || destination.id == R.id.viewImageFragment
-                || destination.id == R.id.warningFragment
-                || destination.id == R.id.viewVideoFragment
-                || destination.id == R.id.logInFragment
-                || destination.id == R.id.loadingDataFragment
-            ) {
+            if (destination.id == R.id.startUpFragment || (destination.id == R.id.chooseSemBottomSheet && !u) || destination.id == R.id.viewImageFragment || destination.id == R.id.warningFragment || destination.id == R.id.viewVideoFragment || destination.id == R.id.logInFragment || destination.id == R.id.loadingDataFragment) {
                 binding.toolbar.visibility = View.GONE
                 hideBottomAppBar()
             }
@@ -597,8 +553,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 communicator.query.collect {
-                    if (it == "none")
-                        this@apply.setText("")
+                    if (it == "none") this@apply.setText("")
                 }
             }
         }
@@ -607,10 +562,9 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
         }
     }
 
-    private fun setSearchBar() =
-        binding.searchBar.setOnClickListener {
-            navigateToGlobalSearch()
-        }
+    private fun setSearchBar() = binding.searchBar.setOnClickListener {
+        navigateToGlobalSearch()
+    }
 
     private fun navigateToGlobalSearch() {
         val action = NavGraphDirections.actionGlobalGlobalSearchFragment()
@@ -625,6 +579,33 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     }
                 })
             }
+        }
+    }
+
+    private val mHandler = Handler(Looper.getMainLooper())
+    private var mRunnable: Runnable? = null
+    override fun setSearchViewVisible(visible: Boolean) {
+        if (visible) {
+            binding.searchBar.setCardBackgroundColor(
+                MaterialColors.getColor(
+                    this, R.attr.bottomBar, Color.WHITE
+                )
+            )
+            Runnable {
+                val transition: Transition = Fade()
+                transition.duration = 600
+                transition.addTarget(binding.searchBar)
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+                binding.searchBar.isVisible = true
+            }.let {
+                mRunnable = it
+                mHandler.postDelayed(it, 1000)
+            }
+        } else {
+            mRunnable?.let {
+                mHandler.removeCallbacks(it)
+            }
+            binding.searchBar.isVisible = false
         }
     }
 }

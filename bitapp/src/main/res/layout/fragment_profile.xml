@@ -129,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/grid_1"
-            android:hint="@string/your_sgpa"
+            android:hint="@string/current_cgpa"
             app:layout_constraintTop_toBottomOf="@+id/outlined_text_field_current_sem"
             tools:layout_editor_absoluteX="16dp">
 
@@ -185,6 +185,7 @@
             android:id="@+id/text_view_delete_account"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
             android:paddingVertical="@dimen/grid_1"
             android:text="@string/delete_my_account"
             android:textAppearance="?attr/textAppearanceCaption"

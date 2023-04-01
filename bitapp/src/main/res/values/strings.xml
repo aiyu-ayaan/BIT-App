@@ -165,7 +165,7 @@
     <string name="enter_sem">Enter Your SGPA :-</string>
     <string name="cgpa_calculator">CGPA Calculator</string>
     <string name="calculate">Calculate</string>
-    <string name="over_all_cgpa">Overall CGPA </string>
+    <string name="over_all_cgpa">Overall CGPA</string>
     <string name="disclaimer_cgpa">* This will automatically save your CGPA.\nTo Clear your CGPA, tap the clear option in option menu.</string>
     <string name="clear">Clear</string>
     <string name="cgpa_calculator_clear_message">Saved CGPA is cleared!!</string>
@@ -259,4 +259,5 @@
     <string name="privacy_policy_link">https://aiyu-ayaan.github.io/BIT-App-Data/privacy_polocy/privacy-policy</string>
     <string name="administration">Administration</string>
     <string name="all">All</string>
+    <string name="current_cgpa">Current CGPA</string>
 </resources>
