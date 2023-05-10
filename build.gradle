@@ -7,7 +7,7 @@ buildscript {
         playServicesAds = '21.5.0'
         firebaseFireStoreVersion = '24.4.5'
         googleServiceVersion = '4.3.10'
-        coroutines = '1.6.4'
+        coroutines = '1.7.0'
         lifecycle_version = '2.6.1'
         fragment_version = '1.5.6'
         nav_version = "2.5.3"
