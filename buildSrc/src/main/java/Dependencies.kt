@@ -20,8 +20,8 @@ object AndroidSdk {
 
 object App {
     const val id = "com.atech.bit"
-    const val versionCode = 57
-    const val versionName = "4.1.1 Patch 30"
+    const val versionCode = 58
+    const val versionName = "4.1.1 Patch 31"
 }
 
 object JavaVersionCompatibility {
