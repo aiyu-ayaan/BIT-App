@@ -1,6 +1,5 @@
 package com.atech.bit.ui.fragments.home
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -51,9 +51,11 @@ import com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment
 import com.atech.bit.utils.CardViewHighlightContent
 import com.atech.bit.utils.Encryption.decryptText
 import com.atech.bit.utils.Encryption.getCryptore
+import com.atech.bit.utils.Permissions
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.bindData
+import com.atech.bit.utils.checkPerm
 import com.atech.bit.utils.compareToCourseSem
 import com.atech.bit.utils.getUid
 import com.atech.bit.utils.launchWhenStarted
@@ -82,7 +84,6 @@ import com.atech.core.utils.KEY_APP_OPEN_MINIMUM_TIME
 import com.atech.core.utils.KEY_COURSE_OPEN_FIRST_TIME
 import com.atech.core.utils.KEY_CURRENT_SHOW_TIME
 import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
-import com.atech.core.utils.KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW
 import com.atech.core.utils.KEY_IS_USER_LOG_IN
 import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_SHOW_TIMES
@@ -244,24 +245,10 @@ class HomeFragment :
         setOnlineSyllabusView()
         switchClick()
         setLibraryWarningScreen()
-        setAnnouncement()
         showAnnouncementDialog()
 //        setLifecycleOwner(this, binding.scrollViewHome)
     }
 
-    private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
-        val times = pref.getInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, 1)
-        root.isVisible = times < MAX_TIME_TO_SHOW_CARD
-        if (times < MAX_TIME_TO_SHOW_CARD) {
-            CardViewHighlightContent(
-                "Notice Section",
-                "Notice Section is now on top of the appbar",
-                R.drawable.ic_notice
-            ).also {
-                bindData(it)
-            }
-        }
-    }
 
     private fun setLibraryWarningScreen() = binding.layoutHomeLibrary.apply {
         val homeLibraryAdapter = HomeLibraryAdapter(
@@ -392,25 +379,39 @@ class HomeFragment :
                 if (it) {
                     Log.d(TAG, "checkNotificationPermission: Granted")
                 } else {
-                    Snackbar.make(
-                        binding.root,
-                        "Please grant Notification permission from App Settings",
-                        Snackbar.LENGTH_LONG
-                    ).show()
+                    setAnnouncement()
                 }
             }
     }
 
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private fun setAnnouncement() = binding.cardViewAnnouncement.apply {
+        checkPerm(this@HomeFragment, Permissions.POST_NOTIFICATION.value) {
+            root.isVisible = false
+        } ?: run {
+            root.isVisible = true
+            CardViewHighlightContent(
+                "Notification is disabled",
+                "Allow Notification to get latest notice and announcement",
+                R.drawable.ic_notice
+            ).also {
+                bindData(it)
+            }
+            root.setOnClickListener {
+                val intent = Intent(ACTION_APPLICATION_DETAILS_SETTINGS)
+                val uri = Uri.fromParts("package", requireContext().packageName, null)
+                intent.data = uri
+                startActivity(intent)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun requestPermission() {
-        if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.POST_NOTIFICATIONS,
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
+        checkPerm(this, Permissions.POST_NOTIFICATION.value) {
             Log.d(TAG, "requestPermission: Granted")
-        } else {
-            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        } ?: run {
+            requestPermissionLauncher.launch(Permissions.POST_NOTIFICATION.value)
         }
     }
 

@@ -8,7 +8,24 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
-import com.atech.core.utils.*
+import com.atech.core.utils.AppTheme
+import com.atech.core.utils.CHANNEL_APP
+import com.atech.core.utils.CHANNEL_DES
+import com.atech.core.utils.CHANNEL_EVENT
+import com.atech.core.utils.CHANNEL_ID_APP
+import com.atech.core.utils.CHANNEL_ID_EVENT
+import com.atech.core.utils.CHANNEL_ID_NOTICE
+import com.atech.core.utils.CHANNEL_ID_UPDATE
+import com.atech.core.utils.CHANNEL_NOTICE
+import com.atech.core.utils.CHANNEL_UPDATE
+import com.atech.core.utils.KEY_APP_OPEN_MINIMUM_TIME
+import com.atech.core.utils.KEY_APP_THEME
+import com.atech.core.utils.KEY_SYLLABUS_VISIBILITY
+import com.atech.core.utils.KEY_SYLLABUS_VISIBILITY_PREF_CONFIG
+import com.atech.core.utils.MAX_APP_OPEN_TIME
+import com.atech.core.utils.RemoteConfigUtil
+import com.atech.core.utils.TAG_REMOTE
+import com.atech.core.utils.setAppTheme
 import com.google.android.material.color.DynamicColors
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
@@ -44,7 +61,6 @@ class BITApp : Application() {
         }
         setUpFcm()
         setButtonVisibility()
-        setPosterVisibility()
         setMaxTimeOpen()
     }
 
@@ -54,11 +70,6 @@ class BITApp : Application() {
             pref.edit().putInt(KEY_APP_OPEN_MINIMUM_TIME, currentTime + 1).apply()
     }
 
-    private fun setPosterVisibility() {
-        val times = pref.getInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, 1)
-        pref.edit().putInt(KEY_HOME_NOTICE_ANNOUNCEMENT_CARD_VIEW, times + 1)
-            .apply()
-    }
 
     private fun setButtonVisibility() {
         remoteConfigUtil.fetchData({

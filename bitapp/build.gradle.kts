@@ -78,11 +78,11 @@ android {
         kotlinCompilerExtensionVersion = "1.4.7"
     }
 
-//    tasks.withType(KotlinCompile).configureEach {
-//        kotlinOptions {
-//            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-//        }
-//    }
+    tasks.withType().configureEach {
+        kotlinOptions {
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        }
+    }
 
 }
 
