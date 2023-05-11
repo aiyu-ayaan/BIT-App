@@ -35,7 +35,7 @@ object Versions {
     const val playstorecore = "1.8.1"
     const val material = "1.9.0-beta01"
     const val playServicesAuthVersion = "20.5.0"
-    const val playServicesAds = "21.5.0"
+    const val playServicesAds = "22.0.0"
     const val firebaseFireStoreVersion = "24.6.0"
     const val googleServiceVersion = "4.3.15"
     const val coroutines = "1.7.0"
@@ -73,6 +73,7 @@ object Deps {
     const val appcompat = "androidx.appcompat:appcompat:1.6.1"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val playstorecore = "com.google.android.play:core-ktx:${Versions.playstorecore}"
+    const val ads = "com.google.android.gms:play-services-ads:${Versions.playServicesAds}"
 
     const val composeActivity = "androidx.activity:activity-compose:1.7.1"
     const val composeboM = "androidx.compose:compose-bom:2023.05.00"
@@ -106,7 +107,7 @@ object Deps {
 
     const val hilt = "com.google.dagger:hilt-android:${Versions.hilt_version}"
     const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.hilt_version}"
-    const val hiltCompose ="androidx.hilt:hilt-navigation-compose:${Versions.hilt_version_compose}"
+    const val hiltCompose = "androidx.hilt:hilt-navigation-compose:${Versions.hilt_version_compose}"
 
     const val webkit = "androidx.webkit:webkit:${Versions.webKit_version}"
 

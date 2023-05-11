@@ -70,6 +70,7 @@ dependencies {
     implementation(Deps.appcompat)
     implementation(Deps.material)
     implementation(Deps.playstorecore)
+    implementation(Deps.ads)
 
     implementation(platform(Deps.firebaseBoM))
     implementation(Deps.firebaseAnalytics)
