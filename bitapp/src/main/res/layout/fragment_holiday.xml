@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nested_view_holiday"
@@ -16,6 +17,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_below="@id/container_toggle_button"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-6172727030505608/4734602419" />
+
         <LinearLayout
             android:id="@+id/container_toggle_button"
             android:layout_width="match_parent"
@@ -65,6 +76,7 @@
             android:layout_width="match_parent"
             android:layout_below="@id/container_toggle_button"
             android:layout_height="wrap_content"
+            android:layout_below="@id/adView"
             android:indeterminate="true"
             android:visibility="gone"
             app:trackColor="?attr/colorSurface"

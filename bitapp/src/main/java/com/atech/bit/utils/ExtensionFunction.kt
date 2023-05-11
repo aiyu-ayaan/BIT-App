@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
@@ -12,6 +13,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import android.widget.LinearLayout
+import androidx.annotation.AttrRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.core.content.FileProvider
@@ -30,6 +32,9 @@ import com.atech.core.utils.handler
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.Dispatchers
@@ -336,14 +341,10 @@ fun Activity.openShareImageDeepLink(
 //        .show()
 //}
 
-/**
- * Extension function to load adds
- * @since 4.0.3
- */
-//fun Context.loadAdds(adsView: AdView) = this.apply {
-//    val adRequest = AdRequest.Builder().build()
-//    adsView.loadAd(adRequest)
-//}
+fun Context.loadAdds(adsView: AdView) = this.apply {
+    val adRequest = AdRequest.Builder().build()
+    adsView.loadAd(adRequest)
+}
 
 fun List<Holiday>?.sortBySno(): List<Holiday> {
     return this?.sortedBy { it.sno } ?: emptyList()

@@ -17,10 +17,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            ads:adSize="BANNER"
+            ads:adUnitId="ca-app-pub-6172727030505608/8130379370" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/material_card_view_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/adView"
             app:cardBackgroundColor="?attr/colorSurface"
             app:strokeColor="?attr/colorSurface">
 

@@ -34,6 +34,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-6172727030505608/3976092502"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
             <FrameLayout
                 android:id="@+id/load_subject"
                 android:layout_width="match_parent"

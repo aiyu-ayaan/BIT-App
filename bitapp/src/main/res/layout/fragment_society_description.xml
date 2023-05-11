@@ -7,6 +7,7 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -24,11 +25,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/progress_bar_loading"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-6172727030505608/8130379370" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/top_layout"
                 android:layout_width="match_parent"
-                android:layout_height="250dp">
+                android:layout_height="250dp"
+                android:layout_below="@id/adView">
 
                 <ImageView
                     android:id="@+id/society_image"

@@ -27,6 +27,7 @@ import com.atech.bit.ui.fragments.course.sem_choose.adapters.SyllabusOnlineAdapt
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.compareToCourseSem
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.setEnterShareAxisTransition
 import com.atech.core.api.syllabus.Semester
@@ -112,6 +113,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         setUpMenu()
         switchClick()
         getOnlineSyllabus()
+        setAds()
         setSyllabusEnableModel()
         setSemButtons()
     }
@@ -126,6 +128,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             )
         findNavController().navigate(action)
     }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
+    }
+
 
     private fun offlineDataSource() {
         courseTheoryAdapter = SubjectAdapter { syllabusModel, view ->
@@ -217,11 +224,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             )
         }
         prefManagerViewModel.preferencesFlow.observe(viewLifecycleOwner) {
-            val request = viewModel.request?.let { it1 -> setSem(it1, it.semSyllabus) }.toString()
+            val request =  viewModel.request?.let { it1 -> setSem(it1, it.semSyllabus) }.toString()
             viewModel.sem.value = request
             courseSem = "${viewModel.request}${it.semSyllabus}".lowercase()
             setSource(courseSem)
-            buttonColorChange(request.replace("[M,B][A-C]+".toRegex(), ""), binding)
+            buttonColorChange(request.replace("[M,B][A-C]+".toRegex(),""), binding)
         }
     }
 

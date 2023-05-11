@@ -10,11 +10,21 @@
     android:padding="@dimen/grid_1"
     tools:context="com.atech.bit.ui.fragments.course.view_syllabus.ViewSyllabusFragment">
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewSyllabusLabContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/grid_0_5"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-6172727030505608/8130379370" />
 
     <com.mukesh.MarkdownView
         android:id="@+id/markdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/adViewSyllabusLabContent"
         android:layout_marginTop="@dimen/grid_1"
         android:fillViewport="true"
         android:scrollbars="vertical" />

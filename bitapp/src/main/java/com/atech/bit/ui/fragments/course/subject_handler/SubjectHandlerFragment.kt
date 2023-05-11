@@ -12,6 +12,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSubjectHandlerBinding
 import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.launchWhenStarted
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.room.syllabus.SyllabusDao
 import com.atech.core.data.room.syllabus.SyllabusModel
@@ -57,6 +58,11 @@ class SubjectHandlerFragment : Fragment(R.layout.fragment_subject_handler) {
 
         detectScroll()
         addingMenuHost()
+        setAds()
+    }
+
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
     }
 
 
