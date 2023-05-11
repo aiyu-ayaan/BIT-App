@@ -289,7 +289,7 @@ fun String.applyImageUrl(builder: NotificationCompat.Builder) = runBlocking(Disp
     }?.let { bitmap ->
         builder.setLargeIcon(bitmap)
         builder.setStyle(
-            NotificationCompat.BigPictureStyle().bigPicture(bitmap).bigLargeIcon(null)
+            NotificationCompat.BigPictureStyle().bigPicture(bitmap)
         )
     }
 }
