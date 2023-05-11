@@ -78,11 +78,11 @@ android {
         kotlinCompilerExtensionVersion = "1.4.7"
     }
 
-//    tasks.withType(KotlinCompile).configureEach {
-//        kotlinOptions {
-//            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-//        }
-//    }
+    tasks.withType().configureEach {
+        kotlinOptions {
+            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        }
+    }
 
 }
 
@@ -96,6 +96,7 @@ dependencies {
     implementation(Deps.appcompat)
     implementation(Deps.material)
     implementation(Deps.playstorecore)
+    implementation(Deps.ads)
 
     implementation(Deps.composeActivity)
     implementation(platform(Deps.composeboM))
@@ -110,14 +111,14 @@ dependencies {
     implementation(Deps.composeAdapter)
 
     implementation(platform(Deps.firebaseBoM))
-    implementation(Deps.firebaseAnalytics)
+    releaseImplementation(Deps.firebaseAnalytics)
+    releaseImplementation(Deps.firebaseCrashlytics)
     implementation(Deps.firebaseFirestore)
     implementation(Deps.firebaseMessaging)
     implementation(Deps.firebaseConfig)
     implementation(Deps.firebaseAuth) {
         exclude(module = "play-services-safetynet")
     }
-    releaseImplementation(Deps.firebaseCrashlytics)
 
     implementation(Deps.playStoreAuth)
 

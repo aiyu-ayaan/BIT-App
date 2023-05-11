@@ -37,7 +37,7 @@
                     android:layout_height="@dimen/grid_6"
                     android:layout_marginEnd="@dimen/grid_1"
                     app:cardBackgroundColor="?attr/bottomBar"
-                    app:cardCornerRadius="@dimen/grid_6">
+                    app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -60,8 +60,8 @@
                             android:ellipsize="end"
                             android:maxLines="1"
                             android:text="@string/searchForSubject"
-                            android:textColor="@color/caption_color"
-                            android:textAppearance="?attr/textAppearanceBody1" />
+                            android:textAppearance="?attr/textAppearanceBody1"
+                            android:textColor="@color/caption_color" />
 
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

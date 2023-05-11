@@ -6,6 +6,7 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,9 +15,11 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentEventBinding
 import com.atech.bit.utils.launchWhenStarted
+import com.atech.core.utils.MainStateEvent
+import com.atech.bit.utils.loadAdds
+
 import com.atech.core.data.ui.events.Events
 import com.atech.core.utils.DataState
-import com.atech.core.utils.MainStateEvent
 import com.atech.core.utils.changeStatusBarToolbarColor
 import com.atech.core.utils.onScrollColorChange
 import com.atech.core.utils.showSnackBar
@@ -37,8 +40,8 @@ class EventFragment : Fragment(R.layout.fragment_event) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,24 +71,23 @@ class EventFragment : Fragment(R.layout.fragment_event) {
                     binding.empty.visibility = View.GONE
                     eventAdapter.submitList(dateState.data)
                 }
-
                 DataState.Empty -> {
                     binding.empty.visibility = View.VISIBLE
                 }
-
                 is DataState.Error -> {
                     binding.empty.visibility = View.VISIBLE
                     binding.root.showSnackBar(
                         "${dateState.exception.message}", -1
                     )
                 }
-
                 DataState.Loading -> {
 
                 }
             }
         }
         detectScroll()
+
+        requireContext().loadAdds(binding.adView)
     }
 
     private fun navigateToEventDetail(event: Events, view: View) {
@@ -116,8 +118,8 @@ class EventFragment : Fragment(R.layout.fragment_event) {
     }
 
     private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
         val action = NavGraphDirections.actionGlobalViewImageFragment(link)
         findNavController().navigate(action)
     }

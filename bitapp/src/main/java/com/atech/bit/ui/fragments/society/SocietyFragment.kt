@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.utils.loadAdds
 import com.atech.core.api.society.Society
 import com.atech.core.utils.DataState
 import com.atech.core.utils.changeStatusBarToolbarColor
@@ -102,6 +103,9 @@ class SocietyFragment : Fragment(R.layout.fragment_society) {
             }
         }
         detectScroll()
+
+        requireContext().loadAdds(binding.adView)
+
     }
 
 

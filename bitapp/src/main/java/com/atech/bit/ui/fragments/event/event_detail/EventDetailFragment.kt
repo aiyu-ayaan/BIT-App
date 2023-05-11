@@ -26,6 +26,7 @@ import com.atech.bit.utils.addMenuHost
 import com.atech.bit.utils.getDate
 import com.atech.bit.utils.launchWhenCreated
 import com.atech.bit.utils.launchWhenStarted
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.openShareDeepLink
 import com.atech.core.data.network.notice.Attach
 import com.atech.core.data.ui.events.Events
@@ -89,6 +90,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         progressBar = binding.progressBarThumbnail
         menuHost()
         detectScroll()
+
+        requireContext().loadAdds(binding.adView)
     }
 
 

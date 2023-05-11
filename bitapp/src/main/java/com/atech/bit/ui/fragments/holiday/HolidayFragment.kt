@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHolidayBinding
 import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
+import com.atech.bit.utils.loadAdds
 import com.atech.bit.utils.sortBySno
 import com.atech.core.utils.CURRENT_YEAR
 import com.atech.core.utils.DataState
@@ -82,6 +83,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
         }
         detectScroll()
 
+        setAds()
         getData()
     }
 
@@ -111,6 +113,9 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
     }
 
 
+    private fun setAds() {
+        requireContext().loadAdds(binding.adView)
+    }
 
 
     private fun setTitle(toolbar: Toolbar?) {
