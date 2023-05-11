@@ -43,7 +43,7 @@ gradle :bitapp:assembleInternalBetaDebug
 Here are a few contribution tips:
 - You can use either Java or, preferably, Kotlin.
 - Make sure your code is logical and well formatted. If using Kotlin, see [“Coding conventions” in the Kotlin documentation](https://kotlinlang.org/docs/coding-conventions.html).
-- Set `development` as the base branch for pull requests.
+- Make sure your code compiles by running the app.
 
 ## Quick Links
 - [WEBSITE](https://bitbyaiyu.github.io/) `&` [REPO LINK](https://github.com/bitbyaiyu/bitbyaiyu.github.io)

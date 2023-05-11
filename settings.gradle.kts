@@ -10,10 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' }
+        maven("https://jitpack.io")
     }
 }
 rootProject.name = "BIT App"
-include ':bitapp'
-include ':core'
-include ':syllabus'
+include(":core")
+include(":syllabus")
+include(":bitapp")
