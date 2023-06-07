@@ -12,7 +12,7 @@ import retrofit2.http.Path
 interface BITApiClient {
 
     companion object {
-        const val BASE_URL = "https://aiyu-ayaan.github.io/BIT-App-Data/data/"
+        const val BASE_URL = "https://bit-lalpur-app.github.io/BIT-App-Data/data/"
     }
 
 

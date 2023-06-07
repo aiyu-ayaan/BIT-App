@@ -907,10 +907,12 @@ class HomeFragment :
                 DataState.Empty -> {}
                 is DataState.Error -> {
                     if (dataState.exception is HttpException) {
+                        layoutChanges(false).also {
+                            binding.fragmentHomeExt.switchOldNew.isVisible = false
+                        }
                         binding.root.showSnackBar(
                             "${dataState.exception.message}", Snackbar.LENGTH_SHORT, "Report"
                         ) {
-//                            setViewOfOnlineSyllabusExt(false)
                             requireActivity().openBugLink(
                                 com.atech.core.R.string.bug_repost,
                                 "${this.javaClass.simpleName}.class",
@@ -923,6 +925,7 @@ class HomeFragment :
 
                 DataState.Loading -> {
                     binding.fragmentHomeExt.semChoseOnlineExt.apply {
+                        binding.fragmentHomeExt.switchOldNew.isVisible = true
                         progressBarLoading.isVisible = true
                         noData.isVisible = false
                         noDataText.isVisible = false
