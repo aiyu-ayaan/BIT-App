@@ -56,7 +56,6 @@ import com.atech.core.utils.APP_LOGO_LINK
 import com.atech.core.utils.ERROR_LOG
 import com.atech.core.utils.KEY_ANN_VERSION
 import com.atech.core.utils.KEY_CURRENT_SHOW_TIME
-import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
 import com.atech.core.utils.KEY_REACH_TO_HOME
 import com.atech.core.utils.KEY_SHOW_TIMES
 import com.atech.core.utils.KEY_USER_DONE_SET_UP
@@ -183,8 +182,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker, SearchViewVisible {
         openAboutUs()
         onDestinationChange()
         checkForUpdate()
-        val u = pref.getBoolean(KEY_DO_NOT_SHOW_AGAIN, false)
-        if (u) getWarning()
+
+        getWarning()
         shareReview()
         getShowTimes()
         onBackPressDispatcher()
@@ -492,8 +491,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker, SearchViewVisible {
                 TAG_REMOTE,
                 "getWarning: $isEnable $title $link $minVersion $buttonText $isMinEdition"
             )
-            Log.d(TAG_REMOTE, "$u , $isEnable , $isMinEdition")
-            if (isEnable && u && !isMinEdition) {
+            Log.d(TAG_REMOTE, "getWarning $u , $isEnable , $isMinEdition")
+            if (!isMinEdition) {
+                return@fetchData
+            }
+            if (isEnable && u) {
                 openWarningDialog(title, link, buttonText)
             }
         }
