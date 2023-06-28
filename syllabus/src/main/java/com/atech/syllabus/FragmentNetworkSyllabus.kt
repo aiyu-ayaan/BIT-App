@@ -21,7 +21,6 @@ import com.atech.core.utils.getColorForText
 import com.atech.core.data.room.syllabus.SyllabusModel
 import com.atech.syllabus.databinding.FragmentNetworkSyllabusBinding
 import dagger.hilt.android.AndroidEntryPoint
-
 @AndroidEntryPoint
 class FragmentNetworkSyllabus(
     private val syllabusModel: SyllabusModel? = null

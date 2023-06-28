@@ -2,17 +2,21 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="BIT-Single-MultiModule [:bitapp:assembleBetaRelease]">
-        <State />
-      </entry>
-      <entry key="BIT-Single-MultiModule [:core:minifyBetaReleaseWithR8]">
-        <State />
-      </entry>
-      <entry key="URL http://bitapp-eng.github.io">
-        <State />
-      </entry>
       <entry key="bitapp">
-        <State />
+        <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="SERIAL_NUMBER" />
+                  <value value="adb-f94f4b10-FG8jzO._adb-tls-connect._tcp" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2023-06-07T13:32:46.401784400Z" />
+        </State>
       </entry>
     </value>
   </component>
