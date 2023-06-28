@@ -66,54 +66,57 @@ android {
 
 dependencies {
 
-    implementation(Deps.core)
-    implementation(Deps.appcompat)
-    implementation(Deps.material)
-    implementation(Deps.playstorecore)
-    implementation(Deps.ads)
-
-    implementation(platform(Deps.firebaseBoM))
-    implementation(Deps.firebaseAnalytics)
-    implementation(Deps.firebaseFirestore)
-    implementation(Deps.firebaseMessaging)
-    implementation(Deps.firebaseConfig)
-    implementation(Deps.firebaseAuth)
-    releaseImplementation(Deps.firebaseCrashlytics)
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.playstore.core)
+    implementation(libs.play.services.ads)
+    implementation(libs.play.services.fido)
 
 
-    implementation(Deps.liveData)
+    implementation(platform(libs.firebase.bom))
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.config.ktx)
+    implementation(libs.firebase.auth.ktx) {
+        exclude(module = "play-services-safetynet")
+    }
+
+
+    implementation(libs.lifecycle.liveData)
 
 
 //    Hilt
-    implementation(Deps.hilt)
-    kapt(Deps.hiltCompiler)
-    implementation(Deps.webkit)
-    implementation("com.google.android.gms:play-services-fido:20.0.1")
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+    implementation(libs.web.kit)
 
-    implementation(Deps.customChrome)
+    implementation(libs.custom.chrome)
 
     // Coroutines
-    implementation(Deps.coroutines)
-    implementation(Deps.coroutinesAndroid)
+    implementation(libs.coroutines)
+    implementation(libs.coroutines.android)
 
 
-    implementation(Deps.room)
-    annotationProcessor(Deps.annotationProcessor)
-    kapt(Deps.annotationProcessor)
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.annotation)
+    kapt(libs.room.annotation)
 
 
-    implementation(Deps.glide)
-    implementation(Deps.gson)
-    implementation(Deps.dataStore)
 
-    implementation(Deps.navFragment)
-    implementation(Deps.navUi)
+    implementation(libs.glide)
+    implementation(libs.gson)
+    implementation(libs.data.store)
 
-    implementation(Deps.cryptore)
+    implementation(libs.nav.fragment)
+    implementation(libs.nav.ui)
 
-    implementation(Deps.retrofit)
-    implementation(Deps.retrofitJson)
-    implementation(Deps.retrofitScalars)
+    implementation(libs.cryptore)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.json)
+    implementation(libs.retrofit.scalars)
 }
 
 kapt {

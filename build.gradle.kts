@@ -1,11 +1,10 @@
 buildscript {
  
     dependencies {
-        classpath("com.google.gms:google-services:4.3.15")
-        classpath("com.google.gms:google-services:${Versions.googleServiceVersion}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav_version}")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlyticsVersion}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_version}")
+        classpath(libs.google.service)
+        classpath(libs.navigation.safe.args.gradle.plugin)
+        classpath(libs.firebase.crashlytics.gradle)
+        classpath(libs.kotlin.gradle.plugin)
     }
 
     repositories {

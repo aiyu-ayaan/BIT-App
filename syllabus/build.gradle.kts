@@ -61,13 +61,13 @@ android {
 dependencies {
 
     implementation(project(Modules.core))
-    implementation(Deps.core)
-    implementation(Deps.appcompat)
-    implementation(Deps.material)
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
 
-    implementation(Deps.viewBinding)
-    implementation(Deps.hilt)
-    kapt(Deps.hiltCompiler)
+    implementation(libs.view.binding)
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
 }
 kapt {
     correctErrorTypes= true
