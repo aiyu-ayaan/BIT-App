@@ -18,6 +18,7 @@ android {
         minSdk = AndroidSdk.min
         versionCode = App.versionCode
         versionName = App.versionName
+        targetSdk = AndroidSdk.compile
 
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -92,91 +93,92 @@ dependencies {
     implementation(project(Modules.syllabus))
 
 
-    implementation(Deps.core)
-    implementation(Deps.appcompat)
-    implementation(Deps.material)
-    implementation(Deps.playstorecore)
-    implementation(Deps.ads)
+    implementation(libs.core.ktx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.playstore.core)
 
-    implementation(Deps.composeActivity)
-    implementation(platform(Deps.composeboM))
-    implementation(Deps.composeUI)
-    implementation(Deps.composeUiGraphics)
-    implementation(Deps.composeUiToolingPreview)
-    implementation(Deps.composeMaterial3)
-    implementation(Deps.composeNavigation)
-    implementation(Deps.composeViewModel)
-    debugImplementation(Deps.composeTooling)
-    debugImplementation(Deps.composeTestManifest)
-    implementation(Deps.composeAdapter)
+    implementation(libs.play.services.ads)
+    implementation(libs.play.services.auth)
 
-    implementation(platform(Deps.firebaseBoM))
-    releaseImplementation(Deps.firebaseAnalytics)
-    releaseImplementation(Deps.firebaseCrashlytics)
-    implementation(Deps.firebaseFirestore)
-    implementation(Deps.firebaseMessaging)
-    implementation(Deps.firebaseConfig)
-    implementation(Deps.firebaseAuth) {
+    implementation(libs.compose.activity)
+    implementation(platform(libs.compose.boM))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.navigation)
+    implementation(libs.compose.viewModel)
+    debugImplementation(libs.compose.tooling)
+    debugImplementation(libs.compose.testManifest)
+    implementation(libs.compose.adapter)
+
+    implementation(platform(libs.firebase.bom))
+    releaseImplementation(libs.firebase.analytics.ktx)
+    releaseImplementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.firebase.config.ktx)
+    implementation(libs.firebase.auth.ktx) {
         exclude(module = "play-services-safetynet")
     }
 
-    implementation(Deps.playStoreAuth)
 
-    implementation(Deps.viewModel)
-    implementation(Deps.liveData)
-    implementation(Deps.fragment)
-
-
-    implementation(Deps.navFragment)
-    implementation(Deps.navUi)
-
-    implementation(Deps.hilt)
-    implementation(Deps.hiltCompose)
-    kapt(Deps.hiltCompiler)
-
-    implementation(Deps.webkit)
-
-    implementation(Deps.coroutines)
-    implementation(Deps.coroutinesAndroid)
+    implementation(libs.lifecycle.viewModel)
+    implementation(libs.lifecycle.liveData)
+    implementation(libs.fragment)
 
 
-    implementation(Deps.room)
-    kapt(Deps.annotationProcessor)
+    implementation(libs.nav.fragment)
+    implementation(libs.nav.ui)
+
+    implementation(libs.hilt)
+    implementation(libs.hilt.compose)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.web.kit)
+
+    implementation(libs.coroutines)
+    implementation(libs.coroutines.android)
 
 
-    implementation(Deps.glide)
-
-    implementation(Deps.dataStore)
-
-    implementation(Deps.lottie)
-
-    implementation(Deps.gson)
-
-    implementation(Deps.viewBinding)
-
-    implementation(Deps.customChrome)
-
-    implementation(Deps.recyclerView)
-    implementation(Deps.recyclerViewSelection)
-
-    implementation(Deps.palette)
-
-    implementation(Deps.splashScreen)
-    implementation(Deps.calendar)
-
-    implementation(Deps.graph)
-
-    implementation(Deps.exoMedia3)
-    implementation(Deps.exoMedia3ui)
-    implementation(Deps.exoMedia3dash)
+    implementation(libs.room.ktx)
+    kapt(libs.room.annotation)
 
 
-    implementation(Deps.cryptore)
-    implementation(Deps.retrofit)
+    implementation(libs.glide)
 
-    implementation(Deps.circleIndicator)
+    implementation(libs.data.store)
 
-    implementation(Deps.markDownView)
+    implementation(libs.lotti)
+
+    implementation(libs.gson)
+
+    implementation(libs.view.binding)
+
+    implementation(libs.custom.chrome)
+
+    implementation(libs.recycler.view)
+    implementation(libs.recycler.view.selection)
+
+    implementation(libs.palette)
+
+    implementation(libs.splash.screen)
+    implementation(libs.calender)
+
+    implementation(libs.graph)
+
+    implementation(libs.exoMedia3)
+    implementation(libs.exoMedia3.ui)
+    implementation(libs.exoMedia3.dash)
+
+
+    implementation(libs.cryptore)
+    implementation(libs.retrofit)
+
+    implementation(libs.circle.indicator)
+
+    implementation(libs.markDownView)
 
 }
 

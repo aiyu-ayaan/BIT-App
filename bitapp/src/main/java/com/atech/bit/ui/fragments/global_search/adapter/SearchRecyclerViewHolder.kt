@@ -107,7 +107,7 @@ sealed class SearchRecyclerViewHolder(
 
         init {
             binding.root.setOnClickListener {
-                onClick?.invoke(it, this, absoluteAdapterPosition)
+                onClick.invoke(it, this, absoluteAdapterPosition)
             }
         }
         fun bind(event: SearchItem.Event) {
