@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.atech.core"
+    namespace = "com.atech.attendance"
     compileSdk = 33
 
     defaultConfig {
@@ -34,16 +34,26 @@ android {
         jvmTarget = "17"
     }
 
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+    implementation(project(":theme"))
+
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
 
     implementation(libs.hilt.android)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
     kapt(libs.hilt.android.compiler)
+
+    implementation(libs.android.viewbinding)
 
 }
 kapt {

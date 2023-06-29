@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -8,8 +9,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bitapp" />
+            <option value="$PROJECT_DIR$/bitapp/attendance" />
+            <option value="$PROJECT_DIR$/bitapp/course" />
+            <option value="$PROJECT_DIR$/bitapp/login" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/syllabus" />
+            <option value="$PROJECT_DIR$/theme" />
           </set>
         </option>
       </GradleProjectSettings>

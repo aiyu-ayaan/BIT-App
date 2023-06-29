@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.atech.core"
+    namespace = "com.atech.login"
     compileSdk = 33
 
     defaultConfig {
@@ -34,9 +34,15 @@ android {
         jvmTarget = "17"
     }
 
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
+
+    implementation(project(":theme"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
@@ -44,6 +50,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    implementation(libs.android.viewbinding)
 
 }
 kapt {

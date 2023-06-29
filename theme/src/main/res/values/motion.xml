@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 3/22/22, 10:45 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 3/22/22, 8:18 PM
+  -->
+
+<resources>
+
+    <integer name="duration_medium">225</integer>
+    <integer name="duration_small">175</integer>
+    <integer name="loading_date">300</integer>
+</resources>
