@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,12 +7,26 @@
     android:background="?attr/colorSurface"
     tools:context="com.atech.attendance.AttendanceFragment">
 
-    <TextView
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        style="@style/Widget.Material3.BottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:backgroundTint="?attr/bottomBar"
+        app:menu="@menu/attendance_app_bar"
+        app:navigationIcon="@drawable/ic_list_all"
+        app:navigationIconTint="?attr/colorPrimary" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/extended_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/attendance"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:backgroundTint="?attr/colorPrimary"
+        android:contentDescription="@string/add_subject"
+        app:layout_anchor="@id/bottomAppBar"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="?attr/bottomBar" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

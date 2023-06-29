@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/28/21, 11:16 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/28/21, 11:03 PM
+  -->
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:tint="?attr/colorPrimary"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#000000"
+        android:pathData="M18.4141,2C18.1581,2 17.902,2.098 17.707,2.293L15.707,4.293L14.293,5.707L3,17L3,21L7,21L21.707,6.293C22.098,5.902 22.098,5.2689 21.707,4.8789L19.1211,2.293C18.9261,2.098 18.6701,2 18.4141,2zM18.4141,4.4141L19.5859,5.5859L18.293,6.8789L17.1211,5.707L18.4141,4.4141zM15.707,7.1211L16.8789,8.293L6.1719,19L5,19L5,17.8281L15.707,7.1211z" />
+</vector>
