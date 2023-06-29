@@ -31,6 +31,6 @@ inline fun Fragment.addMenuHost(
 
 
         }
-        menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        menuHost.addMenuProvider(menuProvider, viewLifecycleOwner, Lifecycle.State.STARTED)
         menuProvider
     }
