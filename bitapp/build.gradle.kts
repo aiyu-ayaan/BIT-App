@@ -97,7 +97,6 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.playstore.core)
-
     implementation(libs.play.services.ads)
     implementation(libs.play.services.auth)
 

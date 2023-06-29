@@ -88,4 +88,10 @@ class CommunicatorViewModel @Inject constructor(
             field = value
             state["attendanceManagerSize"] = value
         }
+
+    var isShowOnesSearchAnimation = state.get<Boolean>("isShowOnesSearchAnimation") ?: false
+        set(value) {
+            field = value
+            state["isShowOnesSearchAnimation"] = value
+        }
 }

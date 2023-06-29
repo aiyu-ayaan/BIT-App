@@ -304,7 +304,19 @@ class MainActivity : AppCompatActivity(), DrawerLocker, SearchViewVisible {
                 else -> binding.searchInput.isEnabled = false
             }
             when (destination.id) {
-                R.id.homeFragment, R.id.profileFragment -> setSearchViewVisible(true)
+                R.id.homeFragment, R.id.profileFragment -> {
+                    if (!communicator.isShowOnesSearchAnimation)
+                        setSearchViewVisible(true).also {
+                            communicator.isShowOnesSearchAnimation = true
+                        }
+                    else {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            binding.searchBar.isVisible = true
+                        }, 100)
+
+                    }
+                }
+
                 else -> setSearchViewVisible(false)
             }
 
