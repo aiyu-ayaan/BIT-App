@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/bottomBar"
-    android:theme="@style/Base.Theme.BITApp">
+    tools:theme="@style/Base.Theme.BITApp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

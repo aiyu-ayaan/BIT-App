@@ -11,8 +11,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.activities.main_activity.MainActivity
+import com.atech.bit.utils.openBugLink
+import com.atech.bit.utils.openReleaseNotes
 import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
+import com.atech.theme.openCustomChromeTab
+import com.atech.theme.openLinks
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,6 +60,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setNavigationItemSelectedListener { menu ->
             setDrawerState(false)
             when (menu.itemId) {
+                R.id.nav_connect -> resources.getString(com.atech.theme.R.string.instaLink)
+                    .openLinks(requireActivity(), com.atech.theme.R.string.no_intent_available)
+
+                R.id.nav_mail -> requireActivity().openBugLink()
+                R.id.nav_erp -> requireActivity().openCustomChromeTab(resources.getString(com.atech.theme.R.string.erp_link))
+                R.id.nav_issue -> requireActivity().openCustomChromeTab(resources.getString(com.atech.theme.R.string.issue_link))
+                R.id.nav_github -> requireActivity().openCustomChromeTab(resources.getString(com.atech.theme.R.string.github_link))
+                R.id.nav_whats_new -> requireActivity().openReleaseNotes()
                 else -> NavigationUI.onNavDestinationSelected(menu, mainActivity.navController)
             }
             true

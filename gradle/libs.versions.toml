@@ -21,6 +21,7 @@ navigation-fragment-ktx = "2.6.0"
 retrofit-version = "2.9.0"
 gson-version = "2.10.1"
 lottiVersion = "6.0.1"
+browser = "1.5.0"
 
 
 [libraries]
@@ -54,6 +55,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
 retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-version" }
 lotti = { group = "com.airbnb.android", name = "lottie", version.ref = "lottiVersion" }
+browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

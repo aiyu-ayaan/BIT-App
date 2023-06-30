@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/bottomBar"
-    app:layout_scrollFlags="scroll|enterAlways|snap"
     android:minHeight="?attr/actionBarSize"
-    android:theme="@style/Base.Theme.BITApp">
+    app:layout_scrollFlags="scroll|enterAlways|snap"
+    tools:theme="@style/Base.Theme.BITApp">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/materialButtonClose"
@@ -16,11 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/grid_2"
         android:backgroundTint="?colorSurface"
-        tools:icon="@drawable/round_arrow_back_24"
         app:iconTint="?attr/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:icon="@drawable/round_arrow_back_24" />
 
     <TextView
         android:id="@+id/textViewTitle"

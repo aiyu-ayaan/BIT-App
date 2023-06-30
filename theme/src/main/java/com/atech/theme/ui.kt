@@ -1,25 +1,31 @@
 package com.atech.theme
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.StringRes
-import androidx.core.graphics.createBitmap
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
+import com.google.android.material.color.MaterialColors
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 fun Fragment.toast(message: String) =
     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 
 
-fun LayoutRecyclerViewBinding.isLoadingDone(isLoadingComplete : Boolean) =this.apply {
+fun LayoutRecyclerViewBinding.isLoadingDone(isLoadingComplete: Boolean) = this.apply {
     recyclerView.isVisible = isLoadingComplete
     empty.isVisible = !isLoadingComplete
 }
@@ -63,4 +69,35 @@ fun String.openLinks(activity: Activity, @StringRes string: Int) {
             activity, activity.resources.getString(string), Toast.LENGTH_SHORT
         ).show()
     }
+}
+
+/**
+ * Open Custom Tab
+ * @since 4.0.4
+ * @author Ayaan
+ */
+fun Context.openCustomChromeTab(link: String) = this.run {
+    val defaultColors = CustomTabColorSchemeParams.Builder().setToolbarColor(
+        MaterialColors.getColor(
+            this, androidx.appcompat.R.attr.colorAccent, Color.RED
+        )
+    ).build()
+    try {
+        val customTabIntent =
+            CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
+        customTabIntent.intent.`package` = "com.android.chrome"
+        customTabIntent.launchUrl(this, Uri.parse(link))
+    } catch (e: Exception) {
+        Toast.makeText(this, "Invalid Link", Toast.LENGTH_SHORT).show()
+    }
+}
+
+/**
+ * @since 4.0.3
+ * @author Ayaan
+ */
+@SuppressLint("SimpleDateFormat")
+fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).run {
+    val date = Date(this@convertLongToTime)
+    this.format(date)
 }
