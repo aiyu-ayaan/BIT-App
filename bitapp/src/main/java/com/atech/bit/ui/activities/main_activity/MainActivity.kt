@@ -100,7 +100,8 @@ class MainActivity : AppCompatActivity() {
     private fun navigationViewFragments() = listOf(
         R.id.holidayFragment,
         R.id.societyFragment,
-        R.id.societyDetailFragment
+        R.id.societyDetailFragment,
+        R.id.administrationFragment
     )
 
     override fun onSupportNavigateUp(): Boolean {

@@ -40,4 +40,9 @@
             android:name="society"
             app:argType="com.atech.core.retrofit.client.Society" />
     </fragment>
+    <fragment
+        android:id="@+id/administrationFragment"
+        android:name="com.atech.bit.ui.fragments.administration.AdministrationFragment"
+        android:label="fragment_administration"
+        tools:layout="@layout/fragment_administration" />
 </navigation>

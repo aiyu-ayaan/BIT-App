@@ -69,6 +69,10 @@ dependencies {
     implementation(libs.navigation.ui.ktx)
 
     implementation(libs.android.viewbinding)
+
+    implementation(libs.markDownView)
+
+    implementation(libs.lotti)
 }
 
 kapt {

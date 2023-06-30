@@ -14,6 +14,7 @@ lifecycleViewmodelKtx = "2.6.1"
 material = "1.9.0"
 constraintlayout = "2.1.4"
 firebase-bom = "32.1.1"
+markdownViewVersion = "1.1.1"
 navigation-safe-args-gradle-plugin = "2.6.0"
 navigation-ui-ktx = "2.6.0"
 navigation-fragment-ktx = "2.6.0"
@@ -45,6 +46,7 @@ firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messa
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 firebase-config-ktx = { group = "com.google.firebase", name = "firebase-config-ktx" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson-version" }
+markDownView = { group = "com.github.mukeshsolanki", name = "MarkdownView-Android", version.ref = "markdownViewVersion" }
 navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle-plugin" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-ui-ktx" }
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-fragment-ktx" }
