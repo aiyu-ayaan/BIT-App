@@ -260,4 +260,5 @@
     <string name="administration">Administration</string>
     <string name="all">All</string>
     <string name="current_cgpa">Current CGPA</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

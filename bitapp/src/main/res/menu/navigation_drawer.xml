@@ -48,9 +48,9 @@
                     android:checkable="false"
                     android:icon="@drawable/ic_cgpa_calculator"
                     android:title="@string/cgpa_calculator" />
-
-                <!--                android:id="@id/holidayFragment"-->
+                
                 <item
+                    android:id="@id/holidayFragment"
                     android:icon="@drawable/ic_holiday"
                     android:title="@string/holidays" />
             </menu>

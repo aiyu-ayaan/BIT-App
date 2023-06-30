@@ -6,6 +6,8 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.navigation.ui.NavigationUI
+import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.activities.main_activity.MainActivity
@@ -50,8 +52,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private fun handleDrawer() = navView.apply {
-        setNavigationItemSelectedListener {
+        navView.setupWithNavController(mainActivity.navController)
+        setNavigationItemSelectedListener { menu ->
             setDrawerState(false)
+            when (menu.itemId) {
+                else -> NavigationUI.onNavDestinationSelected(menu, mainActivity.navController)
+            }
             true
         }
     }

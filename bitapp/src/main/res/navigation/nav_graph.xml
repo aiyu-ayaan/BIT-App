@@ -10,12 +10,16 @@
         android:name="com.atech.bit.ui.fragments.home.HomeFragment"
         android:label="home"
         tools:layout="@layout/fragment_home" />
-    <include
-        app:graph="@navigation/attendance_graph" />
+    <include app:graph="@navigation/attendance_graph" />
     <fragment
         android:id="@+id/noticeFragment"
         android:name="com.atech.bit.ui.fragments.notice.NoticeFragment"
         android:label="@string/notice"
         tools:layout="@layout/fragment_notice" />
     <include app:graph="@navigation/course_graph" />
+    <fragment
+        android:id="@+id/holidayFragment"
+        android:name="com.atech.bit.ui.fragments.holiday.HolidayFragment"
+        android:label="HolidayFragment"
+        tools:layout="@layout/layout_recycler_view" />
 </navigation>

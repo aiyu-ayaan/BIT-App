@@ -59,7 +59,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.constraintlayout)
 
-
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 

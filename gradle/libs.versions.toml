@@ -6,6 +6,10 @@ kotlin = "1.8.21"
 core-ktx = "1.10.1"
 data-store="1.0.0"
 appcompat = "1.6.1"
+kotlinxCoroutinesAndroid = "1.7.1"
+lifecycleExtensions = "2.2.0"
+lifecycleRuntimeKtx = "2.4.0-alpha03"
+lifecycleViewmodelKtx = "2.6.1"
 material = "1.9.0"
 constraintlayout = "2.1.4"
 firebase-bom = "32.1.1"
@@ -14,6 +18,7 @@ navigation-ui-ktx = "2.6.0"
 navigation-fragment-ktx = "2.6.0"
 retrofit-version = "2.9.0"
 gson-version = "2.10.1"
+lottiVersion = "6.0.1"
 
 
 [libraries]
@@ -22,6 +27,11 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
+lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 data-store = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "data-store" }
@@ -39,6 +49,7 @@ navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-kt
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
 retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
 retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-version" }
+lotti = { group = "com.airbnb.android", name = "lottie", version.ref = "lottiVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
