@@ -7,7 +7,8 @@ import com.atech.theme.databinding.LayoutToolbarBinding
 
 data class ToolbarData(
     @StringRes
-    val title: Int,
+    val title: Int = R.string.app_name,
+    val titleString: String? = null,
     @DrawableRes
     val icon: Int = R.drawable.round_arrow_back_24,
     val action: () -> Unit,
@@ -17,7 +18,8 @@ data class ToolbarData(
 )
 
 fun LayoutToolbarBinding.set(toolbarData: ToolbarData) = this.apply {
-    textViewTitle.text = root.context.getText(toolbarData.title)
+    if(toolbarData.titleString != null) textViewTitle.text = toolbarData.titleString
+    else textViewTitle.text = root.context.getText(toolbarData.title)
     materialButtonClose.apply {
         setIconResource(toolbarData.icon)
         setOnClickListener { toolbarData.action() }

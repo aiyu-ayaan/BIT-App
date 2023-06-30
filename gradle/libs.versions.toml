@@ -1,6 +1,7 @@
 [versions]
 agp = "8.2.0-alpha09"
 android-viewbinding = "1.0.4"
+coil = "2.4.0"
 hilt-android = "2.46"
 kotlin = "1.8.21"
 core-ktx = "1.10.1"
@@ -23,6 +24,7 @@ lottiVersion = "6.0.1"
 
 [libraries]
 android-viewbinding = { module = "com.github.yogacp:android-viewbinding", version.ref = "android-viewbinding" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }

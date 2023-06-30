@@ -25,6 +25,7 @@
     <dimen name="grid_7">56dp</dimen>
 
     <dimen name="image_size_for_card_view">25dp</dimen>
+    <dimen name="image_size_for_society_img">80dp</dimen>
 
     <dimen name="holiday_data_card_view_size">80dp</dimen>
     <dimen name="min_padding_attendance">100dp</dimen>

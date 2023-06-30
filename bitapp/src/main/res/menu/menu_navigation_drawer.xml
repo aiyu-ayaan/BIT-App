@@ -64,7 +64,7 @@
             <menu>
 
                 <item
-                    android:id="@+id/societyFragment"
+                    android:id="@id/societyFragment"
                     android:icon="@drawable/ic_society"
                     android:title="@string/societies_and_ngos" />
                 <item

@@ -5,6 +5,7 @@
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".ui.activities.main_activity.MainActivity">
 
 
@@ -44,5 +45,5 @@
         app:dividerInsetEnd="0dp"
         app:dividerInsetStart="0dp"
         app:headerLayout="@layout/navigation_slider_header"
-        app:menu="@menu/navigation_drawer" />
+        app:menu="@menu/menu_navigation_drawer" />
 </androidx.drawerlayout.widget.DrawerLayout>

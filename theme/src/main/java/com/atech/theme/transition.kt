@@ -7,14 +7,20 @@ import com.google.android.material.transition.MaterialSharedAxis
 val FragmentManager.currentNavigationFragment: Fragment?
     get() = primaryNavigationFragment?.childFragmentManager?.fragments?.first()
 
-fun Fragment.exitTransition(@MaterialSharedAxis.Axis axis: Int = MaterialSharedAxis.Y) =
-    this.apply {
-        exitTransition = MaterialSharedAxis(axis, true)
-        reenterTransition = MaterialSharedAxis(axis, false)
+enum class Axis(val value: Int) {
+    X(MaterialSharedAxis.X),
+    Y(MaterialSharedAxis.Y),
+    Z(MaterialSharedAxis.Z)
+}
+
+fun Fragment.exitTransition(axis: Axis = Axis.Y) =
+    this.run {
+        exitTransition = MaterialSharedAxis(axis.value, true)
+        reenterTransition = MaterialSharedAxis(axis.value, false)
     }
 
-fun Fragment.enterTransition(@MaterialSharedAxis.Axis axis: Int = MaterialSharedAxis.Y) =
-    this.apply {
-        enterTransition = MaterialSharedAxis(axis, true)
-        returnTransition = MaterialSharedAxis(axis, false)
+fun Fragment.enterTransition(axis: Axis = Axis.Y) =
+    this.run {
+        enterTransition = MaterialSharedAxis(axis.value, true)
+        returnTransition = MaterialSharedAxis(axis.value, false)
     }

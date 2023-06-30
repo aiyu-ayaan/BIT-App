@@ -21,5 +21,23 @@
         android:id="@+id/holidayFragment"
         android:name="com.atech.bit.ui.fragments.holiday.HolidayFragment"
         android:label="HolidayFragment"
-        tools:layout="@layout/layout_recycler_view" />
+        tools:layout="@layout/fragment_holiday" />
+    <fragment
+        android:id="@+id/societyFragment"
+        android:name="com.atech.bit.ui.fragments.society.SocietyFragment"
+        android:label="FragmentSociety"
+        tools:layout="@layout/layout_recycler_view" >
+        <action
+            android:id="@+id/action_societyFragment_to_societyDetailFragment"
+            app:destination="@id/societyDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/societyDetailFragment"
+        android:name="com.atech.bit.ui.fragments.society.detail.SocietyDetailFragment"
+        android:label="fragment_society_detail"
+        tools:layout="@layout/fragment_society_detail" >
+        <argument
+            android:name="society"
+            app:argType="com.atech.core.retrofit.client.Society" />
+    </fragment>
 </navigation>

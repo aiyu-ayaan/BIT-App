@@ -45,17 +45,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleDestinationChange() {
         navController.onDestinationChange { destination ->
-            setExitTransition()
+//            setExitTransition()
             when (destination.id) {
                 in baseFragments() -> {
                     setBottomNavigationVisibility(true)
-                    changeStatusBarToolbarColorImageView(
-                        MaterialColors.getColor(
-                            this, android.viewbinding.library.R.attr.colorSurface, Color.WHITE
-                        ).also {
-                            setStatusBarUiTheme(this, !isDark())
-                        })
-
                     changeBottomNav(
                         com.atech.theme.R.attr.bottomBar
                     )
@@ -70,10 +63,25 @@ class MainActivity : AppCompatActivity() {
 
                 else -> {
                     setBottomNavigationVisibility(false)
-//                    changeBottomNav(
-//                        android.viewbinding.library.R.attr.colorSurface
-//                    )
                 }
+            }
+            when (destination.id) {
+                in navigationViewFragments() ->
+                    changeStatusBarToolbarColorImageView(
+                        MaterialColors.getColor(
+                            this, com.atech.theme.R.attr.bottomBar, Color.WHITE
+                        ).also {
+                            setStatusBarUiTheme(this, !isDark())
+                        })
+
+                else ->
+                    changeStatusBarToolbarColorImageView(
+                        MaterialColors.getColor(
+                            this, android.viewbinding.library.R.attr.colorSurface, Color.WHITE
+                        ).also {
+                            setStatusBarUiTheme(this, !isDark())
+                        })
+
             }
         }
     }
@@ -87,6 +95,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun baseFragments() = listOf(
         R.id.homeFragment, com.atech.course.R.id.courseFragment
+    )
+
+    private fun navigationViewFragments() = listOf(
+        R.id.holidayFragment,
+        R.id.societyFragment,
+        R.id.societyDetailFragment
     )
 
     override fun onSupportNavigateUp(): Boolean {

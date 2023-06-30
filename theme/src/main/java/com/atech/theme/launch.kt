@@ -14,3 +14,11 @@ fun LifecycleOwner.launchWhenStarted(block: suspend () -> Unit) = this.run {
         }
     }
 }
+
+fun LifecycleOwner.launchWhenResumed(block: suspend () -> Unit) = this.run {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            block()
+        }
+    }
+}

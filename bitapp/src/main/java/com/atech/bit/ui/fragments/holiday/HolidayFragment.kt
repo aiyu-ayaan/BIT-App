@@ -1,6 +1,5 @@
 package com.atech.bit.ui.fragments.holiday
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -13,14 +12,10 @@ import com.atech.bit.ui.fragments.holiday.adapter.HolidayAdapter
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.utils.DataState
 import com.atech.theme.ToolbarData
-import com.atech.theme.changeStatusBarToolbarColorImageView
 import com.atech.theme.enterTransition
-import com.atech.theme.isDark
-import com.atech.theme.launchWhenStarted
+import com.atech.theme.launchWhenResumed
 import com.atech.theme.set
-import com.atech.theme.setStatusBarUiTheme
 import com.atech.theme.toast
-import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -70,7 +65,7 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeData() = launchWhenStarted {
+    private fun observeData() = launchWhenResumed {
         query.flatMapLatest {
             cases.holiday.invoke(it)
         }.collectLatest {
@@ -89,12 +84,6 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
     }
 
     private fun FragmentHolidayBinding.setToolbar() {
-        changeStatusBarToolbarColorImageView(
-            MaterialColors.getColor(
-                requireActivity(), com.atech.theme.R.attr.bottomBar, Color.WHITE
-            ).also {
-                setStatusBarUiTheme(requireActivity(), !requireActivity().isDark())
-            })
         includeToolbar.set(
             ToolbarData(
                 title = com.atech.theme.R.string.holiday,
