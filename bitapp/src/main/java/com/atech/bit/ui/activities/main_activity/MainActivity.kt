@@ -9,6 +9,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
 import com.atech.bit.utils.onDestinationChange
+import com.atech.theme.currentNavigationFragment
+import com.atech.theme.exitTransition
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleDestinationChange() {
         navController.onDestinationChange { destination ->
+            setExitTransition()
             when (destination.id) {
                 in baseFragments() -> setBottomNavigationVisibility(true)
                 else -> setBottomNavigationVisibility(false)
@@ -47,6 +50,9 @@ class MainActivity : AppCompatActivity() {
     fun setBottomNavigationVisibility(isVisible: Boolean) {
         binding.bottomNavigation.isVisible = isVisible
     }
+
+    private fun setExitTransition() =
+        supportFragmentManager.currentNavigationFragment?.exitTransition()
 
     private fun baseFragments() =
         listOf(

@@ -10,6 +10,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.activities.main_activity.MainActivity
 import com.atech.theme.customBackPress
+import com.atech.theme.enterTransition
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +27,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
     private val navView: NavigationView by lazy {
         mainActivity.findViewById(R.id.navigationView)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
