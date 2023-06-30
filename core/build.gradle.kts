@@ -2,9 +2,9 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
-    kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 android {
@@ -52,6 +52,10 @@ dependencies {
 
     implementation(libs.gson)
     implementation(libs.data.store)
+
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.compiler)
+    kapt(libs.room.compiler)
 
 }
 kapt {

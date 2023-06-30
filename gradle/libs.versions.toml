@@ -22,6 +22,8 @@ retrofit-version = "2.9.0"
 gson-version = "2.10.1"
 lottiVersion = "6.0.1"
 browser = "1.5.0"
+roomCompiler = "2.5.2"
+roomKtx = "2.5.2"
 
 
 [libraries]
@@ -56,6 +58,8 @@ retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-version" }
 lotti = { group = "com.airbnb.android", name = "lottie", version.ref = "lottiVersion" }
 browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

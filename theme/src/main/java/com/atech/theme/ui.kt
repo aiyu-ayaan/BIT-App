@@ -6,10 +6,12 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
+import android.view.View
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
@@ -20,9 +22,13 @@ import com.google.android.material.color.MaterialColors
 import java.text.SimpleDateFormat
 import java.util.Date
 
+enum class ToastLength(val length: Int) {
+    SHORT(Toast.LENGTH_SHORT),
+    LONG(Toast.LENGTH_LONG)
+}
 
-fun Fragment.toast(message: String) =
-    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+fun Fragment.toast(message: String, length: ToastLength = ToastLength.SHORT) =
+    Toast.makeText(requireContext(), message, length.length).show()
 
 
 fun LayoutRecyclerViewBinding.isLoadingDone(isLoadingComplete: Boolean) = this.apply {
@@ -101,3 +107,16 @@ fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).
     val date = Date(this@convertLongToTime)
     this.format(date)
 }
+
+fun <T> LinearLayout.addViews(
+    activity: Activity,
+    @LayoutRes id: Int,
+    t: T,
+    action: (T, View) -> Unit = { _, _ -> }
+
+) =
+    this.apply {
+        val view = activity.layoutInflater.inflate(id, this, false)
+        action(t, view)
+        addView(view)
+    }
