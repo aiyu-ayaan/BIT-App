@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Operating System Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:gravity="left"
+                android:text="SYLLABUS"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="1. Implement in C the following UNIX commands using System calls : cat and mv \n\n2. WAP in C to Determine the size of a file using the lseek command. \n\n3. WAP to calculate the number of blocks assigned for the file. \n\n4. Write a C program that deletes a directory with all its subfolders. The name of the directory should be read from the command line. \n\n5. Write a program that deletes every 5th byte from a file, but without using a temporary file or allocating a buffer in the memory. \n\n6. WAP in C to implement FCFS CPU scheduling Algorithm. \n\n7. WAP in C to implement SJF CPU scheduling Algorithm. \n\n8. WAP in C to implement Priority CPU scheduling Algorithm. \n\n9. WAP in C to implement Round Robin ( RR ) CPU scheduling Algorithm. \n\n10. WAP in c to read from the buffer &amp; produce desired output. \n\n11. WAP ii C to create Userid &amp; Password. \n\n12. WAP in c to implement and find how many Users currently login in NetWork. \n\n13. WAP in c to create your won system call just like a copy. \n\n14. WAP in c to create your won system call just like a delete. \n\n15. WAP in c to find the Disk Space. \n\n16. WAP In C to find The number of pages in the process. \n\n17. WAP In C to find The number of frames allocated to the process. \n\n18. WAP in c to find the no. of blocks occupied by a file. \n\n19. WAP in c to create your won system call just like a delete. \n\n20. WAP in c to create your won system call just like a ls. \n\n21. WAP in c to find a PID no. of any Process."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

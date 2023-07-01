@@ -8,12 +8,15 @@ import com.atech.course.R
 import com.atech.course.databinding.RowSubjectsBinding
 import com.atech.theme.databinding.RowTitleBinding
 
-class CourseAdapter() : RecyclerView.Adapter<CourseViewHolder>() {
-    var item: List<CourseItem> = mutableListOf()
+class CourseAdapter(
+    private val onClick: ((SyllabusUIModel) -> Unit) = { _ -> }
+) : RecyclerView.Adapter<CourseViewHolder>() {
+    var items: List<CourseItem> = mutableListOf()
         @SuppressLint("NotifyDataSetChanged") set(value) {
             field = value
             notifyDataSetChanged()
         }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder =
         when (viewType) {
             com.atech.theme.R.layout.row_title -> CourseViewHolder.TitleHolder(
@@ -26,7 +29,9 @@ class CourseAdapter() : RecyclerView.Adapter<CourseViewHolder>() {
                 RowSubjectsBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-            )
+            ) { position ->
+                onClick.invoke((items[position] as CourseItem.Subject).data)
+            }
 
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -34,14 +39,14 @@ class CourseAdapter() : RecyclerView.Adapter<CourseViewHolder>() {
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) =
         when (holder) {
-            is CourseViewHolder.TitleHolder -> holder.bind(item[position] as CourseItem.Title)
-            is CourseViewHolder.SubjectHolder -> holder.bind(item[position] as CourseItem.Subject)
+            is CourseViewHolder.TitleHolder -> holder.bind(items[position] as CourseItem.Title)
+            is CourseViewHolder.SubjectHolder -> holder.bind(items[position] as CourseItem.Subject)
         }
 
-    override fun getItemViewType(position: Int): Int = when (item[position]) {
+    override fun getItemViewType(position: Int): Int = when (items[position]) {
         is CourseItem.Title -> com.atech.theme.R.layout.row_title
         is CourseItem.Subject -> R.layout.row_subjects
     }
 
-    override fun getItemCount(): Int = item.size
+    override fun getItemCount(): Int = items.size
 }

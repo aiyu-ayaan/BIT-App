@@ -13,4 +13,7 @@ interface ParentActivity {
     fun setBottomNavigationVisibility(isVisible: Boolean)
 
     fun getVersionName(): String
+
+
+    fun getNavigationFragmentId(): Int
 }

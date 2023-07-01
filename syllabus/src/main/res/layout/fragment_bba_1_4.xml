@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:17 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Computerised Accounting Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – I Computerized Accounting"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="Introduction to computerized accounting, Essentials of computerized accounting ,features of computerized Accounting, Advantages and disadvantages of computerized accounting, computerised Vs Manual accounting ."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II Introduction to Accounting Package"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1.1"
+                android:paddingLeft="4.0dip"
+                android:text="Features of Accounting package,Getting functional with Accounting Package ,Creation/Setting up of company ."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III Accounting Vouchers"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Types of Vouchers-Contra Voucher,Payment Voucher ,receipt voucher ,sales voucher.Editing and deleting of vouchers,voucher numbering and customizing of vouchers ."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV Creation and Grouping of accounts &amp; Ledger"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Creation of accounts and grouping of accounts ,Single group and multiple groups,Creation of Ledger ,entering of transaction and preparation of Ledger ."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V Subsidiary Books &amp;Preparation of Final Accounts"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Preparation of various books-purchase books,purchase return book ,sales book,sales return book ,cash book closing stock adjustment ,trail balance ,Depreciation and other adjustment entries,Profit and loss account and Balance sheet ."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="1. Frank wood &amp; Alan Sanger(2008),Business Accounting ,Pearson education Limited,11th Edition (1,3,45,6,7) \n\n 2. J .R Monga(2004) ,Financial Accounting concepts and application,Volume -1:Text, Mayoor Paperbacks,18th Edition (1,7)"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="1. Robert N Anthony,David F Hawkins,Kenneth A Merchant(2004),Accounting Text and cases,Tata McGraw Hill Publishing Company Limited,New Delhi,11th Edition \n\n 2. Hanif and Mukherjee(2003),Modern Accountanvy Volume 2,Tta Mc Graw Hill Publishing Company Limited, new Delhi, 2nd Edition"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

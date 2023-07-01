@@ -41,6 +41,7 @@ android {
 
 dependencies {
     implementation(project(":theme"))
+    implementation(project(":core"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

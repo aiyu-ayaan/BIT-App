@@ -2,21 +2,23 @@ package com.atech.course.sem
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.DataState
 import com.atech.core.utils.NetworkBoundException
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
+import com.atech.course.CourseFragmentDirections
 import com.atech.course.R
 import com.atech.course.databinding.FragmentSemChooseBinding
 import com.atech.course.sem.adapter.CourseAdapter
@@ -31,6 +33,9 @@ import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
+import com.atech.theme.exitSharedElementTransform
+import com.atech.theme.exitTransition
+import com.atech.theme.launchWhenCreated
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.openBugLink
 import com.atech.theme.set
@@ -98,8 +103,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             SyllabusEnableModel::class.java
         )
     }
-    private val courseSem: String
-        get() = "${args.request}${lastChooseSem}".lowercase()
+
 
     private val sem = MutableStateFlow("")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,19 +124,29 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
     private fun FragmentSemChooseBinding.setRecyclerView() = this.recyclerViewSemChoose.apply {
-        adapter = CourseAdapter().also { courseAdapter = it }
+        adapter = CourseAdapter(::navigateToViewSyllabus).also { courseAdapter = it }
+        courseAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         layoutManager = LinearLayoutManager(requireContext())
         setHasFixedSize(true)
     }
 
+    private fun navigateToViewSyllabus(syllabus: SyllabusUIModel) {
+        exitTransition(Axis.X)
+        val action = CourseFragmentDirections.actionGlobalViewSyllabusFragment(
+            syllabus,
+            (args.request + sem.value).lowercase(),
+        )
+        findNavController().navigate(action)
+    }
+
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun observeData() = launchWhenStarted {
-        sem.flatMapLatest { _ ->
+    private fun observeData() = launchWhenCreated {
+        sem.flatMapLatest { sem ->
             isEnableStateFlow.flatMapLatest { isEnable ->
-                if (isEnable)
-                    onlineDataFlow()
-                else
-                    offlineDataFlow()
+                if (isEnable) onlineDataFlow("${args.request}$sem".lowercase())
+                else offlineDataFlow("${args.request}$sem".lowercase())
             }
         }.collectLatest { (theory, lab, pe) ->
             val list = mutableListOf<CourseItem>()
@@ -149,7 +163,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                 list.addAll(pe.map { CourseItem.Subject(it) })
             }
             binding.includeNoData.lvNoData.isVisible = list.isEmpty()
-            courseAdapter.item = list
+            courseAdapter.items = list
         }
     }
 
@@ -157,7 +171,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         Triple(emptyList(), emptyList(), emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private suspend fun onlineDataFlow(): Flow<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>> =
+    private suspend fun onlineDataFlow(courseSem: String): Flow<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>> =
         cases.syllabus.invoke(courseSem).flatMapLatest { dataState ->
             when (dataState) {
                 is DataState.Loading -> {
@@ -183,10 +197,10 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
                             // HTTP 504 Unsatisfiable Request (only-if-cached)
                             is NetworkBoundException -> {
                                 when (dataState.exception as NetworkBoundException) {
-                                    NetworkBoundException.NoInternet -> binding.includeNoData.lvNoData.text =
+                                    NetworkBoundException.NoInternet -> binding.includeNoData.tvNoData.text =
                                         getString(com.atech.theme.R.string.no_internet)
 
-                                    NetworkBoundException.NotFound -> binding.includeNoData.lvNoData.text =
+                                    NetworkBoundException.NotFound -> binding.includeNoData.tvNoData.text =
                                         getString(com.atech.theme.R.string.no_data)
 
                                     is NetworkBoundException.Unknown -> reportBug(dataState)
@@ -205,9 +219,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
     private fun reportBug(dataState: DataState.Error) {
         binding.root.showSnackBar(
-            "${dataState.exception.message}",
-            Snackbar.LENGTH_SHORT,
-            "Report"
+            "${dataState.exception.message}", Snackbar.LENGTH_SHORT, "Report"
         ) {
             requireActivity().openBugLink(
                 com.atech.theme.R.string.bug_repost,
@@ -219,7 +231,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     }
 
 
-    private fun offlineDataFlow() = combine(
+    private fun offlineDataFlow(courseSem: String) = combine(
         dao.getSyllabusType(courseSem, "Theory"),
         dao.getSyllabusType(courseSem, "Lab"),
         dao.getSyllabusType(courseSem, "PE")
@@ -239,8 +251,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         tabLayoutSemChoose.getTabAt(lastChooseSem - 1)?.select()
         tabLayoutSemChoose.tabSelectedListener { tab ->
             try {
-                tab?.text.toString().replace("Semester ", "").trim().toInt()
-                    .also {
+                tab?.text.toString().replace("Semester ", "").trim().toInt().also {
                         sem.value = it.toString()
                         lastChooseSem = it
                     }
@@ -258,23 +269,19 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private fun FragmentSemChooseBinding.setToolbar() = this.includeToolbar.apply {
         isEnableStateFlow.value =
             syllabusEnableModel.compareToCourseSem("${args.request}$lastChooseSem")
-        set(
-            ToolbarData(
-                titleString = "${args.request} Sem $lastChooseSem",
-                action = findNavController()::navigateUp,
-                switchTitle = com.atech.theme.R.string.blank,
-                switchAction = {
-                    launchWhenStarted {
-                        isEnableStateFlow.collectLatest {
-                            this.isChecked = it
-                        }
+        set(ToolbarData(titleString = "${args.request} Sem $lastChooseSem",
+            action = findNavController()::navigateUp,
+            switchTitle = com.atech.theme.R.string.blank,
+            switchAction = {
+                launchWhenStarted {
+                    isEnableStateFlow.collectLatest {
+                        this.isChecked = it
                     }
-                },
-                switchOnClick = {
-                    isEnableStateFlow.value = it
                 }
-            )
-        )
+            },
+            switchOnClick = {
+                isEnableStateFlow.value = it
+            }))
     }
 
 }

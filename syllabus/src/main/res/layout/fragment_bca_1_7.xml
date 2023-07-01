@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="OFFICE AUTOMATION TOOLS"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – I COMPUTER SCIENCE &amp; OPERATING SYSTEMS (WINDOWS/LINUX)"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="1. Types of Computer: Analog, Digital, and Hybrid type, Hardware, Software, System software, Application software, Stored Program Concept and Von Newman Architecture, Firm ware, Human ware, Stored Program Concept, Evolution of computers, Generation of computer. \n\n2. Data Processing: Data collection, Classifications, Sorting and Merging, Processing, Summarizing Storing. \n\n3. Data Organisation: Organization Data, Character, Field, Record, File, Database, Sequential Access, Random Access, Indexed Sequential Access. \n\n4. Data Communication: Local Area Network, Wide Area Network, Satellite Communication, Internet. \n\n5. Operating System: Introduction, Different Operating Systems, Loading and Quitting the Operating Systems Important DOS/Windows/Linux Commands."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II WINDOWS/Linux"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:paddingLeft="4.0dip"
+                android:text="1. Windows Introduction, \n\n2. Concepts different Operating System GUI/CUI. \n\n3. Desktop Icons. (Windows / Desktop Linux) \n\n4. My Computer, Recycle Bin, Internet Explorer, Network Neighbourhood, My Documents \n\n5. Working with windows: How to create a Folder, Copying and cutting files, Renaming \n\n6. Programs, Favourites, Documents, Settings, Find, Run, Shut down \n\n7. APPLICATION ICONS \n\n8. Introduction to Output Devices"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III PERSONAL COMPUTER SOFTWARE TOOLS (MS WORD, EXCEL)"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Open Office Word Processing using MS WORD: An introduction to MS-Word / ON INTRODUCTION TO WORD/Writer. \n\n2. The Word work space, Starting and quitting word, Creating and Manipulating Various documents, Editing of proofing files, Merging documents and macros. \n\n3. How to use Mouse and Menu, Working with dialog box \n\n4. Primary Command in File Menu: The Open Commands, The File name commands, The New commands, The Save, Save As, and Save all commands, The Close command, The Page setup, The Print commands, The Exit commands \n\n5. Edit Menu commands: The Cut, Copy, and Paste commands, The Undo and Repeat commands \n\n6. Format commands: Font commands, Paragraph commands \n\n7. Other Menu: The view menu, The Insert menu, The tool menu, The table menu, The Window menu"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV EXCEL "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. BUILDING A SIMPLE WORKSHEET \n\n2. Entering Text, Entering Values, Entering Dates and Times, Moving Around, Selecting Ranges, Using Menu, Using \n\n3. Tool Bar, Using Shortcut Menus, Changing Entries, Copying Entries, Moving Entries, Inserting and Deleting cells \n\n4. FORMATTING BASICS \n\n5. Changing Character Style, Changing Alignment, Changing Column Width \n\n6. WORKING WITH MULTIPLE WORKSHEET \n\n7. Copying entries between work books, Moving sheets between work books, Deleting sheets, Quitting Excel \n\n8. OPENING EXISTING WORKBOOKS \n\n9. Simple calculations, Doing Arithmetic, Totalling column of values, Naming cells and Ranges \n\n10. FORMATTING TEXT \n\n11. Displaying dollars and cents, Formatting decimal places, dates Format, Copying style and formats \n\n12. FORMULAS THAT MAKE DECISIONS \n\n13. Using the IF function, Using the nested IF function, Copying formulas \n\n14. Checking Spelling, Printing Worksheets, Preview Worksheets, Setting up the pages, \n\n15. Sorting data, Keeping Leading in View, Finding records, Adding and deleting Records, Filtering Records \n\n16. Plotting charts, Sizing and moving charts, Updating charts, changing the chart type, Using chart auto format \n\n17. Creating Macros, Recording Macros, Running Macros "
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module V – POWER POINT "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Main Features of Power Point.\n2. MAKING THE PRESENTATION.\n3. Creating Template wih the Auto Content Wizard. Creating a Presentation with a Template. Creating a presentation from Scratch.\n4. DIFFERENT VIEWS.\n5. Normal Slide, Outline, Slide Sorter, Slide Show, Notes, Slide Master\n6. ANIMATION, ART AND SOUND\n7. Controlling Transitions between slides. Animating Different Parts of a slide. Inserting a Motion Clip. Including\n8. Sounds in slides.\n9. INCLUDING GRAPHS, CHARTS, TABLES AND COLUMNS\n10. Organization Chart Slide, Creating a table Slide. Creating two column Slide,\nModule 1: Showing A Presentation,\n11. Rehearsing/ Timing a Presentation, Designation some slides as “Hidden”, Viewing Slides Anywhere in a Slide Show.\n12. Techniques for Making a Show Livelier\n13. OFFICE CONNECTIONS\n14. Presenting with the help of other Office Programs Importing the text from a World Document.\n15. Printing a Presentation\n"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Vasishtha A.R., “Modern Algebra”, Krishna Prakashan Media (P) Ltd, Meerut, 2006.(T1) \n\n 2. Vasishtha A.R, “Matrices”, Krishna Prakashan Media (P) Ltd, Meerut, 2006. (T2) \n\n 3. DasH.K., “Advanced Engineering Mathematics”, S. Chand, 2009.(T3)1. KolmanB., BusbyR. C., and RossS. C., “Discrete Mathematical Structures”, 6 th Edition, Prentice Hall of India, 2008.(R1) \n\n 4. ShethH., “Abstract Algebra”, PHI, 2009.(R2) \n\n 5. GrewalB. S., “Higher Engineering Mathematics”, Khanna Publishers, 2000.(R3)"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. KolmanB., BusbyR. C., and RossS. C., “Discrete Mathematical Structures”, 6th Edition, Prentice Hall of India, 2008.(R1) \n\n 2. ShethH., “Abstract Algebra”, PHI, 2009.(R2) \n\n 3. GrewalB. S., “Higher Engineering Mathematics”, Khanna Publishers, 2000.(R3)"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

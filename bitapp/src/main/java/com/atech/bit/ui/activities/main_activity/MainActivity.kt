@@ -129,6 +129,9 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         return BuildConfig.VERSION_NAME
     }
 
+    override fun getNavigationFragmentId(): Int =
+        R.id.fragment
+
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment
     private fun setExitTransition() = getCurrentFragment()?.exitTransition()
 
@@ -148,6 +151,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         R.id.societyDetailFragment,
         R.id.administrationFragment,
         com.atech.course.R.id.semChooseFragment,
+        com.atech.course.R.id.viewSyllabusFragment,
     )
 
     override fun onSupportNavigateUp(): Boolean {

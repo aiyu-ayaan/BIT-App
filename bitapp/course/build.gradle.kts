@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation(project(":theme"))
     implementation(project(":core"))
+    implementation(project(":syllabus"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
@@ -56,6 +57,14 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.android.viewbinding)
+
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    implementation(libs.recycler.view)
+
+    implementation(libs.lotti)
+    implementation(libs.markDownView)
 }
 kapt {
     correctErrorTypes = true

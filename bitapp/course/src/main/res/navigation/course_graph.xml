@@ -9,7 +9,7 @@
         android:id="@+id/courseFragment"
         android:name="com.atech.course.CourseFragment"
         android:label="@string/course"
-        tools:layout="@layout/fragment_course" >
+        tools:layout="@layout/fragment_course">
         <action
             android:id="@+id/action_courseFragment_to_semChooseFragment"
             app:destination="@id/semChooseFragment" />
@@ -18,13 +18,28 @@
         android:id="@+id/semChooseFragment"
         android:name="com.atech.course.sem.SemChooseFragment"
         android:label="fragment_sem_choose"
-        tools:layout="@layout/fragment_sem_choose" >
+        tools:layout="@layout/fragment_sem_choose">
         <argument
             android:name="request"
             app:argType="string" />
         <argument
             android:name="sem"
-            app:argType="integer"
-            android:defaultValue="6" />
+            android:defaultValue="6"
+            app:argType="integer" />
     </fragment>
+    <fragment
+        android:id="@+id/viewSyllabusFragment"
+        android:name="com.atech.course.view_syllabus.ViewSyllabusFragment"
+        android:label="fragment_view_offline_syllabus"
+        tools:layout="@layout/fragment_view_offline_syllabus">
+        <argument
+            android:name="model"
+            app:argType="com.atech.course.sem.adapter.SyllabusUIModel" />
+        <argument
+            android:name="courseSem"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_viewSyllabusFragment"
+        app:destination="@id/viewSyllabusFragment" />
 </navigation>

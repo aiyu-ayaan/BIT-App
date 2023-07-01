@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:16 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="fill_parent"
+            android:layout_height="70.0dip"
+            android:elevation="10.0dip"
+            app:cardBackgroundColor="?attr/colorPrimary"
+            app:cardCornerRadius="14.0dip">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Business Statistics"
+                android:textColor="@color/textColorSubTitle"
+                android:textSize="32.0dip"
+                android:textStyle="bold" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – I Introduction to Statistics "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Definition of Statistics, Scope of Statistics, Types of Data. Methods of collecting Data, Diagrammatic and Graphic Presentation of Data, Graphs of Frequency Distribution. Numerical exercises."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="Module – II Measures of Central Tendency "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1.1"
+                android:paddingLeft="4.0dip"
+                android:text="Need for measuring central tendency of data; Arithmetic Mean, Geometric Mean, Harmonic Mean, Median, Mode: their properties, merits and demerits. Numerical exercises."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – III Measures of Dispersion "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Need for measuring dispersion of data; Range, Mean Absolute Deviation, Quartile Deviation, Standard deviation, Coefficient of Variation: their properties, merits and demerits. Numerical exercises."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – IV Correlation and Regression Analysis ( for ungrouped data )"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Need for studying correlation, Types of Correlation, Methods of Studying Correlation: Scatter Diagram, Karl Pearson’s coefficient of correlation, Spearman’s Rank Correlation, Method of least squares. Need for studying regression analysis, Two regression equations, Regression co-efficient and its properties. Numerical exercises. "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Module – V Business Forecasting through Time Series Analysis "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="Significance of forecasting in business, Steps in Forecasting, Role of Time Series Analysis, Components of Time Series: Secular Trend, Seasonal Variations, Cyclical Variations, Irregular Variations. Method of Semi-averages. Numerical exercises. "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="1. Gupta S.P. and Gupta M.P. (2015), Business Statistics. (Sultan Chand &amp; Sons: New Delhi).18th ed. 2. Das N.G. (2017). Statistical Methods (combined volumes). (Tata McGraw-Hill: New Delhi). "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5.0dip"
+                android:text="1. Richard I. Levin, David S. Rubin, Masood H. Siddiqui (2017), Statistics for Management. (Pearson: New Delhi) 8th ed.                 \n\n 2. Hogg Robert V., MckeanJoeseph, Craig Allen T. (2017), Introduction to Mathematical Statistics (Pearson: New Delhi) 7th ed.                 \n\n 3. Miller James D. (2017), Statistics for Data Science (Packt Publishing: Birmingham-Mumbai) 1st ed "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

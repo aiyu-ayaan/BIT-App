@@ -19,11 +19,11 @@ sealed class CourseViewHolder(
 
     class SubjectHolder(
         private val binding: RowSubjectsBinding,
-        onClick: ((Int, View) -> Unit)? = null
+        onClick: ((Int) -> Unit)? = null
     ) : CourseViewHolder(binding) {
         init {
             binding.root.setOnClickListener {
-                onClick?.invoke(adapterPosition, binding.root)
+                onClick?.invoke(absoluteAdapterPosition)
             }
         }
 

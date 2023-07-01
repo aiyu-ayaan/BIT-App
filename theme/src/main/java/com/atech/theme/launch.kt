@@ -22,3 +22,10 @@ fun LifecycleOwner.launchWhenResumed(block: suspend () -> Unit) = this.run {
         }
     }
 }
+fun LifecycleOwner.launchWhenCreated(block: suspend () -> Unit) = this.run {
+    lifecycleScope.launch {
+        repeatOnLifecycle(Lifecycle.State.CREATED) {
+            block()
+        }
+    }
+}

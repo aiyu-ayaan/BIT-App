@@ -262,4 +262,6 @@
     <string name="current_cgpa">Current CGPA</string>
     <string name="something_went_wrong">Something went wrong</string>
     <string name="source">Source</string>
+    <string name="no_syllabus_found">No Syllabus Found</string>
+    <string name="no_syllabus_found_subtitle">Link may be invalid !!</string>
 </resources>

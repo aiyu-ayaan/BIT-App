@@ -47,7 +47,7 @@
             layout="@layout/layout_no_data_found"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/recycler_view_sem_choose"
             app:layout_constraintStart_toStartOf="@+id/recycler_view_sem_choose"

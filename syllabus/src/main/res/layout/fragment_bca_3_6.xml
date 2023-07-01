@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Internet Technologies Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:gravity="left"
+                android:text="List of Programs as Assignments:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="1. Create a simple html file to demonstrate the use of different heading tags. \n\n2. Create a simple html file to demonstrate different types of list. \n\n3. Create a simple html file to create a table containing marks of 5 subjects of 10 students. \n\n4. Design a html form for reserving a room in a hotel. \n\n5. Create a html page with different types of frames such as floating frame, navigation frame &amp; mixed frame. \n\n6. Create a html form to find the railway fare from one place to another. \n\n7. Create an XML structure with elements and attributes for Library information system. \n\n8. Create an XML structure with elements and attributes for railway reservation system. \n\n9. Create an XML document for student information system. Create a DTD and link the DTD to the XML document. \n\n10. Create an XML document for employee information system. Create a DTD and link the DTD to the XML document \n\n11. Create an XML schema for an XML file, which contains information about books that are available in the library. \n\n12. Write a Servlet Program that displays server information (server name, port etc.). \n\n13. Create a servlet program to retrieve the values entered in the html file. \n\n14. Create a servlet program that takes your name and address from a HTML Form and displays it. \n\n15. Write a program to show inter servlet communication between two servlets. \n\n16. Create a simple servlet program to display the date and time. \n\n17. Write a JSP program to output, 'Welcome to JSP world.' \n\n18.Write a JSP page to display current time. \n\n18. Write a JSP page that display a randomly generated number in first visit to this page and repeat displaying this same number in subsequent visits. \n\n19. Write a JSP page to display current date. \n\n20. Write a JSP page using &lt;jsp:forward> to go to a servlet program which displays your name, date of birth and address. \n\n21. Create a HTML form to take customer information (Name, Address, Mobile No.). Write a JSP program to validate this information of customers. \n\n22. Write a jsp program to display student records stored in the database. \n\n23. Create a form to record student details and store it into the database using jsp. \n\n24. Write a program, using servlet and JDBC which takes students roll number and provides student information, which includes the name of the student, address, email-id, program of study, and \n\n25. year of admission. You have to use a database to store student’s information. \n\n26. Write program of Q25. with login and password protection. Display a message if login and password are not correctly given. \n\n27. Create a database of students. Write a program using jsp to display the name, course, semester for those students who have more than 3 backlogs. Page 131 of 243 \n\n28. Create a database of students who are in the 5th Semester of the BCA. Write a program using JSP and JDBC to display the name and address of those students who are born after 1995. \n\n29. Write a program using servlet and JDBC for developing an online application for the shopping of computer science books. You have to create a database for book title, author(s) of book, publisher, year of publication, price. Make necessary assumptions for book shopping. \n\n30. Develop an application that collects/maintains the product information of an electronics goods production company in a database. Write a JSP page to retrieve information from the database on demand. Make necessary assumptions to develop this application."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Deitel,. P.J. Deitel, H.M. 'Internet &amp; World Wide Web How to Program', Pearson International Edition, 4th Edition."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20.0dip"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:padding="5.0dip"
+                android:text="1. Xavier C., “Web Technology &amp; Design”, New Age International Publishers, 1st Edn, NewDelhi, 2004."
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

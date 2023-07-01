@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 9/11/21, 11:17 PM
+  ~ Copyright (c) 2021 . All rights reserved.
+  ~ Last modified 9/11/21, 11:14 PM
+  -->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/colorSurface"
+    android:padding="8.0dip"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/heading_back"
+            android:backgroundTint="?attr/colorPrimary"
+            android:gravity="center"
+            android:text="Python Programming Lab"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32.0dip"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20.0dip"
+
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+                android:text="List of Programs as Assignments:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="1. Write a program that displays “Hello to Python programming”. \n\n2. Write a program to read two integers and perform arithmetic operations on them (addition, subtraction, multiplication and division). \n\n3. Write a program to read the marks of three subjects and find the average of them. \n\n4. Surface area of a prism can be calculated if the lengths of the three sides are known. Write a program that takes the sides as input (read it as integer) and prints the surface area of the prism (Surface Area = 2ab + 2bc + 2ca) \n\n5. A plane travels 395,000 meters in 9000 seconds. Write a program to find the speed of the plane (Speed = Distance / Time). \n\n6. You need to empty out the rectangular swimming pool which is 12 meters long, 7 meters wide and 2 meter depth. You have a pump which can move 17 cubic meters of water in an hour. Write a program to find how long it will take to empty your pool? (Volume = l * w * h, and flow = volume/time). \n\n7. Write a program to convert temperature from centigrade (read it as float value) to Fahrenheit. \n\n8. A car starts from a stoplight and is traveling with a velocity of 10 m/sec east in 20 seconds. Write a program to find the acceleration of the car. [acc = (Vբᵢₙₐₗ−Vᵢₙᵢₜᵢₐₗ)/ Time]. \n\n9. Write a Program to Prompt for a Score between 0.0 and 1.0. If the Score Is Out of Range, Print an Error. If the Score Is between 0.0 and 1.0, Print a Grade Using the Following Table"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/draw5" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20.0dip"
+                android:layout_marginBottom="10.0dip"
+                android:gravity="left"
+                android:padding="5.0dip"
+                android:text="10. Write a Program to find the maximum of three numbers. \n\n11. Suppose you want to develop a program to play a lottery. The program randomly generates a two-digit number, prompts the user to enter a two-digit number, and determines whether the user wins according to the following rules: \n\na) If the user’s input matches the lottery in the exact order, the award is $10,000. \n\nb) If all the digits in the user’s input match all the digits in the lottery number, the award is $3,000. \n\nc) If one digit in the user’s input matches a digit in the lottery number, the award is $1,000. \n\n12. Write a Program to Check If a Given Year Is a Leap Year. \n\n13. Program to Find the GCD of Two Positive Numbers. \n\n14. Write a program that prompts the user to enter a four-digit integer and displays the number in reverse order. Page 178 of 243 \n\n15. Write Python Program to Find the Sum of Digits in a Number \n\n16. Write a program to print the sum of the following series. \n\na) 1 + 1/2 + 1/3 +. …. + 1/n \n\nb) 1/1 + 2²/2 + 3³/3 + ……. + nⁿ/n \n\n17. Write a Program to Display the Fibonacci Sequences up to nth Term Where n is Provided by the User. \n\n18. Write a Program to Find the Sum of All Odd and Even Numbers up to a Number Specified by the User. \n\n19. Write a Program to Check Whether a Number Is Prime or Not. \n\n20. Write a Program to Find the Factorial of a Number. \n\n21. Write a Program to Demonstrate the Return of Multiple Values from a Function Definition. \n\n22. Program to Demonstrate the Use of Default Parameters \n\n23. Write Program to Demonstrate the Scope of Variables. \n\n24. Program to Print the Characters Which Are Common in Two Strings. \n\n25. Write a program to check whether a given String is palindrome or not. \n\n26. Write Python Program to Count the Number of Times an Item appears in the List. \n\n27. Write a program to create a list of integer numbers. Sort the elements using any sorting method. \n\n28. Write a program to create a lists of integer numbers and perform the linear and binary search. \n\n29. Write a program to create a lists of cities names and perform the sort the cities name in alphabetical order. \n\n30. Find Mean, Variance and Standard Deviation of List Numbers \n\n31. Write a Program to Find the Transpose of a Matrix. \n\n32. Write a program to perform the matrices multiplication. \n\n33. Write a program to create a dictionary for countries name as key and currency as value. Traversve the dictionary with key:value Pairs in using for Loop. \n\n34. Write a program to create tuples, and perform the following operations: Merging of tuples, Spliting of a tuple, comparison of two tuples. \n\n35. Write a program to create an intersection, union, set difference, and symmetric difference of sets. Page 179 of 243 \n\n36. Write a program with “MyRectangle” class aving the dimensions as data members and area() as a method member. Calculate the area of each rectangle object created by user. \n\n37. Design a class with name “MyComplex” to represent the complex number including the constructor overloading, methods to perform the arithmetic operation over the two complex numbers. Write the complete python program for the above design. \n\n38. Design a class with name “Distance” to represent the distance in feet and inch. Include the method to calculate the addition of two distances. Write the complete python program for the above design. \n\n39. Write a complete program to implement the Employee and its subclasses (Salarayed Employee, DailyWaged Employee, Commission based employee) given in Hierarchical and multilevel manner. The program should exhibit the use of super key word to invoke the super class constructor. \n\n40. Write a program to open a file and perform the reading and writing operation with the file. \n\n41. Write a program to count the number of line in a file. \n\n42. Write a program to count the frequencies of each word from a file. \n\n43. Write a program to copy the text of a file to another file. \n\n44. Write a program to append a file with the content of another file. \n\n45. Write a program to compare two file. \n\n46. Write a program to delete and insert a sentence at specified position in a file. \n\n47. Write a program to delete a sentence from a file if the file contains a specific word. \n\n48. Write program to delete comment lines from a file. \n\n49. Write a program to capitalize each word of the file. \n\n50. Write a program to handle an exception using exception handling mechanism of the python. \n\n51. Write a program to raise an exception explicitly using raise keyword. "
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textSize="20.0dip"
+                android:textStyle="italic" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20.0dip"
+                    android:text="Text Books:"
+                    android:textColor="@color/textColor"
+                    android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10.0dip"
+                    android:layout_marginBottom="10.0dip"
+                    android:padding="5.0dip"
+                    android:text="1. Y. Daniel Liang, “Introduction to programming using python”, Pearson Education; First edition (2017)."
+                    android:textColor="@color/textColorSecondary"
+                    android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10.0dip"
+
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20.0dip"
+                    android:text="Reference Books:"
+                    android:textColor="@color/textColor"
+                    android:textIsSelectable="true"
+                    android:textSize="25.0dip"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10.0dip"
+                    android:layout_marginBottom="10.0dip"
+                    android:padding="5.0dip"
+                    android:text="1. Mollah S. A., “Numerical Analysis and Computational Procedures,” Books and Allied (P) Ltd., Kolkata, 2017. \n\n 2. Sastry S.S., “Introductory Methods of Numerical Analysis,” PHI, Private Ltd., New Delhi. \n\n 3. Pal N. &amp; Sarkar S., “Statistics: Concepts and Applications,” PHI, New Delhi, 2005. \n\n 4. Das N. G., “Statistical Methods,” Tata McGraw Hill Edu. P. Ltd., New Delhi, 2010."
+                    android:textColor="@color/textColorSecondary"
+                    android:textIsSelectable="true"
+                android:textSize="20.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
