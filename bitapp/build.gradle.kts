@@ -65,6 +65,8 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics.ktx)
+    releaseImplementation(libs.firebase.crashlytics.ktx)
+
 
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)

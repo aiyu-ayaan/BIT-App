@@ -2,9 +2,10 @@ package com.atech.course.sem.adapter
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import com.atech.core.retrofit.client.SubjectModel
 import com.atech.core.room.syllabus.Subject
 import com.atech.core.room.syllabus.SyllabusModel
-import com.atech.theme.EntityMapper
+import com.atech.core.utils.EntityMapper
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ data class SyllabusUIModel(
     val openCode: String,
     val type: String,
     val group: String,
-    val shortName: String,
+    val shortName: String?,
     val listOrder: Int,
     val subjectContent: Subject?,
     val isChecked: Boolean?,
@@ -35,7 +36,7 @@ data class SyllabusUIModel(
     val isFromOnline: Boolean = false
 ) : Parcelable
 
-class SyllabusUIMapper @Inject constructor() : EntityMapper<SyllabusModel, SyllabusUIModel> {
+class OfflineSyllabusUIMapper @Inject constructor() : EntityMapper<SyllabusModel, SyllabusUIModel> {
     override fun mapFormEntity(entity: SyllabusModel): SyllabusUIModel =
         SyllabusUIModel(
             subject = entity.subject,
@@ -61,7 +62,7 @@ class SyllabusUIMapper @Inject constructor() : EntityMapper<SyllabusModel, Sylla
             openCode = domainModel.openCode,
             type = domainModel.type,
             group = domainModel.group,
-            shortName = domainModel.shortName,
+            shortName = domainModel.shortName ?: "",
             listOrder = domainModel.listOrder,
             subjectContent = domainModel.subjectContent,
             isChecked = domainModel.isChecked,
@@ -73,4 +74,32 @@ class SyllabusUIMapper @Inject constructor() : EntityMapper<SyllabusModel, Sylla
     fun mapFromEntityList(entities: List<SyllabusModel>): List<SyllabusUIModel> =
         entities.map { mapFormEntity(it) }
 
+}
+
+class OnlineSyllabusUIMapper @Inject constructor() : EntityMapper<SubjectModel, SyllabusUIModel> {
+    override fun mapFormEntity(entity: SubjectModel): SyllabusUIModel =
+        SyllabusUIModel(
+            subject = entity.subjectName,
+            code = entity.code,
+            credits = entity.credit.toInt(),
+            openCode = "",
+            type = "",
+            group = "",
+            shortName = entity.shortName,
+            listOrder = 0,
+            subjectContent = null,
+            isChecked = false,
+            isAdded = false,
+            fromNetwork = true,
+            deprecated = false,
+            isFromOnline = true
+        )
+
+    override fun mapToEntity(domainModel: SyllabusUIModel): SubjectModel =
+        SubjectModel(
+            subjectName = domainModel.subject,
+            code = domainModel.code,
+            credit = domainModel.credits.toDouble(),
+            shortName = domainModel.shortName ?: ""
+        )
 }

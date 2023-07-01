@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -15,10 +16,12 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -120,3 +123,69 @@ fun <T> LinearLayout.addViews(
         action(t, view)
         addView(view)
     }
+
+/**
+ * @since 4.0.3
+ * @author Ayaan
+ */
+fun View.showSnackBar(message: String, duration: Int) = Snackbar.make(
+    this, message, duration
+).apply {
+    this.setBackgroundTint(
+        MaterialColors.getColor(
+            this.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
+        )
+    )
+    this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
+}.show()
+
+
+/**
+ * @since 4.0.3
+ * @author Ayaan
+ */
+fun View.showSnackBar(
+    message: String, duration: Int, actionName: String?, action: (() -> Unit)?
+) = Snackbar.make(
+    this, message, duration
+).apply {
+    this.setBackgroundTint(
+        MaterialColors.getColor(
+            this.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
+        )
+    )
+    this.setTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.textColor))
+    action?.let { action ->
+        this.setActionTextColor(ContextCompat.getColor(this@showSnackBar.context, R.color.red))
+        setAction(actionName) {
+            action.invoke()
+        }
+    }
+}.show()
+
+fun Activity.openBugLink(
+    @StringRes reportType: Int = R.string.bug_repost,
+    extraString: String = "",
+    reportDes: String? = null,
+    version: String
+) = this.startActivity(
+    Intent.createChooser(
+        Intent().also {
+            it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
+            it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(reportType))
+            it.putExtra(
+                Intent.EXTRA_TEXT, if (extraString.isNotBlank()) """Found a bug on $extraString  
+                                |happened on ${Date().time.convertLongToTime("dd/mm/yyyy hh:mm:aa")}
+                                |due to $reportDes .
+                                |
+                                |Device Info: ${Build.MANUFACTURER} ${Build.MODEL}
+                                |Android Version: ${Build.VERSION.RELEASE}
+                                |App Version: $version
+                                |""".trimMargin()
+                else ""
+            )
+            it.type = "text/html"
+            it.setPackage(resources.getString(R.string.gmail_package))
+        }, resources.getString(R.string.bug_title)
+    )
+)

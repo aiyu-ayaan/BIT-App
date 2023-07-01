@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    buildFeatures {
+        buildConfig = true
+    }
 
 }
 
@@ -56,6 +59,13 @@ dependencies {
     implementation(libs.room.ktx)
     annotationProcessor(libs.room.compiler)
     kapt(libs.room.compiler)
+
+    implementation(platform(libs.firebase.bom))
+    releaseImplementation(libs.firebase.analytics.ktx)
+    releaseImplementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.config.ktx)
 
 }
 kapt {

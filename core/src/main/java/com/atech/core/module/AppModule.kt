@@ -3,7 +3,7 @@ package com.atech.core.module
 import android.content.Context
 import android.content.SharedPreferences
 import com.atech.core.utils.BitAppScope
-import com.atech.core.utils.SharePref
+import com.atech.core.utils.SharePrefKeys
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
-        context.getSharedPreferences(SharePref.SharedPreferenceName.name, Context.MODE_PRIVATE)
+        context.getSharedPreferences(SharePrefKeys.SharedPreferenceName.name, Context.MODE_PRIVATE)
 
 
     @Singleton

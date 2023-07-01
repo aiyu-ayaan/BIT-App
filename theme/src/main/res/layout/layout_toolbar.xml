@@ -51,4 +51,17 @@
         tools:icon="@drawable/ic_settings"
         tools:visibility="visible" />
 
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/toggle_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:checked="false"
+        android:padding="@dimen/grid_1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/switch_to_new" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

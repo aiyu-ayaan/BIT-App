@@ -18,7 +18,7 @@ inline fun <ResponseObject> networkFetchData(
         when (e.code()) {
             504 -> emit(DataState.Error(NetworkBoundException.NoInternet))
             404 -> emit(DataState.Error(NetworkBoundException.NotFound))
-            else -> emit(DataState.Error(NetworkBoundException.Unknown))
+            else -> emit(DataState.Error(NetworkBoundException.Unknown(e.code())))
         }
     } catch (e: Exception) {
         emit(DataState.Error(e))
@@ -29,7 +29,7 @@ inline fun <ResponseObject> networkFetchData(
 sealed class NetworkBoundException(val code: Int) : Exception() {
     object NoInternet : NetworkBoundException(504)
     object NotFound : NetworkBoundException(404)
-    object Unknown : NetworkBoundException(0)
+    class Unknown(code: Int) : NetworkBoundException(code)
 }
 
 

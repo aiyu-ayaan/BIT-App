@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
+import com.atech.bit.BuildConfig
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
 import com.atech.bit.utils.DrawerLocker
@@ -122,6 +123,10 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
 
     override fun setBottomNavigationVisibility(isVisible: Boolean) {
         binding.bottomNavigation.isVisible = isVisible
+    }
+
+    override fun getVersionName(): String {
+        return BuildConfig.VERSION_NAME
     }
 
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment

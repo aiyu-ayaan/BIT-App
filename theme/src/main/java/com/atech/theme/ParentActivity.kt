@@ -11,4 +11,6 @@ interface ParentActivity {
     fun getDrawerLayout(): DrawerLayout
 
     fun setBottomNavigationVisibility(isVisible: Boolean)
+
+    fun getVersionName(): String
 }

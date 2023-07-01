@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.home
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -8,12 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
-import com.atech.bit.ui.activities.main_activity.MainActivity
+import com.atech.core.firebase.RemoteConfigHelper
+import com.atech.core.utils.RemoteConfigKeys
+import com.atech.core.utils.SharePrefKeys
 import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
+import com.atech.theme.toast
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
@@ -22,6 +27,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private val mainActivity: ParentActivity by lazy {
         requireActivity() as ParentActivity
     }
+
+    @Inject
+    lateinit var remoteConfigHelper: RemoteConfigHelper
+
+    @Inject
+    lateinit var pref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +46,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         handleExpand()
         handleBackPress()
+        fetchRemoteConfigData()
     }
 
     private fun FragmentHomeBinding.setDrawerOpen() = this.searchBar.setNavigationOnClickListener {
@@ -68,6 +80,18 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                     }
                 }
             }
+        }
+    }
+
+    //    --------------------------------- Remote Config ----------------------------------
+    private fun fetchRemoteConfigData() {
+        remoteConfigHelper.fetchData(failure = {
+            toast(it.message.toString())
+        }) {
+            remoteConfigHelper.getString(RemoteConfigKeys.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY.name)
+                .let {
+                    pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
+                }
         }
     }
 
