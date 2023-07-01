@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/material_card_view_notice"
+    style="?attr/materialCardViewOutlinedStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/grid_0_5"
+    app:cardBackgroundColor="?attr/colorSurface"
+    app:strokeColor="?attr/bottomBar"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/grid_1">
+
+        <TextView
+            android:id="@+id/subject_code_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_1"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="CA 302" />
+
+        <TextView
+            android:id="@+id/subject_text_view"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_5"
+            android:layout_marginEnd="16dp"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/subject_code_text_view"
+            app:layout_constraintTop_toBottomOf="@+id/subject_code_text_view"
+            app:layout_goneMarginEnd="@dimen/grid_2"
+            tools:text="LOC" />
+
+        <TextView
+            android:id="@+id/credit_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_0_5"
+            android:maxLines="1"
+            android:textAppearance="?attr/textAppearanceBody2"
+            app:drawableStartCompat="@drawable/ic_backpack"
+            app:layout_constraintStart_toEndOf="@+id/subject_code_text_view"
+            app:layout_constraintTop_toTopOf="@+id/subject_code_text_view"
+            tools:text="-12" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
