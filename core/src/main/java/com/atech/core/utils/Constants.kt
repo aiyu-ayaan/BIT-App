@@ -1,7 +1,8 @@
 package com.atech.core.utils
 
 enum class SharePref{
-    SharedPreferenceName
+    SharedPreferenceName,
+    ChooseSemLastSelectedSem,
 }
 const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
 const val DEFAULT_TIME_FORMAT = "hh:mm a"

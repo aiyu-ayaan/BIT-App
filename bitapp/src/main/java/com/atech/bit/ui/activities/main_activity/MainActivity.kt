@@ -141,7 +141,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         R.id.holidayFragment,
         R.id.societyFragment,
         R.id.societyDetailFragment,
-        R.id.administrationFragment
+        R.id.administrationFragment,
+        com.atech.course.R.id.semChooseFragment,
     )
 
     override fun onSupportNavigateUp(): Boolean {

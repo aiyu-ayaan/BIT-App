@@ -12,11 +12,13 @@ import com.atech.core.retrofit.ApiCases
 import com.atech.core.retrofit.client.CourseDetail
 import com.atech.core.utils.DataState
 import com.atech.course.databinding.FragmentCourseBinding
+import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToastLength
 import com.atech.theme.addViews
 import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
+import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -74,12 +76,20 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
                 view.findViewById<TextView>(R.id.tv_course_name).text = course.courseName
                 view.rootView.apply {
                     setOnClickListener {
-                        // FIXME: Implement navigation
-//                        navigateToSemChoose(course.courseName, course.totalSemester)
+                        navigateToSemChoose(course.courseName, course.totalSemester)
                     }
                 }
             }
         }
+    }
+
+    private fun navigateToSemChoose(courseName: String, totalSemester: Int) {
+        exitTransition(Axis.X)
+        val action = CourseFragmentDirections.actionCourseFragmentToSemChooseFragment(
+            courseName,
+            totalSemester
+        )
+        findNavController().navigate(action)
     }
 
     private fun FragmentCourseBinding.openDrawer() =

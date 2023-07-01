@@ -9,5 +9,22 @@
         android:id="@+id/courseFragment"
         android:name="com.atech.course.CourseFragment"
         android:label="@string/course"
-        tools:layout="@layout/fragment_course" />
+        tools:layout="@layout/fragment_course" >
+        <action
+            android:id="@+id/action_courseFragment_to_semChooseFragment"
+            app:destination="@id/semChooseFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/semChooseFragment"
+        android:name="com.atech.course.sem.SemChooseFragment"
+        android:label="fragment_sem_choose"
+        tools:layout="@layout/fragment_sem_choose" >
+        <argument
+            android:name="request"
+            app:argType="string" />
+        <argument
+            android:name="sem"
+            app:argType="integer"
+            android:defaultValue="6" />
+    </fragment>
 </navigation>
