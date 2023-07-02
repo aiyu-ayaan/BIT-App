@@ -26,7 +26,7 @@
         android:layout_gravity="bottom"
         android:backgroundTint="?attr/bottomBar"
         app:menu="@menu/attendance_app_bar"
-        app:navigationIcon="@drawable/ic_list_all"
+        app:navigationIcon="@drawable/round_menu_24"
         app:navigationIconTint="?attr/colorPrimary" />
 
 

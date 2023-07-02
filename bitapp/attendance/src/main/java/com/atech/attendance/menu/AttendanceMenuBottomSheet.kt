@@ -15,6 +15,7 @@ import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.attendance.AttendanceSave
 import com.atech.core.utils.REQUEST_MENU_FROM_ARCHIVE
 import com.atech.core.utils.UPDATE_REQUEST
+import com.atech.theme.BaseBottomSheet
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.navigate
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -23,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.util.Deque
 
 @AndroidEntryPoint
-class AttendanceMenuBottomSheet : BottomSheetDialogFragment() {
+class AttendanceMenuBottomSheet : BaseBottomSheet() {
     private lateinit var binding: BottomSheetAttendanceMenuBinding
 
     private val args: AttendanceMenuBottomSheetArgs by navArgs()
@@ -36,8 +37,6 @@ class AttendanceMenuBottomSheet : BottomSheetDialogFragment() {
     private val communicator: AttendanceViewModel by activityViewModels()
 
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        BottomSheetDialog(requireContext(), theme)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -143,5 +142,4 @@ class AttendanceMenuBottomSheet : BottomSheetDialogFragment() {
         navigate(action)
     }
 
-    override fun getTheme(): Int = com.atech.theme.R.style.ThemeOverlay_App_BottomSheetDialog
 }

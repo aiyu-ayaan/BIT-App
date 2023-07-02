@@ -17,8 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
-    private val attendanceDao: AttendanceDao,
-    private val syllabusDao: SyllabusDao
+        private val attendanceDao: AttendanceDao,
+        private val syllabusDao: SyllabusDao
 ) : ViewModel() {
 
 
@@ -26,6 +26,7 @@ class AttendanceViewModel @Inject constructor(
     val unArchive: LiveData<List<AttendanceModel>>
         get() = _attendance.asLiveData()
 
+    val archive: LiveData<List<AttendanceModel>> = attendanceDao.getAllArchiveAttendance().asLiveData()
     val allAttendance = attendanceDao.getAllAttendance().asLiveData()
 
 
@@ -38,18 +39,27 @@ class AttendanceViewModel @Inject constructor(
     }
 
     fun delete(attendanceModel: AttendanceModel) =
-        viewModelScope.launch {
-            syllabusDao.updateSyllabusAddedInAttendance(attendanceModel.subject, 0)
-            attendanceDao.delete(attendanceModel)
-            _attendanceEvent.send(AttendanceEvent.ShowUndoDeleteMessage(attendanceModel))
-        }
+            viewModelScope.launch {
+                syllabusDao.updateSyllabusAddedInAttendance(attendanceModel.subject, 0)
+                attendanceDao.delete(attendanceModel)
+                _attendanceEvent.send(AttendanceEvent.ShowUndoDeleteMessage(attendanceModel))
+            }
 
     fun add(attendanceModel: AttendanceModel, request: Int) = viewModelScope.launch {
         if (request == REQUEST_ADD_SUBJECT_FROM_SYLLABUS) syllabusDao.updateSyllabusAddedInAttendance(
-            attendanceModel.subject,
-            1
+                attendanceModel.subject,
+                1
         )
         attendanceDao.insert(attendanceModel)
+    }
+
+    fun deleteAllArchive() = viewModelScope.launch {
+        attendanceDao.deleteAllArchiveAttendance()
+    }
+
+    fun deleteAll() = viewModelScope.launch {
+        syllabusDao.updateSyllabusAddedInAttendance()
+        attendanceDao.deleteAll()
     }
 
     /**
@@ -65,8 +75,8 @@ class AttendanceViewModel @Inject constructor(
          * @since 4.0.3
          */
         data class ShowUndoDeleteMessage(
-            val attendance: AttendanceModel,
-            val syllabus: SyllabusModel? = null,
+                val attendance: AttendanceModel,
+                val syllabus: SyllabusModel? = null,
         ) : AttendanceEvent()
 
     }

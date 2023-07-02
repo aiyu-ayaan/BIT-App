@@ -16,8 +16,11 @@
         app:showAsAction="always" />
     <item
         android:id="@+id/menu_setting"
-        android:icon="@drawable/ic_settings"
         android:title="@string/setting"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_delete_all"
+        android:title="@string/delete_all"
+        app:showAsAction="never" />
 </menu>

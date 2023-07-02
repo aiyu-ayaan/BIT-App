@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_attendanceMenuBottomSheet"
             app:destination="@id/attendanceMenuBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_archiveBottomSheet"
+            app:destination="@id/archiveBottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/addEditAttendanceBottomSheet"
@@ -70,5 +73,23 @@
         <action
             android:id="@+id/action_attendanceMenuBottomSheet_to_addEditAttendanceBottomSheet"
             app:destination="@id/addEditAttendanceBottomSheet" />
+    </dialog>
+    <dialog
+        android:id="@+id/archiveBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet"
+        android:name="com.atech.attendance.archive.ArchiveBottomSheet"
+        android:label="ArchiveBottomSheet" >
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_detailViewBottomSheet"
+            app:destination="@id/detailViewBottomSheet" />
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_attendanceMenuBottomSheet"
+            app:destination="@id/attendanceMenuBottomSheet" />
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
+        <argument
+            android:name="defPercentage"
+            app:argType="integer" />
     </dialog>
 </navigation>

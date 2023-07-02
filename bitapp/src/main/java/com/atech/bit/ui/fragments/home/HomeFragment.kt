@@ -6,7 +6,6 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.core.firebase.RemoteConfigHelper
@@ -68,16 +67,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun handleBackPress() {
         customBackPress {
             when {
-                mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START) -> {
-                    mainActivity.setDrawerState(false)
-                }
+                mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START) -> mainActivity.setDrawerState(false)
 
                 else -> {
-                    if (binding.searchView.isShowing) {
-                        binding.searchView.hide()
-                    } else {
-                        findNavController().navigateUp()
-                    }
+                    if (binding.searchView.isShowing) binding.searchView.hide()
+                    else activity?.finish()
+
                 }
             }
         }
@@ -88,10 +83,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         remoteConfigHelper.fetchData(failure = {
             toast(it.message.toString())
         }) {
-            remoteConfigHelper.getString(RemoteConfigKeys.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY.name)
-                .let {
-                    pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
-                }
+            remoteConfigHelper.getString(RemoteConfigKeys.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY.name).let {
+                        pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
+                    }
         }
     }
 

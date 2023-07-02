@@ -21,16 +21,16 @@ fun onCheckClick(viewModel: AttendanceViewModel, attendance: AttendanceModel) {
     val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
 
     stack.push(
-        AttendanceSave(
-            attendance.total, attendance.present, attendance.days.copy(
-                presetDays = attendance.days.presetDays,
-                totalDays = ArrayList(attendance.days.totalDays.map {
-                    IsPresent(
-                        it.day, it.isPresent, it.totalClasses
-                    )
-                })
+            AttendanceSave(
+                    attendance.total, attendance.present, attendance.days.copy(
+                    presetDays = attendance.days.presetDays,
+                    totalDays = ArrayList(attendance.days.totalDays.map {
+                        IsPresent(
+                                it.day, it.isPresent, it.totalClasses
+                        )
+                    })
             )
-        )
+            )
     )
     presentDays.add(System.currentTimeMillis())
     /**
@@ -39,7 +39,7 @@ fun onCheckClick(viewModel: AttendanceViewModel, attendance: AttendanceModel) {
      */
     when {
         totalDays.isEmpty() || totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
-            .convertLongToTime("DD/MM/yyyy") || !totalDays.last().isPresent ->//new Entry or new day or new session
+                .convertLongToTime("DD/MM/yyyy") || !totalDays.last().isPresent ->//new Entry or new day or new session
             totalDays.add(IsPresent(System.currentTimeMillis(), true, totalClasses = 1))
 
         totalDays.isNotEmpty() && totalDays.last().totalClasses == null ->//old database migration
@@ -49,16 +49,17 @@ fun onCheckClick(viewModel: AttendanceViewModel, attendance: AttendanceModel) {
             totalDays.last().totalClasses = totalDays.last().totalClasses?.plus(1)
     }
     viewModel.update(
-        AttendanceModel(
-            id = attendance.id,
-            subject = attendance.subject,
-            present = attendance.present + 1,
-            total = attendance.total + 1,
-            days = attendance.days.copy(presetDays = presentDays, totalDays = totalDays),
-            stack = stack,
-            fromSyllabus = attendance.fromSyllabus,
-            teacher = attendance.teacher,
-        )
+            AttendanceModel(
+                    id = attendance.id,
+                    subject = attendance.subject,
+                    present = attendance.present + 1,
+                    total = attendance.total + 1,
+                    days = attendance.days.copy(presetDays = presentDays, totalDays = totalDays),
+                    stack = stack,
+                    fromSyllabus = attendance.fromSyllabus,
+                    teacher = attendance.teacher,
+                    isArchive = attendance.isArchive
+            )
     )
 //        communicator.hasChange = true // FIXME:  Communicator
 
@@ -76,18 +77,18 @@ fun onWrongClick(viewModel: AttendanceViewModel, attendance: AttendanceModel) {
     val absentDays = attendance.days.absentDays.clone() as ArrayList<Long>
     val totalDays = attendance.days.totalDays.clone() as ArrayList<IsPresent>
     stack.push(
-        AttendanceSave(
-            attendance.total,
-            attendance.present,
-            attendance.days.copy(
-                absentDays = attendance.days.absentDays,
-                totalDays = ArrayList(attendance.days.totalDays.map {
-                    IsPresent(
-                        it.day, it.isPresent, it.totalClasses
-                    )
-                })
-            ),
-        )
+            AttendanceSave(
+                    attendance.total,
+                    attendance.present,
+                    attendance.days.copy(
+                            absentDays = attendance.days.absentDays,
+                            totalDays = ArrayList(attendance.days.totalDays.map {
+                                IsPresent(
+                                        it.day, it.isPresent, it.totalClasses
+                                )
+                            })
+                    ),
+            )
     )
     absentDays.add(System.currentTimeMillis())
     /**
@@ -96,7 +97,7 @@ fun onWrongClick(viewModel: AttendanceViewModel, attendance: AttendanceModel) {
      */
     when {
         totalDays.isEmpty() || totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
-            .convertLongToTime("DD/MM/yyyy") || totalDays.last().isPresent ->//new Entry or new day
+                .convertLongToTime("DD/MM/yyyy") || totalDays.last().isPresent ->//new Entry or new day
             totalDays.add(IsPresent(System.currentTimeMillis(), false, totalClasses = 1))
 
         totalDays.isNotEmpty() && totalDays.last().totalClasses == null ->//old database migration
@@ -106,18 +107,19 @@ fun onWrongClick(viewModel: AttendanceViewModel, attendance: AttendanceModel) {
             totalDays.last().totalClasses = totalDays.last().totalClasses?.plus(1)
     }
     viewModel.update(
-        AttendanceModel(
-            id = attendance.id,
-            subject = attendance.subject,
-            present = attendance.present,
-            total = attendance.total + 1,
-            days = attendance.days.copy(
-                absentDays = absentDays, totalDays = totalDays
-            ),
-            stack = stack,
-            fromSyllabus = attendance.fromSyllabus,
-            teacher = attendance.teacher
-        )
+            AttendanceModel(
+                    id = attendance.id,
+                    subject = attendance.subject,
+                    present = attendance.present,
+                    total = attendance.total + 1,
+                    days = attendance.days.copy(
+                            absentDays = absentDays, totalDays = totalDays
+                    ),
+                    stack = stack,
+                    fromSyllabus = attendance.fromSyllabus,
+                    teacher = attendance.teacher,
+                    isArchive = attendance.isArchive
+            )
     )
 //        communicator.hasChange = true // FIXME:  Communicator
 

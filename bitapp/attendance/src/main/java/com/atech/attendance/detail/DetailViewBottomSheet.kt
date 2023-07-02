@@ -16,6 +16,7 @@ import com.atech.attendance.utils.findPercentage
 import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.attendance.IsPresent
 import com.atech.core.utils.convertLongToTime
+import com.atech.theme.BaseBottomSheet
 import com.atech.theme.R
 import com.atech.theme.launchWhenStarted
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
@@ -32,9 +33,8 @@ import kotlin.math.ceil
 
 
 @AndroidEntryPoint
-class DetailViewBottomSheet : BottomSheetDialogFragment() {
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
-        BottomSheetDialog(requireContext(), theme)
+class DetailViewBottomSheet : BaseBottomSheet() {
+
 
     private val args: DetailViewBottomSheetArgs by navArgs()
 
@@ -48,8 +48,6 @@ class DetailViewBottomSheet : BottomSheetDialogFragment() {
     private val minPercentage: Int by lazy {
         args.minPercentage
     }
-
-    override fun getTheme(): Int = R.style.ThemeOverlay_App_BottomSheetDialog
 
     private lateinit var binding: BottomSheetDetailViewBinding
 
