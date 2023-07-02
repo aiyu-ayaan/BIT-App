@@ -20,6 +20,7 @@ import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenStarted
+import com.atech.theme.navigate
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -89,7 +90,7 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
             courseName,
             totalSemester
         )
-        findNavController().navigate(action)
+       navigate(action)
     }
 
     private fun FragmentCourseBinding.openDrawer() =

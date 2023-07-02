@@ -50,4 +50,6 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.coil)
     implementation(libs.browser)
+    implementation(libs.navigation.fragment.ktx)
+
 }

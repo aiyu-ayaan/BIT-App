@@ -37,6 +37,7 @@ import com.atech.theme.exitSharedElementTransform
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.launchWhenStarted
+import com.atech.theme.navigate
 import com.atech.theme.openBugLink
 import com.atech.theme.set
 import com.atech.theme.showSnackBar
@@ -137,7 +138,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             syllabus,
             (args.request + sem.value).lowercase(),
         )
-        findNavController().navigate(action)
+       navigate(action)
     }
 
 

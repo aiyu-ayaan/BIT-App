@@ -13,6 +13,12 @@
         <action
             android:id="@+id/action_attendanceFragment_to_addEditAttendanceBottomSheet"
             app:destination="@id/addEditAttendanceBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_detailViewBottomSheet"
+            app:destination="@id/detailViewBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_attendanceMenuBottomSheet"
+            app:destination="@id/attendanceMenuBottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/addEditAttendanceBottomSheet"
@@ -32,5 +38,37 @@
             app:argType="com.atech.core.room.attendance.AttendanceModel"
             app:nullable="true"
             android:defaultValue="@null" />
+    </dialog>
+    <dialog
+        android:id="@+id/detailViewBottomSheet"
+        android:name="com.atech.attendance.detail.DetailViewBottomSheet"
+        android:label="fragment_detail_view"
+        tools:layout="@layout/bottom_sheet_detail_view" >
+        <argument
+            android:name="attendance"
+            app:argType="com.atech.core.room.attendance.AttendanceModel" />
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="minPercentage"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/attendanceMenuBottomSheet"
+        android:name="com.atech.attendance.menu.AttendanceMenuBottomSheet"
+        android:label="bottom_sheet_attendance_menu"
+        tools:layout="@layout/bottom_sheet_attendance_menu" >
+        <argument
+            android:name="attendance"
+            app:argType="com.atech.core.room.attendance.AttendanceModel"/>
+        <argument
+            android:name="request"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_attendanceMenuBottomSheet_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
     </dialog>
 </navigation>

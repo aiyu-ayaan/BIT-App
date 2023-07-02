@@ -61,6 +61,11 @@ dependencies {
 
     implementation(libs.recycler.view)
 
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    implementation(libs.calender)
+
 }
 kapt {
     correctErrorTypes = true

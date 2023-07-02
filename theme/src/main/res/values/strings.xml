@@ -125,14 +125,14 @@
     <string name="teacher_name">Teacher\'s Name</string>
     <string name="na">N/A</string>
 
-    <string name="on_track">On track don\'t miss next class</string>
+    <string name="on_track">Status: On track don\'t miss next class</string>
     <string name="leave_class">You can leave %s class</string>
     <string name="error">Error</string>
-    <string name="attend_class">Attend Next %s Class</string>
+    <string name="attend_class">Status: Attend Next %s Class</string>
     <string name="present_total">%s/%s</string>
     <string name="attendance_ration_title">Attendance :</string>
     <string name="forward_slash">/</string>
-    <string name="status">Status :</string>
+    <string name="status">Status : Not Started</string>
     <string name="theme">Theme</string>
     <string name="system_default">System default</string>
     <string name="light_theme">Light</string>

@@ -8,6 +8,8 @@
     android:layout_marginHorizontal="@dimen/grid_1"
     android:layout_marginVertical="@dimen/grid_0_5"
     app:cardBackgroundColor="?attr/bottomBar"
+    app:strokeColor="?attr/bottomBar"
+    app:strokeWidth=".4dp"
     tools:theme="@style/Base.Theme.BITApp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,8 +19,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="@dimen/grid_7"
-            android:layout_height="@dimen/grid_7"
+            android:layout_width="@dimen/grid_5"
+            android:layout_height="@dimen/grid_5"
             android:importantForAccessibility="no"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -33,7 +35,7 @@
             android:layout_marginStart="@dimen/grid_1"
             android:ellipsize="marquee"
             android:maxLines="1"
-            android:padding="@dimen/grid_0_5"
+            android:padding="@dimen/grid_0_25"
             android:textAppearance="?attr/textAppearanceTitleSmall"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +50,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:paddingHorizontal="@dimen/grid_0_5"
+            android:paddingHorizontal="@dimen/grid_0_25"
             android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="@+id/text_view_subject"
@@ -60,7 +62,7 @@
             android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_0_25"
             app:dividerColor="@color/divider_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -119,20 +121,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/grid_2"
-            android:layout_marginTop="@dimen/grid_1"
+            android:layout_marginTop="@dimen/grid_0_5"
             app:cardBackgroundColor="?attr/colorSurface"
+            app:cardCornerRadius="@dimen/grid_7"
             app:layout_constraintTop_toBottomOf="@+id/text_view_percentage"
             tools:layout_editor_absoluteX="8dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="@dimen/grid_1">
+                android:paddingHorizontal="@dimen/grid_1">
 
                 <TextView
                     android:id="@+id/text_view_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@string/action"
                     app:drawableStartCompat="@drawable/round_assignment_24"
                     app:drawableTint="?attr/colorPrimary"

@@ -5,14 +5,18 @@ enum class SharePrefKeys {
     ChooseSemLastSelectedSem,
     KeyToggleSyllabusSource,
 }
-
+const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
+const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
+const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
 
 const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
 const val DEFAULT_TIME_FORMAT = "hh:mm a"
 const val DD_MM = "dd MMM"
 const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
 const val ERROR_IN_UPDATE = 452 * 53
+
+const val MAX_STACK_SIZE = 30
 
 enum class RemoteConfigKeys {
     SYLLABUS_VISIBILITY,

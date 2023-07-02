@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingHorizontal="@dimen/grid_1"
     android:theme="@style/Base.Theme.BITApp"
     ads:layoutDescription="@xml/fragment_attendance_ext_scene">
 
@@ -156,24 +157,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clipToPadding="false"
-            tools:listitem="@layout/row_attendance"
             android:paddingBottom="@dimen/min_padding_attendance"
             android:scrollbarStyle="outsideOverlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/row_attendance" />
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/empty_animation"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/grid_4"
             android:scaleType="fitCenter"
             android:visibility="gone"
             app:lottie_autoPlay="true"
             app:lottie_fileName="empty.json"
             app:lottie_loop="true"
-            />
+            tools:visibility="visible" />
     </RelativeLayout>
 </androidx.constraintlayout.motion.widget.MotionLayout>
