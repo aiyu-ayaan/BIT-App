@@ -6,11 +6,13 @@ enum class SharePrefKeys {
     KeyToggleSyllabusSource,
 }
 
+const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
+
 const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
 const val DEFAULT_TIME_FORMAT = "hh:mm a"
 const val DD_MM = "dd MMM"
 const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
-
+const val ERROR_IN_UPDATE = 452 * 53
 
 enum class RemoteConfigKeys {
     SYLLABUS_VISIBILITY,

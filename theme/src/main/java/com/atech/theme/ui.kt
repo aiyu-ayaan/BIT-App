@@ -189,3 +189,14 @@ fun Activity.openBugLink(
         }, resources.getString(R.string.bug_title)
     )
 )
+
+/**
+ * This is only use in FragmentAddEdit.kt
+ * @param type condition of attendance
+ * @since 4.0.3
+ * @author Ayaan
+ */
+fun String.getAndSetHint(type: String): Int = when (this) {
+    type -> 0
+    else -> this.toInt()
+}

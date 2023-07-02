@@ -9,5 +9,28 @@
         android:id="@+id/attendanceFragment"
         android:name="com.atech.attendance.AttendanceFragment"
         android:label="@string/attendance"
-        tools:layout="@layout/fragment_attendance" />
+        tools:layout="@layout/fragment_attendance" >
+        <action
+            android:id="@+id/action_attendanceFragment_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/addEditAttendanceBottomSheet"
+        android:name="com.atech.attendance.add_edit.AddEditAttendanceBottomSheet"
+        android:label="bottom_sheet_add_edit"
+        tools:layout="@layout/bottom_sheet_add_edit" >
+        <argument
+            android:name="type"
+            android:defaultValue="Add"
+            app:argType="string" />
+        <argument
+            android:name="request"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="attendance"
+            app:argType="com.atech.core.room.attendance.AttendanceModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
 </navigation>

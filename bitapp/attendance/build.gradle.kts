@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":theme"))
+    implementation(project(":core"))
 
 
     implementation(libs.core.ktx)
@@ -55,6 +56,10 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.android.viewbinding)
+
+    implementation(libs.lotti)
+
+    implementation(libs.recycler.view)
 
 }
 kapt {

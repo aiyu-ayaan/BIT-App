@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:layout_marginVertical="@dimen/grid_0_5"
+    app:cardBackgroundColor="?attr/bottomBar"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/grid_1">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/grid_7"
+            android:layout_height="@dimen/grid_7"
+            android:importantForAccessibility="no"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="?attr/colorPrimary"
+            tools:src="@drawable/round_menu_book_24"
+            tools:tint="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/text_view_subject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_1"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            android:padding="@dimen/grid_0_5"
+            android:textAppearance="?attr/textAppearanceTitleSmall"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageView"
+            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintVertical_bias="0.19999999"
+            tools:text="Subject Name" />
+
+        <TextView
+            android:id="@+id/text_view_teacher"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingHorizontal="@dimen/grid_0_5"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintBottom_toBottomOf="@+id/imageView"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_subject"
+            app:layout_constraintStart_toStartOf="@+id/text_view_subject"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_subject"
+            tools:text="Teacher Name" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_1"
+            app:dividerColor="@color/divider_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_teacher" />
+
+        <TextView
+            android:id="@+id/text_view_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_5"
+            android:paddingHorizontal="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            app:layout_constraintEnd_toEndOf="@+id/text_view_subject"
+            app:layout_constraintStart_toStartOf="@+id/imageView"
+            app:layout_constraintTop_toBottomOf="@+id/divider"
+            tools:text="Status : On Track" />
+
+        <TextView
+            android:id="@+id/text_view_percentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_5"
+            android:paddingHorizontal="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearancePopupMenuHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_status"
+            tools:text="100%" />
+
+        <TextView
+            android:id="@+id/text_view_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/grid_0_5"
+            android:paddingHorizontal="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearancePopupMenuHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_status"
+            tools:text="12/12" />
+
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/linearProgressIndicator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_0_5"
+            android:progress="50"
+            app:layout_constraintBottom_toBottomOf="@+id/text_view_percentage"
+            app:layout_constraintEnd_toStartOf="@+id/text_view_class"
+            app:layout_constraintStart_toEndOf="@+id/text_view_percentage"
+            app:layout_constraintTop_toTopOf="@+id/text_view_percentage"
+            app:trackColor="?attr/colorSurface"
+            app:trackCornerRadius="@dimen/grid_1"
+            app:trackThickness="@dimen/grid_1" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewFilledStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            app:cardBackgroundColor="?attr/colorSurface"
+            app:layout_constraintTop_toBottomOf="@+id/text_view_percentage"
+            tools:layout_editor_absoluteX="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/grid_1">
+
+                <TextView
+                    android:id="@+id/text_view_action"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action"
+                    app:drawableStartCompat="@drawable/round_assignment_24"
+                    app:drawableTint="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:drawableStart="@drawable/round_assignment_24" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/grid_1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/text_view_action"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/materialButtonPresent"
+                        style="?attr/materialIconButtonFilledStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/grid_1"
+                        android:layout_weight="1"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:contentDescription="@string/menu"
+                        android:gravity="center"
+                        app:icon="@drawable/ic_check"
+                        app:iconGravity="textStart"
+                        app:iconTint="?attr/colorPrimary" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/materialButtonAbsent"
+                        style="?attr/materialIconButtonFilledStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:contentDescription="@string/menu"
+                        android:gravity="center"
+                        app:icon="@drawable/ic_close"
+                        app:iconGravity="textStart"
+                        app:iconTint="?attr/colorPrimary" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -5,8 +5,57 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
-    tools:context="com.atech.attendance.AttendanceFragment">
+    tools:context="com.atech.attendance.AttendanceFragment"
+    tools:theme="@style/Base.Theme.BITApp">
 
+
+    <include
+        android:id="@+id/attendance_view"
+        layout="@layout/fragment_attendance_ext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButtonMenu"
+                style="?attr/materialIconButtonFilledStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_1"
+                android:backgroundTint="?attr/bottomBar"
+                android:contentDescription="@string/menu"
+                app:icon="@drawable/round_menu_24"
+                app:iconTint="?attr/colorPrimary"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/grid_1"
+                android:layout_marginStart="@dimen/grid_1"
+                android:gravity="center"
+                android:padding="@dimen/grid_1"
+                android:text="@string/attendance"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                app:layout_constraintBottom_toBottomOf="@+id/materialButtonMenu"
+                app:layout_constraintStart_toEndOf="@+id/materialButtonMenu"
+                app:layout_constraintTop_toTopOf="@+id/materialButtonMenu" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
