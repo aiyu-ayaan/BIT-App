@@ -29,3 +29,8 @@ fun LifecycleOwner.launchWhenCreated(block: suspend () -> Unit) = this.run {
         }
     }
 }
+fun LifecycleOwner.launch(block: suspend () -> Unit) = this.run {
+    lifecycleScope.launch {
+        block()
+    }
+}

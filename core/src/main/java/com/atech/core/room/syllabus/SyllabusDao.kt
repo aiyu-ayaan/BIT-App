@@ -31,8 +31,6 @@ interface SyllabusDao {
     suspend fun getSyllabusSearchSync(query: String): List<SyllabusModel>
 
 
-
-
     /***
      *Get Syllabus for Syllabus section.
      */
@@ -67,6 +65,8 @@ interface SyllabusDao {
     @Query("UPDATE syllabus_table SET isChecked =1 WHERE openCode like '%'||:openCode||'%'")
     suspend fun reset(openCode: String)
 
+    @Query("UPDATE syllabus_table SET isChecked =0 ")
+    suspend fun resetAll()
 
     /**
      * Delete All Network Entities

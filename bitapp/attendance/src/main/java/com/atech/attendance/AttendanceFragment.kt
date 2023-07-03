@@ -33,7 +33,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private val binding: FragmentAttendanceBinding by viewBinding()
     private val viewModel: AttendanceViewModel by activityViewModels()
     private lateinit var attendanceAdapter: AttendanceAdapter
-    private var defPercentage = 75F
+    private var defPercentage = 75
 
     private val mainActivity by lazy { requireActivity() as ParentActivity }
 
@@ -52,23 +52,42 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         observeData()
         listenForUndoMessage()
         handleBackPress()
+        observePref()
+    }
+
+    private fun observePref() {
+        viewModel.getAllPref.observe(viewLifecycleOwner) {
+            binding.setDefPercentage(it.defPercentage)
+            defPercentage = it.defPercentage
+            attendanceAdapter.defPercentage = it.defPercentage
+        }
+    }
+
+    private fun FragmentAttendanceBinding.setDefPercentage(
+        defPercentage: Int
+    ) = this.attendanceView.apply {
+        attendanceView.tvGoal.text =
+            resources.getString(com.atech.theme.R.string.goal, defPercentage.toString())
+        binding.attendanceView.tv3.text =
+            resources.getString(com.atech.theme.R.string.goal, defPercentage.toString())
+        binding.attendanceView.progressCircularInner.progress = defPercentage
     }
 
     private fun FragmentAttendanceBinding.setRecyclerView() = this.attendanceView.showAtt.apply {
         adapter = AttendanceAdapter(
-                ::onItemClick,
-                ::onCheckClick,
-                ::onWrongClick,
-                ::onLongClick
+            ::onItemClick,
+            ::onCheckClick,
+            ::onWrongClick,
+            ::onLongClick
         ).also { attendanceAdapter = it }
         layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun onItemClick(model: AttendanceModel) {
         val action = AttendanceFragmentDirections.actionAttendanceFragmentToDetailViewBottomSheet(
-                model,
-                model.subject,
-                defPercentage.toInt()
+            model,
+            model.subject,
+            defPercentage
         )
         navigate(action)
     }
@@ -83,7 +102,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     private fun onLongClick(model: AttendanceModel) {
         val action =
-                AttendanceFragmentDirections.actionAttendanceFragmentToAttendanceMenuBottomSheet(model)
+            AttendanceFragmentDirections.actionAttendanceFragmentToAttendanceMenuBottomSheet(model)
         navigate(action)
     }
 
@@ -91,8 +110,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     private fun observeData() {
         viewModel.unArchive.observe(viewLifecycleOwner) { attendanceList ->
             findPercentage(
-                    attendanceList.sumOf { it.present }.toFloat(),
-                    attendanceList.sumOf { it.total }.toFloat()
+                attendanceList.sumOf { it.present }.toFloat(),
+                attendanceList.sumOf { it.total }.toFloat()
             ) { present, total ->
                 when (total) {
                     0.0F -> 0.0F
@@ -108,29 +127,29 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
     private fun FragmentAttendanceBinding.setTopView(finalPercentage: Float) =
-            this.attendanceView.apply {
-                val emoji = when {
-                    finalPercentage >= 80F -> resources.getString(com.atech.theme.R.string.moreThan80)
-                    finalPercentage >= defPercentage -> resources.getString(com.atech.theme.R.string.moreThanDefault)
-                    finalPercentage < defPercentage && finalPercentage > 60F -> resources.getString(
-                            com.atech.theme.R.string.lessThanDefault
-                    )
+        this.attendanceView.apply {
+            val emoji = when {
+                finalPercentage >= 80F -> resources.getString(com.atech.theme.R.string.moreThan80)
+                finalPercentage >= defPercentage -> resources.getString(com.atech.theme.R.string.moreThanDefault)
+                finalPercentage < defPercentage && finalPercentage > 60F -> resources.getString(
+                    com.atech.theme.R.string.lessThanDefault
+                )
 
-                    finalPercentage < 60F && finalPercentage != 0F -> resources.getString(com.atech.theme.R.string.lessThan60)
-                    else -> resources.getString(com.atech.theme.R.string.def_emoji)
-                }
-                tvPercentage.text = emoji
-                materialDivider.text = emoji
-                progressCircularOuter.progress = finalPercentage.toInt()
-                val df = DecimalFormat("#.#")
-                df.roundingMode = RoundingMode.FLOOR
-                tvOverAll.text = resources.getString(
-                        com.atech.theme.R.string.overallAttendance, df.format(finalPercentage)
-                )
-                tv4.text = resources.getString(
-                        com.atech.theme.R.string.overallAttendance, df.format(finalPercentage)
-                )
+                finalPercentage < 60F && finalPercentage != 0F -> resources.getString(com.atech.theme.R.string.lessThan60)
+                else -> resources.getString(com.atech.theme.R.string.def_emoji)
             }
+            tvPercentage.text = emoji
+            materialDivider.text = emoji
+            progressCircularOuter.progress = finalPercentage.toInt()
+            val df = DecimalFormat("#.#")
+            df.roundingMode = RoundingMode.FLOOR
+            tvOverAll.text = resources.getString(
+                com.atech.theme.R.string.overallAttendance, df.format(finalPercentage)
+            )
+            tv4.text = resources.getString(
+                com.atech.theme.R.string.overallAttendance, df.format(finalPercentage)
+            )
+        }
 
     private fun FragmentAttendanceBinding.setFab() = this.extendedFab.setOnClickListener {
         navigateToAttendance()
@@ -138,7 +157,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
 
     private fun navigateToAttendance() {
         val action =
-                AttendanceFragmentDirections.actionAttendanceFragmentToAddEditAttendanceBottomSheet()
+            AttendanceFragmentDirections.actionAttendanceFragmentToAddEditAttendanceBottomSheet()
         findNavController().navigate(action)
     }
 
@@ -150,7 +169,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             when (menuItem.itemId) {
                 R.id.menu_book -> true
                 R.id.menu_archive -> navigateToArchiveFragment()
-                R.id.menu_setting -> true
+                R.id.menu_setting -> navigateToChangePercentageDialog()
                 R.id.menu_delete_all -> deleteAll()
                 else -> false
             }
@@ -158,24 +177,34 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
     }
 
+    private fun navigateToChangePercentageDialog(): Boolean {
+        val direction =
+            AttendanceFragmentDirections.actionAttendanceFragmentToChangePercentageDialog(
+                defPercentage
+            )
+        navigate(direction)
+        return true
+    }
+
     private fun deleteAll(): Boolean {
         showDialog(
-                DialogModel(
-                        "Delete All",
-                        "Are you sure you want to delete all attendance?",
-                        "Yes",
-                        "No",
-                        positiveAction = {
-                            viewModel.deleteAll()
-                            dismiss()
-                        }
-                )
+            DialogModel(
+                "Delete All",
+                "Are you sure you want to delete all attendance?",
+                "Yes",
+                "No",
+                positiveAction = {
+                    viewModel.deleteAll()
+                    dismiss()
+                }
+            )
         )
         return true
     }
 
     private fun navigateToArchiveFragment(): Boolean {
-        val action = AttendanceFragmentDirections.actionAttendanceFragmentToArchiveBottomSheet(defPercentage.toInt())
+        val action =
+            AttendanceFragmentDirections.actionAttendanceFragmentToArchiveBottomSheet(defPercentage.toInt())
         navigate(action)
         return true
     }
@@ -186,7 +215,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 is AttendanceViewModel.AttendanceEvent.ShowUndoDeleteMessage -> {
 //                        Single attendance
                     attendanceEvent.attendance.showUndoMessage(
-                            binding.root
+                        binding.root
                     ) {
                         viewModel.add(it, REQUEST_ADD_SUBJECT_FROM_SYLLABUS)
                     }

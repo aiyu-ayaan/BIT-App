@@ -66,8 +66,8 @@ sealed class AttendanceViewHolder(
                     if (attendance.subject.contains(
                             "lab", true
                         )
-                    ) com.atech.theme.R.drawable.round_computer_24
-                    else com.atech.theme.R.drawable.round_assignment_24
+                    ) R.drawable.round_computer_24
+                    else R.drawable.round_assignment_24
                 )
 //                set Progress
                 val percentage = findPercentage(

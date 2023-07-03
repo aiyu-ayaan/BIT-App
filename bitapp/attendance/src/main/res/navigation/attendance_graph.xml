@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_archiveBottomSheet"
             app:destination="@id/archiveBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_changePercentageDialog"
+            app:destination="@id/changePercentageDialog" />
     </fragment>
     <dialog
         android:id="@+id/addEditAttendanceBottomSheet"
@@ -90,6 +93,15 @@
             app:destination="@id/addEditAttendanceBottomSheet" />
         <argument
             android:name="defPercentage"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/changePercentageDialog"
+        android:name="com.atech.attendance.change_percentage.ChangePercentageDialog"
+        android:label="dialog_change_percentage"
+        tools:layout="@layout/dialog_change_percentage" >
+        <argument
+            android:name="percentage"
             app:argType="integer" />
     </dialog>
 </navigation>

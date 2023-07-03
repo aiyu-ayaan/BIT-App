@@ -67,6 +67,11 @@ dependencies {
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.config.ktx)
 
+    implementation(libs.data.store)
+
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
 }
 kapt {
     correctErrorTypes = true

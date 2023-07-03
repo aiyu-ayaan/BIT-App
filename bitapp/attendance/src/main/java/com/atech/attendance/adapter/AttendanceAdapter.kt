@@ -1,6 +1,7 @@
 package com.atech.attendance.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -17,11 +18,19 @@ class AttendanceAdapter(
 
 
     var defPercentage = 75
-        @SuppressLint("NotifyDataSetChanged")
         set(value) {
+            Log.d("AAA", "Changed")
             field = value
-            notifyDataSetChanged()
+            notifyViewsChanged()
         }
+
+    private fun notifyViewsChanged() {
+        items.forEachIndexed { index, item ->
+            if (item is AttendanceItem.AttendanceData) {
+                notifyItemChanged(index)
+            }
+        }
+    }
 
     var items = mutableListOf<AttendanceItem>()
         @SuppressLint("NotifyDataSetChanged")
