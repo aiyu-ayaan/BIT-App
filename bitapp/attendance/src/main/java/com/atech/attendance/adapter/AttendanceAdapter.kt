@@ -67,7 +67,7 @@ class AttendanceAdapter(
 
     override fun onBindViewHolder(holder: AttendanceViewHolder, position: Int) =
         when (holder) {
-            is AttendanceViewHolder.AttendanceHolder -> holder.bind(items[position] as AttendanceItem.AttendanceData)
+            is AttendanceViewHolder.AttendanceHolder -> holder.bind((items[position] as AttendanceItem.AttendanceData).data)
         }
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {

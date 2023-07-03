@@ -20,7 +20,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -28,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "11"
     }
     buildFeatures {
         buildConfig = true
@@ -61,8 +61,6 @@ dependencies {
     kapt(libs.room.compiler)
 
     implementation(platform(libs.firebase.bom))
-    releaseImplementation(libs.firebase.analytics.ktx)
-    releaseImplementation(libs.firebase.crashlytics.ktx)
     implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth.ktx)
     implementation(libs.firebase.config.ktx)

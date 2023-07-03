@@ -8,6 +8,7 @@ import com.atech.attendance.databinding.RowAttendanceBinding
 import com.atech.attendance.utils.calculatedDays
 import com.atech.attendance.utils.findPercentage
 import com.atech.attendance.utils.setResources
+import com.atech.core.room.attendance.AttendanceModel
 import com.atech.theme.R
 import com.google.android.material.color.MaterialColors
 import kotlin.math.ceil
@@ -19,15 +20,15 @@ sealed class AttendanceViewHolder(
     class AttendanceHolder(
         private val binding: RowAttendanceBinding,
         private val minPercentage: Int,
-        private val onItemClickListener: (attendance: Int) -> Unit = {},
-        private val onCheckClick: (attendance: Int) -> Unit = {},
-        private val onWrongClick: (attendance: Int) -> Unit = {},
-        private val onLongClick: (attendance: Int) -> Unit = {}
+        private val onItemClickListener: ((attendance: Int) -> Unit)? = null,
+        private val onCheckClick:( (attendance: Int) -> Unit)? = null,
+        private val onWrongClick:( (attendance: Int) -> Unit)? = null,
+        private val onLongClick: ((attendance: Int) -> Unit)? = null
     ) : AttendanceViewHolder(binding) {
 
         private fun RowAttendanceBinding.viewChanges(isSave: Boolean) = this.apply {
             val redColor = ContextCompat.getColor(
-                binding.root.context, com.atech.theme.R.color.red
+                binding.root.context, R.color.red
             )
             val primaryColor = MaterialColors.getColor(
                 binding.root, androidx.appcompat.R.attr.colorPrimary, Color.WHITE
@@ -41,23 +42,22 @@ sealed class AttendanceViewHolder(
         init {
             binding.apply {
                 binding.root.setOnClickListener {
-                    onItemClickListener.invoke(absoluteAdapterPosition)
+                    onItemClickListener?.invoke(absoluteAdapterPosition)
                 }
                 materialButtonPresent.setOnClickListener {
-                    onCheckClick.invoke(absoluteAdapterPosition)
+                    onCheckClick?.invoke(absoluteAdapterPosition)
                 }
                 materialButtonAbsent.setOnClickListener {
-                    onWrongClick.invoke(absoluteAdapterPosition)
+                    onWrongClick?.invoke(absoluteAdapterPosition)
                 }
                 root.setOnLongClickListener {
-                    onLongClick.invoke(absoluteAdapterPosition)
+                    onLongClick?.invoke(absoluteAdapterPosition)
                     true
                 }
             }
         }
 
-        fun bind(model: AttendanceItem.AttendanceData) {
-            val attendance = model.data
+        fun bind(attendance: AttendanceModel) {
             binding.apply {
                 textViewSubject.text = attendance.subject
                 textViewTeacher.text =

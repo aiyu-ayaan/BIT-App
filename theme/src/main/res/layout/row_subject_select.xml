@@ -12,13 +12,12 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="?attr/materialCardViewOutlinedStyle"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="5dp"
     android:transitionGroup="true"
     app:cardBackgroundColor="?attr/bottomSheetBackground"
-    app:strokeColor="?attr/colorSurface"
     tools:theme="@style/Base.Theme.BITApp">
 
 

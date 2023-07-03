@@ -41,7 +41,7 @@ data class AttendanceModel(
     val days: Days,
     val stack: @RawValue Deque<AttendanceSave> = ArrayDeque(),
     val created: Long? = System.currentTimeMillis()
-) : Parcelable, Serializable
+) : Parcelable
 
 @Keep
 @Parcelize
@@ -49,7 +49,7 @@ data class Days(
     val presetDays: ArrayList<Long>,
     val absentDays: ArrayList<Long>,
     val totalDays: ArrayList<IsPresent>
-) : Parcelable, Serializable
+) : Parcelable
 
 @Keep
 @Parcelize
@@ -57,13 +57,13 @@ data class AttendanceSave(
     val total: Int,
     val present: Int,
     val days: Days
-) : Parcelable, Serializable
+) : Parcelable
 
 
 @Keep
 @Parcelize
 data class IsPresent(val day: Long, var isPresent: Boolean, var totalClasses: Int? = null) :
-    Parcelable, Serializable
+    Parcelable
 
 object DaysTypeConvector {
     @TypeConverter
