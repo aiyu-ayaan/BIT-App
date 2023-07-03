@@ -37,6 +37,15 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_offline_syllabus) {
     @Inject
     lateinit var syllabusUIMapper: OfflineSyllabusUIMapper
 
+    private val onlineFragment by lazy {
+        OnlineSyllabusFragment()
+            .also {
+                it.setPairAndCase(
+                    subject.subject to args.courseSem, cases
+                )
+            }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,13 +68,7 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_offline_syllabus) {
     }
 
     private fun FragmentViewOfflineSyllabusBinding.setOnlineSyllabus() = this.loadSubject.apply {
-        val onlineFragment = OnlineSyllabusFragment(
-            subject.subject to args.courseSem,
-            cases
-        )
-        childFragmentManager.beginTransaction()
-            .replace(R.id.load_subject, onlineFragment)
-            .commit()
+        childFragmentManager.beginTransaction().replace(R.id.load_subject, onlineFragment).commit()
     }
 
     private fun FragmentViewOfflineSyllabusBinding.setOfflineSyllabus() = this.loadSubject.apply {
@@ -73,13 +76,8 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_offline_syllabus) {
     }
 
     private fun FragmentViewOfflineSyllabusBinding.setToolbar() = this.includeToolbar.apply {
-        set(
-            ToolbarData(
-                titleString = subject.subject,
-                action = {
-                    findNavController().navigateUp()
-                }
-            )
-        )
+        set(ToolbarData(titleString = subject.subject, action = {
+            findNavController().navigateUp()
+        }))
     }
 }

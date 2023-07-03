@@ -15,20 +15,33 @@ import com.atech.theme.getColorForText
 import com.atech.theme.getColorFromAttr
 import com.atech.theme.getRgbFromHex
 import com.atech.theme.launchWhenStarted
+import com.atech.theme.toast
 import com.google.android.material.color.MaterialColors
 
 /**
  * Pair is used to pass the subject name and the course Sem
  */
-class OnlineSyllabusFragment(
-    private val pair: Pair<String, String>,
-    private val cases: ApiCases
-) : Fragment(R.layout.fragment_online_syllabus) {
+class OnlineSyllabusFragment : Fragment(R.layout.fragment_online_syllabus) {
+
+    private lateinit var pair: Pair<String, String>
+    private lateinit var cases: ApiCases
+
     lateinit var binding: FragmentOnlineSyllabusBinding
+
+    fun setPairAndCase(pair: Pair<String, String>, cases: ApiCases) {
+        this.pair = pair
+        this.cases = cases
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentOnlineSyllabusBinding.bind(view)
+        if (!::pair.isInitialized || !::cases.isInitialized) {
+            toast(
+                "Something went wrong, please try again later",
+            )
+            return
+        }
         launchWhenStarted {
             fetchData()
         }
@@ -36,9 +49,7 @@ class OnlineSyllabusFragment(
 
     private suspend fun fetchData() {
         cases.syllabusMarkdown.invoke(
-            pair.second.replace("\\d".toRegex(), ""),
-            pair.second,
-            pair.first
+            pair.second.replace("\\d".toRegex(), ""), pair.second, pair.first
         ).asLiveData().observe(viewLifecycleOwner) { dataState ->
             when (dataState) {
                 is DataState.Error -> {
