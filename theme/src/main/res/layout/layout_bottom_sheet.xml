@@ -42,13 +42,35 @@
         android:layout_marginTop="16dp"
         app:dividerColor="@color/divider_color" />
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab_layout_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:background="?attr/bottomSheetBackground"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabContentStart="@dimen/grid_2"
+        tools:visibility="visible">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/offline" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/online" />
+    </com.google.android.material.tabs.TabLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listAll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/divider"
-        android:paddingHorizontal="@dimen/grid_1"
+        android:layout_below="@id/tab_layout_type"
         android:clipToPadding="false"
+        android:paddingHorizontal="@dimen/grid_1"
         android:paddingBottom="@dimen/min_padding_attendance" />
 
 

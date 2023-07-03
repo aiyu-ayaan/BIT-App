@@ -39,3 +39,8 @@ sealed class DataState<out T> {
     object Loading : DataState<Nothing>()
     object Empty : DataState<Nothing>()
 }
+
+fun <T> DataState<T>.getData(): T? = when (this) {
+    is DataState.Success -> data
+    else -> null
+}

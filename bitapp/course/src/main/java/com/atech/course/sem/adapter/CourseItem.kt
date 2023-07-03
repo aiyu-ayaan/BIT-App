@@ -2,6 +2,7 @@ package com.atech.course.sem.adapter
 
 import android.os.Parcelable
 import androidx.annotation.Keep
+import androidx.recyclerview.widget.DiffUtil
 import com.atech.core.retrofit.client.SubjectModel
 import com.atech.core.room.syllabus.Subject
 import com.atech.core.room.syllabus.SyllabusModel
@@ -35,6 +36,15 @@ data class SyllabusUIModel(
     val deprecated: Boolean?,
     val isFromOnline: Boolean = false
 ) : Parcelable
+
+class SyllabusUIDiffUnit : DiffUtil.ItemCallback<SyllabusUIModel>() {
+    override fun areItemsTheSame(oldItem: SyllabusUIModel, newItem: SyllabusUIModel): Boolean =
+        oldItem.subject == newItem.subject
+
+    override fun areContentsTheSame(oldItem: SyllabusUIModel, newItem: SyllabusUIModel): Boolean =
+        oldItem == newItem
+
+}
 
 class OfflineSyllabusUIMapper @Inject constructor() : EntityMapper<SyllabusModel, SyllabusUIModel> {
     override fun mapFormEntity(entity: SyllabusModel): SyllabusUIModel =
@@ -102,4 +112,7 @@ class OnlineSyllabusUIMapper @Inject constructor() : EntityMapper<SubjectModel, 
             credit = domainModel.credits.toDouble(),
             shortName = domainModel.shortName ?: ""
         )
+
+    fun mapFromEntityList(entities: List<SubjectModel>): List<SyllabusUIModel> =
+        entities.map { mapFormEntity(it) }
 }

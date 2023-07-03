@@ -167,7 +167,7 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
         }
         setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.menu_book -> true
+                R.id.menu_book -> navigateToAddSubjectFromSyllabus()
                 R.id.menu_archive -> navigateToArchiveFragment()
                 R.id.menu_setting -> navigateToChangePercentageDialog()
                 R.id.menu_delete_all -> deleteAll()
@@ -175,6 +175,12 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             }
 
         }
+    }
+
+    private fun navigateToAddSubjectFromSyllabus(): Boolean {
+        val action = AttendanceFragmentDirections.actionAttendanceFragmentToAddFromSyllabusBottomSheet()
+        navigate(action)
+        return true
     }
 
     private fun navigateToChangePercentageDialog(): Boolean {

@@ -1,14 +1,21 @@
 package com.atech.core.utils
 
+enum class RowSubjectAdapterRequest {
+    FROM_ATTENDANCE,
+    FROM_HOME
+}
+
 enum class SharePrefKeys {
     SharedPreferenceName,
     ChooseSemLastSelectedSem,
     KeyToggleSyllabusSource,
 }
+
 const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
 const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
 const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
+const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
 
 const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
 const val DEFAULT_TIME_FORMAT = "hh:mm a"

@@ -53,6 +53,10 @@ class ChangePercentageDialog : DialogFragment() {
                     toast("Percentage can't be 0")
                     return@setPositiveButton
                 }
+                if (binding.seekBar.progress == 100) {
+                    toast("Percentage can't be 100")
+                    return@setPositiveButton
+                }
                 if (binding.seekBar.progress == args.percentage) {
                     dismiss()
                     return@setPositiveButton

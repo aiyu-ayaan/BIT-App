@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation(project(":theme"))
     implementation(project(":core"))
+    implementation(project(mapOf("path" to ":bitapp:course")))
 
 
     implementation(libs.core.ktx)

@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_changePercentageDialog"
             app:destination="@id/changePercentageDialog" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_addFromSyllabusBottomSheet"
+            app:destination="@id/addFromSyllabusBottomSheet" />
     </fragment>
     <dialog
         android:id="@+id/addEditAttendanceBottomSheet"
@@ -103,5 +106,14 @@
         <argument
             android:name="percentage"
             app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/addFromSyllabusBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet"
+        android:name="com.atech.attendance.add_from_syllabus.AddFromSyllabusBottomSheet"
+        android:label="AddFromSyllabusBottomSheet" >
+        <action
+            android:id="@+id/action_addFromSyllabusBottomSheet_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
     </dialog>
 </navigation>
