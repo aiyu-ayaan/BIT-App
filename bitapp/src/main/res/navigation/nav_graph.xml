@@ -45,4 +45,9 @@
         android:name="com.atech.bit.ui.fragments.administration.AdministrationFragment"
         android:label="fragment_administration"
         tools:layout="@layout/fragment_administration" />
+    <fragment
+        android:id="@+id/eventFragment"
+        tools:layout="@layout/layout_recycler_view"
+        android:name="com.atech.bit.ui.fragments.events.EventFragment"
+        android:label="EventFragment" />
 </navigation>

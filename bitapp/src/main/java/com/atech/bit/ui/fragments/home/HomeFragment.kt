@@ -8,7 +8,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
-import com.atech.core.firebase.RemoteConfigHelper
+import com.atech.core.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.theme.ParentActivity

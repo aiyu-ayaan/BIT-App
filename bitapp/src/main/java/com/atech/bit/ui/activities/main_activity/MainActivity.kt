@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             setDrawerState(false)
             when (menu.itemId) {
                 R.id.nav_connect -> resources.getString(com.atech.theme.R.string.instaLink)
-                        .openLinks(this@MainActivity, com.atech.theme.R.string.no_intent_available)
+                    .openLinks(this@MainActivity, com.atech.theme.R.string.no_intent_available)
 
                 R.id.nav_mail -> this@MainActivity.openBugLink()
                 R.id.nav_erp -> this@MainActivity.openCustomChromeTab(resources.getString(com.atech.theme.R.string.erp_link))
@@ -93,36 +93,36 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
 
                 else -> {
                     changeBottomNav(
-                            android.viewbinding.library.R.attr.colorSurface
+                        android.viewbinding.library.R.attr.colorSurface
                     )
                     setBottomNavigationVisibility(false)
                 }
             }
             when (destination.id) {
                 in baseFragments() + fragmentWithBottomNavColor() -> changeBottomNav(
-                        com.atech.theme.R.attr.bottomBar
+                    com.atech.theme.R.attr.bottomBar
                 )
 
                 else -> changeBottomNav(
-                        android.viewbinding.library.R.attr.colorSurface
+                    android.viewbinding.library.R.attr.colorSurface
                 )
             }
             when (destination.id) {
                 in navigationViewFragments() -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
-                        this, com.atech.theme.R.attr.bottomBar, Color.WHITE
+                    this, com.atech.theme.R.attr.bottomBar, Color.WHITE
                 ).also {
                     setStatusBarUiTheme(this, !isDark())
                 })
 
                 in bottomSheetFragment() ->
                     changeStatusBarToolbarColorImageView(MaterialColors.getColor(
-                            this, com.atech.theme.R.attr.bottomSheetBackground, Color.WHITE
+                        this, com.atech.theme.R.attr.bottomSheetBackground, Color.WHITE
                     ).also {
                         setStatusBarUiTheme(this, !isDark())
                     })
 
                 else -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
-                        this, android.viewbinding.library.R.attr.colorSurface, Color.WHITE
+                    this, android.viewbinding.library.R.attr.colorSurface, Color.WHITE
                 ).also {
                     setStatusBarUiTheme(this, !isDark())
                 })
@@ -139,43 +139,45 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
     }
 
     override fun getNavigationFragmentId(): Int =
-            R.id.fragment
+        R.id.fragment
 
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment
     private fun setExitTransition() = getCurrentFragment()?.exitTransition()
 
     private fun baseFragments() = listOf(
-            R.id.homeFragment, com.atech.course.R.id.courseFragment
+        R.id.homeFragment, com.atech.course.R.id.courseFragment
     )
 
     private fun fragmentWithBottomNavColor() =
-            listOf(
-                    com.atech.attendance.R.id.attendanceFragment,
-                    R.id.holidayFragment,
-                    R.id.societyFragment,
-                    R.id.societyDetailFragment,
-            )
-
-    private fun drawerFragments() = listOf(
-            R.id.homeFragment,
-            com.atech.course.R.id.courseFragment,
-            com.atech.attendance.R.id.attendanceFragment
-    )
-
-    private fun navigationViewFragments() = listOf(
+        listOf(
+            com.atech.attendance.R.id.attendanceFragment,
             R.id.holidayFragment,
             R.id.societyFragment,
             R.id.societyDetailFragment,
-            R.id.administrationFragment,
-            com.atech.course.R.id.semChooseFragment,
-            com.atech.course.R.id.viewSyllabusFragment,
+        )
+
+    private fun drawerFragments() = listOf(
+        R.id.homeFragment,
+        com.atech.course.R.id.courseFragment,
+        com.atech.attendance.R.id.attendanceFragment
+    )
+
+    private fun navigationViewFragments() = listOf(
+        R.id.holidayFragment,
+        R.id.societyFragment,
+        R.id.societyDetailFragment,
+        R.id.administrationFragment,
+        com.atech.course.R.id.semChooseFragment,
+        com.atech.course.R.id.viewSyllabusFragment,
+        R.id.eventFragment
     )
 
     private fun bottomSheetFragment() = listOf(
-            com.atech.attendance.R.id.addEditAttendanceBottomSheet,
-            com.atech.attendance.R.id.detailViewBottomSheet,
-            com.atech.attendance.R.id.archiveBottomSheet,
-            com.atech.attendance.R.id.attendanceMenuBottomSheet
+        com.atech.attendance.R.id.addEditAttendanceBottomSheet,
+        com.atech.attendance.R.id.detailViewBottomSheet,
+        com.atech.attendance.R.id.archiveBottomSheet,
+        com.atech.attendance.R.id.attendanceMenuBottomSheet,
+        com.atech.attendance.R.id.addFromSyllabusBottomSheet
     )
 
     override fun onSupportNavigateUp(): Boolean {
@@ -206,7 +208,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
 
     override fun setDrawerEnabled(enabled: Boolean) {
         val lockMode =
-                if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+            if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         binding.drawerLayout.setDrawerLockMode(lockMode)
     }
 }

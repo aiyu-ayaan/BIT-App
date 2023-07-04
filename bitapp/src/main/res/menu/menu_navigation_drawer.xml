@@ -67,7 +67,7 @@
                     android:icon="@drawable/ic_society"
                     android:title="@string/societies_and_ngos" />
                 <item
-                    android:id="@+id/eventFragment"
+                    android:id="@id/eventFragment"
                     android:icon="@drawable/ic_event"
                     android:title="@string/events" />
             </menu>

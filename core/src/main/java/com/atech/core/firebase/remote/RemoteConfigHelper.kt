@@ -1,4 +1,4 @@
-package com.atech.core.firebase
+package com.atech.core.firebase.remote
 
 import com.atech.core.BuildConfig
 import com.atech.core.R
