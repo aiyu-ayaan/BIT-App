@@ -83,7 +83,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         requireActivity() as ParentActivity
     }
     private inline var lastChooseSem: Int
-        get() = pref.getInt(SharePrefKeys.ChooseSemLastSelectedSem.name, 0).let {
+        get() = pref.getInt(SharePrefKeys.ChooseSemLastSelectedSem.name, 1).let {
             if (it > args.sem) args.sem
             else it
         }

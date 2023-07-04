@@ -78,6 +78,13 @@ dependencies {
     implementation(libs.markDownView)
 
     implementation(libs.lotti)
+
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    implementation(libs.exoplayer.core)
+    implementation(libs.exoplayer.ui)
+    implementation(libs.exoplayer.dash)
 }
 
 kapt {

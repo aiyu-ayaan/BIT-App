@@ -3,6 +3,7 @@ agp = "7.4.2"
 android-viewbinding = "1.0.4"
 coil = "2.4.0"
 calendarVersion = "3.0.0"
+exoplayerPlayer = "1.1.0-rc01"
 hilt-android = "2.46"
 kotlin = "1.7.20"
 core-ktx = "1.10.1"
@@ -31,6 +32,9 @@ roomKtx = "2.5.2"
 android-viewbinding = { module = "com.github.yogacp:android-viewbinding", version.ref = "android-viewbinding" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "exoplayerPlayer" }
+exoplayer-ui = { module = "androidx.media3:media3-ui", version.ref = "exoplayerPlayer" }
+exoplayer-core = { module = "androidx.media3:media3-exoplayer", version.ref = "exoplayerPlayer" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

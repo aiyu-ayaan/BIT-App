@@ -1,5 +1,9 @@
 package com.atech.core.utils
 
+enum class TAGS{
+    BIT_ERROR,
+    BIT_DEBUG,
+}
 enum class RowSubjectAdapterRequest {
     FROM_ATTENDANCE,
     FROM_HOME
@@ -10,6 +14,8 @@ enum class SharePrefKeys {
     ChooseSemLastSelectedSem,
     KeyToggleSyllabusSource,
 }
+
+const val MAX_SPAWN = 3
 
 const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453

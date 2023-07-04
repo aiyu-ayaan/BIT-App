@@ -154,6 +154,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             R.id.holidayFragment,
             R.id.societyFragment,
             R.id.societyDetailFragment,
+            R.id.eventFragment,
+            R.id.eventDetailFragment
         )
 
     private fun drawerFragments() = listOf(
@@ -169,7 +171,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         R.id.administrationFragment,
         com.atech.course.R.id.semChooseFragment,
         com.atech.course.R.id.viewSyllabusFragment,
-        R.id.eventFragment
+        R.id.eventFragment,
+        R.id.eventDetailFragment
     )
 
     private fun bottomSheetFragment() = listOf(
