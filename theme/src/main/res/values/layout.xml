@@ -39,7 +39,7 @@
     <dimen name="recycler_view_height_attendance">120dp</dimen>
     <dimen name="bottom_app_bar_height">56dp</dimen>
     <dimen name="empty_view_height">300dp</dimen>
-    <dimen name="user_profile_image_size">40dp</dimen>
+    <dimen name="user_profile_image_size">30dp</dimen>
     <dimen name="video_view_height">500dp</dimen>
 
 </resources>

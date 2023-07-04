@@ -1,10 +1,11 @@
-package com.atech.bit.ui.fragments.events.details
+package com.atech.bit.ui.fragments.events.detail
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.atech.core.firebase.firestore.Db
-import com.atech.core.firebase.firestore.EventCases
+import com.atech.core.firebase.firestore.EventModel
+import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventDetailViewModel @Inject constructor(
     private val state: SavedStateHandle,
-    private val case: EventCases
+    private val case: FirebaseCases
 ) : ViewModel() {
     private val path: String = state["path"] ?: ""
 
@@ -36,7 +37,11 @@ class EventDetailViewModel @Inject constructor(
         }
 
     fun getEvent() = try {
-        case.getEventDetails.invoke(path).map {
+        case.getDocumentDetails.invoke(
+            EventModel::class.java,
+            Db.Event,
+            path
+        ).map {
             if (it == null) DataState.Empty
             else DataState.Success(it)
         }

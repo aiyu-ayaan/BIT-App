@@ -3,7 +3,6 @@ package com.atech.core.firebase.firestore
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
-import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
@@ -12,26 +11,28 @@ enum class Db(val value: String) {
     Event("BIT_Events"), Notice("BIT_Notice_New"),
 }
 
-data class EventCases @Inject constructor(
-    val getEvent: GetEvent,
-    val getEventDetails: GetEventDetails,
+data class FirebaseCases @Inject constructor(
     val getAttach: GetAttach,
+    val getData: GetData,
+    val getDocumentDetails: GetDocumentDetails,
 )
 
-class GetEvent @Inject constructor(
+
+class GetData @Inject constructor(
     private val db: FirebaseFirestore
 ) {
     @Throws(Exception::class)
-    operator fun invoke(query: String = ""): Flow<List<EventModel>?> = try {
-        db.collection(Db.Event.value).orderBy("created", Query.Direction.DESCENDING).snapshots()
+    operator fun <T> invoke(mapTo: Class<T>, ref: Db, query: String = ""): Flow<List<T>?> = try {
+        db.collection(ref.value).orderBy("created", Query.Direction.DESCENDING)
+            .snapshots()
             .map {
-                it.toObjects(EventModel::class.java).let { events ->
+                it.toObjects(mapTo).let { data ->
                     if (query.isNotEmpty()) {
-                        events.filter { event ->
-                            event.title?.contains(query, true) ?: false
+                        data.filter { event ->
+                            event.toString().contains(query, true)
                         }
                     } else {
-                        events
+                        data
                     }
                 }
             }
@@ -40,15 +41,16 @@ class GetEvent @Inject constructor(
     }
 }
 
-class GetEventDetails @Inject constructor(
+
+class GetDocumentDetails @Inject constructor(
     private val db: FirebaseFirestore
 ) {
 
     @Throws(Exception::class)
-    operator fun invoke(path: String) =
+    operator fun <T> invoke(mapTo: Class<T>, ref: Db, path: String) =
         try {
-            db.collection(Db.Event.value).document(path).snapshots().map {
-                it.toObject<EventModel>()
+            db.collection(ref.value).document(path).snapshots().map {
+                it.toObject(mapTo)
             }
         } catch (e: Exception) {
             throw e

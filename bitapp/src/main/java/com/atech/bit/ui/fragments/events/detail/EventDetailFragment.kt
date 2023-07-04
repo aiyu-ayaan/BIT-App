@@ -1,4 +1,4 @@
-package com.atech.bit.ui.fragments.events.details
+package com.atech.bit.ui.fragments.events.detail
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
@@ -14,7 +14,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.atech.bit.R
-import com.atech.bit.databinding.FragmentEventDetailBinding
+import com.atech.bit.databinding.FragmentNoticeEventDetailBinding
 import com.atech.bit.utils.ImageGridAdapter
 import com.atech.core.firebase.firestore.Attach
 import com.atech.core.firebase.firestore.EventModel
@@ -32,9 +32,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @UnstableApi
 @AndroidEntryPoint
-class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
+class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
 
-    private val binding: FragmentEventDetailBinding by viewBinding()
+    private val binding: FragmentNoticeEventDetailBinding by viewBinding()
 
     private val viewModel: EventDetailViewModel by viewModels()
 
@@ -76,17 +76,19 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
             }
         }
         viewModel.getAttach().observe(viewLifecycleOwner) {
-            binding.setAttach(it)
+            if (it.isNotEmpty()) {
+                binding.setAttach(it)
+            }
         }
     }
 
-    private fun FragmentEventDetailBinding.isLoadComplete(isDone: Boolean) = this.apply {
+    private fun FragmentNoticeEventDetailBinding.isLoadComplete(isDone: Boolean) = this.apply {
         progressBarLinear.isVisible = false
         imageViewNoData.isVisible = !isDone
         cardViewEvent.isVisible = isDone
     }
 
-    private fun FragmentEventDetailBinding.setToolbar() = this.includeToolbar.apply {
+    private fun FragmentNoticeEventDetailBinding.setToolbar() = this.includeToolbar.apply {
         set(
             ToolbarData(
                 com.atech.theme.R.string.event,
@@ -95,13 +97,14 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         )
     }
 
-    private fun FragmentEventDetailBinding.setAttach(
+    private fun FragmentNoticeEventDetailBinding.setAttach(
         list: List<Attach>
     ) {
         val imageGridAdapter = ImageGridAdapter {
             // FIXME: navigate to viewImage
         }
         attachmentRecyclerView.apply {
+            binding.textImage.isVisible = true
             isVisible = true
             layoutManager = GridLayoutManager(
                 requireContext(), MAX_SPAWN
@@ -113,7 +116,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_event_detail) {
         }
     }
 
-    private fun FragmentEventDetailBinding.setViews(data: EventModel) = this.apply {
+    private fun FragmentNoticeEventDetailBinding.setViews(data: EventModel) = this.apply {
         subjectTextView.text = data.title
         senderTextView.text = data.society
         bodyTextView.apply {

@@ -9,13 +9,17 @@
         android:id="@+id/homeFragment"
         android:name="com.atech.bit.ui.fragments.home.HomeFragment"
         android:label="home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_noticeFragment"
+            app:destination="@id/noticeFragment" />
+    </fragment>
     <include app:graph="@navigation/attendance_graph" />
     <fragment
         android:id="@+id/noticeFragment"
         android:name="com.atech.bit.ui.fragments.notice.NoticeFragment"
         android:label="@string/notice"
-        tools:layout="@layout/fragment_notice" />
+        tools:layout="@layout/layout_recycler_view" />
     <include app:graph="@navigation/course_graph" />
     <fragment
         android:id="@+id/holidayFragment"
@@ -52,12 +56,22 @@
         android:label="EventFragment" />
     <fragment
         android:id="@+id/eventDetailFragment"
-        android:name="com.atech.bit.ui.fragments.events.details.EventDetailFragment"
+        android:name="com.atech.bit.ui.fragments.events.detail.EventDetailFragment"
         android:label="fragment_event_detail"
-        tools:layout="@layout/fragment_event_detail" >
+        tools:layout="@layout/fragment_notice_event_detail" >
         <argument
             android:name="path"
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_eventDetailFragment" app:destination="@id/eventDetailFragment" />
+    <fragment
+        android:id="@+id/noticeDetailFragment"
+        android:name="com.atech.bit.ui.fragments.notice.detail.NoticeDetailFragment"
+        tools:layout="@layout/layout_recycler_view"
+        android:label="NoticeDetailFragment" >
+        <argument
+            android:name="path"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_noticeDetailFragment" app:destination="@id/noticeDetailFragment" />
 </navigation>

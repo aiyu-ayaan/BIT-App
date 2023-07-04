@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.utils.ImagePreviewAdapter
-import com.atech.core.firebase.firestore.EventCases
+import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
@@ -38,7 +38,7 @@ class EventFragment : Fragment(R.layout.layout_recycler_view) {
     private val viewModel: EventViewModel by viewModels()
 
     @Inject
-    lateinit var cases: EventCases
+    lateinit var cases: FirebaseCases
 
     private lateinit var eventAdapter: NoticeEventAdapter<EventModel>
 
