@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.atech.bit.ui.fragments.home.HomeFragment"
         android:label="home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_noticeFragment"
             app:destination="@id/noticeFragment" />
@@ -30,7 +30,7 @@
         android:id="@+id/societyFragment"
         android:name="com.atech.bit.ui.fragments.society.SocietyFragment"
         android:label="FragmentSociety"
-        tools:layout="@layout/layout_recycler_view" >
+        tools:layout="@layout/layout_recycler_view">
         <action
             android:id="@+id/action_societyFragment_to_societyDetailFragment"
             app:destination="@id/societyDetailFragment" />
@@ -39,7 +39,7 @@
         android:id="@+id/societyDetailFragment"
         android:name="com.atech.bit.ui.fragments.society.detail.SocietyDetailFragment"
         android:label="fragment_society_detail"
-        tools:layout="@layout/fragment_society_detail" >
+        tools:layout="@layout/fragment_society_detail">
         <argument
             android:name="society"
             app:argType="com.atech.core.retrofit.client.Society" />
@@ -51,27 +51,54 @@
         tools:layout="@layout/fragment_administration" />
     <fragment
         android:id="@+id/eventFragment"
-        tools:layout="@layout/layout_recycler_view"
         android:name="com.atech.bit.ui.fragments.events.EventFragment"
-        android:label="EventFragment" />
+        android:label="EventFragment"
+        tools:layout="@layout/layout_recycler_view" />
     <fragment
         android:id="@+id/eventDetailFragment"
         android:name="com.atech.bit.ui.fragments.events.detail.EventDetailFragment"
         android:label="fragment_event_detail"
-        tools:layout="@layout/fragment_notice_event_detail" >
+        tools:layout="@layout/fragment_notice_event_detail">
         <argument
             android:name="path"
             app:argType="string" />
     </fragment>
-    <action android:id="@+id/action_global_eventDetailFragment" app:destination="@id/eventDetailFragment" />
+    <action
+        android:id="@+id/action_global_eventDetailFragment"
+        app:destination="@id/eventDetailFragment" />
     <fragment
         android:id="@+id/noticeDetailFragment"
         android:name="com.atech.bit.ui.fragments.notice.detail.NoticeDetailFragment"
-        tools:layout="@layout/layout_recycler_view"
-        android:label="NoticeDetailFragment" >
+        android:label="NoticeDetailFragment"
+        tools:layout="@layout/layout_recycler_view">
         <argument
             android:name="path"
             app:argType="string" />
     </fragment>
-    <action android:id="@+id/action_global_noticeDetailFragment" app:destination="@id/noticeDetailFragment" />
+    <action
+        android:id="@+id/action_global_noticeDetailFragment"
+        app:destination="@id/noticeDetailFragment" />
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.atech.bit.ui.fragments.library.LibraryFragment"
+        android:label="LibraryFragment"
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_addEditFragment"
+            app:destination="@id/addEditLibraryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditLibraryFragment"
+        android:name="com.atech.bit.ui.fragments.library.add_edit.AddEditFragment"
+        android:label="fragment_add_edit_library_book_details"
+        tools:layout="@layout/fragment_add_edit_library_book_details">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="library"
+            android:defaultValue="@null"
+            app:argType="com.atech.core.room.library.LibraryModel"
+            app:nullable="true" />
+    </fragment>
 </navigation>

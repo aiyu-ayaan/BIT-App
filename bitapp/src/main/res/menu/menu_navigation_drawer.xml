@@ -39,6 +39,7 @@
                     android:icon="@drawable/ic_admin"
                     android:title="@string/administration" />
                 <item
+                    android:id="@id/libraryFragment"
                     android:icon="@drawable/ic_library"
                     android:title="@string/library" />
 

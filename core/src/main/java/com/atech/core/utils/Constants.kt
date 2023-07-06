@@ -1,9 +1,13 @@
 package com.atech.core.utils
 
-enum class TAGS{
+//const val TAG = "Aiyu"
+
+enum class TAGS {
     BIT_ERROR,
     BIT_DEBUG,
+    BIT_COROUTINE,
 }
+
 enum class RowSubjectAdapterRequest {
     FROM_ATTENDANCE,
     FROM_HOME
@@ -15,8 +19,11 @@ enum class SharePrefKeys {
     KeyToggleSyllabusSource,
 }
 
+val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
+
 const val MAX_SPAWN = 3
 
+const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
 const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
 const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453

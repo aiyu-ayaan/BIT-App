@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.Toast
@@ -24,6 +25,7 @@ import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.concurrent.TimeUnit
 
 enum class ToastLength(val length: Int) {
     SHORT(Toast.LENGTH_SHORT),
@@ -235,4 +237,17 @@ fun Long.getDate(): String {
         }
 
     }
+}
+
+fun Context.openAppSettings() = this.apply {
+    val intent = Intent()
+    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+    val uri = Uri.fromParts("package", this.packageName, null)
+    intent.data = uri
+    this.startActivity(intent)
+}
+
+fun Date.compareDifferenceInDays(date: Date): Int {
+    val diff = this.time - date.time
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
 }
