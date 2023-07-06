@@ -6,11 +6,15 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
+import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
 import com.atech.core.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
+import com.atech.course.utils.onScrollChange
 import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
@@ -22,9 +26,12 @@ import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
+private const val TAG = "HomeFragment"
+
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding: FragmentHomeBinding by viewBinding()
+    private val viewModel: HomeViewModel by viewModels()
 
     private val mainActivity: ParentActivity by lazy {
         requireActivity() as ParentActivity
@@ -36,6 +43,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     @Inject
     lateinit var pref: SharedPreferences
 
+    private lateinit var homeAdapter: HomeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition()
@@ -46,10 +55,21 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.apply {
             setDrawerOpen()
             toolbarIcon()
+            setRecyclerView()
         }
         handleExpand()
         handleBackPress()
         fetchRemoteConfigData()
+        hideBottomAppBar()
+    }
+
+
+    private fun hideBottomAppBar() {
+        binding.recyclerView.onScrollChange(topScroll = {
+            mainActivity.setBottomNavigationVisibility(true)
+        }, bottomScroll = {
+            mainActivity.setBottomNavigationVisibility(false)
+        })
     }
 
     private fun FragmentHomeBinding.setDrawerOpen() = this.searchBar.setNavigationOnClickListener {
@@ -94,6 +114,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val action = HomeFragmentDirections.actionHomeFragmentToNoticeFragment()
         navigate(action)
     }
+
+    private fun FragmentHomeBinding.setRecyclerView() = this.recyclerView.apply {
+        adapter = HomeAdapter(
+            switchClick = ::switchClick
+        ).also { homeAdapter = it }
+        layoutManager = LinearLayoutManager(context)
+        observeData()
+    }
+
+    private fun switchClick(isChecked: Boolean) {
+        viewModel.isOnline.value = isChecked
+    }
+
+    private fun observeData() {
+        viewModel.homeScreenData().observe(viewLifecycleOwner) {
+            homeAdapter.items = it.toMutableList()
+        }
+    }
+
 
     //    --------------------------------- Remote Config ----------------------------------
     private fun fetchRemoteConfigData() {

@@ -1,6 +1,7 @@
 package com.atech.theme
 
 import androidx.drawerlayout.widget.DrawerLayout
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 interface ParentActivity {
 
@@ -16,4 +17,6 @@ interface ParentActivity {
 
 
     fun getNavigationFragmentId(): Int
+
+    fun getBottomNavigationFragment(): BottomNavigationView
 }

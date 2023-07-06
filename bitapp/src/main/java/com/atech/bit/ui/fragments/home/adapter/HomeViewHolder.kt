@@ -1,0 +1,90 @@
+package com.atech.bit.ui.fragments.home.adapter
+
+import android.view.View
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowSubjectsHomeBinding
+import com.atech.bit.utils.HomeTopModel
+import com.atech.bit.utils.set
+import com.atech.theme.CardHighlightModel
+import com.atech.theme.databinding.CardViewHighlightBinding
+import com.atech.theme.databinding.LayoutNoteFromDevBinding
+import com.atech.theme.databinding.RowTitleBinding
+import com.atech.theme.set
+import com.google.android.material.materialswitch.MaterialSwitch
+
+sealed class HomeViewHolder(
+    binding: ViewBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    class HighlightHolder(
+        private val binding: CardViewHighlightBinding
+    ) : HomeViewHolder(binding) {
+        fun bind(
+            model: CardHighlightModel
+        ) {
+            binding.set(
+                model
+            )
+        }
+    }
+
+    class HomeSettingHolder(
+        private val binding: LayoutHomeTopSettingsBinding,
+        private val switchClick: (Boolean) -> Unit,
+        private val switchApply: MaterialSwitch.() -> Unit
+    ) : HomeViewHolder(binding) {
+        fun bind(
+            model: HomeTopModel
+        ) {
+            binding.apply {
+                set(model)
+                toggleSwitch.apply {
+                    switchApply(this)
+                    setOnCheckedChangeListener { _, isChecked ->
+                        switchClick(isChecked)
+                    }
+                }
+            }
+        }
+    }
+
+    class TitleHolder(
+        private val binding: RowTitleBinding,
+    ) : HomeViewHolder(binding) {
+        fun bind(title: HomeItems.Title) {
+            binding.root.text = title.title
+        }
+    }
+
+    class SubjectHolder(
+        private val binding: RowSubjectsHomeBinding, onClick: ((Int) -> Unit)? = null
+    ) : HomeViewHolder(binding) {
+        init {
+            binding.root.setOnClickListener {
+                onClick?.invoke(absoluteAdapterPosition)
+            }
+        }
+
+        fun bind(model: HomeItems.Subject) {
+            binding.apply {
+                binding.root.transitionName = model.data.subject
+                subjectTextView.text = model.data.subject
+                creditTextView.text = String.format("Credits: %d", model.data.credits)
+                creditTextView.visibility =
+                    if (model.data.credits == -1) View.GONE else View.VISIBLE
+                subjectCodeTextView.text = model.data.code
+                subjectCodeTextView.visibility =
+                    if (model.data.code.isEmpty()) View.GONE else View.VISIBLE
+
+            }
+        }
+    }
+
+    class DevNoteHolder(
+        private val binding: LayoutNoteFromDevBinding
+    ) : HomeViewHolder(binding) {
+
+    }
+}

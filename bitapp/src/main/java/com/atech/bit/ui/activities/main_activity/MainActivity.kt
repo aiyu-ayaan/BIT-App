@@ -27,6 +27,7 @@ import com.atech.theme.isDark
 import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openLinks
 import com.atech.theme.setStatusBarUiTheme
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -140,6 +141,9 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
 
     override fun getNavigationFragmentId(): Int =
         R.id.fragment
+
+    override fun getBottomNavigationFragment(): BottomNavigationView =
+        binding.bottomNavigation
 
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment
     private fun setExitTransition() = getCurrentFragment()?.exitTransition()

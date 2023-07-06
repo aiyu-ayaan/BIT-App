@@ -37,6 +37,9 @@ interface SyllabusDao {
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
     fun getSyllabusType(query: String, type: String): Flow<List<SyllabusModel>>
 
+    @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
+    suspend fun getSyllabusTypeList(query: String, type: String): List<SyllabusModel>
+
     /***
      *Get Syllabus for Home
      */
