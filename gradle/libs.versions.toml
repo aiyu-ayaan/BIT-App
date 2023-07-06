@@ -2,7 +2,7 @@
 core-ktx = "1.10.1"
 appcompat = "1.6.1"
 firebaseCrashlyticsGradle = "2.9.6"
-kotlinGradlePlugin = "1.8.22"
+kotlinGradlePlugin = "1.9.0"
 navigationSafeArgsGradlePlugin = "2.6.0"
 playstorecore = "1.8.1"
 material = "1.9.0"
