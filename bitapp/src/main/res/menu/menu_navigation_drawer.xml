@@ -42,9 +42,9 @@
                     android:id="@id/libraryFragment"
                     android:icon="@drawable/ic_library"
                     android:title="@string/library" />
-
-                <!--                android:id="@id/cgpaCalculatorFragment"-->
+                
                 <item
+                    android:id="@+id/cgpaCalculatorFragment"
                     android:checkable="false"
                     android:icon="@drawable/ic_cgpa_calculator"
                     android:title="@string/cgpa_calculator" />

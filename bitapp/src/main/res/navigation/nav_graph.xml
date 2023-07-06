@@ -101,4 +101,9 @@
             app:argType="com.atech.core.room.library.LibraryModel"
             app:nullable="true" />
     </fragment>
+    <fragment
+        android:id="@+id/cgpaCalculatorFragment"
+        android:name="com.atech.bit.ui.fragments.cgpa.CgpaCalculatorFragment"
+        android:label="fragment_cgpa"
+        tools:layout="@layout/fragment_cgpa" />
 </navigation>

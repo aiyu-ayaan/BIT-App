@@ -23,6 +23,8 @@ val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
 
 const val MAX_SPAWN = 3
 
+enum class CourseCapital { BBA, BCA }
+
 const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
 const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
