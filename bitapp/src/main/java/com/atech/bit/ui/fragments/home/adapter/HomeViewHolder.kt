@@ -4,10 +4,12 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowHolidayHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
 import com.atech.bit.utils.HomeTopModel
 import com.atech.bit.utils.set
 import com.atech.theme.CardHighlightModel
+import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
 import com.atech.theme.databinding.LayoutNoteFromDevBinding
 import com.atech.theme.databinding.RowTitleBinding
@@ -44,6 +46,10 @@ sealed class HomeViewHolder(
                     switchApply(this)
                     setOnCheckedChangeListener { _, isChecked ->
                         switchClick(isChecked)
+                        if (isChecked)
+                            setThumbIconResource(R.drawable.round_cloud_24)
+                        else
+                            setThumbIconResource(R.drawable.round_cloud_off_24)
                     }
                 }
             }
@@ -82,9 +88,22 @@ sealed class HomeViewHolder(
         }
     }
 
-    class DevNoteHolder(
-        private val binding: LayoutNoteFromDevBinding
+    class HolidayHolder(
+        private val binding: RowHolidayHomeBinding
     ) : HomeViewHolder(binding) {
-
+        fun bind(model: HomeItems.Holiday) {
+            val holiday = model.data
+            binding.apply {
+                binding.apply {
+                    date.text = holiday.date
+                    day.text = holiday.day
+                    occasion.text = holiday.occasion
+                }
+            }
+        }
     }
+
+    class DevNoteHolder(
+        binding: LayoutNoteFromDevBinding
+    ) : HomeViewHolder(binding)
 }

@@ -17,5 +17,7 @@ sealed class HomeItems {
 
     data class Subject(val data: SyllabusUIModel) : HomeItems()
 
+    data class Holiday(val data: com.atech.core.retrofit.client.Holiday) : HomeItems()
+
     object DevNote : HomeItems()
 }

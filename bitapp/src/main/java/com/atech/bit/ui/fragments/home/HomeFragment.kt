@@ -20,10 +20,13 @@ import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
+import com.atech.theme.launchWhenCreated
 import com.atech.theme.navigate
 import com.atech.theme.toast
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 private const val TAG = "HomeFragment"
@@ -117,18 +120,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun FragmentHomeBinding.setRecyclerView() = this.recyclerView.apply {
         adapter = HomeAdapter(
-            switchClick = ::switchClick
+            switchClick = ::switchClick,
+            switch = ::switchApply,
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
     }
 
+    private fun switchApply(materialSwitch: MaterialSwitch) {
+        materialSwitch.isChecked = viewModel.isOnline.value
+    }
+
+
     private fun switchClick(isChecked: Boolean) {
         viewModel.isOnline.value = isChecked
     }
 
-    private fun observeData() {
-        viewModel.homeScreenData().observe(viewLifecycleOwner) {
+    private fun observeData() = launchWhenCreated {
+        viewModel.homeScreenData.collectLatest {
             homeAdapter.items = it.toMutableList()
         }
     }

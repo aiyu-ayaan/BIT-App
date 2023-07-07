@@ -10,11 +10,14 @@ import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.withContext
 
 object HomeViewModelExr {
 
+    //    ____________________________________________ Syllabus ____________________________________________
     fun topView(list: MutableList<HomeItems>) {
         list.add(
             HomeItems.Highlight(
@@ -41,19 +44,19 @@ object HomeViewModelExr {
     ) =
         Triple(
             offlineSyllabusUIMapper.mapFromEntityList(
-                syllabusDao.getSyllabusTypeList(
+                syllabusDao.getSyllabusHomeList(
                     courseSem,
                     "Theory"
                 )
             ),
             offlineSyllabusUIMapper.mapFromEntityList(
-                syllabusDao.getSyllabusTypeList(
+                syllabusDao.getSyllabusHomeList(
                     courseSem,
                     "Lab"
                 )
             ),
             offlineSyllabusUIMapper.mapFromEntityList(
-                syllabusDao.getSyllabusTypeList(
+                syllabusDao.getSyllabusHomeList(
                     courseSem,
                     "PE"
                 )
@@ -102,4 +105,19 @@ object HomeViewModelExr {
 
     private fun emptyTriple(): Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>> =
         Triple(emptyList(), emptyList(), emptyList())
+
+//    ____________________________________________ Holiday ____________________________________________
+
+    suspend fun getHoliday(
+        api: ApiCases,
+        month: String
+    ) = withContext(Dispatchers.IO){
+        api.holiday.invoke(month, filter = { query, holidays ->
+            holidays.holidays.filter { it.month == query }
+        }).map { dataState ->
+            dataState.getData()?.let { holiday ->
+                holiday.holidays.map { HomeItems.Holiday(it) }
+            } ?: emptyList()
+        }.toList().flatten()
+    }
 }

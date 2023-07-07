@@ -3,25 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/material_card_view_notice"
-    style="?attr/materialCardViewOutlinedStyle"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginVertical="@dimen/grid_0_25"
-    app:cardBackgroundColor="?attr/colorSurface"
-    app:strokeColor="?attr/bottomBar"
+    app:cardBackgroundColor="?attr/bottomBar"
     tools:theme="@style/Base.Theme.BITApp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/grid_1">
+        android:paddingVertical="@dimen/grid_1_5">
 
         <TextView
             android:id="@+id/subject_code_text_view"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/grid_1"
-            android:layout_marginTop="@dimen/grid_1"
             android:maxLines="1"
             android:textAppearance="?attr/textAppearanceCaption"
             app:layout_constraintStart_toStartOf="parent"

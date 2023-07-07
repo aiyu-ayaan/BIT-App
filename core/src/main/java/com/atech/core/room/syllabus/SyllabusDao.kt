@@ -10,6 +10,7 @@
 
 package com.atech.core.room.syllabus
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -30,12 +31,18 @@ interface SyllabusDao {
     @Query("SELECT * FROM syllabus_table WHERE subject LIKE '%'||:query||'%' OR code LIKE '%'||:query||'%' OR openCode LIKE '%'||:query||'%' OR shortName LIKE '%'||:query||'%'  ORDER BY openCode ASC")
     suspend fun getSyllabusSearchSync(query: String): List<SyllabusModel>
 
+    @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:course||'%' ORDER BY openCode ASC")
+    fun getSyllabusAsCourse(course: String): Flow<List<SyllabusModel>>
+
 
     /***
      *Get Syllabus for Syllabus section.
      */
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
     fun getSyllabusType(query: String, type: String): Flow<List<SyllabusModel>>
+
+    @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
+    fun getSyllabusTypeLive(query: String, type: String): LiveData<List<SyllabusModel>>
 
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
     suspend fun getSyllabusTypeList(query: String, type: String): List<SyllabusModel>
@@ -45,6 +52,9 @@ interface SyllabusDao {
      */
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' and isChecked=1 ORDER BY listOrder ASC")
     fun getSyllabusHome(query: String, type: String): Flow<List<SyllabusModel>>
+
+    @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' and isChecked=1 ORDER BY listOrder ASC")
+    suspend fun getSyllabusHomeList(query: String, type: String): List<SyllabusModel>
 
     /***
      *  Get Syllabus for edit
