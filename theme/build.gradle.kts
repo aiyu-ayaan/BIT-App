@@ -51,5 +51,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.browser)
     implementation(libs.navigation.fragment.ktx)
+    implementation(libs.glide)
 
 }

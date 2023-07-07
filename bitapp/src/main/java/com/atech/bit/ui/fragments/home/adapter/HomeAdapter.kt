@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
 import com.atech.theme.databinding.CardViewHighlightBinding
@@ -62,6 +63,12 @@ class HomeAdapter(
                 )
             )
 
+            R.layout.row_common_rv -> HomeViewHolder.EventHolder(
+                RowCommonRvBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -78,8 +85,9 @@ class HomeAdapter(
 
         is HomeViewHolder.TitleHolder -> holder.bind(items[position] as HomeItems.Title)
         is HomeViewHolder.SubjectHolder -> holder.bind(items[position] as HomeItems.Subject)
-        is HomeViewHolder.DevNoteHolder -> Unit
         is HomeViewHolder.HolidayHolder -> holder.bind(items[position] as HomeItems.Holiday)
+        is HomeViewHolder.EventHolder -> holder.bind(items[position] as HomeItems.Event)
+        is HomeViewHolder.DevNoteHolder -> Unit
     }
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {
@@ -89,5 +97,6 @@ class HomeAdapter(
         is HomeItems.Title -> com.atech.theme.R.layout.row_title
         HomeItems.DevNote -> com.atech.theme.R.layout.layout_note_from_dev
         is HomeItems.Holiday -> R.layout.row_holiday_home
+        is HomeItems.Event -> R.layout.row_common_rv
     }
 }

@@ -85,6 +85,11 @@ dependencies {
     implementation(libs.exoplayer.core)
     implementation(libs.exoplayer.ui)
     implementation(libs.exoplayer.dash)
+
+    implementation(libs.circle.indicator)
+    implementation(libs.glide)
+
+    implementation(libs.palette)
 }
 
 kapt {

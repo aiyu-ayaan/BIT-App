@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingHorizontal="@dimen/grid_1"
-    android:theme="@style/Base.Theme.BITApp"
+    tools:theme="@style/Base.Theme.BITApp"
     android:background="?attr/colorSurface"
     ads:layoutDescription="@xml/fragment_attendance_ext_scene">
 

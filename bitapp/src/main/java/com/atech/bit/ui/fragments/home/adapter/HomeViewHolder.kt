@@ -4,8 +4,10 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
+import com.atech.bit.utils.EventAdapter
 import com.atech.bit.utils.HomeTopModel
 import com.atech.bit.utils.set
 import com.atech.theme.CardHighlightModel
@@ -14,6 +16,7 @@ import com.atech.theme.databinding.CardViewHighlightBinding
 import com.atech.theme.databinding.LayoutNoteFromDevBinding
 import com.atech.theme.databinding.RowTitleBinding
 import com.atech.theme.set
+import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.materialswitch.MaterialSwitch
 
 sealed class HomeViewHolder(
@@ -94,11 +97,25 @@ sealed class HomeViewHolder(
         fun bind(model: HomeItems.Holiday) {
             val holiday = model.data
             binding.apply {
-                binding.apply {
-                    date.text = holiday.date
-                    day.text = holiday.day
-                    occasion.text = holiday.occasion
+                date.text = holiday.date
+                day.text = holiday.day
+                occasion.text = holiday.occasion
+            }
+        }
+    }
+
+    class EventHolder(
+        private val binding: RowCommonRvBinding
+    ) : HomeViewHolder(binding) {
+        fun bind(model: HomeItems.Event) {
+            val events = model.data
+            binding.apply {
+                val commonAdapter = EventAdapter()
+                carouselRecyclerView.apply {
+                    adapter = commonAdapter
+                    layoutManager = CarouselLayoutManager()
                 }
+                commonAdapter.items = events
             }
         }
     }

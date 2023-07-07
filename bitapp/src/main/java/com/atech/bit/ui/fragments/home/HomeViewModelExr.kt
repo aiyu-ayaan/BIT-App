@@ -1,7 +1,11 @@
 package com.atech.bit.ui.fragments.home
 
+import androidx.annotation.Keep
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.utils.HomeTopModel
+import com.atech.core.firebase.firestore.Db
+import com.atech.core.firebase.firestore.EventModel
+import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.getData
@@ -111,7 +115,7 @@ object HomeViewModelExr {
     suspend fun getHoliday(
         api: ApiCases,
         month: String
-    ) = withContext(Dispatchers.IO){
+    ) = withContext(Dispatchers.IO) {
         api.holiday.invoke(month, filter = { query, holidays ->
             holidays.holidays.filter { it.month == query }
         }).map { dataState ->
@@ -120,4 +124,19 @@ object HomeViewModelExr {
             } ?: emptyList()
         }.toList().flatten()
     }
+
+//    ____________________________________________ Event ____________________________________________
+
+    @Keep
+    data class EventHomeModel(
+        val title: String,
+        val des : String,
+        val society: String,
+        val iconLink: String,
+        val posterLink: String,
+        val path : String,
+        val created: Long
+    )
+
+
 }

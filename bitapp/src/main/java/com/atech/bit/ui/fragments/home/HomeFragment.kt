@@ -2,6 +2,7 @@ package com.atech.bit.ui.fragments.home
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
+import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.core.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
@@ -139,6 +141,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun observeData() = launchWhenCreated {
         viewModel.homeScreenData.collectLatest {
             homeAdapter.items = it.toMutableList()
+            it.forEach {
+                if (it is HomeItems.Event) {
+                    Log.d(TAG, "observeData: ${it.data}")
+                }
+            }
         }
     }
 

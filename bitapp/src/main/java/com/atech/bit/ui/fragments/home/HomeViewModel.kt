@@ -12,6 +12,9 @@ import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.core.data.room.library.LibraryDao
 import com.atech.core.datastore.DataStoreCases
 import com.atech.core.datastore.FilterPreferences
+import com.atech.core.firebase.firestore.Db
+import com.atech.core.firebase.firestore.EventModel
+import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.room.attendance.AttendanceDao
 import com.atech.core.room.syllabus.SyllabusDao
@@ -24,7 +27,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
@@ -32,12 +37,13 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val api: ApiCases,
-    private val pref: DataStoreCases,
+    pref: DataStoreCases,
     private val syllabusDao: SyllabusDao,
     private val attendanceDao: AttendanceDao,
     private val libraryDao: LibraryDao,
     private val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
     private val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
+    private val firebaseCases: FirebaseCases,
     calendar: Calendar,
 ) : ViewModel() {
 
@@ -50,14 +56,16 @@ class HomeViewModel @Inject constructor(
 
     init {
         combine(
-            dataStores.asFlow(), isOnline, syllabusDao.getSyllabusHome(
+            dataStores.asFlow(), isOnline, firebaseCases.getData.invoke(
+                EventModel::class.java, Db.Event
+            ), syllabusDao.getSyllabusHome(
                 "", ""
             )
-        ) { pref, isOnline, _ ->
+        ) { dataStores, isOnline, events, _ ->
             val homeItems = mutableListOf<HomeItems>()
             topView(homeItems)
             homeItems.addAll(
-                getSyllabusData(isOnline, pref).await()
+                getSyllabusData(isOnline, dataStores).await()
             )
             homeItems.add(HomeItems.Title("Holiday"))
             homeItems.addAll(
@@ -66,6 +74,9 @@ class HomeViewModel @Inject constructor(
                     calenderQuery,
                 )
             )
+            homeItems.add(HomeItems.Title("Event"))
+            homeItems.add(HomeItems.Event(getEvents(events)))
+
 //            End
             homeItems.add(devNote)
             homeItems
@@ -76,6 +87,36 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private suspend fun getEvents(
+        events: List<EventModel>?
+    ) = withContext(Dispatchers.IO) {
+        val list = mutableListOf<HomeViewModelExr.EventHomeModel>()
+        (events?.map { event ->
+            HomeViewModelExr.EventHomeModel(
+                event.title ?: "",
+                event.content ?: "",
+                event.society ?: "",
+                event.logo_link ?: "",
+                "",
+                event.path ?: "",
+                event.created ?: 0L
+            )
+        } ?: emptyList()).map {
+            firebaseCases.getAttach.invoke(Db.Event, it.path).map { attaches ->
+                it.copy(
+                    posterLink = if (attaches.size == 0) "" else attaches[0].link ?: "",
+                )
+            }
+        }.forEach {
+            viewModelScope.launch(Dispatchers.IO) {
+                it.collectLatest { event ->
+                    list.add(event)
+                }
+            }
+        }
+        list
     }
 
     private fun getSyllabusData(

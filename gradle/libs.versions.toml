@@ -3,7 +3,9 @@ agp = "7.4.2"
 android-viewbinding = "1.0.4"
 coil = "2.4.0"
 calendarVersion = "3.0.0"
+circleIndicatorVersion = "2.1.6"
 exoplayerPlayer = "1.1.0-rc01"
+glide = "4.15.1"
 hilt-android = "2.46"
 kotlin = "1.7.20"
 core-ktx = "1.10.1"
@@ -26,6 +28,7 @@ lottiVersion = "6.0.1"
 browser = "1.5.0"
 roomCompiler = "2.5.2"
 roomKtx = "2.5.2"
+palette_version = "28.0.0"
 
 
 [libraries]
@@ -35,10 +38,12 @@ core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx
 exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "exoplayerPlayer" }
 exoplayer-ui = { module = "androidx.media3:media3-ui", version.ref = "exoplayerPlayer" }
 exoplayer-core = { module = "androidx.media3:media3-exoplayer", version.ref = "exoplayerPlayer" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt-android" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt-android" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 calender = { group = "com.github.sundeepk", name = "compact-calendar-view", version.ref = "calendarVersion" }
+circle-indicator = { group = "me.relex", name = "circleindicator", version.ref = "circleIndicatorVersion" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "lifecycleExtensions" }
 lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "lifecycleViewmodelKtx" }
@@ -68,6 +73,7 @@ lotti = { group = "com.airbnb.android", name = "lottie", version.ref = "lottiVer
 browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+palette = { group = "com.android.support", name = "palette-v7", version.ref = "palette_version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
