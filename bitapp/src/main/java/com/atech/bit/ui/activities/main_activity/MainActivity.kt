@@ -186,7 +186,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         R.id.noticeDetailFragment,
         R.id.libraryFragment,
         R.id.addEditLibraryFragment,
-        R.id.cgpaCalculatorFragment
+        R.id.cgpaCalculatorFragment,
+        R.id.viewSyllabusFragment2
     )
 
     private fun bottomSheetFragment() = listOf(

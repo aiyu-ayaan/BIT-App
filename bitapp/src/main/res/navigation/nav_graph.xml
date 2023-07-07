@@ -106,4 +106,20 @@
         android:name="com.atech.bit.ui.fragments.cgpa.CgpaCalculatorFragment"
         android:label="fragment_cgpa"
         tools:layout="@layout/fragment_cgpa" />
+    <fragment
+        android:id="@+id/viewSyllabusFragment2"
+        android:name="com.atech.course.view_syllabus.ViewSyllabusFragment"
+        android:label="fragment_view_offline_syllabus"
+        tools:layout="@layout/fragment_view_offline_syllabus">
+        <argument
+            android:name="model"
+            app:argType="com.atech.course.sem.adapter.SyllabusUIModel" />
+        <argument
+            android:name="courseSem"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_viewSyllabusFragment_home"
+        app:destination="@id/viewSyllabusFragment2" />
+
 </navigation>

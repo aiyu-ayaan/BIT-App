@@ -37,7 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val api: ApiCases,
-    pref: DataStoreCases,
+    private val pref: DataStoreCases,
     private val syllabusDao: SyllabusDao,
     private val attendanceDao: AttendanceDao,
     private val libraryDao: LibraryDao,
@@ -53,6 +53,7 @@ class HomeViewModel @Inject constructor(
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
     private val _homeScreenData: MutableStateFlow<List<HomeItems>> = MutableStateFlow(emptyList())
     val homeScreenData: Flow<List<HomeItems>> = _homeScreenData
+    var courseSem = ""
 
     init {
         combine(
@@ -62,20 +63,26 @@ class HomeViewModel @Inject constructor(
                 "", ""
             )
         ) { dataStores, isOnline, events, _ ->
+            courseSem = dataStores.courseWithSem
             val homeItems = mutableListOf<HomeItems>()
             topView(homeItems)
             homeItems.addAll(
                 getSyllabusData(isOnline, dataStores).await()
             )
-            homeItems.add(HomeItems.Title("Holiday"))
-            homeItems.addAll(
-                getHoliday(
-                    api,
-                    calenderQuery,
-                )
+            val holidays = getHoliday(
+                api,
+                calenderQuery,
             )
-            homeItems.add(HomeItems.Title("Event"))
-            homeItems.add(HomeItems.Event(getEvents(events)))
+            if (holidays.isNotEmpty()) {
+                homeItems.add(HomeItems.Title("Holiday"))
+                homeItems.addAll(
+                    holidays
+                )
+            }
+            if (events?.isNotEmpty() == true) {
+                homeItems.add(HomeItems.Title("Event"))
+                homeItems.add(HomeItems.Event(getEvents(events)))
+            }
 
 //            End
             homeItems.add(devNote)

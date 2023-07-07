@@ -21,6 +21,8 @@ enum class SharePrefKeys {
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
 
+const val SYLLABUS_DETAILS_DEEP_LINK = "android-app://com.atech.bit/view_syllabus_fragment"
+
 const val MAX_SPAWN = 3
 
 enum class CourseCapital { BBA, BCA }

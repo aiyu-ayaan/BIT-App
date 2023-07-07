@@ -17,6 +17,7 @@ import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.core.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
+import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
 import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
@@ -125,15 +126,24 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter = HomeAdapter(
             switchClick = ::switchClick,
             switch = ::switchApply,
-            onEventClick = ::navigateToEventDetails
+            onEventClick = ::navigateToEventDetails,
+            onSubjectClick = ::navigateToSubjectDetails,
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
     }
 
+    private fun navigateToSubjectDetails(syllabusUIModel: SyllabusUIModel) {
+        val action = NavGraphDirections.actionGlobalViewSyllabusFragmentHome(
+            model = syllabusUIModel,
+            viewModel.courseSem.lowercase()
+        )
+        navigate(action)
+    }
+
     private fun navigateToEventDetails(path: String) {
         exitTransition(Axis.X)
-        val action =NavGraphDirections.actionGlobalEventDetailFragment(path)
+        val action = NavGraphDirections.actionGlobalEventDetailFragment(path)
         navigate(action)
     }
 

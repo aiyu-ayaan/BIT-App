@@ -9,13 +9,15 @@ import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
 import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
+import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.databinding.CardViewHighlightBinding
 import com.google.android.material.materialswitch.MaterialSwitch
 
 class HomeAdapter(
     private val switchClick: (Boolean) -> Unit = {},
     private val switch: MaterialSwitch.() -> Unit = {},
-    private val onEventClick: (String) -> Unit = {}
+    private val onEventClick: (String) -> Unit = {},
+    private val onSubjectClick: ((SyllabusUIModel) -> Unit) = { }
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     var items = mutableListOf<HomeItems>()
@@ -44,7 +46,9 @@ class HomeAdapter(
                 RowSubjectsHomeBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
-            )
+            ) { position ->
+                onSubjectClick.invoke((items[position] as HomeItems.Subject).data)
+            }
 
             com.atech.theme.R.layout.row_title -> HomeViewHolder.TitleHolder(
                 com.atech.theme.databinding.RowTitleBinding.inflate(
