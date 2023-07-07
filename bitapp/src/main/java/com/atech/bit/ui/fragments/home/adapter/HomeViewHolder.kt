@@ -105,12 +105,15 @@ sealed class HomeViewHolder(
     }
 
     class EventHolder(
-        private val binding: RowCommonRvBinding
+        private val binding: RowCommonRvBinding,
+        private val onEventClick: (String) -> Unit
     ) : HomeViewHolder(binding) {
         fun bind(model: HomeItems.Event) {
             val events = model.data
             binding.apply {
-                val commonAdapter = EventAdapter()
+                val commonAdapter = EventAdapter(onEventClick)
+                commonAdapter.stateRestorationPolicy =
+                    RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
                 carouselRecyclerView.apply {
                     adapter = commonAdapter
                     layoutManager = CarouselLayoutManager()

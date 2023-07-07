@@ -15,6 +15,7 @@ import com.google.android.material.materialswitch.MaterialSwitch
 class HomeAdapter(
     private val switchClick: (Boolean) -> Unit = {},
     private val switch: MaterialSwitch.() -> Unit = {},
+    private val onEventClick: (String) -> Unit = {}
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     var items = mutableListOf<HomeItems>()
@@ -66,7 +67,8 @@ class HomeAdapter(
             R.layout.row_common_rv -> HomeViewHolder.EventHolder(
                 RowCommonRvBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                )
+                ),
+                onEventClick
             )
 
             else -> throw IllegalArgumentException("Invalid view type")

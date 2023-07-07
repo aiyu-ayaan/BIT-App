@@ -6,24 +6,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.databinding.RowCarouselBinding
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
-import com.atech.theme.getBitMap
 import com.atech.theme.loadImage
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 
 
-class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
+class EventAdapter(
+    private val onClick: (String) -> Unit
+) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     var items: List<HomeViewModelExr.EventHomeModel> = emptyList()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
+        @SuppressLint("NotifyDataSetChanged") set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    class EventViewHolder(
+    inner class EventViewHolder(
         private val binding: RowCarouselBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
+            binding.root.setOnClickListener {
+                if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
+                    onClick(items[absoluteAdapterPosition].path)
+            }
             binding.root.setOnMaskChangedListener { maskRect ->
                 binding.carouselTextView.translationX = maskRect.left;
                 binding.carouselTextView.alpha = 1 - maskRect.left / 100f
@@ -33,25 +35,15 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
         fun bind(model: HomeViewModelExr.EventHomeModel) {
             binding.apply {
                 carouselTextView.text = model.title
-                carouselImageView.loadImage(
-                    model.posterLink.ifBlank { model.iconLink }
-                )
-                runBlocking {
-                    val bitmapDeffer = async {
-                        model.posterLink.ifBlank { model.iconLink }
-                            .getBitMap(
-                                binding.root.context
-                            )
-                    }
-                    val bitmap = bitmapDeffer.await()
-                    bitmap?.isDark { isDark ->
-                        carouselTextView.setTextColor(
-                            if (isDark) {
-                                binding.root.context.getColor(android.R.color.white)
-                            } else {
-                                binding.root.context.getColor(android.R.color.black)
-                            }
-                        )
+                carouselImageView.loadImage(model.posterLink.ifBlank { model.iconLink })
+                carouselImageView.loadImage(model.posterLink.ifBlank { model.iconLink }) {
+                    it?.let { bitmap ->
+                        bitmap.isDark { isDark ->
+                            if (isDark)
+                                carouselTextView.setTextColor(0xFFFFFFFF.toInt())
+                            else
+                                carouselTextView.setTextColor(0xFF000000.toInt())
+                        }
                     }
                 }
             }
@@ -61,9 +53,7 @@ class EventAdapter : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder =
         EventViewHolder(
             RowCarouselBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
 

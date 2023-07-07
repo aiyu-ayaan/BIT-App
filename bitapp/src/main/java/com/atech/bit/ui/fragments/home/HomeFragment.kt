@@ -9,6 +9,7 @@ import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
@@ -124,9 +125,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         adapter = HomeAdapter(
             switchClick = ::switchClick,
             switch = ::switchApply,
+            onEventClick = ::navigateToEventDetails
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
+    }
+
+    private fun navigateToEventDetails(path: String) {
+        exitTransition(Axis.X)
+        val action =NavGraphDirections.actionGlobalEventDetailFragment(path)
+        navigate(action)
     }
 
     private fun switchApply(materialSwitch: MaterialSwitch) {
