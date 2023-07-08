@@ -26,20 +26,9 @@
             android:name="sem"
             android:defaultValue="6"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_semChooseFragment_to_view_syllabus_nav_graph"
+            app:destination="@id/view_syllabus_nav_graph" />
     </fragment>
-    <fragment
-        android:id="@+id/viewSyllabusFragment"
-        android:name="com.atech.course.view_syllabus.ViewSyllabusFragment"
-        android:label="fragment_view_offline_syllabus"
-        tools:layout="@layout/fragment_view_offline_syllabus">
-        <argument
-            android:name="model"
-            app:argType="com.atech.course.sem.adapter.SyllabusUIModel" />
-        <argument
-            android:name="courseSem"
-            app:argType="string" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_viewSyllabusFragment"
-        app:destination="@id/viewSyllabusFragment" />
+    <include app:graph="@navigation/view_syllabus_nav_graph" />
 </navigation>

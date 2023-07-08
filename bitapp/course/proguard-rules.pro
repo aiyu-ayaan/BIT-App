@@ -21,3 +21,5 @@
 -dontwarn com.google.android.gms.**
 
 -dontwarn java.lang.invoke.StringConcatFactory
+-dontwarn com.atech.theme.R$layout
+-dontwarn com.atech.theme.R$string

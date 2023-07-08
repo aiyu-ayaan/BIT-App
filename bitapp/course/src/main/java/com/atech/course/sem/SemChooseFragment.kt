@@ -7,7 +7,6 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +17,6 @@ import com.atech.core.utils.DataState
 import com.atech.core.utils.NetworkBoundException
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
-import com.atech.course.CourseFragmentDirections
 import com.atech.course.R
 import com.atech.course.databinding.FragmentSemChooseBinding
 import com.atech.course.sem.adapter.CourseAdapter
@@ -32,8 +30,8 @@ import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToolbarData
+import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
-import com.atech.theme.exitSharedElementTransform
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.launchWhenStarted
@@ -122,6 +120,10 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             setRecyclerView()
         }
         observeData()
+
+        customBackPress {
+            findNavController().navigateUp()
+        }
     }
 
     private fun FragmentSemChooseBinding.setRecyclerView() = this.recyclerViewSemChoose.apply {
@@ -134,11 +136,16 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
     private fun navigateToViewSyllabus(syllabus: SyllabusUIModel) {
         exitTransition(Axis.X)
-        val action = CourseFragmentDirections.actionGlobalViewSyllabusFragment(
-            syllabus,
-            (args.request + sem.value).lowercase(),
-        )
-       navigate(action)
+        SemChooseFragmentDirections.actionSemChooseFragmentToViewSyllabusNavGraph().let {
+            navigate(
+                it.actionId,
+                Bundle().apply {
+                    putString("courseSem", (args.request + sem.value).lowercase())
+                    putParcelable("model", syllabus)
+                }
+            )
+        }
+
     }
 
 
@@ -253,9 +260,9 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
         tabLayoutSemChoose.tabSelectedListener { tab ->
             try {
                 tab?.text.toString().replace("Semester ", "").trim().toInt().also {
-                        sem.value = it.toString()
-                        lastChooseSem = it
-                    }
+                    sem.value = it.toString()
+                    lastChooseSem = it
+                }
             } catch (e: Exception) {
                 toast("Something went wrong to save last selected sem")
             }
@@ -270,19 +277,21 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
     private fun FragmentSemChooseBinding.setToolbar() = this.includeToolbar.apply {
         isEnableStateFlow.value =
             syllabusEnableModel.compareToCourseSem("${args.request}$lastChooseSem")
-        set(ToolbarData(titleString = "${args.request} Sem $lastChooseSem",
-            action = findNavController()::navigateUp,
-            switchTitle = com.atech.theme.R.string.blank,
-            switchAction = {
-                launchWhenStarted {
-                    isEnableStateFlow.collectLatest {
-                        this.isChecked = it
+        set(
+            ToolbarData(titleString = "${args.request} Sem $lastChooseSem",
+                action = findNavController()::navigateUp,
+                switchTitle = com.atech.theme.R.string.blank,
+                switchAction = {
+                    launchWhenStarted {
+                        isEnableStateFlow.collectLatest {
+                            this.isChecked = it
+                        }
                     }
-                }
-            },
-            switchOnClick = {
-                isEnableStateFlow.value = it
-            }))
+                },
+                switchOnClick = {
+                    isEnableStateFlow.value = it
+                })
+        )
     }
 
 }

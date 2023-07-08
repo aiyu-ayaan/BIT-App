@@ -134,11 +134,13 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun navigateToSubjectDetails(syllabusUIModel: SyllabusUIModel) {
-        val action = NavGraphDirections.actionGlobalViewSyllabusFragmentHome(
-            model = syllabusUIModel,
-            viewModel.courseSem.lowercase()
-        )
-        navigate(action)
+        exitTransition(Axis.X)
+        HomeFragmentDirections.actionHomeFragmentToViewSyllabusNavGraph().also {
+            navigate(it.actionId, Bundle().apply {
+                putString("courseSem", viewModel.courseSem.lowercase())
+                putParcelable("model", syllabusUIModel)
+            })
+        }
     }
 
     private fun navigateToEventDetails(path: String) {
