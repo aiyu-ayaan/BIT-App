@@ -54,6 +54,7 @@ class HomeViewModel @Inject constructor(
     private val _homeScreenData: MutableStateFlow<List<HomeItems>> = MutableStateFlow(emptyList())
     val homeScreenData: Flow<List<HomeItems>> = _homeScreenData
     var courseSem = ""
+    var defPercentage = 75
 
     init {
         combine(
@@ -61,9 +62,11 @@ class HomeViewModel @Inject constructor(
                 EventModel::class.java, Db.Event
             ), syllabusDao.getSyllabusHome(
                 "", ""
-            )
-        ) { dataStores, isOnline, events, _ ->
+            ),
+            attendanceDao.getAllAttendance()
+        ) { dataStores, isOnline, events, _, attendance ->
             courseSem = dataStores.courseWithSem
+            defPercentage = dataStores.defPercentage
             val homeItems = mutableListOf<HomeItems>()
             topView(homeItems)
             homeItems.addAll(
@@ -87,6 +90,17 @@ class HomeViewModel @Inject constructor(
             if (!dataStores.cgpa.isAllZero) {
                 homeItems.add(HomeItems.Title("CGPA"))
                 homeItems.add(HomeItems.Cgpa(dataStores.cgpa))
+            }
+            if (attendance.isNotEmpty()) {
+                homeItems.add(HomeItems.Title("Attendance"))
+                val totalClass = attendance.sumOf { it.total }
+                val totalPresent = attendance.sumOf { it.present }
+                val data = HomeViewModelExr.AttendanceHomeModel(
+                    totalClass,
+                    totalPresent,
+                    attendance
+                )
+                homeItems.add(HomeItems.Attendance(data))
             }
 
 //            End

@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
     private fun handleDestinationChange() {
         navController.onDestinationChange { destination ->
             when (destination.id) {
-                in drawerFragments() -> getCurrentFragment().apply {
+                in bottomNavigationFragment() -> getCurrentFragment().apply {
                     setDrawerEnabled(true)
                 }
 
@@ -167,7 +167,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             R.id.cgpaCalculatorFragment
         )
 
-    private fun drawerFragments() = listOf(
+    private fun bottomNavigationFragment() = listOf(
         R.id.homeFragment,
         com.atech.course.R.id.courseFragment,
         com.atech.attendance.R.id.attendanceFragment

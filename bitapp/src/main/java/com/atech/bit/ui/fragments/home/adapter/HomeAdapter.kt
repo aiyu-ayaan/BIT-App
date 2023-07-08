@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowAttendanceRvBinding
 import com.atech.bit.databinding.RowCgpaHomeBinding
 import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
@@ -23,6 +24,13 @@ class HomeAdapter(
 
     var items = mutableListOf<HomeItems>()
         @SuppressLint("NotifyDataSetChanged") set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
+
+    var defPercentage: Int = 0
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
             field = value
             notifyDataSetChanged()
         }
@@ -82,6 +90,12 @@ class HomeAdapter(
                 )
             )
 
+            R.layout.row_attendance_rv -> HomeViewHolder.AttendanceHolder(
+                RowAttendanceRvBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                ), defPercentage
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -101,6 +115,7 @@ class HomeAdapter(
         is HomeViewHolder.HolidayHolder -> holder.bind(items[position] as HomeItems.Holiday)
         is HomeViewHolder.EventHolder -> holder.bind(items[position] as HomeItems.Event)
         is HomeViewHolder.CgpaHolder -> holder.bind(items[position] as HomeItems.Cgpa)
+        is HomeViewHolder.AttendanceHolder -> holder.bind(items[position] as HomeItems.Attendance)
         is HomeViewHolder.DevNoteHolder -> Unit
     }
 
@@ -113,5 +128,6 @@ class HomeAdapter(
         is HomeItems.Holiday -> R.layout.row_holiday_home
         is HomeItems.Event -> R.layout.row_common_rv
         is HomeItems.Cgpa -> R.layout.row_cgpa_home
+        is HomeItems.Attendance -> R.layout.row_attendance_rv
     }
 }
