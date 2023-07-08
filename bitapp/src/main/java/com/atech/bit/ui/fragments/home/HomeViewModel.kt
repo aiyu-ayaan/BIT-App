@@ -84,6 +84,11 @@ class HomeViewModel @Inject constructor(
                 homeItems.add(HomeItems.Event(getEvents(events)))
             }
 
+            if (!dataStores.cgpa.isAllZero) {
+                homeItems.add(HomeItems.Title("CGPA"))
+                homeItems.add(HomeItems.Cgpa(dataStores.cgpa))
+            }
+
 //            End
             homeItems.add(devNote)
             homeItems

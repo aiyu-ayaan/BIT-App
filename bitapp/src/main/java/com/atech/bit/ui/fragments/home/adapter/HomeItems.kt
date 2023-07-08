@@ -22,5 +22,7 @@ sealed class HomeItems {
 
     data class Event(val data: List<HomeViewModelExr.EventHomeModel>) : HomeItems()
 
+    data class Cgpa(val model: com.atech.core.datastore.Cgpa) : HomeItems()
+
     object DevNote : HomeItems()
 }

@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.exoplayer.dash)
 
     implementation(libs.circle.indicator)
+    implementation(libs.graph)
     implementation(libs.glide)
 
     implementation(libs.palette)

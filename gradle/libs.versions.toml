@@ -5,6 +5,7 @@ coil = "2.4.0"
 calendarVersion = "3.0.0"
 circleIndicatorVersion = "2.1.6"
 exoplayerPlayer = "1.1.0-rc01"
+graphVersion = "v3.1.0"
 glide = "4.15.1"
 hilt-android = "2.46"
 kotlin = "1.7.20"
@@ -59,6 +60,7 @@ firebase-crashlytics-ktx = { group = "com.google.firebase", name = "firebase-cra
 firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx" }
 firebase-config-ktx = { group = "com.google.firebase", name = "firebase-config-ktx" }
+graph = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "graphVersion" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson-version" }
 markDownView = { group = "com.github.mukeshsolanki", name = "MarkdownView-Android", version.ref = "markdownViewVersion" }
 navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigation-safe-args-gradle-plugin" }

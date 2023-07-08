@@ -4,12 +4,14 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowCgpaHomeBinding
 import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
 import com.atech.bit.utils.EventAdapter
 import com.atech.bit.utils.HomeTopModel
 import com.atech.bit.utils.set
+import com.atech.bit.utils.setView
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
@@ -120,6 +122,17 @@ sealed class HomeViewHolder(
                 }
                 commonAdapter.items = events
             }
+        }
+    }
+
+    class CgpaHolder(
+        private val binding: RowCgpaHomeBinding
+    ) : HomeViewHolder(binding) {
+        fun bind(model: HomeItems.Cgpa) {
+            binding.lineChartCgpa.setView(
+                binding.root.context,
+                model.model,
+            )
         }
     }
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
+import com.atech.bit.databinding.RowCgpaHomeBinding
 import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
@@ -75,6 +76,12 @@ class HomeAdapter(
                 onEventClick
             )
 
+            R.layout.row_cgpa_home -> HomeViewHolder.CgpaHolder(
+                RowCgpaHomeBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -93,6 +100,7 @@ class HomeAdapter(
         is HomeViewHolder.SubjectHolder -> holder.bind(items[position] as HomeItems.Subject)
         is HomeViewHolder.HolidayHolder -> holder.bind(items[position] as HomeItems.Holiday)
         is HomeViewHolder.EventHolder -> holder.bind(items[position] as HomeItems.Event)
+        is HomeViewHolder.CgpaHolder -> holder.bind(items[position] as HomeItems.Cgpa)
         is HomeViewHolder.DevNoteHolder -> Unit
     }
 
@@ -104,5 +112,6 @@ class HomeAdapter(
         HomeItems.DevNote -> com.atech.theme.R.layout.layout_note_from_dev
         is HomeItems.Holiday -> R.layout.row_holiday_home
         is HomeItems.Event -> R.layout.row_common_rv
+        is HomeItems.Cgpa -> R.layout.row_cgpa_home
     }
 }
