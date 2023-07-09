@@ -1,23 +1,71 @@
 package com.atech.login.ui
 
+import android.app.Activity
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.atech.core.firebase.auth.AuthUseCases
+import com.atech.core.utils.SharePrefKeys
 import com.atech.login.R
 import com.atech.login.databinding.FragmentLoginBinding
+import com.atech.login.utils.GoogleSignUIClient
 import com.atech.theme.Axis
 import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.isDark
+import com.atech.theme.launchWhenStarted
 import com.atech.theme.navigate
+import com.atech.theme.toast
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
     private val binding: FragmentLoginBinding by viewBinding()
+
+    private val googleSignClient: GoogleSignUIClient by lazy {
+        GoogleSignUIClient(
+            requireActivity(), Identity.getSignInClient(requireActivity())
+        )
+    }
+
+    @Inject
+    lateinit var authUseCases: AuthUseCases
+
+    @Inject
+    lateinit var pref: SharedPreferences
+
+
+    private val activityResult =
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                it.data?.let { intent ->
+                    googleSignClient.getSignUserFromIntend(intent) { token, error ->
+                        if (error != null) {
+                            toast(error.toString())
+                            return@getSignUserFromIntend
+                        }
+                        authUseCases.login.invoke(token) { (ui, exception) ->
+                            if (exception != null) {
+                                toast(exception.toString())
+                                return@invoke
+                            }
+                            ui?.let { hasData ->
+                                checkUserData(hasData)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,10 +74,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        screenLogic()
         binding.apply {
             signInButton()
             skipButton()
             whyLogin()
+        }
+    }
+
+    private fun screenLogic() {
+        val isLogIn = authUseCases.hasLogIn.invoke()
+        val hasDataInCloud = pref.getBoolean(SharePrefKeys.UserHasDataInCloud.name, false)
+        if (isLogIn && hasDataInCloud) {
+            navigateToLoadingScreen()
         }
     }
 
@@ -39,12 +96,19 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
-    private fun FragmentLoginBinding.signInButton() = this.signInButton.apply {
-        setSize(SignInButton.SIZE_WIDE)
-        setColorScheme(if (activity?.isDark() == true) SignInButton.COLOR_DARK else SignInButton.COLOR_LIGHT)
-        setOnClickListener {
-//            signIn() TODO: Implement this
+    private fun checkUserData(hasData: Boolean) {
+        if (hasData) navigateToLoadingScreen().also {
+            pref.edit().apply {
+                putBoolean(SharePrefKeys.UserHasDataInCloud.name, true)
+            }.apply()
         }
+        else navigateToSetup()
+    }
+
+    private fun navigateToLoadingScreen() {
+        exitTransition(Axis.X)
+        val action = LoginFragmentDirections.actionLoginFragmentToLoadingFragment()
+        navigate(action)
     }
 
     private fun navigateToSetup() {
@@ -59,20 +123,40 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun whyULogInDialog() {
         binding.textViewWhyToLogIn.setOnClickListener {
-            val dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Why do you need to log in?")
-                .setMessage(
-                    """
+            val dialog =
+                MaterialAlertDialogBuilder(requireContext()).setTitle("Why do you need to log in?")
+                    .setMessage(
+                        """
                         You need to log in to save your data (e.g. Attendance, GPA, Course preferences) in the cloud.
                         
                         This way you can access your data from any device.
                     """.trimIndent()
-                )
-                .setPositiveButton("Ok") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .create()
+                    ).setPositiveButton("Ok") { dialog, _ ->
+                        dialog.dismiss()
+                    }.create()
             dialog.show()
+        }
+    }
+
+    private fun FragmentLoginBinding.signInButton() = this.signInButton.apply {
+        setSize(SignInButton.SIZE_WIDE)
+        setColorScheme(if (activity?.isDark() == true) SignInButton.COLOR_DARK else SignInButton.COLOR_LIGHT)
+        setOnClickListener {
+            signIn()
+        }
+    }
+
+    private fun signIn() = launchWhenStarted {
+        googleSignClient.intentSender().let { (intentSender, error) ->
+            if (error != null) {
+                toast(error.toString())
+                return@let
+            }
+            activityResult.launch(
+                IntentSenderRequest.Builder(
+                    intentSender ?: return@let
+                ).build()
+            )
         }
     }
 }

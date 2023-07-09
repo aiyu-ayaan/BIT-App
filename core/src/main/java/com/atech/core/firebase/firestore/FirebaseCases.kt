@@ -1,21 +1,23 @@
 package com.atech.core.firebase.firestore
 
+import com.atech.core.firebase.auth.UserModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 enum class Db(val value: String) {
-    Event("BIT_Events"), Notice("BIT_Notice_New"),
+    Event("BIT_Events"), Notice("BIT_Notice_New"), User("BIT_User"),
 }
 
 data class FirebaseCases @Inject constructor(
     val getAttach: GetAttach,
     val getData: GetData,
     val getDocumentDetails: GetDocumentDetails,
+    val addUser: AddUser,
+    val checkUserData: CheckUserData
 )
 
 
@@ -24,19 +26,17 @@ class GetData @Inject constructor(
 ) {
     @Throws(Exception::class)
     operator fun <T> invoke(mapTo: Class<T>, ref: Db, query: String = ""): Flow<List<T>?> = try {
-        db.collection(ref.value).orderBy("created", Query.Direction.DESCENDING)
-            .snapshots()
-            .map {
-                it.toObjects(mapTo).let { data ->
-                    if (query.isNotEmpty()) {
-                        data.filter { event ->
-                            event.toString().contains(query, true)
-                        }
-                    } else {
-                        data
+        db.collection(ref.value).orderBy("created", Query.Direction.DESCENDING).snapshots().map {
+            it.toObjects(mapTo).let { data ->
+                if (query.isNotEmpty()) {
+                    data.filter { event ->
+                        event.toString().contains(query, true)
                     }
+                } else {
+                    data
                 }
             }
+        }
     } catch (e: Exception) {
         throw e
     }
@@ -48,14 +48,13 @@ class GetDocumentDetails @Inject constructor(
 ) {
 
     @Throws(Exception::class)
-    operator fun <T> invoke(mapTo: Class<T>, ref: Db, path: String) =
-        try {
-            db.collection(ref.value).document(path).snapshots().map {
-                it.toObject(mapTo)
-            }
-        } catch (e: Exception) {
-            throw e
+    operator fun <T> invoke(mapTo: Class<T>, ref: Db, path: String) = try {
+        db.collection(ref.value).document(path).snapshots().map {
+            it.toObject(mapTo)
         }
+    } catch (e: Exception) {
+        throw e
+    }
 }
 
 
@@ -69,5 +68,46 @@ class GetAttach @Inject constructor(
         }
     } catch (e: Exception) {
         throw e
+    }
+}
+
+class AddUser @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    operator fun invoke(
+        user: UserModel, callback: (Pair<String, Exception?>) -> Unit
+    ) {
+        val ref = db.collection(Db.User.value)
+        ref.document(user.uid!!).set(user).addOnSuccessListener {
+            callback(Pair(user.uid!!, null))
+        }.addOnFailureListener { exception ->
+            callback(Pair("", exception))
+        }
+    }
+}
+
+
+class CheckUserData @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    operator fun invoke(
+        uid: String,
+        callback: (Pair<Boolean?, Exception?>) -> Unit
+    ) {
+        db.collection(Db.User.value).document(uid)
+            .collection("data").document(uid)
+            .get().addOnSuccessListener { document ->
+                if (document != null) {
+                    val s = document.getString("courseSem")
+                    if (s != null)
+                        callback(true to null)
+                    else
+                        callback(false to null)
+                } else {
+                    callback(false to null)
+                }
+            }.addOnFailureListener { exception ->
+                callback(null to exception)
+            }
     }
 }

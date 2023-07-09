@@ -12,6 +12,7 @@ enum class RowSubjectAdapterRequest {
 
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
+    UserHasDataInCloud
 }
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"

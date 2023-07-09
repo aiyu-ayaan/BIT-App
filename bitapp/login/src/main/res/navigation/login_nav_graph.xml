@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_setupFragment"
             app:destination="@id/setupFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/setupFragment"
@@ -31,4 +34,9 @@
     <action
         android:id="@+id/action_global_chooseSemBottomSheet"
         app:destination="@id/chooseSemBottomSheet" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.atech.login.ui.loading.LoadingFragment"
+        android:label="fragment_loading"
+        tools:layout="@layout/fragment_loading" />
 </navigation>
