@@ -125,6 +125,13 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
                 )
             }
             when (destination.id) {
+                com.atech.login.R.id.loginFragment ->
+                    changeStatusBarToolbarColorImageView(MaterialColors.getColor(
+                        this, com.atech.theme.R.attr.appLogoBackground, Color.WHITE
+                    ).also {
+                        setStatusBarUiTheme(this, false)
+                    })
+
                 in navigationViewFragments() -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
                     this, com.atech.theme.R.attr.bottomBar, Color.WHITE
                 ).also {
@@ -161,6 +168,9 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
     override fun getBottomNavigationFragment(): BottomNavigationView =
         binding.bottomNavigation
 
+    override fun getHomeFragmentId(): Int =
+        R.id.homeFragment
+
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment
     private fun setExitTransition() = getCurrentFragment()?.exitTransition()
 
@@ -180,7 +190,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             R.id.noticeDetailFragment,
             R.id.libraryFragment,
             R.id.addEditLibraryFragment,
-            R.id.cgpaCalculatorFragment
+            R.id.cgpaCalculatorFragment,
+            com.atech.login.R.id.loginFragment
         )
 
     private fun bottomNavigationFragment() = listOf(
@@ -210,7 +221,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         com.atech.attendance.R.id.detailViewBottomSheet,
         com.atech.attendance.R.id.archiveBottomSheet,
         com.atech.attendance.R.id.attendanceMenuBottomSheet,
-        com.atech.attendance.R.id.addFromSyllabusBottomSheet
+        com.atech.attendance.R.id.addFromSyllabusBottomSheet,
+        com.atech.login.R.id.chooseSemBottomSheet
     )
 
     override fun onSupportNavigateUp(): Boolean {

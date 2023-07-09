@@ -78,7 +78,7 @@ interface SyllabusDao {
     @Query("UPDATE syllabus_table SET isChecked =1 WHERE openCode like '%'||:openCode||'%'")
     suspend fun reset(openCode: String)
 
-    @Query("UPDATE syllabus_table SET isChecked =0 ")
+    @Query("UPDATE syllabus_table SET isChecked =1 ")
     suspend fun resetAll()
 
     /**

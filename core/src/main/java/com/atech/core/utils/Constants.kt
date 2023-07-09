@@ -12,13 +12,15 @@ enum class RowSubjectAdapterRequest {
 
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
-    UserHasDataInCloud
+    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone
 }
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
 
 enum class Destination(val value: String) {
-    ChooseSem("choosesem"), Home("home")
+    ChooseSem("choosesem"),
+    Home("home"),
+    LogIn("login")
 }
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")

@@ -61,6 +61,9 @@ class ChooseSemBottomSheet : BaseBottomSheet() {
         }
         cases.updateCourse.invoke(course)
         cases.updateSem.invoke(sem)
+        pref.edit().apply {
+            putBoolean(SharePrefKeys.SetUpDone.name, true)
+        }.apply()
 //        if (auth.currentUser != null) { TODO: Implement this
 //            userDataViewModel.addCourseSem(
 //                getUid(auth)!!,
@@ -99,7 +102,7 @@ class ChooseSemBottomSheet : BaseBottomSheet() {
                 it, SyllabusVisibility::class.java
             ).also {
                 binding.apply {
-                    btBba.isVisible = it.bba
+                    btBba.isVisible = it!!.bba
                     btBca.isVisible = it.bca
                     btMba.isVisible = it.mba
                     btMca.isVisible = it.mca

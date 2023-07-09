@@ -1,5 +1,6 @@
 package com.atech.core.firebase.firestore
 
+import com.atech.core.firebase.auth.UserData
 import com.atech.core.firebase.auth.UserModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -10,6 +11,7 @@ import javax.inject.Inject
 
 enum class Db(val value: String) {
     Event("BIT_Events"), Notice("BIT_Notice_New"), User("BIT_User"),
+    Data("data")
 }
 
 data class FirebaseCases @Inject constructor(
@@ -17,7 +19,8 @@ data class FirebaseCases @Inject constructor(
     val getData: GetData,
     val getDocumentDetails: GetDocumentDetails,
     val addUser: AddUser,
-    val checkUserData: CheckUserData
+    val checkUserData: CheckUserData,
+    val restoreUserData: RestoreUserData
 )
 
 
@@ -95,7 +98,7 @@ class CheckUserData @Inject constructor(
         callback: (Pair<Boolean?, Exception?>) -> Unit
     ) {
         db.collection(Db.User.value).document(uid)
-            .collection("data").document(uid)
+            .collection(Db.Data.value).document(uid)
             .get().addOnSuccessListener { document ->
                 if (document != null) {
                     val s = document.getString("courseSem")
@@ -108,6 +111,27 @@ class CheckUserData @Inject constructor(
                 }
             }.addOnFailureListener { exception ->
                 callback(null to exception)
+            }
+    }
+}
+
+class RestoreUserData @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    operator fun invoke(uid: String, callback: (Pair<UserData?, Exception?>) -> Unit) {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+            .document(uid).get()
+            .addOnSuccessListener {
+                if (!it.exists()) {
+                    callback(null to Exception("No data found"))
+                    return@addOnSuccessListener
+                }
+                it.toObject(UserData::class.java)
+                    ?.let { data ->
+                        callback(data to null)
+                    }
+            }.addOnFailureListener {
+                callback(null to it)
             }
     }
 }

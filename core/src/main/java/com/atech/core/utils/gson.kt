@@ -2,7 +2,7 @@ package com.atech.core.utils
 
 import com.google.gson.Gson
 
-fun <T> fromJSON(json: String, type: Class<T>): T =
+fun <T> fromJSON(json: String, type: Class<T>): T? =
     Gson().fromJson(json, type)
 
 

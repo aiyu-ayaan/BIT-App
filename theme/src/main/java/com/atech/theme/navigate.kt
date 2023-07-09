@@ -12,8 +12,15 @@ import androidx.navigation.fragment.findNavController
 
 private const val TAG = "navigate"
 
+fun Fragment.getLastDestination() = this.let {
+    findNavController().previousBackStackEntry?.destination?.id
+}
+
+
 fun Fragment.navigateWithInAppDeepLink(url: String) = this.apply {
-    val action = NavDeepLinkRequest.Builder.fromUri(url.toUri()).build()
+    val action = NavDeepLinkRequest.Builder
+        .fromUri(url.toUri())
+        .build()
     navigate(action)
 }
 

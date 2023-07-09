@@ -19,4 +19,6 @@ interface ParentActivity {
     fun getNavigationFragmentId(): Int
 
     fun getBottomNavigationFragment(): BottomNavigationView
+
+    fun getHomeFragmentId(): Int
 }

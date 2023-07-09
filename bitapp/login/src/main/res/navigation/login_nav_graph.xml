@@ -12,10 +12,17 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_setupFragment"
-            app:destination="@id/setupFragment" />
+            app:destination="@id/setupFragment"
+            app:popUpTo="@id/login_nav_graph"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginFragment_to_loadingFragment"
-            app:destination="@id/loadingFragment" />
+            app:destination="@id/loadingFragment"
+            app:popUpTo="@id/login_nav_graph"
+            app:popUpToInclusive="true" />
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="bitapp://bit.aiyu/login" />
     </fragment>
     <fragment
         android:id="@+id/setupFragment"

@@ -28,3 +28,15 @@ data class AttendanceUploadModel(
     val isFromOnlineSyllabus: Boolean? = false,
     val created: Long? = System.currentTimeMillis()
 )
+
+@Keep
+data class UserData(
+    val courseSem: String? = null,
+    val cgpa: String? = null,
+    val attendance: String? = null
+) {
+    val course: String
+        get() = courseSem?.split(" ")?.get(0) ?: "BCA"
+    val sem: String
+        get() = courseSem?.split(" ")?.get(1) ?: "1"
+}

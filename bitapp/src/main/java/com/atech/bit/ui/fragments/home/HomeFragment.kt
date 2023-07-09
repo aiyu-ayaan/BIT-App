@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
@@ -11,8 +12,10 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
+import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
 import com.atech.core.utils.Destination
+import com.atech.core.utils.TAGS
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
 import com.atech.theme.Axis
@@ -21,12 +24,15 @@ import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
+import com.atech.theme.loadCircular
 import com.atech.theme.navigate
 import com.atech.theme.navigateWithInAppDeepLink
+import com.atech.theme.toast
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 private const val TAG = "HomeFragment"
 
@@ -42,6 +48,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private lateinit var homeAdapter: HomeAdapter
 
+    @Inject
+    lateinit var authUseCases: AuthUseCases
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition()
@@ -50,6 +59,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
+            setProfile()
             setDrawerOpen()
             toolbarIcon()
             setRecyclerView()
@@ -57,6 +67,35 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         handleExpand()
         handleBackPress()
         hideBottomAppBar()
+    }
+
+    private fun FragmentHomeBinding.setProfile() = this.ivUserProfileImage.apply {
+        if (!authUseCases.hasLogIn()) {
+            setOnClickListener {
+                navigateToLogin()
+            }
+            return@apply
+        }
+        authUseCases.userData.invoke { (data, exception) ->
+            if (exception != null) {
+                toast("Something went wrong ${exception.message}")
+                Log.e(TAGS.BIT_ERROR.name, "setProfile: $exception")
+                return@invoke
+            }
+            data?.profilePic?.let {
+                loadCircular(it)
+            }
+        }
+        setOnClickListener {
+            toast("TODO// Profile")
+        }
+    }
+
+    private fun navigateToLogin() {
+        exitTransition(Axis.Z)
+        navigateWithInAppDeepLink(
+            BASE_IN_APP_NAVIGATION_LINK + Destination.LogIn.value
+        )
     }
 
 

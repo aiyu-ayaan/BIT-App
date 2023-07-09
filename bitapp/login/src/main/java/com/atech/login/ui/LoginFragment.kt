@@ -9,16 +9,21 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.atech.core.firebase.auth.AuthUseCases
+import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
+import com.atech.core.utils.Destination
 import com.atech.core.utils.SharePrefKeys
 import com.atech.login.R
 import com.atech.login.databinding.FragmentLoginBinding
 import com.atech.login.utils.GoogleSignUIClient
 import com.atech.theme.Axis
+import com.atech.theme.ParentActivity
 import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
+import com.atech.theme.getLastDestination
 import com.atech.theme.isDark
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.navigate
+import com.atech.theme.navigateWithInAppDeepLink
 import com.atech.theme.toast
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.SignInButton
@@ -34,6 +39,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         GoogleSignUIClient(
             requireActivity(), Identity.getSignInClient(requireActivity())
         )
+    }
+    private val mainActivity: ParentActivity by lazy {
+        requireActivity() as ParentActivity
     }
 
     @Inject
@@ -69,7 +77,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enterTransition()
+        enterTransition(Axis.Z)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,13 +93,34 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun screenLogic() {
         val isLogIn = authUseCases.hasLogIn.invoke()
         val hasDataInCloud = pref.getBoolean(SharePrefKeys.UserHasDataInCloud.name, false)
-        if (isLogIn && hasDataInCloud) {
-            navigateToLoadingScreen()
+        val isRestoreDone = pref.getBoolean(SharePrefKeys.RestoreDone.name, false)
+        val isPermanentSkipLogin = pref.getBoolean(SharePrefKeys.PermanentSkipLogin.name, false)
+        val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
+        val fromHome =
+            getLastDestination() == mainActivity.getHomeFragmentId()
+        if (!isLogIn && isPermanentSkipLogin && !fromHome) {
+            if (isSetUpDone) navigateToHome()
+            else navigateToSetup()
         }
+
+        if (isLogIn && (hasDataInCloud || isRestoreDone)) {
+            if (isRestoreDone) navigateToHome()
+            else navigateToLoadingScreen()
+        }
+    }
+
+    private fun navigateToHome() {
+        navigateWithInAppDeepLink(
+            BASE_IN_APP_NAVIGATION_LINK + Destination.Home.value
+        )
     }
 
     private fun FragmentLoginBinding.skipButton() = this.buttonSkip.apply {
         setOnClickListener {
+            pref.edit()
+                .apply {
+                    putBoolean(SharePrefKeys.PermanentSkipLogin.name, true)
+                }.apply()
             navigateToSetup()
         }
     }

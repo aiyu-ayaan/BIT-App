@@ -96,11 +96,11 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             SharePrefKeys.KeyToggleSyllabusSource.name,
             getString(com.atech.theme.R.string.def_value_online_syllabus)
         )?.let {
-            fromJSON(it, SyllabusEnableModel::class.java)
+            fromJSON(it, SyllabusEnableModel::class.java)!!
         } ?: fromJSON(
             getString(com.atech.theme.R.string.def_value_online_syllabus),
             SyllabusEnableModel::class.java
-        )
+        )!!
     }
 
 
