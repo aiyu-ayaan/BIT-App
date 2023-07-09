@@ -58,7 +58,8 @@ class HomeViewModel @Inject constructor(
 
     init {
         combine(
-            dataStores.asFlow(), isOnline, firebaseCases.getData.invoke(
+            dataStores.asFlow(), isOnline,
+            firebaseCases.getData.invoke(
                 EventModel::class.java, Db.Event
             ), syllabusDao.getSyllabusHome(
                 "", ""
@@ -82,9 +83,11 @@ class HomeViewModel @Inject constructor(
                     holidays
                 )
             }
-            if (events?.isNotEmpty() == true) {
-                homeItems.add(HomeItems.Title("Event"))
-                homeItems.add(HomeItems.Event(getEvents(events)))
+            events?.let {
+                if (it.isNotEmpty()) {
+                    homeItems.add(HomeItems.Title("Event"))
+                    homeItems.add(HomeItems.Event(getEvents(it)))
+                }
             }
 
             if (!dataStores.cgpa.isAllZero) {

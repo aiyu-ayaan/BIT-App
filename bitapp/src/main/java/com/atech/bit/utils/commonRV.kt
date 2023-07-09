@@ -19,7 +19,7 @@ import java.text.DecimalFormat
 class EventAdapter(
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
-    var items: List<HomeViewModelExr.EventHomeModel> = emptyList()
+    var items: List<HomeViewModelExr.EventHomeModel>? = null
         @SuppressLint("NotifyDataSetChanged") set(value) {
             field = value
             notifyDataSetChanged()
@@ -29,13 +29,15 @@ class EventAdapter(
         private val binding: RowCarouselBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.root.setOnClickListener {
-                if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
-                    onClick(items[absoluteAdapterPosition].path)
-            }
-            binding.root.setOnMaskChangedListener { maskRect ->
-                binding.carouselTextView.translationX = maskRect.left;
-                binding.carouselTextView.alpha = 1 - maskRect.left / 100f
+            items?.let { nonNullItems ->
+                binding.root.setOnClickListener {
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
+                        onClick(nonNullItems[absoluteAdapterPosition].path)
+                }
+                binding.root.setOnMaskChangedListener { maskRect ->
+                    binding.carouselTextView.translationX = maskRect.left;
+                    binding.carouselTextView.alpha = 1 - maskRect.left / 100f
+                }
             }
         }
 
@@ -64,10 +66,10 @@ class EventAdapter(
             )
         )
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = items?.size ?: 0
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
-        holder.bind(items[position])
+        items?.let { holder.bind(it[position]) } ?: Unit
 }
 
 
