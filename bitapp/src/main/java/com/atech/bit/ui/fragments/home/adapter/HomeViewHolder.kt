@@ -45,7 +45,9 @@ sealed class HomeViewHolder(
     class HomeSettingHolder(
         private val binding: LayoutHomeTopSettingsBinding,
         private val switchClick: (Boolean) -> Unit,
-        private val switchApply: MaterialSwitch.() -> Unit
+        private val switchApply: MaterialSwitch.() -> Unit,
+        private val settingClick: () -> Unit,
+        private val editClick: () -> Unit
     ) : HomeViewHolder(binding) {
         fun bind(
             model: HomeTopModel
@@ -59,6 +61,12 @@ sealed class HomeViewHolder(
                         if (isChecked) setThumbIconResource(R.drawable.round_cloud_24)
                         else setThumbIconResource(R.drawable.round_cloud_off_24)
                     }
+                }
+                setting.setOnClickListener {
+                    settingClick()
+                }
+                edit.setOnClickListener {
+                    editClick()
                 }
             }
         }

@@ -16,6 +16,8 @@ import com.atech.theme.databinding.CardViewHighlightBinding
 import com.google.android.material.materialswitch.MaterialSwitch
 
 class HomeAdapter(
+    private val onSettingClick: () -> Unit = {},
+    private val onEditClick: () -> Unit = {},
     private val switchClick: (Boolean) -> Unit = {},
     private val switch: MaterialSwitch.() -> Unit = {},
     private val onEventClick: (String) -> Unit = {},
@@ -48,7 +50,9 @@ class HomeAdapter(
                     LayoutInflater.from(parent.context), parent, false
                 ),
                 switchClick,
-                switch
+                switch,
+                onSettingClick,
+                onEditClick
             )
 
             R.layout.row_subjects_home -> HomeViewHolder.SubjectHolder(

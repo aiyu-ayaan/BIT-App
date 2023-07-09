@@ -1,6 +1,7 @@
 package com.atech.bit.utils
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +12,7 @@ import com.atech.bit.databinding.RowAttendanceHomeBinding
 import com.atech.bit.databinding.RowCarouselBinding
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.core.room.attendance.AttendanceModel
+import com.atech.core.utils.TAGS
 import com.atech.theme.loadImage
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -31,8 +33,13 @@ class EventAdapter(
         init {
             items?.let { nonNullItems ->
                 binding.root.setOnClickListener {
-                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION)
-                        onClick(nonNullItems[absoluteAdapterPosition].path)
+                    if (absoluteAdapterPosition != RecyclerView.NO_POSITION) {
+                        try {
+                            onClick(nonNullItems[absoluteAdapterPosition].path)
+                        } catch (e: Exception) {
+                            Log.e(TAGS.BIT_ERROR.name, "EventViewHolder: $e")
+                        }
+                    }
                 }
                 binding.root.setOnMaskChangedListener { maskRect ->
                     binding.carouselTextView.translationX = maskRect.left;
@@ -48,10 +55,8 @@ class EventAdapter(
                 carouselImageView.loadImage(model.posterLink?.ifBlank { model.iconLink }) {
                     it?.let { bitmap ->
                         bitmap.isDark { isDark ->
-                            if (isDark)
-                                carouselTextView.setTextColor(0xFFFFFFFF.toInt())
-                            else
-                                carouselTextView.setTextColor(0xFF000000.toInt())
+                            if (isDark) carouselTextView.setTextColor(0xFFFFFFFF.toInt())
+                            else carouselTextView.setTextColor(0xFF000000.toInt())
                         }
                     }
                 }
@@ -68,15 +73,18 @@ class EventAdapter(
 
     override fun getItemCount(): Int = items?.size ?: 0
 
-    override fun onBindViewHolder(holder: EventViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) = try {
         items?.let { holder.bind(it[position]) } ?: Unit
+    } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "onBindViewHolder: $e")
+        Unit
+    }
 }
 
 
 class AttendanceHomeAdapter(
     private val defPercentage: Int
-) :
-    ListAdapter<AttendanceModel, AttendanceHomeAdapter.AttendanceHomeViewHolder>(DiffUtilAttendance()) {
+) : ListAdapter<AttendanceModel, AttendanceHomeAdapter.AttendanceHomeViewHolder>(DiffUtilAttendance()) {
 
     inner class AttendanceHomeViewHolder(
         private val binding: RowAttendanceHomeBinding
@@ -105,16 +113,14 @@ class AttendanceHomeAdapter(
                     attendanceModel.present.toString(),
                     attendanceModel.total.toString()
                 )
-                val percentage =
-                    findPercentage(
-                        attendanceModel.present.toFloat(),
-                        attendanceModel.total.toFloat()
-                    ) { present, total ->
-                        when (total) {
-                            0.0F -> 0.0F
-                            else -> ((present / total) * 100)
-                        }
+                val percentage = findPercentage(
+                    attendanceModel.present.toFloat(), attendanceModel.total.toFloat()
+                ) { present, total ->
+                    when (total) {
+                        0.0F -> 0.0F
+                        else -> ((present / total) * 100)
                     }
+                }
                 circularProgressIndicator.progress = defPercentage
                 progressBarShowAttendanceProgress.progress = percentage.toInt()
 
@@ -128,9 +134,7 @@ class AttendanceHomeAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AttendanceHomeViewHolder =
         AttendanceHomeViewHolder(
             RowAttendanceHomeBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
+                LayoutInflater.from(parent.context), parent, false
             )
         )
 
@@ -144,8 +148,6 @@ class DiffUtilAttendance : DiffUtil.ItemCallback<AttendanceModel>() {
         oldItem.id == newItem.id
 
     override fun areContentsTheSame(
-        oldItem: AttendanceModel,
-        newItem: AttendanceModel
-    ): Boolean =
-        oldItem == newItem
+        oldItem: AttendanceModel, newItem: AttendanceModel
+    ): Boolean = oldItem == newItem
 }

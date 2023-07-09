@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login_nav_graph"
+    app:startDestination="@id/loginFragment">
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.atech.login.ui.LoginFragment"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_setupFragment"
+            app:destination="@id/setupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setupFragment"
+        android:name="com.atech.login.ui.setup.SetupFragment"
+        android:label="fragment_setup"
+        tools:layout="@layout/fragment_setup" />
+    <dialog
+        android:id="@+id/chooseSemBottomSheet"
+        android:name="com.atech.login.ui.sem_choose.ChooseSemBottomSheet"
+        android:label="bottom_sheet_choose_sem"
+        tools:layout="@layout/bottom_sheet_choose_sem">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="bitapp://bit.aiyu/choosesem" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_chooseSemBottomSheet"
+        app:destination="@id/chooseSemBottomSheet" />
+</navigation>

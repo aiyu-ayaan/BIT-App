@@ -3,20 +3,21 @@ package com.atech.core.utils
 //const val TAG = "Aiyu"
 
 enum class TAGS {
-    BIT_ERROR,
-    BIT_DEBUG,
-    BIT_COROUTINE,
+    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE,
 }
 
 enum class RowSubjectAdapterRequest {
-    FROM_ATTENDANCE,
-    FROM_HOME
+    FROM_ATTENDANCE, FROM_HOME
 }
 
 enum class SharePrefKeys {
-    SharedPreferenceName,
-    ChooseSemLastSelectedSem,
-    KeyToggleSyllabusSource,
+    SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
+}
+
+const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
+
+enum class Destination(val value: String) {
+    ChooseSem("choosesem"), Home("home")
 }
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
@@ -43,23 +44,5 @@ const val ERROR_IN_UPDATE = 452 * 53
 const val MAX_STACK_SIZE = 30
 
 enum class RemoteConfigKeys {
-    SYLLABUS_VISIBILITY,
-    KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY,
-    SYLLABUS_BCA,
-    SYLLABUS_BBA,
-    KEY_TOGGLE_SYLLABUS_SOURCE,
-    title,
-    minVersion,
-    link,
-    isEnable,
-    button_text,
-    show_times,
-    Github_Link,
-    Current_Year,
-    ann_version,
-    ann_pos_button,
-    ann_neg_button,
-    ann_message,
-    ann_link,
-    ann_title
+    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA, KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times, Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button, ann_message, ann_link, ann_title
 }

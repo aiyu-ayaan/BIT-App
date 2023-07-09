@@ -1,7 +1,9 @@
 package com.atech.bit.ui.activities.main_activity
 
+import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.viewbinding.library.activity.viewBinding
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -18,6 +20,10 @@ import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.onDestinationChange
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openReleaseNotes
+import com.atech.core.firebase.remote.RemoteConfigHelper
+import com.atech.core.utils.RemoteConfigKeys
+import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.TAGS
 import com.atech.theme.ParentActivity
 import com.atech.theme.changeBottomNav
 import com.atech.theme.changeStatusBarToolbarColorImageView
@@ -30,10 +36,19 @@ import com.atech.theme.setStatusBarUiTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
     private val binding: ActivityMainBinding by viewBinding()
+
+    @Inject
+    lateinit var remoteConfigHelper: RemoteConfigHelper
+
+
+    @Inject
+    lateinit var pref: SharedPreferences
+
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
     }
@@ -48,6 +63,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             bottomNavigationSetup()
             handleDrawer()
         }
+        fetchRemoteConfigData()
         handleDestinationChange()
     }
 
@@ -227,5 +243,20 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
         val lockMode =
             if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         binding.drawerLayout.setDrawerLockMode(lockMode)
+    }
+
+    //    --------------------------------- Remote Config ----------------------------------
+    private fun fetchRemoteConfigData() {
+        remoteConfigHelper.fetchData(failure = {
+            Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigData: + $it")
+        }) {
+            remoteConfigHelper.getString(RemoteConfigKeys.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY.name)
+                .let {
+                    pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
+                }
+            remoteConfigHelper.getString(RemoteConfigKeys.SYLLABUS_VISIBILITY.name).let {
+                pref.edit().putString(SharePrefKeys.SyllabusVisibility.name, it).apply()
+            }
+        }
     }
 }

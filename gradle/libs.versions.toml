@@ -30,6 +30,7 @@ browser = "1.5.0"
 roomCompiler = "2.5.2"
 roomKtx = "2.5.2"
 palette_version = "28.0.0"
+play-service-auth = "20.6.0"
 
 
 [libraries]
@@ -76,6 +77,7 @@ browser = { group = "androidx.browser", name = "browser", version.ref = "browser
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 palette = { group = "com.android.support", name = "palette-v7", version.ref = "palette_version" }
+play-service-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-service-auth" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

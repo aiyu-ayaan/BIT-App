@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
@@ -20,6 +21,7 @@ import com.atech.core.room.attendance.AttendanceDao
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
+import com.atech.theme.compareDifferenceInDays
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,6 +33,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -58,13 +61,11 @@ class HomeViewModel @Inject constructor(
 
     init {
         combine(
-            dataStores.asFlow(), isOnline,
-            firebaseCases.getData.invoke(
+            dataStores.asFlow(), isOnline, firebaseCases.getData.invoke(
                 EventModel::class.java, Db.Event
             ), syllabusDao.getSyllabusHome(
                 "", ""
-            ),
-            attendanceDao.getAllAttendance()
+            ), attendanceDao.getAllAttendance()
         ) { dataStores, isOnline, events, _, attendance ->
             courseSem = dataStores.courseWithSem
             defPercentage = dataStores.defPercentage
@@ -83,7 +84,10 @@ class HomeViewModel @Inject constructor(
                     holidays
                 )
             }
-            events?.let {
+            events?.filter {
+                Date().compareDifferenceInDays(Date(it.created ?: 0)) <= 7
+            }?.let {
+                Log.d("AAA", "${it.size} getEvents")
                 if (it.isNotEmpty()) {
                     homeItems.add(HomeItems.Title("Event"))
                     homeItems.add(HomeItems.Event(getEvents(it)))
@@ -99,9 +103,7 @@ class HomeViewModel @Inject constructor(
                 val totalClass = attendance.sumOf { it.total }
                 val totalPresent = attendance.sumOf { it.present }
                 val data = HomeViewModelExr.AttendanceHomeModel(
-                    totalClass,
-                    totalPresent,
-                    attendance
+                    totalClass, totalPresent, attendance
                 )
                 homeItems.add(HomeItems.Attendance(data))
             }
@@ -132,7 +134,19 @@ class HomeViewModel @Inject constructor(
                 event.path ?: "",
                 event.created ?: 0L
             )
-        } ?: emptyList()).map {
+        } ?: emptyList()).filter {
+            Log.d(
+                "AAA",
+                "getEvents: ${
+                    Date(
+                        System.currentTimeMillis()
+                    ).compareDifferenceInDays(Date(it.created)) <= 1
+                } "
+            )
+            Date(
+                System.currentTimeMillis()
+            ).compareDifferenceInDays(Date(it.created)) <= 1
+        }.map {
             firebaseCases.getAttach.invoke(Db.Event, it.path).map { attaches ->
                 it.copy(
                     posterLink = if (attaches.size == 0) "" else attaches[0].link ?: "",

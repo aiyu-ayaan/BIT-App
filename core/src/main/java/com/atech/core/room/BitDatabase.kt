@@ -173,7 +173,7 @@ abstract class BitDatabase : RoomDatabase() {
     class SyllabusCallback @Inject constructor(
         private val database: Provider<BitDatabase>,
         @BitAppScope private val appScope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    ) : Callback() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
@@ -181,6 +181,7 @@ abstract class BitDatabase : RoomDatabase() {
             appScope.launch {
                 val syllabus = SyllabusList.syllabus
                 dao.insertAll(syllabus)
+                dao.updateIsChecked()
             }
         }
     }

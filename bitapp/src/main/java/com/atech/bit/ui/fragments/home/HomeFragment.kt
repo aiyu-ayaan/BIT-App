@@ -1,6 +1,5 @@
 package com.atech.bit.ui.fragments.home
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
@@ -12,9 +11,8 @@ import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
-import com.atech.core.firebase.remote.RemoteConfigHelper
-import com.atech.core.utils.RemoteConfigKeys
-import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
+import com.atech.core.utils.Destination
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
 import com.atech.theme.Axis
@@ -24,12 +22,11 @@ import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.navigate
-import com.atech.theme.toast
+import com.atech.theme.navigateWithInAppDeepLink
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.search.SearchView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
-import javax.inject.Inject
 
 private const val TAG = "HomeFragment"
 
@@ -42,11 +39,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         requireActivity() as ParentActivity
     }
 
-    @Inject
-    lateinit var remoteConfigHelper: RemoteConfigHelper
-
-    @Inject
-    lateinit var pref: SharedPreferences
 
     private lateinit var homeAdapter: HomeAdapter
 
@@ -64,7 +56,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
         handleExpand()
         handleBackPress()
-        fetchRemoteConfigData()
         hideBottomAppBar()
     }
 
@@ -126,9 +117,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             switch = ::switchApply,
             onEventClick = ::navigateToEventDetails,
             onSubjectClick = ::navigateToSubjectDetails,
+            onSettingClick = ::navigateToSemChoose
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
+    }
+
+    private fun navigateToSemChoose() {
+        navigateWithInAppDeepLink(BASE_IN_APP_NAVIGATION_LINK + Destination.ChooseSem.value)
     }
 
     private fun navigateToSubjectDetails(syllabusUIModel: SyllabusUIModel) {
@@ -163,17 +159,5 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-
-    //    --------------------------------- Remote Config ----------------------------------
-    private fun fetchRemoteConfigData() {
-        remoteConfigHelper.fetchData(failure = {
-            toast(it.message.toString())
-        }) {
-            remoteConfigHelper.getString(RemoteConfigKeys.KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY.name)
-                .let {
-                    pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
-                }
-        }
-    }
 
 }

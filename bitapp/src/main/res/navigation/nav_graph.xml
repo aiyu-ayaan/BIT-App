@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/login_nav_graph">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_homeFragment_to_view_syllabus_nav_graph"
             app:destination="@id/view_syllabus_nav_graph" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="bitapp://bit.aiyu/home" />
     </fragment>
     <include app:graph="@navigation/attendance_graph" />
     <fragment
@@ -110,6 +113,7 @@
         android:label="fragment_cgpa"
         tools:layout="@layout/fragment_cgpa" />
     <include app:graph="@navigation/view_syllabus_nav_graph" />
+    <include app:graph="@navigation/login_nav_graph" />
 
 
 </navigation>

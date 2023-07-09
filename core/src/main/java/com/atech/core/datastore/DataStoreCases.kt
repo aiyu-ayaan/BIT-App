@@ -10,6 +10,7 @@ data class DataStoreCases @Inject constructor(
     val updateCourse: UpdateCourse,
     val updateSem: UpdateSem,
     val updateCgpa: UpdateCgpa,
+    val reset: Reset
 )
 
 class GetAllPref @Inject constructor(
@@ -37,7 +38,6 @@ class UpdateCourse @Inject constructor(
 
 class UpdateSem @Inject constructor(
     private val preferencesManager: PreferencesManager,
-    private val syllabusDao: SyllabusDao
 ) {
     suspend operator fun invoke(value: String) {
         preferencesManager.updateSem(value)
@@ -48,4 +48,10 @@ class UpdateCgpa @Inject constructor(
     private val preferencesManager: PreferencesManager
 ) {
     suspend operator fun invoke(cgpa: Cgpa) = preferencesManager.updateCgpa(cgpa)
+}
+
+class Reset @Inject constructor(
+    private val syllabusDao: SyllabusDao
+) {
+    suspend operator fun invoke(openCode: String) = syllabusDao.reset(openCode)
 }

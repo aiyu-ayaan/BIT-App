@@ -132,4 +132,7 @@ interface SyllabusDao {
      */
     @Query("SELECT * FROM syllabus_table WHERE subject = :subject")
     suspend fun getSyllabus(subject: String): SyllabusModel?
+
+    @Query("UPDATE syllabus_table SET isChecked = 1")
+    suspend fun updateIsChecked()
 }

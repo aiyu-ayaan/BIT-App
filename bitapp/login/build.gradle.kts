@@ -44,15 +44,22 @@ android {
 dependencies {
 
     implementation(project(":theme"))
+    implementation(project(":core"))
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
 
     implementation(libs.hilt.android)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
     kapt(libs.hilt.android.compiler)
 
     implementation(libs.android.viewbinding)
+
+    implementation(libs.play.service.auth)
+
+    implementation(libs.lotti)
 
 }
 kapt {
