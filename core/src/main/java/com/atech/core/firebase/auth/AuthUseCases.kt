@@ -276,7 +276,7 @@ class Logout @Inject constructor(
 sealed class UpdateDataType {
     object Attendance : UpdateDataType()
     data class CourseSem(val course: String, val sem: String) : UpdateDataType()
-    object Cgpa : UpdateDataType()
+    data class Cgpa(val cgpa: com.atech.core.datastore.Cgpa) : UpdateDataType()
 }
 
 class UploadData @Inject constructor(
@@ -290,7 +290,12 @@ class UploadData @Inject constructor(
         if (auth.currentUser == null) return
         when (updateDataType) {
             UpdateDataType.Attendance -> TODO()
-            UpdateDataType.Cgpa -> TODO()
+            is UpdateDataType.Cgpa -> firebaseCases.uploadData.updateCGPA(
+                auth.currentUser!!.uid,
+                updateDataType.cgpa,
+                callback
+            )
+
             is UpdateDataType.CourseSem ->
                 firebaseCases.uploadData.updateCourse(
                     auth.currentUser!!.uid,

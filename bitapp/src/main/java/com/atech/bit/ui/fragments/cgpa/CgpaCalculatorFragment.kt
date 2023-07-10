@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.cgpa
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.viewbinding.library.fragment.viewBinding
@@ -16,13 +17,17 @@ import com.atech.bit.utils.listOfBbaCredits
 import com.atech.bit.utils.listOfBcaCredits
 import com.atech.core.datastore.Cgpa
 import com.atech.core.datastore.DataStoreCases
+import com.atech.core.firebase.auth.AuthUseCases
+import com.atech.core.firebase.auth.UpdateDataType
 import com.atech.core.utils.CourseCapital
+import com.atech.core.utils.TAGS
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.set
 import com.atech.theme.showSnackBar
+import com.atech.theme.toast
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -37,6 +42,9 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa) {
 
     @Inject
     lateinit var prefManager: DataStoreCases
+
+    @Inject
+    lateinit var authUseCases: AuthUseCases
 
     private lateinit var cgpa: Cgpa
     private lateinit var course: String
@@ -69,7 +77,7 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa) {
     private fun clearSavedCgpa() = launchWhenCreated {
         val d = Cgpa()
         prefManager.updateCgpa.invoke(d)
-//        updateCGPAToDb(d)
+        updateCGPAToDb(d)
         binding.editTextSem1.requestFocus()
         showUndoMessage(cgpa)
     }
@@ -86,9 +94,21 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa) {
 
     private fun saveClearCgpa(cgpa: Cgpa) = launchWhenCreated {
         prefManager.updateCgpa.invoke(cgpa)
-//        updateCGPAToDb(cgpa)
+        updateCGPAToDb(cgpa)
     }
 
+    private fun updateCGPAToDb(cgpa: Cgpa) {
+        authUseCases.uploadData.invoke(
+            UpdateDataType.Cgpa(
+                cgpa
+            )
+        ) {
+            if (it != null) {
+                toast("Something went wrong to upload cgpa")
+                Log.e(TAGS.BIT_ERROR.name, "updateCGPAToDb: $it")
+            }
+        }
+    }
 
     private fun getPref() = launchWhenStarted {
         prefManager.getAll.invoke().observe(viewLifecycleOwner) {
@@ -233,17 +253,9 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa) {
     ) = launchWhenStarted {
         val mCgpa = Cgpa(num1, num2, num3, num4, num5, num6, cgpa)
         prefManager.updateCgpa.invoke(mCgpa)
-//        updateCGPAToDb(mCgpa) // FIXME: Login
+        updateCGPAToDb(mCgpa)
     }
 
-//    private fun updateCGPAToDb(cgpa: Cgpa) {
-//        if (auth.currentUser != null)
-//            userDataViewModel.setCGPA(auth.currentUser!!.uid, cgpa, {
-//                Log.d(TAG, "updateCGPAToDb: Updated")
-//            }) {
-//                Log.d(TAG, "updateCGPAToDb: Failed")
-//            }
-//    }
 
     private fun addGradesIntoBcaCourse(gradeList: List<Double>): List<BcaCourse> {
         val courseCreditList = getCourseCreditsList(getCourse(course))

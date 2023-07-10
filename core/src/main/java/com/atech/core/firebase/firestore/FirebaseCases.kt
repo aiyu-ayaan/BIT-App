@@ -1,7 +1,9 @@
 package com.atech.core.firebase.firestore
 
+import com.atech.core.datastore.Cgpa
 import com.atech.core.firebase.auth.UserData
 import com.atech.core.firebase.auth.UserModel
+import com.atech.core.utils.toJSON
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.snapshots
@@ -197,5 +199,23 @@ class UploadData @Inject constructor(
                 callback(error)
             }
         }
+    }
+
+    fun updateCGPA(
+        uid: String,
+        cgpa: Cgpa,
+        callback: (Exception?) -> Unit
+    ) {
+        val ref = db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+        val jsonCgpa = toJSON(cgpa)
+        ref.document(uid).update(mapOf("cgpa" to jsonCgpa))
+            .addOnSuccessListener {
+                updateSyncTime(uid) {
+                    callback(it)
+                }
+            }
+            .addOnFailureListener { exception ->
+                callback(exception)
+            }
     }
 }

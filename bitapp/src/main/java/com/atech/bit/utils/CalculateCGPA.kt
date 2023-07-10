@@ -40,5 +40,5 @@ fun calculateSGPA(course: List<BcaCourse>): Double {
 }
 
 fun calculateCGPA(credits : List<Double>) =
-    credits.sumOf { it }
+    credits.sumOf { it } / credits.size
 
