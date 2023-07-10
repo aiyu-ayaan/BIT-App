@@ -1,6 +1,7 @@
 package com.atech.core.firebase.auth
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.Uri
 import com.atech.core.datastore.Cgpa
 import com.atech.core.datastore.DataStoreCases
@@ -13,6 +14,7 @@ import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.Encryption.decryptText
 import com.atech.core.utils.Encryption.encryptText
 import com.atech.core.utils.Encryption.getCryptore
+import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
@@ -34,7 +36,8 @@ data class AuthUseCases @Inject constructor(
     val userData: GetUserData,
     val userDataFromDb: GetUserDataFromData,
     val uploadData: UploadData,
-    val logout: Logout
+    val logout: Logout,
+    val deleteUser: DeleteUser
 )
 
 class HasLogIn @Inject constructor(
@@ -303,6 +306,28 @@ class UploadData @Inject constructor(
                     updateDataType.sem,
                     callback
                 )
+        }
+    }
+}
+
+class DeleteUser @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseCases,
+    private val pref: SharedPreferences,
+) {
+    operator fun invoke(
+        callback: (Exception?) -> Unit
+    ) {
+        if (auth.currentUser == null) return
+        firebaseCases.deleteUser.invoke(
+            auth.currentUser!!.uid,
+        ) {
+            auth.currentUser?.delete()?.addOnSuccessListener {
+                pref.edit().apply {
+                    putBoolean(SharePrefKeys.PermanentSkipLogin.name, false)
+                }.apply()
+                callback(null)
+            }?.addOnFailureListener(callback)
         }
     }
 }

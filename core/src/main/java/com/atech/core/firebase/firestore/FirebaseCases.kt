@@ -23,7 +23,8 @@ data class FirebaseCases @Inject constructor(
     val checkUserData: CheckUserData,
     val getUserSaveDetails: GetUserSaveDetails,
     val getUserDataFromDb: GetUserDataFromDb,
-    val uploadData: UploadData
+    val uploadData: UploadData,
+    val deleteUser: DeleteUser
 )
 
 
@@ -159,9 +160,7 @@ class UploadData @Inject constructor(
         db.collection(Db.User.value).document(uid).update("syncTime", System.currentTimeMillis())
             .addOnSuccessListener {
                 callback(null)
-            }.addOnFailureListener { error ->
-                callback(error)
-            }
+            }.addOnFailureListener (callback)
     }
 
     fun updateCourse(uid: String, course: String, sem: String, callback: (Exception?) -> Unit) {
@@ -214,8 +213,19 @@ class UploadData @Inject constructor(
                     callback(it)
                 }
             }
-            .addOnFailureListener { exception ->
-                callback(exception)
-            }
+            .addOnFailureListener(callback)
+    }
+}
+
+class DeleteUser @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    operator fun invoke(uid: String, callback: (Exception?) -> Unit) {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid)
+            .delete().addOnSuccessListener {
+                db.collection(Db.User.value).document(uid).delete().addOnSuccessListener {
+                    callback(null)
+                }.addOnFailureListener (callback)
+            }.addOnFailureListener (callback)
     }
 }

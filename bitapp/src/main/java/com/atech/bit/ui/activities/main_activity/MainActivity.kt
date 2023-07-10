@@ -69,6 +69,13 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
 
     private fun ActivityMainBinding.bottomNavigationSetup() {
         bottomNavigation.setupWithNavController(navController)
+        bottomNavigation.setOnItemSelectedListener {
+            getCurrentFragment().apply {
+                this?.exitTransition()
+            }
+            NavigationUI.onNavDestinationSelected(it, navController)
+            true
+        }
         bottomNavigation.setOnItemReselectedListener { }
     }
 

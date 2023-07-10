@@ -25,6 +25,7 @@ import com.atech.theme.loadCircular
 import com.atech.theme.navigateWithInAppDeepLink
 import com.atech.theme.toast
 import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -41,11 +42,14 @@ class ProfileFragment : DialogFragment() {
 
     @Inject
     lateinit var pref: SharedPreferences
+
+    private val client : SignInClient by lazy {   Identity.getSignInClient(requireContext()) }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         setUiData()
         binding.apply {
             signOut()
+            deleteAccount()
         }
 
         return MaterialAlertDialogBuilder(
@@ -123,7 +127,7 @@ class ProfileFragment : DialogFragment() {
             .setPositiveButton("Yes") { dialog, _ ->
                 dialog.dismiss()
                 authCases.logout.invoke()
-                Identity.getSignInClient(requireActivity()).signOut()
+                client.signOut()
                 pref.edit().apply {
                     putBoolean(SharePrefKeys.PermanentSkipLogin.name, false)
                 }.apply()
@@ -134,10 +138,26 @@ class ProfileFragment : DialogFragment() {
             }.show()
     }
 
+    private fun FragmentProfileBinding.deleteAccount() =
+        this.textViewDeleteAccount.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext()).setTitle("Delete Account")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes") { dialog, _ ->
+                    client.signOut()
+                    authCases.deleteUser.invoke {
+                        if (it != null) {
+                            toast("Something went wrong, Please try again later.")
+                            Log.e(TAGS.BIT_ERROR.name, "onCreateDialog: $it")
+                            return@invoke
+                        }
+                        navigateToLogin()
+                    }
+                }.setNegativeButton("no", null).show()
+        }
+
     private fun navigateToLogin() {
         navigateWithInAppDeepLink(
-            BASE_IN_APP_NAVIGATION_LINK
-                    + Destination.LogIn.value
+            BASE_IN_APP_NAVIGATION_LINK + Destination.LogIn.value
         )
     }
 }

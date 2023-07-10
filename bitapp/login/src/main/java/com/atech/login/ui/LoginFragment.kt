@@ -8,6 +8,7 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
 import com.atech.core.utils.Destination
@@ -109,6 +110,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun navigateToHome() {
+        findNavController().popBackStack()
         navigateWithInAppDeepLink(
             BASE_IN_APP_NAVIGATION_LINK + Destination.Home.value
         )
@@ -117,8 +119,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private fun FragmentLoginBinding.skipButton() = this.buttonSkip.apply {
         setOnClickListener {
             pref.edit().apply {
-                    putBoolean(SharePrefKeys.PermanentSkipLogin.name, true)
-                }.apply()
+                putBoolean(SharePrefKeys.PermanentSkipLogin.name, true)
+            }.apply()
             val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
             if (isSetUpDone) navigateToHome()
             else navigateToSetup()
