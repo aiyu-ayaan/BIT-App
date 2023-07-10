@@ -129,6 +129,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
+    suspend fun clearAll() {
+        context.dataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
 
     private object PreferencesKeys {
         val DEF_COURSE = stringPreferencesKey("def_course")

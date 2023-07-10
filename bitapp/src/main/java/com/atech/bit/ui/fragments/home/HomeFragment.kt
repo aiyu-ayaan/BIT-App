@@ -87,8 +87,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
         }
         setOnClickListener {
-            toast("TODO// Profile")
+            navigateToProfile()
         }
+    }
+
+    private fun navigateToProfile() {
+        navigateWithInAppDeepLink(
+            BASE_IN_APP_NAVIGATION_LINK + Destination.Profile.value
+        )
     }
 
     private fun navigateToLogin() {

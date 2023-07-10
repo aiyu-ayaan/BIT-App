@@ -46,4 +46,13 @@
         android:name="com.atech.login.ui.loading.LoadingFragment"
         android:label="fragment_loading"
         tools:layout="@layout/fragment_loading" />
+    <dialog
+        android:id="@+id/profileFragment"
+        android:name="com.atech.login.ui.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile">
+        <deepLink
+            android:id="@+id/deepLink"
+            app:uri="bitapp://bit.aiyu/profile" />
+    </dialog>
 </navigation>

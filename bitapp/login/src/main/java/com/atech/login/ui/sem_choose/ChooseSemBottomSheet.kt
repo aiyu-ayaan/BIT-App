@@ -2,15 +2,19 @@ package com.atech.login.ui.sem_choose
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Keep
 import androidx.core.view.isVisible
 import com.atech.core.datastore.DataStoreCases
+import com.atech.core.firebase.auth.AuthUseCases
+import com.atech.core.firebase.auth.UpdateDataType
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
 import com.atech.core.utils.Destination
 import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
 import com.atech.login.R
 import com.atech.login.databinding.BottomSheetChooseSemBinding
@@ -18,6 +22,7 @@ import com.atech.theme.BaseBottomSheet
 import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.navigateWithInAppDeepLink
+import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -30,6 +35,9 @@ class ChooseSemBottomSheet : BaseBottomSheet() {
 
     @Inject
     lateinit var cases: DataStoreCases
+
+    @Inject
+    lateinit var authCase: AuthUseCases
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -64,25 +72,15 @@ class ChooseSemBottomSheet : BaseBottomSheet() {
         pref.edit().apply {
             putBoolean(SharePrefKeys.SetUpDone.name, true)
         }.apply()
-//        if (auth.currentUser != null) { TODO: Implement this
-//            userDataViewModel.addCourseSem(
-//                getUid(auth)!!,
-//                course, sem,
-//                {
-//                    pref.edit()
-//                        .putBoolean(KEY_USER_HAS_DATA_IN_DB, true)
-//                        .apply()
-//                    updateIsLogIn()
-//                }
-//            ) {
-//                Toast.makeText(requireContext(), "Data upload failed", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//        pref.edit().putBoolean(
-//            KEY_FIRST_TIME_LOGIN,
-//            true
-//        ).apply()
+        authCase.uploadData.invoke(
+            UpdateDataType.CourseSem(course, sem)
+        ) { error ->
+            if (error != null) {
+                toast(error.message.toString())
+                Log.d(TAGS.BIT_ERROR.name, "saveSettings: $error")
+            }
 
+        }
         navigateToHome()
         dialog?.dismiss()
     }

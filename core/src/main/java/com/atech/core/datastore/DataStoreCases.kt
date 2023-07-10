@@ -10,7 +10,8 @@ data class DataStoreCases @Inject constructor(
     val updateCourse: UpdateCourse,
     val updateSem: UpdateSem,
     val updateCgpa: UpdateCgpa,
-    val reset: Reset
+    val reset: Reset,
+    val clearAll: ClearAll
 )
 
 class GetAllPref @Inject constructor(
@@ -54,4 +55,10 @@ class Reset @Inject constructor(
     private val syllabusDao: SyllabusDao
 ) {
     suspend operator fun invoke(openCode: String) = syllabusDao.reset(openCode)
+}
+
+class ClearAll @Inject constructor(
+    private val preferencesManager: PreferencesManager
+) {
+    suspend operator fun invoke() = preferencesManager.clearAll()
 }

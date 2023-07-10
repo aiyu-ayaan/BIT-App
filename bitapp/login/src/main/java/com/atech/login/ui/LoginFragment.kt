@@ -96,8 +96,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         val isRestoreDone = pref.getBoolean(SharePrefKeys.RestoreDone.name, false)
         val isPermanentSkipLogin = pref.getBoolean(SharePrefKeys.PermanentSkipLogin.name, false)
         val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
-        val fromHome =
-            getLastDestination() == mainActivity.getHomeFragmentId()
+        val fromHome = getLastDestination() == mainActivity.getHomeFragmentId()
         if (!isLogIn && isPermanentSkipLogin && !fromHome) {
             if (isSetUpDone) navigateToHome()
             else navigateToSetup()
@@ -117,11 +116,12 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private fun FragmentLoginBinding.skipButton() = this.buttonSkip.apply {
         setOnClickListener {
-            pref.edit()
-                .apply {
+            pref.edit().apply {
                     putBoolean(SharePrefKeys.PermanentSkipLogin.name, true)
                 }.apply()
-            navigateToSetup()
+            val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
+            if (isSetUpDone) navigateToHome()
+            else navigateToSetup()
         }
     }
 

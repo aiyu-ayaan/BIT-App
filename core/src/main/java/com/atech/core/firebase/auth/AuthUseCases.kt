@@ -10,6 +10,7 @@ import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.attendance.Days
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.BitAppScope
+import com.atech.core.utils.Encryption.decryptText
 import com.atech.core.utils.Encryption.encryptText
 import com.atech.core.utils.Encryption.getCryptore
 import com.atech.core.utils.fromJSON
@@ -18,7 +19,9 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.kazakago.cryptore.Cryptore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -28,7 +31,10 @@ data class AuthUseCases @Inject constructor(
     val hasLogIn: HasLogIn,
     val getUid: GetUid,
     val performRestore: PerformRestore,
-    val userData: GetUserData
+    val userData: GetUserData,
+    val userDataFromDb: GetUserDataFromData,
+    val uploadData: UploadData,
+    val logout: Logout
 )
 
 class HasLogIn @Inject constructor(
@@ -46,7 +52,10 @@ class GetUid @Inject constructor(
 class Login @Inject constructor(
     private val auth: FirebaseAuth,
     @ApplicationContext private val context: Context,
-    private val firebaseCases: FirebaseCases
+    private val firebaseCases: FirebaseCases,
+    private val attendanceDao: AttendanceDao,
+    private val dataStoreCases: DataStoreCases,
+    @BitAppScope private val coroutineScope: CoroutineScope
 ) {
     operator fun invoke(token: String, callback: (Pair<Boolean?, Exception?>) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(token, null)
@@ -92,6 +101,10 @@ class Login @Inject constructor(
         userModel: UserModel, callback: (Pair<Boolean?, Exception?>) -> Unit
     ) {
         firebaseCases.addUser.invoke(userModel) { (uid, error) ->
+            coroutineScope.launch {
+                dataStoreCases.clearAll.invoke()
+                attendanceDao.deleteAll()
+            }
             if (error != null) callback(null to error)
             else firebaseCases.checkUserData.invoke(uid) { (hasData, exception) ->
                 if (exception != null) callback(null to exception)
@@ -129,12 +142,12 @@ class PerformRestore @Inject constructor(
         callback: (Exception?) -> Unit
     ) {
         if (auth.currentUser == null) return
-        firebaseCases.restoreUserData(
+        firebaseCases.getUserSaveDetails(
             auth.currentUser!!.uid
         ) { (data, exception) ->
             if (exception != null) {
                 callback(exception)
-                return@restoreUserData
+                return@getUserSaveDetails
             }
             try {
                 data?.let { userData ->
@@ -199,5 +212,92 @@ class PerformRestore @Inject constructor(
             attendanceDao.insertAll(list)
         }
     }
+}
 
+class GetUserDataFromData @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseCases,
+    @ApplicationContext private val context: Context,
+    @BitAppScope private val scope: CoroutineScope
+) {
+    operator fun invoke(
+        callback: (Pair<UserModel?, Exception?>) -> Unit
+    ) {
+        if (auth.currentUser == null) return
+        firebaseCases.getUserDataFromDb.invoke(
+            auth.currentUser!!.uid
+        ) { (encryptedData, error) ->
+            if (error != null) {
+                callback(null to error)
+            } else {
+                try {
+                    scope.launch(Dispatchers.IO) {
+                        encryptedData?.let { user ->
+                            val decryptedData = convertEncryptedData(
+                                auth.currentUser!!.uid, user
+                            ).await()
+                            callback(decryptedData to null)
+                        }
+                    }
+                } catch (e: Exception) {
+                    callback(null to e)
+                }
+            }
+        }
+    }
+
+    private fun convertEncryptedData(uid: String, user: UserModel): Deferred<UserModel?> =
+        scope.async(Dispatchers.IO) {
+            val cryptore = context.getCryptore(uid)
+            val email = cryptore.decryptText(user.email)
+            val name = cryptore.decryptText(user.name)
+            val profilePic = cryptore.decryptText(user.profilePic)
+            UserModel(
+                email = email,
+                name = name,
+                profilePic = profilePic,
+                uid = user.uid,
+                syncTime = user.syncTime
+            )
+        }
+}
+
+class Logout @Inject constructor(
+    private val auth: FirebaseAuth,
+) {
+    operator fun invoke(
+        onComplete: () -> Unit = {}
+    ) {
+        auth.signOut()
+        onComplete()
+    }
+}
+
+sealed class UpdateDataType {
+    object Attendance : UpdateDataType()
+    data class CourseSem(val course: String, val sem: String) : UpdateDataType()
+    object Cgpa : UpdateDataType()
+}
+
+class UploadData @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseCases,
+) {
+    operator fun invoke(
+        updateDataType: UpdateDataType,
+        callback: (Exception?) -> Unit
+    ) {
+        if (auth.currentUser == null) return
+        when (updateDataType) {
+            UpdateDataType.Attendance -> TODO()
+            UpdateDataType.Cgpa -> TODO()
+            is UpdateDataType.CourseSem ->
+                firebaseCases.uploadData.updateCourse(
+                    auth.currentUser!!.uid,
+                    updateDataType.course,
+                    updateDataType.sem,
+                    callback
+                )
+        }
+    }
 }

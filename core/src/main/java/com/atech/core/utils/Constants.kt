@@ -20,7 +20,8 @@ const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
 enum class Destination(val value: String) {
     ChooseSem("choosesem"),
     Home("home"),
-    LogIn("login")
+    LogIn("login"),
+    Profile("profile")
 }
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")

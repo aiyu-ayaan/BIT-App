@@ -10,8 +10,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 enum class Db(val value: String) {
-    Event("BIT_Events"), Notice("BIT_Notice_New"), User("BIT_User"),
-    Data("data")
+    Event("BIT_Events"), Notice("BIT_Notice_New"), User("BIT_User"), Data("data")
 }
 
 data class FirebaseCases @Inject constructor(
@@ -20,7 +19,9 @@ data class FirebaseCases @Inject constructor(
     val getDocumentDetails: GetDocumentDetails,
     val addUser: AddUser,
     val checkUserData: CheckUserData,
-    val restoreUserData: RestoreUserData
+    val getUserSaveDetails: GetUserSaveDetails,
+    val getUserDataFromDb: GetUserDataFromDb,
+    val uploadData: UploadData
 )
 
 
@@ -94,18 +95,14 @@ class CheckUserData @Inject constructor(
     private val db: FirebaseFirestore
 ) {
     operator fun invoke(
-        uid: String,
-        callback: (Pair<Boolean?, Exception?>) -> Unit
+        uid: String, callback: (Pair<Boolean?, Exception?>) -> Unit
     ) {
-        db.collection(Db.User.value).document(uid)
-            .collection(Db.Data.value).document(uid)
-            .get().addOnSuccessListener { document ->
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).get()
+            .addOnSuccessListener { document ->
                 if (document != null) {
                     val s = document.getString("courseSem")
-                    if (s != null)
-                        callback(true to null)
-                    else
-                        callback(false to null)
+                    if (s != null) callback(true to null)
+                    else callback(false to null)
                 } else {
                     callback(false to null)
                 }
@@ -115,23 +112,90 @@ class CheckUserData @Inject constructor(
     }
 }
 
-class RestoreUserData @Inject constructor(
+class GetUserSaveDetails @Inject constructor(
     private val db: FirebaseFirestore
 ) {
     operator fun invoke(uid: String, callback: (Pair<UserData?, Exception?>) -> Unit) {
-        db.collection(Db.User.value).document(uid).collection(Db.Data.value)
-            .document(uid).get()
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).get()
             .addOnSuccessListener {
                 if (!it.exists()) {
                     callback(null to Exception("No data found"))
                     return@addOnSuccessListener
                 }
-                it.toObject(UserData::class.java)
-                    ?.let { data ->
-                        callback(data to null)
-                    }
+                it.toObject(UserData::class.java)?.let { data ->
+                    callback(data to null)
+                }
             }.addOnFailureListener {
                 callback(null to it)
             }
+    }
+}
+
+class GetUserDataFromDb @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    operator fun invoke(uid: String, callback: (Pair<UserModel?, Exception?>) -> Unit) {
+        db.collection(Db.User.value).document(uid).get().addOnSuccessListener {
+            if (!it.exists()) {
+                callback(null to Exception("No data found"))
+                return@addOnSuccessListener
+            }
+            it.toObject(UserModel::class.java)?.let { data ->
+                callback(data to null)
+            }
+        }.addOnFailureListener {
+            callback(null to it)
+        }
+    }
+}
+
+
+class UploadData @Inject constructor(
+    private val db: FirebaseFirestore, private val checkUserData: CheckUserData
+) {
+    private fun updateSyncTime(uid: String, callback: (Exception?) -> Unit = {}) {
+        db.collection(Db.User.value).document(uid).update("syncTime", System.currentTimeMillis())
+            .addOnSuccessListener {
+                callback(null)
+            }.addOnFailureListener { error ->
+                callback(error)
+            }
+    }
+
+    fun updateCourse(uid: String, course: String, sem: String, callback: (Exception?) -> Unit) {
+        val ref = db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+        val courseSem = "$course $sem"
+        checkUserData(uid) { (data, exception) ->
+            if (exception != null) {
+                ref.document(uid).set(mapOf("courseSem" to courseSem)).addOnSuccessListener {
+                    updateSyncTime(uid) {
+                        if (it == null) callback(null)
+                        else callback(it)
+                    }
+                }.addOnFailureListener { error ->
+                    callback(error)
+                }
+                return@checkUserData
+            }
+            if (data == true) {
+                ref.document(uid).update(mapOf("courseSem" to courseSem)).addOnSuccessListener {
+                    updateSyncTime(uid) {
+                        if (it == null) callback(null)
+                        else callback(it)
+                    }
+                }.addOnFailureListener { error ->
+                    callback(error)
+                }
+                return@checkUserData
+            }
+            ref.document(uid).set(mapOf("courseSem" to courseSem)).addOnSuccessListener {
+                updateSyncTime(uid) {
+                    if (it == null) callback(null)
+                    else callback(it)
+                }
+            }.addOnFailureListener { error ->
+                callback(error)
+            }
+        }
     }
 }

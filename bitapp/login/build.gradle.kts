@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.play.service.auth)
 
     implementation(libs.lotti)
+    implementation(libs.glide)
 
 }
 kapt {
