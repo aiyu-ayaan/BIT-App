@@ -90,7 +90,12 @@ class HomeViewModel @Inject constructor(
                 Log.d("AAA", "${it.size} getEvents")
                 if (it.isNotEmpty()) {
                     homeItems.add(HomeItems.Title("Event"))
-                    homeItems.add(HomeItems.Event(getEvents(it)))
+                    homeItems.add(
+                        HomeItems.Event(
+                            getEvents(it).also {list->
+                                list.reverse()
+                            })
+                    )
                 }
             }
 
@@ -152,7 +157,7 @@ class HomeViewModel @Inject constructor(
                     posterLink = if (attaches.size == 0) "" else attaches[0].link ?: "",
                 )
             }
-        }.forEach {
+        }.distinct().forEach {
             viewModelScope.launch(Dispatchers.IO) {
                 it.collectLatest { event ->
                     list.add(event)

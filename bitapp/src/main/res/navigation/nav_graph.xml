@@ -114,6 +114,19 @@
         tools:layout="@layout/fragment_cgpa" />
     <include app:graph="@navigation/view_syllabus_nav_graph" />
     <include app:graph="@navigation/login_nav_graph" />
+    <fragment
+        android:id="@+id/viewImageFragment"
+        android:name="com.atech.bit.ui.fragments.view_image.ViewImageFragment"
+        android:label="ViewImageFragment"
+        tools:layout="@layout/fragment_view_image" >
+        <argument
+            android:name="link"
+            app:argType="string" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
+    <action android:id="@+id/action_global_viewImageFragment" app:destination="@id/viewImageFragment" />
 
 
 </navigation>

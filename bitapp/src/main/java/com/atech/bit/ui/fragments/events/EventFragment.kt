@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.utils.ImagePreviewAdapter
-import com.atech.core.firebase.firestore.FirebaseCases
+import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.EventModel
+import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
 import com.atech.theme.R
@@ -79,7 +80,11 @@ class EventFragment : Fragment(R.layout.layout_recycler_view) {
     }
 
     private fun RowNoticeEventBinding.setPreviewAdapter(path: String) {
-        val ipAdapter = ImagePreviewAdapter()
+        val ipAdapter = ImagePreviewAdapter {
+            navigateToViewImage(
+                it to ""
+            )
+        }
         attachmentRecyclerView.apply {
             attachmentRecyclerView.isVisible = true
             adapter = ipAdapter

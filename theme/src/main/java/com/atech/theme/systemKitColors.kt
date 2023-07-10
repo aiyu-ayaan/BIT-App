@@ -57,3 +57,14 @@ fun Activity.changeBottomNav(@AttrRes color: Int) = this.apply {
             this, color, Color.RED
         )
 }
+
+
+
+/**
+ * BottomNav Change color
+ * @since 4.0.5
+ * @author Ayaan
+ */
+fun Activity.changeBottomNavImageView(@ColorInt color: Int) = this.apply {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) window.navigationBarColor = color
+}

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentNoticeEventDetailBinding
 import com.atech.bit.utils.ImageGridAdapter
+import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.Attach
 import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.utils.DataState
@@ -101,7 +102,9 @@ class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
         list: List<Attach>
     ) {
         val imageGridAdapter = ImageGridAdapter {
-            // FIXME: navigate to viewImage
+            navigateToViewImage(
+                it to ""
+            )
         }
         attachmentRecyclerView.apply {
             binding.textImage.isVisible = true

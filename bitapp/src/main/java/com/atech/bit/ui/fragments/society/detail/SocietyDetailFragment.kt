@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyDetailBinding
+import com.atech.bit.utils.navigateToViewImage
 import com.atech.theme.Axis
 import com.atech.theme.ToolbarData
 import com.atech.theme.customBackPress
@@ -96,7 +97,7 @@ class SocietyDetailFragment : Fragment(R.layout.fragment_society_detail) {
         societyImage.apply {
             loadCircular(society.logo)
             setOnClickListener {
-                // FIXME: Implement image view
+                navigateToViewImage(society.logo to society.name)
             }
 
         }

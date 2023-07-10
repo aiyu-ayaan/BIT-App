@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.atech.theme.custom_views.ImageViewZoom
+        android:id="@+id/image_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/button_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_1"
+        android:layout_marginVertical="@dimen/grid_2"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/back"
+        android:padding="@dimen/grid_1"
+        android:src="@drawable/ic_arrow_back_image_view" />
+
+    <TextView
+        android:id="@+id/text_view_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_6"
+        android:layout_marginVertical="@dimen/grid_1_5"
+        android:padding="@dimen/grid_1"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        tools:text="BBA C" />
+</FrameLayout>

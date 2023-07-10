@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.utils.ImagePreviewAdapter
 import com.atech.bit.utils.getImageLinkNotification
+import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
@@ -92,7 +93,11 @@ class NoticeFragment : Fragment(com.atech.theme.R.layout.layout_recycler_view) {
     }
 
     private fun RowNoticeEventBinding.setPreviewAdapter(path: String) {
-        val ipAdapter = ImagePreviewAdapter()
+        val ipAdapter = ImagePreviewAdapter{
+            navigateToViewImage(
+                it to ""
+            )
+        }
         attachmentRecyclerView.apply {
             attachmentRecyclerView.isVisible = true
             adapter = ipAdapter
