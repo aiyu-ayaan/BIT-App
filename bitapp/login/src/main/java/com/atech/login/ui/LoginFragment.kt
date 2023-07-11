@@ -103,8 +103,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             else navigateToSetup()
         }
 
-        if (isLogIn && (hasDataInCloud || isRestoreDone)) {
-            if (isRestoreDone) navigateToHome()
+        if (isLogIn && (hasDataInCloud || isRestoreDone || isSetUpDone)) {
+            if (isRestoreDone || isSetUpDone) navigateToHome()
             else navigateToLoadingScreen()
         }
     }

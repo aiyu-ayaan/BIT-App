@@ -58,8 +58,6 @@ sealed class HomeViewHolder(
                     switchApply(this)
                     setOnCheckedChangeListener { _, isChecked ->
                         switchClick(isChecked)
-                        if (isChecked) setThumbIconResource(R.drawable.round_cloud_24)
-                        else setThumbIconResource(R.drawable.round_cloud_off_24)
                     }
                 }
                 setting.setOnClickListener {

@@ -16,14 +16,20 @@ import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.BuildConfig
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
+import com.atech.bit.utils.AttendanceUpload
+import com.atech.bit.utils.AttendanceUploadDelegate
 import com.atech.bit.utils.DrawerLocker
 import com.atech.bit.utils.onDestinationChange
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openReleaseNotes
+import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.firebase.remote.RemoteConfigHelper
+import com.atech.core.room.attendance.AttendanceDao
+import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
+import com.atech.core.utils.isConnected
 import com.atech.theme.ParentActivity
 import com.atech.theme.changeBottomNav
 import com.atech.theme.changeStatusBarToolbarColorImageView
@@ -36,10 +42,12 @@ import com.atech.theme.setStatusBarUiTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
+class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
+    AttendanceUpload by AttendanceUploadDelegate() {
     private val binding: ActivityMainBinding by viewBinding()
 
     @Inject
@@ -48,6 +56,17 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
 
     @Inject
     lateinit var pref: SharedPreferences
+
+    @Inject
+    lateinit var dao: AttendanceDao
+
+    @Inject
+    lateinit var auth: AuthUseCases
+
+
+    @BitAppScope
+    @Inject
+    lateinit var scope: CoroutineScope
 
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
@@ -63,8 +82,13 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             bottomNavigationSetup()
             handleDrawer()
         }
-        fetchRemoteConfigData()
         handleDestinationChange()
+        if (isConnected()) {
+            fetchRemoteConfigData()
+            if (auth.hasLogIn.invoke())
+                registerLifeCycleOwner(this@MainActivity)
+        } else
+            Log.d(TAGS.BIT_DEBUG.name, "onCreate: No Internet")
     }
 
     private fun ActivityMainBinding.bottomNavigationSetup() {
@@ -276,6 +300,10 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker {
             remoteConfigHelper.getString(RemoteConfigKeys.SYLLABUS_VISIBILITY.name).let {
                 pref.edit().putString(SharePrefKeys.SyllabusVisibility.name, it).apply()
             }
+            getInstances(
+                dao, auth, pref, remoteConfigHelper.getLong(RemoteConfigKeys.MAX_TIMES_UPLOAD.name)
+                    .toInt(), scope
+            )
         }
     }
 }

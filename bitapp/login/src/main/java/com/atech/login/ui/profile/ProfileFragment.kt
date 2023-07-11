@@ -43,7 +43,7 @@ class ProfileFragment : DialogFragment() {
     @Inject
     lateinit var pref: SharedPreferences
 
-    private val client : SignInClient by lazy {   Identity.getSignInClient(requireContext()) }
+    private val client: SignInClient by lazy { Identity.getSignInClient(requireContext()) }
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         setUiData()
@@ -53,7 +53,7 @@ class ProfileFragment : DialogFragment() {
         }
 
         return MaterialAlertDialogBuilder(
-            requireContext(), com.atech.theme.R.style.ThemeOverlay_App_MaterialAlertDialog
+            requireContext()
         ).setView(binding.root).create().also { alertDialog ->
             val window = alertDialog.window
             val wlp: WindowManager.LayoutParams = window?.attributes!!

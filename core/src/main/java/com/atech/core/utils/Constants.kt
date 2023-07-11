@@ -30,6 +30,8 @@ const val SYLLABUS_DETAILS_DEEP_LINK = "android-app://com.atech.bit/view_syllabu
 
 const val MAX_SPAWN = 3
 
+const val MAX_TIMES: Int = 10
+
 enum class CourseCapital { BBA, BCA }
 
 const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
@@ -48,5 +50,9 @@ const val ERROR_IN_UPDATE = 452 * 53
 const val MAX_STACK_SIZE = 30
 
 enum class RemoteConfigKeys {
-    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA, KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times, Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button, ann_message, ann_link, ann_title
+    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY,
+    SYLLABUS_BCA, SYLLABUS_BBA, KEY_TOGGLE_SYLLABUS_SOURCE,
+    title, minVersion, link, isEnable, button_text, show_times,
+    Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button,
+    ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
 }

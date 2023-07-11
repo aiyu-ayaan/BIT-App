@@ -39,6 +39,9 @@ interface AttendanceDao {
     @Query("SELECT * FROM attendance_table ORDER BY id ASC")
     fun getAllAttendance(): Flow<List<AttendanceModel>>
 
+    @Query("SELECT * FROM attendance_table ORDER BY id ASC")
+    suspend fun getAllAttendanceList(): List<AttendanceModel>
+
     @Query("SELECT * FROM attendance_table WHERE fromOnlineSyllabus = 1")
     fun getAttendanceAddedFromOnline(): Flow<List<AttendanceModel>>
 

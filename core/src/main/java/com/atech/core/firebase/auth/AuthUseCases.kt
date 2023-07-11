@@ -277,7 +277,7 @@ class Logout @Inject constructor(
 }
 
 sealed class UpdateDataType {
-    object Attendance : UpdateDataType()
+    data class Attendance(val data: List<AttendanceUploadModel>) : UpdateDataType()
     data class CourseSem(val course: String, val sem: String) : UpdateDataType()
     data class Cgpa(val cgpa: com.atech.core.datastore.Cgpa) : UpdateDataType()
 }
@@ -287,25 +287,21 @@ class UploadData @Inject constructor(
     private val firebaseCases: FirebaseCases,
 ) {
     operator fun invoke(
-        updateDataType: UpdateDataType,
-        callback: (Exception?) -> Unit
+        updateDataType: UpdateDataType, callback: (Exception?) -> Unit
     ) {
         if (auth.currentUser == null) return
         when (updateDataType) {
-            UpdateDataType.Attendance -> TODO()
-            is UpdateDataType.Cgpa -> firebaseCases.uploadData.updateCGPA(
-                auth.currentUser!!.uid,
-                updateDataType.cgpa,
-                callback
+            is UpdateDataType.Attendance -> firebaseCases.uploadData.updateAttendance(
+                auth.currentUser!!.uid, updateDataType.data, callback
             )
 
-            is UpdateDataType.CourseSem ->
-                firebaseCases.uploadData.updateCourse(
-                    auth.currentUser!!.uid,
-                    updateDataType.course,
-                    updateDataType.sem,
-                    callback
-                )
+            is UpdateDataType.Cgpa -> firebaseCases.uploadData.updateCGPA(
+                auth.currentUser!!.uid, updateDataType.cgpa, callback
+            )
+
+            is UpdateDataType.CourseSem -> firebaseCases.uploadData.updateCourse(
+                auth.currentUser!!.uid, updateDataType.course, updateDataType.sem, callback
+            )
         }
     }
 }

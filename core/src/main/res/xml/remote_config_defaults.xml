@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaults>
     <entry>
+        <key>Current_Year</key>
+        <value>2023</value>
+    </entry>
+    <entry>
+        <key>Github_Link</key>
+        <value>https://github.com/aiyu-ayaan</value>
+    </entry>
+    <entry>
+        <key>show_times</key>
+        <value>3</value>
+    </entry>
+    <entry>
+        <key>MAX_TIMES_UPLOAD</key>
+        <value>10</value>
+    </entry>
+    <entry>
         <key>ann_title</key>
-        <value>Update Available</value>
+        <value>Enjoy BIT App ?</value>
     </entry>
     <entry>
         <key>ann_link</key>
@@ -10,7 +26,7 @@
     </entry>
     <entry>
         <key>ann_message</key>
-        <value>A new version of BIT App has been released ! The update button will take you to the download page.</value>
+        <value>Tap to rate our app</value>
     </entry>
     <entry>
         <key>ann_neg_button</key>
@@ -22,27 +38,15 @@
     </entry>
     <entry>
         <key>ann_version</key>
-        <value>1</value>
-    </entry>
-    <entry>
-        <key>Current_Year</key>
-        <value>2022-23</value>
-    </entry>
-    <entry>
-        <key>Github_Link</key>
-        <value>https://github.com/aiyu-ayaan</value>
-    </entry>
-    <entry>
-        <key>show_times</key>
-        <value>5</value>
+        <value>4</value>
     </entry>
     <entry>
         <key>button_text</key>
-        <value>Open New App</value>
+        <value>Update this App</value>
     </entry>
     <entry>
         <key>isEnable</key>
-        <value>false</value>
+        <value>true</value>
     </entry>
     <entry>
         <key>link</key>
@@ -50,11 +54,11 @@
     </entry>
     <entry>
         <key>minVersion</key>
-        <value>0</value>
+        <value>58</value>
     </entry>
     <entry>
         <key>title</key>
-        <value>This app is ending it's support.</value>
+        <value>About App</value>
     </entry>
     <entry>
         <key>SYLLABUS_BBA</key>
@@ -70,10 +74,10 @@
     </entry>
     <entry>
         <key>KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY</key>
-        <value>{"bca1":true,"bca2":false,"bca3":true,"bca4":false,"bca5":false,"bca6":false,"bba1":false,"bba2":false,"bba3":false,"bba4":false,"bba5":false,"bba6":false,"mca1":true,"mca2":false,"mca3":false,"mba4":false,"mba1":false,"mba2":false,"mba3":false}</value>
+        <value>{"bca1":true,"bca2":true,"bca3":true,"bca4":true,"bca5":false,"bca6":true,"bba1":false,"bba2":true,"bba3":false,"bba4":true,"bba5":false,"bba6":true,"mca1":true,"mca2":false,"mca3":false,"mba4":true,"mba1":false,"mba2":true,"mba3":false}</value>
     </entry>
     <entry>
         <key>SYLLABUS_VISIBILITY</key>
-        <value>{"bca":true,"bba":true,"mca":true,"mba":false}</value>
+        <value>{"bca":true,"bba":true,"mca":true,"mba":true}</value>
     </entry>
 </defaults>

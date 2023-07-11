@@ -190,6 +190,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private fun switchApply(materialSwitch: MaterialSwitch) {
         materialSwitch.isChecked = viewModel.isOnline.value
+        this.apply {
+            if (materialSwitch.isChecked)
+                materialSwitch.setThumbIconResource(com.atech.theme.R.drawable.round_cloud_24)
+            else materialSwitch.setThumbIconResource(com.atech.theme.R.drawable.round_cloud_off_24)
+        }
     }
 
 

@@ -1,6 +1,7 @@
 package com.atech.core.firebase.firestore
 
 import com.atech.core.datastore.Cgpa
+import com.atech.core.firebase.auth.AttendanceUploadModel
 import com.atech.core.firebase.auth.UserData
 import com.atech.core.firebase.auth.UserModel
 import com.atech.core.utils.toJSON
@@ -160,7 +161,7 @@ class UploadData @Inject constructor(
         db.collection(Db.User.value).document(uid).update("syncTime", System.currentTimeMillis())
             .addOnSuccessListener {
                 callback(null)
-            }.addOnFailureListener (callback)
+            }.addOnFailureListener(callback)
     }
 
     fun updateCourse(uid: String, course: String, sem: String, callback: (Exception?) -> Unit) {
@@ -215,6 +216,23 @@ class UploadData @Inject constructor(
             }
             .addOnFailureListener(callback)
     }
+
+    fun updateAttendance(
+        uid: String,
+        attendance: List<AttendanceUploadModel>,
+        callback: (Exception?) -> Unit
+    ) {
+        val json = toJSON(attendance)
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+            .document(uid).update(mapOf("attendance" to json))
+            .addOnSuccessListener {
+                updateSyncTime(uid) {
+                    callback(it)
+                }
+            }.addOnFailureListener {
+                callback(it)
+            }
+    }
 }
 
 class DeleteUser @Inject constructor(
@@ -225,7 +243,7 @@ class DeleteUser @Inject constructor(
             .delete().addOnSuccessListener {
                 db.collection(Db.User.value).document(uid).delete().addOnSuccessListener {
                     callback(null)
-                }.addOnFailureListener (callback)
-            }.addOnFailureListener (callback)
+                }.addOnFailureListener(callback)
+            }.addOnFailureListener(callback)
     }
 }
