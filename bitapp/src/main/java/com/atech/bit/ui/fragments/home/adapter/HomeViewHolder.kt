@@ -15,6 +15,7 @@ import com.atech.bit.utils.AttendanceHomeAdapter
 import com.atech.bit.utils.EventAdapter
 import com.atech.bit.utils.HomeLibraryAdapter
 import com.atech.bit.utils.HomeTopModel
+import com.atech.bit.utils.getImageLinkNotification
 import com.atech.bit.utils.set
 import com.atech.bit.utils.setView
 import com.atech.core.room.library.LibraryModel
@@ -22,7 +23,10 @@ import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
 import com.atech.theme.databinding.LayoutNoteFromDevBinding
+import com.atech.theme.databinding.RowNoticeEventBinding
 import com.atech.theme.databinding.RowTitleBinding
+import com.atech.theme.getDate
+import com.atech.theme.loadImage
 import com.atech.theme.set
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.materialswitch.MaterialSwitch
@@ -197,6 +201,27 @@ sealed class HomeViewHolder(
                     layoutManager = CarouselLayoutManager()
                 }
                 attendanceAdapter.submitList(list)
+            }
+        }
+    }
+
+    class NoticeHolder(
+        private val binding: RowNoticeEventBinding,
+        private val navigateToDetailScreen: (String) -> Unit,
+    ) : HomeViewHolder(binding) {
+        fun bind(model: HomeItems.Notice) {
+            val notice = model.data
+            binding.apply {
+                bodyPreviewTextView.text = notice.body
+                senderTextView.text = notice.sender
+                subjectTextView.text = notice.title
+                textViewDate.text = notice.created?.getDate()
+                senderProfileImageView.loadImage(
+                    notice.getImageLinkNotification()
+                )
+                root.setOnClickListener {
+                    navigateToDetailScreen(notice.path!!)
+                }
             }
         }
     }

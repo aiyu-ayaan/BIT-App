@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,10 +18,12 @@ import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
 import com.atech.core.utils.CalendarReminder
+import com.atech.core.utils.DEFAULT_QUERY
 import com.atech.core.utils.Destination
 import com.atech.core.utils.TAGS
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
+import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
@@ -36,8 +40,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
-private const val TAG = "HomeFragment"
-
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding: FragmentHomeBinding by viewBinding()
@@ -49,6 +51,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
 
     private lateinit var homeAdapter: HomeAdapter
+
+    private lateinit var searchAdapter: HomeAdapter
 
     @Inject
     lateinit var authUseCases: AuthUseCases
@@ -65,6 +69,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             setDrawerOpen()
             toolbarIcon()
             setRecyclerView()
+            bindTabLayout()
+            setSearchRecyclerView()
+            setSearchView()
         }
         handleExpand()
         handleBackPress()
@@ -127,6 +134,16 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             }
             if (newState == SearchView.TransitionState.HIDING) {
                 mainActivity.setBottomNavigationVisibility(true)
+                viewModel.searchQuery.value = DEFAULT_QUERY
+                try {
+                    binding.searchExt.tabLayoutSearchType.selectTab(
+                        binding.searchExt.tabLayoutSearchType.getTabAt(
+                            0
+                        )
+                    )
+                } catch (e: Exception) {
+                    Log.e(TAGS.BIT_ERROR.name, "handleExpand: $e")
+                }
             }
         }
     }
@@ -233,5 +250,71 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+//    ________________________________________ Search _______________________________________________
 
+    enum class SearchItems(
+        val value: String,
+    ) {
+        All("All"),
+        SyllabusOnline("Syllabus Online"),
+        SyllabusOffline("Syllabus Offline"),
+        Holiday("Holiday"),
+        Notice("Notice"),
+        Event("Event")
+    }
+
+    private fun FragmentHomeBinding.bindTabLayout() = this.searchExt.tabLayoutSearchType.apply {
+        SearchItems.values().forEach {
+            addTab(newTab().setText(it.value))
+        }
+        tabSelectedListener { tab ->
+            findEnum(tab?.text.toString())?.setState()?.let { state ->
+                viewModel.filterState.value = state
+            }
+        }
+    }
+
+    private fun findEnum(value: String) =
+        SearchItems.values().find { it.value == value }
+
+    private fun SearchItems.setState() = when (this) {
+        SearchItems.All ->
+            HomeViewModel.FilterState().copy(all = true)
+
+        SearchItems.SyllabusOnline ->
+            HomeViewModel.FilterState().copy(syllabusOnline = true)
+
+        SearchItems.SyllabusOffline ->
+            HomeViewModel.FilterState().copy(syllabusOffline = true)
+
+        SearchItems.Holiday ->
+            HomeViewModel.FilterState().copy(holiday = true)
+
+        SearchItems.Notice ->
+            HomeViewModel.FilterState().copy(notice = true)
+
+        SearchItems.Event ->
+            HomeViewModel.FilterState().copy(event = true)
+    }
+
+    private fun FragmentHomeBinding.setSearchView() = this.searchView.apply {
+        editText
+            .doOnTextChanged { text, _, _, _ ->
+                viewModel.searchQuery.value = text.toString()
+            }
+    }
+
+    private fun FragmentHomeBinding.setSearchRecyclerView() =
+        this.searchExt.recyclerViewSearch.apply {
+            adapter = HomeAdapter().also { searchAdapter = it }
+            layoutManager = LinearLayoutManager(context)
+            observeSearchAdapter()
+        }
+
+    private fun observeSearchAdapter() = launchWhenCreated {
+        viewModel.homeScreenSearchData.collectLatest {
+            binding.searchExt.empty.isVisible = it.isEmpty()
+            searchAdapter.items = it.toMutableList()
+        }
+    }
 }

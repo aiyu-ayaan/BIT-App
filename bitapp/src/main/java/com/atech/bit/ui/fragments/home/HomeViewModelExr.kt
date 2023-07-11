@@ -1,10 +1,11 @@
 package com.atech.bit.ui.fragments.home
 
 import androidx.annotation.Keep
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.filter3Day
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.utils.HomeTopModel
 import com.atech.core.retrofit.ApiCases
+import com.atech.core.retrofit.client.Holiday
+import com.atech.core.retrofit.client.HolidayModel
 import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
@@ -24,7 +25,7 @@ import java.util.Date
 object HomeViewModelExr {
 
     //    ____________________________________________ Syllabus ____________________________________________
-    fun topView(list: MutableList<HomeItems>,library : List<LibraryModel>) {
+    fun topView(list: MutableList<HomeItems>, library: List<LibraryModel>) {
         list.add(
             HomeItems.Highlight(
                 CardHighlightModel(
@@ -122,11 +123,14 @@ object HomeViewModelExr {
 
     suspend fun getHoliday(
         api: ApiCases,
-        month: String
+        query: String,
+        filter: (query: String, HolidayModel) -> List<Holiday> = { q, h ->
+            h.holidays.filter { holiday ->
+                holiday.month == q
+            }
+        }
     ) = withContext(Dispatchers.IO) {
-        api.holiday.invoke(month, filter = { query, holidays ->
-            holidays.holidays.filter { it.month == query }
-        }).map { dataState ->
+        api.holiday.invoke(query, filter).map { dataState ->
             dataState.getData()?.let { holiday ->
                 holiday.holidays.map { HomeItems.Holiday(it) }
             } ?: emptyList()
@@ -154,11 +158,38 @@ object HomeViewModelExr {
     )
 
     //___________________________________________ Library ________________________________________________
-    fun List<LibraryModel>.filter3Day() = filter { book ->
+    private fun List<LibraryModel>.filter3Day() = filter { book ->
         val diff = Date(book.returnDate).compareDifferenceInDays(
             Date(System.currentTimeMillis())
         )
         diff in 0..3 && !book.markAsReturn
     }
+
+    //    _______________________________________ Search _____________________________________________________
+    suspend fun offlineDataSourceSearch(
+        syllabusDao: SyllabusDao,
+        offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
+        courseSem: String
+    ) =
+        Triple(
+            offlineSyllabusUIMapper.mapFromEntityList(
+                syllabusDao.getSyllabusSearchSync(
+                    courseSem,
+                    "Theory"
+                )
+            ),
+            offlineSyllabusUIMapper.mapFromEntityList(
+                syllabusDao.getSyllabusSearchSync(
+                    courseSem,
+                    "Lab"
+                )
+            ),
+            offlineSyllabusUIMapper.mapFromEntityList(
+                syllabusDao.getSyllabusSearchSync(
+                    courseSem,
+                    "PE"
+                )
+            )
+        ).mapToHomeItems()
 
 }

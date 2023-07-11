@@ -15,6 +15,7 @@ import com.atech.bit.databinding.RowSubjectsHomeBinding
 import com.atech.core.room.library.LibraryModel
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.databinding.CardViewHighlightBinding
+import com.atech.theme.databinding.RowNoticeEventBinding
 import com.google.android.material.materialswitch.MaterialSwitch
 
 class HomeAdapter(
@@ -26,6 +27,7 @@ class HomeAdapter(
     private val onSubjectClick: ((SyllabusUIModel) -> Unit) = { },
     private val onDeleteClick: (LibraryModel) -> Unit = {},
     private val onMarkAsReturnClick: (LibraryModel) -> Unit = { },
+    private val onNoticeClick: (String) -> Unit = {}
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     var items = mutableListOf<HomeItems>()
@@ -112,6 +114,13 @@ class HomeAdapter(
                 ), defPercentage
             )
 
+            com.atech.theme.R.layout.row_notice_event -> HomeViewHolder.NoticeHolder(
+                RowNoticeEventBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                ),
+                onNoticeClick
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -134,6 +143,7 @@ class HomeAdapter(
         is HomeViewHolder.EventHolder -> holder.bind(items[position] as HomeItems.Event)
         is HomeViewHolder.CgpaHolder -> holder.bind(items[position] as HomeItems.Cgpa)
         is HomeViewHolder.AttendanceHolder -> holder.bind(items[position] as HomeItems.Attendance)
+        is HomeViewHolder.NoticeHolder -> holder.bind(items[position] as HomeItems.Notice)
         is HomeViewHolder.DevNoteHolder -> Unit
     }
 
@@ -148,5 +158,6 @@ class HomeAdapter(
         is HomeItems.Event -> R.layout.row_common_rv
         is HomeItems.Cgpa -> R.layout.row_cgpa_home
         is HomeItems.Attendance -> R.layout.row_attendance_rv
+        is HomeItems.Notice -> com.atech.theme.R.layout.row_notice_event
     }
 }

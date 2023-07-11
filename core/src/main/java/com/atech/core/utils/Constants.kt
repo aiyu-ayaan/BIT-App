@@ -34,6 +34,7 @@ const val MAX_TIMES: Int = 10
 
 enum class CourseCapital { BBA, BCA }
 
+const val DEFAULT_QUERY = "no_query_only_aiyu"
 const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
 const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453

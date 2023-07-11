@@ -72,6 +72,9 @@
         android:hint="@string/search_any_thing"
         app:layout_anchor="@id/search_bar">
 
+        <include
+            android:id="@+id/search_ext"
+            layout="@layout/home_search_ext" />
     </com.google.android.material.search.SearchView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

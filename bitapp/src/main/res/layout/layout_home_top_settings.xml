@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:theme="@style/Base.Theme.BITApp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:theme="@style/Base.Theme.BITApp">
 
     <TextView
         android:id="@+id/layout_title"
@@ -12,11 +12,11 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="@dimen/grid_1"
-        app:layout_constraintStart_toStartOf="parent"
         android:padding="@dimen/grid_0_25"
-        tools:text="Title"
         android:textAppearance="?attr/textAppearanceTitleMedium"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
 
     <com.google.android.material.materialswitch.MaterialSwitch
         android:id="@+id/toggle_switch"
@@ -27,11 +27,13 @@
         android:layout_marginEnd="@dimen/grid_2"
         android:checked="false"
         android:minHeight="@dimen/grid_1"
-        app:thumbIcon="@drawable/round_cloud_off_24"
         android:padding="@dimen/grid_1"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/edit"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:thumbIcon="@drawable/round_cloud_off_24"
+        app:thumbIconTint="?attr/colorPrimary"
+        app:thumbTint="?colorSurface" />
 
     <ImageButton
         android:id="@+id/edit"

@@ -2,6 +2,7 @@ package com.atech.bit.ui.fragments.home.adapter
 
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.utils.HomeTopModel
+import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.CardHighlightModel
@@ -31,6 +32,10 @@ sealed class HomeItems {
 
     data class Attendance(
         val data: HomeViewModelExr.AttendanceHomeModel
+    ) : HomeItems()
+
+    data class Notice(
+        val data: NoticeModel
     ) : HomeItems()
 
     object DevNote : HomeItems()

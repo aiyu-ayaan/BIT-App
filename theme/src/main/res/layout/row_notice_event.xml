@@ -11,7 +11,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="@dimen/grid_1_5"
     android:layout_marginVertical="@dimen/grid_0_5"
     tools:theme="@style/Base.Theme.BITApp">
 

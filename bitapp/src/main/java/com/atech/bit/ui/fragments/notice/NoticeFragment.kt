@@ -71,6 +71,11 @@ class NoticeFragment : Fragment(com.atech.theme.R.layout.layout_recycler_view) {
     }
 
     private fun RowNoticeEventBinding.setView(notice: NoticeModel) = this.apply {
+        val hor = requireContext().resources.getDimensionPixelSize(com.atech.theme.R.dimen.grid_1_5)
+        val ver = requireContext().resources.getDimensionPixelSize(com.atech.theme.R.dimen.grid_0_5)
+        binding.root.setPadding(
+            hor, ver, hor, ver
+        )
         bodyPreviewTextView.text = notice.body
         senderTextView.text = notice.sender
         subjectTextView.text = notice.title
@@ -93,7 +98,7 @@ class NoticeFragment : Fragment(com.atech.theme.R.layout.layout_recycler_view) {
     }
 
     private fun RowNoticeEventBinding.setPreviewAdapter(path: String) {
-        val ipAdapter = ImagePreviewAdapter{
+        val ipAdapter = ImagePreviewAdapter {
             navigateToViewImage(
                 it to ""
             )

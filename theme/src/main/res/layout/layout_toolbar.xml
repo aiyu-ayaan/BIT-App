@@ -64,6 +64,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:thumbIconTint="?attr/colorPrimary"
+        app:thumbTint="?colorSurface"
         tools:text="@string/switch_to_new" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
