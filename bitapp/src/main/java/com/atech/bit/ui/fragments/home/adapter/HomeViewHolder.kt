@@ -9,12 +9,15 @@ import com.atech.bit.databinding.RowAttendanceRvBinding
 import com.atech.bit.databinding.RowCgpaHomeBinding
 import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
+import com.atech.bit.databinding.RowLibraryHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
 import com.atech.bit.utils.AttendanceHomeAdapter
 import com.atech.bit.utils.EventAdapter
+import com.atech.bit.utils.HomeLibraryAdapter
 import com.atech.bit.utils.HomeTopModel
 import com.atech.bit.utils.set
 import com.atech.bit.utils.setView
+import com.atech.core.room.library.LibraryModel
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
@@ -39,6 +42,28 @@ sealed class HomeViewHolder(
             binding.set(
                 model
             )
+        }
+    }
+
+    class LibraryHolder(
+        private val binding: RowLibraryHomeBinding,
+        private val onDeleteClick: (LibraryModel) -> Unit,
+        private val onMarkAsReturnClick: (LibraryModel) -> Unit
+    ) : HomeViewHolder(binding) {
+        fun bind(
+            model: HomeItems.Library
+        ) {
+            binding.carouselRecyclerView.apply {
+                val commonAdapter = HomeLibraryAdapter(
+                    onDeleteClick,
+                    onMarkAsReturnClick
+                )
+                commonAdapter.stateRestorationPolicy =
+                    RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                adapter = commonAdapter
+                layoutManager = CarouselLayoutManager()
+                commonAdapter.submitList(model.data)
+            }
         }
     }
 

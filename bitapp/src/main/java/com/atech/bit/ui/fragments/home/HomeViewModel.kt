@@ -10,6 +10,7 @@ import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSource
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.onlineDataSource
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.topView
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
+import com.atech.bit.utils.combine
 import com.atech.core.data.room.library.LibraryDao
 import com.atech.core.datastore.DataStoreCases
 import com.atech.core.datastore.FilterPreferences
@@ -18,6 +19,7 @@ import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.room.attendance.AttendanceDao
+import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
@@ -28,7 +30,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -61,16 +62,22 @@ class HomeViewModel @Inject constructor(
 
     init {
         combine(
-            dataStores.asFlow(), isOnline, firebaseCases.getData.invoke(
+            dataStores.asFlow(),
+            isOnline,
+            firebaseCases.getData.invoke(
                 EventModel::class.java, Db.Event
-            ), syllabusDao.getSyllabusHome(
+            ),
+            syllabusDao.getSyllabusHome(
                 "", ""
-            ), attendanceDao.getAllAttendance()
-        ) { dataStores, isOnline, events, _, attendance ->
+            ),
+            attendanceDao.getAllAttendance(),
+            libraryDao.getAll()
+        ) { dataStores, isOnline, events, _, attendance, library ->
             courseSem = dataStores.courseWithSem
             defPercentage = dataStores.defPercentage
             val homeItems = mutableListOf<HomeItems>()
-            topView(homeItems)
+            topView(homeItems, library)
+
             homeItems.addAll(
                 getSyllabusData(isOnline, dataStores).await()
             )
@@ -92,7 +99,7 @@ class HomeViewModel @Inject constructor(
                     homeItems.add(HomeItems.Title("Event"))
                     homeItems.add(
                         HomeItems.Event(
-                            getEvents(it).also {list->
+                            getEvents(it).also { list ->
                                 list.reverse()
                             })
                     )
@@ -112,7 +119,6 @@ class HomeViewModel @Inject constructor(
                 )
                 homeItems.add(HomeItems.Attendance(data))
             }
-
 //            End
             homeItems.add(devNote)
             homeItems
@@ -177,6 +183,14 @@ class HomeViewModel @Inject constructor(
         } else offlineDataSource(
             syllabusDao, offlineSyllabusUIMapper, pref.courseWithSem
         )
+    }
+
+    fun deleteBook(libraryModel: LibraryModel) = viewModelScope.launch {
+        libraryDao.deleteBook(libraryModel)
+    }
+
+    fun updateBook(libraryModel: LibraryModel) = viewModelScope.launch {
+        libraryDao.updateBook(libraryModel)
     }
 
 

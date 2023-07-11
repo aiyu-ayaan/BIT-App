@@ -2,12 +2,17 @@ package com.atech.bit.ui.fragments.home.adapter
 
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.utils.HomeTopModel
+import com.atech.core.room.library.LibraryModel
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.CardHighlightModel
 
 sealed class HomeItems {
     data class Highlight(
         val model: CardHighlightModel
+    ) : HomeItems()
+
+    data class Library(
+        val data: List<LibraryModel>
     ) : HomeItems()
 
     data class Settings(

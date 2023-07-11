@@ -1,19 +1,29 @@
 package com.atech.bit.utils
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.transition.TransitionManager
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.attendance.utils.findPercentage
 import com.atech.bit.databinding.RowAttendanceHomeBinding
 import com.atech.bit.databinding.RowCarouselBinding
+import com.atech.bit.databinding.RowLibrarySubjectHomeBinding
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.core.room.attendance.AttendanceModel
+import com.atech.core.room.library.DiffUtilCallbackLibrary
+import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.TAGS
 import com.atech.theme.loadImage
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.transition.platform.MaterialArcMotion
+import com.google.android.material.transition.platform.MaterialContainerTransform
 import java.math.RoundingMode
 import java.text.DecimalFormat
 
@@ -150,4 +160,125 @@ class DiffUtilAttendance : DiffUtil.ItemCallback<AttendanceModel>() {
     override fun areContentsTheSame(
         oldItem: AttendanceModel, newItem: AttendanceModel
     ): Boolean = oldItem == newItem
+}
+
+
+class HomeLibraryAdapter(
+    private val onDeleteClick: (LibraryModel) -> Unit = {},
+    private val onMarkAsReturnClick: (LibraryModel) -> Unit = { },
+) : ListAdapter<LibraryModel, HomeLibraryAdapter.LibraryViewHolder>(
+    DiffUtilCallbackLibrary()
+) {
+    inner class LibraryViewHolder(
+        private val binding: RowLibrarySubjectHomeBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.buttonMarkAsReturned.setOnClickListener {
+                absoluteAdapterPosition.let { position ->
+                    if (position != RecyclerView.NO_POSITION) {
+                        val library = getItem(position)
+                        collapseView()
+                        onMarkAsReturnClick(library)
+                    }
+                }
+            }
+            binding.buttonDelete.setOnClickListener {
+                absoluteAdapterPosition.let { position ->
+                    if (position != RecyclerView.NO_POSITION) {
+                        val library = getItem(position)
+                        collapseView()
+                        onDeleteClick(library)
+                    }
+                }
+            }
+
+            binding.floatingActionButton.setOnClickListener {
+                absoluteAdapterPosition.let {
+                    val transform = MaterialContainerTransform().apply {
+                        startView = binding.floatingActionButton
+                        endView = binding.constraintLayoutMenu
+                        addTarget(endView)
+                        pathMotion = MaterialArcMotion()
+                        scrimColor = Color.TRANSPARENT
+                        duration =
+                            binding.root.resources.getInteger(com.atech.theme.R.integer.duration_medium)
+                                .toLong()
+                        endContainerColor = MaterialColors.getColor(
+                            binding.root.context,
+                            com.google.android.material.R.attr.colorPrimaryContainer,
+                            Color.TRANSPARENT
+                        )
+                        endElevation = 10f
+                    }
+                    TransitionManager.beginDelayedTransition(binding.root, transform)
+                    binding.floatingActionButton.visibility = View.INVISIBLE
+                    binding.view.visibility = View.VISIBLE
+                    binding.constraintLayoutMenu.visibility = View.VISIBLE
+                }
+            }
+            binding.view.setOnClickListener {
+                absoluteAdapterPosition.let {
+                    if (it != RecyclerView.NO_POSITION) {
+                        collapseView()
+                    }
+                }
+            }
+        }
+
+        private fun collapseView() {
+            val transform = MaterialContainerTransform().apply {
+                startView = binding.constraintLayoutMenu
+                endView = binding.floatingActionButton
+                duration =
+                    binding.root.resources.getInteger(com.atech.theme.R.integer.duration_medium)
+                        .toLong()
+                addTarget(endView)
+                pathMotion = MaterialArcMotion()
+                scrimColor = Color.TRANSPARENT
+                startElevation = 10f
+            }
+            TransitionManager.beginDelayedTransition(binding.root, transform)
+            binding.floatingActionButton.visibility = View.VISIBLE
+            binding.view.visibility = View.GONE
+            binding.constraintLayoutMenu.visibility = View.GONE
+        }
+
+        fun bind(libraryModel: LibraryModel) {
+            binding.apply {
+                textViewBookId.text = libraryModel.bookId.ifBlank { "No Id" }
+                textViewIssueBookName.text = libraryModel.bookName
+                textViewIssueBookName.setCompoundDrawablesWithIntrinsicBounds(
+                    when {
+                        libraryModel.eventId != -1L -> com.atech.theme.R.drawable.ic_bell_active
+                        libraryModel.markAsReturn -> com.atech.theme.R.drawable.ic_check
+                        else -> 0
+                    }, 0, 0, 0
+                )
+//                buttonMarkAsReturned set icon image button
+                buttonMarkAsReturned.setImageDrawable(
+                    ContextCompat.getDrawable(
+                        binding.root.context,
+                        if (libraryModel.markAsReturn) com.atech.theme.R.drawable.ic_close else com.atech.theme.R.drawable.ic_check
+                    )
+                )
+
+                textViewIssueDate.text =
+                    String.format("Issued on : %s", libraryModel.issueFormatData)
+                floatingActionButton.transitionName = libraryModel.bookName
+                textViewReturnDate.text = libraryModel.returnFormatData
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibraryViewHolder =
+        LibraryViewHolder(
+            RowLibrarySubjectHomeBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
+
+    override fun onBindViewHolder(holder: LibraryViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 }

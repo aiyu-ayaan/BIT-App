@@ -13,7 +13,9 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
 import com.atech.core.firebase.auth.AuthUseCases
+import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
+import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.Destination
 import com.atech.core.utils.TAGS
 import com.atech.course.sem.adapter.SyllabusUIModel
@@ -162,10 +164,32 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             switch = ::switchApply,
             onEventClick = ::navigateToEventDetails,
             onSubjectClick = ::navigateToSubjectDetails,
-            onSettingClick = ::navigateToSemChoose
+            onSettingClick = ::navigateToSemChoose,
+            onDeleteClick = ::onDeleteClick,
+            onMarkAsReturnClick = ::onLibraryEditClick
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
+    }
+
+    private fun onLibraryEditClick(it: LibraryModel) {
+        val markAsReturn = it.markAsReturn
+        if (it.eventId != -1L) {
+            CalendarReminder.deleteEvent(requireContext(), it.eventId)
+        }
+        viewModel.updateBook(
+            it.copy(
+                eventId = -1L, alertDate = 0L, markAsReturn = !markAsReturn
+            )
+        )
+    }
+
+
+    private fun onDeleteClick(libraryModel: LibraryModel) {
+        if (libraryModel.eventId != -1L) {
+            CalendarReminder.deleteEvent(requireContext(), libraryModel.eventId)
+        }
+        viewModel.deleteBook(libraryModel)
     }
 
     private fun navigateToSemChoose() {

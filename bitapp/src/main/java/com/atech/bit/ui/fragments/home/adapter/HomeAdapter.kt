@@ -10,7 +10,9 @@ import com.atech.bit.databinding.RowAttendanceRvBinding
 import com.atech.bit.databinding.RowCgpaHomeBinding
 import com.atech.bit.databinding.RowCommonRvBinding
 import com.atech.bit.databinding.RowHolidayHomeBinding
+import com.atech.bit.databinding.RowLibraryHomeBinding
 import com.atech.bit.databinding.RowSubjectsHomeBinding
+import com.atech.core.room.library.LibraryModel
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.databinding.CardViewHighlightBinding
 import com.google.android.material.materialswitch.MaterialSwitch
@@ -21,7 +23,9 @@ class HomeAdapter(
     private val switchClick: (Boolean) -> Unit = {},
     private val switch: MaterialSwitch.() -> Unit = {},
     private val onEventClick: (String) -> Unit = {},
-    private val onSubjectClick: ((SyllabusUIModel) -> Unit) = { }
+    private val onSubjectClick: ((SyllabusUIModel) -> Unit) = { },
+    private val onDeleteClick: (LibraryModel) -> Unit = {},
+    private val onMarkAsReturnClick: (LibraryModel) -> Unit = { },
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     var items = mutableListOf<HomeItems>()
@@ -43,6 +47,14 @@ class HomeAdapter(
                 CardViewHighlightBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
                 )
+            )
+
+            R.layout.row_library_home -> HomeViewHolder.LibraryHolder(
+                RowLibraryHomeBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                ),
+                onDeleteClick,
+                onMarkAsReturnClick
             )
 
             R.layout.layout_home_top_settings -> HomeViewHolder.HomeSettingHolder(
@@ -110,6 +122,8 @@ class HomeAdapter(
             (items[position] as HomeItems.Highlight).model
         )
 
+        is HomeViewHolder.LibraryHolder -> holder.bind(items[position] as HomeItems.Library)
+
         is HomeViewHolder.HomeSettingHolder -> holder.bind(
             (items[position] as HomeItems.Settings).model
         )
@@ -125,6 +139,7 @@ class HomeAdapter(
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {
         is HomeItems.Highlight -> com.atech.theme.R.layout.card_view_highlight
+        is HomeItems.Library -> R.layout.row_library_home
         is HomeItems.Settings -> R.layout.layout_home_top_settings
         is HomeItems.Subject -> R.layout.row_subjects_home
         is HomeItems.Title -> com.atech.theme.R.layout.row_title

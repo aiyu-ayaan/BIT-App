@@ -1,10 +1,12 @@
 package com.atech.bit.ui.fragments.home
 
 import androidx.annotation.Keep
+import com.atech.bit.ui.fragments.home.HomeViewModelExr.filter3Day
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.utils.HomeTopModel
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.room.attendance.AttendanceModel
+import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.getData
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
@@ -12,15 +14,17 @@ import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
+import com.atech.theme.compareDifferenceInDays
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 object HomeViewModelExr {
 
     //    ____________________________________________ Syllabus ____________________________________________
-    fun topView(list: MutableList<HomeItems>) {
+    fun topView(list: MutableList<HomeItems>,library : List<LibraryModel>) {
         list.add(
             HomeItems.Highlight(
                 CardHighlightModel(
@@ -30,6 +34,12 @@ object HomeViewModelExr {
                 )
             )
         )
+        library.filter3Day().also {
+            if (it.isNotEmpty()) {
+                list.add(HomeItems.Title("Library"))
+                list.add(HomeItems.Library(it))
+            }
+        }
         list.add(
             HomeItems.Settings(
                 HomeTopModel(
@@ -143,5 +153,12 @@ object HomeViewModelExr {
         val data: List<AttendanceModel>
     )
 
+    //___________________________________________ Library ________________________________________________
+    fun List<LibraryModel>.filter3Day() = filter { book ->
+        val diff = Date(book.returnDate).compareDifferenceInDays(
+            Date(System.currentTimeMillis())
+        )
+        diff in 0..3 && !book.markAsReturn
+    }
 
 }
