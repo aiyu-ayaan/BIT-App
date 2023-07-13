@@ -253,7 +253,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         com.atech.attendance.R.id.archiveBottomSheet,
         com.atech.attendance.R.id.attendanceMenuBottomSheet,
         com.atech.attendance.R.id.addFromSyllabusBottomSheet,
-        com.atech.login.R.id.chooseSemBottomSheet
+        com.atech.login.R.id.chooseSemBottomSheet,
+        R.id.editBottomSheet
     )
 
     override fun onSupportNavigateUp(): Boolean {

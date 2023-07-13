@@ -190,9 +190,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             onSettingClick = ::navigateToSemChoose,
             onDeleteClick = ::onDeleteClick,
             onMarkAsReturnClick = ::onLibraryEditClick,
+            onEditClick = ::navigateToEditSyllabus
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
+    }
+
+    private fun navigateToEditSyllabus() {
+        val action = HomeFragmentDirections.actionHomeFragmentToEditBottomSheet(viewModel.courseSem)
+        navigate(action)
     }
 
     private fun onLibraryEditClick(it: LibraryModel) {

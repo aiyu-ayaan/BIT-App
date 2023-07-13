@@ -19,6 +19,9 @@
         <deepLink
             android:id="@+id/deepLink2"
             app:uri="bitapp://bit.aiyu/home" />
+        <action
+            android:id="@+id/action_homeFragment_to_editBottomSheet"
+            app:destination="@id/editBottomSheet" />
     </fragment>
     <include app:graph="@navigation/attendance_graph" />
     <fragment
@@ -127,6 +130,15 @@
             app:argType="string" />
     </fragment>
     <action android:id="@+id/action_global_viewImageFragment" app:destination="@id/viewImageFragment" />
+    <dialog
+        android:id="@+id/editBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet"
+        android:name="com.atech.bit.ui.fragments.home.edit.EditBottomSheet"
+        android:label="EditBottomSheet" >
+        <argument
+            android:name="courseSem"
+            app:argType="string" />
+    </dialog>
 
 
 </navigation>
