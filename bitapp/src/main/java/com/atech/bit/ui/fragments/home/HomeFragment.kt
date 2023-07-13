@@ -64,6 +64,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.observeData(viewLifecycleOwner)
         binding.apply {
             setProfile()
             setDrawerOpen()
@@ -148,6 +149,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        mainActivity.setBottomNavigationVisibility(!binding.searchView.isShowing)
+    }
+
     private fun handleBackPress() {
         customBackPress {
             when {
@@ -183,7 +189,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             onSubjectClick = ::navigateToSubjectDetails,
             onSettingClick = ::navigateToSemChoose,
             onDeleteClick = ::onDeleteClick,
-            onMarkAsReturnClick = ::onLibraryEditClick
+            onMarkAsReturnClick = ::onLibraryEditClick,
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
@@ -232,8 +238,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun switchApply(materialSwitch: MaterialSwitch) {
         materialSwitch.isChecked = viewModel.isOnline.value
         this.apply {
-            if (materialSwitch.isChecked)
-                materialSwitch.setThumbIconResource(com.atech.theme.R.drawable.round_cloud_24)
+            if (materialSwitch.isChecked) materialSwitch.setThumbIconResource(com.atech.theme.R.drawable.round_cloud_24)
             else materialSwitch.setThumbIconResource(com.atech.theme.R.drawable.round_cloud_off_24)
         }
     }
@@ -246,6 +251,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     private fun observeData() = launchWhenCreated {
         viewModel.homeScreenData.collectLatest {
             homeAdapter.items = it.toMutableList()
+            try {
+                binding.loading.root.isVisible = it.isEmpty()
+            } catch (e: Exception) {
+                Log.e(TAGS.BIT_ERROR.name, "observeData: $e")
+            }
             homeAdapter.defPercentage = viewModel.defPercentage
         }
     }
@@ -256,11 +266,9 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val value: String,
     ) {
         All("All"),
-        SyllabusOnline("Syllabus Online"),
-        SyllabusOffline("Syllabus Offline"),
-        Holiday("Holiday"),
-        Notice("Notice"),
-        Event("Event")
+
+        /* SyllabusOnline("Syllabus Online"),*/
+        SyllabusOffline("Syllabus Offline"), Holiday("Holiday"), Notice("Notice"), Event("Event")
     }
 
     private fun FragmentHomeBinding.bindTabLayout() = this.searchExt.tabLayoutSearchType.apply {
@@ -274,42 +282,45 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
     }
 
-    private fun findEnum(value: String) =
-        SearchItems.values().find { it.value == value }
+    private fun findEnum(value: String) = SearchItems.values().find { it.value == value }
 
     private fun SearchItems.setState() = when (this) {
-        SearchItems.All ->
-            HomeViewModel.FilterState().copy(all = true)
+        SearchItems.All -> HomeViewModel.FilterState().copy(all = true)
 
-        SearchItems.SyllabusOnline ->
-            HomeViewModel.FilterState().copy(syllabusOnline = true)
+        /*        SearchItems.SyllabusOnline ->
+                    HomeViewModel.FilterState().copy(syllabusOnline = true)*/
 
-        SearchItems.SyllabusOffline ->
-            HomeViewModel.FilterState().copy(syllabusOffline = true)
+        SearchItems.SyllabusOffline -> HomeViewModel.FilterState().copy(syllabusOffline = true)
 
-        SearchItems.Holiday ->
-            HomeViewModel.FilterState().copy(holiday = true)
+        SearchItems.Holiday -> HomeViewModel.FilterState().copy(holiday = true)
 
-        SearchItems.Notice ->
-            HomeViewModel.FilterState().copy(notice = true)
+        SearchItems.Notice -> HomeViewModel.FilterState().copy(notice = true)
 
-        SearchItems.Event ->
-            HomeViewModel.FilterState().copy(event = true)
+        SearchItems.Event -> HomeViewModel.FilterState().copy(event = true)
     }
 
     private fun FragmentHomeBinding.setSearchView() = this.searchView.apply {
-        editText
-            .doOnTextChanged { text, _, _, _ ->
-                viewModel.searchQuery.value = text.toString()
-            }
+        editText.doOnTextChanged { text, _, _, _ ->
+            viewModel.searchQuery.value = text.toString()
+        }
     }
 
     private fun FragmentHomeBinding.setSearchRecyclerView() =
         this.searchExt.recyclerViewSearch.apply {
-            adapter = HomeAdapter().also { searchAdapter = it }
+            adapter = HomeAdapter(
+                onEventClick = ::navigateToEventDetails,
+                onSubjectClick = ::navigateToSubjectDetails,
+                onNoticeClick = ::navigateToNoticeDetails
+            ).also { searchAdapter = it }
             layoutManager = LinearLayoutManager(context)
             observeSearchAdapter()
         }
+
+    private fun navigateToNoticeDetails(path: String) {
+        exitTransition(Axis.X)
+        val action = NavGraphDirections.actionGlobalNoticeDetailFragment(path)
+        navigate(action)
+    }
 
     private fun observeSearchAdapter() = launchWhenCreated {
         viewModel.homeScreenSearchData.collectLatest {

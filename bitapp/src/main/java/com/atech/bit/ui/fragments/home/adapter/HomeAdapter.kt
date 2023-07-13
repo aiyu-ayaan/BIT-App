@@ -3,6 +3,7 @@ package com.atech.bit.ui.fragments.home.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
@@ -15,8 +16,10 @@ import com.atech.bit.databinding.RowSubjectsHomeBinding
 import com.atech.core.room.library.LibraryModel
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.databinding.CardViewHighlightBinding
+import com.atech.theme.databinding.LayoutNoDataFoundBinding
 import com.atech.theme.databinding.RowNoticeEventBinding
 import com.google.android.material.materialswitch.MaterialSwitch
+import kotlin.reflect.KFunction0
 
 class HomeAdapter(
     private val onSettingClick: () -> Unit = {},
@@ -121,6 +124,12 @@ class HomeAdapter(
                 onNoticeClick
             )
 
+            com.atech.theme.R.layout.layout_no_data_found -> HomeViewHolder.NoDataHolder(
+                LayoutNoDataFoundBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -144,6 +153,7 @@ class HomeAdapter(
         is HomeViewHolder.CgpaHolder -> holder.bind(items[position] as HomeItems.Cgpa)
         is HomeViewHolder.AttendanceHolder -> holder.bind(items[position] as HomeItems.Attendance)
         is HomeViewHolder.NoticeHolder -> holder.bind(items[position] as HomeItems.Notice)
+        is HomeViewHolder.NoDataHolder -> Unit
         is HomeViewHolder.DevNoteHolder -> Unit
     }
 
@@ -159,5 +169,6 @@ class HomeAdapter(
         is HomeItems.Cgpa -> R.layout.row_cgpa_home
         is HomeItems.Attendance -> R.layout.row_attendance_rv
         is HomeItems.Notice -> com.atech.theme.R.layout.row_notice_event
+        HomeItems.NoData -> com.atech.theme.R.layout.layout_no_data_found
     }
 }

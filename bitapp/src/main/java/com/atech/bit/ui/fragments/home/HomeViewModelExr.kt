@@ -25,7 +25,7 @@ import java.util.Date
 object HomeViewModelExr {
 
     //    ____________________________________________ Syllabus ____________________________________________
-    fun topView(list: MutableList<HomeItems>, library: List<LibraryModel>) {
+    fun topView(list: MutableList<HomeItems>, library: List<LibraryModel>, isOnline: Boolean) {
         list.add(
             HomeItems.Highlight(
                 CardHighlightModel(
@@ -45,6 +45,7 @@ object HomeViewModelExr {
             HomeItems.Settings(
                 HomeTopModel(
                     title = "Your Subjects",
+                    isOnline = isOnline
                 )
             )
         )

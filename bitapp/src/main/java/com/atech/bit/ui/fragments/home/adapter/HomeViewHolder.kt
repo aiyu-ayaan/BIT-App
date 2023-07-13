@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.home.adapter
 
 import android.view.View
+import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.attendance.utils.findPercentage
@@ -22,6 +23,7 @@ import com.atech.core.room.library.LibraryModel
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
+import com.atech.theme.databinding.LayoutNoDataFoundBinding
 import com.atech.theme.databinding.LayoutNoteFromDevBinding
 import com.atech.theme.databinding.RowNoticeEventBinding
 import com.atech.theme.databinding.RowTitleBinding
@@ -225,6 +227,10 @@ sealed class HomeViewHolder(
             }
         }
     }
+
+    class NoDataHolder(
+        private val binding: LayoutNoDataFoundBinding
+    ) : HomeViewHolder(binding)
 
     class DevNoteHolder(
         binding: LayoutNoteFromDevBinding

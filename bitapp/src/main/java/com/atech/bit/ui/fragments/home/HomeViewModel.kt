@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.home
 
-import android.util.Log
+import android.content.SharedPreferences
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
@@ -25,8 +26,13 @@ import com.atech.core.room.attendance.AttendanceDao
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULT_QUERY
+import com.atech.core.utils.SYLLABUS_SOURCE_DATA
+import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.fromJSON
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
+import com.atech.course.utils.SyllabusEnableModel
+import com.atech.course.utils.compareToCourseSem
 import com.atech.theme.compareDifferenceInDays
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -49,26 +55,26 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val api: ApiCases,
-    private val pref: DataStoreCases,
+    dataStoreCases: DataStoreCases,
     private val syllabusDao: SyllabusDao,
-    private val attendanceDao: AttendanceDao,
+    attendanceDao: AttendanceDao,
     private val libraryDao: LibraryDao,
     private val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
     private val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
     private val firebaseCases: FirebaseCases,
+    private val pref: SharedPreferences,
     calendar: Calendar,
 ) : ViewModel() {
 
     val isOnline = MutableStateFlow(false)
-    private val dataStores = pref.getAll.invoke()
+    private val dataStores = dataStoreCases.getAll.invoke()
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
     private val _homeScreenData: MutableStateFlow<List<HomeItems>> = MutableStateFlow(emptyList())
     private var eventData: MutableList<EventModel> = mutableListOf()
     val homeScreenData: Flow<List<HomeItems>> = _homeScreenData
     var courseSem = ""
-    var defPercentage = 75
-
+    var defPercentage = 7
     init {
         combine(
             dataStores.asFlow(), isOnline, firebaseCases.getData.invoke(
@@ -77,15 +83,15 @@ class HomeViewModel @Inject constructor(
                 "", ""
             ), attendanceDao.getAllAttendance(), libraryDao.getAll()
         ) { dataStores, isOnline, events, _, attendance, library ->
-            courseSem = dataStores.courseWithSem
-            defPercentage = dataStores.defPercentage
             eventData = events?.toMutableList() ?: mutableListOf()
             val homeItems = mutableListOf<HomeItems>()
-            topView(homeItems, library)
-
-            homeItems.addAll(
-                getSyllabusData(isOnline, dataStores).await()
-            )
+            topView(homeItems, library,isOnline)
+            getSyllabusData(isOnline, dataStores).await().let {
+                if (it.isNotEmpty()) homeItems.addAll(
+                    it
+                )
+                else homeItems.add(HomeItems.NoData)
+            }
             val holidays = getHoliday(
                 api,
                 calenderQuery,
@@ -156,6 +162,21 @@ class HomeViewModel @Inject constructor(
                 )
                 _homeScreenSearchData.value = list
             }
+        }
+    }
+
+    fun observeData(owner: LifecycleOwner) {
+        dataStores.observe(owner) {
+            courseSem = it.courseWithSem
+            defPercentage = it.defPercentage
+            val syllabusEnableModel = pref.getString(
+                SharePrefKeys.KeyToggleSyllabusSource.name, SYLLABUS_SOURCE_DATA
+            )?.let { value ->
+                fromJSON(value, SyllabusEnableModel::class.java)!!
+            } ?: fromJSON(
+                SYLLABUS_SOURCE_DATA, SyllabusEnableModel::class.java
+            )!!
+            this.isOnline.value = syllabusEnableModel.compareToCourseSem(it.courseWithSem)
         }
     }
 
@@ -339,22 +360,20 @@ class HomeViewModel @Inject constructor(
     private fun getNotice(query: String): List<HomeItems> = viewModelScope.async(Dispatchers.IO) {
         val channel = Channel<List<HomeItems>>(Channel.CONFLATED)
         viewModelScope.launch {
-            firebaseCases.getData.invoke(NoticeModel::class.java, Db.Notice)
-                .mapNotNull { notice ->
-                    notice?.filter {
-                        it.title?.contains(query, true) == true
-                    }?.map { noticeModel ->
-                        HomeItems.Notice(noticeModel)
-                    } ?: emptyList()
-                }.collect { notices ->
-                    channel.send(notices)
-                }
+            firebaseCases.getData.invoke(NoticeModel::class.java, Db.Notice).mapNotNull { notice ->
+                notice?.filter {
+                    it.title?.contains(query, true) == true
+                }?.map { noticeModel ->
+                    HomeItems.Notice(noticeModel)
+                } ?: emptyList()
+            }.collect { notices ->
+                channel.send(notices)
+            }
 
             channel.close()
         }
 
         val list = channel.receive()
-        Log.d("AAA", "getNotice: ${list.size}")
         list
     }.let {
         runBlocking {

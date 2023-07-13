@@ -38,5 +38,7 @@ sealed class HomeItems {
         val data: NoticeModel
     ) : HomeItems()
 
+    object NoData : HomeItems()
+
     object DevNote : HomeItems()
 }

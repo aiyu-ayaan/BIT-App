@@ -230,7 +230,7 @@
     <string name="def_value_syllabus_visibility">{ 	"bca": true, 	"bba": true, 	"mca": true, 	"mba": false }</string>
     <string name="online">Online</string>
     <string name="offline">Offline</string>
-    <string name="no_offline_data">Data not found in offline database😣😣😣</string>
+    <string name="no_offline_data">Data not found in database😣😣😣</string>
     <string name="issue_link_app_data">https://bitapp.page.link/issue_app_data</string>
     <string name="whats_new">What\'s new</string>
     <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>

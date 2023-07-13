@@ -14,6 +14,7 @@ enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
     UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone
 }
+const val SYLLABUS_SOURCE_DATA = "{   \"bca1\": true,   \"bca2\": false,   \"bca3\": true,   \"bca4\": false,   \"bca5\": false,   \"bca6\": false,   \"bba1\": false,   \"bba2\": false,   \"bba3\": false,   \"bba4\": false,   \"bba5\": false,   \"bba6\": false ,\"mca1\": true, \"mca2\": false, \"mca3\": false, \"mba4\": false, \"mba1\": false, \"mba2\": false, \"mba3\": false}"
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
 
