@@ -2,6 +2,7 @@ package com.atech.core.utils
 
 //const val TAG = "Aiyu"
 
+enum class AppTheme { Light, Dark, Sys }
 enum class TAGS {
     BIT_ERROR, BIT_DEBUG, BIT_COROUTINE,
 }
@@ -12,9 +13,11 @@ enum class RowSubjectAdapterRequest {
 
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
-    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone
+    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone,AppTheme
 }
-const val SYLLABUS_SOURCE_DATA = "{   \"bca1\": true,   \"bca2\": false,   \"bca3\": true,   \"bca4\": false,   \"bca5\": false,   \"bca6\": false,   \"bba1\": false,   \"bba2\": false,   \"bba3\": false,   \"bba4\": false,   \"bba5\": false,   \"bba6\": false ,\"mca1\": true, \"mca2\": false, \"mca3\": false, \"mba4\": false, \"mba1\": false, \"mba2\": false, \"mba3\": false}"
+
+const val SYLLABUS_SOURCE_DATA =
+    "{   \"bca1\": true,   \"bca2\": false,   \"bca3\": true,   \"bca4\": false,   \"bca5\": false,   \"bca6\": false,   \"bba1\": false,   \"bba2\": false,   \"bba3\": false,   \"bba4\": false,   \"bba5\": false,   \"bba6\": false ,\"mca1\": true, \"mca2\": false, \"mca3\": false, \"mba4\": false, \"mba1\": false, \"mba2\": false, \"mba3\": false}"
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
 

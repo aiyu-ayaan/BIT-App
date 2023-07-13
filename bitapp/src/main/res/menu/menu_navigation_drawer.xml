@@ -115,8 +115,8 @@
         android:checkableBehavior="single">
         <item android:title="@string/theme">
             <menu>
-                <!--                android:id="@id/themeChangeDialog"-->
                 <item
+                    android:id="@+id/themeChangeDialog"
                     android:icon="@drawable/ic_color"
                     android:title="@string/theme" />
             </menu>

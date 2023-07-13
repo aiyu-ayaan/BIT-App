@@ -121,7 +121,7 @@
         android:id="@+id/viewImageFragment"
         android:name="com.atech.bit.ui.fragments.view_image.ViewImageFragment"
         android:label="ViewImageFragment"
-        tools:layout="@layout/fragment_view_image" >
+        tools:layout="@layout/fragment_view_image">
         <argument
             android:name="link"
             app:argType="string" />
@@ -129,16 +129,23 @@
             android:name="title"
             app:argType="string" />
     </fragment>
-    <action android:id="@+id/action_global_viewImageFragment" app:destination="@id/viewImageFragment" />
+    <action
+        android:id="@+id/action_global_viewImageFragment"
+        app:destination="@id/viewImageFragment" />
     <dialog
         android:id="@+id/editBottomSheet"
-        tools:layout="@layout/layout_bottom_sheet"
         android:name="com.atech.bit.ui.fragments.home.edit.EditBottomSheet"
-        android:label="EditBottomSheet" >
+        android:label="EditBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet">
         <argument
             android:name="courseSem"
             app:argType="string" />
     </dialog>
+    <dialog
+        android:id="@+id/themeChangeDialog"
+        android:name="com.atech.bit.ui.fragments.theme.ThemeChangeDialog"
+        android:label="ThemeChangeDialog"
+        tools:layout="@layout/dialog_theme_choose" />
 
 
 </navigation>
