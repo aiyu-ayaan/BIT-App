@@ -128,9 +128,8 @@ class SocietyDetailFragment : Fragment(R.layout.fragment_society_detail) {
 
 
     private fun FragmentSocietyDetailBinding.setToolbar() = this.toolbar.apply {
-        set(ToolbarData(titleString = society.name, action = {
-            findNavController().navigateUp()
-        }, endIcon = com.atech.theme.R.drawable.ic_instagram, endAction = {
+        set(ToolbarData(titleString = society.name, action = findNavController()::navigateUp
+            , endIcon = com.atech.theme.R.drawable.ic_instagram, endAction = {
             society.ins.openLinks(
                 requireActivity(), com.atech.theme.R.string.no_intent_available
             )

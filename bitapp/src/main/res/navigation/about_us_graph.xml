@@ -8,5 +8,20 @@
         android:id="@+id/aboutFragment"
         android:name="com.atech.bit.ui.fragments.about.AboutFragment"
         android:label="AboutFragment"
-        tools:layout="@layout/layout_recycler_view" />
+        tools:layout="@layout/layout_recycler_view" >
+        <action
+            android:id="@+id/action_aboutFragment_to_detailDevFragment"
+            app:destination="@id/detailDevFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailDevFragment"
+        android:name="com.atech.bit.ui.fragments.about.detail.DetailDevFragment"
+        android:label="fragment_detail_dev"
+        tools:layout="@layout/fragment_detail_dev" >
+        <argument
+            android:name="dev"
+            app:argType="com.atech.core.retrofit.client.Devs" />
+    </fragment>
+
+
 </navigation>

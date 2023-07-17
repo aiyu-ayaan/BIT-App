@@ -31,25 +31,49 @@ sealed class AboutUsViewHolder(
 
     class DevViewHolder(
         private val binding: RowDevlopersBinding,
+        private val onClick: (Int) -> Unit
     ) : AboutUsViewHolder(binding) {
+        init {
+            binding.root.setOnClickListener {
+                onClick(absoluteAdapterPosition)
+            }
+        }
+
         fun bind(dev: AboutUsItem.Dev) {
-            val dev = dev.devs
+            val dev1 = dev.devs
             binding.apply {
-                photo.loadCircular(dev.imageLink)
-                name.text = dev.name
-                textViewDes.isVisible = dev.des.isNotEmpty()
-                if (dev.des.isEmpty())
+                photo.loadCircular(dev1.imageLink)
+                name.text = dev1.name
+                textViewDes.isVisible = dev1.des.isNotEmpty()
+                if (dev1.des.isEmpty())
                     binding.constraintLayoutDev.setHorizontalBias(
                         binding.name.id,
                         0.50f
                     )
-                textViewDes.text = dev.des
+                textViewDes.text = dev1.des
             }
         }
     }
 
     class BottomView(
-        binding: RowAboutUsBottomViewBinding
-    ) : AboutUsViewHolder(binding)
-
+        binding: RowAboutUsBottomViewBinding,
+        private val onComponentUseClick: () -> Unit,
+        private val onPrivacyClick: (String) -> Unit,
+        private val onPlayStoreClick: () -> Unit
+    ) : AboutUsViewHolder(binding) {
+        init {
+            binding.textViewComponent.setOnClickListener {
+                onComponentUseClick.invoke()
+            }
+            binding.textViewPrivacy.setOnClickListener {
+                onPrivacyClick.invoke(
+                    binding.root.context
+                        .getString(com.atech.theme.R.string.privacy_policy_link)
+                )
+            }
+            binding.textViewPlayStore.setOnClickListener {
+                onPlayStoreClick.invoke()
+            }
+        }
+    }
 }

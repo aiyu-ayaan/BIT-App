@@ -7,9 +7,15 @@ import com.atech.bit.R
 import com.atech.bit.databinding.RowAboutUsBottomViewBinding
 import com.atech.bit.databinding.RowAboutUsTopViewBinding
 import com.atech.bit.databinding.RowDevlopersBinding
+import com.atech.core.retrofit.client.Devs
 import com.atech.theme.databinding.RowTitleBinding
 
-class AboutUsAdapter : RecyclerView.Adapter<AboutUsViewHolder>() {
+class AboutUsAdapter(
+    private val onDevClick: (Devs) -> Unit = {},
+    private val onComponentUseClick: () -> Unit = {},
+    private val onPrivacyClick: (String) -> Unit = {},
+    private val onPlayStoreClick: () -> Unit = {},
+) : RecyclerView.Adapter<AboutUsViewHolder>() {
 
     var list = listOf<AboutUsItem>()
         @SuppressLint("NotifyDataSetChanged")
@@ -29,14 +35,19 @@ class AboutUsAdapter : RecyclerView.Adapter<AboutUsViewHolder>() {
             R.layout.row_about_us_bottom_view -> AboutUsViewHolder.BottomView(
                 RowAboutUsBottomViewBinding.inflate(
                     android.view.LayoutInflater.from(parent.context), parent, false
-                )
+                ),
+                onComponentUseClick,
+                onPrivacyClick,
+                onPlayStoreClick
             )
 
             R.layout.row_devlopers -> AboutUsViewHolder.DevViewHolder(
                 RowDevlopersBinding.inflate(
                     android.view.LayoutInflater.from(parent.context), parent, false
                 )
-            )
+            ) {
+                onDevClick((list[it] as AboutUsItem.Dev).devs)
+            }
 
             com.atech.theme.R.layout.row_title -> AboutUsViewHolder.TitleHolder(
                 RowTitleBinding.inflate(

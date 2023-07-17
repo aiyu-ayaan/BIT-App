@@ -277,3 +277,17 @@ fun ConstraintLayout.setHorizontalBias(
     constraintSet.setVerticalBias(targetViewId, verticalBias)
     constraintSet.applyTo(this)
 }
+
+/**
+ * Open Play Store
+ * @author Ayaan
+ * @since 4.0.5
+ */
+fun Activity.openPlayStore(name: String) {
+    startActivity(Intent(
+        Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$name")
+    ).also {
+        it.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+        it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+    })
+}

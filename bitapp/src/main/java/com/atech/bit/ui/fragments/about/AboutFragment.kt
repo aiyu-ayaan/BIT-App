@@ -8,18 +8,25 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.ui.fragments.about.adapter.AboutUsAdapter
 import com.atech.bit.ui.fragments.about.adapter.AboutUsItem
 import com.atech.bit.utils.getVersion
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.retrofit.client.AboutUsModel
+import com.atech.core.retrofit.client.Devs
 import com.atech.core.utils.DataState
 import com.atech.core.utils.TAGS
+import com.atech.theme.Axis
 import com.atech.theme.R
 import com.atech.theme.ToolbarData
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
 import com.atech.theme.enterTransition
+import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
+import com.atech.theme.navigate
+import com.atech.theme.openCustomChromeTab
+import com.atech.theme.openPlayStore
 import com.atech.theme.set
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,7 +59,13 @@ class AboutFragment : Fragment(R.layout.layout_recycler_view) {
 
     private fun LayoutRecyclerViewBinding.setRecyclerView() = this.recyclerView.apply {
         setHasFixedSize(true)
-        adapter = AboutUsAdapter().also { aboutUsAdapter = it }
+        adapter = AboutUsAdapter(
+            onDevClick = ::navigateToDevDetails,
+            onPlayStoreClick = ::openPlayStore,
+            onPrivacyClick = ::openPrivacyPolicy
+        ).also { aboutUsAdapter = it }
+        aboutUsAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         layoutManager = LinearLayoutManager(requireContext())
         observeData()
     }
@@ -95,17 +108,18 @@ class AboutFragment : Fragment(R.layout.layout_recycler_view) {
         val (dev, manager, contributors) = this
         val list = mutableListOf<AboutUsItem>()
         list.add(AboutUsItem.Title(getString(R.string.developers)))
-        list.addAll(dev.map { AboutUsItem.Dev(it) })
+        list.addAll(dev.shortListOnSno().map { AboutUsItem.Dev(it) })
         contributors?.let { contributors1 ->
             if (contributors1.isNotEmpty()) {
                 list.add(AboutUsItem.Title(getString(R.string.contributors)))
-                contributors1.filterNotNull().map { AboutUsItem.Dev(it) }.let { list.addAll(it) }
+                contributors1.filterNotNull().shortListOnSno().map { AboutUsItem.Dev(it) }
+                    .let { list.addAll(it) }
             }
         }
         manager.let { manager1 ->
             if (manager1.isNotEmpty()) {
                 list.add(AboutUsItem.Title(getString(R.string.managers)))
-                manager1.map { AboutUsItem.Dev(it) }.let { list.addAll(it) }
+                manager1.shortListOnSno().map { AboutUsItem.Dev(it) }.let { list.addAll(it) }
             }
         }
         return list
@@ -114,4 +128,23 @@ class AboutFragment : Fragment(R.layout.layout_recycler_view) {
     private fun LayoutRecyclerViewBinding.setToolbar() = this.includeToolbar.apply {
         set(ToolbarData(title = R.string.about_app, action = findNavController()::navigateUp))
     }
+
+    private fun navigateToDevDetails(dev: Devs) {
+        exitTransition(Axis.X)
+        val action = AboutFragmentDirections.actionAboutFragmentToDetailDevFragment(dev)
+        navigate(action)
+    }
+
+    private fun openPlayStore() {
+        requireActivity().openPlayStore(requireActivity().packageName)
+    }
+
+    private fun openPrivacyPolicy(link: String) {
+        requireActivity().openCustomChromeTab(
+            link
+        )
+    }
+
+
+    private fun List<Devs>.shortListOnSno() = this.sortedBy { it.sno }
 }

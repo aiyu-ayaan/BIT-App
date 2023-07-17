@@ -10,7 +10,7 @@
     <!--    App -->
     <string name="app_version">4.1.1 Patch 4</string>
     <string name="full_version">Version %s</string>
-    <string name="instaLink">https://bitapp.page.link/insta</string>
+    <string name="instaLink">https://www.instagram.com/bit.app_/</string>
     <string name="erp_link">https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=EGbCGWnlHNJ/WdgJnKH8DA==</string>
 
     <string name="theory">Theory</string>
@@ -256,7 +256,7 @@
     <string name="syllabus">Syllabus</string>
     <string name="no_subject_found">No Subject found !!</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="privacy_policy_link">https://aiyu-ayaan.github.io/BIT-App-Data/privacy_polocy/privacy-policy</string>
+    <string name="privacy_policy_link">https://bit-lalpur-app.github.io/BIT-App-Data/privacy_polocy/privacy-policy</string>
     <string name="administration">Administration</string>
     <string name="all">All</string>
     <string name="current_cgpa">Current CGPA</string>
