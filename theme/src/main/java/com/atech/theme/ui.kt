@@ -13,11 +13,14 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
+import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -260,4 +263,17 @@ fun Date.compareDifferenceInDays(date: Date): Int {
  */
 fun setAppTheme(type: Int) {
     AppCompatDelegate.setDefaultNightMode(type)
+}
+
+fun ConstraintLayout.setHorizontalBias(
+    @IdRes targetViewId: Int,
+    verticalBias: Float,
+    horizontalBias: Float = 0.0f
+
+) {
+    val constraintSet = ConstraintSet()
+    constraintSet.clone(this)
+    constraintSet.setHorizontalBias(targetViewId, horizontalBias)
+    constraintSet.setVerticalBias(targetViewId, verticalBias)
+    constraintSet.applyTo(this)
 }
