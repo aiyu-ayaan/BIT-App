@@ -15,6 +15,7 @@ import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
@@ -250,4 +251,13 @@ fun Context.openAppSettings() = this.apply {
 fun Date.compareDifferenceInDays(date: Date): Int {
     val diff = this.time - date.time
     return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
+}
+
+/**
+ * Change Theme
+ * @since 4.0.4
+ * @author Ayaan
+ */
+fun setAppTheme(type: Int) {
+    AppCompatDelegate.setDefaultNightMode(type)
 }

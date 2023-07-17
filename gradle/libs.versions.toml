@@ -2,6 +2,7 @@
 agp = "7.4.2"
 android-viewbinding = "1.0.4"
 coil = "2.4.0"
+coreSplashscreen = "1.0.1"
 cryptoreVersion = "1.4.0"
 calendarVersion = "3.0.0"
 circleIndicatorVersion = "2.1.6"
@@ -37,6 +38,7 @@ play-service-auth = "20.6.0"
 [libraries]
 android-viewbinding = { module = "com.github.yogacp:android-viewbinding", version.ref = "android-viewbinding" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 cryptore = { group = "com.kazakago.cryptore", name = "cryptore", version.ref = "cryptoreVersion" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 exoplayer-dash = { module = "androidx.media3:media3-exoplayer-dash", version.ref = "exoplayerPlayer" }

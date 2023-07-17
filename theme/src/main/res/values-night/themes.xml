@@ -32,4 +32,12 @@
         <item name="android:navigationBarColor">?attr/bottomSheetBackground</item>
     </style>
 
+
+    <style name="Theme.customSplash" parent="Theme.SplashScreen">
+        <item name="backgroundColor">?attr/bottomBar</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen</item>
+        <item name="postSplashScreenTheme">@style/Theme.BITApp</item>
+    </style>
+
+
 </resources>

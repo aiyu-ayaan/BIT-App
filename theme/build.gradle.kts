@@ -52,4 +52,6 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.glide)
 
+    implementation(libs.core.splashscreen)
+
 }

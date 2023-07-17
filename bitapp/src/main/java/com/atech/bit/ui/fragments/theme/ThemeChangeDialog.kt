@@ -10,6 +10,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.DialogThemeChooseBinding
 import com.atech.core.utils.AppTheme
 import com.atech.core.utils.SharePrefKeys
+import com.atech.theme.setAppTheme
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -70,14 +71,5 @@ class ThemeChangeDialog : DialogFragment() {
         pref.edit()
             .putString(SharePrefKeys.AppTheme.name, appTheme.name)
             .apply()
-    }
-
-    /**
-     * Change Theme
-     * @since 4.0.4
-     * @author Ayaan
-     */
-    private fun setAppTheme(type: Int) {
-        AppCompatDelegate.setDefaultNightMode(type)
     }
 }

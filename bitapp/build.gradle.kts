@@ -91,6 +91,8 @@ dependencies {
     implementation(libs.glide)
 
     implementation(libs.palette)
+
+    implementation(libs.core.splashscreen)
 }
 
 kapt {
