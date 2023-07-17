@@ -53,3 +53,7 @@ fun Activity.openReleaseNotes() {
     this.openCustomChromeTab(link.replace("-[b,g]\\w+".toRegex(), ""))
 
 }
+
+fun getVersion() = BuildConfig.VERSION_NAME
+    .replace("-beta", "")
+    .replace("-playStore", "")

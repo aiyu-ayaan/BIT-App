@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/about_us_graph"
+    app:startDestination="@id/aboutFragment">
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.atech.bit.ui.fragments.about.AboutFragment"
+        android:label="AboutFragment"
+        tools:layout="@layout/layout_recycler_view" />
+</navigation>

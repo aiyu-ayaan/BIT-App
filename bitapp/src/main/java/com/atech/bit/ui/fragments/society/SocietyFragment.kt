@@ -85,12 +85,12 @@ class SocietyFragment : Fragment(R.layout.layout_recycler_view) {
     }
 
     private fun LayoutRecyclerViewBinding.setToolbar() = this.includeToolbar.apply {
-        set(ToolbarData(
-            title = R.string.societies_and_ngos,
-            action = {
-                findNavController().navigateUp()
-            }
-        ))
+        set(
+            ToolbarData(
+                title = R.string.societies_and_ngos,
+                action = findNavController()::navigateUp
+            )
+        )
     }
 
     private fun navigateToDetail(model: Society) {

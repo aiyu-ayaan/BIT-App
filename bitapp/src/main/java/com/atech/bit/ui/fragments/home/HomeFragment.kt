@@ -77,6 +77,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         handleExpand()
         handleBackPress()
         hideBottomAppBar()
+        navigateToAboutUs()
     }
 
     private fun FragmentHomeBinding.setProfile() = this.ivUserProfileImage.apply {
@@ -332,6 +333,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         viewModel.homeScreenSearchData.collectLatest {
             binding.searchExt.empty.isVisible = it.isEmpty()
             searchAdapter.items = it.toMutableList()
+        }
+    }
+
+    private fun navigateToAboutUs() {
+        mainActivity.navigateToAboutUs {
+            exitTransition()
+            val action = HomeFragmentDirections.actionHomeFragmentToAboutUsGraph()
+            navigate(action)
         }
     }
 }

@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_editBottomSheet"
             app:destination="@id/editBottomSheet" />
+        <action
+            android:id="@+id/action_homeFragment_to_about_us_graph"
+            app:destination="@id/about_us_graph" />
     </fragment>
     <include app:graph="@navigation/attendance_graph" />
     <fragment
@@ -146,6 +149,6 @@
         android:name="com.atech.bit.ui.fragments.theme.ThemeChangeDialog"
         android:label="ThemeChangeDialog"
         tools:layout="@layout/dialog_theme_choose" />
-
+    <include app:graph="@navigation/about_us_graph" />
 
 </navigation>

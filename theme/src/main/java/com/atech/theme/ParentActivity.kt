@@ -21,4 +21,6 @@ interface ParentActivity {
     fun getBottomNavigationFragment(): BottomNavigationView
 
     fun getHomeFragmentId(): Int
+
+    fun navigateToAboutUs(action: () -> Unit)
 }

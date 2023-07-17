@@ -5,6 +5,9 @@ import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.viewbinding.library.activity.viewBinding
+import android.widget.ImageButton
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -19,6 +22,7 @@ import com.atech.bit.databinding.ActivityMainBinding
 import com.atech.bit.utils.AttendanceUpload
 import com.atech.bit.utils.AttendanceUploadDelegate
 import com.atech.bit.utils.DrawerLocker
+import com.atech.bit.utils.getVersion
 import com.atech.bit.utils.onDestinationChange
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openReleaseNotes
@@ -68,6 +72,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
     @Inject
     lateinit var scope: CoroutineScope
 
+    private var onClick: (() -> Unit)? = null
+
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
     }
@@ -81,6 +87,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         binding.apply {
             bottomNavigationSetup()
             handleDrawer()
+            setHeader()
         }
         handleDestinationChange()
         if (isConnected()) {
@@ -101,6 +108,15 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
             true
         }
         bottomNavigation.setOnItemReselectedListener { }
+    }
+
+    private fun ActivityMainBinding.setHeader() = this.navigationView.apply {
+        val headerView = getHeaderView(0)
+        headerView.findViewById<TextView>(R.id.version).apply {
+            text = resources.getString(
+                com.atech.theme.R.string.full_version, getVersion()
+            )
+        }
     }
 
     private fun ActivityMainBinding.handleDrawer() = this.navigationView.apply {
@@ -202,6 +218,19 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
     override fun getHomeFragmentId(): Int =
         R.id.homeFragment
 
+    override fun navigateToAboutUs(action: () -> Unit) {
+        val headerView = binding.navigationView.getHeaderView(0)
+        val root1 = headerView.findViewById<RelativeLayout>(R.id.parent_layout)
+        val button = headerView.findViewById<ImageButton>(R.id.button_about_us)
+        root1?.setOnClickListener {
+            action.invoke()
+        }
+        button?.setOnClickListener {
+            action.invoke()
+        }
+    }
+
+
     private fun getCurrentFragment(): Fragment? = supportFragmentManager.currentNavigationFragment
     private fun setExitTransition() = getCurrentFragment()?.exitTransition()
 
@@ -222,7 +251,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
             R.id.libraryFragment,
             R.id.addEditLibraryFragment,
             R.id.cgpaCalculatorFragment,
-            com.atech.login.R.id.loginFragment
+            com.atech.login.R.id.loginFragment,
+            R.id.aboutFragment
         )
 
     private fun bottomNavigationFragment() = listOf(
@@ -245,6 +275,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         R.id.libraryFragment,
         R.id.addEditLibraryFragment,
         R.id.cgpaCalculatorFragment,
+        R.id.aboutFragment
     )
 
     private fun bottomSheetFragment() = listOf(
