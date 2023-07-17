@@ -252,7 +252,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
             R.id.addEditLibraryFragment,
             R.id.cgpaCalculatorFragment,
             com.atech.login.R.id.loginFragment,
-            R.id.aboutFragment
+            R.id.aboutFragment,
+            R.id.creditsFragment
         )
 
     private fun bottomNavigationFragment() = listOf(
@@ -276,7 +277,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         R.id.addEditLibraryFragment,
         R.id.cgpaCalculatorFragment,
         R.id.aboutFragment,
-        R.id.detailDevFragment
+        R.id.detailDevFragment,
+        R.id.creditsFragment
     )
 
     private fun bottomSheetFragment() = listOf(

@@ -291,3 +291,12 @@ fun Activity.openPlayStore(name: String) {
         it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
     })
 }
+
+fun Fragment.openLinkToDefaultApp(link: String) = this.run {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+        startActivity(intent)
+    } catch (_: Exception) {
+        requireContext().openCustomChromeTab(link)
+    }
+}

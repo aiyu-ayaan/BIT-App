@@ -62,7 +62,8 @@ class AboutFragment : Fragment(R.layout.layout_recycler_view) {
         adapter = AboutUsAdapter(
             onDevClick = ::navigateToDevDetails,
             onPlayStoreClick = ::openPlayStore,
-            onPrivacyClick = ::openPrivacyPolicy
+            onPrivacyClick = ::openPrivacyPolicy,
+            onComponentUseClick = ::navigateToCredits
         ).also { aboutUsAdapter = it }
         aboutUsAdapter.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
@@ -132,6 +133,12 @@ class AboutFragment : Fragment(R.layout.layout_recycler_view) {
     private fun navigateToDevDetails(dev: Devs) {
         exitTransition(Axis.X)
         val action = AboutFragmentDirections.actionAboutFragmentToDetailDevFragment(dev)
+        navigate(action)
+    }
+
+    private fun navigateToCredits() {
+        exitTransition(Axis.X)
+        val action = AboutFragmentDirections.actionAboutFragmentToCreditsFragment()
         navigate(action)
     }
 
