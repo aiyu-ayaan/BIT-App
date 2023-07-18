@@ -31,11 +31,28 @@ data class Cgpa(
     var sem4: Double = 0.0,
     var sem5: Double = 0.0,
     var sem6: Double = 0.0,
-    val cgpa: Double = 1.0
+    val cgpa: Double = 1.0,
+    val earnCrSem1: Double? = 0.0,
+    val earnCrSem2: Double? = 0.0,
+    val earnCrSem3: Double? = 0.0,
+    val earnCrSem4: Double? = 0.0,
+    val earnCrSem5: Double? = 0.0,
+    val earnCrSem6: Double? = 0.0,
 ) : Parcelable {
     @IgnoredOnParcel
     val isAllZero =
         sem1 == 0.0 && sem2 == 0.0 && sem3 == 0.0 && sem4 == 0.0 && sem5 == 0.0 && sem6 == 0.0
+
+    @IgnoredOnParcel
+    val totalCr = earnCrSem1 + earnCrSem2 + earnCrSem3 + earnCrSem4 + earnCrSem5 + earnCrSem6
+
+    @IgnoredOnParcel
+    val isNewCgpa =
+        earnCrSem1 != 0.0 && earnCrSem2 != 0.0 && earnCrSem3 != 0.0 && earnCrSem4 != 0.0 && earnCrSem5 != 0.0 && earnCrSem6 != 0.0
+}
+
+private operator fun Double?.plus(earnCrSem1: Double?): Double {
+    return this?.plus(earnCrSem1 ?: 0.0) ?: 0.0
 }
 
 @Keep
@@ -77,6 +94,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
             val sem4Cgpa = preferences[PreferencesKeys.DEF_SEM_4_CGPA] ?: 0.0
             val sem5Cgpa = preferences[PreferencesKeys.DEF_SEM_5_CGPA] ?: 0.0
             val sem6Cgpa = preferences[PreferencesKeys.DEF_SEM_6_CGPA] ?: 0.0
+            val earnCrSem1 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_1] ?: 0.0
+            val earnCrSem2 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_2] ?: 0.0
+            val earnCrSem3 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_3] ?: 0.0
+            val earnCrSem4 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_4] ?: 0.0
+            val earnCrSem5 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_5] ?: 0.0
+            val earnCrSem6 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_6] ?: 0.0
             val cgpa = preferences[PreferencesKeys.DEF_CGPA] ?: 0.0
 
 
@@ -92,7 +115,13 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
                     sem4Cgpa,
                     sem5Cgpa,
                     sem6Cgpa,
-                    cgpa
+                    cgpa,
+                    earnCrSem1,
+                    earnCrSem2,
+                    earnCrSem3,
+                    earnCrSem4,
+                    earnCrSem5,
+                    earnCrSem6
                 )
             )
         }
@@ -112,6 +141,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
             preferences[PreferencesKeys.DEF_SEM_4_CGPA] = cgpa.sem4
             preferences[PreferencesKeys.DEF_SEM_5_CGPA] = cgpa.sem5
             preferences[PreferencesKeys.DEF_SEM_6_CGPA] = cgpa.sem6
+            preferences[PreferencesKeys.DEF_EARN_CR_SEM_1] = cgpa.earnCrSem1 ?: 0.0
+            preferences[PreferencesKeys.DEF_EARN_CR_SEM_2] = cgpa.earnCrSem2 ?: 0.0
+            preferences[PreferencesKeys.DEF_EARN_CR_SEM_3] = cgpa.earnCrSem3 ?: 0.0
+            preferences[PreferencesKeys.DEF_EARN_CR_SEM_4] = cgpa.earnCrSem4 ?: 0.0
+            preferences[PreferencesKeys.DEF_EARN_CR_SEM_5] = cgpa.earnCrSem5 ?: 0.0
+            preferences[PreferencesKeys.DEF_EARN_CR_SEM_6] = cgpa.earnCrSem6 ?: 0.0
             preferences[PreferencesKeys.DEF_CGPA] = cgpa.cgpa
         }
     }
@@ -146,6 +181,12 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         val DEF_SEM_4_CGPA = doublePreferencesKey("default_sem_4_cgpa")
         val DEF_SEM_5_CGPA = doublePreferencesKey("default_sem_5_cgpa")
         val DEF_SEM_6_CGPA = doublePreferencesKey("default_sem_6_cgpa")
+        val DEF_EARN_CR_SEM_1 = doublePreferencesKey("default_earn_cr_sem_1")
+        val DEF_EARN_CR_SEM_2 = doublePreferencesKey("default_earn_cr_sem_2")
+        val DEF_EARN_CR_SEM_3 = doublePreferencesKey("default_earn_cr_sem_3")
+        val DEF_EARN_CR_SEM_4 = doublePreferencesKey("default_earn_cr_sem_4")
+        val DEF_EARN_CR_SEM_5 = doublePreferencesKey("default_earn_cr_sem_5")
+        val DEF_EARN_CR_SEM_6 = doublePreferencesKey("default_earn_cr_sem_6")
         val DEF_CGPA = doublePreferencesKey("default_cgpa")
     }
 }

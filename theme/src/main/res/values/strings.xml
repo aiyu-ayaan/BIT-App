@@ -162,7 +162,7 @@
     <string name="without_img">Without Image</string>
     <string name="linked_in">LinkedIn</string>
     <string name="stack_over_flow">StackOverFlow</string>
-    <string name="enter_sem">Enter Your CGPA :-</string>
+    <string name="enter_sem">Enter your SGPA with earn credits :-</string>
     <string name="cgpa_calculator">CGPA Calculator</string>
     <string name="calculate">Calculate</string>
     <string name="over_all_cgpa">Overall CGPA</string>
@@ -267,4 +267,5 @@
     <string name="action">Choose Your action</string>
     <string name="delete_all">Delete All</string>
     <string name="default_web_client_id">715451987854-hgsb8c8qf29e0b3ik1nl4kd57j1bndls.apps.googleusercontent.com</string>
+    <string name="earn_credits">Earn Credits</string>
 </resources>
