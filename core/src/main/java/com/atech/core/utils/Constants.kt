@@ -1,5 +1,9 @@
 package com.atech.core.utils
 
+import android.Manifest
+import android.os.Build
+import androidx.annotation.RequiresApi
+
 //const val TAG = "Aiyu"
 
 enum class AppTheme { Light, Dark, Sys }
@@ -13,7 +17,7 @@ enum class RowSubjectAdapterRequest {
 
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
-    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone,AppTheme
+    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme
 }
 
 const val SYLLABUS_SOURCE_DATA =

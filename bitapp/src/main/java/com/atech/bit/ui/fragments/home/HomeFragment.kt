@@ -1,9 +1,15 @@
 package com.atech.bit.ui.fragments.home
 
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -24,10 +30,13 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
 import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
-import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ParentActivity
+import com.atech.theme.Permissions
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.checkPerm
 import com.atech.theme.customBackPress
 import com.atech.theme.exitTransition
+import com.atech.theme.isAPI33AndUp
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.loadCircular
 import com.atech.theme.navigate
@@ -40,7 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
+class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
 
@@ -55,6 +64,17 @@ class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
 
     @Inject
     lateinit var authUseCases: AuthUseCases
+
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+    private val requestNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) {
+                viewModel.isPermissionGranted.value = true
+            } else {
+                toast("Notification permission is required to get latest notice and announcement")
+                viewModel.isPermissionGranted.value = false
+            }
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -72,7 +92,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
         handleBackPress()
         hideBottomAppBar()
         navigateToAboutUs()
+        handlePermissions()
     }
+
 
     private fun FragmentHomeBinding.setProfile() = this.ivUserProfileImage.apply {
         if (!authUseCases.hasLogIn()) {
@@ -147,6 +169,13 @@ class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
     override fun onResume() {
         super.onResume()
         mainActivity.setBottomNavigationVisibility(!binding.searchView.isShowing)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkPerm(
+                this, Permissions.NOTIFICATION.value
+            ) {
+                viewModel.isPermissionGranted.value = true
+            } ?: { viewModel.isPermissionGranted.value = false }
+        }
     }
 
     private fun handleBackPress() {
@@ -185,7 +214,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
             onSettingClick = ::navigateToSemChoose,
             onDeleteClick = ::onDeleteClick,
             onMarkAsReturnClick = ::onLibraryEditClick,
-            onEditClick = ::navigateToEditSyllabus
+            onEditClick = ::navigateToEditSyllabus,
+            onEnableNoticeClick = ::enableNotificationClick
         ).also { homeAdapter = it }
         layoutManager = LinearLayoutManager(context)
         observeData()
@@ -260,6 +290,28 @@ class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
             homeAdapter.defPercentage = viewModel.defPercentage
         }
     }
+
+    private fun enableNotificationClick() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri = Uri.fromParts("package", requireContext().packageName, null)
+        intent.data = uri
+        startActivity(intent)
+    }
+
+
+    private fun handlePermissions() {
+        isAPI33AndUp {
+            checkPerm(
+                this, Permissions.NOTIFICATION.value
+            ) {
+                viewModel.isPermissionGranted.value = true
+            } ?: requestNotificationPermission.launch(Permissions.NOTIFICATION.value)
+        } ?: {
+            viewModel.isPermissionGranted.value = false
+        }
+    }
+
+
 
 //    ________________________________________ Search _______________________________________________
 

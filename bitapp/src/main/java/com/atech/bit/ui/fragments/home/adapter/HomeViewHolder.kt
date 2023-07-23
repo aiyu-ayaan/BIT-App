@@ -1,7 +1,6 @@
 package com.atech.bit.ui.fragments.home.adapter
 
 import android.view.View
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.attendance.utils.findPercentage
@@ -40,13 +39,14 @@ sealed class HomeViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     class HighlightHolder(
-        private val binding: CardViewHighlightBinding
+        private val binding: CardViewHighlightBinding,
+        private val onClick: () -> Unit
     ) : HomeViewHolder(binding) {
         fun bind(
             model: CardHighlightModel
         ) {
             binding.set(
-                model
+                model.copy(onClick = onClick)
             )
         }
     }

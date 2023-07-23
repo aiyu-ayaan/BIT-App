@@ -26,8 +26,9 @@ import com.atech.core.utils.DEFAULT_PAIR
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
 import com.atech.core.utils.convertLongToTime
 import com.atech.theme.Axis
-import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.Permissions
 import com.atech.theme.ToolbarData
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.compareDifferenceInDays
 import com.atech.theme.customBackPress
 import com.atech.theme.launchWhenStarted
@@ -260,7 +261,7 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit_library_book_det
         ) {
             true
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.WRITE_CALENDAR)
+            requestPermissionLauncher.launch(Permissions.WRITE_CALENDER.value)
             null
         }
     }
@@ -273,7 +274,7 @@ class AddEditFragment : BaseFragment(R.layout.fragment_add_edit_library_book_det
         ) {
             true
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_CALENDAR)
+            requestPermissionLauncher.launch(Permissions.READ_CALENDER.value)
             null
         }
     }

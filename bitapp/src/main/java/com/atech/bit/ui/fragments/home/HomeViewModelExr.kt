@@ -25,16 +25,23 @@ import java.util.Date
 object HomeViewModelExr {
 
     //    ____________________________________________ Syllabus ____________________________________________
-    fun topView(list: MutableList<HomeItems>, library: List<LibraryModel>, isOnline: Boolean) {
-        list.add(
-            HomeItems.Highlight(
-                CardHighlightModel(
-                    "Notification is disabled",
-                    "Allow Notification to get latest notice and announcement",
-                    R.drawable.ic_notice
+    fun topView(
+        list: MutableList<HomeItems>,
+        library: List<LibraryModel>,
+        isOnline: Boolean,
+        isPermissionGranted: Boolean
+    ) {
+        if (!isPermissionGranted)
+            list.add(
+                HomeItems.Highlight(
+                    CardHighlightModel(
+                        "Notification is disabled",
+                        "Allow Notification to get latest notice and announcement",
+                        R.drawable.ic_notice
+                    )
                 )
             )
-        )
+
         library.filter3Day().also {
             if (it.isNotEmpty()) {
                 list.add(HomeItems.Title("Library"))

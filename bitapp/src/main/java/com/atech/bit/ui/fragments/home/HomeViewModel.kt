@@ -67,6 +67,7 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     val isOnline = MutableStateFlow(false)
+    val isPermissionGranted = MutableStateFlow(false)
     private val dataStores = dataStoreCases.getAll.invoke()
     private val calenderQuery =
         calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
@@ -75,17 +76,25 @@ class HomeViewModel @Inject constructor(
     val homeScreenData: Flow<List<HomeItems>> = _homeScreenData
     var courseSem = ""
     var defPercentage = 7
+
     init {
         combine(
-            dataStores.asFlow(), isOnline, firebaseCases.getData.invoke(
+            dataStores.asFlow(),
+            isOnline.combine(isPermissionGranted) { isOnline, isPermissionGranted ->
+                isOnline to isPermissionGranted
+            },
+            firebaseCases.getData.invoke(
                 EventModel::class.java, Db.Event
-            ), syllabusDao.getSyllabusHome(
+            ),
+            syllabusDao.getSyllabusHome(
                 "", ""
-            ), attendanceDao.getAllAttendance(), libraryDao.getAll()
-        ) { dataStores, isOnline, events, _, attendance, library ->
+            ),
+            attendanceDao.getAllAttendance(),
+            libraryDao.getAll()
+        ) { dataStores, (isOnline, isPermissionGranted), events, _, attendance, library ->
             eventData = events?.toMutableList() ?: mutableListOf()
             val homeItems = mutableListOf<HomeItems>()
-            topView(homeItems, library,isOnline)
+            topView(homeItems, library, isOnline,isPermissionGranted)
             getSyllabusData(isOnline, dataStores).await().let {
                 if (it.isNotEmpty()) homeItems.addAll(
                     it

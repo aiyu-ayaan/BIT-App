@@ -3,7 +3,6 @@ package com.atech.bit.ui.fragments.home.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.R
 import com.atech.bit.databinding.LayoutHomeTopSettingsBinding
@@ -19,7 +18,6 @@ import com.atech.theme.databinding.CardViewHighlightBinding
 import com.atech.theme.databinding.LayoutNoDataFoundBinding
 import com.atech.theme.databinding.RowNoticeEventBinding
 import com.google.android.material.materialswitch.MaterialSwitch
-import kotlin.reflect.KFunction0
 
 class HomeAdapter(
     private val onSettingClick: () -> Unit = {},
@@ -30,7 +28,8 @@ class HomeAdapter(
     private val onSubjectClick: ((SyllabusUIModel) -> Unit) = { },
     private val onDeleteClick: (LibraryModel) -> Unit = {},
     private val onMarkAsReturnClick: (LibraryModel) -> Unit = { },
-    private val onNoticeClick: (String) -> Unit = {}
+    private val onNoticeClick: (String) -> Unit = {},
+    private val onEnableNoticeClick: () -> Unit = {}
 ) : RecyclerView.Adapter<HomeViewHolder>() {
 
     var items = mutableListOf<HomeItems>()
@@ -51,7 +50,8 @@ class HomeAdapter(
             com.atech.theme.R.layout.card_view_highlight -> HomeViewHolder.HighlightHolder(
                 CardViewHighlightBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false
-                )
+                ),
+                onEnableNoticeClick
             )
 
             R.layout.row_library_home -> HomeViewHolder.LibraryHolder(
