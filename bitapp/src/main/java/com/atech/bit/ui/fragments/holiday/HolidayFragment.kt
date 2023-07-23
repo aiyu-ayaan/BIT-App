@@ -3,7 +3,6 @@ package com.atech.bit.ui.fragments.holiday
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
@@ -12,9 +11,8 @@ import com.atech.bit.ui.fragments.holiday.adapter.HolidayAdapter
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.utils.DataState
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
-import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenResumed
 import com.atech.theme.set
 import com.atech.theme.toast

@@ -26,7 +26,7 @@ import com.atech.core.utils.DEFAULT_PAIR
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
 import com.atech.core.utils.convertLongToTime
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.compareDifferenceInDays
 import com.atech.theme.customBackPress

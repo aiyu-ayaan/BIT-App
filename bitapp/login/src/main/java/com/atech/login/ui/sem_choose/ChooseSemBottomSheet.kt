@@ -18,7 +18,7 @@ import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
 import com.atech.login.R
 import com.atech.login.databinding.BottomSheetChooseSemBinding
-import com.atech.theme.BaseBottomSheet
+import com.atech.theme.base_class.BaseBottomSheet
 import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.navigateWithInAppDeepLink

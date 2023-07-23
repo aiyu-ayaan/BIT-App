@@ -12,7 +12,7 @@ import com.atech.core.utils.UPDATE_REQUEST
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.RowSubjectAdapter
 import com.atech.course.utils.tabSelectedListener
-import com.atech.theme.BaseBottomSheet
+import com.atech.theme.base_class.BaseBottomSheet
 import com.atech.theme.BottomSheetItem
 import com.atech.theme.R
 import com.atech.theme.databinding.LayoutBottomSheetBinding

@@ -12,7 +12,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewImageBinding
 import com.atech.bit.utils.isColorDark
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.changeBottomNavImageView
 import com.atech.theme.changeStatusBarToolbarColorImageView
 import com.atech.theme.loadImage

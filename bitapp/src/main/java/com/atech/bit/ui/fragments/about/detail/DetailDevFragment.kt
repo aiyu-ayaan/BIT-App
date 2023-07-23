@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.NavGraphDirections
@@ -12,9 +11,8 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentDetailDevBinding
 import com.atech.core.retrofit.client.Devs
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
-import com.atech.theme.enterTransition
 import com.atech.theme.loadCircular
 import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openLinks

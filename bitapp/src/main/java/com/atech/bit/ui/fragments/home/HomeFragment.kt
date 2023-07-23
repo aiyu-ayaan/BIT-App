@@ -7,7 +7,6 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.NavGraphDirections
@@ -25,10 +24,9 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
 import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
-import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.loadCircular

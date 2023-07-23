@@ -1,6 +1,5 @@
 package com.atech.attendance.detail
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,13 +15,11 @@ import com.atech.attendance.utils.findPercentage
 import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.attendance.IsPresent
 import com.atech.core.utils.convertLongToTime
-import com.atech.theme.BaseBottomSheet
+import com.atech.theme.base_class.BaseBottomSheet
 import com.atech.theme.R
 import com.atech.theme.launchWhenStarted
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.github.sundeepk.compactcalendarview.domain.Event
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

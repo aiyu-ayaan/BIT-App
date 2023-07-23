@@ -15,7 +15,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyDetailBinding
 import com.atech.bit.utils.navigateToViewImage
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.customBackPress
 import com.atech.theme.getColorForText

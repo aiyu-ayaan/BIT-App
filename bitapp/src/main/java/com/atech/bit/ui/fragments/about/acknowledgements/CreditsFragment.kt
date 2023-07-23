@@ -6,7 +6,7 @@ import android.viewbinding.library.fragment.viewBinding
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.R
 import com.atech.theme.ToolbarData
 import com.atech.theme.databinding.LayoutRecyclerViewBinding

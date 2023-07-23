@@ -27,7 +27,7 @@ import com.atech.course.utils.SyllabusEnableModel
 import com.atech.course.utils.compareToCourseSem
 import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToolbarData
 import com.atech.theme.exitTransition

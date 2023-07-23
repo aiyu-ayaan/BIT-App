@@ -1,7 +1,8 @@
-package com.atech.theme
+package com.atech.theme.base_class
 
 import android.app.Dialog
 import android.os.Bundle
+import com.atech.theme.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 

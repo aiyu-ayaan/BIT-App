@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.atech.core.retrofit.ApiCases
@@ -15,9 +14,8 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.view_syllabus.online.OnlineSyllabusFragment
 import com.atech.syllabus.setFragment
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
-import com.atech.theme.enterTransition
 import com.atech.theme.set
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

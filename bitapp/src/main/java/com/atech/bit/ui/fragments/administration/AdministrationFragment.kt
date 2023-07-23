@@ -5,7 +5,6 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAdministrationBinding
@@ -13,9 +12,8 @@ import com.atech.core.retrofit.ApiCases
 import com.atech.core.utils.DataState
 import com.atech.core.utils.NetworkBoundException
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
-import com.atech.theme.enterTransition
 import com.atech.theme.getColorForText
 import com.atech.theme.getColorFromAttr
 import com.atech.theme.getRgbFromHex

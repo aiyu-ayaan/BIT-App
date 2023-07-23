@@ -12,7 +12,7 @@ import com.atech.core.retrofit.client.CourseDetail
 import com.atech.core.utils.DataState
 import com.atech.course.databinding.FragmentCourseBinding
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToastLength
 import com.atech.theme.addViews

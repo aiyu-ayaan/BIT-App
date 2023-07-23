@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +12,8 @@ import com.atech.bit.databinding.FragmentLibraryBinding
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.CalendarReminder
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
-import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.navigate
 import com.atech.theme.set
@@ -29,7 +27,7 @@ class LibraryFragment : BaseFragment(R.layout.fragment_library,Axis.Y) {
     private val viewModel: LibraryViewModel by activityViewModels()
     private lateinit var libraryAdapter: LibraryAdapter
     private var list: List<LibraryModel> = emptyList()
- 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {

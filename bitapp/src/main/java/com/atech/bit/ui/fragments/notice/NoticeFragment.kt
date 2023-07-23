@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,12 +16,11 @@ import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.adapters.NoticeEventAdapter
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
 import com.atech.theme.databinding.RowNoticeEventBinding
-import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.getDate
 import com.atech.theme.loadImage

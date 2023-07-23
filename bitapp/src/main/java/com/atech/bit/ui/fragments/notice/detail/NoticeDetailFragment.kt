@@ -5,7 +5,6 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,9 +18,8 @@ import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.utils.DataState
 import com.atech.core.utils.MAX_SPAWN
 import com.atech.theme.Axis
-import com.atech.theme.BaseFragment
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
-import com.atech.theme.enterTransition
 import com.atech.theme.getDate
 import com.atech.theme.loadImage
 import com.atech.theme.openCustomChromeTab
