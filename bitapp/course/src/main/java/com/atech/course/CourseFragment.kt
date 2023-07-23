@@ -6,18 +6,17 @@ import android.viewbinding.library.fragment.viewBinding
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.retrofit.client.CourseDetail
 import com.atech.core.utils.DataState
 import com.atech.course.databinding.FragmentCourseBinding
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToastLength
 import com.atech.theme.addViews
 import com.atech.theme.customBackPress
-import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.navigate
@@ -27,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class CourseFragment : Fragment(R.layout.fragment_course) {
+class CourseFragment : BaseFragment(R.layout.fragment_course, Axis.Y) {
     private val binding: FragmentCourseBinding by viewBinding()
 
     private val mainActivity: ParentActivity by lazy {
@@ -37,11 +36,6 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
     @Inject
     lateinit var cases: ApiCases
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -90,7 +84,7 @@ class CourseFragment : Fragment(R.layout.fragment_course) {
             courseName,
             totalSemester
         )
-       navigate(action)
+        navigate(action)
     }
 
     private fun FragmentCourseBinding.openDrawer() =

@@ -5,7 +5,6 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
@@ -13,23 +12,19 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewImageBinding
 import com.atech.bit.utils.isColorDark
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.changeBottomNavImageView
 import com.atech.theme.changeStatusBarToolbarColorImageView
-import com.atech.theme.enterTransition
 import com.atech.theme.loadImage
 import com.atech.theme.loadImageBitMap
 import com.atech.theme.setStatusBarUiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
+class ViewImageFragment : BaseFragment(R.layout.fragment_view_image, Axis.Z) {
     private val binding: FragmentViewImageBinding by viewBinding()
     private val args: ViewImageFragmentArgs by navArgs()
     private var isChange: Boolean? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.Z)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,7 +55,10 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                                     com.atech.theme.R.color.white
                                 ).also {
                                     binding.textViewTitle.setTextColor(
-                                        ContextCompat.getColor(requireContext(), com.atech.theme.R.color.white)
+                                        ContextCompat.getColor(
+                                            requireContext(),
+                                            com.atech.theme.R.color.white
+                                        )
                                     )
                                 }
 
@@ -70,7 +68,10 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                                     com.atech.theme.R.color.black
                                 ).apply {
                                     binding.textViewTitle.setTextColor(
-                                        ContextCompat.getColor(requireContext(), com.atech.theme.R.color.black)
+                                        ContextCompat.getColor(
+                                            requireContext(),
+                                            com.atech.theme.R.color.black
+                                        )
                                     )
                                 }
                         }

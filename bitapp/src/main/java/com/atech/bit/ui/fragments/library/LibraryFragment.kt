@@ -13,6 +13,7 @@ import com.atech.bit.databinding.FragmentLibraryBinding
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.CalendarReminder
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
@@ -22,17 +23,13 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LibraryFragment : Fragment(R.layout.fragment_library) {
+class LibraryFragment : BaseFragment(R.layout.fragment_library,Axis.Y) {
 
     private val binding: FragmentLibraryBinding by viewBinding()
     private val viewModel: LibraryViewModel by activityViewModels()
     private lateinit var libraryAdapter: LibraryAdapter
     private var list: List<LibraryModel> = emptyList()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
-
+ 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {

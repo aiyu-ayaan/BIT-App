@@ -15,7 +15,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
@@ -27,10 +26,10 @@ import com.atech.core.utils.DEFAULT_PAIR
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
 import com.atech.core.utils.convertLongToTime
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.compareDifferenceInDays
 import com.atech.theme.customBackPress
-import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenStarted
 import com.atech.theme.openAppSettings
 import com.atech.theme.set
@@ -44,7 +43,7 @@ import java.util.Calendar
 import java.util.Date
 
 @AndroidEntryPoint
-class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details) {
+class AddEditFragment : BaseFragment(R.layout.fragment_add_edit_library_book_details, Axis.X) {
 
     private val binding: FragmentAddEditLibraryBookDetailsBinding by viewBinding()
     private val viewModel: AddEditViewModel by viewModels()
@@ -70,10 +69,6 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

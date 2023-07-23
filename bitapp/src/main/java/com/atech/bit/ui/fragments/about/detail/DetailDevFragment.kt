@@ -12,6 +12,7 @@ import com.atech.bit.R
 import com.atech.bit.databinding.FragmentDetailDevBinding
 import com.atech.core.retrofit.client.Devs
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.loadCircular
@@ -22,7 +23,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
+class DetailDevFragment : BaseFragment(R.layout.fragment_detail_dev,Axis.X) {
 
     private val binding: FragmentDetailDevBinding by viewBinding()
     private val args: DetailDevFragmentArgs by navArgs()
@@ -31,10 +32,7 @@ class DetailDevFragment : Fragment(R.layout.fragment_detail_dev) {
         args.dev
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

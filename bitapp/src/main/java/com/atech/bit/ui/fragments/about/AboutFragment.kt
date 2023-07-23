@@ -18,6 +18,7 @@ import com.atech.core.retrofit.client.Devs
 import com.atech.core.utils.DataState
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.R
 import com.atech.theme.ToolbarData
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
@@ -37,17 +38,14 @@ import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AboutFragment : Fragment(R.layout.layout_recycler_view) {
+class AboutFragment : BaseFragment(R.layout.layout_recycler_view,Axis.Y) {
     private val binding: LayoutRecyclerViewBinding by viewBinding()
 
     @Inject
     lateinit var apiCases: ApiCases
 
     private lateinit var aboutUsAdapter: AboutUsAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -3,24 +3,20 @@ package com.atech.bit.ui.fragments.about.acknowledgements
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.R
 import com.atech.theme.ToolbarData
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
-import com.atech.theme.enterTransition
 import com.atech.theme.openLinkToDefaultApp
 import com.atech.theme.set
 
-class CreditsFragment : Fragment(R.layout.layout_recycler_view) {
+class CreditsFragment : BaseFragment(R.layout.layout_recycler_view, Axis.X) {
     private val binding: LayoutRecyclerViewBinding by viewBinding()
     private lateinit var creditsAdapter: CreditsAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

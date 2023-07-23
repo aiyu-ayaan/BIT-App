@@ -17,6 +17,7 @@ import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.R
 import com.atech.theme.ToolbarData
 import com.atech.theme.adapters.NoticeEventAdapter
@@ -33,7 +34,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class EventFragment : Fragment(R.layout.layout_recycler_view) {
+class EventFragment : BaseFragment(R.layout.layout_recycler_view,Axis.Y) {
 
     private val binding: LayoutRecyclerViewBinding by viewBinding()
     private val viewModel: EventViewModel by viewModels()
@@ -44,10 +45,6 @@ class EventFragment : Fragment(R.layout.layout_recycler_view) {
     private lateinit var eventAdapter: NoticeEventAdapter<EventModel>
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

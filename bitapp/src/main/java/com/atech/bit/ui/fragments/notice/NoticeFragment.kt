@@ -17,6 +17,7 @@ import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.utils.TAGS
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.adapters.NoticeEventAdapter
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
@@ -31,16 +32,12 @@ import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoticeFragment : Fragment(com.atech.theme.R.layout.layout_recycler_view) {
+class NoticeFragment : BaseFragment(com.atech.theme.R.layout.layout_recycler_view,Axis.Z) {
 
     private val viewModel: NoticeViewModel by viewModels()
     private val binding: LayoutRecyclerViewBinding by viewBinding()
 
     private lateinit var noticeAdapter: NoticeEventAdapter<NoticeModel>
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.Z)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

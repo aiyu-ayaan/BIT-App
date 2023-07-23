@@ -19,6 +19,7 @@ import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.utils.DataState
 import com.atech.core.utils.MAX_SPAWN
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.getDate
@@ -29,14 +30,9 @@ import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoticeDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
+class NoticeDetailFragment : BaseFragment(R.layout.fragment_notice_event_detail,Axis.X) {
     private val binding: FragmentNoticeEventDetailBinding by viewBinding()
     private val viewModel: NoticeDetailViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

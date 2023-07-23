@@ -15,6 +15,7 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.view_syllabus.online.OnlineSyllabusFragment
 import com.atech.syllabus.setFragment
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.set
@@ -22,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ViewSyllabusFragment : Fragment(R.layout.fragment_view_offline_syllabus) {
+class ViewSyllabusFragment : BaseFragment(R.layout.fragment_view_offline_syllabus,Axis.X) {
     private val binding: FragmentViewOfflineSyllabusBinding by viewBinding()
 
     private val args: ViewSyllabusFragmentArgs by navArgs()
@@ -46,11 +47,6 @@ class ViewSyllabusFragment : Fragment(R.layout.fragment_view_offline_syllabus) {
             }
     }
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

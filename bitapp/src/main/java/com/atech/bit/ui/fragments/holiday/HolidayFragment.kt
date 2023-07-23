@@ -11,6 +11,8 @@ import com.atech.bit.databinding.FragmentHolidayBinding
 import com.atech.bit.ui.fragments.holiday.adapter.HolidayAdapter
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.utils.DataState
+import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenResumed
@@ -24,7 +26,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HolidayFragment : Fragment(R.layout.fragment_holiday) {
+class HolidayFragment : BaseFragment(R.layout.fragment_holiday, Axis.Y) {
     private val binding: FragmentHolidayBinding by viewBinding()
 
     @Inject
@@ -34,10 +36,6 @@ class HolidayFragment : Fragment(R.layout.fragment_holiday) {
 
     private val query = MutableStateFlow("main")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

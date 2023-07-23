@@ -12,6 +12,7 @@ import com.atech.core.retrofit.ApiCases
 import com.atech.core.retrofit.client.Society
 import com.atech.core.utils.DataState
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.R
 import com.atech.theme.ToolbarData
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
@@ -26,7 +27,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SocietyFragment : Fragment(R.layout.layout_recycler_view) {
+class SocietyFragment : BaseFragment(R.layout.layout_recycler_view,Axis.Y) {
     private val binding: LayoutRecyclerViewBinding by viewBinding()
 
 
@@ -34,10 +35,6 @@ class SocietyFragment : Fragment(R.layout.layout_recycler_view) {
     lateinit var cases: ApiCases
 
     private lateinit var societyAdapter: SocietyAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

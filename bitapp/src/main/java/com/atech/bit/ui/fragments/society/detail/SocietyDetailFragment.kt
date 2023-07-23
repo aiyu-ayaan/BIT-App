@@ -9,16 +9,15 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyDetailBinding
 import com.atech.bit.utils.navigateToViewImage
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.customBackPress
-import com.atech.theme.enterTransition
 import com.atech.theme.getColorForText
 import com.atech.theme.getColorFromAttr
 import com.atech.theme.getRgbFromHex
@@ -28,7 +27,7 @@ import com.atech.theme.set
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SocietyDetailFragment : Fragment(R.layout.fragment_society_detail) {
+class SocietyDetailFragment : BaseFragment(R.layout.fragment_society_detail, Axis.X) {
     private lateinit var handler: Handler
     private lateinit var insta: String
 
@@ -36,10 +35,7 @@ class SocietyDetailFragment : Fragment(R.layout.fragment_society_detail) {
     private val binding: FragmentSocietyDetailBinding by viewBinding()
 
     private val society by lazy { args.society }
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -128,12 +124,16 @@ class SocietyDetailFragment : Fragment(R.layout.fragment_society_detail) {
 
 
     private fun FragmentSocietyDetailBinding.setToolbar() = this.toolbar.apply {
-        set(ToolbarData(titleString = society.name, action = findNavController()::navigateUp
-            , endIcon = com.atech.theme.R.drawable.ic_instagram, endAction = {
-            society.ins.openLinks(
-                requireActivity(), com.atech.theme.R.string.no_intent_available
-            )
-        }))
+        set(
+            ToolbarData(titleString = society.name,
+                action = findNavController()::navigateUp,
+                endIcon = com.atech.theme.R.drawable.ic_instagram,
+                endAction = {
+                    society.ins.openLinks(
+                        requireActivity(), com.atech.theme.R.string.no_intent_available
+                    )
+                })
+        )
     }
 
     @Suppress("DEPRECATION")

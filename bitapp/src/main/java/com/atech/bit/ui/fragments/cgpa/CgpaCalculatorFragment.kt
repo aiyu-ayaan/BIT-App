@@ -14,6 +14,8 @@ import com.atech.core.datastore.DataStoreCases
 import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.firebase.auth.UpdateDataType
 import com.atech.core.utils.TAGS
+import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.launchWhenCreated
@@ -28,7 +30,7 @@ import javax.inject.Inject
 private const val TAG = "CgpaCalculatorFragment"
 
 @AndroidEntryPoint
-class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa) {
+class CgpaCalculatorFragment : BaseFragment(R.layout.fragment_cgpa, Axis.Y) {
     private val binding: FragmentCgpaBinding by viewBinding()
 
     @Inject
@@ -40,10 +42,6 @@ class CgpaCalculatorFragment : Fragment(R.layout.fragment_cgpa) {
     private var cgpa: Cgpa = Cgpa()
     private lateinit var course: String
     private lateinit var cgpaAdapter: CgpaAdapter
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

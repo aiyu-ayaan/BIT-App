@@ -6,7 +6,6 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +27,9 @@ import com.atech.course.utils.SyllabusEnableModel
 import com.atech.course.utils.compareToCourseSem
 import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToolbarData
-import com.atech.theme.customBackPress
-import com.atech.theme.enterTransition
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.launchWhenStarted
@@ -54,7 +52,7 @@ import kotlinx.coroutines.flow.flowOf
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
+class SemChooseFragment : BaseFragment(R.layout.fragment_sem_choose, Axis.X) {
 
     private val binding: FragmentSemChooseBinding by viewBinding()
     private val args: SemChooseFragmentArgs by navArgs()
@@ -105,10 +103,7 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
 
 
     private val sem = MutableStateFlow("")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -120,10 +115,6 @@ class SemChooseFragment : Fragment(R.layout.fragment_sem_choose) {
             setRecyclerView()
         }
         observeData()
-
-        customBackPress {
-            findNavController().navigateUp()
-        }
     }
 
     private fun FragmentSemChooseBinding.setRecyclerView() = this.recyclerViewSemChoose.apply {

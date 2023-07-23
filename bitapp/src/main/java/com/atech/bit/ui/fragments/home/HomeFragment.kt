@@ -25,6 +25,7 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
 import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
+import com.atech.theme.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
 import com.atech.theme.enterTransition
@@ -41,7 +42,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment(R.layout.fragment_home) {
+class HomeFragment : BaseFragment(R.layout.fragment_home,Axis.Y) {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by viewModels()
 
@@ -56,11 +57,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     @Inject
     lateinit var authUseCases: AuthUseCases
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
