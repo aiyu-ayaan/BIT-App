@@ -280,7 +280,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     }
 
     private fun observeData() = launchWhenCreated {
-        viewModel.homeScreenData.collectLatest {
+        viewModel.data.collectLatest {
             homeAdapter.items = it.toMutableList()
             try {
                 binding.loading.root.isVisible = it.isEmpty()
@@ -310,7 +310,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
             viewModel.isPermissionGranted.value = false
         }
     }
-
 
 
 //    ________________________________________ Search _______________________________________________

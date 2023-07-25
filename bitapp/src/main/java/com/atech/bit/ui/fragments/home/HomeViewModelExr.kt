@@ -166,7 +166,7 @@ object HomeViewModelExr {
     )
 
     //___________________________________________ Library ________________________________________________
-    private fun List<LibraryModel>.filter3Day() = filter { book ->
+    fun List<LibraryModel>.filter3Day() = filter { book ->
         val diff = Date(book.returnDate).compareDifferenceInDays(
             Date(System.currentTimeMillis())
         )

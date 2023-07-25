@@ -14,6 +14,7 @@ data class ApiCases @Inject constructor(
     val syllabusMarkdown: FetchSyllabusMarkdown,
     val course: FetchCourse,
     val administration: FetchAdministration,
+    val fetchSyllabusAPI: FetchSyllabusAPI
 )
 
 class FetchAboutUs @Inject constructor(
@@ -89,4 +90,13 @@ class FetchAdministration @Inject constructor(
     suspend operator fun invoke() = networkFetchData(fetch = {
         api.getAdministration()
     })
+}
+
+class FetchSyllabusAPI @Inject constructor(
+    private val api: BITApiClient
+) {
+    suspend operator fun invoke(id: String) = api.getSubjects(
+        course = id.replace("\\d".toRegex(), ""),
+        courseYear = id
+    )
 }

@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
+import kotlin.coroutines.suspendCoroutine
 
 
 inline fun <ResponseObject> networkFetchData(
@@ -43,4 +44,12 @@ sealed class DataState<out T> {
 fun <T> DataState<T>.getData(): T? = when (this) {
     is DataState.Success -> data
     else -> null
+}
+
+suspend fun <T> DataState<T>.getDataContinuation(): T? = suspendCoroutine {
+    when (this) {
+        is DataState.Success -> it.resumeWith(Result.success(data))
+        is DataState.Error -> it.resumeWith(Result.failure(exception))
+        else -> Unit
+    }
 }

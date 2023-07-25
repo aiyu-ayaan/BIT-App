@@ -25,7 +25,8 @@ data class FirebaseCases @Inject constructor(
     val getUserSaveDetails: GetUserSaveDetails,
     val getUserDataFromDb: GetUserDataFromDb,
     val uploadData: UploadData,
-    val deleteUser: DeleteUser
+    val deleteUser: DeleteUser,
+    val eventWithAttach: EventWithAttach
 )
 
 
@@ -76,6 +77,37 @@ class GetAttach @Inject constructor(
         }
     } catch (e: Exception) {
         throw e
+    }
+}
+
+class EventWithAttach @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+
+
+    operator fun invoke(
+        listener: (List<EventModel>) -> Unit
+    ) {
+        db.collection(Db.Event.value).addSnapshotListener { value, error ->
+            if (error != null) {
+                listener(emptyList())
+                return@addSnapshotListener
+            }
+            if (value == null) {
+                listener(emptyList())
+                return@addSnapshotListener
+            }
+            val list = value.toObjects(EventModel::class.java)
+            list.map { e ->
+                db.collection(Db.Event.value).document(e.path!!).collection("attach")
+                    .get().addOnSuccessListener { snap ->
+                        e.attach = snap.toObjects(Attach::class.java)
+                        listener(list)
+                    }.addOnFailureListener {
+                        listener(emptyList())
+                    }
+            }
+        }
     }
 }
 

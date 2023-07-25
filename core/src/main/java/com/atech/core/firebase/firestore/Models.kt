@@ -14,6 +14,7 @@ data class EventModel(
     val path: String? = null,
     val society: String? = null,
     val video_link: String? = null,
+    var attach: List<Attach>? = null,
 )
 
 

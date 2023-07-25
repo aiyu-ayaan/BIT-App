@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingHorizontal="@dimen/grid_2"
+        android:layoutAnimation="@anim/layout_animation"
         android:paddingVertical="@dimen/grid_0_25"
         android:paddingBottom="100dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />

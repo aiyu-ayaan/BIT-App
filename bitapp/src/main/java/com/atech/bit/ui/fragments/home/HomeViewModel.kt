@@ -5,14 +5,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.devNote
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.getHoliday
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSource
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSourceSearch
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.onlineDataSource
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.topView
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
-import com.atech.bit.utils.combine
+import com.atech.bit.ui.fragments.home.util.GetHomeData
 import com.atech.core.data.room.library.LibraryDao
 import com.atech.core.datastore.DataStoreCases
 import com.atech.core.datastore.FilterPreferences
@@ -23,6 +21,7 @@ import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.retrofit.client.Holiday
 import com.atech.core.room.attendance.AttendanceDao
+import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULT_QUERY
@@ -36,12 +35,14 @@ import com.atech.course.utils.compareToCourseSem
 import com.atech.theme.compareDifferenceInDays
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
@@ -51,6 +52,18 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+
+class FilterPreferences(
+    val courseWithSem: String,
+    val isOnline: Boolean,
+    val isPermissionGranted: Boolean,
+    val attendance: List<AttendanceModel>,
+    val library: List<LibraryModel>,
+    val syllabusDao: SyllabusDao,
+    val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
+    val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
+    val api: ApiCases
+)
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -77,76 +90,100 @@ class HomeViewModel @Inject constructor(
     var courseSem = ""
     var defPercentage = 7
 
-    init {
-        combine(
-            dataStores.asFlow(),
-            isOnline.combine(isPermissionGranted) { isOnline, isPermissionGranted ->
-                isOnline to isPermissionGranted
-            },
-            firebaseCases.getData.invoke(
-                EventModel::class.java, Db.Event
-            ),
-            syllabusDao.getSyllabusHome(
-                "", ""
-            ),
-            attendanceDao.getAllAttendance(),
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val data = combine(
+        dataStores.asFlow(),
+        isOnline.combine(isPermissionGranted)
+        { isOnline, isPermissionGranted ->
+            isOnline to isPermissionGranted
+        },
+        attendanceDao.getAllAttendance().combine(
             libraryDao.getAll()
-        ) { dataStores, (isOnline, isPermissionGranted), events, _, attendance, library ->
-            eventData = events?.toMutableList() ?: mutableListOf()
-            val homeItems = mutableListOf<HomeItems>()
-            topView(homeItems, library, isOnline,isPermissionGranted)
-            getSyllabusData(isOnline, dataStores).await().let {
-                if (it.isNotEmpty()) homeItems.addAll(
-                    it
-                )
-                else homeItems.add(HomeItems.NoData)
-            }
-            val holidays = getHoliday(
-                api,
-                calenderQuery,
-            )
-            if (holidays.isNotEmpty()) {
-                homeItems.add(HomeItems.Title("Holiday"))
-                homeItems.addAll(
-                    holidays
-                )
-            }
-            events?.filter {
-                Date().compareDifferenceInDays(Date(it.created ?: 0)) <= 7
-            }?.let {
-                if (it.isNotEmpty()) {
-                    homeItems.add(HomeItems.Title("Event"))
-                    homeItems.add(
-                        HomeItems.Event(getEvents(it).also { list ->
-                            list.reverse()
-                        })
-                    )
-                }
-            }
+        ) { attendance, library ->
+            attendance to library
+        },
+        syllabusDao.getSyllabusHome(
+            "", ""
+        ),
+    ) { pref, (isOnline, permission), (attendance, library), _ ->
+        FilterPreferences(
+            pref.courseWithSem, isOnline, permission,
+            attendance, library, syllabusDao, offlineSyllabusUIMapper,
+            onlineSyllabusUIMapper, api
+        )
+    }.flatMapLatest {
+        GetHomeData(it).getHomeItems()
+    }
 
-            if (!dataStores.cgpa.isAllZero) {
-                homeItems.add(HomeItems.Title("CGPA"))
-                homeItems.add(HomeItems.Cgpa(dataStores.cgpa))
-            }
-            if (attendance.isNotEmpty()) {
-                homeItems.add(HomeItems.Title("Attendance"))
-                val totalClass = attendance.sumOf { it.total }
-                val totalPresent = attendance.sumOf { it.present }
-                val data = HomeViewModelExr.AttendanceHomeModel(
-                    totalClass, totalPresent, attendance
-                )
-                homeItems.add(HomeItems.Attendance(data))
-            }
-//            End
-            homeItems.add(devNote)
-            homeItems
-        }.also {
-            viewModelScope.launch(Dispatchers.IO) {
-                it.collectLatest {
-                    _homeScreenData.value = it
-                }
-            }
-        }
+    init {
+
+//        combine(
+//            dataStores.asFlow(),
+//            isOnline.combine(isPermissionGranted) { isOnline, isPermissionGranted ->
+//                isOnline to isPermissionGranted
+//            },
+//            syllabusDao.getSyllabusHome(
+//                "", ""
+//            ),
+//            attendanceDao.getAllAttendance(),
+//            libraryDao.getAll()
+//        ) { dataStores, (isOnline, isPermissionGranted), _, attendance, library ->
+//            val homeItems = mutableListOf<HomeItems>()
+//            topView(homeItems, library, isOnline, isPermissionGranted)
+////            getSyllabusData(isOnline, dataStores).await().let {
+////                if (it.isNotEmpty()) homeItems.addAll(
+////                    it
+////                )
+////                else homeItems.add(HomeItems.NoData)
+////            }
+////            val holidays = getHoliday(
+////                api,
+////                calenderQuery,
+////            )
+////            if (holidays.isNotEmpty()) {
+////                homeItems.add(HomeItems.Title("Holiday"))
+////                homeItems.addAll(
+////                    holidays
+////                )
+////            }
+//            firebaseCases.eventWithAttach.invoke { events ->
+//                events.filter {
+//                    Date().compareDifferenceInDays(Date(it.created ?: 0)) <= 7
+//                }.let {
+//                    if (it.isNotEmpty()) {
+//                        homeItems.add(HomeItems.Title("Event"))
+//                        homeItems.add(/* HomeItems.Event(getEvents(it).also { list ->
+//                                         list.reverse()
+//                                     })*/
+//                            HomeItems.Event(events.mapToEventHomeModel())
+//                        )
+//                    }
+//                }
+//            }
+//
+//            if (!dataStores.cgpa.isAllZero) {
+//                homeItems.add(HomeItems.Title("CGPA"))
+//                homeItems.add(HomeItems.Cgpa(dataStores.cgpa))
+//            }
+//            if (attendance.isNotEmpty()) {
+//                homeItems.add(HomeItems.Title("Attendance"))
+//                val totalClass = attendance.sumOf { it.total }
+//                val totalPresent = attendance.sumOf { it.present }
+//                val data = HomeViewModelExr.AttendanceHomeModel(
+//                    totalClass, totalPresent, attendance
+//                )
+//                homeItems.add(HomeItems.Attendance(data))
+//            }
+////            End
+//            homeItems.add(devNote)
+//            homeItems
+//        }.also {
+//            viewModelScope.launch(Dispatchers.IO) {
+//                it.collectLatest {
+//                    _homeScreenData.value = it
+//                }
+//            }
+//        }
 
 //        __________________________________ Search _______________________________________________
         viewModelScope.launch(Dispatchers.IO) {
@@ -390,6 +427,16 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
+    private fun List<EventModel>.mapToEventHomeModel() = map {
+        HomeViewModelExr.EventHomeModel(
+            it.title ?: "",
+            it.content ?: "",
+            it.society ?: "",
+            it.logo_link ?: "",
+            it.attach?.getOrNull(0)?.link ?: "",
+            it.path ?: "",
+            it.created ?: 0L
+        )
+    }
 }
 
