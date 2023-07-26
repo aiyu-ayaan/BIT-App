@@ -17,6 +17,7 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.compareDifferenceInDays
+import com.atech.theme.isAPI33AndUp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.awaitClose
@@ -51,15 +52,17 @@ class GetHomeData(
     }.flowOn(Dispatchers.IO)
 
     private fun notificationAccess(list: MutableList<HomeItems>) {
-        if (!filterPreferences.isPermissionGranted) list.add(
-            HomeItems.Highlight(
-                CardHighlightModel(
-                    "Notification is disabled",
-                    "Allow Notification to get latest notice and announcement",
-                    R.drawable.ic_notice
+        isAPI33AndUp {
+            if (!filterPreferences.isPermissionGranted) list.add(
+                HomeItems.Highlight(
+                    CardHighlightModel(
+                        "Notification is disabled",
+                        "Allow Notification to get latest notice and announcement",
+                        R.drawable.ic_notice
+                    )
                 )
             )
-        )
+        }
     }
 
     private suspend fun getLibraryData(
