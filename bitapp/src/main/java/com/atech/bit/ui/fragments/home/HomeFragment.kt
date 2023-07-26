@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
@@ -217,6 +218,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
             onEditClick = ::navigateToEditSyllabus,
             onEnableNoticeClick = ::enableNotificationClick
         ).also { homeAdapter = it }
+        homeAdapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         layoutManager = LinearLayoutManager(context)
         observeData()
     }
@@ -280,6 +283,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     }
 
     private fun observeData() = launchWhenCreated {
+        viewModel.observerEventSearch()
         viewModel.data.collectLatest {
             homeAdapter.items = it.toMutableList()
             try {

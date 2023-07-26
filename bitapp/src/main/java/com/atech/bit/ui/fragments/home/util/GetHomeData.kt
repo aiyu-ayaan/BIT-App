@@ -1,9 +1,14 @@
 package com.atech.bit.ui.fragments.home.util
 
 import com.atech.bit.ui.fragments.home.FilterPreferences
+import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.utils.HomeTopModel
+import com.atech.core.firebase.firestore.EventModel
+import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.retrofit.ApiCases
+import com.atech.core.retrofit.client.Holiday
+import com.atech.core.retrofit.client.HolidayModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
@@ -19,7 +24,10 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import java.util.Calendar
 import java.util.Date
+import java.util.Locale
+import kotlin.coroutines.suspendCoroutine
 
 class GetHomeData(
     private val filterPreferences: FilterPreferences,
@@ -30,33 +38,28 @@ class GetHomeData(
         notificationAccess(list)
         getLibraryData(filterPreferences.library).also { list.addAll(it) }
         list.add(getTopSetting(filterPreferences.isOnline))
-        getSyllabus(
-            filterPreferences.isOnline,
-            filterPreferences.courseWithSem,
-            filterPreferences.syllabusDao,
-            filterPreferences.api,
-            filterPreferences.offlineSyllabusUIMapper,
-            filterPreferences.onlineSyllabusUIMapper
-        ).also { list.addAll(it) }
-
-
-
+        getSyllabus().also { list.addAll(it) }
+        getHoliday().also { list.addAll(it) }
+        getEvent()?.also {
+            list.addAll(it)
+        }
+        getCGPA().also { list.addAll(it) }
+        getAttendance().also { list.addAll(it) }
         list.add(HomeItems.DevNote)
         send(list)
         awaitClose()
     }.flowOn(Dispatchers.IO)
 
     private fun notificationAccess(list: MutableList<HomeItems>) {
-        if (!filterPreferences.isPermissionGranted)
-            list.add(
-                HomeItems.Highlight(
-                    CardHighlightModel(
-                        "Notification is disabled",
-                        "Allow Notification to get latest notice and announcement",
-                        R.drawable.ic_notice
-                    )
+        if (!filterPreferences.isPermissionGranted) list.add(
+            HomeItems.Highlight(
+                CardHighlightModel(
+                    "Notification is disabled",
+                    "Allow Notification to get latest notice and announcement",
+                    R.drawable.ic_notice
                 )
             )
+        )
     }
 
     private suspend fun getLibraryData(
@@ -79,31 +82,26 @@ class GetHomeData(
 
     private fun getTopSetting(
         isOnline: Boolean
-    ) =
-        HomeItems.Settings(
-            HomeTopModel(
-                title = "Your Subjects",
-                isOnline = isOnline
-            )
+    ) = HomeItems.Settings(
+        HomeTopModel(
+            title = "Your Subjects", isOnline = isOnline
         )
+    )
 
-    private suspend fun getSyllabus(
-        isOnline: Boolean,
-        courseSem: String,
-        syllabusDao: SyllabusDao,
-        apiCases: ApiCases,
-        offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
-        onlineSyllabusUIMapper: OnlineSyllabusUIMapper
-    ) =
-        if (!isOnline)
-            getOfflineData(courseSem, syllabusDao, offlineSyllabusUIMapper)
-        else getOnlineSyllabusData(courseSem, apiCases, onlineSyllabusUIMapper)
+    private suspend fun getSyllabus() = if (!filterPreferences.isOnline) getOfflineData(
+        filterPreferences.courseWithSem,
+        filterPreferences.syllabusDao,
+        filterPreferences.offlineSyllabusUIMapper
+    )
+    else getOnlineSyllabusData(
+        filterPreferences.courseWithSem,
+        filterPreferences.api,
+        filterPreferences.onlineSyllabusUIMapper
+    )
 
 
     private suspend fun getOnlineSyllabusData(
-        courseSem: String,
-        apiCases: ApiCases,
-        onlineSyllabusUIMapper: OnlineSyllabusUIMapper
+        courseSem: String, apiCases: ApiCases, onlineSyllabusUIMapper: OnlineSyllabusUIMapper
     ): List<HomeItems> = coroutineScope {
         withContext(Dispatchers.IO) {
             val list = mutableListOf<HomeItems>()
@@ -113,11 +111,9 @@ class GetHomeData(
                         Triple(
                             onlineSyllabusUIMapper.mapFromEntityList(
                                 (syllabus.semester?.subjects?.theory) ?: emptyList()
-                            ),
-                            onlineSyllabusUIMapper.mapFromEntityList(
+                            ), onlineSyllabusUIMapper.mapFromEntityList(
                                 (syllabus.semester?.subjects?.lab) ?: emptyList()
-                            ),
-                            onlineSyllabusUIMapper.mapFromEntityList(
+                            ), onlineSyllabusUIMapper.mapFromEntityList(
                                 (syllabus.semester?.subjects?.pe) ?: emptyList()
                             )
                         ).mapToHomeItems()
@@ -140,28 +136,87 @@ class GetHomeData(
             val theory = async {
                 offlineSyllabusUIMapper.mapFromEntityList(
                     syllabusDao.getSyllabusHomeList(
-                        courseSem,
-                        "Theory"
+                        courseSem, "Theory"
                     )
                 )
             }
             val lab = async {
                 offlineSyllabusUIMapper.mapFromEntityList(
                     syllabusDao.getSyllabusHomeList(
-                        courseSem,
-                        "Lab"
+                        courseSem, "Lab"
                     )
                 )
             }
             val pe = async {
                 offlineSyllabusUIMapper.mapFromEntityList(
                     syllabusDao.getSyllabusHomeList(
-                        courseSem,
-                        "PE"
+                        courseSem, "PE"
                     )
                 )
             }
             Triple(theory.await(), lab.await(), pe.await()).mapToHomeItems()
+        }
+    }
+
+    private suspend fun getHoliday(): List<HomeItems> = coroutineScope {
+        withContext(Dispatchers.IO) {
+            val calenderQuery = filterPreferences.calendar.getDisplayName(
+                Calendar.MONTH, Calendar.LONG, Locale.ENGLISH
+            ) ?: "January"
+
+            val filter: (query: String, HolidayModel) -> List<Holiday> = { q, h ->
+                h.holidays.filter { holiday ->
+                    holiday.month == q
+                }
+            }
+            val task = async {
+                try {
+                    filterPreferences.api.fetchHolidayApi.invoke(
+                        calenderQuery, filter
+                    ).holidays.map {
+                        HomeItems.Holiday(it)
+                    }
+                } catch (e: Exception) {
+                    emptyList<HomeItems>()
+                }
+            }
+            task.await()
+        }
+    }.let {
+        if (it.isNotEmpty()) {
+            listOf(HomeItems.Title("Holiday")).plus(it)
+        } else emptyList()
+    }
+
+    private suspend fun getEvent(): List<HomeItems>? = coroutineScope {
+        withContext(Dispatchers.IO) {
+            suspendCoroutine { continuation ->
+                val list = mutableListOf<HomeItems>()
+                filterPreferences.firebaseCases.eventWithAttach.invoke { events ->
+                    events.filter {
+                        Date(
+                            System.currentTimeMillis()
+                        ).compareDifferenceInDays(Date(it.created!!)) <= 1
+                    }.map { event ->
+                        HomeViewModelExr.EventHomeModel(
+                            event.title ?: "",
+                            event.content ?: "",
+                            event.society ?: "",
+                            event.logo_link ?: "",
+                            if (event.attach?.isNotEmpty() == true) event.attach!![0].link
+                                ?: "" else "",
+                            event.path ?: "",
+                            event.created ?: 0L
+                        )
+                    }.let { events1 ->
+                        if (events1.isNotEmpty()) {
+                            list.add(HomeItems.Title("Events"))
+                            list.add(HomeItems.Event(events1))
+                            continuation.resumeWith(Result.success(list))
+                        } else continuation.resumeWith(Result.success(emptyList()))
+                    }
+                }
+            }
         }
     }
 
@@ -191,8 +246,51 @@ class GetHomeData(
         return list
     }
 
-    private fun emptyTriple(): Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>> =
-        Triple(emptyList(), emptyList(), emptyList())
+    private suspend fun getCGPA() = coroutineScope {
+        withContext(Dispatchers.IO) {
+            val task = async {
+                val list = mutableListOf<HomeItems>()
+                if (!filterPreferences.cgpa.isAllZero) {
+                    list.add(HomeItems.Title("CGPA"))
+                    list.add(HomeItems.Cgpa(filterPreferences.cgpa))
+                }
+                list
+            }
+            task.await()
+        }
+    }
 
+    private suspend fun getAttendance() = coroutineScope {
+        withContext(Dispatchers.IO) {
+            val task = async {
+                val list = mutableListOf<HomeItems>()
+                if (filterPreferences.attendance.isNotEmpty()) {
+                    list.add(HomeItems.Title("Attendance"))
+                    val totalClass = filterPreferences.attendance.sumOf { it.total }
+                    val totalPresent = filterPreferences.attendance.sumOf { it.present }
+                    val data = HomeViewModelExr.AttendanceHomeModel(
+                        totalClass, totalPresent, filterPreferences.attendance
+                    )
+                    list.add(HomeItems.Attendance(data))
+                }
+                list
+            }
+            task.await()
+        }
+    }
+
+    companion object {
+        suspend fun getEventSearch(
+            firebaseCases: FirebaseCases
+        ): List<EventModel> = coroutineScope {
+            withContext(Dispatchers.IO) {
+                suspendCoroutine { continuation ->
+                    firebaseCases.eventWithAttach.invoke { events ->
+                        continuation.resumeWith(Result.success(events))
+                    }
+                }
+            }
+        }
+    }
 }
 

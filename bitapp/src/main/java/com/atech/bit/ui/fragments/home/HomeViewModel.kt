@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.getHoliday
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSource
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSourceSearch
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.onlineDataSource
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.ui.fragments.home.util.GetHomeData
 import com.atech.core.data.room.library.LibraryDao
+import com.atech.core.datastore.Cgpa
 import com.atech.core.datastore.DataStoreCases
-import com.atech.core.datastore.FilterPreferences
 import com.atech.core.firebase.firestore.Db
 import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.firebase.firestore.FirebaseCases
@@ -32,7 +30,6 @@ import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.utils.SyllabusEnableModel
 import com.atech.course.utils.compareToCourseSem
-import com.atech.theme.compareDifferenceInDays
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -43,14 +40,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
 import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 import javax.inject.Inject
 
 class FilterPreferences(
@@ -62,9 +55,14 @@ class FilterPreferences(
     val syllabusDao: SyllabusDao,
     val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
     val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
-    val api: ApiCases
+    val api: ApiCases,
+    val calendar: Calendar,
+    val firebaseCases: FirebaseCases,
+    val attendanceDao: AttendanceDao,
+    val cgpa: Cgpa,
 )
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val api: ApiCases,
@@ -82,11 +80,7 @@ class HomeViewModel @Inject constructor(
     val isOnline = MutableStateFlow(false)
     val isPermissionGranted = MutableStateFlow(false)
     private val dataStores = dataStoreCases.getAll.invoke()
-    private val calenderQuery =
-        calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.ENGLISH) ?: "January"
-    private val _homeScreenData: MutableStateFlow<List<HomeItems>> = MutableStateFlow(emptyList())
     private var eventData: MutableList<EventModel> = mutableListOf()
-    val homeScreenData: Flow<List<HomeItems>> = _homeScreenData
     var courseSem = ""
     var defPercentage = 7
 
@@ -109,83 +103,20 @@ class HomeViewModel @Inject constructor(
         FilterPreferences(
             pref.courseWithSem, isOnline, permission,
             attendance, library, syllabusDao, offlineSyllabusUIMapper,
-            onlineSyllabusUIMapper, api
+            onlineSyllabusUIMapper, api, calendar, firebaseCases,
+            attendanceDao, pref.cgpa
         )
     }.flatMapLatest {
         GetHomeData(it).getHomeItems()
     }
 
+    fun observerEventSearch() = viewModelScope.launch {
+        GetHomeData.getEventSearch(firebaseCases).let {
+            eventData = it.toMutableList()
+        }
+    }
+
     init {
-
-//        combine(
-//            dataStores.asFlow(),
-//            isOnline.combine(isPermissionGranted) { isOnline, isPermissionGranted ->
-//                isOnline to isPermissionGranted
-//            },
-//            syllabusDao.getSyllabusHome(
-//                "", ""
-//            ),
-//            attendanceDao.getAllAttendance(),
-//            libraryDao.getAll()
-//        ) { dataStores, (isOnline, isPermissionGranted), _, attendance, library ->
-//            val homeItems = mutableListOf<HomeItems>()
-//            topView(homeItems, library, isOnline, isPermissionGranted)
-////            getSyllabusData(isOnline, dataStores).await().let {
-////                if (it.isNotEmpty()) homeItems.addAll(
-////                    it
-////                )
-////                else homeItems.add(HomeItems.NoData)
-////            }
-////            val holidays = getHoliday(
-////                api,
-////                calenderQuery,
-////            )
-////            if (holidays.isNotEmpty()) {
-////                homeItems.add(HomeItems.Title("Holiday"))
-////                homeItems.addAll(
-////                    holidays
-////                )
-////            }
-//            firebaseCases.eventWithAttach.invoke { events ->
-//                events.filter {
-//                    Date().compareDifferenceInDays(Date(it.created ?: 0)) <= 7
-//                }.let {
-//                    if (it.isNotEmpty()) {
-//                        homeItems.add(HomeItems.Title("Event"))
-//                        homeItems.add(/* HomeItems.Event(getEvents(it).also { list ->
-//                                         list.reverse()
-//                                     })*/
-//                            HomeItems.Event(events.mapToEventHomeModel())
-//                        )
-//                    }
-//                }
-//            }
-//
-//            if (!dataStores.cgpa.isAllZero) {
-//                homeItems.add(HomeItems.Title("CGPA"))
-//                homeItems.add(HomeItems.Cgpa(dataStores.cgpa))
-//            }
-//            if (attendance.isNotEmpty()) {
-//                homeItems.add(HomeItems.Title("Attendance"))
-//                val totalClass = attendance.sumOf { it.total }
-//                val totalPresent = attendance.sumOf { it.present }
-//                val data = HomeViewModelExr.AttendanceHomeModel(
-//                    totalClass, totalPresent, attendance
-//                )
-//                homeItems.add(HomeItems.Attendance(data))
-//            }
-////            End
-//            homeItems.add(devNote)
-//            homeItems
-//        }.also {
-//            viewModelScope.launch(Dispatchers.IO) {
-//                it.collectLatest {
-//                    _homeScreenData.value = it
-//                }
-//            }
-//        }
-
-//        __________________________________ Search _______________________________________________
         viewModelScope.launch(Dispatchers.IO) {
             searchQuery.combine(filterState) { q, f ->
                 q to f
@@ -226,52 +157,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
-    private suspend fun getEvents(
-        events: List<EventModel>?
-    ) = withContext(Dispatchers.IO) {
-        val list = mutableListOf<HomeViewModelExr.EventHomeModel>()
-        (events?.map { event ->
-            HomeViewModelExr.EventHomeModel(
-                event.title ?: "",
-                event.content ?: "",
-                event.society ?: "",
-                event.logo_link ?: "",
-                "",
-                event.path ?: "",
-                event.created ?: 0L
-            )
-        } ?: emptyList()).filter {
-            Date(
-                System.currentTimeMillis()
-            ).compareDifferenceInDays(Date(it.created)) <= 1
-        }.map {
-            firebaseCases.getAttach.invoke(Db.Event, it.path).map { attaches ->
-                it.copy(
-                    posterLink = if (attaches.size == 0) "" else attaches[0].link ?: "",
-                )
-            }
-        }.distinct().forEach {
-            viewModelScope.launch(Dispatchers.IO) {
-                it.collectLatest { event ->
-                    list.add(event)
-                }
-            }
-        }
-        list
-    }
-
-    private fun getSyllabusData(
-        isOnline: Boolean, pref: FilterPreferences
-    ) = viewModelScope.async(Dispatchers.IO) {
-        if (isOnline) {
-            onlineDataSource(
-                api, onlineSyllabusUIMapper, pref.courseWithSem
-            )
-        } else offlineDataSource(
-            syllabusDao, offlineSyllabusUIMapper, pref.courseWithSem
-        )
-    }
 
     fun deleteBook(libraryModel: LibraryModel) = viewModelScope.launch {
         libraryDao.deleteBook(libraryModel)

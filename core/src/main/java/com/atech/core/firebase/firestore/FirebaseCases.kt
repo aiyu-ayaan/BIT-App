@@ -1,5 +1,6 @@
 package com.atech.core.firebase.firestore
 
+import android.util.Log
 import com.atech.core.datastore.Cgpa
 import com.atech.core.firebase.auth.AttendanceUploadModel
 import com.atech.core.firebase.auth.UserData
@@ -91,13 +92,13 @@ class EventWithAttach @Inject constructor(
         db.collection(Db.Event.value).addSnapshotListener { value, error ->
             if (error != null) {
                 listener(emptyList())
-                return@addSnapshotListener
             }
             if (value == null) {
+                Log.d("AAA", "value: null")
                 listener(emptyList())
-                return@addSnapshotListener
             }
-            val list = value.toObjects(EventModel::class.java)
+            val list = value!!.toObjects(EventModel::class.java)
+            if (list.size == 0) listener(emptyList())
             list.map { e ->
                 db.collection(Db.Event.value).document(e.path!!).collection("attach")
                     .get().addOnSuccessListener { snap ->

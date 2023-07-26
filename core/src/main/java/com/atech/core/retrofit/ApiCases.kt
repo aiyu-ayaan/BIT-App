@@ -14,7 +14,8 @@ data class ApiCases @Inject constructor(
     val syllabusMarkdown: FetchSyllabusMarkdown,
     val course: FetchCourse,
     val administration: FetchAdministration,
-    val fetchSyllabusAPI: FetchSyllabusAPI
+    val fetchSyllabusAPI: FetchSyllabusAPI,
+    val fetchHolidayApi: FetchHolidayApi
 )
 
 class FetchAboutUs @Inject constructor(
@@ -43,6 +44,19 @@ class FetchHoliday @Inject constructor(
             HolidayModel(filter(query, holidays))
         }
     )
+}
+
+class FetchHolidayApi @Inject constructor(
+    private val api: BITApiClient
+) {
+    suspend operator fun invoke(
+        query: String = "all",
+        filter: (query: String, HolidayModel) -> List<Holiday> = { q, h ->
+            h.holidays.filter { holiday ->
+                holiday.type == q
+            }
+        }
+    ) = HolidayModel(filter(query, api.getHoliday()))
 }
 
 class FetchSociety @Inject constructor(

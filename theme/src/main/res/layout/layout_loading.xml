@@ -7,7 +7,6 @@
     android:layout_height="@dimen/image_view_log_in_size"
     android:layout_centerHorizontal="true"
     android:scaleType="centerCrop"
-    android:visibility="gone"
     app:lottie_autoPlay="true"
     app:lottie_fileName="loading_data.json"
     app:lottie_loop="true"
