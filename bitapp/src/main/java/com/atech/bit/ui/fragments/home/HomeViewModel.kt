@@ -58,7 +58,6 @@ class FilterPreferences(
     val api: ApiCases,
     val calendar: Calendar,
     val firebaseCases: FirebaseCases,
-    val attendanceDao: AttendanceDao,
     val cgpa: Cgpa,
 )
 
@@ -104,7 +103,7 @@ class HomeViewModel @Inject constructor(
             pref.courseWithSem, isOnline, permission,
             attendance, library, syllabusDao, offlineSyllabusUIMapper,
             onlineSyllabusUIMapper, api, calendar, firebaseCases,
-            attendanceDao, pref.cgpa
+            pref.cgpa
         )
     }.flatMapLatest {
         GetHomeData(it).getHomeItems()

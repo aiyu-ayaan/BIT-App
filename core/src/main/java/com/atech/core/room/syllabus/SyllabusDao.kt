@@ -28,7 +28,7 @@ interface SyllabusDao {
     @Query("SELECT * FROM syllabus_table WHERE subject LIKE '%'||:query||'%' OR code LIKE '%'||:query||'%' OR openCode LIKE '%'||:query||'%' OR shortName LIKE '%'||:query||'%'  ORDER BY openCode ASC")
     fun getSyllabusSearch(query: String): Flow<List<SyllabusModel>>
 
-    @Query("SELECT * FROM syllabus_table WHERE subject LIKE '%'||:query||'%' OR code LIKE '%'||:query||'%' OR openCode LIKE '%'||:query||'%' OR shortName LIKE '%'||:query||'%' AND type LIKE '%'||:type||'%'  ORDER BY openCode ASC")
+    @Query("SELECT * FROM syllabus_table WHERE (subject LIKE '%'||:query||'%' OR code LIKE '%'||:query||'%' OR openCode LIKE '%'||:query||'%' OR shortName LIKE '%'||:query||'%') AND type LIKE '%'||:type||'%'  ORDER BY openCode ASC")
     suspend fun getSyllabusSearchSync(query: String,type:String): List<SyllabusModel>
 
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:course||'%' ORDER BY openCode ASC")
