@@ -8,6 +8,7 @@ import android.viewbinding.library.activity.viewBinding
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -42,9 +43,13 @@ import com.atech.theme.exitTransition
 import com.atech.theme.isDark
 import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openLinks
+import com.atech.theme.openPlayStore
 import com.atech.theme.setStatusBarUiTheme
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.MaterialColors
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
+import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
@@ -72,7 +77,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
     @Inject
     lateinit var scope: CoroutineScope
 
-    private var onClick: (() -> Unit)? = null
+    private var reviewInfo: ReviewInfo? = null
+    private lateinit var reviewManager: ReviewManager
 
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
@@ -90,12 +96,11 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
             setHeader()
         }
         handleDestinationChange()
+        shareReview()
         if (isConnected()) {
             fetchRemoteConfigData()
-            if (auth.hasLogIn.invoke())
-                registerLifeCycleOwner(this@MainActivity)
-        } else
-            Log.d(TAGS.BIT_DEBUG.name, "onCreate: No Internet")
+            if (auth.hasLogIn.invoke()) registerLifeCycleOwner(this@MainActivity)
+        } else Log.d(TAGS.BIT_DEBUG.name, "onCreate: No Internet")
     }
 
     private fun ActivityMainBinding.bottomNavigationSetup() {
@@ -132,6 +137,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                 R.id.nav_issue -> this@MainActivity.openCustomChromeTab(resources.getString(com.atech.theme.R.string.issue_link))
                 R.id.nav_github -> this@MainActivity.openCustomChromeTab(resources.getString(com.atech.theme.R.string.github_link))
                 R.id.nav_whats_new -> this@MainActivity.openReleaseNotes()
+                R.id.nav_rate -> startReviewFlow()
                 else -> NavigationUI.onNavDestinationSelected(menu, navController)
             }
             true
@@ -172,8 +178,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                 )
             }
             when (destination.id) {
-                com.atech.login.R.id.loginFragment ->
-                    changeStatusBarToolbarColorImageView(MaterialColors.getColor(
+                com.atech.login.R.id.loginFragment -> changeStatusBarToolbarColorImageView(
+                    MaterialColors.getColor(
                         this, com.atech.theme.R.attr.appLogoBackground, Color.WHITE
                     ).also {
                         setStatusBarUiTheme(this, false)
@@ -185,12 +191,11 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                     setStatusBarUiTheme(this, !isDark())
                 })
 
-                in bottomSheetFragment() ->
-                    changeStatusBarToolbarColorImageView(MaterialColors.getColor(
-                        this, com.atech.theme.R.attr.bottomSheetBackground, Color.WHITE
-                    ).also {
-                        setStatusBarUiTheme(this, !isDark())
-                    })
+                in bottomSheetFragment() -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
+                    this, com.atech.theme.R.attr.bottomSheetBackground, Color.WHITE
+                ).also {
+                    setStatusBarUiTheme(this, !isDark())
+                })
 
                 else -> changeStatusBarToolbarColorImageView(MaterialColors.getColor(
                     this, android.viewbinding.library.R.attr.colorSurface, Color.WHITE
@@ -209,14 +214,11 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         return BuildConfig.VERSION_NAME
     }
 
-    override fun getNavigationFragmentId(): Int =
-        R.id.fragment
+    override fun getNavigationFragmentId(): Int = R.id.fragment
 
-    override fun getBottomNavigationFragment(): BottomNavigationView =
-        binding.bottomNavigation
+    override fun getBottomNavigationFragment(): BottomNavigationView = binding.bottomNavigation
 
-    override fun getHomeFragmentId(): Int =
-        R.id.homeFragment
+    override fun getHomeFragmentId(): Int = R.id.homeFragment
 
     override fun navigateToAboutUs(action: () -> Unit) {
         val headerView = binding.navigationView.getHeaderView(0)
@@ -238,23 +240,22 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         R.id.homeFragment, com.atech.course.R.id.courseFragment
     )
 
-    private fun fragmentWithBottomNavColor() =
-        listOf(
-            com.atech.attendance.R.id.attendanceFragment,
-            R.id.holidayFragment,
-            R.id.societyFragment,
-            R.id.societyDetailFragment,
-            R.id.eventFragment,
-            R.id.eventDetailFragment,
-            R.id.noticeFragment,
-            R.id.noticeDetailFragment,
-            R.id.libraryFragment,
-            R.id.addEditLibraryFragment,
-            R.id.cgpaCalculatorFragment,
-            com.atech.login.R.id.loginFragment,
-            R.id.aboutFragment,
-            R.id.creditsFragment
-        )
+    private fun fragmentWithBottomNavColor() = listOf(
+        com.atech.attendance.R.id.attendanceFragment,
+        R.id.holidayFragment,
+        R.id.societyFragment,
+        R.id.societyDetailFragment,
+        R.id.eventFragment,
+        R.id.eventDetailFragment,
+        R.id.noticeFragment,
+        R.id.noticeDetailFragment,
+        R.id.libraryFragment,
+        R.id.addEditLibraryFragment,
+        R.id.cgpaCalculatorFragment,
+        com.atech.login.R.id.loginFragment,
+        R.id.aboutFragment,
+        R.id.creditsFragment
+    )
 
     private fun bottomNavigationFragment() = listOf(
         R.id.homeFragment,
@@ -323,6 +324,23 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         binding.drawerLayout.setDrawerLockMode(lockMode)
     }
 
+    private fun shareReview() {
+        reviewManager = ReviewManagerFactory.create(this)
+        val managerInfoTask = reviewManager.requestReviewFlow()
+        managerInfoTask.addOnCompleteListener { task ->
+            if (task.isSuccessful) reviewInfo = task.result
+            else Log.e(TAGS.BIT_ERROR.name, "shareReview:  Can't open review manager")
+        }
+    }
+
+    private fun startReviewFlow() {
+        if (reviewInfo != null) reviewManager.launchReviewFlow(this, reviewInfo!!)
+            .addOnCompleteListener {
+                Toast.makeText(this, "Review is completed", Toast.LENGTH_SHORT).show()
+            }
+        else openPlayStore(packageName)
+    }
+
     //    --------------------------------- Remote Config ----------------------------------
     private fun fetchRemoteConfigData() {
         remoteConfigHelper.fetchData(failure = {
@@ -336,8 +354,11 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                 pref.edit().putString(SharePrefKeys.SyllabusVisibility.name, it).apply()
             }
             getInstances(
-                dao, auth, pref, remoteConfigHelper.getLong(RemoteConfigKeys.MAX_TIMES_UPLOAD.name)
-                    .toInt(), scope
+                dao,
+                auth,
+                pref,
+                remoteConfigHelper.getLong(RemoteConfigKeys.MAX_TIMES_UPLOAD.name).toInt(),
+                scope
             )
         }
     }

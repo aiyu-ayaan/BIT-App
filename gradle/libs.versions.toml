@@ -9,7 +9,7 @@ circleIndicatorVersion = "2.1.6"
 exoplayerPlayer = "1.1.0"
 graphVersion = "v3.1.0"
 glide = "4.15.1"
-hilt-android = "2.46.1"
+hilt-android = "2.47"
 kotlin = "1.7.20"
 core-ktx = "1.10.1"
 data-store="1.0.0"
@@ -27,12 +27,13 @@ navigation-ui = "2.6.0"
 recycler-view = "1.3.1-rc01"
 retrofit-version = "2.9.0"
 gson-version = "2.10.1"
-lottiVersion = "6.0.1"
+lottiVersion = "6.1.0"
 browser = "1.5.0"
 roomCompiler = "2.5.2"
 roomKtx = "2.5.2"
 palette_version = "28.0.0"
 play-service-auth = "20.6.0"
+playstorecore = "1.8.1"
 
 
 [libraries]
@@ -82,6 +83,7 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCom
 room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
 palette = { group = "com.android.support", name = "palette-v7", version.ref = "palette_version" }
 play-service-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-service-auth" }
+playstore-core = { group = "com.google.android.play", name = "core-ktx", version.ref = "playstorecore" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.constraintlayout)
 
     implementation(libs.hilt.android)
+    implementation(libs.playstore.core)
     kapt(libs.hilt.android.compiler)
 
     implementation(platform(libs.firebase.bom))
