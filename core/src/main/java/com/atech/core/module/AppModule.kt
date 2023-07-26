@@ -18,11 +18,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideAppUpdateManager(@ApplicationContext context: Context): AppUpdateManager =
-//        AppUpdateManagerFactory.create(context)
-
     @Singleton
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =

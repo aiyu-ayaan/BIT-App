@@ -1,9 +1,5 @@
 package com.atech.core.utils
 
-import android.Manifest
-import android.os.Build
-import androidx.annotation.RequiresApi
-
 //const val TAG = "Aiyu"
 
 enum class AppTheme { Light, Dark, Sys }
@@ -57,6 +53,7 @@ const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
 const val ERROR_IN_UPDATE = 452 * 53
 
 const val MAX_STACK_SIZE = 30
+const val UPDATE_REQUEST_CODE = 444
 
 enum class RemoteConfigKeys {
     SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY,

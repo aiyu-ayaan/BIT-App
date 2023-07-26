@@ -34,6 +34,7 @@ import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
+import com.atech.core.utils.UPDATE_REQUEST_CODE
 import com.atech.core.utils.isConnected
 import com.atech.theme.ParentActivity
 import com.atech.theme.changeBottomNav
@@ -45,8 +46,14 @@ import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openLinks
 import com.atech.theme.openPlayStore
 import com.atech.theme.setStatusBarUiTheme
+import com.atech.theme.showSnackBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.color.MaterialColors
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -72,6 +79,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
     @Inject
     lateinit var auth: AuthUseCases
 
+    @Inject
+    lateinit var appUpdateManager: AppUpdateManager
 
     @BitAppScope
     @Inject
@@ -97,6 +106,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         }
         handleDestinationChange()
         shareReview()
+        checkForUpdate()
         if (isConnected()) {
             fetchRemoteConfigData()
             if (auth.hasLogIn.invoke()) registerLifeCycleOwner(this@MainActivity)
@@ -339,6 +349,42 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                 Toast.makeText(this, "Review is completed", Toast.LENGTH_SHORT).show()
             }
         else openPlayStore(packageName)
+    }
+
+    /**
+     * Check for version
+     * @author aiyu
+     * @since 4.0.1
+     */
+    private fun checkForUpdate() {
+        appUpdateManager.registerListener {
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                showUpdateDownloadSnackBar()
+            }
+        }
+
+        appUpdateManager.appUpdateInfo.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(
+                    AppUpdateType.FLEXIBLE
+                )
+            ) {
+                appUpdateManager.startUpdateFlowForResult(
+                    it, AppUpdateType.FLEXIBLE, this, UPDATE_REQUEST_CODE
+                )
+            }
+        }.addOnFailureListener {
+            Log.e("Error on Update", "Failed to update ${it.message}")
+        }
+    }
+
+    private fun showUpdateDownloadSnackBar() {
+        binding.root.showSnackBar(
+            resources.getString(com.atech.theme.R.string.update_downloaded),
+            Snackbar.LENGTH_INDEFINITE,
+            resources.getString(com.atech.theme.R.string.install),
+        ) {
+            appUpdateManager.completeUpdate()
+        }
     }
 
     //    --------------------------------- Remote Config ----------------------------------
