@@ -13,7 +13,8 @@ enum class RowSubjectAdapterRequest {
 
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
-    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme,NewShowUninstallDialog,
+    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme, NewShowUninstallDialog,
+    KeyAppOpenMinimumTime, ShowTimes, KeyAnnVersion, CurrentShowTime
 }
 
 const val SYLLABUS_SOURCE_DATA =
@@ -45,6 +46,8 @@ const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
 const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
 const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
 const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
+const val MAX_APP_OPEN_TIME = 5
+const val MAX_TIME_TO_SHOW_CARD = 5
 
 const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
 const val DEFAULT_TIME_FORMAT = "hh:mm a"

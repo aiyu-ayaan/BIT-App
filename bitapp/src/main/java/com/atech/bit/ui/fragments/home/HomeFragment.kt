@@ -20,14 +20,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
+import com.atech.bit.ui.activities.main_activity.DataShareViewModel
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
 import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModel
+import com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment
 import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DEFAULT_QUERY
 import com.atech.core.utils.Destination
+import com.atech.core.utils.MAX_APP_OPEN_TIME
+import com.atech.core.utils.MAX_TIME_TO_SHOW_CARD
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.course.sem.adapter.SyllabusUIModel
@@ -60,6 +64,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     private val mainActivity: ParentActivity by lazy {
         requireActivity() as ParentActivity
     }
+
+    private val dataShare: DataShareViewModel by activityViewModels()
 
 
     private lateinit var homeAdapter: HomeAdapter
@@ -400,6 +406,42 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     private fun getOldAppWarningDialog() {
         val u = viewModel.pref.getBoolean(SharePrefKeys.NewShowUninstallDialog.name, false)
         if (isOldAppInstalled() && !viewModel.uninstallDialogSeen && !u) navigateToUninstallOldAppDialog()
+        else {
+            getDataFromActivity()
+        }
+    }
+
+    private fun getDataFromActivity() {
+        dataShare.universalDialogData.observe(viewLifecycleOwner) { (data, annVersion) ->
+            if (data == null) return@observe
+            showAnnouncementDialog(data, annVersion)
+        }
+    }
+
+    private fun showAnnouncementDialog(
+        data: UniversalDialogFragment.UniversalDialogData,
+        annVersion: Int
+    ) {
+        val currentTime = viewModel.pref.getInt(SharePrefKeys.KeyAppOpenMinimumTime.name, 0)
+        if (currentTime < MAX_APP_OPEN_TIME) {
+            return
+        }
+        if (viewModel.isAnnouncementDialogShown) {
+            viewModel.isAnnouncementDialogShown = false
+            val currentShowTime = viewModel.pref.getInt(SharePrefKeys.CurrentShowTime.name, 1)
+            val showTimes =
+                viewModel.pref.getInt(SharePrefKeys.ShowTimes.name, MAX_TIME_TO_SHOW_CARD)
+            if (currentShowTime <= showTimes && annVersion != 1) {
+                navigateToUniversalDialog(data)
+                viewModel.pref.edit()
+                    .putInt(SharePrefKeys.CurrentShowTime.name, currentShowTime + 1).apply()
+            }
+        }
+    }
+
+    private fun navigateToUniversalDialog(data: UniversalDialogFragment.UniversalDialogData) {
+        val action = NavGraphDirections.actionGlobalUniversalDialogFragment(data)
+        navigate(action)
     }
 
     @Suppress("DEPRECATION")
@@ -409,8 +451,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
         try {
             isAPI33AndUp {
                 requireContext().packageManager.getPackageInfo(
-                    packageName,
-                    PackageManager.PackageInfoFlags.of(0)
+                    packageName, PackageManager.PackageInfoFlags.of(0)
                 )
             } ?: requireContext().packageManager.getPackageInfo(packageName, 0)
         } catch (e: PackageManager.NameNotFoundException) {

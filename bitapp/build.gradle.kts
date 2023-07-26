@@ -7,6 +7,7 @@ plugins {
     id("com.google.gms.google-services")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.crashlytics")
+    id("kotlin-parcelize")
 }
 
 android {

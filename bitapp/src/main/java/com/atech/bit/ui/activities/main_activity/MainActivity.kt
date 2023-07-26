@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
@@ -20,6 +21,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.BuildConfig
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
+import com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment
 import com.atech.bit.utils.AttendanceUpload
 import com.atech.bit.utils.AttendanceUploadDelegate
 import com.atech.bit.utils.DrawerLocker
@@ -88,6 +90,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
 
     private var reviewInfo: ReviewInfo? = null
     private lateinit var reviewManager: ReviewManager
+    private val viewModel: DataShareViewModel by viewModels()
 
     private val navHostFragment by lazy {
         supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
@@ -399,6 +402,42 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
             remoteConfigHelper.getString(RemoteConfigKeys.SYLLABUS_VISIBILITY.name).let {
                 pref.edit().putString(SharePrefKeys.SyllabusVisibility.name, it).apply()
             }
+
+            pref.edit().apply {
+                putInt(
+                    SharePrefKeys.ShowTimes.name,
+                    remoteConfigHelper.getLong(RemoteConfigKeys.show_times.name).toInt()
+                )
+            }.apply()
+
+            val minVersion =
+                remoteConfigHelper.getLong(RemoteConfigKeys.ann_version.name).toInt().also {
+                    pref.getInt(SharePrefKeys.KeyAnnVersion.name, 0).let {
+                        if (it == 0) {
+                            pref.edit().putInt(SharePrefKeys.KeyAnnVersion.name, it).apply()
+                        }
+                    }
+                }
+            val annTitle = remoteConfigHelper.getString(RemoteConfigKeys.ann_title.name)
+
+            val currentAnnVersion = pref.getInt(SharePrefKeys.KeyAnnVersion.name, 0)
+            if (minVersion != currentAnnVersion && minVersion != 1) {
+                pref.edit().putInt(SharePrefKeys.CurrentShowTime.name, 1).apply()
+                pref.edit().putInt(SharePrefKeys.KeyAnnVersion.name, minVersion).apply()
+            }
+
+            val annMessage = remoteConfigHelper.getString(RemoteConfigKeys.ann_message.name)
+            val annLink = remoteConfigHelper.getString(RemoteConfigKeys.ann_link.name)
+            val annPosButton = remoteConfigHelper.getString(RemoteConfigKeys.ann_pos_button.name)
+            val annNegButton = remoteConfigHelper.getString(RemoteConfigKeys.ann_neg_button.name)
+            val universalDialogData = UniversalDialogFragment.UniversalDialogData(
+                title = annTitle,
+                message = annMessage,
+                link = annLink,
+                positiveButtonText = annPosButton,
+                negativeButtonText = annNegButton
+            )
+            viewModel.setUniversalDialogData(universalDialogData, minVersion)
             getInstances(
                 dao,
                 auth,

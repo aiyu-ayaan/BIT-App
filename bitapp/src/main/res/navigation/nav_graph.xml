@@ -154,6 +154,21 @@
         android:id="@+id/uninstallOldAppDialog"
         android:name="com.atech.bit.ui.fragments.uninstall_old_app.UninstallOldAppDialog"
         android:label="dialog_uninstall_old_app"
-        tools:layout="@layout/dialog_uninstall_old_app" /><action android:id="@+id/action_global_uninstallOldAppDialog" app:destination="@id/uninstallOldAppDialog"/>
+        tools:layout="@layout/dialog_uninstall_old_app" />
+    <action
+        android:id="@+id/action_global_uninstallOldAppDialog"
+        app:destination="@id/uninstallOldAppDialog" />
+    <dialog
+        android:id="@+id/universalDialogFragment"
+        android:name="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment"
+        android:label="UniversalDialogFragment"
+        tools:layout="@layout/fragment_universal_alert">
+        <argument
+            android:name="universal_dialog_data"
+            app:argType="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment$UniversalDialogData" />
+    </dialog>
+    <action
+        android:id="@+id/action_global_universalDialogFragment"
+        app:destination="@id/universalDialogFragment" />
 
 </navigation>

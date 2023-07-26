@@ -23,6 +23,7 @@ import com.atech.core.room.attendance.AttendanceDao
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULT_QUERY
+import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SYLLABUS_SOURCE_DATA
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
@@ -55,8 +56,8 @@ class HomeViewModel @Inject constructor(
     private val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
     private val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
     private val firebaseCases: FirebaseCases,
-    val pref: SharedPreferences,
     private val state: SavedStateHandle,
+    val pref: SharedPreferences,
     attendanceDao: AttendanceDao,
     dataStoreCases: DataStoreCases,
     calendar: Calendar
@@ -67,6 +68,13 @@ class HomeViewModel @Inject constructor(
         set(value) {
             state["uninstallDialogSeen"] = value
         }
+
+    var isAnnouncementDialogShown: Boolean = state["isAnnouncementDialogShown"] ?: true
+        set(value) {
+            field = value
+            state["isAnnouncementDialogShown"] = value
+        }
+
 
     val isOnline = MutableStateFlow(false)
     val isPermissionGranted = MutableStateFlow(false)
