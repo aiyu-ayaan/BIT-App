@@ -91,7 +91,7 @@ class GetHomeData(
         )
     )
 
-    private suspend fun getSyllabus() = if (!filterPreferences.isOnline) getOfflineData(
+    private suspend fun getSyllabus() = (if (!filterPreferences.isOnline) getOfflineData(
         filterPreferences.courseWithSem,
         filterPreferences.syllabusDao,
         filterPreferences.offlineSyllabusUIMapper
@@ -100,7 +100,9 @@ class GetHomeData(
         filterPreferences.courseWithSem,
         filterPreferences.api,
         filterPreferences.onlineSyllabusUIMapper
-    )
+    )).let {
+        it.ifEmpty { listOf(HomeItems.NoData) }
+    }
 
 
     private suspend fun getOnlineSyllabusData(
