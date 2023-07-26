@@ -19,6 +19,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.atech.bit.BuildConfig
+import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.ActivityMainBinding
 import com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment
@@ -38,6 +39,7 @@ import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.UPDATE_REQUEST_CODE
 import com.atech.core.utils.isConnected
+import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.changeBottomNav
 import com.atech.theme.changeStatusBarToolbarColorImageView
@@ -426,6 +428,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                 pref.edit().putInt(SharePrefKeys.KeyAnnVersion.name, minVersion).apply()
             }
 
+            getWarningScreenDetails(remoteConfigHelper)
+
             val annMessage = remoteConfigHelper.getString(RemoteConfigKeys.ann_message.name)
             val annLink = remoteConfigHelper.getString(RemoteConfigKeys.ann_link.name)
             val annPosButton = remoteConfigHelper.getString(RemoteConfigKeys.ann_pos_button.name)
@@ -447,4 +451,35 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
             )
         }
     }
+
+    private fun getWarningScreenDetails(remoteConfigUtil: RemoteConfigHelper) {
+        val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
+        val isEnable = remoteConfigUtil.getBoolean(RemoteConfigKeys.isEnable.name)
+        val title = remoteConfigUtil.getString(RemoteConfigKeys.title.name)
+        val link = remoteConfigUtil.getString(RemoteConfigKeys.link.name)
+        val minVersion = remoteConfigUtil.getLong(RemoteConfigKeys.minVersion.name).toInt()
+        val buttonText = remoteConfigUtil.getString(RemoteConfigKeys.button_text.name)
+        val isMinEdition = BuildConfig.VERSION_CODE > minVersion
+        Log.d(
+            TAGS.BIT_REMOTE.name,
+            "getWarning: $isEnable, $title, $link, $minVersion, $buttonText, $isMinEdition"
+        )
+        Log.d(TAGS.BIT_REMOTE.name, "getWarning $isSetUpDone , $isEnable , $isMinEdition")
+        if (!isMinEdition && (isEnable && isSetUpDone)) {
+            openWarningDialog(title, link, buttonText)
+        }
+    }
+
+    private fun openWarningDialog(title: String, link: String, buttonText: String) {
+        getCurrentFragment().apply {
+            this?.exitTransition(Axis.Z)
+        }
+        try {
+            val action = NavGraphDirections.actionGlobalWarningFragment(title, link, buttonText)
+            navController.navigate(action)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
 }

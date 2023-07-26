@@ -171,4 +171,24 @@
         android:id="@+id/action_global_universalDialogFragment"
         app:destination="@id/universalDialogFragment" />
 
+    <fragment
+        android:id="@+id/warningFragment"
+        android:name="com.atech.bit.ui.fragments.warning.WarningFragment"
+        android:label="@string/blank"
+        tools:layout="@layout/fragment_warning">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="link"
+            app:argType="string" />
+        <argument
+            android:name="button_text"
+            app:argType="string" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_warningFragment"
+        app:destination="@id/warningFragment"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
 </navigation>

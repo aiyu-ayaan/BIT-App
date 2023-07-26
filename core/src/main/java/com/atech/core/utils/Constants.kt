@@ -4,7 +4,7 @@ package com.atech.core.utils
 
 enum class AppTheme { Light, Dark, Sys }
 enum class TAGS {
-    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE,
+    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE,BIT_REMOTE
 }
 
 enum class RowSubjectAdapterRequest {

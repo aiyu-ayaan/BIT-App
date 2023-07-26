@@ -11,7 +11,7 @@ class RemoteConfigHelper @Inject constructor(
 ) {
     init {
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = if (BuildConfig.DEBUG) 60 else 1800
+            minimumFetchIntervalInSeconds = if (BuildConfig.DEBUG) 0 else 1800
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
@@ -31,7 +31,6 @@ class RemoteConfigHelper @Inject constructor(
     fun getBoolean(key: String) = remoteConfig.getBoolean(key)
     fun getString(key: String) = remoteConfig.getString(key)
     fun getLong(key: String) = remoteConfig.getLong(key)
-
 
 
 }
