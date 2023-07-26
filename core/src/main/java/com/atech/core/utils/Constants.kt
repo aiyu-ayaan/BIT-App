@@ -13,7 +13,7 @@ enum class RowSubjectAdapterRequest {
 
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
-    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme
+    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme,NewShowUninstallDialog,
 }
 
 const val SYLLABUS_SOURCE_DATA =

@@ -150,5 +150,10 @@
         android:label="ThemeChangeDialog"
         tools:layout="@layout/dialog_theme_choose" />
     <include app:graph="@navigation/about_us_graph" />
+    <dialog
+        android:id="@+id/uninstallOldAppDialog"
+        android:name="com.atech.bit.ui.fragments.uninstall_old_app.UninstallOldAppDialog"
+        android:label="dialog_uninstall_old_app"
+        tools:layout="@layout/dialog_uninstall_old_app" /><action android:id="@+id/action_global_uninstallOldAppDialog" app:destination="@id/uninstallOldAppDialog"/>
 
 </navigation>

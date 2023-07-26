@@ -1,6 +1,7 @@
 package com.atech.bit.ui.fragments.home
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,19 +14,21 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHomeBinding
 import com.atech.bit.ui.fragments.home.adapter.HomeAdapter
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModel
 import com.atech.core.firebase.auth.AuthUseCases
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DEFAULT_QUERY
 import com.atech.core.utils.Destination
+import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.onScrollChange
@@ -52,7 +55,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     private val binding: FragmentHomeBinding by viewBinding()
-    private val viewModel: HomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     private val mainActivity: ParentActivity by lazy {
         requireActivity() as ParentActivity
@@ -94,6 +97,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
         hideBottomAppBar()
         navigateToAboutUs()
         handlePermissions()
+        getOldAppWarningDialog()
     }
 
 
@@ -391,5 +395,32 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
             val action = HomeFragmentDirections.actionHomeFragmentToAboutUsGraph()
             navigate(action)
         }
+    }
+
+    private fun getOldAppWarningDialog() {
+        val u = viewModel.pref.getBoolean(SharePrefKeys.NewShowUninstallDialog.name, false)
+        if (isOldAppInstalled() && !viewModel.uninstallDialogSeen && !u) navigateToUninstallOldAppDialog()
+    }
+
+    @Suppress("DEPRECATION")
+    private fun isOldAppInstalled(): Boolean {
+        val packageName = "com.aatec.bit"
+        var available = true
+        try {
+            isAPI33AndUp {
+                requireContext().packageManager.getPackageInfo(
+                    packageName,
+                    PackageManager.PackageInfoFlags.of(0)
+                )
+            } ?: requireContext().packageManager.getPackageInfo(packageName, 0)
+        } catch (e: PackageManager.NameNotFoundException) {
+            available = false
+        }
+        return available
+    }
+
+    private fun navigateToUninstallOldAppDialog() {
+        val action = NavGraphDirections.actionGlobalUninstallOldAppDialog()
+        navigate(action)
     }
 }

@@ -1,6 +1,5 @@
 package com.atech.theme
 
-import android.util.Log
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputLayout
 
@@ -25,7 +24,6 @@ inline fun TextInputLayout.combineTextChangeListener(
         val cgpa = text.toString().ifEmpty { "0" }
         val earnCredits = editText2?.text.toString().ifEmpty { "0" }
         this.error = null
-        Log.d("AAA", "combineTextChangeListener: $cgpa , $earnCredits")
         listener(Pair(cgpa, earnCredits))
     })
 

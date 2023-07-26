@@ -94,7 +94,6 @@ class EventWithAttach @Inject constructor(
                 listener(emptyList())
             }
             if (value == null) {
-                Log.d("AAA", "value: null")
                 listener(emptyList())
             }
             val list = value!!.toObjects(EventModel::class.java)

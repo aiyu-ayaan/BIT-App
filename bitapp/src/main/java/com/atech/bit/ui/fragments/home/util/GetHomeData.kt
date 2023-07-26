@@ -1,6 +1,6 @@
 package com.atech.bit.ui.fragments.home.util
 
-import com.atech.bit.ui.fragments.home.FilterPreferences
+import com.atech.bit.ui.fragments.home.viewmodel.DataSetForHome
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.utils.HomeTopModel
@@ -31,14 +31,14 @@ import java.util.Locale
 import kotlin.coroutines.suspendCoroutine
 
 class GetHomeData(
-    private val filterPreferences: FilterPreferences,
+    private val dataSetForHome: DataSetForHome,
 ) {
 
     fun getHomeItems() = channelFlow<List<HomeItems>> {
         val list = mutableListOf<HomeItems>()
         notificationAccess(list)
-        getLibraryData(filterPreferences.library).also { list.addAll(it) }
-        list.add(getTopSetting(filterPreferences.isOnline))
+        getLibraryData(dataSetForHome.library).also { list.addAll(it) }
+        list.add(getTopSetting(dataSetForHome.isOnline))
         getSyllabus().also { list.addAll(it) }
         getHoliday().also { list.addAll(it) }
         getEvent()?.also {
@@ -53,7 +53,7 @@ class GetHomeData(
 
     private fun notificationAccess(list: MutableList<HomeItems>) {
         isAPI33AndUp {
-            if (!filterPreferences.isPermissionGranted) list.add(
+            if (!dataSetForHome.isPermissionGranted) list.add(
                 HomeItems.Highlight(
                     CardHighlightModel(
                         "Notification is disabled",
@@ -91,15 +91,15 @@ class GetHomeData(
         )
     )
 
-    private suspend fun getSyllabus() = (if (!filterPreferences.isOnline) getOfflineData(
-        filterPreferences.courseWithSem,
-        filterPreferences.syllabusDao,
-        filterPreferences.offlineSyllabusUIMapper
+    private suspend fun getSyllabus() = (if (!dataSetForHome.isOnline) getOfflineData(
+        dataSetForHome.courseWithSem,
+        dataSetForHome.syllabusDao,
+        dataSetForHome.offlineSyllabusUIMapper
     )
     else getOnlineSyllabusData(
-        filterPreferences.courseWithSem,
-        filterPreferences.api,
-        filterPreferences.onlineSyllabusUIMapper
+        dataSetForHome.courseWithSem,
+        dataSetForHome.api,
+        dataSetForHome.onlineSyllabusUIMapper
     )).let {
         it.ifEmpty { listOf(HomeItems.NoData) }
     }
@@ -165,7 +165,7 @@ class GetHomeData(
 
     private suspend fun getHoliday(): List<HomeItems> = coroutineScope {
         withContext(Dispatchers.IO) {
-            val calenderQuery = filterPreferences.calendar.getDisplayName(
+            val calenderQuery = dataSetForHome.calendar.getDisplayName(
                 Calendar.MONTH, Calendar.LONG, Locale.ENGLISH
             ) ?: "January"
 
@@ -176,7 +176,7 @@ class GetHomeData(
             }
             val task = async {
                 try {
-                    filterPreferences.api.fetchHolidayApi.invoke(
+                    dataSetForHome.api.fetchHolidayApi.invoke(
                         calenderQuery, filter
                     ).holidays.map {
                         HomeItems.Holiday(it)
@@ -197,7 +197,7 @@ class GetHomeData(
         withContext(Dispatchers.IO) {
             suspendCoroutine { continuation ->
                 val list = mutableListOf<HomeItems>()
-                filterPreferences.firebaseCases.eventWithAttach.invoke { events ->
+                dataSetForHome.firebaseCases.eventWithAttach.invoke { events ->
                     events.filter {
                         Date(
                             System.currentTimeMillis()
@@ -255,9 +255,9 @@ class GetHomeData(
         withContext(Dispatchers.IO) {
             val task = async {
                 val list = mutableListOf<HomeItems>()
-                if (!filterPreferences.cgpa.isAllZero) {
+                if (!dataSetForHome.cgpa.isAllZero) {
                     list.add(HomeItems.Title("CGPA"))
-                    list.add(HomeItems.Cgpa(filterPreferences.cgpa))
+                    list.add(HomeItems.Cgpa(dataSetForHome.cgpa))
                 }
                 list
             }
@@ -269,12 +269,12 @@ class GetHomeData(
         withContext(Dispatchers.IO) {
             val task = async {
                 val list = mutableListOf<HomeItems>()
-                if (filterPreferences.attendance.isNotEmpty()) {
+                if (dataSetForHome.attendance.isNotEmpty()) {
                     list.add(HomeItems.Title("Attendance"))
-                    val totalClass = filterPreferences.attendance.sumOf { it.total }
-                    val totalPresent = filterPreferences.attendance.sumOf { it.present }
+                    val totalClass = dataSetForHome.attendance.sumOf { it.total }
+                    val totalPresent = dataSetForHome.attendance.sumOf { it.present }
                     val data = HomeViewModelExr.AttendanceHomeModel(
-                        totalClass, totalPresent, filterPreferences.attendance
+                        totalClass, totalPresent, dataSetForHome.attendance
                     )
                     list.add(HomeItems.Attendance(data))
                 }

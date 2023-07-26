@@ -1,16 +1,17 @@
-package com.atech.bit.ui.fragments.home
+package com.atech.bit.ui.fragments.home.viewmodel
 
 import android.content.SharedPreferences
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
+import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.getHoliday
 import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSourceSearch
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.ui.fragments.home.util.GetHomeData
 import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.datastore.Cgpa
 import com.atech.core.datastore.DataStoreCases
 import com.atech.core.firebase.firestore.Db
 import com.atech.core.firebase.firestore.EventModel
@@ -19,7 +20,6 @@ import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.retrofit.ApiCases
 import com.atech.core.retrofit.client.Holiday
 import com.atech.core.room.attendance.AttendanceDao
-import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULT_QUERY
@@ -46,35 +46,27 @@ import kotlinx.coroutines.runBlocking
 import java.util.Calendar
 import javax.inject.Inject
 
-class FilterPreferences(
-    val courseWithSem: String,
-    val isOnline: Boolean,
-    val isPermissionGranted: Boolean,
-    val attendance: List<AttendanceModel>,
-    val library: List<LibraryModel>,
-    val syllabusDao: SyllabusDao,
-    val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
-    val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
-    val api: ApiCases,
-    val calendar: Calendar,
-    val firebaseCases: FirebaseCases,
-    val cgpa: Cgpa,
-)
-
 @OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val api: ApiCases,
-    dataStoreCases: DataStoreCases,
     private val syllabusDao: SyllabusDao,
-    attendanceDao: AttendanceDao,
     private val libraryDao: LibraryDao,
     private val offlineSyllabusUIMapper: OfflineSyllabusUIMapper,
     private val onlineSyllabusUIMapper: OnlineSyllabusUIMapper,
     private val firebaseCases: FirebaseCases,
-    private val pref: SharedPreferences,
-    calendar: Calendar,
+    val pref: SharedPreferences,
+    private val state: SavedStateHandle,
+    attendanceDao: AttendanceDao,
+    dataStoreCases: DataStoreCases,
+    calendar: Calendar
 ) : ViewModel() {
+
+    var uninstallDialogSeen: Boolean
+        get() = state["uninstallDialogSeen"] ?: false
+        set(value) {
+            state["uninstallDialogSeen"] = value
+        }
 
     val isOnline = MutableStateFlow(false)
     val isPermissionGranted = MutableStateFlow(false)
@@ -99,7 +91,7 @@ class HomeViewModel @Inject constructor(
             "", ""
         ),
     ) { pref, (isOnline, permission), (attendance, library), _ ->
-        FilterPreferences(
+        DataSetForHome(
             pref.courseWithSem, isOnline, permission,
             attendance, library, syllabusDao, offlineSyllabusUIMapper,
             onlineSyllabusUIMapper, api, calendar, firebaseCases,
@@ -311,16 +303,5 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun List<EventModel>.mapToEventHomeModel() = map {
-        HomeViewModelExr.EventHomeModel(
-            it.title ?: "",
-            it.content ?: "",
-            it.society ?: "",
-            it.logo_link ?: "",
-            it.attach?.getOrNull(0)?.link ?: "",
-            it.path ?: "",
-            it.created ?: 0L
-        )
-    }
 }
 
