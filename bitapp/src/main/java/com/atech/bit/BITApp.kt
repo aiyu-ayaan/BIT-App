@@ -35,7 +35,7 @@ class BITApp : Application() {
     lateinit var fcm: FirebaseMessaging
     override fun onCreate() {
         super.onCreate()
-        DynamicColors.applyToActivitiesIfAvailable(this)
+        setDynamicTheme()
         when (pref.getString(SharePrefKeys.AppTheme.name, AppTheme.Sys.name)) {
             AppTheme.Sys.name -> setAppTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
             AppTheme.Light.name -> setAppTheme(AppCompatDelegate.MODE_NIGHT_NO)
@@ -49,6 +49,12 @@ class BITApp : Application() {
             createAppNotificationChannel()
         }
         setMaxTimeOpen()
+    }
+
+    private fun setDynamicTheme() {
+        pref.getBoolean(SharePrefKeys.IsDynamicThemeEnabled.name, true).let {
+            if (it) DynamicColors.applyToActivitiesIfAvailable(this)
+        }
     }
 
     private fun setMaxTimeOpen() {

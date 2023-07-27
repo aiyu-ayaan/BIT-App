@@ -142,7 +142,7 @@ class ProfileFragment : DialogFragment() {
         this.textViewDeleteAccount.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext()).setTitle("Delete Account")
                 .setMessage("Are you sure you want to delete your account?")
-                .setPositiveButton("Yes") { dialog, _ ->
+                .setPositiveButton("Yes") { _, _ ->
                     client.signOut()
                     authCases.deleteUser.invoke {
                         if (it != null) {

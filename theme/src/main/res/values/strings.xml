@@ -136,7 +136,7 @@
     <string name="theme">Theme</string>
     <string name="system_default">System default</string>
     <string name="light_theme">Light</string>
-    <string name="dark_theme">Dark</string>
+    <string name="dark_theme">Dark Theme</string>
     <string name="societies_event"><![CDATA[Societies & Events ]]></string>
 
     <string name="notice_sender">%s</string>
@@ -268,5 +268,12 @@
     <string name="action">Choose Your action</string>
     <string name="delete_all">Delete All</string>
     <string name="default_web_client_id">715451987854-hgsb8c8qf29e0b3ik1nl4kd57j1bndls.apps.googleusercontent.com</string>
+    <string name="display">Display</string>
+    <string name="sample_text">Sample Text</string>
+    <string name="sample_description">Sample Description</string>
+    <string name="dynamic_theme">Dynamic Theme</string>
+    <string name="apply_color_from_wallpapers_to_the_app_theme">Apply color from wallpapers to the app theme</string>
+    <string name="off">Off</string>
     <string name="earn_credits">Earn Credits</string>
+    <string name="app_setting">App Settings</string>
 </resources>

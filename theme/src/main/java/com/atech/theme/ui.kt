@@ -264,14 +264,6 @@ fun Date.compareDifferenceInDays(date: Date): Int {
     return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
 }
 
-/**
- * Change Theme
- * @since 4.0.4
- * @author Ayaan
- */
-fun setAppTheme(type: Int) {
-    AppCompatDelegate.setDefaultNightMode(type)
-}
 
 fun ConstraintLayout.setHorizontalBias(
     @IdRes targetViewId: Int,

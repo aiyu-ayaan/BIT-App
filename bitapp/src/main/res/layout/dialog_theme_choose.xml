@@ -1,41 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/radioGroup"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:checkedButton="@+id/radio_button_1"
-    android:layoutDirection="rtl"
-    android:paddingHorizontal="@dimen/grid_2">
+    android:layout_height="wrap_content">
 
-    <RadioButton
-        android:id="@+id/radio_button_light"
+    <include
+        android:id="@+id/include_toolbar"
+        layout="@layout/layout_toolbar" />
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:drawableEnd="@drawable/ic_light"
-        android:drawablePadding="8dp"
-        android:drawableTint="?attr/colorPrimary"
-        android:text="@string/light_theme" />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/include_toolbar"
+        android:layout_marginTop="@dimen/grid_2"
+        android:background="@android:color/transparent"
+        android:checkedButton="@+id/radio_button_1"
+        android:layoutDirection="rtl"
+        android:padding="@dimen/grid_2"
+        tools:ignore="UselessParent">
 
-    <RadioButton
-        android:id="@+id/radio_button_dark"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawableEnd="@drawable/ic_dark"
-        android:drawablePadding="8dp"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:drawableTint="?attr/colorPrimary"
-        android:text="@string/dark_theme" />
+        <RadioButton
+            android:id="@+id/radio_button_system"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableEnd="@drawable/ic_brightness"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:paddingVertical="@dimen/grid_2"
+            android:text="@string/system_default"
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
 
-    <RadioButton
-        android:id="@+id/radio_button_system"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawableEnd="@drawable/ic_brightness"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:drawablePadding="8dp"
-        android:drawableTint="?attr/colorPrimary"
-        android:text="@string/system_default" />
+        <RadioButton
+            android:id="@+id/radio_button_light"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/grid_2"
+            android:drawableEnd="@drawable/ic_light"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:paddingVertical="@dimen/grid_2"
+            android:text="@string/light_theme"
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
 
-</RadioGroup>
+        <RadioButton
+            android:id="@+id/radio_button_dark"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/grid_2"
+            android:drawableEnd="@drawable/ic_dark"
+            android:drawablePadding="8dp"
+            android:drawableTint="?attr/colorPrimary"
+            android:paddingVertical="@dimen/grid_2"
+            android:text="@string/dark_theme"
+            android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+
+    </RadioGroup>
+
+</RelativeLayout>

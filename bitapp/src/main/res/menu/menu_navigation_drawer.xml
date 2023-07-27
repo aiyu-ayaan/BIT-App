@@ -42,7 +42,7 @@
                     android:id="@id/libraryFragment"
                     android:icon="@drawable/ic_library"
                     android:title="@string/library" />
-                
+
                 <item
                     android:id="@+id/cgpaCalculatorFragment"
                     android:checkable="false"
@@ -113,12 +113,12 @@
     <group
         android:id="@+id/group_6"
         android:checkableBehavior="single">
-        <item android:title="@string/theme">
+        <item android:title="@string/app_setting">
             <menu>
                 <item
-                    android:id="@+id/themeChangeDialog"
-                    android:icon="@drawable/ic_color"
-                    android:title="@string/theme" />
+                    android:id="@+id/themeFragment"
+                    android:icon="@drawable/round_aod_24"
+                    android:title="@string/display" />
             </menu>
         </item>
     </group>

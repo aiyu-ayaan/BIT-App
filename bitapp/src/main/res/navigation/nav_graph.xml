@@ -152,11 +152,20 @@
             android:name="courseSem"
             app:argType="string" />
     </dialog>
-    <dialog
+    <fragment
         android:id="@+id/themeChangeDialog"
         android:name="com.atech.bit.ui.fragments.theme.ThemeChangeDialog"
         android:label="ThemeChangeDialog"
         tools:layout="@layout/dialog_theme_choose" />
+    <fragment
+        android:id="@+id/themeFragment"
+        android:name="com.atech.bit.ui.fragments.theme.ThemeFragment"
+        android:label="fragment_theme"
+        tools:layout="@layout/fragment_theme" >
+        <action
+            android:id="@+id/action_themeFragment_to_themeChangeDialog"
+            app:destination="@id/themeChangeDialog" />
+    </fragment>
     <include app:graph="@navigation/about_us_graph" />
     <dialog
         android:id="@+id/uninstallOldAppDialog"
