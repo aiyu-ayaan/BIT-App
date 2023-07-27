@@ -398,8 +398,9 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     private fun navigateToAboutUs() {
         mainActivity.navigateToAboutUs {
             exitTransition()
-            val action = HomeFragmentDirections.actionHomeFragmentToAboutUsGraph()
-            navigate(action)
+            navigateWithInAppDeepLink(
+                BASE_IN_APP_NAVIGATION_LINK + Destination.AboutUS.value
+            )
         }
     }
 

@@ -21,7 +21,9 @@ const val SYLLABUS_SOURCE_DATA =
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
 
 enum class Destination(val value: String) {
-    ChooseSem("choosesem"), Home("home"), LogIn("login"), Profile("profile")
+    ChooseSem("choosesem"), Home("home"),
+    LogIn("login"), Profile("profile"),
+    AboutUS("aboutUs")
 }
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")

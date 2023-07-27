@@ -15,6 +15,9 @@
         <action
             android:id="@+id/action_aboutFragment_to_creditsFragment"
             app:destination="@id/creditsFragment" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="bitapp://bit.aiyu/aboutUs" />
     </fragment>
     <fragment
         android:id="@+id/detailDevFragment"
