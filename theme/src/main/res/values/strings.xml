@@ -140,6 +140,7 @@
     <string name="societies_event"><![CDATA[Societies & Events ]]></string>
 
     <string name="notice_sender">%s</string>
+    <string name="deep_link_share_syllabus">https://bitbyaiyu.github.io/syllabus/path=%s</string>
     <string name="deep_link_share_notice">https://bitbyaiyu.github.io/notice/path=%s</string>
     <string name="deep_link_share_event_link">https://bitbyaiyu.github.io/event/path=%s</string>
     <string name="loading">Loading.....</string>

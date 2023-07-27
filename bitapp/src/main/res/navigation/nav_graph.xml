@@ -191,4 +191,14 @@
         app:destination="@id/warningFragment"
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
+    <dialog
+        tools:layout="@layout/layout_bottom_sheet"
+        android:id="@+id/chooseImageBottomSheet"
+        android:name="com.atech.bit.ui.fragments.notice.choose_image.ChooseImageBottomSheet"
+        android:label="ChooseImageBottomSheet" >
+        <argument
+            android:name="data"
+            app:argType="com.atech.core.firebase.firestore.ShareModel" />
+    </dialog>
+    <action android:id="@+id/action_global_chooseImageBottomSheet" app:destination="@id/chooseImageBottomSheet" />
 </navigation>

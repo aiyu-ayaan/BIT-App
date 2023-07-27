@@ -13,20 +13,26 @@ import androidx.media3.common.util.Util
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentNoticeEventDetailBinding
 import com.atech.bit.utils.ImageGridAdapter
 import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.Attach
 import com.atech.core.firebase.firestore.EventModel
+import com.atech.core.firebase.firestore.ShareModel
 import com.atech.core.utils.DataState
 import com.atech.core.utils.MAX_SPAWN
+import com.atech.core.utils.isConnected
 import com.atech.theme.Axis
+import com.atech.theme.ShareType
 import com.atech.theme.ToolbarData
 import com.atech.theme.enterTransition
 import com.atech.theme.getDate
 import com.atech.theme.loadCircular
+import com.atech.theme.navigate
 import com.atech.theme.openCustomChromeTab
+import com.atech.theme.openShareDeepLink
 import com.atech.theme.set
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +48,10 @@ class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
     private var player: ExoPlayer? = null
 
     private var link: String = ""
+
+    private var hasAttach = false
+    private var event: EventModel? = null
+    private var attach: List<Attach>? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +81,7 @@ class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
 
                 DataState.Loading -> {}
                 is DataState.Success -> {
+                    event = dataState.data
                     binding.isLoadComplete(true)
                     binding.setViews(dataState.data)
                 }
@@ -78,6 +89,8 @@ class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
         }
         viewModel.getAttach().observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
+                hasAttach = true
+                attach = it
                 binding.setAttach(it)
             }
         }
@@ -94,8 +107,34 @@ class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
             ToolbarData(
                 com.atech.theme.R.string.event,
                 action = findNavController()::navigateUp,
+                endIcon = com.atech.theme.R.drawable.ic_share,
+                endAction = ::handleShare
             ),
         )
+    }
+
+    private fun handleShare() {
+        if (event == null) {
+            toast("Event not found")
+            return
+        }
+        if (!hasAttach || !requireActivity().isConnected()) {
+            requireActivity().openShareDeepLink(
+                event!!.title ?: "",
+                event!!.path ?: "",
+                ShareType.EVENT
+            )
+            return
+        }
+        ShareModel(event = event,
+            attach = attach ?: let { toast("Something went wrong"); return }).also(
+            ::navigateToAttachImage
+        )
+    }
+
+    private fun navigateToAttachImage(shareModel: ShareModel) {
+        NavGraphDirections.actionGlobalChooseImageBottomSheet(shareModel)
+            .also(this::navigate)
     }
 
     private fun FragmentNoticeEventDetailBinding.setAttach(
