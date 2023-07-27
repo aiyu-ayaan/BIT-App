@@ -296,7 +296,8 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         R.id.detailDevFragment,
         R.id.creditsFragment,
         R.id.themeFragment,
-        R.id.themeChangeDialog
+        R.id.themeChangeDialog,
+        R.id.notificationFragment
     )
 
     private fun bottomSheetFragment() = listOf(

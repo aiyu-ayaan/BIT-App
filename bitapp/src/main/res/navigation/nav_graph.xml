@@ -77,7 +77,7 @@
         <deepLink
             android:id="@+id/deepLink"
             android:autoVerify="true"
-            app:uri="bitbyaiyu.github.io/event/path={path}"/>
+            app:uri="bitbyaiyu.github.io/event/path={path}" />
     </fragment>
     <action
         android:id="@+id/action_global_eventDetailFragment"
@@ -161,7 +161,7 @@
         android:id="@+id/themeFragment"
         android:name="com.atech.bit.ui.fragments.theme.ThemeFragment"
         android:label="fragment_theme"
-        tools:layout="@layout/fragment_theme" >
+        tools:layout="@layout/fragment_theme">
         <action
             android:id="@+id/action_themeFragment_to_themeChangeDialog"
             app:destination="@id/themeChangeDialog" />
@@ -220,4 +220,9 @@
     <action
         android:id="@+id/action_global_chooseImageBottomSheet"
         app:destination="@id/chooseImageBottomSheet" />
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.atech.bit.ui.fragments.notification.NotificationFragment"
+        android:label="NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
 </navigation>

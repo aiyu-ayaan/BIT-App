@@ -15,7 +15,8 @@ enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
     SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin,
     SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime,
-    ShowTimes, KeyAnnVersion, CurrentShowTime,IsDynamicThemeEnabled
+    ShowTimes, KeyAnnVersion, CurrentShowTime, IsDynamicThemeEnabled,
+    IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
 }
 
 const val SYLLABUS_SOURCE_DATA =
@@ -72,5 +73,8 @@ const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
 
 enum class RemoteConfigKeys {
-    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA, KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times, Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button, ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
+    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA,
+    KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times,
+    Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button,
+    ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
 }

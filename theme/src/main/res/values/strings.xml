@@ -276,4 +276,8 @@
     <string name="off">Off</string>
     <string name="earn_credits">Earn Credits</string>
     <string name="app_setting">App Settings</string>
+    <string name="app_notification">App Notifications</string>
+    <string name="event_notification">Event Notifications</string>
+    <string name="notice_notification">Notice Notifications</string>
+    <string name="notification">Notifications</string>
 </resources>

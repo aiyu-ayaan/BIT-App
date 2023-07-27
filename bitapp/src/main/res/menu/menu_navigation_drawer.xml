@@ -119,6 +119,10 @@
                     android:id="@+id/themeFragment"
                     android:icon="@drawable/round_aod_24"
                     android:title="@string/display" />
+                <item
+                    android:id="@id/notificationFragment"
+                    android:icon="@drawable/outline_notifications_active_24"
+                    android:title="@string/notification" />
             </menu>
         </item>
     </group>

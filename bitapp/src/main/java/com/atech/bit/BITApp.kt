@@ -67,11 +67,24 @@ class BITApp : Application() {
     }
 
     private fun setUpFcm() {
-        fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_notice))
-        fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_event))
-        fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_app))
         fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_update))
+        if(getValue(SharePrefKeys.IsEnableNoticeNotification.name))
+            fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_notice))
+        else
+            fcm.unsubscribeFromTopic(resources.getString(com.atech.theme.R.string.topic_notice))
+
+        if(getValue(SharePrefKeys.IsEnableEventNotification.name))
+            fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_event))
+        else
+            fcm.unsubscribeFromTopic(resources.getString(com.atech.theme.R.string.topic_event))
+
+        if(getValue(SharePrefKeys.IsEnableAppNotification.name))
+            fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_app))
+        else
+            fcm.unsubscribeFromTopic(resources.getString(com.atech.theme.R.string.topic_app))
     }
+
+    private fun getValue(key: String) = pref.getBoolean(key, true)
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNoticeNotificationChannel() {
