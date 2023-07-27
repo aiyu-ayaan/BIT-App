@@ -74,6 +74,10 @@
         <argument
             android:name="path"
             app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="bitbyaiyu.github.io/event/path={path}"/>
     </fragment>
     <action
         android:id="@+id/action_global_eventDetailFragment"
@@ -86,6 +90,10 @@
         <argument
             android:name="path"
             app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="bitbyaiyu.github.io/notice/path={path}" />
     </fragment>
     <action
         android:id="@+id/action_global_noticeDetailFragment"
@@ -192,13 +200,15 @@
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
     <dialog
-        tools:layout="@layout/layout_bottom_sheet"
         android:id="@+id/chooseImageBottomSheet"
         android:name="com.atech.bit.ui.fragments.notice.choose_image.ChooseImageBottomSheet"
-        android:label="ChooseImageBottomSheet" >
+        android:label="ChooseImageBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet">
         <argument
             android:name="data"
             app:argType="com.atech.core.firebase.firestore.ShareModel" />
     </dialog>
-    <action android:id="@+id/action_global_chooseImageBottomSheet" app:destination="@id/chooseImageBottomSheet" />
+    <action
+        android:id="@+id/action_global_chooseImageBottomSheet"
+        app:destination="@id/chooseImageBottomSheet" />
 </navigation>
