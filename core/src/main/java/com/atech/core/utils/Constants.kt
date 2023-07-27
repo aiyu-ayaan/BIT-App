@@ -4,7 +4,7 @@ package com.atech.core.utils
 
 enum class AppTheme { Light, Dark, Sys }
 enum class TAGS {
-    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE,BIT_REMOTE
+    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE
 }
 
 enum class RowSubjectAdapterRequest {
@@ -12,9 +12,7 @@ enum class RowSubjectAdapterRequest {
 }
 
 enum class SharePrefKeys {
-    SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility,
-    UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme, NewShowUninstallDialog,
-    KeyAppOpenMinimumTime, ShowTimes, KeyAnnVersion, CurrentShowTime
+    SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource, SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin, SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime, ShowTimes, KeyAnnVersion, CurrentShowTime
 }
 
 const val SYLLABUS_SOURCE_DATA =
@@ -23,10 +21,7 @@ const val SYLLABUS_SOURCE_DATA =
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
 
 enum class Destination(val value: String) {
-    ChooseSem("choosesem"),
-    Home("home"),
-    LogIn("login"),
-    Profile("profile")
+    ChooseSem("choosesem"), Home("home"), LogIn("login"), Profile("profile")
 }
 
 val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
@@ -58,10 +53,19 @@ const val ERROR_IN_UPDATE = 452 * 53
 const val MAX_STACK_SIZE = 30
 const val UPDATE_REQUEST_CODE = 444
 
+const val CHANNEL_ID_NOTICE = "Notice"
+const val CHANNEL_NOTICE = "Notice Section"
+const val CHANNEL_DES = "Contain all the notice from BIT Lalpur"
+
+const val CHANNEL_ID_EVENT = "Event"
+const val CHANNEL_EVENT = "Event Section"
+
+const val CHANNEL_ID_UPDATE = "Update"
+const val CHANNEL_UPDATE = "App Update"
+
+const val CHANNEL_ID_APP = "App"
+const val CHANNEL_APP = "App Notification"
+
 enum class RemoteConfigKeys {
-    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY,
-    SYLLABUS_BCA, SYLLABUS_BBA, KEY_TOGGLE_SYLLABUS_SOURCE,
-    title, minVersion, link, isEnable, button_text, show_times,
-    Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button,
-    ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
+    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA, KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times, Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button, ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
 }

@@ -2,8 +2,10 @@ package com.atech.theme
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
@@ -21,12 +23,18 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.concurrent.TimeUnit
@@ -298,5 +306,32 @@ fun Fragment.openLinkToDefaultApp(link: String) = this.run {
         startActivity(intent)
     } catch (_: Exception) {
         requireContext().openCustomChromeTab(link)
+    }
+}
+
+fun getPendingIntentFlag() =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_ONE_SHOT
+
+/**
+ *Covert valid link into Bitmap in background thread
+ * @return Notification Builder
+ * @throws IOException unused
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun String.applyImageUrl(builder: NotificationCompat.Builder) = runBlocking(Dispatchers.IO) {
+    val url = URL(this@applyImageUrl)
+    withContext(Dispatchers.IO) {
+        try {
+            val input = url.openStream()
+            BitmapFactory.decodeStream(input)
+        } catch (e: IOException) {
+            null
+        }
+    }?.let { bitmap ->
+        builder.setLargeIcon(bitmap)
+        builder.setStyle(
+            NotificationCompat.BigPictureStyle().bigPicture(bitmap)
+        )
     }
 }

@@ -3,6 +3,9 @@ package com.atech.bit.utils
 import android.content.Context
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.messaging.ktx.messaging
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,4 +21,11 @@ object AppUpdateModule {
     @Provides
     fun provideAppUpdateManager(@ApplicationContext context: Context): AppUpdateManager =
         AppUpdateManagerFactory.create(context)
+
+
+    @Singleton
+    @Provides
+    fun provideFirebaseMessagingService(): FirebaseMessaging =
+        Firebase.messaging
+
 }
