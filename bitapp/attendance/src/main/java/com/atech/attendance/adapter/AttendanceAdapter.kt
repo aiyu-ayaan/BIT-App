@@ -57,7 +57,11 @@ class AttendanceAdapter(
                     onLongClick.invoke((items[it] as AttendanceItem.AttendanceData).data)
                 }
             )
-
+            com.atech.theme.R.layout.row_ads_view -> AttendanceViewHolder.AdsHolder(
+                com.atech.theme.databinding.RowAdsViewBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -66,9 +70,11 @@ class AttendanceAdapter(
     override fun onBindViewHolder(holder: AttendanceViewHolder, position: Int) =
         when (holder) {
             is AttendanceViewHolder.AttendanceHolder -> holder.bind((items[position] as AttendanceItem.AttendanceData).data)
+            is AttendanceViewHolder.AdsHolder -> holder.bind((items[position] as AttendanceItem.Ads))
         }
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {
         is AttendanceItem.AttendanceData -> R.layout.row_attendance
+        is AttendanceItem.Ads -> com.atech.theme.R.layout.row_ads_view
     }
 }

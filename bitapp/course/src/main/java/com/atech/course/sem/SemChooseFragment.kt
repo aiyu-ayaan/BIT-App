@@ -28,9 +28,9 @@ import com.atech.course.utils.compareToCourseSem
 import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
-import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ParentActivity
 import com.atech.theme.ToolbarData
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.exitTransition
 import com.atech.theme.launchWhenCreated
 import com.atech.theme.launchWhenStarted
@@ -163,7 +163,8 @@ class SemChooseFragment : BaseFragment(R.layout.fragment_sem_choose, Axis.X) {
                 list.add(CourseItem.Title(getString(com.atech.theme.R.string.pe)))
                 list.addAll(pe.map { CourseItem.Subject(it) })
             }
-            binding.includeNoData.lvNoData.isVisible = list.isEmpty()
+            binding.includeNoData.lvNoData.isVisible =
+                theory.isEmpty() && lab.isEmpty() && pe.isEmpty()
             courseAdapter.items = list
         }
     }

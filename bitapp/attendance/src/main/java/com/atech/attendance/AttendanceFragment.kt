@@ -16,6 +16,7 @@ import com.atech.attendance.utils.findPercentage
 import com.atech.attendance.utils.showUndoMessage
 import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
+import com.atech.theme.AdsUnit
 import com.atech.theme.DialogModel
 import com.atech.theme.ParentActivity
 import com.atech.theme.customBackPress
@@ -121,8 +122,10 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
             val data: MutableList<AttendanceItem> = attendanceList.map { attendanceModel ->
                 AttendanceItem.AttendanceData(attendanceModel)
             } as MutableList<AttendanceItem>
-            attendanceAdapter.items = data
-            binding.attendanceView.emptyAnimation.isVisible = data.isEmpty()
+            attendanceAdapter.items = data.apply {
+                add(0, AttendanceItem.Ads(AdsUnit.Attendance))
+            }
+            binding.attendanceView.emptyAnimation.isVisible = attendanceList.isEmpty()
         }
     }
 
@@ -178,7 +181,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
     private fun navigateToAddSubjectFromSyllabus(): Boolean {
-        val action = AttendanceFragmentDirections.actionAttendanceFragmentToAddFromSyllabusBottomSheet()
+        val action =
+            AttendanceFragmentDirections.actionAttendanceFragmentToAddFromSyllabusBottomSheet()
         navigate(action)
         return true
     }

@@ -10,6 +10,8 @@ import com.atech.attendance.utils.findPercentage
 import com.atech.attendance.utils.setResources
 import com.atech.core.room.attendance.AttendanceModel
 import com.atech.theme.R
+import com.atech.theme.databinding.RowAdsViewBinding
+import com.atech.theme.setAdsUnit
 import com.google.android.material.color.MaterialColors
 import kotlin.math.ceil
 
@@ -126,6 +128,16 @@ sealed class AttendanceViewHolder(
                         }
                     }
                 }
+            }
+        }
+    }
+
+    class AdsHolder(
+        private val binding: RowAdsViewBinding
+    ) : AttendanceViewHolder(binding) {
+        fun bind(ads: AttendanceItem.Ads) {
+            binding.apply {
+                setAdsUnit(ads.ads)
             }
         }
     }
