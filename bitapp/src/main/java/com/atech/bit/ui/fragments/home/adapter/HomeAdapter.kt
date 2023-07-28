@@ -130,6 +130,12 @@ class HomeAdapter(
                 )
             )
 
+            com.atech.theme.R.layout.row_ads_view -> HomeViewHolder.AdsViewHolder(
+                com.atech.theme.databinding.RowAdsViewBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -153,6 +159,7 @@ class HomeAdapter(
         is HomeViewHolder.CgpaHolder -> holder.bind(items[position] as HomeItems.Cgpa)
         is HomeViewHolder.AttendanceHolder -> holder.bind(items[position] as HomeItems.Attendance)
         is HomeViewHolder.NoticeHolder -> holder.bind(items[position] as HomeItems.Notice)
+        is HomeViewHolder.AdsViewHolder -> holder.bind(items[position] as HomeItems.Ads)
         is HomeViewHolder.NoDataHolder -> Unit
         is HomeViewHolder.DevNoteHolder -> Unit
     }
@@ -170,5 +177,6 @@ class HomeAdapter(
         is HomeItems.Attendance -> R.layout.row_attendance_rv
         is HomeItems.Notice -> com.atech.theme.R.layout.row_notice_event
         HomeItems.NoData -> com.atech.theme.R.layout.layout_no_data_found
+        is HomeItems.Ads -> com.atech.theme.R.layout.row_ads_view
     }
 }

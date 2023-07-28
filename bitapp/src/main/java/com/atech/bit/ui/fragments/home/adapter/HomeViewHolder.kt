@@ -24,11 +24,13 @@ import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
 import com.atech.theme.databinding.LayoutNoDataFoundBinding
 import com.atech.theme.databinding.LayoutNoteFromDevBinding
+import com.atech.theme.databinding.RowAdsViewBinding
 import com.atech.theme.databinding.RowNoticeEventBinding
 import com.atech.theme.databinding.RowTitleBinding
 import com.atech.theme.getDate
 import com.atech.theme.loadImage
 import com.atech.theme.set
+import com.atech.theme.setAdsUnit
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.materialswitch.MaterialSwitch
 import java.math.RoundingMode
@@ -229,10 +231,20 @@ sealed class HomeViewHolder(
     }
 
     class NoDataHolder(
-        private val binding: LayoutNoDataFoundBinding
+        binding: LayoutNoDataFoundBinding
     ) : HomeViewHolder(binding)
 
     class DevNoteHolder(
         binding: LayoutNoteFromDevBinding
     ) : HomeViewHolder(binding)
+
+    class AdsViewHolder(
+        private val binding: RowAdsViewBinding
+    ) : HomeViewHolder(binding) {
+        fun bind(adsUnit: HomeItems.Ads) {
+            binding.setAdsUnit(
+                adsUnit.ads
+            )
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.atech.bit.utils.HomeTopModel
 import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.course.sem.adapter.SyllabusUIModel
+import com.atech.theme.AdsUnit
 import com.atech.theme.CardHighlightModel
 
 sealed class HomeItems {
@@ -37,6 +38,8 @@ sealed class HomeItems {
     data class Notice(
         val data: NoticeModel
     ) : HomeItems()
+
+    data class Ads(val ads: AdsUnit) : HomeItems()
 
     object NoData : HomeItems()
 

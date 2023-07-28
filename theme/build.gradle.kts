@@ -54,4 +54,6 @@ dependencies {
 
     implementation(libs.core.splashscreen)
 
+    implementation(libs.play.services.ads)
+
 }

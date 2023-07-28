@@ -1,8 +1,8 @@
 package com.atech.bit.ui.fragments.home.util
 
-import com.atech.bit.ui.fragments.home.viewmodel.DataSetForHome
 import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
+import com.atech.bit.ui.fragments.home.viewmodel.DataSetForHome
 import com.atech.bit.utils.HomeTopModel
 import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.firebase.firestore.FirebaseCases
@@ -14,6 +14,7 @@ import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.sem.adapter.SyllabusUIModel
+import com.atech.theme.AdsUnit
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.compareDifferenceInDays
@@ -36,6 +37,7 @@ class GetHomeData(
 
     fun getHomeItems() = channelFlow<List<HomeItems>> {
         val list = mutableListOf<HomeItems>()
+        list.add(HomeItems.Ads(AdsUnit.Home))
         notificationAccess(list)
         getLibraryData(dataSetForHome.library).also { list.addAll(it) }
         list.add(getTopSetting(dataSetForHome.isOnline))
