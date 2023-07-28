@@ -33,6 +33,12 @@ class CourseAdapter(
                 onClick.invoke((items[position] as CourseItem.Subject).data)
             }
 
+            com.atech.theme.R.layout.row_ads_view -> CourseViewHolder.AdsViewHolder(
+                com.atech.theme.databinding.RowAdsViewBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
         }
 
@@ -41,11 +47,13 @@ class CourseAdapter(
         when (holder) {
             is CourseViewHolder.TitleHolder -> holder.bind(items[position] as CourseItem.Title)
             is CourseViewHolder.SubjectHolder -> holder.bind(items[position] as CourseItem.Subject)
+            is CourseViewHolder.AdsViewHolder -> holder.bind(items[position] as CourseItem.Ads)
         }
 
     override fun getItemViewType(position: Int): Int = when (items[position]) {
         is CourseItem.Title -> com.atech.theme.R.layout.row_title
         is CourseItem.Subject -> R.layout.row_subjects
+        is CourseItem.Ads -> com.atech.theme.R.layout.row_ads_view
     }
 
     override fun getItemCount(): Int = items.size

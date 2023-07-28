@@ -13,10 +13,12 @@ import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.view_syllabus.online.OnlineSyllabusFragment
 import com.atech.syllabus.setFragment
+import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
 import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.set
+import com.atech.theme.setAdsUnit
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -53,6 +55,7 @@ class ViewSyllabusFragment : BaseFragment(R.layout.fragment_view_offline_syllabu
         binding.apply {
             root.transitionName = subject.subject
             setToolbar()
+            loadAds()
             if (subject.isFromOnline) {
                 setOnlineSyllabus()
                 return@apply
@@ -67,6 +70,9 @@ class ViewSyllabusFragment : BaseFragment(R.layout.fragment_view_offline_syllabu
 
     private fun FragmentViewOfflineSyllabusBinding.setOfflineSyllabus() = this.loadSubject.apply {
         setFragment(R.id.load_subject, childFragmentManager, syllabusUIMapper.mapToEntity(subject))
+    }
+    private fun FragmentViewOfflineSyllabusBinding.loadAds() = this.includeAdsView.apply {
+        setAdsUnit(AdsUnit.Miscellaneous)
     }
 
     private fun FragmentViewOfflineSyllabusBinding.setToolbar() = this.includeToolbar.apply {

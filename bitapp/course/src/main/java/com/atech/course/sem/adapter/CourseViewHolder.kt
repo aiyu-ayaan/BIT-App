@@ -4,7 +4,9 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.course.databinding.RowSubjectsBinding
+import com.atech.theme.databinding.RowAdsViewBinding
 import com.atech.theme.databinding.RowTitleBinding
+import com.atech.theme.setAdsUnit
 
 sealed class CourseViewHolder(
     binding: ViewBinding
@@ -39,6 +41,16 @@ sealed class CourseViewHolder(
                     if (model.data.code.isEmpty()) View.GONE else View.VISIBLE
 
             }
+        }
+    }
+
+    class AdsViewHolder(
+        private val binding: RowAdsViewBinding
+    ) : CourseViewHolder(binding) {
+        fun bind(adsUnit: CourseItem.Ads) {
+            binding.setAdsUnit(
+                adsUnit.ads
+            )
         }
     }
 

@@ -7,12 +7,14 @@ import com.atech.core.retrofit.client.SubjectModel
 import com.atech.core.room.syllabus.Subject
 import com.atech.core.room.syllabus.SyllabusModel
 import com.atech.core.utils.EntityMapper
+import com.atech.theme.AdsUnit
 import kotlinx.parcelize.Parcelize
 import javax.inject.Inject
 
 sealed class CourseItem {
     data class Title(val title: String) : CourseItem()
     data class Subject(val data: SyllabusUIModel) : CourseItem()
+    data class Ads(val ads: AdsUnit) : CourseItem()
 }
 
 /**

@@ -26,6 +26,7 @@ import com.atech.course.sem.adapter.SyllabusUIModel
 import com.atech.course.utils.SyllabusEnableModel
 import com.atech.course.utils.compareToCourseSem
 import com.atech.course.utils.tabSelectedListener
+import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
 import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ParentActivity
@@ -149,6 +150,7 @@ class SemChooseFragment : BaseFragment(R.layout.fragment_sem_choose, Axis.X) {
             }
         }.collectLatest { (theory, lab, pe) ->
             val list = mutableListOf<CourseItem>()
+            list.add(CourseItem.Ads(AdsUnit.Syllabus))
             if (theory.isNotEmpty()) {
                 list.add(CourseItem.Title(getString(com.atech.theme.R.string.theory)))
                 list.addAll(theory.map { CourseItem.Subject(it) })

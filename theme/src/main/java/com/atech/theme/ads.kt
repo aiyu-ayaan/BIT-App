@@ -24,13 +24,13 @@ enum class AdsUnit(val id: String) {
 
 fun initAds(mContext: Context) {
     MobileAds.initialize(mContext) {}
-   if(BuildConfig.DEBUG){
-       val testDeviceIds = listOf("CE65A74AF824CCB43EEE62129E5A103E")
-       val requestConfiguration = RequestConfiguration.Builder()
-           .setTestDeviceIds(testDeviceIds)
-           .build()
-       MobileAds.setRequestConfiguration(requestConfiguration)
-   }
+    if (BuildConfig.DEBUG) {
+        val testDeviceIds = listOf("CE65A74AF824CCB43EEE62129E5A103E")
+        val requestConfiguration = RequestConfiguration.Builder()
+            .setTestDeviceIds(testDeviceIds)
+            .build()
+        MobileAds.setRequestConfiguration(requestConfiguration)
+    }
 }
 
 fun RowAdsViewBinding.setAdsUnit(id: AdsUnit = AdsUnit.Miscellaneous) {
@@ -51,5 +51,8 @@ fun RowAdsViewBinding.setAdsUnit(id: AdsUnit = AdsUnit.Miscellaneous) {
             Log.d(TAG, "onAdFailedToLoad: ${p0.message}")
         }
     }
-    root.addView(adView)
+    root.childCount.let {
+        if (it == 0)
+            root.addView(adView)
+    }
 }
