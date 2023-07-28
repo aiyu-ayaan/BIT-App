@@ -22,11 +22,18 @@
                 android:id="@+id/toolbar"
                 layout="@layout/layout_toolbar" />
 
+            <include
+                android:id="@+id/include_ads_view"
+                layout="@layout/row_ads_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toolbar" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/top_layout"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_below="@id/toolbar">
+                android:layout_below="@id/include_ads_view">
 
                 <ImageView
                     android:id="@+id/society_image"

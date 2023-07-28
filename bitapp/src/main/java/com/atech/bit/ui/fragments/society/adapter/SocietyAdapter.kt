@@ -34,6 +34,12 @@ class SocietyAdapter(
                 onClick?.invoke(item[pos])
             }
 
+            com.atech.theme.R.layout.row_ads_view -> SocietyViewHolder.AdsViewHolder(
+                com.atech.theme.databinding.RowAdsViewBinding.inflate(
+                    LayoutInflater.from(parent.context), parent, false
+                )
+            )
+
             else -> throw IllegalArgumentException("Invalid view type")
 
         }
@@ -44,12 +50,14 @@ class SocietyAdapter(
         when (holder) {
             is SocietyViewHolder.TitleHolder -> holder.bind(item[position] as SocietyItem.Title)
             is SocietyViewHolder.SocietyHolder -> holder.bind(item[position] as SocietyItem.SocietyData)
+            is SocietyViewHolder.AdsViewHolder -> holder.bind(item[position] as SocietyItem.Ads)
         }
     }
 
     override fun getItemViewType(position: Int): Int = when (item[position]) {
         is SocietyItem.Title -> com.atech.theme.R.layout.row_title
         is SocietyItem.SocietyData -> R.layout.row_society
+        is SocietyItem.Ads -> com.atech.theme.R.layout.row_ads_view
     }
 
 }

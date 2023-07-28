@@ -1,11 +1,12 @@
 package com.atech.bit.ui.fragments.society.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.atech.bit.databinding.RowSocietyBinding
+import com.atech.theme.databinding.RowAdsViewBinding
 import com.atech.theme.databinding.RowTitleBinding
 import com.atech.theme.loadCircular
+import com.atech.theme.setAdsUnit
 
 sealed class SocietyViewHolder(
     binding: ViewBinding
@@ -33,6 +34,16 @@ sealed class SocietyViewHolder(
                 imageViewEvent.loadCircular(society.data.logo)
                 textViewSocietyName.text = society.data.name
             }
+        }
+    }
+
+    class AdsViewHolder(
+        private val binding: RowAdsViewBinding
+    ) : SocietyViewHolder(binding) {
+        fun bind(adsUnit: SocietyItem.Ads) {
+            binding.setAdsUnit(
+                adsUnit.ads
+            )
         }
     }
 

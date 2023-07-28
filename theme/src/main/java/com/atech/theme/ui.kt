@@ -49,7 +49,7 @@ fun Fragment.toast(message: String, length: ToastLength = ToastLength.SHORT) =
 
 
 fun LayoutRecyclerViewBinding.isLoadingDone(isLoadingComplete: Boolean) = this.apply {
-    recyclerView.isVisible = isLoadingComplete
+
     empty.isVisible = !isLoadingComplete
 }
 

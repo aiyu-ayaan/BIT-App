@@ -14,9 +14,10 @@ import androidx.navigation.fragment.navArgs
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentSocietyDetailBinding
 import com.atech.bit.utils.navigateToViewImage
+import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
-import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.customBackPress
 import com.atech.theme.getColorForText
 import com.atech.theme.getColorFromAttr
@@ -24,6 +25,7 @@ import com.atech.theme.getRgbFromHex
 import com.atech.theme.loadCircular
 import com.atech.theme.openLinks
 import com.atech.theme.set
+import com.atech.theme.setAdsUnit
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,10 +45,15 @@ class SocietyDetailFragment : BaseFragment(R.layout.fragment_society_detail, Axi
         view.doOnPreDraw { startPostponedEnterTransition() }
         binding.apply {
             setToolbar()
+            loadAds()
             setSociety()
             setHandler()
             customBackPress { customAction() }
         }
+    }
+
+    private fun FragmentSocietyDetailBinding.loadAds() = this.includeAdsView.apply {
+        setAdsUnit(AdsUnit.Miscellaneous)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
