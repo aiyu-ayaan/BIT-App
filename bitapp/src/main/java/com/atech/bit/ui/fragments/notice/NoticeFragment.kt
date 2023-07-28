@@ -15,10 +15,11 @@ import com.atech.bit.utils.getImageLinkNotification
 import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.utils.TAGS
+import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
-import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.ToolbarData
 import com.atech.theme.adapters.NoticeEventAdapter
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.databinding.LayoutRecyclerViewBinding
 import com.atech.theme.databinding.RowNoticeEventBinding
 import com.atech.theme.exitTransition
@@ -26,11 +27,12 @@ import com.atech.theme.getDate
 import com.atech.theme.loadImage
 import com.atech.theme.navigate
 import com.atech.theme.set
+import com.atech.theme.setAdsUnit
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoticeFragment : BaseFragment(com.atech.theme.R.layout.layout_recycler_view,Axis.Z) {
+class NoticeFragment : BaseFragment(com.atech.theme.R.layout.layout_recycler_view, Axis.Z) {
 
     private val viewModel: NoticeViewModel by viewModels()
     private val binding: LayoutRecyclerViewBinding by viewBinding()
@@ -42,8 +44,13 @@ class NoticeFragment : BaseFragment(com.atech.theme.R.layout.layout_recycler_vie
         binding.apply {
             setToolbar()
             setRecyclerView()
+            loadAds()
         }
         observeData()
+    }
+
+    private fun LayoutRecyclerViewBinding.loadAds() = this.includeAdsView.apply {
+        setAdsUnit(AdsUnit.Miscellaneous)
     }
 
     private fun observeData() {

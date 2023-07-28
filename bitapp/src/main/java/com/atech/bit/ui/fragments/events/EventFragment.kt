@@ -15,6 +15,7 @@ import com.atech.bit.utils.navigateToViewImage
 import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.firebase.firestore.FirebaseCases
 import com.atech.core.utils.TAGS
+import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
 import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.R
@@ -27,6 +28,7 @@ import com.atech.theme.getDate
 import com.atech.theme.loadCircular
 import com.atech.theme.navigate
 import com.atech.theme.set
+import com.atech.theme.setAdsUnit
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -49,8 +51,12 @@ class EventFragment : BaseFragment(R.layout.layout_recycler_view,Axis.Y) {
         binding.apply {
             setToolbar()
             setRecyclerView()
+            loadAds()
         }
         observeData()
+    }
+    private fun LayoutRecyclerViewBinding.loadAds() = this.includeAdsView.apply {
+        setAdsUnit(AdsUnit.Miscellaneous)
     }
 
     private fun LayoutRecyclerViewBinding.setRecyclerView() = this.recyclerView.apply {

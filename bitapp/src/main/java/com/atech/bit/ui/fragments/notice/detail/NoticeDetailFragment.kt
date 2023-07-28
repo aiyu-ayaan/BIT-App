@@ -20,6 +20,7 @@ import com.atech.core.firebase.firestore.ShareModel
 import com.atech.core.utils.DataState
 import com.atech.core.utils.MAX_SPAWN
 import com.atech.core.utils.isConnected
+import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
 import com.atech.theme.ToolbarData
 import com.atech.theme.base_class.BaseFragment
@@ -29,6 +30,7 @@ import com.atech.theme.navigate
 import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openShareDeepLink
 import com.atech.theme.set
+import com.atech.theme.setAdsUnit
 import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,8 +45,13 @@ class NoticeDetailFragment : BaseFragment(R.layout.fragment_notice_event_detail,
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             setToolbar()
+            loadAds()
         }
         observeData()
+    }
+
+    private fun FragmentNoticeEventDetailBinding.loadAds() = this.includeAdsView.apply {
+        setAdsUnit(AdsUnit.EventAndNoticeDes)
     }
 
     private fun observeData() {
