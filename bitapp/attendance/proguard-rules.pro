@@ -8,3 +8,4 @@
 -dontwarn com.atech.theme.R$drawable
 -dontwarn com.atech.theme.R$string
 -dontwarn com.google.android.material.R$attr
+-dontwarn com.atech.theme.R$layout
