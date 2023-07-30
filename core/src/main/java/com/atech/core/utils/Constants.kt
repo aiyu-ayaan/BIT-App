@@ -17,6 +17,7 @@ enum class SharePrefKeys {
     SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime,
     ShowTimes, KeyAnnVersion, CurrentShowTime, IsDynamicThemeEnabled,
     IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
+    FirstTimeLogIn
 }
 
 const val SYLLABUS_SOURCE_DATA =

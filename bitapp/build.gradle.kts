@@ -18,7 +18,7 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 33
-        versionCode = 61
+        versionCode = 62
         versionName = "5.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

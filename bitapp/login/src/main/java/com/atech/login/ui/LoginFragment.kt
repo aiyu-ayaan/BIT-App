@@ -85,15 +85,27 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         screenLogic()
         binding.apply {
-            authUseCases.hasLogIn.invoke().let {
-                if (it) {
-                    authUseCases.logout.invoke()
-                }
-            }
+            for1Time()
             signInButton()
             skipButton()
             whyLogin()
         }
+    }
+
+    private fun for1Time() {
+        pref.getBoolean(SharePrefKeys.FirstTimeLogIn.name, true)
+            .let { firstTime ->
+                if (firstTime) {
+                    authUseCases.hasLogIn.invoke().let {
+                        if (it) {
+                            authUseCases.logout.invoke()
+                        }
+                    }
+                    pref.edit().apply {
+                        putBoolean(SharePrefKeys.FirstTimeLogIn.name, false)
+                    }.apply()
+                }
+            }
     }
 
     private fun screenLogic() {
