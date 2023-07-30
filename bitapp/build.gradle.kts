@@ -18,8 +18,8 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 33
-        versionCode = 60
-        versionName = "4.1.2 Patch 1"
+        versionCode = 61
+        versionName = "5.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,7 +28,7 @@ android {
             enable = false
         }
     }
-    flavorDimensions +="type"
+    flavorDimensions += "type"
     productFlavors {
         create("global") {
             dimension = "type"
