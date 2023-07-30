@@ -36,7 +36,7 @@ import javax.inject.Provider
         AttendanceModel::class,
         SyllabusModel::class, LibraryModel::class
     ],
-    version = 13,
+    version = 14,
     exportSchema = false
 )
 @TypeConverters(

@@ -15,7 +15,7 @@ import com.atech.attendance.utils.findPercentage
 import com.atech.bit.databinding.RowAttendanceHomeBinding
 import com.atech.bit.databinding.RowCarouselBinding
 import com.atech.bit.databinding.RowLibrarySubjectHomeBinding
-import com.atech.bit.ui.fragments.home.HomeViewModelExr
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModelExr
 import com.atech.core.room.attendance.AttendanceModel
 import com.atech.core.room.library.DiffUtilCallbackLibrary
 import com.atech.core.room.library.LibraryModel

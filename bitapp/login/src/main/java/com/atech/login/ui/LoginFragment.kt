@@ -85,6 +85,11 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         screenLogic()
         binding.apply {
+            authUseCases.hasLogIn.invoke().let {
+                if (it) {
+                    authUseCases.logout.invoke()
+                }
+            }
             signInButton()
             skipButton()
             whyLogin()
@@ -153,20 +158,18 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     private fun whyULogInDialog() {
-        binding.textViewWhyToLogIn.setOnClickListener {
-            val dialog =
-                MaterialAlertDialogBuilder(requireContext()).setTitle("Why do you need to log in?")
-                    .setMessage(
-                        """
+        val dialog =
+            MaterialAlertDialogBuilder(requireContext()).setTitle("Why do you need to log in?")
+                .setMessage(
+                    """
                         You need to log in to save your data (e.g. Attendance, GPA, Course preferences) in the cloud.
                         
                         This way you can access your data from any device.
                     """.trimIndent()
-                    ).setPositiveButton("Ok") { dialog, _ ->
-                        dialog.dismiss()
-                    }.create()
-            dialog.show()
-        }
+                ).setPositiveButton("Ok") { dialog, _ ->
+                    dialog.dismiss()
+                }.create()
+        dialog.show()
     }
 
     private fun FragmentLoginBinding.signInButton() = this.signInButton.apply {

@@ -135,4 +135,8 @@ interface SyllabusDao {
 
     @Query("UPDATE syllabus_table SET isChecked = 1")
     suspend fun updateIsChecked()
+
+    // get count of syllabus
+    @Query("SELECT COUNT(*) FROM syllabus_table")
+    suspend fun getSyllabusCount(): Int
 }

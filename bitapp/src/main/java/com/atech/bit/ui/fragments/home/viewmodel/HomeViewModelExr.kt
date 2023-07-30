@@ -1,4 +1,4 @@
-package com.atech.bit.ui.fragments.home
+package com.atech.bit.ui.fragments.home.viewmodel
 
 import androidx.annotation.Keep
 import com.atech.bit.ui.fragments.home.adapter.HomeItems

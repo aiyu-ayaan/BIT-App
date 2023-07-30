@@ -18,6 +18,16 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
+    flavorDimensions +="type"
+
+    productFlavors {
+        create("global") {
+            dimension = "type"
+        }
+        create("beta") {
+            dimension = "type"
+        }
+    }
 
     buildTypes {
         release {

@@ -1,6 +1,6 @@
 package com.atech.bit.ui.fragments.home.adapter
 
-import com.atech.bit.ui.fragments.home.HomeViewModelExr
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModelExr
 import com.atech.bit.utils.HomeTopModel
 import com.atech.core.firebase.firestore.NoticeModel
 import com.atech.core.room.library.LibraryModel

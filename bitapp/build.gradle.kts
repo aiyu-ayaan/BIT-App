@@ -23,6 +23,30 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    bundle {
+        storeArchive {
+            enable = false
+        }
+    }
+    flavorDimensions +="type"
+    productFlavors {
+        create("global") {
+            dimension = "type"
+            versionNameSuffix = "-global"
+        }
+        create("beta") {
+            dimension = "type"
+            versionNameSuffix = "-beta"
+        }
+    }
+    signingConfigs {
+        create("release") {
+            storeFile = file("keystore/keystore.jks")
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
 
     buildTypes {
         release {
@@ -32,6 +56,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

@@ -1,8 +1,8 @@
 package com.atech.bit.ui.fragments.home.util
 
-import com.atech.bit.ui.fragments.home.HomeViewModelExr
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.ui.fragments.home.viewmodel.DataSetForHome
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModelExr
 import com.atech.bit.utils.HomeTopModel
 import com.atech.core.firebase.firestore.EventModel
 import com.atech.core.firebase.firestore.FirebaseCases
@@ -11,6 +11,7 @@ import com.atech.core.retrofit.client.Holiday
 import com.atech.core.retrofit.client.HolidayModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
+import com.atech.core.room.syllabus.SyllabusList
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.sem.adapter.SyllabusUIModel
@@ -25,6 +26,7 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Date
@@ -140,6 +142,12 @@ class GetHomeData(
         offlineSyllabusUIMapper: OfflineSyllabusUIMapper
     ) = coroutineScope {
         withContext(Dispatchers.IO) {
+            launch(Dispatchers.IO) {
+                syllabusDao.getSyllabusCount().let {
+                    if (it == 0)
+                        syllabusDao.insertAll(SyllabusList.syllabus)
+                }
+            }.join()
             val theory = async {
                 offlineSyllabusUIMapper.mapFromEntityList(
                     syllabusDao.getSyllabusHomeList(

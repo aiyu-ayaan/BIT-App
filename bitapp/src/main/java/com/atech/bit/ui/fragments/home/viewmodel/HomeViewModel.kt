@@ -1,16 +1,16 @@
 package com.atech.bit.ui.fragments.home.viewmodel
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import com.atech.bit.ui.fragments.home.HomeViewModelExr
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.getHoliday
-import com.atech.bit.ui.fragments.home.HomeViewModelExr.offlineDataSourceSearch
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.ui.fragments.home.util.GetHomeData
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModelExr.getHoliday
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModelExr.offlineDataSourceSearch
 import com.atech.core.data.room.library.LibraryDao
 import com.atech.core.datastore.DataStoreCases
 import com.atech.core.firebase.firestore.Db
@@ -23,9 +23,9 @@ import com.atech.core.room.attendance.AttendanceDao
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULT_QUERY
-import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SYLLABUS_SOURCE_DATA
 import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
@@ -116,28 +116,32 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        viewModelScope.launch(Dispatchers.IO) {
-            searchQuery.combine(filterState) { q, f ->
-                q to f
-            }.collectLatest { (query, filter) ->
-                val list = mutableListOf<HomeItems>()
-                if (query == DEFAULT_QUERY || query.isBlank()) {
-                    _homeScreenSearchData.value = list
-                    return@collectLatest
-                }
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                searchQuery.combine(filterState) { q, f ->
+                    q to f
+                }.collectLatest { (query, filter) ->
+                    val list = mutableListOf<HomeItems>()
+                    if (query == DEFAULT_QUERY || query.isBlank()) {
+                        _homeScreenSearchData.value = list
+                        return@collectLatest
+                    }
 
-                list.addAll(
-                    filter.filter(
-                        searchQuery = query,
-                        allAction = ::filterAll,
-                        syllabusOfflineAction = ::getOfflineSyllabus,
-                        holidayAction = ::getHolidays,
-                        eventAction = ::getEvents,
-                        noticeAction = ::getNotice
+                    list.addAll(
+                        filter.filter(
+                            searchQuery = query,
+                            allAction = ::filterAll,
+                            syllabusOfflineAction = ::getOfflineSyllabus,
+                            holidayAction = ::getHolidays,
+                            eventAction = ::getEvents,
+                            noticeAction = ::getNotice
+                        )
                     )
-                )
-                _homeScreenSearchData.value = list
+                    _homeScreenSearchData.value = list
+                }
             }
+        } catch (e: Exception) {
+            Log.d(TAGS.BIT_ERROR.name, "${e.stackTrace}")
         }
     }
 
