@@ -29,6 +29,7 @@ import com.atech.theme.databinding.RowNoticeEventBinding
 import com.atech.theme.databinding.RowTitleBinding
 import com.atech.theme.getDate
 import com.atech.theme.loadImage
+import com.atech.theme.openLinkToDefaultApp
 import com.atech.theme.set
 import com.atech.theme.setAdsUnit
 import com.google.android.material.carousel.CarouselLayoutManager
@@ -235,8 +236,18 @@ sealed class HomeViewHolder(
     ) : HomeViewHolder(binding)
 
     class DevNoteHolder(
-        binding: LayoutNoteFromDevBinding
-    ) : HomeViewHolder(binding)
+        private val binding: LayoutNoteFromDevBinding
+    ) : HomeViewHolder(binding) {
+        init {
+            binding.root.setOnClickListener {
+                binding.root.context.openLinkToDefaultApp(
+                    binding.root.context.getString(
+                        R.string.github_dev
+                    )
+                )
+            }
+        }
+    }
 
     class AdsViewHolder(
         private val binding: RowAdsViewBinding

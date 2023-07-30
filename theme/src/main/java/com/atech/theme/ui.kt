@@ -18,7 +18,6 @@ import androidx.annotation.ColorInt
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -298,6 +297,15 @@ fun Fragment.openLinkToDefaultApp(link: String) = this.run {
         startActivity(intent)
     } catch (_: Exception) {
         requireContext().openCustomChromeTab(link)
+    }
+}
+
+fun Context.openLinkToDefaultApp(link: String) = this.run {
+    try {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+        startActivity(intent)
+    } catch (_: Exception) {
+        openCustomChromeTab(link)
     }
 }
 

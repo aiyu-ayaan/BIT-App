@@ -1,0 +1,95 @@
+name: Build 🏗️ and Release 🚀
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore/keystore.jks'
+          encodedString: ${{ secrets.KEYSTORE }}
+
+      - uses: actions/checkout@v2
+      - name: set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Decode google-services.json
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.APP_GOOGLE_JSON }}
+        run: echo $GOOGLE_SERVICES_JSON > ./bitapp/google-services.json
+
+      - name: Copy Keystore to Project
+        run: |
+          mkdir -p ./bitapp/keystore
+          cp ${{ steps.decode_keystore.outputs.filePath }} './bitapp/keystore/keystore.jks'
+          echo ${{ steps.decode_keystore.outputs.filePath }}
+          ls -la ./bitapp
+
+      - name: Build Release APK and Bundle
+        run: ./gradlew :bitapp:assembleGlobalRelease --stacktrace :bitapp:bundleGlobalRelease --stacktrace
+        env:
+          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk
+          retention-days: 1
+          path: bitapp/build/outputs/apk/global/release/bitapp-global-release.apk
+      - name: Upload Bundle
+        uses: actions/upload-artifact@v2
+        with:
+          name: bundle
+          retention-days: 1
+          path: bitapp/build/outputs/bundle/globalRelease/bitapp-global-release.aab
+
+  release:
+    name: Publish APK to GitHub
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from build
+        uses: actions/download-artifact@v3
+        with:
+          name: apk
+
+      - name: Download Bundle from build
+        uses: actions/download-artifact@v3
+        with:
+          name: bundle
+      - name : Rename file to match tag
+        run : |
+          echo ${{ github.ref }}
+          v=$(echo ${{ github.ref }} | cut -c 11-)
+          echo $v
+          mv bitapp-global-release.apk bitapp-$v.apk
+          mv bitapp-global-release.aab bitapp-$v.aab
+
+      - name: Upload APK to Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+        uses: softprops/action-gh-release@v1
+        with:
+          fail_on_missing: true
+          files: |
+            bitapp-*.apk
+            bitapp-*.aab
+          tag_name: ${{ steps.create_release.outputs.tag_name }}
+          name: ${{ github.event.inputs.releaseName }}
+          token: ${{ secrets.ACCOUNT_TOKEN }}
