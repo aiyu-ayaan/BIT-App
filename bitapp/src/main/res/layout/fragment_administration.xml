@@ -4,18 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    android:fillViewport="true"
-    android:padding="@dimen/grid_1"
+    android:background="?attr/bottomBar"
     tools:context="com.atech.bit.ui.fragments.administration.AdministrationFragment">
+
+    <include
+        android:id="@+id/includeToolbar"
+        layout="@layout/layout_toolbar" />
 
     <com.mukesh.MarkdownView
         android:id="@+id/markdown"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/includeToolbar"
         android:layout_marginTop="@dimen/grid_1"
-        android:fillViewport="true"
-        android:scrollbars="vertical" />
+        android:scrollbars="none"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
     <com.airbnb.lottie.LottieAnimationView
@@ -38,5 +41,6 @@
         android:text="@string/no_internet"
         android:textAppearance="?attr/textAppearanceBody1"
         android:visibility="gone" />
+
 
 </RelativeLayout>

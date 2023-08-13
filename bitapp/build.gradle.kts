@@ -1,39 +1,34 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id(PlugIns.androidApplication)
-    id(PlugIns.kotlinAndroid)
-    id(PlugIns.googleServices)
-    kotlin(PlugIns.kotlinKapt)
-    id(PlugIns.navigationSafeArgs)
-    id(PlugIns.hilt)
-    id(PlugIns.crashlytics)
-    id(PlugIns.parcelize)
+    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.kotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
+    id("com.google.firebase.crashlytics")
+    id("kotlin-parcelize")
 }
 
 android {
-    namespace = App.id
-    compileSdk = AndroidSdk.compile
+    namespace = "com.atech.bit"
+    compileSdk = 33
 
     defaultConfig {
-        applicationId = App.id
-        minSdk = AndroidSdk.min
-        versionCode = App.versionCode
-        versionName = App.versionName
-        targetSdk = AndroidSdk.compile
-
+        applicationId = "com.atech.bit"
+        minSdk = 24
+        targetSdk = 33
+        versionCode = 62
+        versionName = "5.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables {
-            useSupportLibrary = true
-        }
     }
     bundle {
         storeArchive {
             enable = false
         }
     }
-
     flavorDimensions += "type"
-//
     productFlavors {
         create("global") {
             dimension = "type"
@@ -55,133 +50,85 @@ android {
 
     buildTypes {
         release {
-            isShrinkResources = true
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
         }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersionCompatibility.javaVersion
-        targetCompatibility = JavaVersionCompatibility.javaVersion
-    }
-    kotlinOptions {
-        jvmTarget = JavaVersionCompatibility.kotlinVersion
-    }
-    buildFeatures {
-        viewBinding = true
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.7"
-    }
-
-    tasks.withType().configureEach {
-        kotlinOptions {
-            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        debug {
+            isMinifyEnabled = true
+            isShrinkResources = true
         }
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
 
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
 }
 
 dependencies {
 
-    implementation(project(Modules.core))
-    implementation(project(Modules.syllabus))
+    implementation(project(mapOf("path" to ":bitapp:attendance")))
+    implementation(project(mapOf("path" to ":bitapp:course")))
+    implementation(project(mapOf("path" to ":bitapp:login")))
+    implementation(project(":core"))
+    implementation(project(":syllabus"))
+    implementation(project(":theme"))
 
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.playstore.core)
-    implementation(libs.play.services.ads)
-    implementation(libs.play.services.auth)
+    implementation(libs.constraintlayout)
 
-    implementation(libs.compose.activity)
-    implementation(platform(libs.compose.boM))
-    implementation(libs.compose.ui)
-    implementation(libs.compose.ui.graphics)
-    implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    implementation(libs.compose.navigation)
-    implementation(libs.compose.viewModel)
-    debugImplementation(libs.compose.tooling)
-    debugImplementation(libs.compose.testManifest)
-    implementation(libs.compose.adapter)
+    implementation(libs.hilt.android)
+    implementation(libs.playstore.core)
+    kapt(libs.hilt.android.compiler)
 
     implementation(platform(libs.firebase.bom))
-    releaseImplementation(libs.firebase.analytics.ktx)
-    releaseImplementation(libs.firebase.crashlytics.ktx)
-    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.analytics.ktx)
     implementation(libs.firebase.messaging.ktx)
-    implementation(libs.firebase.config.ktx)
-    implementation(libs.firebase.auth.ktx) {
-        exclude(module = "play-services-safetynet")
-    }
+    releaseImplementation(libs.firebase.crashlytics.ktx)
 
 
-    implementation(libs.lifecycle.viewModel)
-    implementation(libs.lifecycle.liveData)
-    implementation(libs.fragment)
+    implementation(libs.navigation.fragment.ktx)
+    implementation(libs.navigation.ui.ktx)
 
-
-    implementation(libs.nav.fragment)
-    implementation(libs.nav.ui)
-
-    implementation(libs.hilt)
-    implementation(libs.hilt.compose)
-    kapt(libs.hilt.compiler)
-
-    implementation(libs.web.kit)
-
-    implementation(libs.coroutines)
-    implementation(libs.coroutines.android)
-
-
-    implementation(libs.room.ktx)
-    kapt(libs.room.annotation)
-
-
-    implementation(libs.glide)
-
-    implementation(libs.data.store)
-
-    implementation(libs.lotti)
-
-    implementation(libs.gson)
-
-    implementation(libs.view.binding)
-
-    implementation(libs.custom.chrome)
-
-    implementation(libs.recycler.view)
-    implementation(libs.recycler.view.selection)
-
-    implementation(libs.palette)
-
-    implementation(libs.splash.screen)
-    implementation(libs.calender)
-
-    implementation(libs.graph)
-
-    implementation(libs.exoMedia3)
-    implementation(libs.exoMedia3.ui)
-    implementation(libs.exoMedia3.dash)
-
-
-    implementation(libs.cryptore)
-    implementation(libs.retrofit)
-
-    implementation(libs.circle.indicator)
+    implementation(libs.android.viewbinding)
 
     implementation(libs.markDownView)
 
+    implementation(libs.lotti)
+
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    implementation(libs.exoplayer.core)
+    implementation(libs.exoplayer.ui)
+    implementation(libs.exoplayer.dash)
+
+    implementation(libs.graph)
+    implementation(libs.glide)
+
+    implementation(libs.palette)
+
+    implementation(libs.core.splashscreen)
 }
 
 kapt {
     correctErrorTypes = true
-    useBuildCache = true
+}
+hilt {
+    enableAggregatingTask = true
 }

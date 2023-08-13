@@ -1,8 +1,8 @@
 package com.atech.core.module
 
 import android.content.Context
-import com.atech.core.api.BITApiClient
-import com.atech.core.api.BITApiClient.Companion.BASE_URL
+import com.atech.core.retrofit.client.BITApiClient
+import com.atech.core.retrofit.client.BITApiClient.Companion.BASE_URL
 import com.atech.core.utils.hasNetwork
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -17,11 +17,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 import javax.inject.Singleton
 
-
-@Module
 @InstallIn(SingletonComponent::class)
+@Module
 object RetrofitModule {
-
     @Provides
     @Singleton
     fun provideConvertor(): GsonConverterFactory =

@@ -1,55 +1,24 @@
-/*
- * BIT Lalpur App
- *
- * Created by Ayaan on 3/13/22, 10:32 AM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 3/12/22, 4:49 PM
- */
-
-
-
 package com.atech.bit.ui.fragments.notice
 
-import androidx.lifecycle.*
-import com.atech.core.utils.MainStateEvent
-import com.atech.core.data.ui.notice.Notice3
-import com.atech.core.data.ui.notice.NoticeRepository
-import com.atech.core.utils.DataState
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.atech.core.firebase.firestore.Db
+import com.atech.core.firebase.firestore.FirebaseCases
+import com.atech.core.firebase.firestore.NoticeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
-    private val state: SavedStateHandle,
-    private val repository: NoticeRepository,
+    private val case: FirebaseCases
 ) : ViewModel() {
+    val allNotices = case.getData
+        .invoke(
+            NoticeModel::class.java,
+            Db.Notice
+        ).asLiveData()
 
-    private val _dataStateNotice3Main: MutableLiveData<DataState<List<Notice3>>> = MutableLiveData()
-    val dataStateNotice3Main: LiveData<DataState<List<Notice3>>>
-        get() = _dataStateNotice3Main
-
-    val type = MutableStateFlow("new")
-    val isColored = MutableStateFlow(false)
-
-
-    fun setStateListenerMain(mainStateEvent: MainStateEvent) {
-        viewModelScope.launch {
-            when (mainStateEvent) {
-                MainStateEvent.GetData -> {
-                    type.flatMapLatest { repository.getNotice3() }.onEach { dataState ->
-                        _dataStateNotice3Main.value = dataState
-                    }.launchIn(viewModelScope)
-                }
-                MainStateEvent.NoInternet -> {
-                }
-            }
-        }
-    }
+    fun getAttach(id: String) = case.getAttach
+        .invoke(Db.Notice, id)
+        .asLiveData()
 }

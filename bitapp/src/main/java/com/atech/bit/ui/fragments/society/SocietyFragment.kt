@@ -3,153 +3,100 @@ package com.atech.bit.ui.fragments.society
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.doOnPreDraw
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.atech.bit.R
-import com.atech.bit.databinding.FragmentSocietyBinding
-import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.utils.loadAdds
-import com.atech.core.api.society.Society
+import com.atech.bit.ui.fragments.society.adapter.SocietyAdapter
+import com.atech.bit.ui.fragments.society.adapter.SocietyItem
+import com.atech.core.retrofit.ApiCases
+import com.atech.core.retrofit.client.Society
 import com.atech.core.utils.DataState
-import com.atech.core.utils.changeStatusBarToolbarColor
-import com.atech.core.utils.onScrollColorChange
-import com.atech.core.utils.showSnackBar
-import com.google.android.material.transition.MaterialSharedAxis
+import com.atech.theme.AdsUnit
+import com.atech.theme.Axis
+import com.atech.theme.R
+import com.atech.theme.ToolbarData
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.databinding.LayoutRecyclerViewBinding
+import com.atech.theme.exitTransition
+import com.atech.theme.isLoadingDone
+import com.atech.theme.launchWhenStarted
+import com.atech.theme.set
+import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class SocietyFragment : Fragment(R.layout.fragment_society) {
-
-    private val binding: FragmentSocietyBinding by viewBinding()
-    private val viewModel: SocietyViewModel by viewModels()
+class SocietyFragment : BaseFragment(R.layout.layout_recycler_view, Axis.Y) {
+    private val binding: LayoutRecyclerViewBinding by viewBinding()
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-    }
+    @Inject
+    lateinit var cases: ApiCases
+
+    private lateinit var societyAdapter: SocietyAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-        val societyAdapter = SocietyAdapter { society, _ ->
-            setOnSocietyClickListener(society)
-        }
-        val ngosAdapter = SocietyAdapter { society, _ ->
-            setOnSocietyClickListener(society)
-        }
         binding.apply {
-            showSociety.apply {
-                adapter = societyAdapter
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                addItemDecoration(
-                    DividerItemDecorationNoLast(
-                        requireContext(),
-                        LinearLayoutManager.VERTICAL
-                    ).apply {
-                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-                    }
-                )
-            }
-            showNgos.apply {
-                adapter = ngosAdapter
-                layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
-                addItemDecoration(
-                    DividerItemDecorationNoLast(
-                        requireContext(),
-                        LinearLayoutManager.VERTICAL
-                    ).apply {
-                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-                    }
-                )
-            }
+            setToolbar()
+            setRecyclerView()
         }
-        societyAdapter.stateRestorationPolicy =
-            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        observeData()
+    }
 
-        viewModel.getSociety().observe(viewLifecycleOwner) { dataState ->
+
+    private fun LayoutRecyclerViewBinding.setRecyclerView() = this.recyclerView.apply {
+        adapter = SocietyAdapter { item ->
+            when (item) {
+                is SocietyItem.SocietyData -> {
+                    navigateToDetail(item.data)
+                }
+
+                else -> toast("Not implemented")
+            }
+        }.also { societyAdapter = it }
+        layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun observeData() = launchWhenStarted {
+        cases.society.invoke().collectLatest { dataState ->
             when (dataState) {
                 is DataState.Success -> {
-                    binding.materialCardViewMain.isVisible = dataState.data.societies.isNotEmpty()
-                    binding.textViewSociety.isVisible = dataState.data.societies.isNotEmpty()
-                    binding.materialCardViewNgo.isVisible = dataState.data.ngos.isNotEmpty()
-                    binding.textViewNgos.isVisible = dataState.data.ngos.isNotEmpty()
-                    societyAdapter.submitList(dataState.data.societies.sortBySno())
-                    ngosAdapter.submitList(dataState.data.ngos.sortBySno())
+                    val list = mutableListOf<SocietyItem>()
+                    list.add(SocietyItem.Title(getString(R.string.societies)))
+                    list.add(SocietyItem.Ads(AdsUnit.Miscellaneous))
+                    list.addAll(dataState.data.societies.map { SocietyItem.SocietyData(it) })
+                    list.add(SocietyItem.Title(getString(R.string.ngos)))
+                    list.add(SocietyItem.Ads(AdsUnit.Miscellaneous))
+                    list.addAll(dataState.data.ngos.map { SocietyItem.SocietyData(it) })
+                    societyAdapter.item = list
+                    binding.isLoadingDone(true)
                 }
 
-                is DataState.Error -> {
-                    binding.materialCardViewNgo.isVisible = false
-                    binding.textViewNgos.isVisible = false
-                    binding.materialCardViewMain.isVisible = false
-                    binding.textViewSociety.isVisible = false
-                    binding.root.showSnackBar(
-                        dataState.exception.message.toString(),
-                        -1
-                    )
+                else -> {
+                    if (dataState is DataState.Error)
+                        toast(dataState.exception.message.toString())
+                    binding.isLoadingDone(false)
                 }
-
-                else -> {}
             }
         }
-        detectScroll()
-
-        requireContext().loadAdds(binding.adView)
-
     }
 
-
-    private fun setOnSocietyClickListener(society: Society) {
-        try {
-            exitTransition = MaterialSharedAxis(MaterialSharedAxis.X, true)
-            reenterTransition = MaterialSharedAxis(MaterialSharedAxis.X, false)
-            val action =
-                SocietyFragmentDirections.actionSocietyFragmentToEventSocietyDescriptionFragment(
-                    society = society,
-                    title = society.name
-                )
-            findNavController().navigate(action)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Click one item at a time !!", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
-
-    /**
-     * @since 4.0.4
-     * @author Ayaan
-     */
-    private fun detectScroll() {
-        activity?.onScrollColorChange(binding.nestedScrollViewSociety, {
-            activity?.changeStatusBarToolbarColor(
-                R.id.toolbar,
-                com.google.android.material.R.attr.colorSurface
+    private fun LayoutRecyclerViewBinding.setToolbar() = this.includeToolbar.apply {
+        set(
+            ToolbarData(
+                title = R.string.societies_and_ngos,
+                action = findNavController()::navigateUp
             )
-        }, {
-            activity?.changeStatusBarToolbarColor(
-                R.id.toolbar,
-                R.attr.bottomBar
-            )
-        })
+        )
     }
 
-    
-
-    /**
-    * @auther Nilay
-    * @since 4.1.1 Patch 3
-    */
-    private fun List<Society>?.sortBySno(): List<Society> {
-        return this?.sortedBy { it.sno } ?: emptyList()
+    private fun navigateToDetail(model: Society) {
+        exitTransition(Axis.X)
+        findNavController().navigate(
+            SocietyFragmentDirections.actionSocietyFragmentToSocietyDetailFragment(
+                model
+            )
+        )
     }
 }

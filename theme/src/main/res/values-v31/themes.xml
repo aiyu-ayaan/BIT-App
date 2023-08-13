@@ -1,0 +1,50 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.BITApp" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/accent_color</item>
+        <item name="colorPrimaryVariant">?attr/colorSurface</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/MainColor</item>
+        <item name="colorSurface">@color/MainColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/accent_color</item>
+        <item name="colorSecondaryVariant">@color/accent_color</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondaryContainer">@color/blue_bottom_nav</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorSurface</item>
+        <!-- Customize your theme here. -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="bottomBar">@android:color/system_neutral1_50</item>
+        <item name="textColor">@color/textColor</item>
+        <item name="textColorSecondary">@color/textColorSecondary</item>
+        <item name="bottomSheetBackground">@android:color/system_neutral1_100</item>
+        <item name="appLogoBackground">@color/logo_background</item>
+    </style>
+
+    <style name="Theme.BITApp" parent="Base.Theme.BITApp" />
+
+
+    <style name="ThemeOverlay.App.BottomSheetDialog" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/ModalBottomSheetDialog</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">?attr/bottomSheetBackground</item>
+    </style>
+
+    <style name="ModalBottomSheetDialog" parent="Widget.Material3.BottomSheet.Modal">
+        <item name="backgroundTint">?attr/bottomSheetBackground</item>
+    </style>
+
+    <style name="Theme.customSplash" parent="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground">?attr/bottomBar</item>
+        <item name="android:windowSplashScreenAnimationDuration">800</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_screen_anim</item>
+        <item name="postSplashScreenTheme">@style/Theme.BITApp</item>
+    </style>
+
+</resources>

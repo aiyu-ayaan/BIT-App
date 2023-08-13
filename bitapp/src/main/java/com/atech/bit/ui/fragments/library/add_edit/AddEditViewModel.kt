@@ -4,7 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.data.room.library.LibraryModel
+import com.atech.core.room.library.LibraryModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -14,24 +14,20 @@ class AddEditViewModel @Inject constructor(
     private val state: SavedStateHandle,
     private val dao: LibraryDao
 ) : ViewModel() {
-    val title = state["title"] ?: ""
 
     var libraryModel = state.get<LibraryModel>("library") ?: LibraryModel()
         set(value) {
             field = value
             state["library"] = value
         }
+    val title = state["title"] ?: ""
 
+    fun updateBook(library: LibraryModel) = viewModelScope.launch {
+        dao.updateBook(library)
+    }
 
     fun addBook(libraryModel: LibraryModel) = viewModelScope.launch {
         dao.insertBook(libraryModel)
     }
 
-    fun updateBook(libraryModel: LibraryModel) = viewModelScope.launch {
-        dao.updateBook(libraryModel)
-    }
-
-    fun deleteBook(libraryModel: LibraryModel) = viewModelScope.launch {
-        dao.deleteBook(libraryModel)
-    }
 }

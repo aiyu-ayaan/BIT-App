@@ -1,30 +1,22 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id(PlugIns.androidLibrary)
-    id(PlugIns.kotlinAndroid)
-    id(PlugIns.hilt)
-    kotlin(PlugIns.kotlinKapt)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinAndroid)
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
     namespace = "com.atech.syllabus"
-    compileSdk = AndroidSdk.compile
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = AndroidSdk.min
-
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true"
-                )
-            }
-        }
     }
+
     flavorDimensions +="type"
 
     productFlavors {
@@ -36,10 +28,9 @@ android {
         }
     }
 
-
     buildTypes {
         release {
-            isMinifyEnabled= true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -47,29 +38,35 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersionCompatibility.javaVersion
-        targetCompatibility = JavaVersionCompatibility.javaVersion
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersionCompatibility.kotlinVersion
+        jvmTarget = "11"
     }
+
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
+    implementation(project(":theme"))
+    implementation(project(":core"))
 
-    implementation(project(Modules.core))
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
 
-    implementation(libs.view.binding)
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+
+    implementation(libs.android.viewbinding)
+
 }
 kapt {
-    correctErrorTypes= true
-    useBuildCache =true
+    correctErrorTypes = true
+}
+hilt {
+    enableAggregatingTask = true
 }

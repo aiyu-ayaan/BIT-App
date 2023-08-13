@@ -28,7 +28,7 @@ val listOfBbaCredits = listOf(
 
 data class BcaCourse(val credit: Double, val gradePoint: Double)
 
-fun calculateCGPA(course: List<BcaCourse>): Double {
+fun calculateSGPA(course: List<BcaCourse>): Double {
     var totalCredit = 1.0
     var totalGradePoint = 1.0
     course.forEach {
@@ -38,3 +38,7 @@ fun calculateCGPA(course: List<BcaCourse>): Double {
     }
     return totalGradePoint / totalCredit
 }
+
+fun calculateCGPA(credits : List<Double>) =
+    credits.sumOf { it } / credits.size
+

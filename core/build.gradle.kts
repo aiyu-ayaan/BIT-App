@@ -1,34 +1,21 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-    id(PlugIns.androidLibrary)
-    id(PlugIns.kotlinAndroid)
-    kotlin(PlugIns.kotlinKapt)
-    id(PlugIns.hilt)
-    id(PlugIns.navigationSafeArgs)
-    id(PlugIns.parcelize)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinAndroid)
+    id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
+    kotlin("kapt")
 }
 
 android {
     namespace = "com.atech.core"
-    compileSdk = AndroidSdk.compile
+    compileSdk = 33
 
     defaultConfig {
-        minSdk = AndroidSdk.min
+        minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += mapOf(
-                    "room.schemaLocation" to "$projectDir/schemas",
-                    "room.incremental" to "true"
-                )
-            }
-        }
-
-    }
-    sourceSets {
-        getByName("androidTest").assets.srcDir("$projectDir/schemas")
     }
     flavorDimensions +="type"
 
@@ -43,7 +30,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled= true
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -51,17 +38,16 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersionCompatibility.javaVersion
-        targetCompatibility = JavaVersionCompatibility.javaVersion
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = JavaVersionCompatibility.kotlinVersion
+        jvmTarget = "11"
     }
-    tasks.withType().configureEach {
-        kotlinOptions {
-            freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
-        }
+    buildFeatures {
+        buildConfig = true
     }
+
 }
 
 dependencies {
@@ -69,57 +55,37 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-    implementation(libs.playstore.core)
-    implementation(libs.play.services.ads)
-    implementation(libs.play.services.fido)
 
-
-    implementation(platform(libs.firebase.bom))
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.messaging.ktx)
-    implementation(libs.firebase.config.ktx)
-    implementation(libs.firebase.auth.ktx) {
-        exclude(module = "play-services-safetynet")
-    }
-
-
-    implementation(libs.lifecycle.liveData)
-
-
-//    Hilt
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
-    implementation(libs.web.kit)
-
-    implementation(libs.custom.chrome)
-
-    // Coroutines
-    implementation(libs.coroutines)
-    implementation(libs.coroutines.android)
-
-
-    implementation(libs.room.ktx)
-    annotationProcessor(libs.room.annotation)
-    kapt(libs.room.annotation)
-
-
-
-    implementation(libs.glide)
-    implementation(libs.gson)
-    implementation(libs.data.store)
-
-    implementation(libs.nav.fragment)
-    implementation(libs.nav.ui)
-
-    implementation(libs.cryptore)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.json)
     implementation(libs.retrofit.scalars)
-}
 
+    implementation(libs.gson)
+    implementation(libs.data.store)
+
+    implementation(libs.room.ktx)
+    annotationProcessor(libs.room.compiler)
+    kapt(libs.room.compiler)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.config.ktx)
+
+    implementation(libs.data.store)
+
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+
+    implementation(libs.cryptore)
+
+}
 kapt {
-    correctErrorTypes =true
-    useBuildCache =true
+    correctErrorTypes = true
+}
+hilt {
+    enableAggregatingTask = true
 }

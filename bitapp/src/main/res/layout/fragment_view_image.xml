@@ -1,34 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ BIT Lalpur App
-  ~
-  ~ Created by Ayaan on 4/25/22, 9:19 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 4/25/22, 1:49 AM
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="?attr/colorSurface"
-    tools:context=".ui.fragments.view_image.ViewImageFragment">
+    android:layout_height="match_parent">
 
-
-    <com.atech.bit.ui.custom_views.ZoomClass
+    <com.atech.theme.custom_views.ImageViewZoom
         android:id="@+id/image_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_bar_image_full"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:indeterminate="true"
-        android:progress="4"
-        app:trackThickness="20dp" />
 
     <ImageView
         android:id="@+id/button_back"

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 4/25/22, 9:19 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 4/25/22, 3:28 AM
+  -->
+
+<resources>
+
+
+    <dimen name="grid_0_25">2dp</dimen>
+    <dimen name="grid_0_5">4dp</dimen>
+
+    <!--8dp grid-->
+    <dimen name="grid_1">8dp</dimen>
+    <dimen name="grid_1_5">14dp</dimen>
+    <dimen name="grid_2">16dp</dimen>
+    <dimen name="grid_2_8">22dp</dimen>
+    <dimen name="grid_3">24dp</dimen>
+    <dimen name="grid_4">32dp</dimen>
+    <dimen name="grid_5">40dp</dimen>
+    <dimen name="grid_5_5">44dp</dimen>
+    <dimen name="grid_6">48dp</dimen>
+    <dimen name="grid_7">56dp</dimen>
+    <dimen name="grid_8">64dp</dimen>
+    <dimen name="grid_9">72dp</dimen>
+
+    <dimen name="image_size_for_card_view">25dp</dimen>
+    <dimen name="image_size_for_society_img">80dp</dimen>
+
+    <dimen name="holiday_data_card_view_size_home">60dp</dimen>
+    <dimen name="holiday_data_card_view_size">80dp</dimen>
+    <dimen name="min_padding_attendance">100dp</dimen>
+    <dimen name="div_height">1dp</dimen>
+    <dimen name="bottom_nav_height">60dp</dimen>
+    <dimen name="image_view_about_us_size">100dp</dimen>
+    <dimen name="course_image_size">120dp</dimen>
+    <dimen name="image_view_log_in_size">300dp</dimen>
+    <dimen name="image_view_thumbnail">230dp</dimen>
+    <dimen name="card_view_attendance">110dp</dimen>
+    <dimen name="recycler_view_height_attendance">120dp</dimen>
+    <dimen name="bottom_app_bar_height">56dp</dimen>
+    <dimen name="empty_view_height">300dp</dimen>
+    <dimen name="user_profile_image_size">30dp</dimen>
+    <dimen name="video_view_height">500dp</dimen>
+
+</resources>

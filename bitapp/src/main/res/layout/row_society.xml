@@ -1,75 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ BIT Lalpur App
-  ~
-  ~ Created by Ayaan on 1/24/22, 1:16 PM
-  ~ Copyright (c) 2022 . All rights reserved.
-  ~ Last modified 1/24/22, 1:16 PM
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="?attr/materialCardViewFilledStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="0dp"
-    app:cardBackgroundColor="?attr/bottomBar"
-    app:cardElevation="0dp"
-    app:cardMaxElevation="0dp"
-    app:strokeColor="?attr/bottomBar">
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:layout_marginVertical="@dimen/grid_0_25"
+    app:cardBackgroundColor="?attr/bottomBar">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:padding="@dimen/grid_1">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/not_lay"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="8dp">
+        <ImageView
+            android:id="@+id/image_view_event"
+            android:layout_width="@dimen/image_size_for_society_img"
+            android:layout_height="@dimen/image_size_for_society_img"
+            android:layout_marginStart="@dimen/grid_1"
+            android:contentDescription="@string/societies"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_ayaan_beta" />
 
-            <ImageView
-                android:id="@+id/eventImg"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:contentDescription="@string/blank"
-                android:src="@drawable/ic_ayaan_beta"
-                android:transitionName="img"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <TextView
-                android:id="@+id/text_view_about"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/grid_1"
-                android:layout_toEndOf="@id/eventImg"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textAppearance="?attr/textAppearanceTitleMedium"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/eventImg"
-                tools:text="New Event" />
-
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_bar_event"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:indeterminate="true"
-                android:progress="50"
-                app:layout_constraintBottom_toBottomOf="@+id/eventImg"
-                app:layout_constraintEnd_toEndOf="@+id/eventImg"
-                app:layout_constraintStart_toStartOf="@+id/eventImg"
-                app:layout_constraintTop_toTopOf="@+id/eventImg"
-                app:trackColor="?attr/colorSurface"
-                app:trackThickness="20dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout>
+        <TextView
+            android:id="@+id/text_view_society_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/grid_1"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:padding="@dimen/grid_1"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view_event"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/image_view_event"
+            app:layout_constraintTop_toTopOf="@+id/image_view_event"
+            tools:text="RAD" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

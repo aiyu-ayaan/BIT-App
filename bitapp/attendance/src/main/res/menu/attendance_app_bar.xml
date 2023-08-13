@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/menu_book"
+        android:icon="@drawable/ic_outline_book"
+        android:title="@string/add_subject_syllabus"
+        app:showAsAction="always"
+        tools:ignore="AlwaysShowAction" />
+
+    <item
+        android:id="@+id/menu_archive"
+        android:icon="@drawable/ic_archive"
+        android:title="@string/archive"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_setting"
+        android:title="@string/setting"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_delete_all"
+        android:title="@string/delete_all"
+        app:showAsAction="never" />
+</menu>

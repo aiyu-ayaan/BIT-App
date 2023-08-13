@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="MainColor">#1a1c19</color>
+    <color name="textColor">#fff</color>
+    <color name="textColorSecondary">#99FFFFFF</color>
+    <color name="textColorSubTitle">#000000</color>
+
+    <color name="textColorSecondary_oppo">#99000000</color>
+    <color name="textColor_oppo">#000</color>
+    <color name="cardBackground">#1c2628</color>
+
+    <color name="bottom_nav">#2d3229</color>
+
+    <color name="blue_bottom_nav">#3c4b37</color>
+
+    <color name="accent_color">#a0d490</color>
+
+    <color name="icon_color">#4d6356</color>
+    <color name="bottom_sheet_color">#171c15</color>
+</resources>

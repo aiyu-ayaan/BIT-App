@@ -3,60 +3,66 @@ package com.atech.bit.ui.fragments.library
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentLibraryBinding
-import com.atech.core.data.room.library.LibraryModel
+import com.atech.core.room.library.LibraryModel
 import com.atech.core.utils.CalendarReminder
-import com.atech.core.utils.showSnackBar
+import com.atech.theme.Axis
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.ToolbarData
+import com.atech.theme.exitTransition
+import com.atech.theme.navigate
+import com.atech.theme.set
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LibraryFragment : Fragment(R.layout.fragment_library) {
+class LibraryFragment : BaseFragment(R.layout.fragment_library,Axis.Y) {
+
     private val binding: FragmentLibraryBinding by viewBinding()
-    private val viewModel: LibraryViewModel by viewModels()
+    private val viewModel: LibraryViewModel by activityViewModels()
     private lateinit var libraryAdapter: LibraryAdapter
     private var list: List<LibraryModel> = emptyList()
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-
-        libraryAdapter = LibraryAdapter(
-            onDeleteClick = {
-                deleteBook(it)
-            },
-            onMarkAsReturnClick = { lab ->
-                markAsReturn(lab)
-            },
-        ) { l, fab ->
-            navigateToAddEdit(l.bookName, fab, l)
-        }
         binding.apply {
+            setToolbar()
             setRecyclerView()
-            buttonClick()
             appBar()
+            fabClick()
         }
-        getData()
+        observeData()
+    }
+
+    private fun observeData() {
+        viewModel.libraryList.observe(viewLifecycleOwner) {
+            binding.emptyAnimation.isVisible = it.isEmpty()
+            libraryAdapter.submitList(it)
+            list = it
+            val layoutManager = binding.rvShowBooks.layoutManager as LinearLayoutManager
+            layoutManager.scrollToPositionWithOffset(0, 0)
+        }
+    }
+
+    private fun FragmentLibraryBinding.setRecyclerView() = this.rvShowBooks.apply {
+        adapter = LibraryAdapter(
+            onMarkAsReturnClick = ::markAsReturn,
+            onDeleteClick = ::deleteBook,
+            listener = ::onEditClick
+        ).also { libraryAdapter = it }
+        layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun onEditClick(model: LibraryModel) {
+        navigateToAddEdit(
+            model.bookName,
+            model
+        )
     }
 
     private fun FragmentLibraryBinding.appBar() {
@@ -71,29 +77,38 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
                         }
                     }.setNegativeButton("No", null).show()
             }
-            setOnMenuItemClickListener {
-                when (it.itemId == R.id.action_info) {
-                    true -> {
-                        binding.root.showSnackBar(
-                            "Data is store locally in your device",
-                            Snackbar.LENGTH_SHORT
-                        )
-                        true
-                    }
-
-                    false -> false
-                }
-            }
         }
     }
 
-    private fun deleteBook(it: LibraryModel) {
-        if (it.eventId != -1L) {
-            CalendarReminder.deleteEvent(requireContext(), it.eventId)
-        }
-        viewModel.deleteBook(it)
+
+    private fun FragmentLibraryBinding.setToolbar() = this.includeToolbar.apply {
+        set(
+            ToolbarData(
+                title = com.atech.theme.R.string.library, action = findNavController()::navigateUp
+            )
+        )
     }
 
+    private fun FragmentLibraryBinding.fabClick() = this.fabAdd.apply {
+        setOnClickListener {
+            navigateToAddEdit(
+                resources.getString(com.atech.theme.R.string.add_books)
+            )
+        }
+    }
+
+
+    private fun navigateToAddEdit(
+        string: String, libraryModel: LibraryModel? = null
+    ) {
+        exitTransition(Axis.X)
+        val action = LibraryFragmentDirections.actionLibraryFragmentToAddEditFragment(
+            string, libraryModel
+        )
+        navigate(action)
+    }
+
+    //    ------------------------------------ Input output ------------------------------------
     private fun markAsReturn(it: LibraryModel) {
         val markAsReturn = it.markAsReturn
         if (it.eventId != -1L) {
@@ -106,45 +121,10 @@ class LibraryFragment : Fragment(R.layout.fragment_library) {
         )
     }
 
-    private fun getData() {
-        viewModel.libraryList.asLiveData().observe(viewLifecycleOwner) {
-            binding.emptyAnimation.isVisible = it.isEmpty()
-            libraryAdapter.submitList(it)
-            list = it
-            val layoutManager = binding.recyclerViewLibrary.layoutManager as LinearLayoutManager
-            layoutManager.scrollToPositionWithOffset(0, 0)
+    private fun deleteBook(it: LibraryModel) {
+        if (it.eventId != -1L) {
+            CalendarReminder.deleteEvent(requireContext(), it.eventId)
         }
-    }
-
-
-    private fun FragmentLibraryBinding.buttonClick() {
-        val transitionName = resources.getString(R.string.add_books)
-        fabAddBook.transitionName = transitionName
-        fabAddBook.setOnClickListener {
-            navigateToAddEdit(
-                transitionName, it
-            )
-        }
-    }
-
-    private fun navigateToAddEdit(
-        string: String, fabAddBook: View, libraryModel: LibraryModel? = null
-    ) {
-        val extras = FragmentNavigatorExtras(fabAddBook to string)
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-        }
-        val action = LibraryFragmentDirections.actionLibraryFragmentToAddEditFragment(
-            string, libraryModel
-        )
-        findNavController().navigate(action, extras)
-    }
-
-    private fun FragmentLibraryBinding.setRecyclerView() = this.recyclerViewLibrary.apply {
-        adapter = libraryAdapter
-        layoutManager = LinearLayoutManager(requireContext())
+        viewModel.deleteBook(it)
     }
 }

@@ -1,144 +1,140 @@
 package com.atech.bit.ui.fragments.notice
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.atech.bit.NavGraphDirections
-import com.atech.bit.R
-import com.atech.bit.databinding.FragmentNoticeBinding
-import com.atech.bit.utils.launchWhenStarted
-import com.atech.core.utils.MainStateEvent
-import com.atech.bit.utils.loadAdds
-import com.atech.core.data.ui.notice.Notice3
-import com.atech.core.utils.DataState
-import com.atech.core.utils.changeStatusBarToolbarColor
-import com.atech.core.utils.onScrollChange
-import com.atech.core.utils.showSnackBar
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialElevationScale
-import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.firestore.FirebaseFirestore
+import com.atech.bit.utils.ImagePreviewAdapter
+import com.atech.bit.utils.getImageLinkNotification
+import com.atech.bit.utils.navigateToViewImage
+import com.atech.core.firebase.firestore.NoticeModel
+import com.atech.core.utils.TAGS
+import com.atech.theme.AdsUnit
+import com.atech.theme.Axis
+import com.atech.theme.ToolbarData
+import com.atech.theme.adapters.NoticeEventAdapter
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.databinding.LayoutRecyclerViewBinding
+import com.atech.theme.databinding.RowNoticeEventBinding
+import com.atech.theme.exitTransition
+import com.atech.theme.getDate
+import com.atech.theme.loadImage
+import com.atech.theme.navigate
+import com.atech.theme.set
+import com.atech.theme.setAdsUnit
+import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class NoticeFragment : Fragment(R.layout.fragment_notice) {
+class NoticeFragment : BaseFragment(com.atech.theme.R.layout.layout_recycler_view, Axis.Z) {
 
     private val viewModel: NoticeViewModel by viewModels()
-    private val binding: FragmentNoticeBinding by viewBinding()
+    private val binding: LayoutRecyclerViewBinding by viewBinding()
 
-    @Inject
-    lateinit var db: FirebaseFirestore
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y,  false)
-    }
-
+    private lateinit var noticeAdapter: NoticeEventAdapter<NoticeModel>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-
-        restoreColor()
-        val noticeAdapter = NoticeAdapter(db, { notice, mView ->
-            navigationToNotice3Description(notice, mView)
-        }, { it ->
-            navigateToImageView(it)
-        })
         binding.apply {
-            showNotice.apply {
-                adapter = noticeAdapter
-                layoutManager = LinearLayoutManager(requireContext())
-                setHasFixedSize(true)
-            }
+            setToolbar()
+            setRecyclerView()
+            loadAds()
         }
-        noticeAdapter.stateRestorationPolicy =
-            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        viewModel.setStateListenerMain(MainStateEvent.GetData)
+        observeData()
+    }
 
-        viewModel.dataStateNotice3Main.observe(viewLifecycleOwner) { dataState ->
-            when (dataState) {
-                is DataState.Success -> {
-                    binding.empty.visibility = View.GONE
-                    noticeAdapter.submitList(dataState.data)
-                }
-                is DataState.Error -> {
-                    binding.empty.visibility = View.VISIBLE
-                    binding.root.showSnackBar(
-                        dataState.exception.message!!, Snackbar.LENGTH_SHORT
-                    )
-                }
-                DataState.Empty -> binding.empty.visibility = View.VISIBLE
-                DataState.Loading -> {
+    private fun LayoutRecyclerViewBinding.loadAds() = this.includeAdsView.apply {
+        setAdsUnit(AdsUnit.Miscellaneous)
+    }
+
+    private fun observeData() {
+        try {
+            viewModel.allNotices.observe(viewLifecycleOwner) {
+                binding.empty.isVisible = it.isNullOrEmpty()
+                it?.let {
+                    noticeAdapter.items = it.toCollection(ArrayList())
                 }
             }
+        } catch (e: Exception) {
+            toast(e.message ?: "Error")
+            Log.e(TAGS.BIT_ERROR.name, "observeData: $e")
         }
-        detectScroll()
-        requireContext().loadAdds(binding.adView)
     }
 
-    private fun navigateToImageView(link: String) {
-        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
-        val action = NavGraphDirections.actionGlobalViewImageFragment(link)
-        findNavController().navigate(action)
+    private fun LayoutRecyclerViewBinding.setRecyclerView() = this.recyclerView.apply {
+        adapter = NoticeEventAdapter<NoticeModel> { this.setView(it) }.also { noticeAdapter = it }
+        layoutManager = LinearLayoutManager(requireContext())
     }
 
-    private fun navigationToNotice3Description(notice: Notice3, view: View) {
-        val extras = FragmentNavigatorExtras(view to notice.path)
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
+    private fun RowNoticeEventBinding.setView(notice: NoticeModel) = this.apply {
+        val hor = requireContext().resources.getDimensionPixelSize(com.atech.theme.R.dimen.grid_1_5)
+        val ver = requireContext().resources.getDimensionPixelSize(com.atech.theme.R.dimen.grid_0_5)
+        binding.root.setPadding(
+            hor, ver, hor, ver
+        )
+        bodyPreviewTextView.text = notice.body
+        senderTextView.text = notice.sender
+        subjectTextView.text = notice.title
+        textViewDate.text = notice.created?.getDate()
+        senderProfileImageView.loadImage(
+            notice.getImageLinkNotification()
+        )
+        root.setOnClickListener {
+            navigateToDetailScreen(notice.path!!)
         }
-        reenterTransition = MaterialElevationScale(true).apply {
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
+        notice.path?.let {
+            setPreviewAdapter(it)
         }
-        val action = NavGraphDirections.actionGlobalNoticeDetailFragment(notice.path)
-        findNavController().navigate(action, extras)
     }
 
+    private fun navigateToDetailScreen(path: String) {
+        exitTransition(Axis.X)
+        val action = NavGraphDirections.actionGlobalNoticeDetailFragment(path)
+        navigate(action)
+    }
 
-    /**
-     * @since 4.0.4
-     * @author Ayaan
-     */
-    private fun detectScroll() {
-        binding.showNotice.onScrollChange({
-            activity?.changeStatusBarToolbarColor(
-                R.id.toolbar, com.google.android.material.R.attr.colorSurface
+    private fun RowNoticeEventBinding.setPreviewAdapter(path: String) {
+        val ipAdapter = ImagePreviewAdapter {
+            navigateToViewImage(
+                it to ""
             )
-            viewModel.isColored.value = false
-        }, {
-            activity?.changeStatusBarToolbarColor(
-                R.id.toolbar, R.attr.bottomBar
+        }
+        attachmentRecyclerView.apply {
+            attachmentRecyclerView.isVisible = true
+            adapter = ipAdapter
+            layoutManager = LinearLayoutManager(
+                binding.root.context, LinearLayoutManager.HORIZONTAL, false
             )
-            viewModel.isColored.value = true
-        })
+        }
+        observePreviewData(path, ipAdapter, attachmentRecyclerView)
     }
 
-    private fun restoreColor() {
-        launchWhenStarted {
-            viewModel.isColored.collect {
-                if (it) {
-                    activity?.changeStatusBarToolbarColor(
-                        R.id.toolbar, R.attr.bottomBar
-                    )
-                } else {
-                    activity?.changeStatusBarToolbarColor(
-                        R.id.toolbar, com.google.android.material.R.attr.colorSurface
-                    )
-                }
+    private fun observePreviewData(
+        path: String, ipAdapter: ImagePreviewAdapter, attachmentRecyclerView: RecyclerView
+    ) {
+        try {
+            viewModel.getAttach(path).observe(viewLifecycleOwner) {
+                ipAdapter.items = it
+                attachmentRecyclerView.isVisible = it.isNotEmpty()
             }
+        } catch (e: Exception) {
+            toast(e.message ?: "Error")
+            Log.e(TAGS.BIT_ERROR.name, "observeData: $e")
         }
+    }
+
+    private fun LayoutRecyclerViewBinding.setToolbar() = this.includeToolbar.apply {
+        set(
+            ToolbarData(
+                title = com.atech.theme.R.string.notice,
+                action = findNavController()::navigateUp
+            )
+        )
     }
 }

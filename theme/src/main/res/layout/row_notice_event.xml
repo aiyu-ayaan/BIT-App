@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 3/30/22, 9:33 PM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 3/30/22, 9:24 PM
+  -->
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="@dimen/grid_0_5"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/material_card_view_notice"
+        style="?attr/materialCardViewOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="?attr/bottomBar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/grid_2"
+            android:paddingBottom="@dimen/grid_2">
+
+            <TextView
+                android:id="@+id/sender_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_1"
+                android:maxLines="1"
+                android:textAppearance="?attr/textAppearanceBody2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Google Express" />
+
+            <TextView
+                android:id="@+id/subject_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_1"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:maxLines="1"
+                android:textAppearance="?attr/textAppearanceHeadline5"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/sender_profile_image_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sender_text_view"
+                app:layout_goneMarginEnd="@dimen/grid_2"
+                tools:text="Package Shipped!" />
+
+            <TextView
+                android:id="@+id/body_preview_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_1"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:maxLines="2"
+                android:textAppearance="?attr/textAppearanceBody1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subject_text_view"
+                tools:text="Cucumber mask facial has shipped. It'll be on your front door by the end of the week!" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/attachment_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="96dp"
+                android:layout_marginTop="@dimen/grid_2"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:overScrollMode="never"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/body_preview_text_view"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/sender_profile_image_view"
+                android:layout_width="@dimen/user_profile_image_size"
+                android:layout_height="@dimen/user_profile_image_size"
+                android:layout_marginStart="@dimen/grid_2"
+                android:layout_marginTop="@dimen/grid_1"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:contentDescription="@string/bit_icon"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <TextView
+                android:id="@+id/text_view_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_0_5"
+                android:maxLines="1"
+                android:textAppearance="?attr/textAppearanceBody2"
+                app:drawableStartCompat="@drawable/ic_calendar"
+                app:layout_constraintEnd_toStartOf="@+id/sender_profile_image_view"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/sender_text_view"
+                app:layout_constraintTop_toTopOf="@+id/sender_text_view"
+                tools:text="-12" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

@@ -1,44 +1,68 @@
 package com.atech.core.utils
 
-enum class CourseCapital { BBA, BCA }
-
+//const val TAG = "Aiyu"
 
 enum class AppTheme { Light, Dark, Sys }
+enum class TAGS {
+    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE
+}
 
-const val TAG = "aiyu"
-const val TAG_REMOTE = "remote_config"
-const val SHARED_PREFERENCE_NAME = "sharedPref"
-const val KEY_APP_THEME = "KEY_APP_THEME"
-const val KEY_DO_NOT_SHOW_AGAIN = "KEY_DO_NOT_SHOW_AGAIN"
-const val KEY_USER_HAS_DATA_IN_DB = "KEY_USER_HAS_DATA_IN_DB"
-const val KEY_USER_DONE_SET_UP = "KEY_USER_DONE_SET_UP"
-const val KEY_REACH_TO_HOME = "KEY_REACH_TO_HOME"
-const val KEY_IS_USER_LOG_IN = "KEY_IS_USER_LOG_IN"
-const val KEY_FIRST_TIME_LOGIN = "KEY_FIRST_TIME_LOGIN"
-const val KEY_ATTENDANCE_UPLOAD_FIRST_TIME = "KEY_ATTENDANCE_UPLOAD_FIRST_TIME"
-const val KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY = "KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"
-const val KEY_COURSE_OPEN_FIRST_TIME = "KEY_COURSE_OPEN_FIRST_TIME"
-const val KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW = "KEY_ATTENDANCE_FRAGMENT_LIBRARY_CARD_VIEW"
-const val KEY_SYLLABUS_VISIBILITY = "SYLLABUS_VISIBILITY"
-const val KEY_SYLLABUS_VISIBILITY_PREF_CONFIG = "SYLLABUS_VISIBILITY_PREF_CONFIG"
-const val KEY_APP_OPEN_MINIMUM_TIME = "KEY_APP_OPEN_MINIMUM_TIME"
+enum class RowSubjectAdapterRequest {
+    FROM_ATTENDANCE, FROM_HOME
+}
 
-const val MAX_APP_OPEN_TIME = 5
-const val REQUEST_UPDATE_SEM = 345 * 33434
-const val REQUEST_UPDATE_SEM_FROM_CGPA = 345 * 33434 + 1
-const val REQUEST_ADAPTER_SEARCH = 356 * 445
-const val REQUEST_EVENT_FROM_HOME = 356 * 445 + 1
-const val REQUEST_ADAPTER_EDIT = 354 * 445
-const val REQUEST_LOGIN_FROM_HOME = 334 * 56 + 1
+enum class SharePrefKeys {
+    SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
+    SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin,
+    SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime,
+    ShowTimes, KeyAnnVersion, CurrentShowTime, IsDynamicThemeEnabled,
+    IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
+    FirstTimeLogIn
+}
 
-const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
-const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
+const val SYLLABUS_SOURCE_DATA =
+    "{   \"bca1\": true,   \"bca2\": false,   \"bca3\": true,   \"bca4\": false,   \"bca5\": false,   \"bca6\": false,   \"bba1\": false,   \"bba2\": false,   \"bba3\": false,   \"bba4\": false,   \"bba5\": false,   \"bba6\": false ,\"mca1\": true, \"mca2\": false, \"mca3\": false, \"mba4\": false, \"mba1\": false, \"mba2\": false, \"mba3\": false}"
+
+const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
+
+enum class Destination(val value: String) {
+    ChooseSem("choosesem"), Home("home"),
+    LogIn("login"), Profile("profile"),
+    AboutUS("aboutUs")
+}
+
+val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
+
+const val SYLLABUS_DETAILS_DEEP_LINK = "android-app://com.atech.bit/view_syllabus_fragment"
+
+const val MAX_SPAWN = 3
+
+const val MAX_TIMES: Int = 10
+
+enum class CourseCapital { BBA, BCA }
+
+const val DEFAULT_QUERY = "no_query_only_aiyu"
+const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
+const val UPDATE_REQUEST = "Update"
 const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
+const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
 const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
+const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
+const val MAX_APP_OPEN_TIME = 5
+const val MAX_TIME_TO_SHOW_CARD = 5
+
+const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
+const val DEFAULT_TIME_FORMAT = "hh:mm a"
+const val DD_MM = "dd MMM"
+const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
+const val ERROR_IN_UPDATE = 452 * 53
+
+const val MAX_STACK_SIZE = 30
+const val UPDATE_REQUEST_CODE = 444
 
 const val CHANNEL_ID_NOTICE = "Notice"
 const val CHANNEL_NOTICE = "Notice Section"
-const val CHANNEL_DES = ""
+const val CHANNEL_DES = "Contain all the notice from BIT Lalpur"
 
 const val CHANNEL_ID_EVENT = "Event"
 const val CHANNEL_EVENT = "Event Section"
@@ -49,59 +73,9 @@ const val CHANNEL_UPDATE = "App Update"
 const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
 
-const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
-
-
-const val UPDATE_REQUEST_CODE = 444
-const val ERROR_LOG = "BIT App Error :- "
-
-const val DEFAULT_CORNER_RADIUS = 1
-
-const val ERROR_IN_UPDATE = 452 * 53
-
-
-const val MAX_SPAWN = 3
-
-const val SECOND = 1
-const val MINUTE = 60 * SECOND
-const val HOUR = 60 * MINUTE
-const val DAY = 24 * HOUR
-const val MONTH = 30 * DAY
-const val UPDATE_REQUEST = "Update"
-const val SHARE_TYPE_SYLLABUS = "share_type_syllabus"
-const val SHARE_TYPE_NOTICE = "share_type_notice"
-const val SHARE_TYPE_EVENT = "share_type_event"
-const val APP_LOGO_LINK =
-    "https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Utils%2Fapp_logo.png?alt=media&token=86b154d0-e6a2-4e0f-b1f1-3c273c7ca4ea"
-
-const val SHARE_EVENT = "event"
-const val SHARE_NOTICE = "notice"
-const val CURRENT_YEAR = "Current_Year"
-const val GITHUB_LINK = "Github_Link"
-
-
-const val MAX_STACK_SIZE = 30
-const val MAX_TIME_TO_SHOW_CARD = 5
-
-const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
-const val DEFAULT_TIME_FORMAT = "hh:mm a"
-const val DD_MM = "dd MMM"
-const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
-
-val DEFAULT_PAIR = Pair("Book Reminder", "Reminder for book")
-
-const val SHOW_TIMES = "show_times"
-const val KEY_SHOW_TIMES = "key_show_times"
-const val KEY_CURRENT_SHOW_TIME = "key_current_show_time"
-const val KEY_ANN_VERSION = "key_ann_version"
-
-// Announcement Dialog
-
-const val ANN_TITLE = "ann_title"
-const val ANN_MESSAGE = "ann_message"
-const val ANN_LINK = "ann_link"
-const val ANN_POS_BUTTON = "ann_pos_button"
-const val ANN_NEG_BUTTON = "ann_neg_button"
-const val ANN_VERSION = "ann_version"
-
-
+enum class RemoteConfigKeys {
+    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA,
+    KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times,
+    Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button,
+    ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
+}

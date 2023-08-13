@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view_subject"
-    style="@style/Widget.Material3.CardView.Filled"
+    style="@style/Widget.Material3.CardView.Outlined"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="@dimen/grid_1"
@@ -36,12 +36,13 @@
             android:maxLines="1"
             android:padding="@dimen/grid_1"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            app:drawableStartCompat="@drawable/ic_check_circle"
+            app:drawableStartCompat="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="@+id/text_view_return_date"
             app:layout_constraintEnd_toStartOf="@+id/text_view_return_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_view_return_date"
-            tools:text="Logical Operation in C" />
+            tools:text="Logical Operation in C"
+            app:drawableTint="@color/green" />
 
         <TextView
             android:id="@+id/text_view_book_id"

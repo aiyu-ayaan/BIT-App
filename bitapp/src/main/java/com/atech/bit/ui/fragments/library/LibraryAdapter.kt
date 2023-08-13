@@ -7,10 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.atech.bit.R
 import com.atech.bit.databinding.RowLibraryBinding
-import com.atech.core.data.room.library.DiffUtilCallbackLibrary
-import com.atech.core.data.room.library.LibraryModel
+import com.atech.core.room.library.DiffUtilCallbackLibrary
+import com.atech.core.room.library.LibraryModel
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.transition.platform.MaterialArcMotion
@@ -19,7 +18,7 @@ import com.google.android.material.transition.platform.MaterialContainerTransfor
 class LibraryAdapter(
     private val onDeleteClick: (LibraryModel) -> Unit = {},
     private val onMarkAsReturnClick: (LibraryModel) -> Unit = { },
-    private val listener: (LibraryModel, View) -> Unit
+    private val listener: (LibraryModel) -> Unit = { }
 ) : ListAdapter<LibraryModel, LibraryAdapter.LibraryViewHolder>(DiffUtilCallbackLibrary()) {
 
     inner class LibraryViewHolder(
@@ -56,7 +55,7 @@ class LibraryAdapter(
                             pathMotion = MaterialArcMotion()
                             scrimColor = Color.TRANSPARENT
                             duration =
-                                binding.root.resources.getInteger(R.integer.duration_medium)
+                                binding.root.resources.getInteger(com.atech.theme.R.integer.duration_medium)
                                     .toLong()
                             endElevation = 10f
                         }
@@ -77,7 +76,7 @@ class LibraryAdapter(
             binding.floatingActionButton.setOnClickListener {
                 absoluteAdapterPosition.let {
                     if (it != RecyclerView.NO_POSITION) {
-                        listener(getItem(it), binding.floatingActionButton)
+                        listener(getItem(it))
                     }
                 }
             }
@@ -87,14 +86,16 @@ class LibraryAdapter(
             val transform = MaterialContainerTransform().apply {
                 startView = binding.constraintLayoutMenu
                 endView = binding.buttonMenu
-                duration = binding.root.resources.getInteger(R.integer.duration_medium).toLong()
+                duration =
+                    binding.root.resources.getInteger(com.atech.theme.R.integer.duration_medium)
+                        .toLong()
                 addTarget(endView)
                 pathMotion = MaterialArcMotion()
                 scrimColor = Color.TRANSPARENT
                 startElevation = 10f
                 endContainerColor = MaterialColors.getColor(
                     binding.root.context,
-                    R.attr.bottomBar,
+                    com.atech.theme.R.attr.bottomBar,
                     Color.TRANSPARENT
                 )
             }
@@ -110,14 +111,14 @@ class LibraryAdapter(
                 textViewIssueBookName.text = libraryModel.bookName
                 textViewIssueBookName.setCompoundDrawablesWithIntrinsicBounds(
                     when {
-                        libraryModel.eventId != -1L -> R.drawable.ic_bell_active
-                        libraryModel.markAsReturn -> R.drawable.ic_check_circle
+                        libraryModel.eventId != -1L -> com.atech.theme.R.drawable.ic_bell_active
+                        libraryModel.markAsReturn -> com.atech.theme.R.drawable.ic_check
                         else -> 0
                     }, 0, 0, 0
                 )
 //                buttonMarkAsReturned set icon image button
                 (buttonMarkAsReturned as MaterialButton).setIconResource(
-                    if (libraryModel.markAsReturn) R.drawable.ic_close else R.drawable.ic_check
+                    if (libraryModel.markAsReturn) com.atech.theme.R.drawable.ic_close else com.atech.theme.R.drawable.ic_check
                 )
 
                 textViewIssueDate.text =

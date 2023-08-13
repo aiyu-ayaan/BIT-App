@@ -3,117 +3,90 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/logInFragment">
+    app:startDestination="@id/login_nav_graph">
 
-    <fragment
-        android:id="@+id/startUpFragment"
-        android:name="com.atech.bit.ui.fragments.startup.StartUpFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_set_up">
-        <action
-            android:id="@+id/action_startUpFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.atech.bit.ui.fragments.home.HomeFragment"
-        android:label="@string/home"
+        android:label="home"
         tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_holidayFragment"
-            app:destination="@id/holidayFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_eventFragment"
-            app:destination="@id/eventFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_attendanceFragment"
-            app:destination="@id/attendanceFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_cgpaCalculatorFragment"
-            app:destination="@id/cgpaCalculatorFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_profileFragment"
-            app:destination="@id/profileFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_logInFragment"
-            app:destination="@id/logInFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_viewSyllabusFragment"
-            app:destination="@id/viewSyllabusFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_societyFragment"
-            app:destination="@id/societyFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment" />
         <action
             android:id="@+id/action_homeFragment_to_noticeFragment"
             app:destination="@id/noticeFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/courseFragment"
-        android:name="com.atech.bit.ui.fragments.course.CourseFragment"
-        android:label="@string/courses"
-        tools:layout="@layout/fragment_course">
         <action
-            android:id="@+id/action_courseFragment_to_semChooseFragment"
-            app:destination="@id/semChooseFragment" />
+            android:id="@+id/action_homeFragment_to_view_syllabus_nav_graph"
+            app:destination="@id/view_syllabus_nav_graph" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="bitapp://bit.aiyu/home" />
+        <action
+            android:id="@+id/action_homeFragment_to_editBottomSheet"
+            app:destination="@id/editBottomSheet" />
+        <action
+            android:id="@+id/action_homeFragment_to_about_us_graph"
+            app:destination="@id/about_us_graph" />
     </fragment>
+    <include app:graph="@navigation/attendance_graph" />
     <fragment
         android:id="@+id/noticeFragment"
         android:name="com.atech.bit.ui.fragments.notice.NoticeFragment"
         android:label="@string/notice"
-        tools:layout="@layout/fragment_notice" />
+        tools:layout="@layout/layout_recycler_view" />
+    <include app:graph="@navigation/course_graph" />
     <fragment
-        android:id="@+id/attendanceFragment"
-        android:name="com.atech.bit.ui.fragments.attendance.AttendanceFragment"
-        android:label="@string/attendance"
-        tools:layout="@layout/fragment_attendance">
+        android:id="@+id/holidayFragment"
+        android:name="com.atech.bit.ui.fragments.holiday.HolidayFragment"
+        android:label="HolidayFragment"
+        tools:layout="@layout/fragment_holiday" />
+    <fragment
+        android:id="@+id/societyFragment"
+        android:name="com.atech.bit.ui.fragments.society.SocietyFragment"
+        android:label="FragmentSociety"
+        tools:layout="@layout/layout_recycler_view">
         <action
-            android:id="@+id/action_attendanceFragment_to_listAllBottomSheet"
-            app:destination="@id/listAllBottomSheet" />
-        <action
-            android:id="@+id/action_attendanceFragment_to_calenderViewBottomSheet"
-            app:destination="@id/calenderViewBottomSheet" />
-        <action
-            android:id="@+id/action_attendanceFragment_to_archiveBottomSheet"
-            app:destination="@id/archiveBottomSheet" />
-        <action
-            android:id="@+id/action_attendanceFragment_to_libraryFragment"
-            app:destination="@id/libraryFragment" />
-        <action
-            android:id="@+id/action_attendanceFragment_to_addFromOnlineSyllabusBottomSheet"
-            app:destination="@id/addFromOnlineSyllabusBottomSheet" />
+            android:id="@+id/action_societyFragment_to_societyDetailFragment"
+            app:destination="@id/societyDetailFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/chooseSemBottomSheet"
-        android:name="com.atech.bit.ui.fragments.startup.choose_sem.ChooseSemBottomSheet"
-        android:label="bottom_sheet_choose_sem"
-        tools:layout="@layout/bottom_sheet_choose_sem">
-        <action
-            android:id="@+id/action_chooseSemBottomSheet_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/societyDetailFragment"
+        android:name="com.atech.bit.ui.fragments.society.detail.SocietyDetailFragment"
+        android:label="fragment_society_detail"
+        tools:layout="@layout/fragment_society_detail">
         <argument
-            android:name="request"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="society"
+            app:argType="com.atech.core.retrofit.client.Society" />
+    </fragment>
+    <fragment
+        android:id="@+id/administrationFragment"
+        android:name="com.atech.bit.ui.fragments.administration.AdministrationFragment"
+        android:label="fragment_administration"
+        tools:layout="@layout/fragment_administration" />
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.atech.bit.ui.fragments.events.EventFragment"
+        android:label="EventFragment"
+        tools:layout="@layout/layout_recycler_view" />
+    <fragment
+        android:id="@+id/eventDetailFragment"
+        android:name="com.atech.bit.ui.fragments.events.detail.EventDetailFragment"
+        android:label="fragment_event_detail"
+        tools:layout="@layout/fragment_notice_event_detail">
         <argument
-            android:name="type"
-            android:defaultValue="0"
-            app:argType="integer" />
-    </dialog>
+            android:name="path"
+            app:argType="string" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="bitbyaiyu.github.io/event/path={path}" />
+    </fragment>
     <action
-        android:id="@+id/action_global_chooseSemBottomSheet"
-        app:destination="@id/chooseSemBottomSheet" />
+        android:id="@+id/action_global_eventDetailFragment"
+        app:destination="@id/eventDetailFragment" />
     <fragment
         android:id="@+id/noticeDetailFragment"
-        android:name="com.atech.bit.ui.fragments.notice.description.NoticeDetailFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_notice_detail">
+        android:name="com.atech.bit.ui.fragments.notice.detail.NoticeDetailFragment"
+        android:label="NoticeDetailFragment"
+        tools:layout="@layout/layout_recycler_view">
         <argument
             android:name="path"
             app:argType="string" />
@@ -121,233 +94,99 @@
             android:id="@+id/deepLink"
             android:autoVerify="true"
             app:uri="bitbyaiyu.github.io/notice/path={path}" />
-        <action
-            android:id="@+id/action_noticeDetailFragment_to_chooseImageBottomSheet"
-            app:destination="@id/chooseImageBottomSheet" />
-
     </fragment>
     <action
         android:id="@+id/action_global_noticeDetailFragment"
         app:destination="@id/noticeDetailFragment" />
-    <dialog
-        android:id="@+id/chooseImageBottomSheet"
-        android:name="com.atech.bit.ui.fragments.notice.choose_image.ChooseImageBottomSheet"
-        android:label="@string/blank"
-        tools:layout="@layout/bottom_sheet_choose_image">
+    <fragment
+        android:id="@+id/libraryFragment"
+        android:name="com.atech.bit.ui.fragments.library.LibraryFragment"
+        android:label="LibraryFragment"
+        tools:layout="@layout/fragment_library">
+        <action
+            android:id="@+id/action_libraryFragment_to_addEditFragment"
+            app:destination="@id/addEditLibraryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditLibraryFragment"
+        android:name="com.atech.bit.ui.fragments.library.add_edit.AddEditFragment"
+        android:label="fragment_add_edit_library_book_details"
+        tools:layout="@layout/fragment_add_edit_library_book_details">
         <argument
-            android:name="notice"
-            app:argType="com.atech.core.data.ui.notice.SendNotice3" />
-    </dialog>
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="library"
+            android:defaultValue="@null"
+            app:argType="com.atech.core.room.library.LibraryModel"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/cgpaCalculatorFragment"
+        android:name="com.atech.bit.ui.fragments.cgpa.CgpaCalculatorFragment"
+        android:label="fragment_cgpa"
+        tools:layout="@layout/fragment_cgpa" />
+    <include app:graph="@navigation/view_syllabus_nav_graph" />
+    <include app:graph="@navigation/login_nav_graph" />
     <fragment
         android:id="@+id/viewImageFragment"
         android:name="com.atech.bit.ui.fragments.view_image.ViewImageFragment"
-        android:label="@string/blank"
+        android:label="ViewImageFragment"
         tools:layout="@layout/fragment_view_image">
         <argument
             android:name="link"
             app:argType="string" />
         <argument
             android:name="title"
-            android:defaultValue=" "
             app:argType="string" />
     </fragment>
     <action
         android:id="@+id/action_global_viewImageFragment"
         app:destination="@id/viewImageFragment" />
-    <fragment
-        android:id="@+id/subjectHandlerFragment"
-        android:name="com.atech.bit.ui.fragments.course.subject_handler.SubjectHandlerFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_subject_handler">
-        <argument
-            android:name="syllabus"
-            android:defaultValue="@null"
-            app:argType="com.atech.core.data.room.syllabus.SyllabusModel"
-            app:nullable="true" />
-        <argument
-            android:name="openCode"
-            android:defaultValue=" "
-            app:argType="string" />
-
-        <deepLink
-            android:id="@+id/deepLink"
-            android:autoVerify="true"
-            app:uri="bitbyaiyu.github.io/syllabus/path={openCode}" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_subjectHandlerFragment"
-        app:destination="@id/subjectHandlerFragment" />
-    <fragment
-        android:id="@+id/semChooseFragment"
-        android:name="com.atech.bit.ui.fragments.course.sem_choose.SemChooseFragment"
-        android:label="{request}"
-        tools:layout="@layout/fragment_sem_choose">
-        <argument
-            android:name="request"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_semChooseFragment_to_viewSyllabusFragment"
-            app:destination="@id/viewSyllabusFragment" />
-        <argument
-            android:name="sem"
-            android:defaultValue="6"
-            app:argType="integer" />
-    </fragment>
     <dialog
+        android:id="@+id/editBottomSheet"
+        android:name="com.atech.bit.ui.fragments.home.edit.EditBottomSheet"
+        android:label="EditBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet">
+        <argument
+            android:name="courseSem"
+            app:argType="string" />
+    </dialog>
+    <fragment
         android:id="@+id/themeChangeDialog"
         android:name="com.atech.bit.ui.fragments.theme.ThemeChangeDialog"
-        android:label="ThemeChangeDialog" />
+        android:label="ThemeChangeDialog"
+        tools:layout="@layout/dialog_theme_choose" />
     <fragment
-        android:id="@+id/holidayFragment"
-        android:name="com.atech.bit.ui.fragments.holiday.HolidayFragment"
-        android:label="@string/holidays"
-        tools:layout="@layout/fragment_holiday" />
-    <fragment
-        android:id="@+id/aboutUsFragment"
-        android:name="com.atech.bit.ui.fragments.about_us.AboutUsFragment"
-        android:label=""
-        tools:layout="@layout/fragment_about_us">
+        android:id="@+id/themeFragment"
+        android:name="com.atech.bit.ui.fragments.theme.ThemeFragment"
+        android:label="fragment_theme"
+        tools:layout="@layout/fragment_theme">
         <action
-            android:id="@+id/action_aboutUsFragment_to_detailDevFragment"
-            app:destination="@id/detailDevFragment" />
-        <action
-            android:id="@+id/action_aboutUsFragment_to_acknowledgementFragment"
-            app:destination="@id/acknowledgementFragment" />
+            android:id="@+id/action_themeFragment_to_themeChangeDialog"
+            app:destination="@id/themeChangeDialog" />
     </fragment>
-    <action
-        android:id="@+id/action_global_aboutUsFragment"
-        app:destination="@id/aboutUsFragment" />
-    <fragment
-        android:id="@+id/detailDevFragment"
-        android:name="com.atech.bit.ui.fragments.about_us.detail.DetailDevFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_detail_dev">
-        <argument
-            android:name="dev"
-            app:argType="com.atech.core.api.aboutus.Devs" />
-    </fragment>
-    <fragment
-        android:id="@+id/acknowledgementFragment"
-        android:name="com.atech.bit.ui.fragments.about_us.acknowledgement.AcknowledgementFragment"
-        android:label="@string/acknowledgements"
-        tools:layout="@layout/fragment_acknowledgement" />
-    <fragment
-        android:id="@+id/societyFragment"
-        android:name="com.atech.bit.ui.fragments.society.SocietyFragment"
-        android:label="@string/societies_and_ngos"
-        tools:layout="@layout/fragment_society">
-        <action
-            android:id="@+id/action_societyFragment_to_eventSocietyDescriptionFragment"
-            app:destination="@id/eventSocietyDescriptionFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/eventSocietyDescriptionFragment"
-        android:name="com.atech.bit.ui.fragments.society.description.SocietyDescriptionFragment"
-        android:label="{title}"
-        tools:layout="@layout/fragment_society_description">
-        <argument
-            android:name="title"
-            android:defaultValue=" "
-            app:argType="string" />
-        <argument
-            android:name="society"
-            android:defaultValue="@null"
-            app:argType="com.atech.core.api.society.Society"
-            app:nullable="true" />
-
-    </fragment>
-    <fragment
-        android:id="@+id/eventFragment"
-        android:name="com.atech.bit.ui.fragments.event.EventFragment"
-        android:label="@string/events"
-        tools:layout="@layout/fragment_event" />
+    <include app:graph="@navigation/about_us_graph" />
     <dialog
-        android:id="@+id/addEditSubjectBottomSheet"
-        android:name="com.atech.bit.ui.fragments.attendance.add_edit_attendance.AddEditSubjectBottomSheet"
-        android:label="bottom_sheet_add_subject"
-        tools:layout="@layout/bottom_sheet_add_subject">
+        android:id="@+id/uninstallOldAppDialog"
+        android:name="com.atech.bit.ui.fragments.uninstall_old_app.UninstallOldAppDialog"
+        android:label="dialog_uninstall_old_app"
+        tools:layout="@layout/dialog_uninstall_old_app" />
+    <action
+        android:id="@+id/action_global_uninstallOldAppDialog"
+        app:destination="@id/uninstallOldAppDialog" />
+    <dialog
+        android:id="@+id/universalDialogFragment"
+        android:name="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment"
+        android:label="UniversalDialogFragment"
+        tools:layout="@layout/fragment_universal_alert">
         <argument
-            android:name="attendance"
-            android:defaultValue="@null"
-            app:argType="com.atech.core.data.room.attendance.AttendanceModel"
-            app:nullable="true" />
-        <argument
-            android:name="type"
-            android:defaultValue="Add"
-            app:argType="string" />
-        <argument
-            android:name="request"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="universal_dialog_data"
+            app:argType="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment$UniversalDialogData" />
     </dialog>
     <action
-        android:id="@+id/action_global_addEditSubjectBottomSheet"
-        app:destination="@id/addEditSubjectBottomSheet" />
-    <dialog
-        android:id="@+id/changePercentageDialog"
-        android:name="com.atech.bit.ui.fragments.attendance.change_percentage.ChangePercentageDialog"
-        android:label="ChangePercentageDialog">
-        <argument
-            android:name="percentage"
-            android:defaultValue="75"
-            app:argType="integer" />
-
-    </dialog>
-    <action
-        android:id="@+id/action_global_changePercentageDialog"
-        app:destination="@id/changePercentageDialog" />
-    <dialog
-        android:id="@+id/editSubjectBottomSheet"
-        android:name="com.atech.bit.ui.fragments.edit_subject.EditSubjectBottomSheet"
-        android:label="bottom_sheet_edit_subject"
-        tools:layout="@layout/bottom_sheet_edit_subject">
-        <argument
-            android:name="request"
-            android:defaultValue="0"
-            app:argType="integer" />
-    </dialog>
-    <action
-        android:id="@+id/action_global_editSubjectBottomSheet"
-        app:destination="@id/editSubjectBottomSheet" />
-    <dialog
-        android:id="@+id/listAllBottomSheet"
-        android:name="com.atech.bit.ui.fragments.attendance.list_all.ListAllBottomSheet"
-        android:label="bottom_sheet_list_all"
-        tools:layout="@layout/bottom_sheet_list_all" />
-    <dialog
-        android:id="@+id/deleteAllDialog"
-        android:name="com.atech.bit.ui.fragments.attendance.delete_all.DeleteAllDialog"
-        android:label="DeleteAllDialog" />
-    <action
-        android:id="@+id/action_global_deleteAllDialog"
-        app:destination="@id/deleteAllDialog" />
-    <dialog
-        android:id="@+id/calenderViewBottomSheet"
-        android:name="com.atech.bit.ui.fragments.attendance.calender_view.CalenderViewBottomSheet"
-        android:label="bottom_sheet_calendar_view"
-        tools:layout="@layout/bottom_sheet_calendar_view">
-        <argument
-            android:name="attendance"
-            app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="minPercentage"
-            app:argType="integer" />
-    </dialog>
-    <dialog
-        android:id="@+id/resetDialog"
-        android:name="com.atech.bit.ui.fragments.attendance.reset_attendance.ResetDialog"
-        android:label="ResetDialog">
-        <argument
-            android:name="attendance"
-            app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
-    </dialog>
-    <action
-        android:id="@+id/action_global_resetDialog"
-        app:destination="@id/resetDialog" />
-
+        android:id="@+id/action_global_universalDialogFragment"
+        app:destination="@id/universalDialogFragment" />
 
     <fragment
         android:id="@+id/warningFragment"
@@ -369,204 +208,21 @@
         app:destination="@id/warningFragment"
         app:popUpTo="@id/nav_graph"
         app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/action_global_homeFragment"
-        app:destination="@id/homeFragment"
-        app:popUpTo="@id/warningFragment"
-        app:popUpToInclusive="true" />
     <dialog
-        android:id="@+id/attendanceMenu"
-        android:name="com.atech.bit.ui.fragments.attendance.menu.AttendanceMenu"
-        android:label="bottom_sheet_attendance"
-        tools:layout="@layout/bottom_sheet_attendance">
+        android:id="@+id/chooseImageBottomSheet"
+        android:name="com.atech.bit.ui.fragments.notice.choose_image.ChooseImageBottomSheet"
+        android:label="ChooseImageBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet">
         <argument
-            android:name="attendance"
-            app:argType="com.atech.core.data.room.attendance.AttendanceModel" />
-        <argument
-            android:name="request"
-            android:defaultValue="0"
-            app:argType="integer" />
+            android:name="data"
+            app:argType="com.atech.core.firebase.firestore.ShareModel" />
     </dialog>
     <action
-        android:id="@+id/action_global_attendanceMenu"
-        app:destination="@id/attendanceMenu" />
+        android:id="@+id/action_global_chooseImageBottomSheet"
+        app:destination="@id/chooseImageBottomSheet" />
     <fragment
-        android:id="@+id/cgpaCalculatorFragment"
-        android:name="com.atech.bit.ui.fragments.cgpa_calculator.CgpaCalculatorFragment"
-        android:label="@string/cgpa_calculator"
-        tools:layout="@layout/fragment_cgpa_calculator" />
-    <dialog
-        android:id="@+id/uninstallOldAppDialog"
-        android:name="com.atech.bit.ui.fragments.uninstall_old_app.UninstallOldAppDialog"
-        android:label="dialog_uninstall_old_app"
-        tools:layout="@layout/dialog_uninstall_old_app" />
-    <action
-        android:id="@+id/action_global_uninstallOldAppDialog"
-        app:destination="@id/uninstallOldAppDialog" />
-    <fragment
-        android:id="@+id/eventDetailFragment"
-        android:name="com.atech.bit.ui.fragments.event.event_detail.EventDetailFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_event_detail">
-        <argument
-            android:name="path"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_eventDetailFragment_to_chooseImageBottomSheet"
-            app:destination="@id/chooseImageBottomSheet" />
-        <deepLink
-            android:id="@+id/deepLink"
-            android:autoVerify="true"
-            app:uri="bitbyaiyu.github.io/event/path={path}" />
-        <argument
-            android:name="request"
-            android:defaultValue="0"
-            app:argType="integer" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_eventDetailFragment"
-        app:destination="@id/eventDetailFragment" />
-    <fragment
-        android:id="@+id/viewVideoFragment"
-        android:name="com.atech.bit.ui.fragments.view_video.ViewVideoFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_view_video">
-        <argument
-            android:name="link"
-            app:argType="string" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_viewVideoFragment"
-        app:destination="@id/viewVideoFragment" />
-    <fragment
-        android:id="@+id/logInFragment"
-        android:name="com.atech.bit.ui.fragments.login.LogInFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_logInFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-        <argument
-            android:name="request"
-            android:defaultValue="0"
-            app:argType="integer" />
-    </fragment>
-    <fragment
-        android:id="@+id/loadingDataFragment"
-        android:name="com.atech.bit.ui.fragments.login.loading_data.LoadingDataFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_loading_data">
-        <argument
-            android:name="uid"
-            app:argType="string" />
-        <action
-            android:id="@+id/action_loadingDataFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <action
-        android:id="@+id/action_global_startUpFragment"
-        app:destination="@id/startUpFragment"
-        app:popUpTo="@id/nav_graph"
-        app:popUpToInclusive="true" />
-    <action
-        android:id="@+id/action_global_loadingDataFragment"
-        app:destination="@id/loadingDataFragment"
-        app:popUpTo="@id/nav_graph"
-        app:popUpToInclusive="true" />
-    <dialog
-        android:id="@+id/profileFragment"
-        android:name="com.atech.bit.ui.fragments.profile.ProfileFragment"
-        android:label="@string/profile"
-        tools:layout="@layout/fragment_profile">
-        <argument
-            android:name="uid"
-            app:argType="string" />
-        <argument
-            android:name="user"
-            app:argType="com.atech.core.data.network.user.UserModel" />
-    </dialog>
-    <fragment
-        android:id="@+id/viewSyllabusFragment"
-        android:name="com.atech.bit.ui.fragments.course.view_syllabus.ViewSyllabusFragment"
-        android:label="@string/blank"
-        tools:layout="@layout/fragment_view_syllabus">
-        <argument
-            android:name="subjectName"
-            app:argType="string" />
-        <argument
-            android:name="courseSem"
-            app:argType="string" />
-    </fragment>
-    <dialog
-        android:id="@+id/archiveBottomSheet"
-        android:name="com.atech.bit.ui.fragments.attendance.archive.ArchiveBottomSheet"
-        android:label="ArchiveBottomSheet"
-        tools:layout="@layout/bottom_sheet_archive">
-        <action
-            android:id="@+id/action_archiveBottomSheet_to_calenderViewBottomSheet"
-            app:destination="@id/calenderViewBottomSheet" />
-        <argument
-            android:name="defPercentage"
-            app:argType="integer" />
-    </dialog>
-    <fragment
-        android:id="@+id/libraryFragment"
-        android:name="com.atech.bit.ui.fragments.library.LibraryFragment"
-        android:label="@string/library"
-        tools:layout="@layout/fragment_library">
-        <action
-            android:id="@+id/action_libraryFragment_to_addEditFragment"
-            app:destination="@id/addEditFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addEditFragment"
-        android:name="com.atech.bit.ui.fragments.library.add_edit.AddEditFragment"
-        android:label="{title}"
-        tools:layout="@layout/fragment_add_edit_library_book_details">
-        <argument
-            android:name="title"
-            app:argType="string" />
-        <argument
-            android:name="library"
-            android:defaultValue="@null"
-            app:argType="com.atech.core.data.room.library.LibraryModel"
-            app:nullable="true" />
-    </fragment>
-    <dialog
-        android:id="@+id/universalDialogFragment"
-        android:name="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment"
-        android:label="UniversalDialogFragment">
-        <argument
-            android:name="universal_dialog_data"
-            app:argType="com.atech.bit.ui.fragments.universal_dialog.UniversalDialogFragment$UniversalDialogData" />
-    </dialog>
-    <action
-        android:id="@+id/action_global_universalDialogFragment"
-        app:destination="@id/universalDialogFragment" />
-    <dialog
-        android:id="@+id/addFromOnlineSyllabusBottomSheet"
-        android:name="com.atech.bit.ui.fragments.attendance.add_from_online_syllabus.AddFromOnlineSyllabusBottomSheet"
-        android:label="AddFromOnlineSyllabusBottomSheet"
-        tools:layout="@layout/bottom_sheet_edit_subject" />
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.atech.bit.ui.fragments.search.SearchFragment"
-        android:label="@string/blank" />
-    <action
-        android:id="@+id/action_global_searchFragment"
-        app:destination="@id/searchFragment" />
-    <fragment
-        android:id="@+id/administrationFragment"
-        android:name="com.atech.bit.ui.fragments.administration.AdministrationFragment"
-        android:label="@string/administration"
-        tools:layout="@layout/fragment_administration" />
-    <fragment
-        android:id="@+id/globalSearchFragment"
-        android:name="com.atech.bit.ui.fragments.global_search.GlobalSearchFragment"
-        tools:layout="@layout/fragment_global_search" />
-    <action android:id="@+id/action_global_globalSearchFragment" app:destination="@id/globalSearchFragment"/>
+        android:id="@+id/notificationFragment"
+        android:name="com.atech.bit.ui.fragments.notification.NotificationFragment"
+        android:label="NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
 </navigation>

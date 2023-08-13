@@ -4,16 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.atech.bit.ui.fragments.library.LibraryFragment">
+    android:background="?attr/bottomBar">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar" />
+
+
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/empty_animation"
             android:layout_width="300dp"
             android:layout_height="300dp"
+            android:layout_below="@id/include_toolbar"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/grid_7"
             android:scaleType="fitCenter"
@@ -24,14 +30,13 @@
             tools:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_library"
+            android:id="@+id/rv_show_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:paddingBottom="@dimen/min_padding_attendance"
-            tools:listitem="@layout/row_library" />
+            android:layout_below="@id/include_toolbar"
+            android:paddingHorizontal="@dimen/grid_1"
+            android:paddingBottom="@dimen/min_padding_attendance" />
     </RelativeLayout>
-
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -39,14 +44,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:backgroundTint="?attr/bottomBar"
-        app:menu="@menu/library_menu"
+        android:backgroundTint="?attr/colorSurface"
         app:navigationIcon="@drawable/ic_delete"
         app:navigationIconTint="?attr/colorPrimary" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_book"
+        android:id="@+id/fab_add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorPrimary"
@@ -54,5 +58,4 @@
         app:layout_anchor="@id/bottomAppBar"
         app:srcCompat="@drawable/ic_add"
         app:tint="?attr/bottomBar" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

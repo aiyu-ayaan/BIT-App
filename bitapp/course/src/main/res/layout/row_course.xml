@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.CardView.Filled"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/grid_1"
+    android:layout_marginVertical="@dimen/grid_0_5"
+    android:padding="@dimen/grid_1"
+    app:cardBackgroundColor="?attr/bottomBar"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="@dimen/grid_1"
+        tools:ignore="UseCompoundDrawables">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/blank"
+            android:padding="@dimen/grid_2"
+            android:src="@drawable/ic_book"
+            app:tint="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/tv_course_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="@dimen/grid_2"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            tools:text="Course Name" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

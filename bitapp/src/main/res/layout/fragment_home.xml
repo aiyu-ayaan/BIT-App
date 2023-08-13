@@ -1,89 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
-    android:overScrollMode="always"
-    tools:context=".ui.fragments.home.HomeFragment">
+    android:background="?attr/colorSurface"
+    tools:context="com.atech.bit.ui.fragments.home.HomeFragment">
 
-    <com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer
-        android:id="@+id/scrollViewHome"
+    <include
+        android:id="@+id/loading"
+        layout="@layout/layout_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:fillViewport="true"
-        android:overScrollMode="always"
-        android:paddingBottom="@dimen/bottom_nav_height">
+        android:paddingHorizontal="@dimen/grid_2"
+        android:layoutAnimation="@anim/layout_animation"
+        android:paddingVertical="@dimen/grid_0_25"
+        android:paddingBottom="100dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-6172727030505608/5014774210" />
-            <include
-                android:id="@+id/card_view_announcement"
-                layout="@layout/card_view_highlight"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_2"
-                android:layout_marginVertical="@dimen/grid_0_5"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:hint="@string/search_any_thing"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ib_notice"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/round_menu_24"
+                app:navigationIconTint="?attr/colorPrimary" />
 
+            <ImageButton
+                android:id="@+id/ib_notice"
+                android:layout_width="@dimen/user_profile_image_size"
+                android:layout_height="@dimen/user_profile_image_size"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:background="?attr/actionBarItemBackground"
+                android:contentDescription="@string/notice"
+                android:src="@drawable/ic_notice"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_user_profile_image"
+                app:layout_constraintEnd_toStartOf="@+id/iv_user_profile_image"
+                app:layout_constraintTop_toTopOf="@+id/iv_user_profile_image" />
 
-            <include
-                android:id="@+id/layout_home_library"
-                layout="@layout/layout_home_library"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1"
-                android:layout_marginTop="@dimen/grid_1"
-                android:visibility="gone"
-                tools:visibility="visible" />
+            <ImageView
+                android:id="@+id/iv_user_profile_image"
+                android:layout_width="@dimen/user_profile_image_size"
+                android:layout_height="@dimen/user_profile_image_size"
+                android:layout_marginEnd="@dimen/grid_2"
+                android:background="?attr/actionBarItemBackground"
+                android:contentDescription="@string/profile"
+                android:src="@drawable/ic_account"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-            <include
-                android:id="@+id/fragment_home_ext"
-                layout="@layout/fragment_home_ext"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1" />
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/search_any_thing"
+        app:layout_anchor="@id/search_bar">
 
-            <include
-                android:id="@+id/fragment_home_holiday_ext"
-                layout="@layout/layout_home_holiday"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1" />
+        <include
+            android:id="@+id/search_ext"
+            layout="@layout/home_search_ext" />
+    </com.google.android.material.search.SearchView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-            <include
-                android:id="@+id/fragment_home_event_ext"
-                layout="@layout/layout_home_event"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1" />
-
-            <include
-                android:id="@+id/fragment_home_cgpa_ext"
-                layout="@layout/layout_home_sgpa"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1" />
-
-            <include
-                android:id="@+id/fragment_home_attendance_ext"
-                layout="@layout/layout_home_attendance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/grid_1" />
-        </LinearLayout>
-    </com.atech.bit.ui.custom_views.SaveScrollNestedScrollViewer>
-</FrameLayout>

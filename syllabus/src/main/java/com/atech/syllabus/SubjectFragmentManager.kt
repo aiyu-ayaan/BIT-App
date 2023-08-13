@@ -13,7 +13,7 @@ package com.atech.syllabus
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import com.atech.core.data.room.syllabus.SyllabusModel
+import com.atech.core.room.syllabus.SyllabusModel
 
 fun setNoSyllabusFragment(@IdRes fragmentId: Int, fm: FragmentManager) {
     val fragment = NoSyllabusFragment()
@@ -26,7 +26,9 @@ fun setFragment(@IdRes fragmentId: Int, fm: FragmentManager, syllabusModel: Syll
     val fragment: Fragment = when {
         syllabusModel.openCode.lowercase().contains("bba") -> openCodeBBA(syllabusModel)
         syllabusModel.openCode.lowercase().contains("bca") -> openCodeBCA(syllabusModel)
-        else -> FragmentNetworkSyllabus(syllabusModel)
+        else -> {
+            NoSyllabusFragment()
+        }
     }
 
     fm.beginTransaction()
@@ -101,7 +103,7 @@ fun openCodeBBA(syllabusModel: SyllabusModel): Fragment =
         syllabusModel.openCode.lowercase() == "bba616" -> FragBba616()
         syllabusModel.openCode.lowercase() == "bba617" -> FragBba617()
         syllabusModel.openCode.lowercase() == "bba618" -> FragBba618()
-        else -> FragmentNetworkSyllabus(syllabusModel)
+        else ->NoSyllabusFragment()
     }
 
 fun openCodeBCA(syllabusModel: SyllabusModel): Fragment =
@@ -173,5 +175,5 @@ fun openCodeBCA(syllabusModel: SyllabusModel): Fragment =
         syllabusModel.openCode.lowercase() == "bca66" -> FragBca66()
         syllabusModel.openCode.lowercase() == "bca67" -> FragBca65()
         syllabusModel.openCode.lowercase() == "bca68" -> FragBca64()
-        else -> FragmentNetworkSyllabus(syllabusModel)
+        else -> NoSyllabusFragment()
     }
