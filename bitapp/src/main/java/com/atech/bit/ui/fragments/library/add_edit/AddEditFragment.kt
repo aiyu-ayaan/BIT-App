@@ -3,7 +3,6 @@ package com.atech.bit.ui.fragments.library.add_edit
 import android.Manifest
 import android.animation.LayoutTransition
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.os.Bundle
 import android.transition.Fade
 import android.transition.TransitionManager
@@ -16,35 +15,36 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAddEditLibraryBookDetailsBinding
-import com.atech.bit.utils.addMenuHost
-import com.atech.bit.utils.handleCustomBackPressed
-import com.atech.bit.utils.launchWhenStarted
+import com.atech.bit.utils.openKeyboard
 import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.DATE_PICKER_DIALOG
 import com.atech.core.utils.DEFAULT_PAIR
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
-import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.convertLongToTime
-import com.atech.core.utils.openAppSettings
-import com.atech.core.utils.showSnackBar
-import com.google.android.material.color.MaterialColors
+import com.atech.theme.Axis
+import com.atech.theme.Permissions
+import com.atech.theme.ToolbarData
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.compareDifferenceInDays
+import com.atech.theme.customBackPress
+import com.atech.theme.launchWhenStarted
+import com.atech.theme.openAppSettings
+import com.atech.theme.set
+import com.atech.theme.showSnackBar
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.transition.MaterialContainerTransform
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.Date
 
 @AndroidEntryPoint
-class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details) {
+class AddEditFragment : BaseFragment(R.layout.fragment_add_edit_library_book_details, Axis.X) {
 
     private val binding: FragmentAddEditLibraryBookDetailsBinding by viewBinding()
     private val viewModel: AddEditViewModel by viewModels()
@@ -63,30 +63,13 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
                         "Please grant Calendar permission from App Settings",
                         Snackbar.LENGTH_LONG,
                         actionName = "Settings",
-                    ){
+                    ) {
                         requireContext().openAppSettings()
                     }
                 }
             }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform().apply {
-            drawingViewId = R.id.fragment
-            duration = resources.getInteger(R.integer.duration_medium).toLong()
-            scrimColor = MaterialColors.getColor(
-                requireContext(), android.viewbinding.library.R.attr.colorSurface, Color.TRANSPARENT
-            )
-            setAllContainerColors(
-                MaterialColors.getColor(
-                    requireContext(),
-                    android.viewbinding.library.R.attr.colorSurface,
-                    Color.TRANSPARENT
-                )
-            )
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -94,10 +77,8 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
         view.doOnPreDraw { startPostponedEnterTransition() }
         checkNotificationPermission()
         binding.apply {
-            root.transitionName = viewModel.title
-
             setView()
-
+            setToolbar()
             textFieldIssueDate.openDatePicker {
                 viewModel.libraryModel = viewModel.libraryModel.copy(issueDate = it.timeInMillis)
             }
@@ -110,22 +91,15 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             removeEvent()
             saveOrCancel()
         }
-        handleCustomBackPressed {
+        customBackPress {
             checkDataIsSaved()
         }
-
-        addMenuHost(menuClick = {
-            when (it.itemId) {
-                android.R.id.home -> {
-                    checkDataIsSaved()
-                }
-            }
-            true
-        })
     }
 
     private fun setView() = binding.apply {
         textFieldBookName.editText?.setText(viewModel.libraryModel.bookName)
+        textFieldBookName.requestFocus()
+        requireContext().openKeyboard(textFieldBookName.editText!!)
         textFieldBookId.editText?.setText(viewModel.libraryModel.bookId)
         if (viewModel.libraryModel.issueDate != 0L) {
             textFieldIssueDate.editText?.setText(
@@ -147,7 +121,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
                     EDIT_TEXT_DATE_FORMAT
                 )
             )
-            textViewAddReminder.text = resources.getString(R.string.show_less)
+            textViewAddReminder.text = resources.getString(com.atech.theme.R.string.show_less)
             imageButtonRemoveEvent.visibility = View.VISIBLE
             textFieldReminderDate.visibility = View.VISIBLE
         }
@@ -177,7 +151,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
                 bookName = bookName,
                 bookId = bookId
             )
-            if (viewModel.title == resources.getString(R.string.add_books))
+            if (viewModel.title == resources.getString(com.atech.theme.R.string.add_books))
                 viewModel.addBook(viewModel.libraryModel)
             else
                 viewModel.updateBook(viewModel.libraryModel)
@@ -195,8 +169,9 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             TransitionManager.beginDelayedTransition(
                 binding.root, TransitionSet().addTransition(Fade())
             )
-            textViewAddReminder.text = if (isVisible) getString(R.string.add_reminder)
-            else getString(R.string.show_less)
+            textViewAddReminder.text =
+                if (isVisible) getString(com.atech.theme.R.string.add_reminder)
+                else getString(com.atech.theme.R.string.show_less)
 
             root.layoutTransition.enableTransitionType(LayoutTransition.CHANGING)
             imageButtonRemoveEvent.visibility = if (isVisible) View.GONE else View.VISIBLE
@@ -286,7 +261,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
         ) {
             true
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.WRITE_CALENDAR)
+            requestPermissionLauncher.launch(Permissions.WRITE_CALENDER.value)
             null
         }
     }
@@ -299,7 +274,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
         ) {
             true
         } else {
-            requestPermissionLauncher.launch(Manifest.permission.READ_CALENDAR)
+            requestPermissionLauncher.launch(Permissions.READ_CALENDER.value)
             null
         }
     }
@@ -398,7 +373,7 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
 
     private fun checkDataIsSaved() {
         if (viewModel.libraryModel.bookName.isBlank() &&
-            viewModel.title == resources.getString(R.string.add_books) &&
+            viewModel.title == resources.getString(com.atech.theme.R.string.add_books) &&
             viewModel.libraryModel.eventId != -1L
         ) {
             deleteEvent()
@@ -453,6 +428,15 @@ class AddEditFragment : Fragment(R.layout.fragment_add_edit_library_book_details
             error = null
             false
         }
+    }
+
+    private fun FragmentAddEditLibraryBookDetailsBinding.setToolbar() = this.includeToolbar.apply {
+        set(
+            ToolbarData(
+                titleString = viewModel.title,
+                action = findNavController()::navigateUp
+            )
+        )
     }
 
 }

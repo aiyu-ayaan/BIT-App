@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/attendance_graph"
+    app:startDestination="@id/attendanceFragment">
+
+    <fragment
+        android:id="@+id/attendanceFragment"
+        android:name="com.atech.attendance.AttendanceFragment"
+        android:label="@string/attendance"
+        tools:layout="@layout/fragment_attendance" >
+        <action
+            android:id="@+id/action_attendanceFragment_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_detailViewBottomSheet"
+            app:destination="@id/detailViewBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_attendanceMenuBottomSheet"
+            app:destination="@id/attendanceMenuBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_archiveBottomSheet"
+            app:destination="@id/archiveBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_changePercentageDialog"
+            app:destination="@id/changePercentageDialog" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_addFromSyllabusBottomSheet"
+            app:destination="@id/addFromSyllabusBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/addEditAttendanceBottomSheet"
+        android:name="com.atech.attendance.add_edit.AddEditAttendanceBottomSheet"
+        android:label="bottom_sheet_add_edit"
+        tools:layout="@layout/bottom_sheet_add_edit" >
+        <argument
+            android:name="type"
+            android:defaultValue="Add"
+            app:argType="string" />
+        <argument
+            android:name="request"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="attendance"
+            app:argType="com.atech.core.room.attendance.AttendanceModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </dialog>
+    <dialog
+        android:id="@+id/detailViewBottomSheet"
+        android:name="com.atech.attendance.detail.DetailViewBottomSheet"
+        android:label="fragment_detail_view"
+        tools:layout="@layout/bottom_sheet_detail_view" >
+        <argument
+            android:name="attendance"
+            app:argType="com.atech.core.room.attendance.AttendanceModel" />
+
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="minPercentage"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/attendanceMenuBottomSheet"
+        android:name="com.atech.attendance.menu.AttendanceMenuBottomSheet"
+        android:label="bottom_sheet_attendance_menu"
+        tools:layout="@layout/bottom_sheet_attendance_menu" >
+        <argument
+            android:name="attendance"
+            app:argType="com.atech.core.room.attendance.AttendanceModel"/>
+        <argument
+            android:name="request"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_attendanceMenuBottomSheet_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
+    </dialog>
+    <dialog
+        android:id="@+id/archiveBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet"
+        android:name="com.atech.attendance.archive.ArchiveBottomSheet"
+        android:label="ArchiveBottomSheet" >
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_detailViewBottomSheet"
+            app:destination="@id/detailViewBottomSheet" />
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_attendanceMenuBottomSheet"
+            app:destination="@id/attendanceMenuBottomSheet" />
+        <action
+            android:id="@+id/action_archiveBottomSheet_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
+        <argument
+            android:name="defPercentage"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/changePercentageDialog"
+        android:name="com.atech.attendance.change_percentage.ChangePercentageDialog"
+        android:label="dialog_change_percentage"
+        tools:layout="@layout/dialog_change_percentage" >
+        <argument
+            android:name="percentage"
+            app:argType="integer" />
+    </dialog>
+    <dialog
+        android:id="@+id/addFromSyllabusBottomSheet"
+        tools:layout="@layout/layout_bottom_sheet"
+        android:name="com.atech.attendance.add_from_syllabus.AddFromSyllabusBottomSheet"
+        android:label="AddFromSyllabusBottomSheet" >
+        <action
+            android:id="@+id/action_addFromSyllabusBottomSheet_to_addEditAttendanceBottomSheet"
+            app:destination="@id/addEditAttendanceBottomSheet" />
+    </dialog>
+</navigation>

@@ -12,12 +12,10 @@ package com.atech.core.module
 
 import android.content.Context
 import androidx.room.Room
-import com.atech.core.data.room.BitDatabase
-import com.atech.core.data.room.attendance.AttendanceDao
-import com.atech.core.data.room.events.EventsDao
 import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.data.room.notice.Notice3Dao
-import com.atech.core.data.room.syllabus.SyllabusDao
+import com.atech.core.room.BitDatabase
+import com.atech.core.room.attendance.AttendanceDao
+import com.atech.core.room.syllabus.SyllabusDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -61,20 +59,20 @@ object RoomModule {
     fun getAttendanceDao(noticeDatabase: BitDatabase): AttendanceDao =
         noticeDatabase.attendanceDao()
 
-    @Singleton
-    @Provides
-    fun getEventDao(noticeDatabase: BitDatabase): EventsDao =
-        noticeDatabase.eventDao()
+//    @Singleton
+//    @Provides
+//    fun getEventDao(noticeDatabase: BitDatabase): EventsDao =
+//        noticeDatabase.eventDao()
 
     @Singleton
     @Provides
     fun getSyllabusDao(noticeDatabase: BitDatabase): SyllabusDao =
         noticeDatabase.syllabusDao()
 
-    @Singleton
-    @Provides
-    fun getNotice3Dao(noticeDatabase: BitDatabase): Notice3Dao =
-        noticeDatabase.notice3Dao()
+//    @Singleton
+//    @Provides
+//    fun getNotice3Dao(noticeDatabase: BitDatabase): Notice3Dao =
+//        noticeDatabase.notice3Dao()
 
 
     @Singleton

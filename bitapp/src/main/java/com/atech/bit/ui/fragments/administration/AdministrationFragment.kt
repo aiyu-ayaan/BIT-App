@@ -1,93 +1,85 @@
 package com.atech.bit.ui.fragments.administration
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentAdministrationBinding
-import com.atech.bit.databinding.FragmentViewSyllabusBinding
-import com.atech.bit.utils.launchWhenStarted
-import com.atech.core.api.ApiRepository
+import com.atech.core.retrofit.ApiCases
 import com.atech.core.utils.DataState
-import com.atech.core.utils.getColorForText
-import com.atech.core.utils.getColorFromAttr
-import com.atech.core.utils.getRgbFromHex
+import com.atech.core.utils.NetworkBoundException
+import com.atech.theme.Axis
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.ToolbarData
+import com.atech.theme.getColorForText
+import com.atech.theme.getColorFromAttr
+import com.atech.theme.getRgbFromHex
+import com.atech.theme.launchWhenStarted
+import com.atech.theme.set
 import com.google.android.material.color.MaterialColors
-import com.google.android.material.transition.MaterialSharedAxis
 import dagger.hilt.android.AndroidEntryPoint
-import retrofit2.HttpException
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
-private const val TAG = "AdministrationFragment"
-
 @AndroidEntryPoint
-class AdministrationFragment : Fragment(R.layout.fragment_administration) {
-
+class AdministrationFragment : BaseFragment(R.layout.fragment_administration,Axis.Y) {
     private val binding: FragmentAdministrationBinding by viewBinding()
 
     @Inject
-    lateinit var apiRepository: ApiRepository
+    lateinit var cases: ApiCases
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            launchWhenStarted {
-                apiRepository.fetAdministration().collect(::collectData)
-            }
+            setToolbar()
         }
+        loadData()
     }
 
-    private fun collectData(dataState: DataState<String>) {
-        when (dataState) {
-            DataState.Empty -> {
-                Log.d(TAG, "collectData: Empty")
-            }
+    private fun loadData() = launchWhenStarted {
+        cases.administration.invoke().collectLatest { dataState ->
+            when (dataState) {
+                is DataState.Success -> {
+                    binding.setMarkDownFile(dataState)
+                }
 
-            is DataState.Error -> {
-                when (dataState.exception) {
-                    // HTTP 504 Unsatisfiable Request (only-if-cached)
-                    is HttpException -> {
-                        if ((dataState.exception as HttpException).code() == 504) {
-                            setViewsVisible(false)
+                is DataState.Error -> {
+                    when (dataState.exception) {
+                        // HTTP 504 Unsatisfiable Request (only-if-cached)
+                        is NetworkBoundException -> {
+                            if ((dataState.exception as NetworkBoundException).code == 504) {
+                                setViewsVisible(false)
+                                Toast.makeText(
+                                    requireContext(),
+                                    resources.getString(com.atech.theme.R.string.no_internet),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            if ((dataState.exception as NetworkBoundException).code == 404) {
+                                setViewsVisible(false)
+                                binding.emptyText.text =
+                                    resources.getString(com.atech.theme.R.string.no_data)
+                                Toast.makeText(
+                                    requireContext(),
+                                    resources.getString(com.atech.theme.R.string.no_data),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+
+                        else -> {
                             Toast.makeText(
-                                requireContext(),
-                                resources.getString(R.string.no_internet),
-                                Toast.LENGTH_SHORT
+                                requireContext(), "Something went wrong", Toast.LENGTH_SHORT
                             ).show()
                         }
-                        if ((dataState.exception as HttpException).code() == 404) {
-                            setViewsVisible(false)
-                            binding.emptyText.text =
-                                resources.getString(com.atech.syllabus.R.string.no_syllabus_found)
-                            Toast.makeText(
-                                requireContext(),
-                                resources.getString(com.atech.syllabus.R.string.no_syllabus_found),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-
-                    else -> {
-                        Toast.makeText(
-                            requireContext(), "Something went wrong", Toast.LENGTH_SHORT
-                        ).show()
                     }
                 }
-            }
 
-            is DataState.Loading -> {}
-            is DataState.Success -> {
-                binding.setMarkDownFile(dataState)
+                else -> {}
             }
         }
     }
@@ -97,7 +89,7 @@ class AdministrationFragment : Fragment(R.layout.fragment_administration) {
             setViewsVisible(true)
             setBackgroundColor(
                 MaterialColors.getColor(
-                    requireView(), me.relex.circleindicator.R.attr.colorSurface
+                    requireView(), com.atech.theme.R.attr.bottomBar
                 )
             )
             setMarkDownText(
@@ -105,7 +97,7 @@ class AdministrationFragment : Fragment(R.layout.fragment_administration) {
                     getRgbFromHex(
                         String.format(
                             "#%06X",
-                            (context?.getColorFromAttr(com.google.android.material.R.attr.colorSurface))
+                            (context?.getColorFromAttr(com.atech.theme.R.attr.bottomBar))
                         )
                     )
                 } ; color:${getColorForText(requireContext())};}</style>"
@@ -113,10 +105,20 @@ class AdministrationFragment : Fragment(R.layout.fragment_administration) {
         }
     }
 
+    private fun FragmentAdministrationBinding.setToolbar() = this.includeToolbar.apply {
+        set(
+            ToolbarData(
+                title = com.atech.theme.R.string.administration,
+                action = {
+                    findNavController().navigateUp()
+                }
+            )
+        )
+    }
+
     private fun setViewsVisible(isVisible: Boolean) = binding.apply {
         markdown.isVisible = isVisible
         emptyText.isVisible = !isVisible
         emptyMarkdown.isVisible = !isVisible
     }
-
 }

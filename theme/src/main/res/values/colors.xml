@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+
+    <!--    Custom-->
+    <color name="MainColor">#fbfdf8</color>
+    <color name="textColor">#000</color>
+    <color name="textColor_oppo">#fff</color>
+    <color name="textColorSubTitle">#FFFFFF</color>
+    <color name="textColorSecondary">#99000000</color>
+    <color name="textColorSecondary_oppo">#99FFFFFF</color>
+
+
+    <!--    Custom-->
+    <color name="cardBackground">#F0F5F9</color>
+
+
+    <color name="green">#4EAF4F</color>
+    <color name="red">#bc544b</color>
+
+    <color name="blue_bottom_nav">#d7e7cc</color>
+    <color name="bottom_nav">#f1f1eb</color>
+    <color name="accent_color">#4d6356</color>
+    <color name="icon_color">#a0d490</color>
+    <color name="logo_background">#181f28</color>
+    <color name="bottom_sheet_color">#e2e3dd</color>
+</resources>

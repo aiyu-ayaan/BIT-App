@@ -5,40 +5,34 @@ import android.view.View
 import android.viewbinding.library.fragment.viewBinding
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
-import androidx.core.view.doOnPreDraw
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.palette.graphics.Palette
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentViewImageBinding
-import com.atech.core.utils.*
-import com.google.android.material.transition.MaterialSharedAxis
+import com.atech.bit.utils.isColorDark
+import com.atech.theme.Axis
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.changeBottomNavImageView
+import com.atech.theme.changeStatusBarToolbarColorImageView
+import com.atech.theme.loadImage
+import com.atech.theme.loadImageBitMap
+import com.atech.theme.setStatusBarUiTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
+class ViewImageFragment : BaseFragment(R.layout.fragment_view_image, Axis.Z) {
     private val binding: FragmentViewImageBinding by viewBinding()
     private val args: ViewImageFragmentArgs by navArgs()
     private var isChange: Boolean? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z,  false)
-    }
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
         binding.apply {
             textViewTitle.text = args.title
             args.link.loadImageBitMap(
                 binding.root,
-                R.drawable.ic_running_error
+                com.atech.theme.R.drawable.ic_running_error
             ) { bitmap ->
                 Palette.from(bitmap!!).generate {
                     it?.let {
@@ -46,7 +40,7 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                             it.getDominantColor(
                                 ContextCompat.getColor(
                                     requireContext(),
-                                    R.color.MainColor
+                                    com.atech.theme.R.color.MainColor
                                 )
                             )
                         ))
@@ -58,19 +52,26 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                             false -> binding.buttonBack.imageTintList =
                                 AppCompatResources.getColorStateList(
                                     requireContext(),
-                                    R.color.white
+                                    com.atech.theme.R.color.white
                                 ).also {
                                     binding.textViewTitle.setTextColor(
-                                        ContextCompat.getColor(requireContext(), R.color.white)
+                                        ContextCompat.getColor(
+                                            requireContext(),
+                                            com.atech.theme.R.color.white
+                                        )
                                     )
                                 }
+
                             else -> binding.buttonBack.imageTintList =
                                 AppCompatResources.getColorStateList(
                                     requireContext(),
-                                    R.color.black
+                                    com.atech.theme.R.color.black
                                 ).apply {
                                     binding.textViewTitle.setTextColor(
-                                        ContextCompat.getColor(requireContext(), R.color.black)
+                                        ContextCompat.getColor(
+                                            requireContext(),
+                                            com.atech.theme.R.color.black
+                                        )
                                     )
                                 }
                         }
@@ -78,7 +79,7 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                             it.getDominantColor(
                                 ContextCompat.getColor(
                                     requireContext(),
-                                    R.color.MainColor
+                                    com.atech.theme.R.color.MainColor
                                 )
                             )
                         )
@@ -86,7 +87,7 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                             it.getDominantColor(
                                 ContextCompat.getColor(
                                     requireContext(),
-                                    R.color.MainColor
+                                    com.atech.theme.R.color.MainColor
                                 )
                             )
                         )
@@ -94,30 +95,17 @@ class ViewImageFragment : Fragment(R.layout.fragment_view_image) {
                             it.getDominantColor(
                                 ContextCompat.getColor(
                                     requireContext(),
-                                    R.color.MainColor
+                                    com.atech.theme.R.color.MainColor
                                 )
                             )
                         )
                     }
                 }
             }
-            args.link.loadImageDefault(
-                binding.root,
-                imageLoad,
-                progressBarImageFull,
-                R.drawable.ic_running_error
-            )
+            imageLoad.loadImage(args.link)
             buttonBack.setOnClickListener {
                 findNavController().navigateUp()
             }
         }
-
-    }
-
-     
-
-    override fun onDestroy() {
-        super.onDestroy()
-        setStatusBarUiTheme(activity, !(requireContext().isDark()))
     }
 }

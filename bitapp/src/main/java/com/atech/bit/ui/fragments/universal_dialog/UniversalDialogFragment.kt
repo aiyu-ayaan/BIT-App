@@ -7,8 +7,8 @@ import androidx.annotation.Keep
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.atech.bit.databinding.FragmentUniversalAlertBinding
-import com.atech.core.utils.openCustomChromeTab
-import com.atech.core.utils.openPlayStore
+import com.atech.theme.openCustomChromeTab
+import com.atech.theme.openPlayStore
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.parcelize.Parcelize

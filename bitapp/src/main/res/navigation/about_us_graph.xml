@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/about_us_graph"
+    app:startDestination="@id/aboutFragment">
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.atech.bit.ui.fragments.about.AboutFragment"
+        android:label="AboutFragment"
+        tools:layout="@layout/layout_recycler_view">
+        <action
+            android:id="@+id/action_aboutFragment_to_detailDevFragment"
+            app:destination="@id/detailDevFragment" />
+        <action
+            android:id="@+id/action_aboutFragment_to_creditsFragment"
+            app:destination="@id/creditsFragment" />
+        <deepLink
+            android:id="@+id/deepLink2"
+            app:uri="bitapp://bit.aiyu/aboutUs" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailDevFragment"
+        android:name="com.atech.bit.ui.fragments.about.detail.DetailDevFragment"
+        android:label="fragment_detail_dev"
+        tools:layout="@layout/fragment_detail_dev">
+        <argument
+            android:name="dev"
+            app:argType="com.atech.core.retrofit.client.Devs" />
+    </fragment>
+    <fragment
+        android:id="@+id/creditsFragment"
+        android:name="com.atech.bit.ui.fragments.about.acknowledgements.CreditsFragment"
+        android:label="CreditsFragment"
+        tools:layout="@layout/layout_recycler_view" />
+
+
+</navigation>

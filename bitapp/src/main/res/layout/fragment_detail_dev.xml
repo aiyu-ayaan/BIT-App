@@ -7,206 +7,201 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".ui.fragments.about_us.detail.DetailDevFragment">
+    tools:context="com.atech.bit.ui.fragments.about.detail.DetailDevFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="@dimen/grid_1"
-        >
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_view_about"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_1"
-            android:layout_marginTop="@dimen/grid_1"
-            android:text="@string/about"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/material_card_view_about"
+        <include
+            android:id="@+id/include_toolbar"
+            layout="@layout/layout_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/grid_0_25"
-            android:layout_marginTop="@dimen/grid_1"
-            app:cardBackgroundColor="?attr/bottomBar"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_about"
-            app:strokeColor="?attr/colorSurface"
-            tools:layout_editor_absoluteX="8dp">
+            android:layout_height="wrap_content" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/include_toolbar"
+            android:layout_margin="@dimen/grid_1">
+
+            <TextView
+                android:id="@+id/text_view_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/about"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/material_card_view_about"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/grid_1">
+                android:layout_marginHorizontal="@dimen/grid_0_25"
+                android:layout_marginTop="@dimen/grid_1"
+                app:cardBackgroundColor="?attr/bottomBar"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_about"
+                app:strokeColor="?attr/colorSurface"
+                tools:layout_editor_absoluteX="8dp">
 
-                <ImageView
-                    android:id="@+id/image_view_profile"
-                    android:layout_width="@dimen/image_view_about_us_size"
-                    android:layout_height="@dimen/image_view_about_us_size"
-                    android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/blank"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    android:id="@+id/progress_bar_description"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:indeterminate="true"
-                    android:progress="50"
-                    app:layout_constraintBottom_toBottomOf="@+id/image_view_profile"
-                    app:layout_constraintEnd_toEndOf="@+id/image_view_profile"
-                    app:layout_constraintStart_toStartOf="@+id/image_view_profile"
-                    app:layout_constraintTop_toTopOf="@+id/image_view_profile"
-                    app:trackThickness="20dp" />
+                    android:padding="@dimen/grid_1">
 
-                <TextView
-                    android:id="@+id/text_view_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginStart="@dimen/grid_1"
-                    android:textAppearance="?attr/textAppearanceHeadline5"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/image_view_profile"
-                    app:layout_constraintStart_toEndOf="@+id/image_view_profile"
-                    app:layout_constraintTop_toTopOf="@+id/image_view_profile"
-                    app:layout_constraintVertical_bias="0.41000003"
-                    tools:text="Ayaan" />
+                    <ImageView
+                        android:id="@+id/image_view_profile"
+                        android:layout_width="@dimen/image_view_about_us_size"
+                        android:layout_height="@dimen/image_view_about_us_size"
+                        android:layout_centerHorizontal="true"
+                        android:contentDescription="@string/blank"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/text_view_role"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/grid_0_5"
-                    android:textAppearance="?attr/textAppearanceCaption"
-                    app:layout_constraintStart_toStartOf="@+id/text_view_name"
-                    app:layout_constraintTop_toBottomOf="@+id/text_view_name"
-                    tools:text="Developer" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/text_view_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="@dimen/grid_1"
+                        android:textAppearance="?attr/textAppearanceHeadline5"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/image_view_profile"
+                        app:layout_constraintStart_toEndOf="@+id/image_view_profile"
+                        app:layout_constraintTop_toTopOf="@+id/image_view_profile"
+                        app:layout_constraintVertical_bias="0.41000003"
+                        tools:text="Ayaan" />
 
-        <TextView
-            android:id="@+id/text_view_connect_with_me"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/grid_1"
-            android:layout_marginTop="@dimen/grid_1"
-            android:text="@string/connectWithMe"
-            android:textAppearance="?attr/textAppearanceTitleSmall"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/material_card_view_about" />
+                    <TextView
+                        android:id="@+id/text_view_role"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/grid_0_5"
+                        android:textAppearance="?attr/textAppearanceCaption"
+                        app:layout_constraintStart_toStartOf="@+id/text_view_name"
+                        app:layout_constraintTop_toBottomOf="@+id/text_view_name"
+                        tools:text="Developer" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/material_card_view_connect_with_me"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/grid_0_25"
-            android:layout_marginTop="@dimen/grid_1"
-            app:cardBackgroundColor="?attr/bottomBar"
-            app:layout_constraintTop_toBottomOf="@+id/text_view_connect_with_me"
-            app:strokeColor="?attr/colorSurface"
-            tools:layout_editor_absoluteX="8dp">
+            <TextView
+                android:id="@+id/text_view_connect_with_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/grid_1"
+                android:layout_marginTop="@dimen/grid_1"
+                android:text="@string/connectWithMe"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/material_card_view_about" />
 
-            <LinearLayout
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/material_card_view_connect_with_me"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="@dimen/grid_1">
+                android:layout_marginHorizontal="@dimen/grid_0_25"
+                android:layout_marginTop="@dimen/grid_1"
+                app:cardBackgroundColor="?attr/bottomBar"
+                app:layout_constraintTop_toBottomOf="@+id/text_view_connect_with_me"
+                app:strokeColor="?attr/colorSurface"
+                tools:layout_editor_absoluteX="8dp">
 
-                <Button
-                    android:id="@+id/button_web"
-                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/bottomBar"
-                    android:padding="@dimen/grid_2"
-                    android:text="@string/website"
-                    app:cornerRadius="@dimen/grid_1"
-                     app:icon="@drawable/ic_web_page"
-                    />
+                    android:orientation="vertical"
+                    android:padding="@dimen/grid_1">
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:id="@+id/div_website"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/div_height"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                   app:dividerColor="@color/divider_color" />
+                    <Button
+                        android:id="@+id/button_web"
+                        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:padding="@dimen/grid_2"
+                        android:text="@string/website"
+                        app:cornerRadius="@dimen/grid_1"
+                        app:icon="@drawable/ic_web_page" />
 
-                <Button
-                    android:id="@+id/button_stack_over_flow"
-                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/bottomBar"
-                    android:padding="@dimen/grid_2"
-                    android:text="@string/stack_over_flow"
-                    app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_stackoverflow"
-                    />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/div_website"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/div_height"
+                        android:layout_marginHorizontal="@dimen/grid_1"
+                        app:dividerColor="@color/divider_color" />
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:id="@+id/div_stack"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/div_height"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                   app:dividerColor="@color/divider_color" />
+                    <Button
+                        android:id="@+id/button_stack_over_flow"
+                        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:padding="@dimen/grid_2"
+                        android:text="@string/stack_over_flow"
+                        app:cornerRadius="@dimen/grid_1"
+                        app:icon="@drawable/ic_stackoverflow" />
 
-                <Button
-                    android:id="@+id/button_git"
-                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/bottomBar"
-                    android:padding="@dimen/grid_2"
-                    android:text="@string/git"
-                    app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_github"
-                    />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/div_stack"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/div_height"
+                        android:layout_marginHorizontal="@dimen/grid_1"
+                        app:dividerColor="@color/divider_color" />
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:id="@+id/div_git"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/div_height"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                   app:dividerColor="@color/divider_color" />
+                    <Button
+                        android:id="@+id/button_git"
+                        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:padding="@dimen/grid_2"
+                        android:text="@string/git"
+                        app:cornerRadius="@dimen/grid_1"
+                        app:icon="@drawable/ic_github" />
 
-                <Button
-                    android:id="@+id/button_linkedin"
-                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/bottomBar"
-                    android:padding="@dimen/grid_2"
-                    android:text="@string/linked_in"
-                    app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_linkedin"
-                     />
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/div_git"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/div_height"
+                        android:layout_marginHorizontal="@dimen/grid_1"
+                        app:dividerColor="@color/divider_color" />
 
-                <com.google.android.material.divider.MaterialDivider
-                    android:id="@+id/div_link"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/div_height"
-                    android:layout_marginHorizontal="@dimen/grid_1"
-                   app:dividerColor="@color/divider_color" />
+                    <Button
+                        android:id="@+id/button_linkedin"
+                        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:padding="@dimen/grid_2"
+                        android:text="@string/linked_in"
+                        app:cornerRadius="@dimen/grid_1"
+                        app:icon="@drawable/ic_linkedin" />
 
-                <Button
-                    android:id="@+id/button_instagram"
-                    style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?attr/bottomBar"
-                    android:padding="@dimen/grid_2"
-                    android:text="@string/insta"
-                    app:cornerRadius="@dimen/grid_1"
-                    app:icon="@drawable/ic_instagram"
-                     />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.divider.MaterialDivider
+                        android:id="@+id/div_link"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/div_height"
+                        android:layout_marginHorizontal="@dimen/grid_1"
+                        app:dividerColor="@color/divider_color" />
+
+                    <Button
+                        android:id="@+id/button_instagram"
+                        style="@style/Widget.Material3.Button.TextButton.Dialog.Icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="?attr/bottomBar"
+                        android:padding="@dimen/grid_2"
+                        android:text="@string/insta"
+                        app:cornerRadius="@dimen/grid_1"
+                        app:icon="@drawable/ic_instagram" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
 
 
 </androidx.core.widget.NestedScrollView>

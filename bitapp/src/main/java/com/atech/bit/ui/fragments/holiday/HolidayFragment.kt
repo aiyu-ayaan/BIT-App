@@ -1,150 +1,90 @@
 package com.atech.bit.ui.fragments.holiday
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentHolidayBinding
-import com.atech.bit.ui.custom_views.DividerItemDecorationNoLast
-import com.atech.bit.utils.loadAdds
-import com.atech.bit.utils.sortBySno
-import com.atech.core.utils.CURRENT_YEAR
+import com.atech.bit.ui.fragments.holiday.adapter.HolidayAdapter
+import com.atech.core.retrofit.ApiCases
 import com.atech.core.utils.DataState
-import com.atech.core.utils.RemoteConfigUtil
-import com.atech.core.utils.TAG
-import com.atech.core.utils.changeStatusBarToolbarColor
-import com.atech.core.utils.showSnackBar
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.firestore.FirebaseFirestore
+import com.atech.theme.Axis
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.ToolbarData
+import com.atech.theme.launchWhenResumed
+import com.atech.theme.set
+import com.atech.theme.toast
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HolidayFragment : Fragment(R.layout.fragment_holiday) {
-
+class HolidayFragment : BaseFragment(R.layout.fragment_holiday, Axis.Y) {
     private val binding: FragmentHolidayBinding by viewBinding()
-    val viewModel: HolidayViewModel by viewModels()
-
 
     @Inject
-    lateinit var db: FirebaseFirestore
-
-    @Inject
-    lateinit var remoteConfigUtil: RemoteConfigUtil
+    lateinit var cases: ApiCases
 
     private lateinit var holidayAdapter: HolidayAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
-        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Y, false)
-    }
+    private val query = MutableStateFlow("main")
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-        setTitle(toolbar)
-
-        holidayAdapter = HolidayAdapter()
         binding.apply {
-            showHoliday.apply {
-                addItemDecoration(
-                    DividerItemDecorationNoLast(
-                        requireContext(),
-                        LinearLayoutManager.VERTICAL
-                    ).apply {
-                        setDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.divider))
-                    }
-                )
-                adapter = holidayAdapter
-                layoutManager = LinearLayoutManager(context)
-            }
+            setToolbar()
+            setChip()
+            setRecyclerView()
         }
-        viewModel.query.value = "main"
-
-
-        binding.apply {
-            toggleChip.check(R.id.bt_main)
-
-            btRes.setOnClickListener {
-                viewModel.query.value = "res"
-            }
-            btMain.setOnClickListener {
-                viewModel.query.value = "main"
-            }
-        }
-        detectScroll()
-
-        setAds()
-        getData()
+        observeData()
     }
 
-    private fun getData() {
-        viewModel.getHoliday().observe(viewLifecycleOwner) {
+    private fun FragmentHolidayBinding.setChip() = this.apply {
+        toggleChip.check(R.id.bt_main)
+        btRes.setOnClickListener {
+            query.value = "res"
+        }
+        btMain.setOnClickListener {
+            query.value = "main"
+        }
+    }
+
+    private fun FragmentHolidayBinding.setRecyclerView() = this.recyclerView.apply {
+        layoutManager = LinearLayoutManager(requireContext())
+        adapter = HolidayAdapter().also { holidayAdapter = it }
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun observeData() = launchWhenResumed {
+        query.flatMapLatest {
+            cases.holiday.invoke(it)
+        }.collectLatest {
             when (it) {
-                DataState.Empty -> {
-                    binding.progressBarHoliday.isVisible = true
+                is DataState.Error -> {
+                    toast(
+                        it.exception.message
+                            ?: getString(com.atech.theme.R.string.something_went_wrong),
+                    )
                 }
 
-                is DataState.Error -> binding.root.showSnackBar(
-                    "${it.exception.message}",
-                    Snackbar.LENGTH_SHORT
-                )
-
-                DataState.Loading -> {
-
-                }
-
-                is DataState.Success -> {
-                    Log.d(TAG, "getData:${it.data.holidays} ")
-                    binding.progressBarHoliday.isVisible = false
-                    holidayAdapter.submitList(it.data.holidays.sortBySno())
-                }
+                is DataState.Success -> holidayAdapter.submitList(it.data.holidays)
+                else -> Unit
             }
         }
     }
 
-
-    private fun setAds() {
-        requireContext().loadAdds(binding.adView)
-    }
-
-
-    private fun setTitle(toolbar: Toolbar?) {
-        remoteConfigUtil.fetchData({
-            toolbar?.title = "Holiday"
-        }
-        ) {
-            val year = remoteConfigUtil.getString(CURRENT_YEAR)
-            toolbar?.title = resources.getString(R.string.holiday_title, year)
-        }
-    }
-
-    private fun detectScroll() {
-        binding.nestedViewHoliday.setOnScrollChangeListener { _, _, scrollY, _, _ ->
-            when (scrollY) {
-                0 -> {
-                    activity?.changeStatusBarToolbarColor(
-                        R.id.toolbar,
-                        com.google.android.material.R.attr.colorSurface
-                    )
-                }
-
-                else -> {
-                    activity?.changeStatusBarToolbarColor(
-                        R.id.toolbar,
-                        R.attr.bottomBar
-                    )
-                }
-            }
-        }
+    private fun FragmentHolidayBinding.setToolbar() {
+        includeToolbar.set(
+            ToolbarData(
+                title = com.atech.theme.R.string.holiday,
+                action = { findNavController().navigateUp() }
+            )
+        )
     }
 }

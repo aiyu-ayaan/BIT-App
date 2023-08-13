@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lv_no_data"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:ignore="UseCompoundDrawables"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <ImageView
+        android:layout_width="@dimen/image_view_thumbnail"
+        android:layout_height="@dimen/image_view_thumbnail"
+        android:importantForAccessibility="no"
+        android:src="@drawable/ic_no_data" />
+
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_offline_data"
+        android:textAppearance="?attr/textAppearanceCaption" />
+</LinearLayout>

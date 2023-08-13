@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.provider.CalendarContract
-import android.util.Log
 import java.util.Calendar
 import java.util.TimeZone
 
@@ -19,7 +18,7 @@ object CalendarReminder {
     fun addEventAndReminderToCalendar(
         context: Context,
         calendar: Calendar,
-        setContent: () -> Pair<String, String> = {DEFAULT_PAIR },
+        setContent: () -> Pair<String, String> = { DEFAULT_PAIR },
         action: (Long) -> Unit = {},
         error: (String) -> Unit = {}
     ) {
@@ -61,15 +60,6 @@ object CalendarReminder {
                 )
                 timeInMillis
             }
-
-            Log.d(
-                TAG,
-                "addEventAndReminder: ${startMillis.convertLongToTime("dd/MM/yyyy hh:mm a")}"
-            )
-            Log.d(
-                TAG,
-                "addEventAndReminder: ${endMillis.convertLongToTime("dd/MM/yyyy hh:mm a")}"
-            )
 
             val values = ContentValues().apply {
                 put(CalendarContract.Events.DTSTART, startMillis)
@@ -113,7 +103,7 @@ object CalendarReminder {
         context: Context,
         calendar: Calendar,
         eventID: Long,
-        setContent: () -> Pair<String, String> = { DEFAULT_PAIR},
+        setContent: () -> Pair<String, String> = { DEFAULT_PAIR },
         action: () -> Unit = {},
         error: (String) -> Unit = {}
     ) {

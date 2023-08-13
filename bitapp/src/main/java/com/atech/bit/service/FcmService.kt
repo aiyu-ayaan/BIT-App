@@ -22,10 +22,12 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
 import com.atech.bit.R
-import com.atech.bit.ui.activity.main_activity.MainActivity
-import com.atech.bit.ui.fragments.event.event_detail.EventDetailFragmentArgs
-import com.atech.bit.ui.fragments.notice.description.NoticeDetailFragmentArgs
+import com.atech.bit.ui.activities.main_activity.MainActivity
+import com.atech.bit.ui.fragments.events.detail.EventDetailFragmentArgs
+import com.atech.bit.ui.fragments.notice.detail.NoticeDetailFragmentArgs
 import com.atech.core.utils.*
+import com.atech.theme.applyImageUrl
+import com.atech.theme.getPendingIntentFlag
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import kotlin.random.Random
@@ -35,10 +37,11 @@ import kotlin.random.Random
  * @author Ayaan
  * @since 2.0
  */
+private const val TAG = "FcmService"
+
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class FcmService : FirebaseMessagingService() {
 
-    private val TAG = "FcmService"
     override fun onMessageReceived(p0: RemoteMessage) {
         super.onMessageReceived(p0)
 
@@ -53,7 +56,7 @@ class FcmService : FirebaseMessagingService() {
 
     private fun createNotice(p0: RemoteMessage, id: String) {
         val builder = NotificationCompat.Builder(this, id)
-            .setSmallIcon(R.drawable.bitnotice)
+            .setSmallIcon(com.atech.theme.R.drawable.bitnotice)
             .setContentTitle(p0.data["type"])
             .setContentText(p0.data["title"])
             .setAutoCancel(true)

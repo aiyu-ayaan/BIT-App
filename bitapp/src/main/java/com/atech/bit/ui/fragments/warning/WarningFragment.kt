@@ -3,31 +3,33 @@ package com.atech.bit.ui.fragments.warning
 import android.os.Bundle
 import android.view.View
 import android.viewbinding.library.fragment.viewBinding
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.atech.bit.BuildConfig
-import com.atech.bit.NavGraphDirections
 import com.atech.bit.R
 import com.atech.bit.databinding.FragmentWarningBinding
-import com.atech.core.utils.RemoteConfigUtil
-import com.atech.core.utils.openPlayStore
+import com.atech.core.firebase.remote.RemoteConfigHelper
+import com.atech.core.utils.BASE_IN_APP_NAVIGATION_LINK
+import com.atech.core.utils.Destination
+import com.atech.core.utils.RemoteConfigKeys
+import com.atech.theme.Axis
+import com.atech.theme.base_class.BaseFragment
+import com.atech.theme.customBackPress
+import com.atech.theme.navigateWithInAppDeepLink
+import com.atech.theme.openPlayStore
 import com.google.android.material.transition.MaterialSharedAxis
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
 @AndroidEntryPoint
-class WarningFragment : Fragment(R.layout.fragment_warning) {
+class WarningFragment : BaseFragment(R.layout.fragment_warning, Axis.Z) {
     private val binding: FragmentWarningBinding by viewBinding()
     private val args: WarningFragmentArgs by navArgs()
 
-    @Inject
-    lateinit var db: FirebaseFirestore
 
     @Inject
-    lateinit var remoteConfig: RemoteConfigUtil
+    lateinit var remoteConfig: RemoteConfigHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Y, true)
@@ -42,29 +44,30 @@ class WarningFragment : Fragment(R.layout.fragment_warning) {
                 requireActivity().openPlayStore(args.link)
             }
             buttonQuit.setOnClickListener {
-                exitProcess(0)
+                requireActivity().finish()
             }
             buttonOpenApp.text = args.buttonText
         }
         getWarning()
+        customBackPress {
+            requireActivity().finish()
+        }
     }
 
     private fun getWarning() {
         remoteConfig.fetchData({}) {
-            val isEnable = remoteConfig.getBoolean("isEnable")
-            val minVersion = remoteConfig.getLong("minVersion").toInt()
-            val isMinEdition = BuildConfig.VERSION_CODE > minVersion.toInt()
+            val isEnable = remoteConfig.getBoolean(RemoteConfigKeys.isEnable.name)
+            val minVersion = remoteConfig.getLong(RemoteConfigKeys.minVersion.name).toInt()
+            val isMinEdition = BuildConfig.VERSION_CODE > minVersion
             if (!isEnable || isMinEdition) navigateToHome()
         }
     }
 
     private fun navigateToHome() {
-        try {
-            val action = NavGraphDirections.actionGlobalHomeFragment()
-            findNavController().navigate(action)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        findNavController().popBackStack()
+        navigateWithInAppDeepLink(
+            BASE_IN_APP_NAVIGATION_LINK + Destination.Home.value
+        )
     }
 
 

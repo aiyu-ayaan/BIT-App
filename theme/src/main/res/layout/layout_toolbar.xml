@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/bottomBar"
+    android:minHeight="?attr/actionBarSize"
+    app:layout_scrollFlags="scroll|enterAlways|snap"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonClose"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/grid_2"
+        android:backgroundTint="?colorSurface"
+        app:iconTint="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:icon="@drawable/round_arrow_back_24" />
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/grid_1"
+        android:ellipsize="end"
+        android:gravity="start"
+        android:maxLines="1"
+        android:padding="@dimen/grid_1"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/materialButtonEnd"
+        app:layout_constraintStart_toEndOf="@+id/materialButtonClose"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Title" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/materialButtonEnd"
+        style="?attr/materialIconButtonFilledStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/grid_2"
+        android:backgroundTint="?colorSurface"
+        android:visibility="invisible"
+        app:iconTint="?attr/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:icon="@drawable/ic_settings"
+        tools:visibility="visible" />
+
+    <com.google.android.material.materialswitch.MaterialSwitch
+        android:id="@+id/toggle_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:checked="false"
+        android:padding="@dimen/grid_1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:thumbIconTint="?attr/colorPrimary"
+        app:thumbTint="?colorSurface"
+        tools:text="@string/switch_to_new" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

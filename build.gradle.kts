@@ -1,20 +1,19 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 buildscript {
- 
-    dependencies {
-        classpath(libs.google.service)
-        classpath(libs.navigation.safe.args.gradle.plugin)
-        classpath(libs.firebase.crashlytics.gradle)
-        classpath(libs.kotlin.gradle.plugin)
-    }
-
     repositories {
         google()
     }
-
+    dependencies {
+        classpath(libs.navigation.safe.args.gradle.plugin)
+    }
 }
 plugins {
-    id ("com.android.application") version "7.4.2" apply false
-    id ("com.android.library") version "7.4.2" apply false
-    id ("org.jetbrains.kotlin.android") version "1.7.20" apply false
-    id("com.google.dagger.hilt.android") version "2.46.1" apply false
+    alias(libs.plugins.androidApplication) apply false
+    alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.androidLibrary) apply false
+    id("com.google.dagger.hilt.android") version "2.44" apply false
+    id("com.google.gms.google-services") version "4.3.15" apply false
+    id("com.google.firebase.crashlytics") version "2.9.7" apply false
 }
+true // Needed to make the Suppress annotation work for the plugins block

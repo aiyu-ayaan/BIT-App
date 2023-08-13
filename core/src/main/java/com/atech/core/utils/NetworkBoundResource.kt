@@ -1,32 +1,11 @@
 package com.atech.core.utils
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emitAll
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import retrofit2.HttpException
+import kotlin.coroutines.suspendCoroutine
 
-inline fun <ResultType, RequestType> networkBoundResource(
-    crossinline query: () -> Flow<ResultType>,
-    crossinline fetch: suspend () -> RequestType,
-    crossinline saveFetchResult: suspend (RequestType) -> Unit,
-    crossinline shouldFetch: (ResultType) -> Boolean = { true }
-): Flow<Resource<ResultType>> = flow {
-    val data = query().first()
-    val flow = if (shouldFetch(data)) {
-        emit(Resource.Loading(data))
-        try {
-            saveFetchResult(fetch())
-            query().map { Resource.Success(it) }
-        } catch (exception: Exception) {
-            query().map { Resource.Error(exception, it) }
-        }
-    } else {
-        query().map { Resource.Success(it) }
-    }
-    emitAll(flow)
-}
 
 inline fun <ResponseObject> networkFetchData(
     crossinline fetch: suspend () -> ResponseObject,
@@ -36,7 +15,41 @@ inline fun <ResponseObject> networkFetchData(
     try {
         val data = action(fetch())
         emit(DataState.Success(action(data)))
+    } catch (e: HttpException) {
+        when (e.code()) {
+            504 -> emit(DataState.Error(NetworkBoundException.NoInternet))
+            404 -> emit(DataState.Error(NetworkBoundException.NotFound))
+            else -> emit(DataState.Error(NetworkBoundException.Unknown(e.code())))
+        }
     } catch (e: Exception) {
         emit(DataState.Error(e))
     }
 }.flowOn(handler)
+
+
+sealed class NetworkBoundException(val code: Int) : Exception() {
+    object NoInternet : NetworkBoundException(504)
+    object NotFound : NetworkBoundException(404)
+    class Unknown(code: Int) : NetworkBoundException(code)
+}
+
+
+sealed class DataState<out T> {
+    data class Success<out T>(val data: T) : DataState<T>()
+    data class Error(val exception: Exception) : DataState<Nothing>()
+    object Loading : DataState<Nothing>()
+    object Empty : DataState<Nothing>()
+}
+
+fun <T> DataState<T>.getData(): T? = when (this) {
+    is DataState.Success -> data
+    else -> null
+}
+
+suspend fun <T> DataState<T>.getDataContinuation(): T? = suspendCoroutine {
+    when (this) {
+        is DataState.Success -> it.resumeWith(Result.success(data))
+        is DataState.Error -> it.resumeWith(Result.failure(exception))
+        else -> Unit
+    }
+}

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true"
+    tools:context="com.atech.course.CourseFragment"
+    tools:theme="@style/Base.Theme.BITApp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/materialButtonMenu"
+            style="?attr/materialIconButtonFilledStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/grid_2"
+            android:layout_marginTop="@dimen/grid_1"
+            android:backgroundTint="?attr/bottomBar"
+            android:contentDescription="@string/menu"
+            app:icon="@drawable/round_menu_24"
+            app:iconTint="?attr/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/grid_1"
+            android:layout_marginStart="@dimen/grid_1"
+            android:gravity="center"
+            android:padding="@dimen/grid_1"
+            android:text="@string/course"
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            app:layout_constraintBottom_toBottomOf="@+id/materialButtonMenu"
+            app:layout_constraintStart_toEndOf="@+id/materialButtonMenu"
+            app:layout_constraintTop_toTopOf="@+id/materialButtonMenu" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="@dimen/image_view_log_in_size"
+            android:layout_height="@dimen/image_view_log_in_size"
+            android:layout_marginTop="@dimen/grid_1"
+            android:contentDescription="@string/blank"
+            android:src="@drawable/ic_course"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialButtonMenu" />
+
+        <LinearLayout
+            android:id="@+id/ll_course"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:orientation="vertical"
+            android:paddingHorizontal="@dimen/grid_1"
+            android:paddingBottom="@dimen/bottom_nav_height"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

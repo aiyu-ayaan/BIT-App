@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ BIT Lalpur App
+  ~
+  ~ Created by Ayaan on 2/8/22, 11:30 AM
+  ~ Copyright (c) 2022 . All rights reserved.
+  ~ Last modified 2/8/22, 10:28 AM
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_github"
+        android:icon="@drawable/ic_read_me"
+        android:title="@string/git" />
+    <item
+        android:id="@+id/nav_whats_new"
+        android:icon="@drawable/ic_release_notes"
+        android:title="@string/whats_new" />
+    <item
+        android:id="@+id/nav_issue"
+        android:icon="@drawable/ic_issue"
+        android:title="@string/report" />
+    <!--    <item-->
+    <!--        android:id="@+id/nav_issue_app_data"-->
+    <!--        android:icon="@drawable/ic_issue"-->
+    <!--        android:title="@string/report_app_data" />-->
+    <group
+        android:id="@+id/group_3"
+        android:checkableBehavior="single">
+        <item android:title="@string/erp_holiday">
+            <menu>
+                <item
+                    android:id="@+id/nav_erp"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_web"
+                    android:title="@string/erp" />
+                <item
+                    android:id="@id/administrationFragment"
+                    android:icon="@drawable/ic_admin"
+                    android:title="@string/administration" />
+                <item
+                    android:id="@id/libraryFragment"
+                    android:icon="@drawable/ic_library"
+                    android:title="@string/library" />
+
+                <item
+                    android:id="@+id/cgpaCalculatorFragment"
+                    android:checkable="false"
+                    android:icon="@drawable/ic_cgpa_calculator"
+                    android:title="@string/cgpa_calculator" />
+
+                <item
+                    android:id="@id/holidayFragment"
+                    android:icon="@drawable/ic_holiday"
+                    android:title="@string/holidays" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_2"
+        android:checkableBehavior="single">
+        <item android:title="@string/societies_event">
+            <menu>
+
+                <item
+                    android:id="@id/societyFragment"
+                    android:icon="@drawable/ic_society"
+                    android:title="@string/societies_and_ngos" />
+                <item
+                    android:id="@id/eventFragment"
+                    android:icon="@drawable/ic_event"
+                    android:title="@string/events" />
+            </menu>
+        </item>
+    </group>
+
+
+    <group
+        android:id="@+id/group_4"
+        android:checkableBehavior="single">
+        <item android:title="@string/communicate">
+            <menu>
+                <item
+                    android:id="@+id/nav_connect"
+                    android:icon="@drawable/ic_cwu"
+                    android:title="@string/connect" />
+
+                <item
+                    android:id="@+id/nav_mail"
+                    android:icon="@drawable/ic_mail"
+                    android:title="@string/feedback_to_dev" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_5"
+        android:checkableBehavior="single">
+        <item android:title="@string/share_rate_us">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_share"
+                    android:title="@string/share" />
+                <item
+                    android:id="@+id/nav_rate"
+                    android:icon="@drawable/ic_star"
+                    android:title="@string/rate_up" />
+            </menu>
+        </item>
+    </group>
+    <group
+        android:id="@+id/group_6"
+        android:checkableBehavior="single">
+        <item android:title="@string/app_setting">
+            <menu>
+                <item
+                    android:id="@+id/themeFragment"
+                    android:icon="@drawable/round_aod_24"
+                    android:title="@string/display" />
+                <item
+                    android:id="@id/notificationFragment"
+                    android:icon="@drawable/outline_notifications_active_24"
+                    android:title="@string/notification" />
+            </menu>
+        </item>
+    </group>
+</menu>

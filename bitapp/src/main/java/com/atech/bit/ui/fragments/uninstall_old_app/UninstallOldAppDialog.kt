@@ -7,10 +7,10 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import com.atech.bit.R
 import com.atech.bit.databinding.DialogUninstallOldAppBinding
-import com.atech.bit.ui.activity.main_activity.viewmodels.CommunicatorViewModel
-import com.atech.core.utils.KEY_DO_NOT_SHOW_AGAIN
+import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModel
+import com.atech.core.utils.SharePrefKeys
+import com.atech.theme.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class UninstallOldAppDialog : DialogFragment() {
 
     private lateinit var binding: DialogUninstallOldAppBinding
-    private val communicatorViewModel: CommunicatorViewModel by activityViewModels()
+    private val viewModel: HomeViewModel by activityViewModels()
 
     @Inject
     lateinit var pref: SharedPreferences
@@ -36,12 +36,12 @@ class UninstallOldAppDialog : DialogFragment() {
                 startActivity(intent)
             }
             .setNegativeButton(resources.getString(R.string.may_be_next_time)) { dialog, _ ->
-                communicatorViewModel.uninstallDialogSeen = true
+                viewModel.uninstallDialogSeen = true
                 dialog.dismiss()
             }
             .setNeutralButton(resources.getString(R.string.do_not_show_this)) { dialog, _ ->
                 pref.edit()
-                    .putBoolean(KEY_DO_NOT_SHOW_AGAIN, true)
+                    .putBoolean(SharePrefKeys.NewShowUninstallDialog.name, true)
                     .apply()
                 dialog.dismiss()
             }
