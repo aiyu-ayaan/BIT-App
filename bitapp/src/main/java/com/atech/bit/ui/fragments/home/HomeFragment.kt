@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,7 +41,6 @@ import com.atech.course.utils.tabSelectedListener
 import com.atech.theme.Axis
 import com.atech.theme.ParentActivity
 import com.atech.theme.Permissions
-import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.checkPerm
 import com.atech.theme.customBackPress
 import com.atech.theme.exitTransition
@@ -57,7 +57,7 @@ import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
+class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding: FragmentHomeBinding by viewBinding()
     private val viewModel: HomeViewModel by activityViewModels()
 
@@ -71,6 +71,11 @@ class HomeFragment : BaseFragment(R.layout.fragment_home, Axis.Y) {
     private lateinit var homeAdapter: HomeAdapter
 
     private lateinit var searchAdapter: HomeAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        exitTransition(axis = Axis.Y)
+    }
 
     @Inject
     lateinit var authUseCases: AuthUseCases

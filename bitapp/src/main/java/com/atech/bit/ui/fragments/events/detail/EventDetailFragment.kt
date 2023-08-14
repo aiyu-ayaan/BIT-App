@@ -28,6 +28,7 @@ import com.atech.theme.AdsUnit
 import com.atech.theme.Axis
 import com.atech.theme.ShareType
 import com.atech.theme.ToolbarData
+import com.atech.theme.base_class.BaseFragment
 import com.atech.theme.enterTransition
 import com.atech.theme.getDate
 import com.atech.theme.loadCircular
@@ -41,7 +42,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @UnstableApi
 @AndroidEntryPoint
-class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
+class EventDetailFragment : BaseFragment(R.layout.fragment_notice_event_detail,Axis.X) {
 
     private val binding: FragmentNoticeEventDetailBinding by viewBinding()
 
@@ -55,11 +56,6 @@ class EventDetailFragment : Fragment(R.layout.fragment_notice_event_detail) {
     private var event: EventModel? = null
     private var attach: List<Attach>? = null
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition(Axis.X)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

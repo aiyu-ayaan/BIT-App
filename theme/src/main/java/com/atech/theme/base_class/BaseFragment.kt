@@ -23,7 +23,7 @@ open class BaseFragment(
             viewLifecycleOwner,
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
-                    findNavController().popBackStack()
+                    findNavController().navigateUp()
                 }
             })
 
