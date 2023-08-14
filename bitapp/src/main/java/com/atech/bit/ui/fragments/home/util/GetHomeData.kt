@@ -1,5 +1,6 @@
 package com.atech.bit.ui.fragments.home.util
 
+import android.util.Log
 import com.atech.bit.ui.fragments.home.adapter.HomeItems
 import com.atech.bit.ui.fragments.home.viewmodel.DataSetForHome
 import com.atech.bit.ui.fragments.home.viewmodel.HomeViewModelExr
@@ -12,6 +13,7 @@ import com.atech.core.retrofit.client.HolidayModel
 import com.atech.core.room.library.LibraryModel
 import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.room.syllabus.SyllabusList
+import com.atech.core.utils.TAGS
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.sem.adapter.SyllabusUIModel
@@ -298,12 +300,17 @@ class GetHomeData(
         suspend fun getEventSearch(
             firebaseCases: FirebaseCases
         ): List<EventModel> = coroutineScope {
-            withContext(Dispatchers.IO) {
-                suspendCoroutine { continuation ->
-                    firebaseCases.eventWithAttach.invoke { events ->
-                        continuation.resumeWith(Result.success(events))
+            try {
+                withContext(Dispatchers.IO) {
+                    suspendCoroutine { continuation ->
+                        firebaseCases.eventWithAttach.invoke { events ->
+                            continuation.resumeWith(Result.success(events))
+                        }
                     }
                 }
+            } catch (e: Exception) {
+                Log.d(TAGS.BIT_ERROR.name, "getEventSearch: $e")
+                emptyList()
             }
         }
     }

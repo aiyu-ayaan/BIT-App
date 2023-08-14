@@ -26,8 +26,8 @@ You can use Git to clone
 ```
 https://github.com/aiyu-ayaan/BIT-App.git
 ```
-To build this app you need `google-services.json`. To get this [Fill out](https://docs.google.com/forms/d/e/1FAIpQLSdyDC_3ZNr8JhodGCgAyC_02Ba_p8pXtngEdBER1obwYx-4Qg/viewform?usp=sf_link) 
-this form to gain access to `google-services.json`.
+In order to develop the application, the essential component is the `google-services.json` file. To obtain this crucial file, please complete the form provided at the following link: [Form Link](https://docs.google.com/forms/d/e/1FAIpQLSdyDC_3ZNr8JhodGCgAyC_02Ba_p8pXtngEdBER1obwYx-4Qg/viewform?usp=sf_link).
+This form submission will grant you the necessary access to the `google-services.json` file, facilitating the app development process.
 
 Use this to build the app.
 
@@ -47,8 +47,8 @@ Here are a few contribution tips:
 
 ## Quick Links
 - [WEBSITE](https://bitbyaiyu.github.io/) `&` [REPO LINK](https://github.com/bitbyaiyu/bitbyaiyu.github.io)
-- [JSON Rest API](https://aiyu-ayaan.github.io/BIT-App-Data/) `&` [REPO LINK](https://github.com/aiyu-ayaan/BIT-App-Data)
-- [JOIN INTERNAL TESTING](https://docs.google.com/forms/d/e/1FAIpQLSeDtpzZTi0u4HIBm2JWwqNvcOnkJnlIfXJeHgrUwn57kgwk9w/viewform?usp=sf_link)
+- [JSON Rest API](https://bit-lalpur-app.github.io/BIT-App-Data/) `&` [REPO LINK](https://github.com/aiyu-ayaan/BIT-App-Data)
+- [JOIN BETA TESTING](https://play.google.com/apps/testing/com.atech.bit)
 
 ## License
 ```
