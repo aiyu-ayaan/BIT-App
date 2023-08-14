@@ -74,7 +74,7 @@ fun Activity.openShareImageDeepLink(
     putExtra(
         Intent.EXTRA_STREAM, saveFileToCaches(
             context, getBitMapUsingGlide(context, imageLink) ?: (ResourcesCompat.getDrawable(
-                context.resources, R.drawable.app_logo, null
+                context.resources, R.drawable.poster, null
             ) as BitmapDrawable).toBitmap()
         )
     )
@@ -141,3 +141,28 @@ fun saveFileToCaches(context: Context, bitmap: Bitmap): Uri? =
             null
         }
     }
+
+/**
+ *Extension function to share link
+ * @author Ayaan
+ * @since 4.0.3
+ */
+fun Activity.openShareLink() = this.startActivity(Intent.createChooser(Intent().apply {
+    action = Intent.ACTION_SEND
+    putExtra(
+        Intent.EXTRA_STREAM, saveFileToCaches(
+            this@openShareLink,
+            (ResourcesCompat.getDrawable(
+                this@openShareLink.resources, R.drawable.poster, null
+            ) as BitmapDrawable).toBitmap()
+        )
+    )
+    putExtra(
+        Intent.EXTRA_TEXT,
+        "${resources.getString(R.string.app_share_content)} \n" + "${resources.getString(R.string.play_store_link)}$packageName"
+    )
+    type = "image/*"
+    putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
+
+    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+}, null))
