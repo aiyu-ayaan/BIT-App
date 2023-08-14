@@ -28,10 +28,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.atech.bit" />
+                  <option name="mobileSdkAppId" value="1:715451987854:android:fca6fd700bcde6093916df" />
+                  <option name="projectId" value="theaiyubit" />
+                  <option name="projectNumber" value="715451987854" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
