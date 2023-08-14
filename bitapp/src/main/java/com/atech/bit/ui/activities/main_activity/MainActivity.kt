@@ -50,6 +50,7 @@ import com.atech.theme.isDark
 import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openLinks
 import com.atech.theme.openPlayStore
+import com.atech.theme.openShareLink
 import com.atech.theme.setStatusBarUiTheme
 import com.atech.theme.showSnackBar
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -155,11 +156,13 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
                 R.id.nav_github -> this@MainActivity.openCustomChromeTab(resources.getString(com.atech.theme.R.string.github_link))
                 R.id.nav_whats_new -> this@MainActivity.openReleaseNotes()
                 R.id.nav_rate -> startReviewFlow()
+                R.id.nav_share -> openShareLink()
                 else -> NavigationUI.onNavDestinationSelected(menu, navController)
             }
             true
         }
     }
+
 
     private fun handleDestinationChange() {
         navController.onDestinationChange { destination ->
