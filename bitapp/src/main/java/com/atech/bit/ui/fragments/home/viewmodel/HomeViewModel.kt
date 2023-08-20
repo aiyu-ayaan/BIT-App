@@ -119,11 +119,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun observerEventSearch() = viewModelScope.launch {
-        GetHomeData.getEventSearch(firebaseCases).let {
-            eventData = it.toMutableList()
-        }
-    }
+//    fun observerEventSearch() = viewModelScope.launch {
+//        GetHomeData.getEventSearch(firebaseCases).let {
+//            eventData = it.toMutableList()
+//        }
+//    }
 
     fun observeData(owner: LifecycleOwner) {
         dataStores.observe(owner) {
@@ -172,7 +172,7 @@ class HomeViewModel @Inject constructor(
                             allAction = ::filterAll,
                             syllabusOfflineAction = ::getOfflineSyllabus,
                             holidayAction = ::getHolidays,
-                            eventAction = ::getEvents,
+                           /* eventAction = ::getEvents,*/
                             noticeAction = ::getNotice
                         )
                     )
@@ -220,12 +220,12 @@ class HomeViewModel @Inject constructor(
                 list.addAll(it)
             }
         }
-        getEvents(query).let {
-            if (it.isNotEmpty()) if ((it[0] as HomeItems.Event).data.isNotEmpty()) {
-                list.add(HomeItems.Title("Events"))
-                list.addAll(it)
-            }
-        }
+//        getEvents(query).let {
+//            if (it.isNotEmpty()) if ((it[0] as HomeItems.Event).data.isNotEmpty()) {
+//                list.add(HomeItems.Title("Events"))
+//                list.addAll(it)
+//            }
+//        }
         getNotice(query).let {
             if (it.isNotEmpty()) {
                 list.add(HomeItems.Title("Notice"))
@@ -277,24 +277,24 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getEvents(query: String): List<HomeItems> {
-        val list = mutableListOf<HomeItems>()
-        val filterEvents = eventData.filter {
-            it.title!!.contains(query, true)
-        }.map { event ->
-            HomeViewModelExr.EventHomeModel(
-                event.title ?: "",
-                event.content ?: "",
-                event.society ?: "",
-                event.logo_link ?: "",
-                "",
-                event.path ?: "",
-                event.created ?: 0L
-            )
-        }
-        list.add(HomeItems.Event(filterEvents))
-        return list
-    }
+//    private fun getEvents(query: String): List<HomeItems> {
+//        val list = mutableListOf<HomeItems>()
+//        val filterEvents = eventData.filter {
+//            it.title!!.contains(query, true)
+//        }.map { event ->
+//            HomeViewModelExr.EventHomeModel(
+//                event.title ?: "",
+//                event.content ?: "",
+//                event.society ?: "",
+//                event.logo_link ?: "",
+//                "",
+//                event.path ?: "",
+//                event.created ?: 0L
+//            )
+//        }
+//        list.add(HomeItems.Event(filterEvents))
+//        return list
+//    }
 
     private suspend fun getNotice(query: String): List<HomeItems> =
         suspendCoroutine { continuation ->

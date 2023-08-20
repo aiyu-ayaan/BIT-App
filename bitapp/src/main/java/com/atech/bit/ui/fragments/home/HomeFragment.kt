@@ -300,7 +300,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun observeData() = launchWhenCreated {
-        viewModel.observerEventSearch()
+//        viewModel.observerEventSearch()
         viewModel.getHomeData().await().collectLatest {
             homeAdapter.items = it.toMutableList()
             try {
@@ -341,7 +341,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         All("All"),
 
         /* SyllabusOnline("Syllabus Online"),*/
-        SyllabusOffline("Syllabus Offline"), Holiday("Holiday"), Notice("Notice"), Event("Event")
+        SyllabusOffline("Syllabus Offline"), Holiday("Holiday"), Notice("Notice"), /*Event("Event")*/
     }
 
     private fun FragmentHomeBinding.bindTabLayout() = this.searchExt.tabLayoutSearchType.apply {
@@ -369,7 +369,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         SearchItems.Notice -> HomeViewModel.FilterState().copy(notice = true)
 
-        SearchItems.Event -> HomeViewModel.FilterState().copy(event = true)
+        /*SearchItems.Event -> HomeViewModel.FilterState().copy(event = true)*/
     }
 
     private fun FragmentHomeBinding.setSearchView() = this.searchView.apply {
