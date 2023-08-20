@@ -20,8 +20,8 @@ import android.view.View
 import androidx.annotation.Nullable
 import androidx.appcompat.widget.AppCompatImageView
 
-class ImageViewZoom : AppCompatImageView, View.OnTouchListener,
-    GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
+class ImageViewZoom : AppCompatImageView, View.OnTouchListener, GestureDetector.OnGestureListener,
+    GestureDetector.OnDoubleTapListener {
     //shared constructing
     private var mContext: Context? = null
     private var mScaleDetector: ScaleGestureDetector? = null
@@ -93,17 +93,13 @@ class ImageViewZoom : AppCompatImageView, View.OnTouchListener,
                 mSaveScale = mMinScale
                 mScaleFactor = mMinScale / prevScale
             }
-            if (origWidth * mSaveScale <= viewWidth
-                || origHeight * mSaveScale <= viewHeight
-            ) {
+            if (origWidth * mSaveScale <= viewWidth || origHeight * mSaveScale <= viewHeight) {
                 mMatrix!!.postScale(
-                    mScaleFactor, mScaleFactor, viewWidth / 2.toFloat(),
-                    viewHeight / 2.toFloat()
+                    mScaleFactor, mScaleFactor, viewWidth / 2.toFloat(), viewHeight / 2.toFloat()
                 )
             } else {
                 mMatrix!!.postScale(
-                    mScaleFactor, mScaleFactor,
-                    detector.focusX, detector.focusY
+                    mScaleFactor, mScaleFactor, detector.focusX, detector.focusY
                 )
             }
             fixTranslation()
@@ -124,10 +120,8 @@ class ImageViewZoom : AppCompatImageView, View.OnTouchListener,
         mMatrix!!.setScale(scale, scale)
 
         // Center the image
-        var redundantYSpace = (viewHeight.toFloat()
-                - scale * imageHeight.toFloat())
-        var redundantXSpace = (viewWidth.toFloat()
-                - scale * imageWidth.toFloat())
+        var redundantYSpace = (viewHeight.toFloat() - scale * imageHeight.toFloat())
+        var redundantXSpace = (viewWidth.toFloat() - scale * imageWidth.toFloat())
         redundantYSpace /= 2.toFloat()
         redundantXSpace /= 2.toFloat()
         mMatrix!!.postTranslate(redundantXSpace, redundantYSpace)
@@ -194,6 +188,7 @@ class ImageViewZoom : AppCompatImageView, View.OnTouchListener,
                 mStart.set(mLast)
                 mode = DRAG
             }
+
             MotionEvent.ACTION_MOVE -> if (mode == DRAG) {
                 val dx = currentPoint.x - mLast.x
                 val dy = currentPoint.y - mLast.y
@@ -203,6 +198,7 @@ class ImageViewZoom : AppCompatImageView, View.OnTouchListener,
                 fixTranslation()
                 mLast[currentPoint.x] = currentPoint.y
             }
+
             MotionEvent.ACTION_POINTER_UP -> mode = NONE
         }
         invalidate()
@@ -238,6 +234,7 @@ class ImageViewZoom : AppCompatImageView, View.OnTouchListener,
     ): Boolean {
         return false
     }
+
 
     //onDoubleTap
     override fun onSingleTapConfirmed(motionEvent: MotionEvent): Boolean {
