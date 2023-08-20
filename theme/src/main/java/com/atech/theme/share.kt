@@ -166,3 +166,16 @@ fun Activity.openShareLink() = this.startActivity(Intent.createChooser(Intent().
 
     flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 }, null))
+
+
+fun Activity.openShareString(message : String) = this.startActivity(Intent.createChooser(Intent().apply {
+    action = Intent.ACTION_SEND
+    putExtra(
+        Intent.EXTRA_TEXT,
+        message
+    )
+    type = "text/plain"
+    putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
+
+    flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+}, null))

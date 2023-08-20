@@ -9,3 +9,5 @@ fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).
     val date = Date(this@convertLongToTime)
     this.format(date)
 }
+
+fun String.encodeUrlSpaces(): String = this.replace(" ", "%20")
