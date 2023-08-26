@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.DrawableCrossFadeFactory
 import com.bumptech.glide.request.transition.Transition
 import kotlinx.coroutines.Deferred
@@ -83,24 +84,21 @@ fun String.loadImageBitMap(
 ) {
     Glide.with(parentView).asBitmap().load(this@loadImageBitMap).error(errorImage)
         .listener(object : RequestListener<Bitmap> {
+
             override fun onLoadFailed(
                 e: GlideException?,
                 model: Any?,
-                target: com.bumptech.glide.request.target.Target<Bitmap>?,
+                target: Target<Bitmap>,
                 isFirstResource: Boolean
             ): Boolean = false
 
-
             override fun onResourceReady(
-                resource: Bitmap?,
-                model: Any?,
-                target: com.bumptech.glide.request.target.Target<Bitmap>?,
-                dataSource: DataSource?,
+                resource: Bitmap,
+                model: Any,
+                target: Target<Bitmap>?,
+                dataSource: DataSource,
                 isFirstResource: Boolean
-            ): Boolean {
-                customAction?.invoke(resource)
-                return false
-            }
+            ): Boolean = false
 
         }).submit(100, 100)
 }

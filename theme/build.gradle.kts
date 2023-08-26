@@ -62,7 +62,7 @@ dependencies {
     implementation(libs.glide)
 
     implementation(libs.core.splashscreen)
-
-    implementation(libs.play.services.ads)
+//
+//    implementation(libs.play.services.ads)
 
 }

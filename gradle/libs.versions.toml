@@ -74,7 +74,7 @@ navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-
 navigation-common-ktx = { module = "androidx.navigation:navigation-common-ktx", version.ref = "navigation-ui" }
 navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation-ui" }
 navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation-ui" }
-play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
+#play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 recycler-view = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recycler-view" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
 retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
