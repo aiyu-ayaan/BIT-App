@@ -1,14 +1,7 @@
 package com.atech.theme
 
-import android.content.Context
 import android.util.Log
 import com.atech.theme.databinding.RowAdsViewBinding
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.RequestConfiguration
 
 private const val TAG = "ads"
 
@@ -22,37 +15,39 @@ enum class AdsUnit(val id: String) {
     Miscellaneous("ca-app-pub-6172727030505608/8130379370")
 }
 
-fun initAds(mContext: Context) {
-    MobileAds.initialize(mContext) {}
-    if (BuildConfig.DEBUG) {
-        val testDeviceIds = listOf("CE65A74AF824CCB43EEE62129E5A103E")
-        val requestConfiguration = RequestConfiguration.Builder()
-            .setTestDeviceIds(testDeviceIds)
-            .build()
-        MobileAds.setRequestConfiguration(requestConfiguration)
-    }
-}
+//fun initAds(mContext: Context) {
+//    MobileAds.initialize(mContext) {}
+//    if (BuildConfig.DEBUG) {
+//        val testDeviceIds = listOf("CE65A74AF824CCB43EEE62129E5A103E")
+//        val requestConfiguration = RequestConfiguration.Builder()
+//            .setTestDeviceIds(testDeviceIds)
+//            .build()
+//        MobileAds.setRequestConfiguration(requestConfiguration)
+//    }
+//}
 
 fun RowAdsViewBinding.setAdsUnit(id: AdsUnit = AdsUnit.Miscellaneous) {
-    val adView = AdView(root.context)
-    adView.setAdSize(AdSize.BANNER)
-    adView.adUnitId = id.id
-
-    adView.loadAd(AdRequest.Builder().build())
-    adView.adListener = object : com.google.android.gms.ads.AdListener() {
-        override fun onAdLoaded() {
-            super.onAdLoaded()
-            root.visibility = android.view.View.VISIBLE
-        }
-
-        override fun onAdFailedToLoad(p0: LoadAdError) {
-            super.onAdFailedToLoad(p0)
-            root.visibility = android.view.View.GONE
-            Log.d(TAG, "onAdFailedToLoad: ${p0.message}")
-        }
-    }
-    root.childCount.let {
-        if (it == 0)
-            root.addView(adView)
-    }
+    Log.d(TAG, "setAdsUnit: $id")
+    root.visibility = android.view.View.GONE
+//    val adView = AdView(root.context)
+//    adView.setAdSize(AdSize.BANNER)
+//    adView.adUnitId = id.id
+//
+//    adView.loadAd(AdRequest.Builder().build())
+//    adView.adListener = object : com.google.android.gms.ads.AdListener() {
+//        override fun onAdLoaded() {
+//            super.onAdLoaded()
+//            root.visibility = android.view.View.VISIBLE
+//        }
+//
+//        override fun onAdFailedToLoad(p0: LoadAdError) {
+//            super.onAdFailedToLoad(p0)
+//            root.visibility = android.view.View.GONE
+//            Log.d(TAG, "onAdFailedToLoad: ${p0.message}")
+//        }
+//    }
+//    root.childCount.let {
+//        if (it == 0)
+//            root.addView(adView)
+//    }
 }

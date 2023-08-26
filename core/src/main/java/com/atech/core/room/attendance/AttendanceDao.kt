@@ -10,6 +10,7 @@
 
 package com.atech.core.room.attendance
 
+import android.util.Log
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -17,6 +18,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 @Dao
 interface AttendanceDao {
@@ -32,9 +34,34 @@ interface AttendanceDao {
     @Delete
     suspend fun delete(attendance: AttendanceModel)
 
-    //select * from attendance_table where  isArchive is NULL or isArchive = 0 ;
-    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY id ASC")
+
+    fun getAttendanceSorted(sort: Sort = Sort()): Flow<List<AttendanceModel>> {
+        val sortBy = when (sort.sortBy) {
+            SortBy.PERCENTAGE -> getNonArchiveAttendanceOrderByPercentage()
+            else -> getNonArchiveAttendance().map { attendanceList->
+                when(sort.sortBy) {
+                    SortBy.SUBJECT -> attendanceList.sortedBy { it.subject }
+                    SortBy.CREATED -> attendanceList.sortedBy { it.created }
+                    SortBy.TOTAL -> attendanceList.sortedBy { it.total }
+                    SortBy.PRESENT -> attendanceList.sortedBy { it.present }
+                    else -> attendanceList
+                }
+            }
+        }
+        val sortOrder = when (sort.sortOrder) {
+            SortOrder.DESC -> sortBy.map { it.reversed() }
+            else -> sortBy
+        }
+        return sortOrder
+    }
+
+
+
+    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0")
     fun getNonArchiveAttendance(): Flow<List<AttendanceModel>>
+
+    @Query("SELECT *,  (CAST(present AS REAL) / total) * 100 AS percentage FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY percentage ASC")
+    fun getNonArchiveAttendanceOrderByPercentage(): Flow<List<AttendanceModel>>
 
     @Query("SELECT * FROM attendance_table ORDER BY id ASC")
     fun getAllAttendance(): Flow<List<AttendanceModel>>

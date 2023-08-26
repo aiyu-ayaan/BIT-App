@@ -19,6 +19,7 @@ import com.atech.bit.utils.getImageLinkNotification
 import com.atech.bit.utils.set
 import com.atech.bit.utils.setView
 import com.atech.core.room.library.LibraryModel
+import com.atech.core.utils.capitalizeWords
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.databinding.CardViewHighlightBinding
@@ -124,7 +125,7 @@ sealed class HomeViewHolder(
         fun bind(model: HomeItems.Subject) {
             binding.apply {
                 binding.root.transitionName = model.data.subject
-                subjectTextView.text = model.data.subject
+                subjectTextView.text = model.data.subject.capitalizeWords()
                 creditTextView.text = String.format("Credits: %d", model.data.credits)
                 creditTextView.visibility =
                     if (model.data.credits == -1) View.GONE else View.VISIBLE

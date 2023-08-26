@@ -45,7 +45,6 @@ import com.atech.theme.changeBottomNav
 import com.atech.theme.changeStatusBarToolbarColorImageView
 import com.atech.theme.currentNavigationFragment
 import com.atech.theme.exitTransition
-import com.atech.theme.initAds
 import com.atech.theme.isDark
 import com.atech.theme.openCustomChromeTab
 import com.atech.theme.openLinks
@@ -115,7 +114,7 @@ class MainActivity : AppCompatActivity(), ParentActivity, DrawerLocker,
         shareReview()
         checkForUpdate()
         if (isConnected()) {
-            initAds(this)
+//            initAds(this)
             fetchRemoteConfigData()
             if (auth.hasLogIn.invoke()) registerLifeCycleOwner(this@MainActivity)
         } else Log.d(TAGS.BIT_DEBUG.name, "onCreate: No Internet")

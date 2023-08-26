@@ -71,7 +71,7 @@ class AttendanceMenuBottomSheet : BaseBottomSheet() {
                 bsDelete.setOnClickListener {
                     communicator.delete(attendance)
                     launchWhenStarted {
-                        communicator._attendanceEvent.send(
+                        communicator.attendanceEventChannel.send(
                             AttendanceViewModel.AttendanceEvent.ShowUndoDeleteMessage(
                                 attendance
                             )

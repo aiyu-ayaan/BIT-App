@@ -10,6 +10,9 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.atech.core.room.attendance.Sort
+import com.atech.core.room.attendance.SortBy
+import com.atech.core.room.attendance.SortOrder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -61,7 +64,8 @@ data class FilterPreferences(
     val defPercentage: Int,
     val course: String,
     val sem: String,
-    val cgpa: Cgpa
+    val cgpa: Cgpa,
+    val sort: Sort
 ) : Parcelable {
     @IgnoredOnParcel
     val courseWithSem = "$course$sem"
@@ -72,6 +76,25 @@ data class FilterPreferences(
 class PreferencesManager @Inject constructor(@ApplicationContext val context: Context) {
     private val Context.dataStore by preferencesDataStore(name = "user_preferences")
 
+    val attendanceSortFLow = context.dataStore.data
+        .catch { exception ->
+            when (exception) {
+                is IOException -> {
+                    emit(emptyPreferences())
+                    Log.e(TAG, "$exception")
+                }
+
+                else -> throw exception
+            }
+        }
+        .map { preferences ->
+            val sortBy = preferences[PreferencesKeys.DEF_SORT_BY] ?: SortBy.SUBJECT.name
+            val sortOrder = preferences[PreferencesKeys.DEF_SORT_ORDER] ?: SortOrder.ASC.name
+            Sort(
+                SortBy.valueOf(sortBy),
+                SortOrder.valueOf(sortOrder)
+            )
+        }
 
     val preferencesFlow = context.dataStore.data
         .catch { exception ->
@@ -101,6 +124,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
             val earnCrSem5 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_5] ?: 0.0
             val earnCrSem6 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_6] ?: 0.0
             val cgpa = preferences[PreferencesKeys.DEF_CGPA] ?: 0.0
+            val sortBy = preferences[PreferencesKeys.DEF_SORT_BY] ?: SortBy.SUBJECT.name
+            val sortOrder = preferences[PreferencesKeys.DEF_SORT_ORDER] ?: SortOrder.ASC.name
 
 
 
@@ -122,6 +147,10 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
                     earnCrSem4,
                     earnCrSem5,
                     earnCrSem6
+                ),
+                Sort(
+                    SortBy.valueOf(sortBy),
+                    SortOrder.valueOf(sortOrder)
                 )
             )
         }
@@ -164,6 +193,13 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
+    suspend fun updateSort(sort: Sort) {
+        context.dataStore.edit { preferences ->
+            preferences[PreferencesKeys.DEF_SORT_BY] = sort.sortBy.name
+            preferences[PreferencesKeys.DEF_SORT_ORDER] = sort.sortOrder.name
+        }
+    }
+
     suspend fun clearAll() {
         context.dataStore.edit { preferences ->
             preferences.clear()
@@ -188,5 +224,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         val DEF_EARN_CR_SEM_5 = doublePreferencesKey("default_earn_cr_sem_5")
         val DEF_EARN_CR_SEM_6 = doublePreferencesKey("default_earn_cr_sem_6")
         val DEF_CGPA = doublePreferencesKey("default_cgpa")
+        val DEF_SORT_BY = stringPreferencesKey("default_sort_by")
+        val DEF_SORT_ORDER = stringPreferencesKey("default_sort_order")
     }
 }
