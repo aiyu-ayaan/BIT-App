@@ -35,7 +35,21 @@
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
-              <option name="timeIntervalDays" value="THIRTY_DAYS" />
+              <option name="timeIntervalDays" value="ONE_DAY" />
+              <option name="versions">
+                <list>
+                  <VersionSetting>
+                    <option name="buildVersion" value="64" />
+                    <option name="displayName" value="5.0.2-global (64)" />
+                    <option name="displayVersion" value="5.0.2-global" />
+                    <option name="tracks">
+                      <list>
+                        <option value="INTERNAL" />
+                      </list>
+                    </option>
+                  </VersionSetting>
+                </list>
+              </option>
               <option name="visibilityType" value="ALL" />
             </InsightsFilterSettings>
           </value>
