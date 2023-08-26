@@ -15,6 +15,11 @@
         android:title="@string/archive"
         app:showAsAction="always" />
     <item
+        android:id="@+id/menu_sort"
+        android:icon="@drawable/round_sort_24"
+        android:title="@string/sort"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menu_setting"
         android:title="@string/setting"
         app:showAsAction="never" />

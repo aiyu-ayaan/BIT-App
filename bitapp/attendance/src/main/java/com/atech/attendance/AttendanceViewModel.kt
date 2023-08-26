@@ -3,6 +3,7 @@ package com.atech.attendance
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datastore.DataStoreCases
 import com.atech.core.room.attendance.AttendanceDao
@@ -11,6 +12,8 @@ import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.room.syllabus.SyllabusModel
 import com.atech.core.utils.REQUEST_ADD_SUBJECT_FROM_SYLLABUS
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -20,22 +23,27 @@ import javax.inject.Inject
 class AttendanceViewModel @Inject constructor(
     private val attendanceDao: AttendanceDao,
     private val syllabusDao: SyllabusDao,
-    cases: DataStoreCases
+    private val cases: DataStoreCases,
 ) : ViewModel() {
 
 
     val getAllPref = cases.getAll.invoke()
-    private val _attendance = attendanceDao.getNonArchiveAttendance()
-    val unArchive: LiveData<List<AttendanceModel>>
-        get() = _attendance.asLiveData()
+
+    val sortPref = cases.attendancePref.invoke()
 
     val archive: LiveData<List<AttendanceModel>> =
         attendanceDao.getAllArchiveAttendance().asLiveData()
-    val allAttendance = attendanceDao.getAllAttendance().asLiveData()
+
+    fun getAttendance() = viewModelScope.async(Dispatchers.IO) {
+        val list = cases.attendancePref.invoke().switchMap {
+            attendanceDao.getAttendanceSorted(it).asLiveData()
+        }
+        list
+    }
 
 
-    val _attendanceEvent = Channel<AttendanceEvent>()
-    val attendanceEvent = _attendanceEvent.receiveAsFlow()
+    val attendanceEventChannel = Channel<AttendanceEvent>()
+    val attendanceEvent = attendanceEventChannel.receiveAsFlow()
 
     //    IO function
     fun update(attendanceModel: AttendanceModel) = viewModelScope.launch {
@@ -46,7 +54,7 @@ class AttendanceViewModel @Inject constructor(
         viewModelScope.launch {
             syllabusDao.updateSyllabusAddedInAttendance(attendanceModel.subject, 0)
             attendanceDao.delete(attendanceModel)
-            _attendanceEvent.send(AttendanceEvent.ShowUndoDeleteMessage(attendanceModel))
+            attendanceEventChannel.send(AttendanceEvent.ShowUndoDeleteMessage(attendanceModel))
         }
 
     fun add(attendanceModel: AttendanceModel, request: Int) = viewModelScope.launch {

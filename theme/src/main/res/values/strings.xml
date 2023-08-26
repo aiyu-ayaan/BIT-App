@@ -281,4 +281,7 @@
     <string name="event_notification">Event Notifications</string>
     <string name="notice_notification">Notice Notifications</string>
     <string name="notification">Notifications</string>
+    <string name="sort_by">Sort By</string>
+    <string name="sort_order">Sort Order</string>
+    <string name="sort">Sort</string>
 </resources>

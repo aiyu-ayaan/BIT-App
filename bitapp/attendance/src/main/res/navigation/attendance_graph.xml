@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_attendanceFragment_to_addFromSyllabusBottomSheet"
             app:destination="@id/addFromSyllabusBottomSheet" />
+        <action
+            android:id="@+id/action_attendanceFragment_to_sortMenuDialog"
+            app:destination="@id/sortMenuDialog" />
     </fragment>
     <dialog
         android:id="@+id/addEditAttendanceBottomSheet"
@@ -115,5 +118,14 @@
         <action
             android:id="@+id/action_addFromSyllabusBottomSheet_to_addEditAttendanceBottomSheet"
             app:destination="@id/addEditAttendanceBottomSheet" />
+    </dialog>
+    <dialog
+        android:id="@+id/sortMenuDialog"
+        android:name="com.atech.attendance.sort.SortMenuDialog"
+        tools:layout="@layout/menu_sort"
+        android:label="SortMenuDialog" >
+        <argument
+            android:name="sort"
+            app:argType="com.atech.core.room.attendance.Sort" />
     </dialog>
 </navigation>

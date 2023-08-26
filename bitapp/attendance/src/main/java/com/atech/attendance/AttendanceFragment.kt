@@ -108,8 +108,8 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
     }
 
     @Suppress("UNCHECKED_CAST")
-    private fun observeData() {
-        viewModel.unArchive.observe(viewLifecycleOwner) { attendanceList ->
+    private fun observeData() = launchWhenStarted {
+        viewModel.getAttendance().await().observe(viewLifecycleOwner) { attendanceList ->
             findPercentage(
                 attendanceList.sumOf { it.present }.toFloat(),
                 attendanceList.sumOf { it.total }.toFloat()
@@ -174,10 +174,20 @@ class AttendanceFragment : Fragment(R.layout.fragment_attendance) {
                 R.id.menu_archive -> navigateToArchiveFragment()
                 R.id.menu_setting -> navigateToChangePercentageDialog()
                 R.id.menu_delete_all -> deleteAll()
+                R.id.menu_sort -> navigateToSortMenu()
                 else -> false
             }
 
         }
+    }
+
+    private fun navigateToSortMenu(): Boolean {
+        viewModel.sortPref.observe(viewLifecycleOwner) { }
+        val sort = viewModel.sortPref.value ?: return false
+        val action = AttendanceFragmentDirections
+            .actionAttendanceFragmentToSortMenuDialog(sort)
+        navigate(action)
+        return true
     }
 
     private fun navigateToAddSubjectFromSyllabus(): Boolean {
