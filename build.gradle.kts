@@ -13,7 +13,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.androidLibrary) apply false
     id("com.google.dagger.hilt.android") version "2.48" apply false
-    id("com.google.gms.google-services") version "4.3.15" apply false
+    id("com.google.gms.google-services") version "4.4.0" apply false
     id("com.google.firebase.crashlytics") version "2.9.9" apply false
 }
 true // Needed to make the Suppress annotation work for the plugins block
