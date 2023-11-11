@@ -8,6 +8,7 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.crashlytics")
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -90,7 +91,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.playstore.core)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics.ktx)

@@ -64,14 +64,14 @@ abstract class BitDatabase : RoomDatabase() {
          * @since 4.0.2
          */
         val migration_1_2 = object : Migration(1, 2) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN isChecked INTEGER DEFAULT 1")
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN fromNetwork INTEGER DEFAULT 0")
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN content TEXT DEFAULT ''")
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN book TEXT DEFAULT ''")
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN reference TEXT DEFAULT ''")
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN deprecated INTEGER DEFAULT 0")
-                database.execSQL("DELETE FROM attendance_table")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN isChecked INTEGER DEFAULT 1")
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN fromNetwork INTEGER DEFAULT 0")
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN content TEXT DEFAULT ''")
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN book TEXT DEFAULT ''")
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN reference TEXT DEFAULT ''")
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN deprecated INTEGER DEFAULT 0")
+                db.execSQL("DELETE FROM attendance_table")
             }
         }
 
@@ -81,11 +81,11 @@ abstract class BitDatabase : RoomDatabase() {
          * @since 4.0.3
          */
         val migration_2_3 = object : Migration(2, 3) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE syllabus_table ADD COLUMN isAdded INTEGER DEFAULT 0")
-                database.execSQL("ALTER TABLE attendance_table ADD COLUMN fromSyllabus INTEGER DEFAULT 0")
-                database.execSQL("ALTER TABLE event_table ADD COLUMN poster_link TEXT DEFAULT ''")
-                database.execSQL("UPDATE syllabus_table SET fromNetwork = 0, content = NULL,book = NULL,reference = NULL WHERE openCode = 'bca512'")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE syllabus_table ADD COLUMN isAdded INTEGER DEFAULT 0")
+                db.execSQL("ALTER TABLE attendance_table ADD COLUMN fromSyllabus INTEGER DEFAULT 0")
+                db.execSQL("ALTER TABLE event_table ADD COLUMN poster_link TEXT DEFAULT ''")
+                db.execSQL("UPDATE syllabus_table SET fromNetwork = 0, content = NULL,book = NULL,reference = NULL WHERE openCode = 'bca512'")
             }
         }
 
@@ -95,9 +95,9 @@ abstract class BitDatabase : RoomDatabase() {
          * @since 4.0.4
          */
         val migration_3_4 = object : Migration(3, 4) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE attendance_table ADD COLUMN teacher TEXT DEFAULT ''")
-                database.execSQL("ALTER TABLE attendance_table ADD COLUMN created INTEGER DEFAULT NULL")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE attendance_table ADD COLUMN teacher TEXT DEFAULT ''")
+                db.execSQL("ALTER TABLE attendance_table ADD COLUMN created INTEGER DEFAULT NULL")
             }
         }
 
@@ -107,64 +107,64 @@ abstract class BitDatabase : RoomDatabase() {
          * @since 4.0.5
          */
         val migration_4_5 = object : Migration(4, 5) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE event_table ADD COLUMN path TEXT DEFAULT ''")
-                database.execSQL("CREATE TABLE `notice_3_table`(`title` TEXT NOT NULL, `body` TEXT NOT NULL, `link` TEXT NOT NULL, `sender` TEXT NOT NULL, `path` TEXT NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`title`))")
-                database.execSQL("DROP TABLE notice_table")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE event_table ADD COLUMN path TEXT DEFAULT ''")
+                db.execSQL("CREATE TABLE `notice_3_table`(`title` TEXT NOT NULL, `body` TEXT NOT NULL, `link` TEXT NOT NULL, `sender` TEXT NOT NULL, `path` TEXT NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`title`))")
+                db.execSQL("DROP TABLE notice_table")
             }
         }
 
         val migration_5_6 = object : Migration(5, 6) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DROP TABLE event_table")
-                database.execSQL("CREATE TABLE `events_table`(`created` INTEGER NOT NULL,`title` TEXT NOT NULL,`content` TEXT NOT NULL, `insta_link` TEXT NOT NULL, `logo_link` TEXT NOT NULL,`path` TEXT NOT NULL,`society` TEXT NOT NULL, `video_link` TEXT NOT NULL,  PRIMARY KEY(`title`))")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("DROP TABLE event_table")
+                db.execSQL("CREATE TABLE `events_table`(`created` INTEGER NOT NULL,`title` TEXT NOT NULL,`content` TEXT NOT NULL, `insta_link` TEXT NOT NULL, `logo_link` TEXT NOT NULL,`path` TEXT NOT NULL,`society` TEXT NOT NULL, `video_link` TEXT NOT NULL,  PRIMARY KEY(`title`))")
             }
         }
 
         val migration_6_7 = object : Migration(6, 7) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba63' where openCode ='bba53'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba64' where openCode ='bba54'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba611' where openCode ='bba55'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba610' where openCode ='bba56'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba619' where openCode ='bba57'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba620' where openCode ='bba58'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='bba621' where openCode ='bba59'")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba63' where openCode ='bba53'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba64' where openCode ='bba54'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba611' where openCode ='bba55'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba610' where openCode ='bba56'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba619' where openCode ='bba57'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba620' where openCode ='bba58'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='bba621' where openCode ='bba59'")
             }
         }
         val migration_7_8 = object : Migration(7, 8) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA53' where openCode ='BBA63'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA54' where openCode ='BBA64'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA55' where openCode ='BBA611'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA57' where openCode ='BBA619'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA58' where openCode ='BBA620'")
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA59' where openCode ='BBA621'")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA53' where openCode ='BBA63'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA54' where openCode ='BBA64'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA55' where openCode ='BBA611'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA57' where openCode ='BBA619'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA58' where openCode ='BBA620'")
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA59' where openCode ='BBA621'")
             }
         }
         var migration_8_9 = object : Migration(8, 9) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("UPDATE syllabus_table SET openCode ='BBA56' where openCode ='BBA611'")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("UPDATE syllabus_table SET openCode ='BBA56' where openCode ='BBA611'")
             }
         }
         var migration_9_10 = object : Migration(9, 10) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE attendance_table ADD COLUMN isArchive INTEGER DEFAULT 0")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE attendance_table ADD COLUMN isArchive INTEGER DEFAULT 0")
             }
         }
         var migration_10_11 = object : Migration(10, 11) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("DELETE FROM holiday_table")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("DELETE FROM holiday_table")
             }
         }
         var migration_11_12 = object : Migration(11, 12) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("CREATE TABLE `library_table`( `id` INTEGER NOT NULL,`bookName` TEXT NOT NULL,`bookId` TEXT NOT NULL,`issueDate` INTEGER NOT NULL,`returnDate` INTEGER NOT NULL,`alertDate` INTEGER NOT NULL,`markAsReturn` INTEGER NOT NULL, `eventId` INTEGER NOT NULL  , PRIMARY KEY(`id`))")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("CREATE TABLE `library_table`( `id` INTEGER NOT NULL,`bookName` TEXT NOT NULL,`bookId` TEXT NOT NULL,`issueDate` INTEGER NOT NULL,`returnDate` INTEGER NOT NULL,`alertDate` INTEGER NOT NULL,`markAsReturn` INTEGER NOT NULL, `eventId` INTEGER NOT NULL  , PRIMARY KEY(`id`))")
             }
         }
         val migration_12_13 = object : Migration(12, 13) {
-            override fun migrate(database: SupportSQLiteDatabase) {
-                database.execSQL("ALTER TABLE attendance_table ADD COLUMN fromOnlineSyllabus INTEGER DEFAULT 0")
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE attendance_table ADD COLUMN fromOnlineSyllabus INTEGER DEFAULT 0")
             }
         }
     }
