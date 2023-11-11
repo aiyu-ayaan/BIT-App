@@ -5,6 +5,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-parcelize")
     kotlin("kapt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -57,7 +58,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.json)
@@ -68,7 +69,7 @@ dependencies {
 
     implementation(libs.room.ktx)
     annotationProcessor(libs.room.compiler)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore.ktx)

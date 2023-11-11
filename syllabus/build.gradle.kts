@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -59,7 +60,7 @@ dependencies {
     implementation(libs.material)
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.android.viewbinding)
 

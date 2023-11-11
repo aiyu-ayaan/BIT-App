@@ -5,6 +5,7 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -63,7 +64,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.android.viewbinding)
 
