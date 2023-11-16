@@ -25,6 +25,7 @@ import com.atech.core.utils.DEFAULT_QUERY
 import com.atech.core.utils.SYLLABUS_SOURCE_DATA
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
+import com.atech.core.utils.handler
 import com.atech.course.sem.adapter.OfflineSyllabusUIMapper
 import com.atech.course.sem.adapter.OnlineSyllabusUIMapper
 import com.atech.course.utils.SyllabusEnableModel
@@ -85,7 +86,7 @@ class HomeViewModel @Inject constructor(
     var defPercentage = 7
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    fun getHomeData() = viewModelScope.async {
+    fun getHomeData() = viewModelScope.async(handler) {
         combine(
             dataStores.asFlow(),
             isOnline.combine(isPermissionGranted) { isOnline, isPermissionGranted ->

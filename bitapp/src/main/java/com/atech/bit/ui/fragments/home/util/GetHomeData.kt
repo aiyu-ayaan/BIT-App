@@ -21,6 +21,7 @@ import com.atech.theme.AdsUnit
 import com.atech.theme.CardHighlightModel
 import com.atech.theme.R
 import com.atech.theme.compareDifferenceInDays
+import com.atech.theme.handler
 import com.atech.theme.isAPI33AndUp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,6 +30,7 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.util.Calendar
 import java.util.Date
@@ -47,7 +49,7 @@ class GetHomeData(
         list.add(getTopSetting(dataSetForHome.isOnline))
         getSyllabus().also { list.addAll(it) }
         getHoliday().also { list.addAll(it) }
-        getEvent()?.also {
+        getEventWithCallback()?.also {
             list.addAll(it)
         }
         getCGPA().also { list.addAll(it) }
@@ -205,34 +207,37 @@ class GetHomeData(
         } else emptyList()
     }
 
-    private suspend fun getEvent(): List<HomeItems>? = coroutineScope {
-        withContext(Dispatchers.IO) {
-            suspendCoroutine { continuation ->
+    private suspend fun getEventWithCallback(): List<HomeItems>? = coroutineScope {
+        withContext(Dispatchers.IO + handler) {
+            suspendCancellableCoroutine { cancellableContinuation ->
                 val list = mutableListOf<HomeItems>()
-                dataSetForHome.firebaseCases.eventWithAttach.invoke { events ->
-                    events.filter {
-                        Date(
-                            System.currentTimeMillis()
-                        ).compareDifferenceInDays(Date(it.created!!)) <= 1
-                    }.map { event ->
-                        HomeViewModelExr.EventHomeModel(
-                            event.title ?: "",
-                            event.content ?: "",
-                            event.society ?: "",
-                            event.logo_link ?: "",
-                            if (event.attach?.isNotEmpty() == true) event.attach!![0].link
-                                ?: "" else "",
-                            event.path ?: "",
-                            event.created ?: 0L
-                        )
-                    }.let { events1 ->
-                        if (events1.isNotEmpty()) {
-                            list.add(HomeItems.Title("Events"))
-                            list.add(HomeItems.Event(events1))
-                            continuation.resumeWith(Result.success(list))
-                        } else continuation.resumeWith(Result.success(emptyList()))
+                dataSetForHome
+                    .firebaseCases
+                    .eventWithAttach
+                    .invoke { events ->
+                        events.filter {
+                            Date(
+                                System.currentTimeMillis()
+                            ).compareDifferenceInDays(Date(it.created!!)) <= 1
+                        }.map { event ->
+                            HomeViewModelExr.EventHomeModel(
+                                event.title ?: "",
+                                event.content ?: "",
+                                event.society ?: "",
+                                event.logo_link ?: "",
+                                if (event.attach?.isNotEmpty() == true) event.attach!![0].link
+                                    ?: "" else "",
+                                event.path ?: "",
+                                event.created ?: 0L
+                            )
+                        }.let { events1 ->
+                            if (events1.isNotEmpty()) {
+                                list.add(HomeItems.Title("Events"))
+                                list.add(HomeItems.Event(events1))
+                                cancellableContinuation.resumeWith(Result.success(list))
+                            } else cancellableContinuation.resumeWith(Result.success(emptyList()))
+                        }
                     }
-                }
             }
         }
     }
