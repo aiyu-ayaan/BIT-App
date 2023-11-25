@@ -92,7 +92,7 @@ class HomeViewModel @Inject constructor(
             isOnline.combine(isPermissionGranted) { isOnline, isPermissionGranted ->
                 isOnline to isPermissionGranted
             },
-            attendanceDao.getAllAttendance().combine(
+            attendanceDao.getNonArchiveAttendance().combine(
                 libraryDao.getAll()
             ) { attendance, library ->
                 attendance to library
