@@ -1,6 +1,5 @@
 package com.atech.core.firebase.firestore
 
-import android.util.Log
 import com.atech.core.datastore.Cgpa
 import com.atech.core.firebase.auth.AttendanceUploadModel
 import com.atech.core.firebase.auth.UserData
@@ -89,10 +88,7 @@ class EventWithAttach @Inject constructor(
     operator fun invoke(
         listener: (List<EventModel>) -> Unit
     ) {
-        db.collection(Db.Event.value).addSnapshotListener { value, error ->
-            if (error != null) {
-                listener(emptyList())
-            }
+        db.collection(Db.Event.value).get().addOnSuccessListener { value ->
             if (value == null) {
                 listener(emptyList())
             }
@@ -107,6 +103,8 @@ class EventWithAttach @Inject constructor(
                         listener(emptyList())
                     }
             }
+        }.addOnFailureListener {
+            listener(emptyList())
         }
     }
 }
