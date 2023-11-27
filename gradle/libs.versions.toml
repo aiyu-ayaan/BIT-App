@@ -1,7 +1,7 @@
 [versions]
 agp = "7.4.2"
 android-viewbinding = "1.0.4"
-coil = "2.4.0"
+coil = "2.5.0"
 coreSplashscreen = "1.0.1"
 cryptoreVersion = "1.4.0"
 calendarVersion = "3.0.0"
