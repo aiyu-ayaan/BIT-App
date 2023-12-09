@@ -1,4 +1,4 @@
-package com.atech.bit.ui.screen.home
+package com.atech.bit.ui.screen.home.compose
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.atech.theme.BITAppTheme
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -23,7 +22,7 @@ fun HomeScreen(
             modifier = Modifier.consumeWindowInsets(it),
             contentPadding = it
         ) {
-            items(1){
+            items(1) {
                 Text(text = "Home")
             }
         }
@@ -34,6 +33,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     BITAppTheme {
-        HomeScreen()
+
     }
 }

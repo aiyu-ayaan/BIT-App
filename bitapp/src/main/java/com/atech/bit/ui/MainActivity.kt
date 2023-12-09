@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.atech.bit.ui.screen.Navigation
+import com.atech.bit.ui.graph.BITAppRootGraph
 import com.atech.theme.BITAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation(
+                    BITAppRootGraph(
                         navHostController = navController
                     )
                 }

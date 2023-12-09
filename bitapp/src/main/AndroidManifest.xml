@@ -33,6 +33,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.BITApp"
             tools:ignore="LockedOrientationActivity">
 
             <intent-filter android:autoVerify="true">

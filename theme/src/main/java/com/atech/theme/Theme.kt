@@ -25,7 +25,8 @@ private val DarkColorScheme = darkColorScheme(
     surface = ColorSurfaceDark,
     background = ColorSurfaceDark,
     onPrimary = Color.White,
-    primaryContainer = GreenGray40
+    primaryContainer = GreenGray40,
+    secondaryContainer = secondaryContainerDark,
 )
 
 val ColorScheme.borderColor: Color
@@ -56,7 +57,8 @@ private val LightColorScheme = lightColorScheme(
     tertiary = LightGreen80,
     surface = ColorSurfaceLight,
     background = ColorSurfaceLight,
-    primaryContainer = GreenGray80
+    primaryContainer = GreenGray80,
+    secondaryContainer = secondaryContainerLight,
 )
 
 @Composable
