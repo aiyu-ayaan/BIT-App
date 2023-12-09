@@ -3,4 +3,7 @@
     <string name="home">Home</string>
     <string name="course">Course</string>
     <string name="attendance">Attendance</string>
+    <string name="back">Back</string>
+    <string name="app_name">BIT App</string>
+    <string name="sem_with_sem_count">Total sem : %s</string>
 </resources>

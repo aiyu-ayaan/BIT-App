@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -101,11 +102,14 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.androidx.navigation.compose)
 
-    implementation(libs.swipe)
-    implementation(libs.coil)
-    implementation(libs.coil.kt.coil.compose)
-    implementation(libs.coil.svg)
+//    implementation(libs.swipe)
+//    implementation(libs.coil)
+//    implementation(libs.coil.kt.coil.compose)
+//    implementation(libs.coil.svg)
 
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 }

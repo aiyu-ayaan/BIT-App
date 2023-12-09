@@ -17,13 +17,34 @@ enum class SharePrefKeys {
     SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime,
     ShowTimes, KeyAnnVersion, CurrentShowTime, IsDynamicThemeEnabled,
     IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
-    FirstTimeLogIn
+    FirstTimeLogIn, CourseDetails
 }
 
 const val SYLLABUS_SOURCE_DATA =
     "{   \"bca1\": true,   \"bca2\": false,   \"bca3\": true,   \"bca4\": false,   \"bca5\": false,   \"bca6\": false,   \"bba1\": false,   \"bba2\": false,   \"bba3\": false,   \"bba4\": false,   \"bba5\": false,   \"bba6\": false ,\"mca1\": true, \"mca2\": false, \"mca3\": false, \"mba4\": false, \"mba1\": false, \"mba2\": false, \"mba3\": false}"
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
+
+const val COURSE_DETAILS = "{\n" +
+        "  \"course\": [\n" +
+        "    {\n" +
+        "      \"name\": \"bca\",\n" +
+        "      \"sem\": 6\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"name\": \"bba\",\n" +
+        "      \"sem\": 6\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"name\": \"mca\",\n" +
+        "      \"sem\": 4\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"name\": \"mba\",\n" +
+        "      \"sem\": 4\n" +
+        "    }\n" +
+        "  ]\n" +
+        "}"
 
 enum class Destination(val value: String) {
     ChooseSem("choosesem"), Home("home"),
@@ -73,9 +94,6 @@ const val CHANNEL_UPDATE = "App Update"
 const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
 
-enum class RemoteConfigKeys {
-    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA,
-    KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times,
-    Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button,
-    ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
+enum class RemoteConfigKeys(val value: String) {
+    CourseDetails("course_details")
 }

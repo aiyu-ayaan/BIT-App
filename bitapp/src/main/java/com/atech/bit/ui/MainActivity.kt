@@ -9,12 +9,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.ui.graph.BITAppRootGraph
+import com.atech.core.firebase.remote.RemoteConfigHelper
 import com.atech.theme.BITAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @Inject
+    lateinit var remoteConfigHelper: RemoteConfigHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,6 +35,5 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
 
 }

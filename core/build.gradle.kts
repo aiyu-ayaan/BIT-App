@@ -65,5 +65,10 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.gson)
 
+    
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.remote.config)
+
 
 }

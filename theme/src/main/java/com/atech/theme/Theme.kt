@@ -38,17 +38,34 @@ val ColorScheme.captionColor: Color
     @Composable
     get() = onSurface.copy(alpha = 0.6f)
 
-val ColorScheme.dividerColor: Color
+val ColorScheme.dividerOrCardColor: Color
     @Composable
     get() = primary.copy(alpha = .3f)
+
 
 
 val grid_0_5 = 4.dp
 val grid_1 = 8.dp
 val grid_2 = 16.dp
 val grid_3 = 24.dp
+val image_view_log_in_size = 300.dp
 
 val bottomPaddingSize = 100.dp
+val image_size_for_card_view = 25.dp
+val image_size_for_society_img = 80.dp
+val holiday_data_card_view_size_home = 60.dp
+val holiday_data_card_view_size = 80.dp
+val min_padding_attendance = 100.dp
+val div_height = 1.dp
+val bottom_nav_height = 60.dp
+val image_view_about_us_size = 100.dp
+val course_image_size = 120.dp
+val image_view_thumbnail = 230.dp
+val card_view_attendance = 110.dp
+val recycler_view_height_attendance = 120.dp
+val empty_view_height = 300.dp
+val user_profile_image_size = 30.dp
+val video_view_height = 500.dp
 
 
 private val LightColorScheme = lightColorScheme(
