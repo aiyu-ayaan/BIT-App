@@ -6,17 +6,37 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.atech.bit.SharedEvents
+import com.atech.bit.ui.MainActivityViewModel
 import com.atech.theme.BITAppTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    communicatorViewModel: MainActivityViewModel
 ) {
+    val isSearchBarActive = communicatorViewModel.isSearchActive.value
     Scaffold(
-        modifier = modifier
+        modifier = modifier,
+        topBar = {
+            var query by remember { mutableStateOf("") }
+            SearchToolBar(
+                query = query,
+                onQueryChange = { query = it },
+                active = isSearchBarActive,
+                onActiveChange = { communicatorViewModel.onEvent(SharedEvents.ToggleSearchActive) },
+                onTrailingIconClick = {
+                    communicatorViewModel.onEvent(SharedEvents.ToggleSearchActive)
+                }
+            )
+        }
     ) {
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(it),

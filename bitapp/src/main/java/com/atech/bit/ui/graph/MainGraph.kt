@@ -1,10 +1,12 @@
 package com.atech.bit.ui.graph
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.atech.attendance.AttendanceScreenRoutes
 import com.atech.attendance.attendanceNavigation
+import com.atech.bit.ui.MainActivityViewModel
 import com.atech.course.CourseScreenRoute
 import com.atech.course.courseNavigation
 import com.atech.utils.getSimpleName
@@ -27,13 +29,17 @@ val listOfFragmentsWithBottomAppBar = listOf(
 
 @Composable
 fun HomeNavigation(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    communicatorViewModel: MainActivityViewModel = hiltViewModel()
 ) {
     NavHost(
         navController = navHostController,
         startDestination = MainScreenRoutes.Home.route
     ) {
-        homeNavigation(navHostController)
+        homeNavigation(
+            navHostController,
+            communicatorViewModel = communicatorViewModel
+        )
         attendanceNavigation(navHostController)
         courseNavigation(navHostController)
 

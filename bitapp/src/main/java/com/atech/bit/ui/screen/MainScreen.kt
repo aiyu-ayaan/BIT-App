@@ -1,5 +1,6 @@
 package com.atech.bit.ui.screen
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
@@ -20,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -28,18 +28,19 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.atech.bit.ui.MainActivityViewModel
 import com.atech.bit.ui.graph.HomeNavigation
 import com.atech.bit.ui.graph.MainScreenRoutes
 import com.atech.bit.ui.graph.listOfFragmentsWithBottomAppBar
@@ -51,27 +52,35 @@ import com.atech.theme.grid_3
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    modifier: Modifier = Modifier, navController: NavHostController = rememberNavController()
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController(),
+    communicatorViewModel: MainActivityViewModel = hiltViewModel()
 ) {
-    val topBarScrollState = TopAppBarDefaults.pinnedScrollBehavior()
+    val isSearchBarActive = communicatorViewModel.isSearchActive.value
     Scaffold(modifier = modifier, bottomBar = {
         NavBar(
-            navController = navController
+            navController = navController,
+            isSearchBarActive = isSearchBarActive
         )
     }) {
         Column(
             modifier = Modifier
                 .padding(it)
-                .nestedScroll(topBarScrollState.nestedScrollConnection)
+            /*.nestedScroll(topBarScrollState.nestedScrollConnection)*/
         ) {
-            HomeNavigation(navHostController = navController)
+            HomeNavigation(
+                navHostController = navController,
+                communicatorViewModel = communicatorViewModel
+            )
         }
     }
 }
 
 @Composable
 fun NavBar(
-    modifier: Modifier = Modifier, navController: NavHostController
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    isSearchBarActive: Boolean = false
 ) {
 
     val navBarItems = listOf(
@@ -97,7 +106,7 @@ fun NavBar(
     val isTheir = listOfFragmentsWithBottomAppBar.any { it == currentDestination?.route }
     val density = LocalDensity.current
     AnimatedVisibility(
-        visible = isTheir,
+        visible = isTheir && !isSearchBarActive,
         enter = slideInVertically {
             with(density) { -40.dp.roundToPx() }
         } + expandVertically(

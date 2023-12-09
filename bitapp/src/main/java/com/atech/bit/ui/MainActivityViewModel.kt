@@ -2,7 +2,10 @@ package com.atech.bit.ui
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.atech.bit.SharedEvents
 import com.atech.core.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
@@ -19,6 +22,17 @@ class MainActivityViewModel @Inject constructor(
     init {
         fetchRemoteConfigDetails()
     }
+
+    private val _isSearchActive = mutableStateOf(false)
+    val isSearchActive: State<Boolean> get() = _isSearchActive
+
+
+    fun onEvent(event: SharedEvents) {
+        when (event) {
+            SharedEvents.ToggleSearchActive -> _isSearchActive.value = !_isSearchActive.value
+        }
+    }
+
 
     private fun fetchRemoteConfigDetails() {
         conf.fetchData(
