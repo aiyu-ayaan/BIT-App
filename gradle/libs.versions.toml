@@ -30,6 +30,7 @@ appcompat = "1.6.1"
 material = "1.10.0"
 gson-version = "2.10.1"
 urlImageloader = "1.0.6"
+navigationCommonKtx = "2.7.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +70,7 @@ androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 url-imageloader = { module = "com.github.aiyu-ayaan:url-imageloader", version.ref = "urlImageloader" }
 gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson-version" }
+androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common-ktx", version.ref = "navigationCommonKtx" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
