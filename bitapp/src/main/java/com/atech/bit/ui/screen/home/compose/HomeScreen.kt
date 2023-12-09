@@ -12,15 +12,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.atech.bit.SharedEvents
-import com.atech.bit.ui.MainActivityViewModel
 import com.atech.theme.BITAppTheme
+import com.atech.view_model.SharedViewModel
+import com.atech.view_model.SharedEvents
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    communicatorViewModel: MainActivityViewModel
+    communicatorViewModel: SharedViewModel
 ) {
     val isSearchBarActive = communicatorViewModel.isSearchActive.value
     Scaffold(

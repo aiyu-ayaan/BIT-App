@@ -6,10 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.atech.attendance.AttendanceScreenRoutes
 import com.atech.attendance.attendanceNavigation
-import com.atech.bit.ui.MainActivityViewModel
 import com.atech.course.CourseScreenRoute
 import com.atech.course.courseNavigation
 import com.atech.utils.getSimpleName
+import com.atech.view_model.SharedViewModel
 
 sealed class MainScreenRoutes(val route: String) {
     data object Attendance :
@@ -30,7 +30,7 @@ val listOfFragmentsWithBottomAppBar = listOf(
 @Composable
 fun HomeNavigation(
     navHostController: NavHostController,
-    communicatorViewModel: MainActivityViewModel = hiltViewModel()
+    communicatorViewModel: SharedViewModel = hiltViewModel()
 ) {
     NavHost(
         navController = navHostController,

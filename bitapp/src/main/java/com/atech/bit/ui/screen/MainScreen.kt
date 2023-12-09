@@ -1,6 +1,5 @@
 package com.atech.bit.ui.screen
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
@@ -40,13 +39,13 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.atech.bit.ui.MainActivityViewModel
 import com.atech.bit.ui.graph.HomeNavigation
 import com.atech.bit.ui.graph.MainScreenRoutes
 import com.atech.bit.ui.graph.listOfFragmentsWithBottomAppBar
 import com.atech.theme.BITAppTheme
 import com.atech.theme.R
 import com.atech.theme.grid_3
+import com.atech.view_model.SharedViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -54,7 +53,7 @@ import com.atech.theme.grid_3
 fun MainScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    communicatorViewModel: MainActivityViewModel = hiltViewModel()
+    communicatorViewModel: SharedViewModel = hiltViewModel()
 ) {
     val isSearchBarActive = communicatorViewModel.isSearchActive.value
     Scaffold(modifier = modifier, bottomBar = {

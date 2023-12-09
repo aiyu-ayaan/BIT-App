@@ -3,10 +3,10 @@ package com.atech.bit.ui.graph
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
-import com.atech.bit.ui.MainActivityViewModel
 import com.atech.bit.ui.screen.home.compose.HomeScreen
 import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
+import com.atech.view_model.SharedViewModel
 
 
 sealed class HomeScreenRoutes(val route: String) {
@@ -15,7 +15,7 @@ sealed class HomeScreenRoutes(val route: String) {
 
 fun NavGraphBuilder.homeNavigation(
     navController: NavController,
-    communicatorViewModel: MainActivityViewModel
+    communicatorViewModel: SharedViewModel
 ) {
     navigation(
         startDestination = HomeScreenRoutes.HomeScreen.route,

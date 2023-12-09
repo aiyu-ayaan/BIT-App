@@ -1,4 +1,4 @@
-package com.atech.bit.ui
+package com.atech.bit.ui.activity.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,12 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.ui.graph.BITAppRootGraph
 import com.atech.theme.BITAppTheme
+import com.atech.view_model.SharedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -28,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     BITAppRootGraph(
                         navHostController = navController,
-                        communicatorViewModel = viewModel
+                        communicatorViewModel = sharedViewModel
                     )
                 }
             }
