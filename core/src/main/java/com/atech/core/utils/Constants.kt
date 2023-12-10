@@ -94,6 +94,10 @@ const val CHANNEL_UPDATE = "App Update"
 const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
 
+
+const val DEFAULTPAGESIZE = 20
+const val INITIALlOADSIZE = 20
+
 enum class RemoteConfigKeys(val value: String) {
     CourseDetails("course_details")
 }

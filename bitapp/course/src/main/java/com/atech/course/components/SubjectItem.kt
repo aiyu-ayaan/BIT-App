@@ -22,11 +22,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.atech.core.use_case.SyllabusUIModel
 import com.atech.theme.BITAppTheme
+import com.atech.theme.captionColor
 import com.atech.theme.dividerOrCardColor
 import com.atech.theme.grid_0_5
 import com.atech.theme.grid_1
 import com.atech.theme.grid_2
+import com.atech.theme.grid_3
 
 
 @Composable
@@ -34,16 +37,17 @@ fun SubjectTitle(
     title: String = "Theory"
 ) {
     Text(
-        modifier = Modifier.padding(vertical = grid_0_5, horizontal = grid_1),
+        modifier = Modifier.padding(vertical = grid_1, horizontal = grid_1),
         text = title,
-        style = MaterialTheme.typography.headlineSmall,
-        color = MaterialTheme.colorScheme.onSurface
+        style = MaterialTheme.typography.titleMedium,
+        color = MaterialTheme.colorScheme.captionColor
     )
 }
 
 @Composable
 fun SubjectItem(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    data: SyllabusUIModel
 ) {
     Surface(
         modifier = modifier
@@ -63,7 +67,7 @@ fun SubjectItem(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = "CA101",
+                        text = data.code,
                         style = MaterialTheme.typography.bodySmall
                     )
                     Spacer(modifier = Modifier.width(grid_1))
@@ -74,12 +78,12 @@ fun SubjectItem(
                     )
                     Spacer(modifier = Modifier.width(grid_1))
                     Text(
-                        text = "Credits : 3",
+                        text = "Credits : ${data.credits}",
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
                 Text(
-                    text = "Programming in Java",
+                    text = data.subject,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
@@ -89,7 +93,7 @@ fun SubjectItem(
 
 @Preview(showBackground = true)
 @Preview(
-    showBackground = true,
+    showBackground = false,
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
@@ -97,7 +101,7 @@ fun SubjectItemPreview() {
     BITAppTheme {
         Column {
             SubjectTitle()
-            SubjectItem()
+//            SubjectItem()
         }
     }
 }

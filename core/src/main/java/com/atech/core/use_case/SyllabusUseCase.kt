@@ -1,10 +1,49 @@
-package com.atech.course.utils
+package com.atech.core.use_case
 
 import androidx.annotation.Keep
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.atech.core.room.syllabus.Subject
+import com.atech.core.room.syllabus.SubjectType
+import com.atech.core.room.syllabus.SyllabusDao
 import com.atech.core.room.syllabus.SyllabusModel
+import com.atech.core.utils.DEFAULTPAGESIZE
 import com.atech.core.utils.EntityMapper
+import com.atech.core.utils.INITIALlOADSIZE
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+
+
+data class SyllabusUseCase @Inject constructor(
+    val getSubjectsByType: GetSubjectsByType
+)
+
+
+data class GetSubjectsByType @Inject constructor(
+    private val dao: SyllabusDao,
+    private val offlineMapper: OfflineSyllabusUIMapper
+) {
+    operator fun invoke(
+        courseSem : String,
+        type: SubjectType = SubjectType.THEORY
+    ): Flow<PagingData<SyllabusUIModel>> = Pager(
+        config = PagingConfig(
+            pageSize = DEFAULTPAGESIZE,
+            enablePlaceholders = false,
+            initialLoadSize = INITIALlOADSIZE
+        )
+    ) {
+        dao.getSyllabusType(courseSem, type.name)
+    }.flow.map {
+        it.map { model ->
+            offlineMapper.mapFormEntity(model)
+        }
+    }
+
+}
 
 @Keep
 data class SyllabusUIModel(

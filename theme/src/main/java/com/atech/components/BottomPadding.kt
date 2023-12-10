@@ -15,9 +15,10 @@ fun BottomPadding() {
 
 fun LazyListScope.singleElement(
     modifier: Modifier = Modifier,
+    key : Any? = null,
     content: @Composable LazyListScope.() -> Unit = { BottomPadding() }
 ) = this.apply {
-    item(1) {
+    item(key = key) {
         this@singleElement.content()
     }
 }

@@ -19,6 +19,13 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 import java.io.Serializable
 
+enum class SubjectType(val value: String) {
+    THEORY("Theory"),
+    LAB("Lab"),
+    PE("PE")
+
+}
+
 @Keep
 @Entity(tableName = "syllabus_table")
 @Parcelize

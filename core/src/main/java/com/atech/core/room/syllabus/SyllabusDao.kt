@@ -11,6 +11,7 @@
 package com.atech.core.room.syllabus
 
 import androidx.lifecycle.LiveData
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -39,7 +40,9 @@ interface SyllabusDao {
      *Get Syllabus for Syllabus section.
      */
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
-    fun getSyllabusType(query: String, type: String): Flow<List<SyllabusModel>>
+    fun getSyllabusType(query: String, type: String): PagingSource<Int,SyllabusModel>
+
+
 
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
     fun getSyllabusTypeLive(query: String, type: String): LiveData<List<SyllabusModel>>
