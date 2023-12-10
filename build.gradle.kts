@@ -1,3 +1,13 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath (libs.kotlin.serialization)
+
+    }
+}
 
 plugins {
     alias(libs.plugins.androidApplication) apply false

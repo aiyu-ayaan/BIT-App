@@ -11,6 +11,7 @@ import androidx.paging.cachedIn
 import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
 import com.atech.core.data_source.firebase.remote.model.CourseDetails
 import com.atech.core.data_source.room.syllabus.SubjectType
+import com.atech.core.use_case.KTorUseCase
 import com.atech.core.use_case.SyllabusUIModel
 import com.atech.core.use_case.SyllabusUseCase
 import com.atech.core.utils.COURSE_DETAILS
@@ -18,6 +19,7 @@ import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -27,6 +29,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CourseViewModel @Inject constructor(
     private val useCase: SyllabusUseCase,
+    private val kTorUseCase: KTorUseCase,
     pref: SharedPreferences
 ) : ViewModel() {
     private val courseDetailsJson =
@@ -99,6 +102,10 @@ class CourseViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
+    }
+
+    fun getData() = viewModelScope.async {
+        kTorUseCase.fetchSyllabus("bca1")
     }
 
 }
