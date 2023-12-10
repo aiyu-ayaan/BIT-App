@@ -8,7 +8,7 @@
 
 
 
-package com.atech.core.room.attendance
+package com.atech.core.data_source.room.attendance
 
 import android.util.Log
 import androidx.room.Dao

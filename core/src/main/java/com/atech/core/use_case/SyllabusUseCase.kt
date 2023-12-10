@@ -5,10 +5,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.atech.core.room.syllabus.Subject
-import com.atech.core.room.syllabus.SubjectType
-import com.atech.core.room.syllabus.SyllabusDao
-import com.atech.core.room.syllabus.SyllabusModel
+import com.atech.core.data_source.room.syllabus.Subject
+import com.atech.core.data_source.room.syllabus.SubjectType
+import com.atech.core.data_source.room.syllabus.SyllabusDao
+import com.atech.core.data_source.room.syllabus.SyllabusModel
 import com.atech.core.utils.DEFAULTPAGESIZE
 import com.atech.core.utils.EntityMapper
 import com.atech.core.utils.INITIALlOADSIZE

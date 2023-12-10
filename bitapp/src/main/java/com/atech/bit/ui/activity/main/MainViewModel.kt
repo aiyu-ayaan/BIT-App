@@ -3,7 +3,7 @@ package com.atech.bit.ui.activity.main
 import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.atech.core.firebase.remote.RemoteConfigHelper
+import com.atech.core.data_source.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS

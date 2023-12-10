@@ -8,7 +8,7 @@
 
 
 
-package com.atech.core.room
+package com.atech.core.data_source.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
@@ -16,15 +16,15 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.room.library.LibraryModel
-import com.atech.core.room.attendance.AttendanceDao
-import com.atech.core.room.attendance.AttendanceModel
-import com.atech.core.room.attendance.DaysTypeConvector
-import com.atech.core.room.attendance.IsPresentTypeConvector
-import com.atech.core.room.attendance.StackTypeConvector
-import com.atech.core.room.syllabus.SyllabusDao
-import com.atech.core.room.syllabus.SyllabusList
-import com.atech.core.room.syllabus.SyllabusModel
+import com.atech.core.data_source.room.library.LibraryModel
+import com.atech.core.data_source.room.attendance.AttendanceDao
+import com.atech.core.data_source.room.attendance.AttendanceModel
+import com.atech.core.data_source.room.attendance.DaysTypeConvector
+import com.atech.core.data_source.room.attendance.IsPresentTypeConvector
+import com.atech.core.data_source.room.attendance.StackTypeConvector
+import com.atech.core.data_source.room.syllabus.SyllabusDao
+import com.atech.core.data_source.room.syllabus.SyllabusList
+import com.atech.core.data_source.room.syllabus.SyllabusModel
 import com.atech.core.utils.BitAppScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

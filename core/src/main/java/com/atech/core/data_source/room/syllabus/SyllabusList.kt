@@ -8,7 +8,7 @@
 
 
 
-package com.atech.core.room.syllabus
+package com.atech.core.data_source.room.syllabus
 
 object SyllabusList {
     val syllabus = listOf(

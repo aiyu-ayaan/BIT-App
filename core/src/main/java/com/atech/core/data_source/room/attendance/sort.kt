@@ -1,4 +1,4 @@
-package com.atech.core.room.attendance
+package com.atech.core.data_source.room.attendance
 
 import android.os.Parcelable
 import androidx.annotation.Keep

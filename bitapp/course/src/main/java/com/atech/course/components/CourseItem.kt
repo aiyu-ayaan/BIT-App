@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.atech.core.firebase.remote.model.CourseDetailModel
+import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
 import com.atech.theme.BITAppTheme
 import com.atech.theme.dividerOrCardColor
 import com.atech.theme.grid_0_5

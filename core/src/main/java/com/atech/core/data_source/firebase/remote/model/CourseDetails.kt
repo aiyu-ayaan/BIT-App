@@ -1,4 +1,4 @@
-package com.atech.core.firebase.remote.model
+package com.atech.core.data_source.firebase.remote.model
 
 import androidx.annotation.Keep
 

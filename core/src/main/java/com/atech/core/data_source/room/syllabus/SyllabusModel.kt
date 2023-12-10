@@ -8,7 +8,7 @@
 
 
 
-package com.atech.core.room.syllabus
+package com.atech.core.data_source.room.syllabus
 
 import android.os.Parcelable
 import androidx.annotation.Keep

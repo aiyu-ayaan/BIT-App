@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.atech.core.firebase.remote.model.CourseDetailModel
-import com.atech.core.firebase.remote.model.CourseDetails
-import com.atech.core.room.syllabus.SubjectType
+import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
+import com.atech.core.data_source.firebase.remote.model.CourseDetails
+import com.atech.core.data_source.room.syllabus.SubjectType
 import com.atech.core.use_case.SyllabusUIModel
 import com.atech.core.use_case.SyllabusUseCase
 import com.atech.core.utils.COURSE_DETAILS

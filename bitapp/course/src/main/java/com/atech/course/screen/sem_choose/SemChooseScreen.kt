@@ -42,8 +42,8 @@ import androidx.paging.compose.itemKey
 import com.atech.components.BackToolbar
 import com.atech.components.BottomPadding
 import com.atech.components.singleElement
-import com.atech.core.firebase.remote.model.CourseDetailModel
-import com.atech.core.room.syllabus.SubjectType
+import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
+import com.atech.core.data_source.room.syllabus.SubjectType
 import com.atech.course.CourseEvents
 import com.atech.course.CourseViewModel
 import com.atech.course.components.SubjectItem

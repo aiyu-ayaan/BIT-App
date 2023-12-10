@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.atech.core.room.library.LibraryModel
+import com.atech.core.data_source.room.library.LibraryModel
 import kotlinx.coroutines.flow.Flow
 
 @Dao

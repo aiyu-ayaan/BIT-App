@@ -13,9 +13,9 @@ package com.atech.core.module
 import android.content.Context
 import androidx.room.Room
 import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.room.BitDatabase
-import com.atech.core.room.attendance.AttendanceDao
-import com.atech.core.room.syllabus.SyllabusDao
+import com.atech.core.data_source.room.BitDatabase
+import com.atech.core.data_source.room.attendance.AttendanceDao
+import com.atech.core.data_source.room.syllabus.SyllabusDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

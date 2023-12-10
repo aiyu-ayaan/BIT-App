@@ -1,4 +1,4 @@
-package com.atech.core.room.library
+package com.atech.core.data_source.room.library
 
 import android.os.Parcelable
 import androidx.annotation.Keep
