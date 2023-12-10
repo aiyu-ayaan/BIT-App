@@ -25,24 +25,24 @@ import com.atech.core.firebase.remote.model.CourseDetailModel
 import com.atech.theme.BITAppTheme
 import com.atech.theme.dividerOrCardColor
 import com.atech.theme.grid_0_5
-import com.atech.theme.grid_1
 import com.atech.theme.grid_2
 import com.atech.theme.grid_3
 
 @Composable
 fun CourseItem(
     modifier: Modifier = Modifier,
-    details: CourseDetailModel
+    details: CourseDetailModel,
+    onClick: () -> Unit = {}
 ) {
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onClick.invoke() }
     ) {
         Card(
             Modifier
                 .fillMaxWidth()
-                .padding(vertical = grid_0_5, horizontal = grid_1),
+                .padding(vertical = grid_0_5, horizontal = grid_2),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.dividerOrCardColor
             )

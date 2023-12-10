@@ -24,6 +24,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.components.Toolbar
 import com.atech.components.singleElement
+import com.atech.course.CourseEvents
+import com.atech.course.CourseScreenRoute
 import com.atech.course.CourseViewModel
 import com.atech.course.R
 import com.atech.course.components.CourseItem
@@ -71,8 +73,13 @@ fun CourseScreen(
             }
             items(viewModel.courseDetails!!.course) { details ->
                 CourseItem(
-                    details = details
-                )
+                    details = details,
+                ) {
+                    viewModel.onEvent(CourseEvents.NavigateToSemChoose(details))
+                    navController.navigate(
+                        CourseScreenRoute.SemChooseScreen.route
+                    )
+                }
             }
             singleElement()
         }

@@ -310,7 +310,7 @@ fun RowScope.AddItem(
     navController: NavHostController
 ) {
     var selectedItem by rememberSaveable {
-        mutableIntStateOf(0)
+        mutableIntStateOf(1)
     }
     NavigationBarItem(icon = {
         if (screen.unSelectedIcon == null) {
