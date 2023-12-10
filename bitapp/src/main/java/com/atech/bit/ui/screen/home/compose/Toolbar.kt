@@ -40,6 +40,7 @@ fun SearchToolBar(
     onTrailingIconClick: () -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
+    onLeadingIconClick : () -> Unit = {},
     contents: @Composable () -> Unit = {}
 ) {
     Row(
@@ -78,7 +79,7 @@ fun SearchToolBar(
                         modifier = Modifier.weight(.2f),
                         icon = Icons.Outlined.MenuOpen,
                         tint = MaterialTheme.colorScheme.primary,
-                        onClick = onNotificationClick,
+                        onClick = onLeadingIconClick,
                         contextDes = com.atech.theme.R.string.drawer
                     )
                 }

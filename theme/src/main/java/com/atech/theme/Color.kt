@@ -21,3 +21,6 @@ val SwipeGreen = Color(0xFF59B972)
 
 val secondaryContainerLight = Color(0xFFB2DFDB)
 val secondaryContainerDark = Color(0xFF0D4C45)
+
+val surfaceContainerDark = Color(0xFF0B2021)
+val surfaceContainerLight = Color(0xFFDCF0F0)

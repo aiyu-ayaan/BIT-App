@@ -25,7 +25,7 @@ private val DarkColorScheme = darkColorScheme(
     surface = ColorSurfaceDark,
     background = ColorSurfaceDark,
     onPrimary = Color.White,
-    primaryContainer = GreenGray40,
+    primaryContainer = surfaceContainerDark,
     secondaryContainer = secondaryContainerDark,
 )
 
@@ -37,11 +37,9 @@ val ColorScheme.borderColor: Color
 val ColorScheme.captionColor: Color
     @Composable
     get() = onSurface.copy(alpha = 0.6f)
-
 val ColorScheme.dividerOrCardColor: Color
     @Composable
     get() = primary.copy(alpha = .3f)
-
 
 
 val grid_0_5 = 4.dp
@@ -74,7 +72,7 @@ private val LightColorScheme = lightColorScheme(
     tertiary = LightGreen80,
     surface = ColorSurfaceLight,
     background = ColorSurfaceLight,
-    primaryContainer = GreenGray80,
+    primaryContainer = surfaceContainerLight,
     secondaryContainer = secondaryContainerLight,
 )
 

@@ -1,6 +1,7 @@
 package com.atech.core.firebase.remote.model
 
-import com.google.errorprone.annotations.Keep
+import androidx.annotation.Keep
+
 
 @Keep
 data class CourseDetails(
