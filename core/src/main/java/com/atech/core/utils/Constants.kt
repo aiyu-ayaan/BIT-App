@@ -99,5 +99,6 @@ const val DEFAULTPAGESIZE = 20
 const val INITIALlOADSIZE = 20
 
 enum class RemoteConfigKeys(val value: String) {
-    CourseDetails("course_details")
+    CourseDetails("course_details"),
+    KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
 }

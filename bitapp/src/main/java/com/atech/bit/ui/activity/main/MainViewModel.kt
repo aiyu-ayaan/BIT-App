@@ -27,6 +27,10 @@ class MainViewModel @Inject constructor(
         ) {
             conf.getString(RemoteConfigKeys.CourseDetails.value)
                 .let { pref.edit().putString(SharePrefKeys.CourseDetails.name, it).apply() }
+            conf.getString(RemoteConfigKeys.KeyToggleSyllabusSource.value)
+                .let {
+                    pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
+                }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.atech.course
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -15,8 +16,11 @@ import com.atech.core.use_case.KTorUseCase
 import com.atech.core.use_case.SyllabusUIModel
 import com.atech.core.use_case.SyllabusUseCase
 import com.atech.core.utils.COURSE_DETAILS
+import com.atech.core.utils.SYLLABUS_SOURCE_DATA
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
+import com.atech.course.utils.SyllabusEnableModel
+import com.atech.course.utils.compareToCourseSem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -24,6 +28,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -37,12 +42,49 @@ class CourseViewModel @Inject constructor(
 
     val courseDetails = fromJSON(courseDetailsJson, CourseDetails::class.java)
 
+
+    private val syllabusEnableModel: SyllabusEnableModel by lazy {
+        pref.getString(
+            SharePrefKeys.KeyToggleSyllabusSource.name,
+            SYLLABUS_SOURCE_DATA
+        )?.let {
+            fromJSON(it, SyllabusEnableModel::class.java)!!
+        } ?: fromJSON(
+            SYLLABUS_SOURCE_DATA,
+            SyllabusEnableModel::class.java
+        )!!
+    }
+
     private val _currentClickItem = mutableStateOf(CourseDetailModel("bca", 6))
     val currentClickItem: State<CourseDetailModel> get() = _currentClickItem
+
 
     private val _currentSem = mutableIntStateOf(1)
     val currentSem: State<Int> get() = _currentSem
 
+    private var _onlineSyllabus =
+        mutableStateOf<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>>(
+            Triple(
+                emptyList(),
+                emptyList(),
+                emptyList()
+            )
+        )
+    val onlineSyllabus: State<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>> get() = _onlineSyllabus
+
+
+    private val _isOnline = mutableStateOf(
+        syllabusEnableModel.compareToCourseSem(
+            _currentClickItem.value.name + _currentSem.intValue
+        )
+    )
+
+    private val _isSelected = mutableStateOf(
+        syllabusEnableModel.compareToCourseSem(
+            _currentClickItem.value.name + _currentSem.intValue
+        )
+    )
+    val isSelected: State<Boolean> get() = _isSelected
 
     private val _theory: MutableStateFlow<PagingData<SyllabusUIModel>> =
         MutableStateFlow(PagingData.empty())
@@ -62,13 +104,36 @@ class CourseViewModel @Inject constructor(
             is CourseEvents.NavigateToSemChoose -> {
                 _currentClickItem.value = events.model
                 getAllSubjects()
+                getOnlineSubjects()
             }
 
             is CourseEvents.OnSemChange -> {
                 _currentSem.intValue = events.sem
-                getAllSubjects()
+                _isSelected.value =
+                    syllabusEnableModel.compareToCourseSem(
+                        _currentClickItem.value.name + _currentSem.intValue
+                    )
+                if (!isSelected.value)
+                    getAllSubjects()
+                else
+                    getOnlineSubjects()
             }
         }
+    }
+
+    private fun getOnlineSubjects() = viewModelScope.launch {
+        try {
+            _onlineSyllabus.value = Triple(
+                emptyList(),
+                emptyList(),
+                emptyList()
+            )
+            _onlineSyllabus.value =
+                kTorUseCase.fetchSyllabus("${_currentClickItem.value.name}${_currentSem.intValue}")
+        } catch (e: Exception) {
+            Log.d("AAA", "getOnlineSubjects: $e")
+        }
+
     }
 
     private fun getAllSubjects() {

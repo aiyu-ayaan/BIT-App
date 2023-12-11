@@ -24,7 +24,7 @@ object KTorModule {
     @Singleton
     fun provideClient(): HttpClient =
         HttpClient(Android) {
-//            install(HttpCache)
+            install(HttpCache)
             install(Logging) {
                 level = LogLevel.ALL
             }

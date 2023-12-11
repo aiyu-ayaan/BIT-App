@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.atech.core.data_source.ktor.model.SubjectModel
 import com.atech.core.data_source.room.syllabus.Subject
 import com.atech.core.data_source.room.syllabus.SubjectType
 import com.atech.core.data_source.room.syllabus.SyllabusDao
@@ -101,4 +102,35 @@ class OfflineSyllabusUIMapper @Inject constructor() : EntityMapper<SyllabusModel
     fun mapFromEntityList(entities: List<SyllabusModel>): List<SyllabusUIModel> =
         entities.map { mapFormEntity(it) }
 
+}
+
+class OnlineSyllabusUIMapper @Inject constructor() : EntityMapper<SubjectModel, SyllabusUIModel> {
+    override fun mapFormEntity(entity: SubjectModel): SyllabusUIModel =
+        SyllabusUIModel(
+            subject = entity.subjectName,
+            code = entity.code,
+            credits = entity.credit.toInt(),
+            openCode = "",
+            type = "",
+            group = "",
+            shortName = entity.shortName,
+            listOrder = 0,
+            subjectContent = null,
+            isChecked = false,
+            isAdded = false,
+            fromNetwork = true,
+            deprecated = false,
+            isFromOnline = true
+        )
+
+    override fun mapToEntity(domainModel: SyllabusUIModel): SubjectModel =
+        SubjectModel(
+            subjectName = domainModel.subject,
+            code = domainModel.code,
+            credit = domainModel.credits.toDouble(),
+            shortName = domainModel.shortName ?: ""
+        )
+
+    fun mapFromEntityList(entities: List<SubjectModel>): List<SyllabusUIModel> =
+        entities.map { mapFormEntity(it) }
 }

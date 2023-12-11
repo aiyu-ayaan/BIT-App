@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Wifi
 import androidx.compose.material.icons.outlined.WifiOff
@@ -25,8 +27,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
@@ -44,6 +45,7 @@ import com.atech.components.BottomPadding
 import com.atech.components.singleElement
 import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
 import com.atech.core.data_source.room.syllabus.SubjectType
+import com.atech.core.use_case.SyllabusUIModel
 import com.atech.course.CourseEvents
 import com.atech.course.CourseViewModel
 import com.atech.course.components.SubjectItem
@@ -63,9 +65,7 @@ fun SemChooseScreen(
     navController: NavController = rememberNavController()
 ) {
     val scrollState = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    var enable by remember {
-        mutableStateOf(true)
-    }
+    var enable = viewModel.isSelected.value
     val courseModel by viewModel.currentClickItem
     var selectedTabIndex by rememberSaveable {
         mutableIntStateOf(viewModel.currentSem.value - 1)
@@ -73,6 +73,9 @@ fun SemChooseScreen(
     val theoryData = viewModel.theory.collectAsLazyPagingItems()
     val labData = viewModel.lab.collectAsLazyPagingItems()
     val peData = viewModel.pe.collectAsLazyPagingItems()
+
+    val onlineData = viewModel.onlineSyllabus.value
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -103,71 +106,145 @@ fun SemChooseScreen(
                     }
                 )
             }
-            if (theoryData.itemCount > 0) {
-                singleElement(
-                    key = SubjectType.THEORY.name
-                )
-                { SubjectTitle("Theory") }
-                items(
-                    count = theoryData.itemCount,
-                    key = theoryData.itemKey { model -> model.openCode },
-                    contentType = theoryData.itemContentType { "Theory" }
-                ) { index ->
-                    theoryData[index]?.let { model ->
-                        SubjectItem(
-                            data = model,
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = spring(
-                                    dampingRatio = 2f, stiffness = 600f
-                                )
-                            )
-                        )
-                    }
-                }
-            }
-            if (labData.itemCount > 0) {
-                singleElement(key = SubjectType.LAB.name) { SubjectTitle("Lab") }
-                items(
-                    count = labData.itemCount,
-                    key = labData.itemKey { link -> link.openCode },
-                    contentType = labData.itemContentType { "Lab" }
-                )
-                { index ->
-                    labData[index]?.let { model ->
-                        SubjectItem(
-                            data = model,
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = spring(
-                                    dampingRatio = 2f, stiffness = 600f
-                                )
-                            )
-                        )
-                    }
-                }
-            }
-            if (peData.itemCount > 0) {
-                singleElement(key = SubjectType.PE.name) { SubjectTitle("PE") }
-                items(
-                    count = peData.itemCount,
-                    key = peData.itemKey { link -> link.openCode },
-                    contentType = peData.itemContentType { "PE" }
-                )
-                { index ->
-                    peData[index]?.let { model ->
-                        SubjectItem(
-                            data = model,
-                            modifier = Modifier.animateItemPlacement(
-                                animationSpec = spring(
-                                    dampingRatio = 2f, stiffness = 600f
-                                )
-                            )
-                        )
-                    }
-                }
+            if (enable) {
+                onlineDataSource(onlineData.first, onlineData.second, onlineData.third)
+            } else {
+                offlineDataSource(theoryData, labData, peData)
             }
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+fun LazyListScope.onlineDataSource(
+
+    theory: List<SyllabusUIModel>,
+    lab: List<SyllabusUIModel>,
+    pe: List<SyllabusUIModel>
+) {
+
+    if (theory.isNotEmpty()) {
+        singleElement(
+            key = SubjectType.THEORY.name + "Online"
+        )
+        { SubjectTitle("Theory") }
+        items(items = theory, key = { item -> item.subject + item.code }) { ele ->
+            SubjectItem(
+                data = ele,
+                modifier = Modifier.animateItemPlacement(
+                    animationSpec = spring(
+                        dampingRatio = 2f, stiffness = 600f
+                    )
+                )
+            )
+        }
+    }
+    if (lab.isNotEmpty()) {
+        singleElement(
+            key = SubjectType.LAB.name + "Online"
+        )
+        { SubjectTitle("Lab") }
+        items(items = lab, key = { item -> item.subject + item.code }) { ele ->
+            SubjectItem(
+                data = ele,
+                modifier = Modifier.animateItemPlacement(
+                    animationSpec = spring(
+                        dampingRatio = 2f, stiffness = 600f
+                    )
+                )
+            )
+        }
+    }
+    if (pe.isNotEmpty()) {
+        singleElement(
+            key = SubjectType.PE.name + "Online"
+        )
+        { SubjectTitle("Lab") }
+        items(items = pe, key = { item -> item.subject + item.code }) { ele ->
+            SubjectItem(
+                data = ele,
+                modifier = Modifier.animateItemPlacement(
+                    animationSpec = spring(
+                        dampingRatio = 2f, stiffness = 600f
+                    )
+                )
+            )
+        }
+    }
+
+}
+
+
+@OptIn(ExperimentalFoundationApi::class)
+private fun LazyListScope.offlineDataSource(
+    theoryData: LazyPagingItems<SyllabusUIModel>,
+    labData: LazyPagingItems<SyllabusUIModel>,
+    peData: LazyPagingItems<SyllabusUIModel>
+) {
+    if (theoryData.itemCount > 0) {
+        singleElement(
+            key = SubjectType.THEORY.name
+        )
+        { SubjectTitle("Theory") }
+        items(
+            count = theoryData.itemCount,
+            key = theoryData.itemKey { model -> model.openCode },
+            contentType = theoryData.itemContentType { "Theory" }
+        ) { index ->
+            theoryData[index]?.let { model ->
+                SubjectItem(
+                    data = model,
+                    modifier = Modifier.animateItemPlacement(
+                        animationSpec = spring(
+                            dampingRatio = 2f, stiffness = 600f
+                        )
+                    )
+                )
+            }
+        }
+    }
+    if (labData.itemCount > 0) {
+        singleElement(key = SubjectType.LAB.name) { SubjectTitle("Lab") }
+        items(
+            count = labData.itemCount,
+            key = labData.itemKey { link -> link.openCode },
+            contentType = labData.itemContentType { "Lab" }
+        )
+        { index ->
+            labData[index]?.let { model ->
+                SubjectItem(
+                    data = model,
+                    modifier = Modifier.animateItemPlacement(
+                        animationSpec = spring(
+                            dampingRatio = 2f, stiffness = 600f
+                        )
+                    )
+                )
+            }
+        }
+    }
+    if (peData.itemCount > 0) {
+        singleElement(key = SubjectType.PE.name) { SubjectTitle("PE") }
+        items(
+            count = peData.itemCount,
+            key = peData.itemKey { link -> link.openCode },
+            contentType = peData.itemContentType { "PE" }
+        )
+        { index ->
+            peData[index]?.let { model ->
+                SubjectItem(
+                    data = model,
+                    modifier = Modifier.animateItemPlacement(
+                        animationSpec = spring(
+                            dampingRatio = 2f, stiffness = 600f
+                        )
+                    )
+                )
+            }
+        }
+    }
+
 }
 
 
