@@ -6,7 +6,8 @@ import javax.inject.Inject
 
 
 class KTorUseCase @Inject constructor(
-    val fetchSyllabus: FetchSyllabus
+    val fetchSyllabus: FetchSyllabus,
+    val fetchSubjectMarkDown: FetchSubjectMarkDown
 )
 
 data class FetchSyllabus @Inject constructor(
@@ -26,6 +27,19 @@ data class FetchSyllabus @Inject constructor(
         }
         return res.semester.subjects.mapToTriple(mapper)
     }
+}
+
+
+data class FetchSubjectMarkDown @Inject constructor(
+    private val api: BitAppApiService
+) {
+    @Throws(Exception::class)
+    suspend operator fun invoke(
+        course: String,
+        courseSem: String,
+        subject: String
+    ) = api.getSubjectMarkDown(course, courseSem, subject)
+
 }
 
 fun Subject.mapToTriple(mapper: OnlineSyllabusUIMapper) =

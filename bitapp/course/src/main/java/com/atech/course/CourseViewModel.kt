@@ -176,8 +176,15 @@ class CourseViewModel @Inject constructor(
 
     }
 
-    fun getData() = viewModelScope.async {
-        kTorUseCase.fetchSyllabus("bca1")
+    fun getSubjectMarkdown(
+        course: String,
+        courseSem: String,
+        subject: String
+    ) = viewModelScope.async {
+        kTorUseCase.fetchSubjectMarkDown(
+            course = course,
+            courseSem = courseSem,
+            subject = subject
+        )
     }
-
 }

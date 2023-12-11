@@ -1,11 +1,8 @@
 package com.atech.core.data_source.ktor
 
-import com.atech.core.data_source.ktor.BitAppApiService.Companion.BASE_URL
 import com.atech.core.data_source.ktor.model.SyllabusResponse
 import io.ktor.client.HttpClient
-import io.ktor.client.features.RedirectResponseException
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.url
 
 class BitAppApiImp(
@@ -15,7 +12,21 @@ class BitAppApiImp(
     override suspend fun getSubjects(course: String, courseSem: String): SyllabusResponse =
         try {
             client.get {
-                url("$BASE_URL/syllabus/$course/$courseSem/$courseSem.json")
+                url(BITAppApiRoute.Subject(course, courseSem).route)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
+
+    @Throws(Exception::class)
+    override suspend fun getSubjectMarkDown(
+        course: String,
+        courseSem: String,
+        subject: String
+    ): String =
+        try {
+            client.get {
+                url(BITAppApiRoute.SubjectMarkdown(course, courseSem, subject).route)
             }
         } catch (e: Exception) {
             throw e
