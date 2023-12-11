@@ -47,6 +47,7 @@ import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
 import com.atech.core.data_source.room.syllabus.SubjectType
 import com.atech.core.use_case.SyllabusUIModel
 import com.atech.course.CourseEvents
+import com.atech.course.CourseScreenRoute
 import com.atech.course.CourseViewModel
 import com.atech.course.components.SubjectItem
 import com.atech.course.components.SubjectTitle
@@ -55,8 +56,7 @@ import com.atech.theme.grid_1
 import com.atech.theme.grid_2
 
 @OptIn(
-    ExperimentalLayoutApi::class,
-    ExperimentalMaterial3Api::class
+    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class
 )
 @Composable
 fun SemChooseScreen(
@@ -80,38 +80,45 @@ fun SemChooseScreen(
         modifier = modifier,
         topBar = {
             ToolbarCompose(
-                courseModel, enable, navController,
-                onCheckedChange = {
+                courseModel, enable, navController, onCheckedChange = {
                     viewModel.onEvent(
                         CourseEvents.OnSwitchToggle
                     )
-                },
-                scrollState
+                }, scrollState
             )
         },
     ) {
         LazyColumn(
             modifier = Modifier
                 .consumeWindowInsets(it)
-                .nestedScroll(scrollState.nestedScrollConnection),
-            contentPadding = it
+                .nestedScroll(scrollState.nestedScrollConnection), contentPadding = it
         ) {
             singleElement(key = "Tab") {
-                TabBarSem(
-                    courseModel = courseModel,
+                TabBarSem(courseModel = courseModel,
                     selectedTabIndex = selectedTabIndex,
                     onClick = { tabIndex ->
                         selectedTabIndex = tabIndex
                         viewModel.onEvent(
                             CourseEvents.OnSemChange(tabIndex + 1)
                         )
-                    }
-                )
+                    })
             }
-            if (enable)
-                onlineDataSource(onlineData.first, onlineData.second, onlineData.third)
-            else
-                offlineDataSource(theoryData, labData, peData)
+            if (enable) onlineDataSource(
+                onlineData.first,
+                onlineData.second,
+                onlineData.third,
+                onClick = {
+                    navigateToViewSubjectScreen(navController)
+                }
+            )
+            else offlineDataSource(
+                theoryData,
+                labData,
+                peData,
+                onClick = {
+                    navigateToViewSubjectScreen(navController)
+                }
+            )
 
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
@@ -120,57 +127,54 @@ fun SemChooseScreen(
 
 @OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.onlineDataSource(
-
     theory: List<SyllabusUIModel>,
     lab: List<SyllabusUIModel>,
-    pe: List<SyllabusUIModel>
+    pe: List<SyllabusUIModel>,
+    onClick: (SyllabusUIModel) -> Unit = {}
 ) {
 
     if (theory.isNotEmpty()) {
         singleElement(
             key = SubjectType.THEORY.name + "Online"
-        )
-        { SubjectTitle("Theory") }
+        ) { SubjectTitle("Theory") }
         items(items = theory, key = { item -> item.subject + item.code }) { ele ->
             SubjectItem(
-                data = ele,
-                modifier = Modifier.animateItemPlacement(
+                data = ele, modifier = Modifier.animateItemPlacement(
                     animationSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
-                )
+                ),
+                onClick = onClick
             )
         }
     }
     if (lab.isNotEmpty()) {
         singleElement(
             key = SubjectType.LAB.name + "Online"
-        )
-        { SubjectTitle("Lab") }
+        ) { SubjectTitle("Lab") }
         items(items = lab, key = { item -> item.subject + item.code }) { ele ->
             SubjectItem(
-                data = ele,
-                modifier = Modifier.animateItemPlacement(
+                data = ele, modifier = Modifier.animateItemPlacement(
                     animationSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
-                )
+                ),
+                onClick = onClick
             )
         }
     }
     if (pe.isNotEmpty()) {
         singleElement(
             key = SubjectType.PE.name + "Online"
-        )
-        { SubjectTitle("Lab") }
+        ) { SubjectTitle("Lab") }
         items(items = pe, key = { item -> item.subject + item.code }) { ele ->
             SubjectItem(
-                data = ele,
-                modifier = Modifier.animateItemPlacement(
+                data = ele, modifier = Modifier.animateItemPlacement(
                     animationSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
-                )
+                ),
+                onClick = onClick
             )
         }
     }
@@ -182,71 +186,69 @@ fun LazyListScope.onlineDataSource(
 private fun LazyListScope.offlineDataSource(
     theoryData: LazyPagingItems<SyllabusUIModel>,
     labData: LazyPagingItems<SyllabusUIModel>,
-    peData: LazyPagingItems<SyllabusUIModel>
+    peData: LazyPagingItems<SyllabusUIModel>,
+    onClick: (SyllabusUIModel) -> Unit = {}
 ) {
     if (theoryData.itemCount > 0) {
         singleElement(
             key = SubjectType.THEORY.name
-        )
-        { SubjectTitle("Theory") }
-        items(
-            count = theoryData.itemCount,
+        ) { SubjectTitle("Theory") }
+        items(count = theoryData.itemCount,
             key = theoryData.itemKey { model -> model.openCode },
-            contentType = theoryData.itemContentType { "Theory" }
-        ) { index ->
+            contentType = theoryData.itemContentType { "Theory" }) { index ->
             theoryData[index]?.let { model ->
                 SubjectItem(
-                    data = model,
-                    modifier = Modifier.animateItemPlacement(
+                    data = model, modifier = Modifier.animateItemPlacement(
                         animationSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
-                    )
+                    ),
+                    onClick = onClick
                 )
             }
         }
     }
     if (labData.itemCount > 0) {
         singleElement(key = SubjectType.LAB.name) { SubjectTitle("Lab") }
-        items(
-            count = labData.itemCount,
+        items(count = labData.itemCount,
             key = labData.itemKey { link -> link.openCode },
-            contentType = labData.itemContentType { "Lab" }
-        )
-        { index ->
+            contentType = labData.itemContentType { "Lab" }) { index ->
             labData[index]?.let { model ->
                 SubjectItem(
-                    data = model,
-                    modifier = Modifier.animateItemPlacement(
+                    data = model, modifier = Modifier.animateItemPlacement(
                         animationSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
-                    )
+                    ),
+                    onClick = onClick
                 )
             }
         }
     }
     if (peData.itemCount > 0) {
         singleElement(key = SubjectType.PE.name) { SubjectTitle("PE") }
-        items(
-            count = peData.itemCount,
+        items(count = peData.itemCount,
             key = peData.itemKey { link -> link.openCode },
-            contentType = peData.itemContentType { "PE" }
-        )
-        { index ->
+            contentType = peData.itemContentType { "PE" }) { index ->
             peData[index]?.let { model ->
                 SubjectItem(
-                    data = model,
-                    modifier = Modifier.animateItemPlacement(
+                    data = model, modifier = Modifier.animateItemPlacement(
                         animationSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
-                    )
+                    ),
+                    onClick = onClick
                 )
             }
         }
     }
 
+}
+
+private fun navigateToViewSubjectScreen(
+    navController: NavController
+) {
+    navController.navigate(CourseScreenRoute.ViewSubjectScreen.route)
 }
 
 
@@ -259,31 +261,23 @@ private fun ToolbarCompose(
     onCheckedChange: (Boolean) -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior
 ) {
-    BackToolbar(
-        scrollBehavior = scrollBehavior,
+    BackToolbar(scrollBehavior = scrollBehavior,
         title = courseModel.name.replaceFirstChar { it.uppercase() },
         actions = {
-            Switch(
-                colors = SwitchDefaults.colors(
-                    checkedIconColor = MaterialTheme.colorScheme.primary
-                ),
-                checked = enable,
-                onCheckedChange = {
-                    onCheckedChange.invoke(it)
-                },
-                thumbContent = {
-                    Icon(
-                        imageVector = if (enable) Icons.Outlined.Wifi
-                        else Icons.Outlined.WifiOff,
-                        contentDescription = null
-                    )
-                }
-            )
+            Switch(colors = SwitchDefaults.colors(
+                checkedIconColor = MaterialTheme.colorScheme.primary
+            ), checked = enable, onCheckedChange = {
+                onCheckedChange.invoke(it)
+            }, thumbContent = {
+                Icon(
+                    imageVector = if (enable) Icons.Outlined.Wifi
+                    else Icons.Outlined.WifiOff, contentDescription = null
+                )
+            })
         },
         onNavigationClick = {
             navController.navigateUp()
-        }
-    )
+        })
 }
 
 @Composable
@@ -293,8 +287,7 @@ fun TabBarSem(
     selectedTabIndex: Int,
     onClick: (Int) -> Unit = {}
 ) {
-    val semList = (1..courseModel.sem).toList()
-        .map { "Semester $it" }
+    val semList = (1..courseModel.sem).toList().map { "Semester $it" }
     ScrollableTabRow(
         modifier = modifier
             .fillMaxWidth()
@@ -304,16 +297,11 @@ fun TabBarSem(
 
         ) {
         semList.forEachIndexed { index, s ->
-            Tab(
-                selected = index == selectedTabIndex,
-                onClick = {
-                    onClick.invoke(index)
-                }
-            ) {
+            Tab(selected = index == selectedTabIndex, onClick = {
+                onClick.invoke(index)
+            }) {
                 Text(
-                    text = s,
-                    maxLines = 2,
-                    modifier = Modifier.padding(grid_1)
+                    text = s, maxLines = 2, modifier = Modifier.padding(grid_1)
                 )
             }
         }
@@ -324,6 +312,5 @@ fun TabBarSem(
 @Preview(showBackground = true)
 @Composable
 fun SemChooseScreenPreview() {
-    BITAppTheme {
-    }
+    BITAppTheme {}
 }

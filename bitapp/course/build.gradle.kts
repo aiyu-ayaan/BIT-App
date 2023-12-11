@@ -87,4 +87,6 @@ dependencies {
     ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.androidx.navigation.compose)
+
+    implementation("com.github.mukeshsolanki:MarkdownView-Android:2.0.0")
 }

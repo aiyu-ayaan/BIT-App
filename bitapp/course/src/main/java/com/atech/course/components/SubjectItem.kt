@@ -29,7 +29,6 @@ import com.atech.theme.dividerOrCardColor
 import com.atech.theme.grid_0_5
 import com.atech.theme.grid_1
 import com.atech.theme.grid_2
-import com.atech.theme.grid_3
 
 
 @Composable
@@ -47,11 +46,12 @@ fun SubjectTitle(
 @Composable
 fun SubjectItem(
     modifier: Modifier = Modifier,
-    data: SyllabusUIModel
+    data: SyllabusUIModel,
+    onClick: (SyllabusUIModel) -> Unit = {}
 ) {
     Surface(
         modifier = modifier
-            .clickable { },
+            .clickable { onClick.invoke(data) },
     ) {
         OutlinedCard(
             modifier = modifier
