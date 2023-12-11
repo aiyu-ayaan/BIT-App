@@ -107,18 +107,14 @@ fun SemChooseScreen(
                 onlineData.first,
                 onlineData.second,
                 onlineData.third,
-                onClick = {
-                    navigateToViewSubjectScreen(navController)
-                }
-            )
-            else offlineDataSource(
-                theoryData,
-                labData,
-                peData,
-                onClick = {
-                    navigateToViewSubjectScreen(navController)
-                }
-            )
+                onClick = { model ->
+                    navigateToViewSubjectScreen(
+                        navController, viewModel, model
+                    )
+                })
+            else offlineDataSource(theoryData, labData, peData, onClick = { model ->
+                navigateToViewSubjectScreen(navController, viewModel, model, false)
+            })
 
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
@@ -143,8 +139,7 @@ fun LazyListScope.onlineDataSource(
                     animationSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
-                ),
-                onClick = onClick
+                ), onClick = onClick
             )
         }
     }
@@ -158,8 +153,7 @@ fun LazyListScope.onlineDataSource(
                     animationSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
-                ),
-                onClick = onClick
+                ), onClick = onClick
             )
         }
     }
@@ -173,8 +167,7 @@ fun LazyListScope.onlineDataSource(
                     animationSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
-                ),
-                onClick = onClick
+                ), onClick = onClick
             )
         }
     }
@@ -202,8 +195,7 @@ private fun LazyListScope.offlineDataSource(
                         animationSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
-                    ),
-                    onClick = onClick
+                    ), onClick = onClick
                 )
             }
         }
@@ -219,8 +211,7 @@ private fun LazyListScope.offlineDataSource(
                         animationSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
-                    ),
-                    onClick = onClick
+                    ), onClick = onClick
                 )
             }
         }
@@ -236,8 +227,7 @@ private fun LazyListScope.offlineDataSource(
                         animationSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
-                    ),
-                    onClick = onClick
+                    ), onClick = onClick
                 )
             }
         }
@@ -246,9 +236,19 @@ private fun LazyListScope.offlineDataSource(
 }
 
 private fun navigateToViewSubjectScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: CourseViewModel,
+    model: SyllabusUIModel,
+    isOnline: Boolean = true
 ) {
-    navController.navigate(CourseScreenRoute.ViewSubjectScreen.route)
+
+    navController.navigate(
+        CourseScreenRoute.ViewSubjectScreen.route
+                + "?course=${viewModel.currentClickItem.value.name}"
+                + "&courseSem=${viewModel.currentClickItem.value.name + viewModel.currentSem.value}"
+                + "&subject=${model.subject}"
+                + "&isOnline=$isOnline"
+    )
 }
 
 

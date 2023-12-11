@@ -8,6 +8,6 @@ sealed class BITAppApiRoute(val route: String) {
         BITAppApiRoute("${BASE_URL}/syllabus/$course/$courseSem/subjects/$subject.md")
 
     companion object {
-        const val BASE_URL = "https://bit-lalpur-app.github.io/BIT-App-Data/data/"
+        const val BASE_URL = "https://bit-lalpur-app.github.io/BIT-App-Data/data"
     }
 }

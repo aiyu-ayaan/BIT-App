@@ -2,6 +2,8 @@ package com.atech.course
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.atech.course.screen.course.CourseScreen
 import com.atech.course.screen.sem_choose.SemChooseScreen
@@ -44,11 +46,26 @@ fun NavGraphBuilder.courseNavigation(
             )
         }
         animatedCompose(
-            route = CourseScreenRoute.ViewSubjectScreen.route
-        ){
-            val viewModel = it.sharedViewModel<CourseViewModel>(navController = navController)
+            route = CourseScreenRoute.ViewSubjectScreen.route +
+                    "?course={course}&courseSem={courseSem}" +
+                    "&subject={subject}&isOnline={isOnline}",
+            arguments = listOf(
+                navArgument("course") {
+                    type = NavType.StringType
+                },
+                navArgument("courseSem") {
+                    type = NavType.StringType
+                },
+                navArgument("subject") {
+                    type = NavType.StringType
+                },
+                navArgument("isOnline") {
+                    type = NavType.BoolType
+                    defaultValue = true
+                }
+            )
+        ) {
             ViewSubjectScreen(
-                viewModel = viewModel,
                 navController = navController
             )
         }

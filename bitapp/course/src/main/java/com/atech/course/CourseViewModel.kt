@@ -23,7 +23,6 @@ import com.atech.course.utils.SyllabusEnableModel
 import com.atech.course.utils.compareToCourseSem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -174,17 +173,5 @@ class CourseViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
 
-    }
-
-    fun getSubjectMarkdown(
-        course: String,
-        courseSem: String,
-        subject: String
-    ) = viewModelScope.async {
-        kTorUseCase.fetchSubjectMarkDown(
-            course = course,
-            courseSem = courseSem,
-            subject = subject
-        )
     }
 }
