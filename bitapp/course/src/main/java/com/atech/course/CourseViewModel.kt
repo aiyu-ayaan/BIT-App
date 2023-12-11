@@ -73,12 +73,6 @@ class CourseViewModel @Inject constructor(
     val onlineSyllabus: State<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>> get() = _onlineSyllabus
 
 
-    private val _isOnline = mutableStateOf(
-        syllabusEnableModel.compareToCourseSem(
-            _currentClickItem.value.name + _currentSem.intValue
-        )
-    )
-
     private val _isSelected = mutableStateOf(
         syllabusEnableModel.compareToCourseSem(
             _currentClickItem.value.name + _currentSem.intValue
@@ -103,6 +97,10 @@ class CourseViewModel @Inject constructor(
         when (events) {
             is CourseEvents.NavigateToSemChoose -> {
                 _currentClickItem.value = events.model
+                _isSelected.value =
+                    syllabusEnableModel.compareToCourseSem(
+                        _currentClickItem.value.name + _currentSem.intValue
+                    )
                 getAllSubjects()
                 getOnlineSubjects()
             }
@@ -117,6 +115,15 @@ class CourseViewModel @Inject constructor(
                     getAllSubjects()
                 else
                     getOnlineSubjects()
+            }
+
+            CourseEvents.OnSwitchToggle -> {
+                _isSelected.value = !_isSelected.value
+                if (!isSelected.value)
+                    getAllSubjects()
+                else
+                    getOnlineSubjects()
+
             }
         }
     }

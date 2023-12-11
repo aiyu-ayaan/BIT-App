@@ -56,7 +56,7 @@ import com.atech.theme.grid_2
 
 @OptIn(
     ExperimentalLayoutApi::class,
-    ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun SemChooseScreen(
@@ -65,7 +65,7 @@ fun SemChooseScreen(
     navController: NavController = rememberNavController()
 ) {
     val scrollState = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    var enable = viewModel.isSelected.value
+    val enable = viewModel.isSelected.value
     val courseModel by viewModel.currentClickItem
     var selectedTabIndex by rememberSaveable {
         mutableIntStateOf(viewModel.currentSem.value - 1)
@@ -82,7 +82,9 @@ fun SemChooseScreen(
             ToolbarCompose(
                 courseModel, enable, navController,
                 onCheckedChange = {
-                    enable = it
+                    viewModel.onEvent(
+                        CourseEvents.OnSwitchToggle
+                    )
                 },
                 scrollState
             )
@@ -106,11 +108,11 @@ fun SemChooseScreen(
                     }
                 )
             }
-            if (enable) {
+            if (enable)
                 onlineDataSource(onlineData.first, onlineData.second, onlineData.third)
-            } else {
+            else
                 offlineDataSource(theoryData, labData, peData)
-            }
+
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }

@@ -15,11 +15,8 @@ class MainViewModel @Inject constructor(
     private val conf: RemoteConfigHelper,
     private val pref: SharedPreferences,
 ) : ViewModel() {
-    init {
-        fetchRemoteConfigDetails()
-    }
 
-    private fun fetchRemoteConfigDetails() {
+    fun fetchRemoteConfigDetails() {
         conf.fetchData(
             failure = {
                 Log.e(TAGS.BIT_REMOTE.name, "fetchRemoteConfigDetails: ${it.message}")
