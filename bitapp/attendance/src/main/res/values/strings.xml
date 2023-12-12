@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="menu">Menu</string>
+    <string name="add_from_Syllabus">Add From Syllabus</string>
+    <string name="archive">Archive</string>
+    <string name="sort">Sort</string>
+    <string name="settings">Settings</string>
+    <string name="select">Select</string>
+    <string name="status">Status : Not Started</string>
+    <string name="on_track">Status: On track don\'t miss next class</string>
+    <string name="leave_class">You can leave %s class</string>
+    <string name="error">Error</string>
+    <string name="attend_class">Status: Attend Next %s Class</string>
+</resources>

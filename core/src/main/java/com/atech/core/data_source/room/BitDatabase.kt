@@ -16,12 +16,13 @@ import androidx.room.TypeConverters
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.data_source.room.library.LibraryModel
 import com.atech.core.data_source.room.attendance.AttendanceDao
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.data_source.room.attendance.DaysTypeConvector
 import com.atech.core.data_source.room.attendance.IsPresentTypeConvector
 import com.atech.core.data_source.room.attendance.StackTypeConvector
+import com.atech.core.data_source.room.attendance.attendanceList
+import com.atech.core.data_source.room.library.LibraryModel
 import com.atech.core.data_source.room.syllabus.SyllabusDao
 import com.atech.core.data_source.room.syllabus.SyllabusList
 import com.atech.core.data_source.room.syllabus.SyllabusModel
@@ -178,10 +179,14 @@ abstract class BitDatabase : RoomDatabase() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
             val dao = database.get().syllabusDao()
+            val attendaceDao = database.get().attendanceDao()
             appScope.launch {
                 val syllabus = SyllabusList.syllabus
                 dao.insertAll(syllabus)
                 dao.updateIsChecked()
+                attendanceList.forEach {
+                    attendaceDao.insert(it)
+                }
             }
         }
     }

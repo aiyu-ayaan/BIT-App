@@ -24,3 +24,11 @@ data class Sort(
 ) : Parcelable
 
 
+val attendanceList = listOf(
+    AttendanceModel("Loc"),
+    AttendanceModel("English", present = 12, total = 12),
+    AttendanceModel("Maths", present = 34, total = 57),
+    AttendanceModel("Science", present = 45, total = 56, teacher = "ABC"),
+    AttendanceModel("Social", present = 56, total = 67, teacher = "XYZ"),
+)
+

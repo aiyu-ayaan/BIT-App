@@ -16,8 +16,8 @@ val ColorSurfaceLight = Color(0xFFEEFCFD)
 val ColorSurfaceDark = Color(0xFF0A1517)
 
 
-val SwipeRed = Color(0xFFEE675C)
-val SwipeGreen = Color(0xFF59B972)
+val SwipeRed = Color(0xFFBC544B)
+val SwipeGreen = Color(0xFF4EAF4F)
 
 val secondaryContainerLight = Color(0xFFB2DFDB)
 val secondaryContainerDark = Color(0xFF0D4C45)

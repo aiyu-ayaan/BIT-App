@@ -23,7 +23,6 @@ sealed class MainScreenRoutes(val route: String) {
 
 val listOfFragmentsWithBottomAppBar = listOf(
     HomeScreenRoutes.HomeScreen.route,
-    AttendanceScreenRoutes.AttendanceScreen.route,
     CourseScreenRoute.CourseScreen.route
 )
 
@@ -34,7 +33,7 @@ fun HomeNavigation(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = MainScreenRoutes.Course.route
+        startDestination = MainScreenRoutes.Attendance.route
     ) {
         homeNavigation(
             navHostController,

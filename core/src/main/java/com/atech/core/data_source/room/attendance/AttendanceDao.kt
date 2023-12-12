@@ -10,7 +10,7 @@
 
 package com.atech.core.data_source.room.attendance
 
-import android.util.Log
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -18,7 +18,6 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 @Dao
 interface AttendanceDao {
@@ -35,33 +34,35 @@ interface AttendanceDao {
     suspend fun delete(attendance: AttendanceModel)
 
 
-    fun getAttendanceSorted(sort: Sort = Sort()): Flow<List<AttendanceModel>> {
-        val sortBy = when (sort.sortBy) {
-            SortBy.PERCENTAGE -> getNonArchiveAttendanceOrderByPercentage()
-            else -> getNonArchiveAttendance().map { attendanceList->
-                when(sort.sortBy) {
-                    SortBy.SUBJECT -> attendanceList.sortedBy { it.subject }
-                    SortBy.CREATED -> attendanceList.sortedBy { it.created }
-                    SortBy.TOTAL -> attendanceList.sortedBy { it.total }
-                    SortBy.PRESENT -> attendanceList.sortedBy { it.present }
-                    else -> attendanceList
-                }
-            }
-        }
-        val sortOrder = when (sort.sortOrder) {
-            SortOrder.DESC -> sortBy.map { it.reversed() }
-            else -> sortBy
-        }
-        return sortOrder
-    }
+    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY created ||:sortOrder")
+    fun getAttendanceCreated(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
 
+    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY subject_name ||:sortOrder")
+    fun getAttendanceSubject(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
+
+    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY total ||:sortOrder")
+    fun getAttendanceTotal(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
+
+    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY present ||:sortOrder")
+    fun getAttendancePresent(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
+
+    @Query("SELECT *,  (CAST(present AS REAL) / total) * 100 AS percentage FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY percentage ||:sortOrder")
+    fun getNonArchiveAttendanceOrderByPercentage(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
+
+
+    fun getAttendanceSorted(sort: Sort = Sort()): PagingSource<Int, AttendanceModel> =
+        when (sort.sortBy) {
+            SortBy.SUBJECT -> getAttendanceSubject(sort.sortOrder)
+            SortBy.CREATED -> getAttendanceCreated(sort.sortOrder)
+            SortBy.TOTAL -> getAttendanceTotal(sort.sortOrder)
+            SortBy.PRESENT -> getAttendancePresent(sort.sortOrder)
+            SortBy.PERCENTAGE -> getNonArchiveAttendanceOrderByPercentage(sort.sortOrder)
+        }
 
 
     @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0")
     fun getNonArchiveAttendance(): Flow<List<AttendanceModel>>
 
-    @Query("SELECT *,  (CAST(present AS REAL) / total) * 100 AS percentage FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY percentage ASC")
-    fun getNonArchiveAttendanceOrderByPercentage(): Flow<List<AttendanceModel>>
 
     @Query("SELECT * FROM attendance_table ORDER BY id ASC")
     fun getAllAttendance(): Flow<List<AttendanceModel>>
@@ -95,4 +96,6 @@ interface AttendanceDao {
 
     @Query("DELETE FROM attendance_table WHERE isArchive = 1")
     suspend fun deleteAllArchiveAttendance()
+
+
 }

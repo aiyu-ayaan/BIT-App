@@ -78,5 +78,8 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.fragment)
     implementation(libs.androidx.navigation.compose)
 
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
+
 
 }

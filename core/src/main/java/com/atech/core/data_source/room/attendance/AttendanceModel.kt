@@ -12,13 +12,19 @@ package com.atech.core.data_source.room.attendance
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import androidx.room.*
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.Index
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
 import java.io.Serializable
-import java.util.*
+import java.util.ArrayDeque
+import java.util.Deque
 
 @Keep
 @Entity(
@@ -27,28 +33,28 @@ import java.util.*
 )
 @Parcelize
 data class AttendanceModel(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
     @ColumnInfo(name = "subject_name")
     val subject: String,
-    val total: Int,
-    val present: Int,
-    val teacher: String?,
+    val total: Int = 0,
+    val present: Int = 0,
+    val teacher: String? = null,
     val fromSyllabus: Boolean? = false,
-    val isArchive : Boolean? = false,
+    val isArchive: Boolean? = false,
     val fromOnlineSyllabus: Boolean? = false,
     @Embedded
-    val days: Days,
+    val days: Days = Days(),
     val stack: @RawValue Deque<AttendanceSave> = ArrayDeque(),
-    val created: Long? = System.currentTimeMillis()
+    val created: Long? = System.currentTimeMillis(),
+    @PrimaryKey(autoGenerate = true)
+    var id: Int = 0,
 ) : Parcelable, Serializable
 
 @Keep
 @Parcelize
 data class Days(
-    val presetDays: ArrayList<Long>,
-    val absentDays: ArrayList<Long>,
-    val totalDays: ArrayList<IsPresent>
+    val presetDays: ArrayList<Long> = ArrayList(),
+    val absentDays: ArrayList<Long> = ArrayList(),
+    val totalDays: ArrayList<IsPresent> = ArrayList(),
 ) : Parcelable, Serializable
 
 @Keep

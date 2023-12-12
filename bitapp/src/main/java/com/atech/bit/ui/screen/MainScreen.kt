@@ -22,13 +22,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CoPresent
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Dashboard
-import androidx.compose.material.icons.outlined.DashboardCustomize
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.rounded.CoPresent
 import androidx.compose.material.icons.rounded.CollectionsBookmark
 import androidx.compose.material.icons.rounded.Dashboard
-import androidx.compose.material.icons.rounded.DashboardCustomize
-import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerState
@@ -323,7 +319,7 @@ fun RowScope.AddItem(
     navController: NavHostController
 ) {
     var selectedItem by rememberSaveable {
-        mutableIntStateOf(1)
+        mutableIntStateOf(2)
     }
     val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
     NavigationBarItem(

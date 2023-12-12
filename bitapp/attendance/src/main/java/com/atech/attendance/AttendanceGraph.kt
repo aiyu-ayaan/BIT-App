@@ -3,7 +3,7 @@ package com.atech.attendance
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
-import com.atech.attendance.screen.attendance.AttendanceScreen
+import com.atech.attendance.screen.attendance.compose.AttendanceScreen
 import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
 
