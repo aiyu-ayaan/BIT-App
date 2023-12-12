@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Data Structures"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,33 +43,33 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:text="Module – I Algorithms and Analysis of Algorithms:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text=" Definition, Structure and Properties of Algorithms, Development of an Algorithm, Data Structures and Algorithms, Data Structure – Definition and Classification, Efficiency of Algorithms, Asymptotic Notations, Polynomial Vs Exponential Algorithms, Average, Best and Worst case Complexities, Open source software development process."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -77,31 +77,31 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – II Arrays, Stacks and Queues:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
                 android:paddingLeft="4.0dip"
                 android:text="Arrays, Stacks and Queues: Array Operations, Number of Elements in an Array, Representation of Arrays in Memory, Applications of Array, Stack Introduction, Stack Operations, Applications of Stack, Queues-Introduction, Operations on Queues, Circular Queues, Other Types of Queues, Applications of Queues."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -109,30 +109,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – III Linked List, Linked Stacks and Linked Queues:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Singly Linked Lists, Circularly Linked Lists, Doubly Linked Lists, Applications of Linked Lists, Introduction to Linked Stack and Linked Queues, Operations on Linked Stacks and Linked Queues, Implementations of Linked Representations, Applications of Linked Stacks and Linked Queues."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -140,30 +140,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – IV Trees, Binary Trees, BST, AVL Trees and B Trees:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text=" Trees: Definition and Basic Terminologies, Representation of Trees, Binary Trees: Basic Terminologies and Types, Representation of Binary Trees, Binary Tree Traversals, Threaded Binary Trees, Applications. Introduction, BST: Definition and Operations, AVL Trees: AVL Definition and Operations, B Trees: Introduction, m-way search trees: Definition and Operations."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -171,30 +171,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – V Sorting and searching:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Introduction, Radix sort, Shell Sort, Quick Sort, Heap Sort. Searching: Introduction, Binary Search, Transpose Sequential Search, Interpolation Search."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -202,43 +202,43 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Text Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
                 android:text="1. BalujaG S, “Data Structure through C”, Ganpat Rai Publication, New Delhi, 2015. \n\n 2. PaiG A V, “Data Structures and Algorithms: Concepts, Techniques and Applications”, 2nd Edn, Tata McGraw-Hill, 2008. \n\n 3. Horowitz E., Sahni S., Susan A., “Fundamentals of Data Structures in C”, 2nd Edition, University"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Reference Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="1. TremblayJ. P., SorensonP. G, “An Introduction to Data Structures with Applications”, 2nd Edn, McGraw-Hill, Inc. New York, NY, USA. \n\n 2. Lipschutz Seymour, “Data Structures”, 6th Edn, 9th Reprint 2008, Tata McGraw-Hill. \n\n 3. Drozdek Adam, “Data Structures and Algorithms in C++”, Thomson Learning, New Delhi – 2007. \n\n 4. FellerJ., FitzgeraldB., “Understanding Open Source Software Development”, Pearson Education Ltd. New Delhi"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

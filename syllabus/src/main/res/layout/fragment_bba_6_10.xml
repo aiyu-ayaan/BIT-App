@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,7 +25,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Performance &amp; Compensation Management"
             android:textColor="@color/textColorSubTitle"
@@ -35,7 +35,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,32 +43,32 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – I"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="Performance Management: Introduction to the concept of Performance Management, Objectives of Performance Management, Prerequisites of Performance Management. Dimensions of Performance Management, Factors affecting Performance Management, Importance of Performance Management, Performance Management System, Characteristics of Performance Management System, Goal Setting Theory &amp; Expectancy Theory."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -76,31 +76,31 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – II"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
                 android:paddingLeft="4.0dip"
                 android:text="Performance Management Process Introduction to Performance Management process, Prerequisites of Performance Management Process, Performance Planning Process, Goal Setting LevelsIndividual &amp;Corporate level, Needs for Performance Standards, Performance Measurement /Assessment process."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -108,30 +108,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – III"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Performance Appraisal: Introduction to the concept of Performance Appraisal, Objective of Performance Appraisal ,Performance Appraisal Process, Traditional methods of Performance Appraisal, Modern methods of Performance Appraisal, Importance of Performance Appraisal, Need for Employee Development , Methods of Employee Development"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -139,30 +139,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – IV"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Compensation Management: Introduction to Compensation &amp; Compensation management, Objectives of Compensation management, Principles of Compensation management, Importance of good compensation system, Factors influencing compensation levels.Job Evaluation: Meaning of Job Evaluation, Features of Job Evaluation, Importance of Job Evaluation and Methods of JobEvaluation"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -170,30 +170,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – V"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Compensation Structure: Introduction to Wage &amp; Salary, Difference between Wage &amp; Salary, Time &amp; Piece Wage conceptComponents of pay: Basic pay, Dearness allowance, Incentive plans: Features, Individual&amp; Group incentive plans &amp; fringe benefitsExecutive Compensation: Meaning, Components of Pay system, New trends in compensation management."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -201,43 +201,43 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Text Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
                 android:text="1. KohilA. S., &amp; Deb T (2008), Performance Management, New Delhi: OXFORD University Press (latestedition). \n\n2. Bhattacharya, D. K., Compensation Management, Second Edition, Oxford University Press"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Reference Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="1. Michael Armstrong and Angela Baron (2009), Performance Management, Mumbai: Jaico  PublishingHouse \n\n2. Rao, T. V (2007), Performance Management and Appraisal Systems, New Delhi: Response books \n\n3. Management: A handbook of salary administration, Kogan Page,London."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

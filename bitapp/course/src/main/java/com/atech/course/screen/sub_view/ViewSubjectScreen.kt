@@ -1,5 +1,6 @@
 package com.atech.course.screen.sub_view
 
+import android.view.View
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -19,11 +20,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.components.BackToolbar
+import com.atech.syllabus.getFragment
 import com.atech.theme.BITAppTheme
 import com.atech.utils.hexToRgb
 import com.mukesh.MarkDown
@@ -40,9 +44,11 @@ fun ViewSubjectScreen(
     val toolbarScroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val scrollState = rememberScrollState()
     val data = viewModel.onlineMdContent.value
+    val isOnline = viewModel.isOnline
     var isComposeViewVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    val courseSem = viewModel.courseSem
     LaunchedEffect(key1 = true) {
         delay(500)
         isComposeViewVisible = true
@@ -52,47 +58,60 @@ fun ViewSubjectScreen(
         navController.navigateUp()
     }
 
-    Scaffold(
-        topBar = {
+    BITAppTheme(
+        dynamicColor = isOnline
+    ) {
+        Scaffold(topBar = {
             BackToolbar(
-                title = "",
-                onNavigationClick = {
+                title = "", onNavigationClick = {
                     isComposeViewVisible = false
                     navController.navigateUp()
-                },
-                scrollBehavior = toolbarScroll
+                }, scrollBehavior = toolbarScroll
             )
-        }
-    ) {
-        Column(
-            modifier = modifier
-                .nestedScroll(toolbarScroll.nestedScrollConnection)
-                .verticalScroll(scrollState)
-                .padding(it)
-                .background(
-                    MaterialTheme.colorScheme.surface
-                )
-        ) {
-            if (isComposeViewVisible)
-                LoadMarkDown(
-                    data = data
-                )
+        }) {
+            Column(
+                modifier = modifier
+                    .nestedScroll(toolbarScroll.nestedScrollConnection)
+                    .verticalScroll(scrollState)
+                    .padding(it)
+                    .background(
+                        MaterialTheme.colorScheme.surface
+                    )
+            ) {
+                if (isOnline) {
+                    if (isComposeViewVisible) LoadMarkDown(
+                        data = data
+                    )
+                } else LoadSyllabusFromXml(res = courseSem)
+            }
         }
     }
+}
+
+@Composable
+fun LoadSyllabusFromXml(res: String) {
+    AndroidView(
+        factory = {
+            View.inflate(
+                it,
+                getFragment(res),
+                null
+            )
+        },
+        modifier = Modifier.fillMaxSize()
+    )
 }
 
 
 @Composable
 fun LoadMarkDown(
-    modifier: Modifier = Modifier,
-    data: String = ""
+    modifier: Modifier = Modifier, data: String = ""
 ) {
     val d = data + "<br> <br><style> body{background-color: ${
         MaterialTheme.colorScheme.surface.hexToRgb()
     } ; color:${MaterialTheme.colorScheme.onSurface.hexToRgb()};}</style>"
     MarkDown(
-        text = d,
-        modifier = modifier.fillMaxSize()
+        text = d, modifier = modifier.fillMaxSize()
     )
 }
 

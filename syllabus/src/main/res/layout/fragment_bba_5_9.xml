@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Services Marketing"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,32 +43,32 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – I"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="Introduction: Definition, Introduction to services marketing, differences between services and goods, characteristics of services, classification of services"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -76,31 +76,31 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – II"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
                 android:paddingLeft="4.0dip"
                 android:text="Services Marketing Management: Concept of internal customer and internal marketing, Understanding customer requirements, Service Standards - Meaning and importance"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -108,30 +108,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – III"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Introduction to Services Marketing Mix: Elements of Services Marketing Mix – The 7P’s, their concept and importance,Positioning in services marketing, role and importance of positioning"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -139,30 +139,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – IV"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Service Quality: Definition of Quality and its Significance- Measuring Service Quality, the Service Quality Gap"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -170,30 +170,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – V"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Services Marketing in Banking, Insurance, Hospitality and Healthcare ,Major Characteristics, Market Segmentation and Marketing Mix"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -201,43 +201,43 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Text Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
                 android:text="1.  Valarie A,Bitner, Mary JO, Gremier, Dwayne D &amp;Panit, Ajay (2008), Services Marketing –Integrating Customer Focus Across the Firm; Tata McGraw Hill, 4thEdition \n\n2. Rao, K Rama Mohana, Services Marketing; Pearson, 2ndEdition"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Reference Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="1. Shankar, R.; Brittain, P (2002), Services Marketing – The Indian Perspective(Texts and Readings), Excel Books, 1stEdition \n\n2. Gronoos, Christian (2007), Service Management &amp; Marketing – CustomerManagement in Service Competition; Wiley, 4thEdition \n\n3. Clow, Kenneth E. &amp; Kurtz (2009), Service Marketing – Operation, Management, &amp; Strategy; Biztantra, 2ndEdition"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

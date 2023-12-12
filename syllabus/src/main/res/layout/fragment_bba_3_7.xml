@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -26,17 +26,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text=" Data Analysis for Decision Making"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -44,32 +44,32 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – I Qualitative Data Analysis"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text=" An elaborate introduction Introduction to Research, Types, Qualitative and Quantitative Data, Purpose of research, advantages, limitations of qualitative research, Applications of qualitative data."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -77,31 +77,31 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Module – II  Qualitative Research Fundamentals"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
                 android:paddingLeft="4.0dip"
                 android:text="A detailed and in-depth introduction to the general approaches to design research and understanding how the approaches vary for qualitative, quantitative and mixed research studies."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -109,30 +109,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – III Documentation and Types of Analysis "
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text=" Content analysis, narrative analysis, conversation analysis, discourse analysis, visual interpretation with special emphasis upon the analysis aspects and its implications for decision making."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -140,30 +140,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – IV  Theorizing from data, incorporating data from multiple sources"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="Concept of Theory and Theorising, The role and importance of theory, The different research paradigms and their nature, Inductive and Deductive Logic and their applications. "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -171,30 +171,30 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Module – V Writing up, summarizing, data display&amp; introduction to qualitative research softwares "
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="The format and structure of qualitative research articles, the various graphical and other techniques for communicating findings after qualitative data analysis, an overview of software programs concerning qualitative research "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -202,22 +202,22 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Text Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
                 android:text="1. Carol Grbich. (2007), Qualitative data analysis- An Introduction, , SAGEPublications \n\n 2. Uwe Flick.(2009), An Introduction to Qualitative Research, , SAGE PublicationsLtd. \n\n 3. David Silverman.(2009),Doing Qualitative Research, , SAGE PublicationsLtd. \n\n 4. David.,Silverman.(2005),Doing qualitative research- A Practical Handbook, SAGE Publications"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

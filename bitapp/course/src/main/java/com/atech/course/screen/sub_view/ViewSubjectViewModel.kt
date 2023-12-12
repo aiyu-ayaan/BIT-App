@@ -2,6 +2,7 @@ package com.atech.course.screen.sub_view
 
 import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -18,18 +19,20 @@ class ViewSubjectViewModel @Inject constructor(
     state: SavedStateHandle
 ) : ViewModel() {
     private val course = state.get<String>("course") ?: ""
-    private val courseSem = state.get<String>("courseSem") ?: ""
+    val courseSem = state.get<String>("courseSem") ?: ""
     private val subject = state.get<String>("subject") ?: ""
-    private val isOnline = state.get<Boolean>("isOnline") ?: true
+    val isOnline = state.get<Boolean>("isOnline") ?: true
 
     private val _onlineMdContent = mutableStateOf("")
     val onlineMdContent: State<String> get() = _onlineMdContent
 
+
+
     init {
-        if (isOnline) {
+        if (isOnline)
             getSubjectMarkdown(course, courseSem, subject)
-        }
     }
+
 
     private fun getSubjectMarkdown(
         course: String,

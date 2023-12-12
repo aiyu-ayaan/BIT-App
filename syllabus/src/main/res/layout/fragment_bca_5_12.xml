@@ -8,7 +8,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -21,17 +21,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Graphic Design Lab"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -39,35 +39,35 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="Syllabus :-"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                android:textSize="25.0dip"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="1.Interface Graphic Design and Photo Editing Packages and workspace, Document setup width height &#38; resolution.
                 \n\n2.What are the kinds of Tools in the toolbox? (Tool Palette and Interface - The Tool Palette - Painting and Editing Custom Brushes)
 \n\n3.Using selection tools, transform, marquee, crop, lesso, magic wand, eraser etc.( Basic Photo Corrections - Rotating, Scaling, and Distorting with Transformations Feathering and Info Palette - Understand Resolution - Touch up Tools)
 \n\n4.What are foreground and background colors?\n\n5. How do you change the size of a picture?"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -75,22 +75,22 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Text Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                android:textSize="25.0dip"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
                 android:text="GIMP Pocket Reference: Image Creation and Manipulation, by Sven Neumann, O'Reilly Publisher. 2000."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
 
         </LinearLayout>
     </LinearLayout>

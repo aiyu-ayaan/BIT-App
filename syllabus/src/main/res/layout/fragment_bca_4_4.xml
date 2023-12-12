@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Web Programming Lab"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,22 +43,22 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:text="SYLLABUS"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                android:textSize="25.0dip"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="1. India is a large country. Different regions observe variations in climate. The spoken language of one state
 is quite different from that of another. They wear different types of garments. They celebrate different
 festivals and perform varied religious rites. People belonging to diverse cultures belong to different
@@ -75,7 +75,7 @@ g) There should be one meaningful picture in the web page with specific dimensio
 2. Create a webpage having a list as shown below:"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -88,7 +88,7 @@ g) There should be one meaningful picture in the web page with specific dimensio
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="3. Create a webpage with the following: \n\n
 a) A superscript and subscript tag\n
 b) Pre tag\n
@@ -116,7 +116,7 @@ individual marks input shall be taken by textbox in the webpage.\n\n
 "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -130,14 +130,14 @@ individual marks input shall be taken by textbox in the webpage.\n\n
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="Contents of 1st, 3rd, 5th, 7th frame should be same again 2nd, 4th, 6th and 8th should be same.\n\n\
 10. Create a webpage to take input of a string and check whether it is a palindrome or not.\n\n
 11. Write a program using JavaScript to display a structure as given below:\n
 "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -150,7 +150,7 @@ individual marks input shall be taken by textbox in the webpage.\n\n
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="12. Write a program using JavaScript to take input of an array of numbers like [-4, 5, 6, -1, 10] and then
 sort it in descending order.\n\n
 13. Create a webpage to take input of a string and reverse that without using any user defined function.\n\n
@@ -171,14 +171,14 @@ marks input shall be taken by textbox in the webpage.\n\n
 22. Create a webpage to take input of a string and check whether it is a palindrome or not \n\n"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -186,43 +186,43 @@ marks input shall be taken by textbox in the webpage.\n\n
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Text Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                android:textSize="25.0dip"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
                 android:text="1. C. Xavier, Web Technology &#38; Design, New Age International Publishers, 1st Edn, New Delhi, 2004."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20.0dip"
+                android:layout_marginTop="30dp"
                 android:text="Reference Books:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                android:textSize="25.0dip"
+                android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
-                android:layout_marginBottom="10.0dip"
-                android:padding="5.0dip"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:padding="5dp"
                 android:text="1. Ivan Bay Ross, Web Enable Commercial Application Using HTML, DHTML, BPB Publication"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
         </LinearLayout>
 
     </LinearLayout>

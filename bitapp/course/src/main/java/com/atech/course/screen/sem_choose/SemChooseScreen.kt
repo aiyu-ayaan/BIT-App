@@ -245,7 +245,7 @@ private fun navigateToViewSubjectScreen(
     navController.navigate(
         CourseScreenRoute.ViewSubjectScreen.route
                 + "?course=${viewModel.currentClickItem.value.name}"
-                + "&courseSem=${viewModel.currentClickItem.value.name + viewModel.currentSem.value}"
+                + "&courseSem=${if (isOnline) viewModel.currentClickItem.value.name + viewModel.currentSem.value else model.openCode}"
                 + "&subject=${model.subject}"
                 + "&isOnline=$isOnline"
     )

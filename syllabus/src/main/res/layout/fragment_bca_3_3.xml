@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="OOP in Java Lab"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,27 +43,26 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:text="SYLLABUS"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="1. WAP to show the characteristic of a number. {E.g. 24 it has two coefficients 2 in tens position and 4 in units position. It is composed of 2 and 3. It is a positive number. Also show whether it is odd or even.  \n\n2. WAJP to take input through command line argument and do the following: \n\na) Check whether the number is prime. \n\nb) Generate the reverse a number.  \n\n3. Write a menu driven program using switch in Java to perform following: \n\na) For input of 1, check whether the number is prime \n\nb) For input of 3, find the factors of the number \n\nc) For input of 5, check the number is odd or even.  \n\n4. Write a program in Java to generate hexadecimal equivalent of a number without using array.  \n\n5. WAJP to take two number inputs through command line argument and do the following: \n\na) Check whether two numbers are prime to each other or not. \n\nb) Find LCM of two numbers.  \n\n6. WAJP to create a class and exhibit the role of static functions (other than main) by declaring, defining and calling them.  \n\n7. WAJP to compute and display the count of occurrence of 4 in a number. E.g. 4564 will compute 2.  \n\n8. WAJP to take an angle value in degrees and then compute the equivalent radians and then prove sin² ☐ ☐ cos² ☐ ☐1. Note180ᵒ ☐ ☐ᶜ.  \n\n9. WAJP to sort a list of numbers in ascending order.  \n\n10. WAJP to generate Pascal’s Triangle using a square matrix.  \n\n11. Write a program in Java to take input of two 3×3 matrices through command line argument and then: \n\na) Add them up and display the result \n\nb) Subtract them and display the result \n\nc) Multiply them and display product  \n\n12. WAJP to count the number of words, characters in a sentence.  \n\n13. Write a program in Java to take input of a sentence through command line argument and then count the number of words and vowels.  \n\n14. WAJP to handle the Exception using try and multiple catch block; the exceptions that you will handle are, number format error, array bound error and divide by zero.  \n\n15. WAJP to create a class called Room with two data member length and width and then implement constructor overloading in it.  \n\n16. Write a program in Java to explain the role of the following: \n\na) Non-parameterized constructor \n\nb) Parameterized constructor \n\nc) Copy constructor Page 68 of 243 Take input and display the output.  \n\n16. WAJP to create a class called Fraction with data member numerator and denominator; take input (through command line argument) of two fractions and then add, subtract, multiply and divide, finally display the result in reduced term.  \n\n17. Write a program in Java to create a class for Employee having 2 data member code and name. Then create 3 classes Officer, AdminStaff and MStaff. The Officer class has data members designation and pay-scale; the AdminStaff has data members grade and pay-band; the MStaff has data member department and two sub-classes Regular and Casual. The Regular staff has data members level and consolidated-pay and Casual has data member daily-wage. Take all inputs through constructors and write appropriate methods for displaying one data for each type of class.  \n\n18. WAJP to design a class called Account using the inheritance and static that show all function of bank (withdrawal, deposit) and generate account number dynamically.  \n\n19. WAJP to design an application Password.java that produces and prints a random password depending upon name of an individual. If the input is Abdul Kalam then the password would be 33421LAM. Note: take the first name A=1, B=2, D=4, U=21 where 2+1=3, and L=12, where 1+2=3; so the number comes to be 12433, so u can find out.  \n\n20. WAJP to draw a format like \n             * \n            *** \n           ***** \n          ******* \n           ***** \n            *** \n             *  \n\n21. WAJP to take a string count all vowels and then delete the same from the string.  \n\n22. Write a Patient class which inherits from the Person class. Patient can again be of two types, indoor and outdoor. The Patient class requires the following: \n\na) a variable to store the patient ID for the patient \n\nb) a variable to store the department of hospital \n\nc) a variable to store the ward of hospital \n\nd) a variable to store the patient 's date of joining the hospital \n\ne) a variable to store the patient 's address \n\nf) a variable to store the medical fees that the patient pays \n\ng) constructor methods, which initialize the variables \n\nh) a method to calculate the medical fees (for both indoor and outdoor patient)  \n\n23. WAJP to take a string as password and check whether it contains at least two numbers, 3 alphabets and no space in it. If any contrary throw message.  \n\n24. Write a program in Java to create a class called Rational having two data members for numerator and denominator. Take two inputs of rational numbers and perform multiplication and division. Display the result in reduced form.  \n\n25.Write a program in Java to print a format like, \n* * * * * * * \n * * * * * \n  * * * \n    *   \n\n26. Write a class called Shape which contains a user-defined interface for Computation, which contains methods for calculation of area, perimeter and volume. Write four classes for circle, rectangle, sphere and rectangular parallelepiped, and all these classes inherit from Shape. Now take input for the following: \n\na) radius of circle and compute its area and perimeter \n\nb) Length and breadth of rectangle and compute its area and perimeter \n\nc) Length, breadth and height for rectangular parallelepiped and compute its area and volume \n\nd) Radius of sphere and compute its area and volume \n\n27. Write a class called Employee, which requires the following: \n\na) a variable to store the employee ID \n        a. employee ID should be of format EMPM1234, EMPS1234,              EMPA1234, EMPC1234, where M=manager, S=supervisor,              A=analyst, C=clerk; number can be any no. but first three characters should be EMP \n\nb) a variable to store the employee name \n\nc) a variable to store department \n\nd) a variable to store city \n\ne) a variable to store basic salary \n\nf) a method to calculate the salary of employee         \n\na. if the city is metro then the HRA would be 30% else 20%        \n\nb. if the employee ID contain M then DA would be 120%, if S then            DA would be 110%, if A then DA would be 100%, and if C then            DA would be 90% \n\ng) constructor methods, which initialize the variables   \n\n28. WAJP to create 4 threads and show exhibit their execution after the call of the “start ( )” method. Write a program in Java to create 3 threads and exhibit their behaviour by changing their priorities in the “main” thread. Display the possible output."
                 android:textColor="@color/textColorSecondary"
-                android:textIsSelectable="true"
-                android:textSize="20.0dip"
-                android:textStyle="italic" />
+                android:textIsSelectable="true"/>
+
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

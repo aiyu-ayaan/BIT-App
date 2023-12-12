@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Numerical And Statistical Methods Lab"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,25 +43,25 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="List of Programs as Assignments:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="1. Write a program in C to solve the equation x⁴ + x² -1 = 0, correct to eight decimal places using bisection method. \n\n2. Write a program in C to find the root (which lies between 2 and 3) of the following equation correct to six significant figures using bisection method. \n\n3. Write a program in C to find the root of the equation x³ – 4x² + 10x – 10 = 0 correct to six significant figures using Regula-Falsi Method. \n\n4. Write a program in C to find the root (which lies between 1 and 2) of the following equation correct to six decimal places using Regula-Falsi Method and the method of Bisection. Compare the number of iterations required in both the cases: 2x – 3cosx = 1.85 \n\n5. Write a program in C to find root of the equation x³-8x-4 using Newton-Raphson method correct to seven significant figures. \n\n6. Write a program in C to solve the equation 3x – cosx - 1= 0, by the method of Iteration, for the root lying between 0 and 1, correct to 6 decimal places. \n\n7. Write a program in C to compare the rate of convergence of the Newton-Raphson method, Regula-Falsi method and the method of Bisection to find the root of the equation 2x sinx = cosx lying between 0 and 1. \n\n8. Write a program in C to compute a difference table for the following data and hence find the value of Δᵃy꜀ and Δᵃy꜀; a and c are to be taken from the users."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -73,14 +73,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="9. Write a program in C to find f(2.02) having given the following table, using Newton’s forward Interpolation formula correct to five significant figures. "
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -92,14 +92,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="10.Write a program in C to find f(2.91) having given the following table, using Newton’s Interpolation formula, correct to five significant figures."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -111,14 +111,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="11. Write a program in C to find the missing element in the following table:"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -130,14 +130,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="12. Write a program in C to find the value of X when it is given that f(X) = 55 in the table given in Assignment 11 after finding the value of f(31). \n\n13. Solve by Gauss elimination method with partial pivoting, the following system of equations correct up to four significant figures. \n\nx + 3y = 2z = 5 \n\n2x – y + z = -1 \n\nx + 2y + 3z = 2 \n\n14. Find the inverse of the following matrix by Gauss-Jordan method. \n\n    5   3   7 \n\n    1   5   2 \n\n    7   2   10 \n\nHence find the root of the following system of equations correct up to five decimal places: \n\n5x + 3y +7z = 5 \n\nx +5 y +2 z = -1 \n\n7x + 2y + 10z = 5 \n\n15. Solve, by Gauss-Jacobi iterative method, the following system of equations correct up to four significant figures. \n\n4.50x + 0.15y + 0.30z = 1.57 \n\n0.15x – 10.50y + 0.45z = -3.86 \n\n0.45x + 0.30y – 15.00z =14.28 \n\n16. Solve, by Gauss-Seidel iteration method, the following system of equations, correct up to four significant figures. \n\n6.32x - 0.73y - 0.65z + 1.06t = 2.95 \n\n0.89x + 4.32y - 0.47z + 0.95t = 3.36 \n\n0.74x + 1.01y + 5.28z -0.88t = 1.97 \n\n1.13x – 0.89y + 0.61z +5.63t = 4.27 \n\n17. Write a program in C to calculate the approximate value of the following definite Integrals using Trapizoidal rule, taking 20 subintervals, correct up to 6 significant figures. Calculate the percentage of error present in the result for (i)."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -149,14 +149,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="18. Write a program in C to calculate the approximate value of (1 )correct up to 7 significant figures, using Simpson’s 1/3 rule, taking 30 subintervals. "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -168,11 +168,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="19 .Write a program in C to calculate the approximate value of correct up to 4 significant figures, using Simpson’s 1/3 rule and Trapizoidal rule, taking 18 subintervals. Compare the results by calculating percentage error. (Assume the result correct upto 7 significant digits as the exact value.) "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -183,11 +183,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="20. Write a program in C to calculate the approximate value of correct up to 6 significant figures, using Simpson’s 3/8 rule."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -198,11 +198,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="21. Write a program in C to compute y(1.0), correct up to 7 significant figures, by Euler’s method y(0.2) = 2, taking step length h = 0.01."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -213,11 +213,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="22. Write a program in C to compute y(1.0), correct up to 5 significant figures, by Euler’s method and Modified Euler’s method from the following differential equation:"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -228,11 +228,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="23. Write a program in C to compute y(0.6), correct up to 7 significant figures by the method of Runge-Kutta of second order from the following differential equation: \n\ndy/dx = (0.5 - x + y2) / (x2 + y +1); y(0) =           0, taking step length h = 0.1. \n\n24. Write a program in C to compute y(0.5), correct up to 7 significant figures, by the Modified Euler’s method and Runge-Kutta method of second order from the following differential equation: \n\ndy/dx = 0.25 y2 + x2 ; y(0) = -1, taking             step length h = 0.1 . Hence, compare the results. \n\n26. Write a program in C to represent a set of 100 bivariate data of the form (x, y) into a two way frequency table and then calculate and from the marginal distributions. Generate the (x, y) tuples using random numbers so that 0 ≤ x ≤ 51 and 150 ≤ y ≤ 250. \nWrite a program in C to compute the correlation coefficient between X and Y."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -243,11 +243,11 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="27. Ten students obtained the following marks in Mathematics and Statistics. Calculate the rank correlation coefficient between these two sets of data using a C program."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -258,17 +258,17 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="28. Write a program in C to predict the value of x when the value of y is given and vice versa from a given bivariate data set."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
 
                 android:gravity="center"
                 android:orientation="vertical">
@@ -276,23 +276,23 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
+                    android:layout_marginTop="30dp"
                     android:text="Reference Books:"
                     android:textColor="@color/textColor"
                     android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:padding="5.0dip"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:padding="5dp"
                     android:text="1. Mollah S. A., “Numerical Analysis and Computational Procedures,” Books and Allied (P) Ltd., Kolkata, 2017. \n\n 2. Sastry S.S., “Introductory Methods of Numerical Analysis,” PHI, Private Ltd., New Delhi. \n\n 3. Pal N. &amp; Sarkar S., “Statistics: Concepts and Applications,” PHI, New Delhi, 2005. \n\n 4. Das N. G., “Statistical Methods,” Tata McGraw Hill Edu. P. Ltd., New Delhi, 2010."
                     android:textColor="@color/textColorSecondary"
                     android:textIsSelectable="true"
-                android:textSize="20.0dip" />
+               />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
