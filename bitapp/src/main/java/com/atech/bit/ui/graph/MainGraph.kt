@@ -41,7 +41,10 @@ fun HomeNavigation(
             communicatorViewModel = communicatorViewModel
         )
         attendanceNavigation(navHostController)
-        courseNavigation(navHostController)
+        courseNavigation(
+            navHostController,
+            communicatorViewModel = communicatorViewModel
+        )
 
     }
 }

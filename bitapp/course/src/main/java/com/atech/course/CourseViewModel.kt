@@ -1,7 +1,6 @@
 package com.atech.course
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -23,7 +22,9 @@ import com.atech.course.utils.SyllabusEnableModel
 import com.atech.course.utils.compareToCourseSem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -44,13 +45,11 @@ class CourseViewModel @Inject constructor(
 
     private val syllabusEnableModel: SyllabusEnableModel by lazy {
         pref.getString(
-            SharePrefKeys.KeyToggleSyllabusSource.name,
-            SYLLABUS_SOURCE_DATA
+            SharePrefKeys.KeyToggleSyllabusSource.name, SYLLABUS_SOURCE_DATA
         )?.let {
             fromJSON(it, SyllabusEnableModel::class.java)!!
         } ?: fromJSON(
-            SYLLABUS_SOURCE_DATA,
-            SyllabusEnableModel::class.java
+            SYLLABUS_SOURCE_DATA, SyllabusEnableModel::class.java
         )!!
     }
 
@@ -64,9 +63,7 @@ class CourseViewModel @Inject constructor(
     private var _onlineSyllabus =
         mutableStateOf<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>>(
             Triple(
-                emptyList(),
-                emptyList(),
-                emptyList()
+                emptyList(), emptyList(), emptyList()
             )
         )
     val onlineSyllabus: State<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>> get() = _onlineSyllabus
@@ -92,37 +89,43 @@ class CourseViewModel @Inject constructor(
     val pe get() = _pe.asStateFlow()
     private var peJob: Job? = null
 
+    private val _oneTimeEvent = MutableSharedFlow<OneTimeEvent>()
+    val oneTimeEvent = _oneTimeEvent.asSharedFlow()
+
     fun onEvent(events: CourseEvents) {
         when (events) {
             is CourseEvents.NavigateToSemChoose -> {
                 _currentClickItem.value = events.model
-                _isSelected.value =
-                    syllabusEnableModel.compareToCourseSem(
-                        _currentClickItem.value.name + _currentSem.intValue
-                    )
-                getAllSubjects()
-                getOnlineSubjects()
+                _isSelected.value = syllabusEnableModel.compareToCourseSem(
+                    _currentClickItem.value.name + _currentSem.intValue
+                )
+                if (_isSelected.value)
+                    getOnlineSubjects()
+                else
+                    getAllSubjects()
             }
 
             is CourseEvents.OnSemChange -> {
                 _currentSem.intValue = events.sem
-                _isSelected.value =
-                    syllabusEnableModel.compareToCourseSem(
-                        _currentClickItem.value.name + _currentSem.intValue
-                    )
-                if (!isSelected.value)
-                    getAllSubjects()
-                else
-                    getOnlineSubjects()
+                _isSelected.value = syllabusEnableModel.compareToCourseSem(
+                    _currentClickItem.value.name + _currentSem.intValue
+                )
+                if (!isSelected.value) getAllSubjects()
+                else getOnlineSubjects()
             }
 
             CourseEvents.OnSwitchToggle -> {
                 _isSelected.value = !_isSelected.value
-                if (!isSelected.value)
-                    getAllSubjects()
-                else
-                    getOnlineSubjects()
+                if (!isSelected.value) getAllSubjects()
+                else getOnlineSubjects()
 
+            }
+
+            is CourseEvents.ErrorDuringLoadingError -> {
+                _isSelected.value = false
+                viewModelScope.launch {
+                    _oneTimeEvent.emit(OneTimeEvent.ShowSnackBar(events.message))
+                }
             }
         }
     }
@@ -130,14 +133,12 @@ class CourseViewModel @Inject constructor(
     private fun getOnlineSubjects() = viewModelScope.launch {
         try {
             _onlineSyllabus.value = Triple(
-                emptyList(),
-                emptyList(),
-                emptyList()
+                emptyList(), emptyList(), emptyList()
             )
             _onlineSyllabus.value =
                 kTorUseCase.fetchSyllabus("${_currentClickItem.value.name}${_currentSem.intValue}")
         } catch (e: Exception) {
-            Log.d("AAA", "getOnlineSubjects: $e")
+            onEvent(CourseEvents.ErrorDuringLoadingError("Can't load online syllabus. Check your internet connection."))
         }
 
     }
@@ -147,31 +148,28 @@ class CourseViewModel @Inject constructor(
         theoryJob = useCase.getSubjectsByType(
             courseSem = "${_currentClickItem.value.name}${_currentSem.intValue}".lowercase(),
             type = SubjectType.THEORY
-        ).cachedIn(viewModelScope)
-            .onEach {
-                _theory.value = it
-            }
-            .launchIn(viewModelScope)
+        ).cachedIn(viewModelScope).onEach {
+            _theory.value = it
+        }.launchIn(viewModelScope)
 
         labJob?.cancel()
         labJob = useCase.getSubjectsByType(
             courseSem = "${_currentClickItem.value.name}${_currentSem.intValue}".lowercase(),
             type = SubjectType.LAB
-        ).cachedIn(viewModelScope)
-            .onEach {
-                _lab.value = it
-            }
-            .launchIn(viewModelScope)
+        ).cachedIn(viewModelScope).onEach {
+            _lab.value = it
+        }.launchIn(viewModelScope)
 
         peJob?.cancel()
         peJob = useCase.getSubjectsByType(
             courseSem = "${_currentClickItem.value.name}${_currentSem.intValue}".lowercase(),
             type = SubjectType.PE
-        ).cachedIn(viewModelScope)
-            .onEach {
-                _pe.value = it
-            }
-            .launchIn(viewModelScope)
+        ).cachedIn(viewModelScope).onEach {
+            _pe.value = it
+        }.launchIn(viewModelScope)
+    }
 
+    sealed class OneTimeEvent {
+        data class ShowSnackBar(val message: String) : OneTimeEvent()
     }
 }

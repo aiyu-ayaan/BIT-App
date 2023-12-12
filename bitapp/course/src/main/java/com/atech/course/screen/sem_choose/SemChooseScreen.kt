@@ -4,8 +4,11 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -18,6 +21,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Tab
@@ -25,8 +30,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -42,6 +50,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.atech.components.BackToolbar
 import com.atech.components.BottomPadding
+import com.atech.components.EmptyScreen
 import com.atech.components.singleElement
 import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
 import com.atech.core.data_source.room.syllabus.SubjectType
@@ -54,6 +63,8 @@ import com.atech.course.components.SubjectTitle
 import com.atech.theme.BITAppTheme
 import com.atech.theme.grid_1
 import com.atech.theme.grid_2
+import com.atech.theme.grid_3
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(
     ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class
@@ -65,19 +76,34 @@ fun SemChooseScreen(
     navController: NavController = rememberNavController()
 ) {
     val scrollState = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val snackBarState = remember { SnackbarHostState() }
+
     val enable = viewModel.isSelected.value
     val courseModel by viewModel.currentClickItem
-    var selectedTabIndex by rememberSaveable {
-        mutableIntStateOf(viewModel.currentSem.value - 1)
-    }
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(viewModel.currentSem.value - 1) }
     val theoryData = viewModel.theory.collectAsLazyPagingItems()
     val labData = viewModel.lab.collectAsLazyPagingItems()
     val peData = viewModel.pe.collectAsLazyPagingItems()
+    var isEmptyScreenVisible = remember { mutableStateOf(false) }
 
     val onlineData = viewModel.onlineSyllabus.value
 
+    LaunchedEffect(key1 = true) {
+        viewModel.oneTimeEvent.collectLatest { event ->
+            when (event) {
+                is CourseViewModel.OneTimeEvent.ShowSnackBar ->
+                    snackBarState.showSnackbar(
+                        message = event.message
+                    )
+            }
+        }
+    }
+
     Scaffold(
         modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarState)
+        },
         topBar = {
             ToolbarCompose(
                 courseModel, enable, navController, onCheckedChange = {
@@ -112,13 +138,34 @@ fun SemChooseScreen(
                         navController, viewModel, model
                     )
                 })
-            else offlineDataSource(theoryData, labData, peData, onClick = { model ->
-                navigateToViewSubjectScreen(navController, viewModel, model, false)
-            })
+            else {
+                if (theoryData.itemCount == 0 && labData.itemCount == 0 && peData.itemCount == 0)
+                    isEmptyScreenVisible.value = true
+                else {
+                    isEmptyScreenVisible.value = false
+                    offlineDataSource(theoryData, labData, peData, onClick = { model ->
+                        navigateToViewSubjectScreen(navController, viewModel, model, false)
+                    })
+                }
+            }
+            if (isEmptyScreenVisible.value) {
+                singleElement(key = "Empty Screen") {
+                    Spacer(modifier = Modifier.height(grid_3))
+                    ShowEmptyScreen()
+                }
+            }
 
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }
+}
+
+@Composable
+private fun ShowEmptyScreen() {
+    EmptyScreen(
+        modifier = Modifier.fillMaxSize(),
+        text = "No syllabus found for this semester."
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)

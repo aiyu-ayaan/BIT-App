@@ -8,4 +8,6 @@ sealed class CourseEvents {
     data class OnSemChange(val sem: Int) : CourseEvents()
 
     data object OnSwitchToggle : CourseEvents()
+
+    data class ErrorDuringLoadingError(val message: String) : CourseEvents()
 }

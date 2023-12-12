@@ -11,6 +11,7 @@ import com.atech.course.screen.sub_view.ViewSubjectScreen
 import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
 import com.atech.utils.sharedViewModel
+import com.atech.view_model.SharedViewModel
 
 
 sealed class CourseScreenRoute(val route: String) {
@@ -21,7 +22,8 @@ sealed class CourseScreenRoute(val route: String) {
 }
 
 fun NavGraphBuilder.courseNavigation(
-    navController: NavController
+    navController: NavController,
+    communicatorViewModel: SharedViewModel
 ) {
     navigation(
         startDestination = CourseScreenRoute.CourseScreen.route,
@@ -33,7 +35,8 @@ fun NavGraphBuilder.courseNavigation(
             val viewModel = it.sharedViewModel<CourseViewModel>(navController)
             CourseScreen(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                communicatorViewModel = communicatorViewModel
             )
         }
         animatedCompose(

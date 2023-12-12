@@ -1,4 +1,3 @@
-
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -17,7 +16,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
-    flavorDimensions +="type"
+    flavorDimensions += "type"
 
     productFlavors {
         create("global") {
@@ -66,7 +65,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.gson)
 
-    
+
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.remote.config)
@@ -75,8 +74,8 @@ dependencies {
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.serialization)
     implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.logging)
+    debugImplementation(libs.ktor.client.logging)
+    debugImplementation(libs.logback.classic)
 
-    implementation(libs.logback.classic)
     implementation(libs.kotlinx.serialization.json)
 }
