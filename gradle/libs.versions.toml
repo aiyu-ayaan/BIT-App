@@ -11,6 +11,7 @@ kotlin = "1.9.0"
 coreKtx = "1.12.0"
 kotlinSerialization = "1.5.21"
 kotlinxSerializationJson = "1.3.0"
+ktorClientOkhttp = "1.6.3"
 ktorClientSerialization = "1.6.3"
 ktorClientAndroid = "1.6.3"
 ktorClientCore = "1.6.3"
@@ -19,6 +20,7 @@ lifecycleRuntimeKtx = "2.6.2"
 activityCompose = "1.8.1"
 composeBom = "2023.10.01"
 logbackClassic = "1.2.3"
+lottieCompose = "6.2.0"
 materialIconsExtended = "1.5.4"
 pagingCompose = "3.3.0-alpha02"
 pagingRuntimeKtx = "3.2.1"
@@ -71,11 +73,13 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlinSerialization" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktorClientOkhttp" }
 ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorClientSerialization" }
 ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroid" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorClientCore" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassic" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 seeker = { module = "io.github.2307vivek:seeker", version.ref = "seeker" }
 swipe = { module = "me.saket.swipe:swipe", version.ref = "swipe" }

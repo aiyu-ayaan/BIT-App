@@ -2,7 +2,6 @@ package com.atech.course.screen.sub_view
 
 import android.util.Log
 import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -26,6 +25,8 @@ class ViewSubjectViewModel @Inject constructor(
     private val _onlineMdContent = mutableStateOf("")
     val onlineMdContent: State<String> get() = _onlineMdContent
 
+    private val _hasError = mutableStateOf(false to "")
+    val hasError: State<Pair<Boolean, String>> get() = _hasError
 
 
     init {
@@ -33,6 +34,12 @@ class ViewSubjectViewModel @Inject constructor(
             getSubjectMarkdown(course, courseSem, subject)
     }
 
+
+    fun onEvent(events: ViewSubjectEvents) {
+        when (events) {
+            is ViewSubjectEvents.OnError -> _hasError.value = true to events.message
+        }
+    }
 
     private fun getSubjectMarkdown(
         course: String,
@@ -49,6 +56,15 @@ class ViewSubjectViewModel @Inject constructor(
             }
         } catch (e: Exception) {
             Log.d(TAGS.BIT_DEBUG.name, "getSubjectMarkdown: ${e.message}")
+            onEvent(
+                ViewSubjectEvents.OnError(
+                    "Can't load online syllabus. Check your internet connection."
+                )
+            )
         }
+    }
+
+    sealed class ViewSubjectEvents {
+        data class OnError(val message: String) : ViewSubjectEvents()
     }
 }

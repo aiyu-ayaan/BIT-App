@@ -3,6 +3,7 @@ package com.atech.course.screen.sub_view
 import android.view.View
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -20,13 +21,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.components.BackToolbar
+import com.atech.components.EmptyScreen
 import com.atech.syllabus.getFragment
 import com.atech.theme.BITAppTheme
 import com.atech.utils.hexToRgb
@@ -45,6 +46,7 @@ fun ViewSubjectScreen(
     val scrollState = rememberScrollState()
     val data = viewModel.onlineMdContent.value
     val isOnline = viewModel.isOnline
+    val hasError = viewModel.hasError.value
     var isComposeViewVisible by rememberSaveable {
         mutableStateOf(false)
     }
@@ -71,34 +73,51 @@ fun ViewSubjectScreen(
         }) {
             Column(
                 modifier = modifier
+                    .fillMaxSize()
                     .nestedScroll(toolbarScroll.nestedScrollConnection)
                     .verticalScroll(scrollState)
                     .padding(it)
                     .background(
                         MaterialTheme.colorScheme.surface
-                    )
+                    ),
+                verticalArrangement = Arrangement.Center,
             ) {
+                if (hasError.first) {
+                    EmptyScreen(
+                        modifier = Modifier.fillMaxSize(),
+                        text = hasError.second
+                    )
+                    return@Scaffold
+                }
                 if (isOnline) {
                     if (isComposeViewVisible) LoadMarkDown(
                         data = data
                     )
-                } else LoadSyllabusFromXml(res = courseSem)
+                } else LoadSyllabusFromXml(res = courseSem, viewModel = viewModel)
             }
         }
     }
 }
 
 @Composable
-fun LoadSyllabusFromXml(res: String) {
+fun LoadSyllabusFromXml(res: String, viewModel: ViewSubjectViewModel) {
     AndroidView(
         factory = {
-            View.inflate(
-                it,
-                getFragment(res),
-                null
-            )
-        },
-        modifier = Modifier.fillMaxSize()
+            try {
+                View.inflate(
+                    it, getFragment(res), null
+                )
+            } catch (e: Exception) {
+                viewModel.onEvent(
+                    ViewSubjectViewModel.ViewSubjectEvents.OnError(
+                        "Error on loading online syllabus"
+                    )
+                )
+                View.inflate(
+                    it, com.atech.syllabus.R.layout.fragment_no_sylabus_found, null
+                )
+            }
+        }, modifier = Modifier.fillMaxSize()
     )
 }
 

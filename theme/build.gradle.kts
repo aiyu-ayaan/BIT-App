@@ -56,7 +56,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation("androidx.fragment:fragment-ktx:1.3.6")
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
@@ -67,6 +66,8 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
+    implementation(libs.lottie.compose)
 
 
 }
