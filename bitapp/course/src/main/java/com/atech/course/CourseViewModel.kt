@@ -35,7 +35,7 @@ import javax.inject.Inject
 class CourseViewModel @Inject constructor(
     private val useCase: SyllabusUseCase,
     private val kTorUseCase: KTorUseCase,
-    pref: SharedPreferences
+    private val pref: SharedPreferences
 ) : ViewModel() {
     private val courseDetailsJson =
         (pref.getString(SharePrefKeys.CourseDetails.name, COURSE_DETAILS) ?: COURSE_DETAILS)
@@ -57,7 +57,7 @@ class CourseViewModel @Inject constructor(
     val currentClickItem: State<CourseDetailModel> get() = _currentClickItem
 
 
-    private val _currentSem = mutableIntStateOf(1)
+    private val _currentSem = mutableIntStateOf(0)
     val currentSem: State<Int> get() = _currentSem
 
     private var _onlineSyllabus =
@@ -99,10 +99,13 @@ class CourseViewModel @Inject constructor(
                 _isSelected.value = syllabusEnableModel.compareToCourseSem(
                     _currentClickItem.value.name + _currentSem.intValue
                 )
-                if (_isSelected.value)
-                    getOnlineSubjects()
-                else
-                    getAllSubjects()
+                _currentSem.intValue =
+                    pref.getInt(SharePrefKeys.ChooseSemLastSelectedSem.name, 1).let {
+                            if (_currentClickItem.value.sem < it) _currentClickItem.value.sem
+                            else it
+                        }
+                if (_isSelected.value) getOnlineSubjects()
+                else getAllSubjects()
             }
 
             is CourseEvents.OnSemChange -> {
@@ -110,6 +113,9 @@ class CourseViewModel @Inject constructor(
                 _isSelected.value = syllabusEnableModel.compareToCourseSem(
                     _currentClickItem.value.name + _currentSem.intValue
                 )
+                pref.edit().putInt(
+                    SharePrefKeys.ChooseSemLastSelectedSem.name, events.sem
+                ).apply()
                 if (!isSelected.value) getAllSubjects()
                 else getOnlineSubjects()
             }
@@ -118,7 +124,6 @@ class CourseViewModel @Inject constructor(
                 _isSelected.value = !_isSelected.value
                 if (!isSelected.value) getAllSubjects()
                 else getOnlineSubjects()
-
             }
 
             is CourseEvents.ErrorDuringLoadingError -> {

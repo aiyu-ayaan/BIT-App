@@ -9,6 +9,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.outlined.Close
@@ -25,8 +26,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.atech.components.ImageIconButton
 import com.atech.theme.BITAppTheme
+import com.atech.theme.grid_1
+import com.atech.theme.grid_2
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,7 +44,7 @@ fun SearchToolBar(
     onTrailingIconClick: () -> Unit = {},
     onNotificationClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
-    onLeadingIconClick : () -> Unit = {},
+    onLeadingIconClick: () -> Unit = {},
     contents: @Composable () -> Unit = {}
 ) {
     Row(
@@ -49,7 +53,9 @@ fun SearchToolBar(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         SearchBar(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .padding(start = if (!active) grid_1 else 0.dp),
             query = query,
             onQueryChange = onQueryChange,
             onSearch = onSearch,

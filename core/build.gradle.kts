@@ -76,6 +76,7 @@ dependencies {
     implementation(libs.ktor.client.okhttp)
     debugImplementation(libs.ktor.client.logging)
     debugImplementation(libs.logback.classic)
-
     implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.androidx.datastore.preferences)
 }
