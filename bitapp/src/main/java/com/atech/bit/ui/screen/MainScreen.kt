@@ -319,7 +319,7 @@ fun RowScope.AddItem(
     navController: NavHostController
 ) {
     var selectedItem by rememberSaveable {
-        mutableIntStateOf(2)
+        mutableIntStateOf(0)
     }
     val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
     NavigationBarItem(

@@ -93,7 +93,8 @@ data class UpdatePresentOrTotal @Inject constructor(
 
         when {
             totalDays.isEmpty() || totalDays.last().day.convertLongToTime("DD/MM/yyyy") != System.currentTimeMillis()
-                .convertLongToTime("DD/MM/yyyy") || totalDays.last().isPresent ->//new Entry or new day
+                .convertLongToTime("DD/MM/yyyy") ||
+                    if (isPresent) !totalDays.last().isPresent else totalDays.last().isPresent ->//new Entry or new day
                 totalDays.add(IsPresent(System.currentTimeMillis(), isPresent, totalClasses = 1))
 
             totalDays.isNotEmpty() && totalDays.last().totalClasses == null ->//old database migration
@@ -108,11 +109,10 @@ data class UpdatePresentOrTotal @Inject constructor(
                 subject = attendance.subject,
                 present = if (isPresent) attendance.present + 1 else attendance.present,
                 total = attendance.total + 1,
-                days = attendance.days.copy(
-                    presetDays = presentDays,
-                    absentDays = absentDays,
-                    totalDays = totalDays
-                ),
+                days = when (isPresent) {
+                    true -> attendance.days.copy(presetDays = presentDays, totalDays = totalDays)
+                    false -> attendance.days.copy(absentDays = absentDays, totalDays = totalDays)
+                },
                 stack = stack,
                 fromSyllabus = attendance.fromSyllabus,
                 teacher = attendance.teacher,

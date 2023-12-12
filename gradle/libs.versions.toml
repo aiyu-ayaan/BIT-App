@@ -43,6 +43,7 @@ urlImageloader = "1.0.6"
 navigationCommonKtx = "2.7.5"
 firebaseBom = "32.7.0"
 pagingCommonKtx = "3.2.1"
+calendarVersion = "3.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -98,6 +99,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "pagingCommonKtx" }
+calender = { group = "com.github.sundeepk", name = "compact-calendar-view", version.ref = "calendarVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

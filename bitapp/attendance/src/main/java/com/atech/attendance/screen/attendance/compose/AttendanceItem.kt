@@ -62,6 +62,7 @@ fun AttendanceItem(
     model: AttendanceModel,
     minPercentage: Int = 75,
     onTickOrCrossClickClick: (AttendanceModel, Boolean) -> Unit = { _, _ -> },
+    onClick: (AttendanceModel) -> Unit = {}
 ) {
     var isCheckBoxEnable by remember {
         mutableStateOf(false)
@@ -71,7 +72,7 @@ fun AttendanceItem(
     }
     val context = LocalContext.current
     Surface(
-        modifier = Modifier/*.clickable { isCheckBoxEnable = !isCheckBoxEnable }*/
+        modifier = Modifier.clickable { onClick.invoke(model) }
     ) {
         val percentage = findPercentage(
             model.present.toFloat(), model.total.toFloat()

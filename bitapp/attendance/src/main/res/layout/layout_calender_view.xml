@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/calendar_view"
+    android:layout_width="fill_parent"
+    android:layout_height="250dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    app:compactCalendarBackgroundColor="@android:color/transparent"
+    app:compactCalendarMultiEventIndicatorColor="@color/textColor"
+    app:compactCalendarTargetHeight="250dp"
+    app:compactCalendarTextColor="@color/textColor"
+    app:compactCalendarTextSize="12sp" />
+
+    <!--
+        app:compactCalendarCurrentSelectedDayBackgroundColor="?attr/colorPrimary"
+        app:compactCalendarCurrentSelectedDayTextColor="@color/textColorSubTitle"
+        app:compactCalendarMultiEventIndicatorColor="@color/textColor"-->

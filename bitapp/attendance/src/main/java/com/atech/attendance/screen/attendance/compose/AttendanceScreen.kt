@@ -39,11 +39,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,6 +66,7 @@ import com.atech.attendance.screen.attendance.AttendanceEvent
 import com.atech.attendance.screen.attendance.AttendanceViewModel
 import com.atech.components.ImageIconButton
 import com.atech.components.ImageIconModel
+import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.theme.BITAppTheme
 import com.atech.theme.dividerOrCardColor
 import com.atech.theme.grid_0_5
@@ -79,6 +86,9 @@ fun AttendanceScreen(
     val attendanceList = viewModel.attendance.collectAsLazyPagingItems()
     val lazyListState = rememberLazyListState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    var currentClickAttendance by rememberSaveable {
+        mutableStateOf<AttendanceModel?>(null)
+    }
     Scaffold(
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -119,6 +129,24 @@ fun AttendanceScreen(
             )
         }
     ) {
+        val sheetState = rememberModalBottomSheetState()
+        var isSheetOpen by rememberSaveable {
+            mutableStateOf(false)
+        }
+
+        if (isSheetOpen && currentClickAttendance != null) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    isSheetOpen = false
+                },
+                sheetState = sheetState
+            ) {
+                AttendanceCalenderView(
+                    model = currentClickAttendance!!
+                )
+            }
+        }
+
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(it),
             contentPadding = it,
@@ -145,12 +173,14 @@ fun AttendanceScreen(
                                         isPresent = isPresent
                                     )
                                 )
+                        },
+                        onClick = {
+                            currentClickAttendance = it
+                            isSheetOpen = true
                         }
                     )
                 }
             }
-
-//            singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }
 }
