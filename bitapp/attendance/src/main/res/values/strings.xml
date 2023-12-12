@@ -8,7 +8,7 @@
     <string name="select">Select</string>
     <string name="status">Status : Not Started</string>
     <string name="on_track">Status: On track don\'t miss next class</string>
-    <string name="leave_class">You can leave %s class</string>
+    <string name="leave_class">Status: You can leave %s class</string>
     <string name="error">Error</string>
     <string name="attend_class">Status: Attend Next %s Class</string>
 </resources>

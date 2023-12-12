@@ -1,6 +1,7 @@
 package com.atech.attendance.screen.attendance.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Computer
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -43,6 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.atech.attendance.R
 import com.atech.attendance.util.calculatedDays
 import com.atech.attendance.util.findPercentage
+import com.atech.attendance.util.getRelativeDateForAttendance
 import com.atech.attendance.util.setResources
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.theme.BITAppTheme
@@ -58,8 +61,7 @@ fun AttendanceItem(
     modifier: Modifier = Modifier,
     model: AttendanceModel,
     minPercentage: Int = 75,
-    onTickClick: (AttendanceModel) -> Unit = {},
-    onCrossClick: (AttendanceModel) -> Unit = {}
+    onTickOrCrossClickClick: (AttendanceModel, Boolean) -> Unit = { _, _ -> },
 ) {
     var isCheckBoxEnable by remember {
         mutableStateOf(false)
@@ -69,8 +71,7 @@ fun AttendanceItem(
     }
     val context = LocalContext.current
     Surface(
-        modifier = Modifier
-            .clickable { isCheckBoxEnable = !isCheckBoxEnable }
+        modifier = Modifier/*.clickable { isCheckBoxEnable = !isCheckBoxEnable }*/
     ) {
         val percentage = findPercentage(
             model.present.toFloat(), model.total.toFloat()
@@ -114,8 +115,7 @@ fun AttendanceItem(
                         (((minPercentage * total) - (100 * present)) / (100 - minPercentage))
                     }
                     status = context.getString(
-                        R.string.attend_class,
-                        (ceil(day).toInt()).toString()
+                        R.string.attend_class, (ceil(day).toInt()).toString()
                     )
                 }
             }
@@ -123,12 +123,14 @@ fun AttendanceItem(
         Card(
             modifier = modifier
                 .padding(horizontal = grid_1, vertical = grid_0_5)
-                .fillMaxWidth(),
-            colors = CardDefaults.cardColors(
+                .animateContentSize()
+                .fillMaxWidth(), colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.dividerOrCardColor
             )
         ) {
-            Row {
+            Row(
+                modifier = Modifier.animateContentSize()
+            ) {
                 AnimatedVisibility(visible = isCheckBoxEnable) {
                     Checkbox(checked = isCheckBoxEnable, onCheckedChange = {
                         isCheckBoxEnable = it
@@ -137,6 +139,7 @@ fun AttendanceItem(
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .animateContentSize()
                         .padding(grid_1),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -150,7 +153,8 @@ fun AttendanceItem(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                imageVector = Icons.Default.MenuBook,
+                                imageVector = if (checkForLab(model)
+                                ) Icons.Default.Computer else Icons.Default.MenuBook,
                                 contentDescription = null,
                                 modifier = Modifier.size(30.dp),
                                 tint = MaterialTheme.colorScheme.primary
@@ -197,8 +201,7 @@ fun AttendanceItem(
                             Text(
                                 text = "${percentage.toInt()}%",
                                 style = MaterialTheme.typography.bodySmall,
-                                modifier = Modifier
-                                    .align(Alignment.Center),
+                                modifier = Modifier.align(Alignment.Center),
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         }
@@ -209,7 +212,9 @@ fun AttendanceItem(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                text = "Last Attended : 12/12/2021",
+                                text = "Last Attended : ${
+                                    model.days.presetDays.last().getRelativeDateForAttendance()
+                                }",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.primary
                             )
@@ -221,15 +226,13 @@ fun AttendanceItem(
                         exit = slideOutVertically() + fadeOut()
                     ) {
                         Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                modifier = Modifier
-                                    .weight(1f),
-                                text = "Status : $status",
+                                modifier = Modifier.weight(1f),
+                                text = status,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -244,7 +247,7 @@ fun AttendanceItem(
                                     null,
                                     modifier = Modifier
                                         .size(35.dp)
-                                        .clickable { onTickClick.invoke(model) },
+                                        .clickable { onTickOrCrossClickClick.invoke(model, true) },
                                     tint = SwipeGreen
                                 )
                                 Icon(
@@ -252,7 +255,7 @@ fun AttendanceItem(
                                     null,
                                     modifier = Modifier
                                         .size(35.dp)
-                                        .clickable { onCrossClick.invoke(model) },
+                                        .clickable { onTickOrCrossClickClick.invoke(model, false) },
                                     tint = SwipeRed
                                 )
                             }
@@ -265,9 +268,15 @@ fun AttendanceItem(
 }
 
 
+private fun checkForLab(model: AttendanceModel) =
+    (model.subject.lowercase().contains("lab")
+            || model.subject.lowercase().contains("practical")
+            || model.subject.lowercase().contains("tutorial")
+            || model.subject.lowercase().contains("prac"))
+
+
 @Preview(
-    name = "Light",
-    showBackground = true
+    name = "Light", showBackground = true
 )
 @Composable
 fun AttendanceItemPreview() {

@@ -10,7 +10,6 @@
 
 package com.atech.attendance.util
 
-import com.atech.core.data_source.room.attendance.IsPresent
 import com.atech.core.utils.convertLongToTime
 
 fun findPercentage(present: Float, total: Float, action: (Float, Float) -> Float) =
@@ -22,39 +21,45 @@ fun setResources(percentage: Int, action: (Int) -> Unit) =
 fun calculatedDays(present: Int, total: Int, action: (Float, Float) -> Float) =
     action(present.toFloat(), total.toFloat())
 
-fun ArrayList<IsPresent>.countTotalClass(size: Int, isPresent: Boolean): Int {
-    var days = 1
-    val removeIndex = arrayListOf<Int>()
-    for ((index, i) in this.withIndex()) {
-        if (this.last().day.convertLongToTime("dd/mm/yyyy") == i.day.convertLongToTime("dd/mm/yyyy") && i.isPresent == isPresent) {
-            days++
-            if (size - 1 != index) {
-                removeIndex.add(index)
-            }
+
+fun Long.getRelativeDateForAttendance(): String {
+    val currentTime = System.currentTimeMillis()
+    val difference = currentTime - this
+    val seconds = difference / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val days = hours / 24
+    val months = days / 30
+
+    return when {
+        seconds < 60 -> {
+            " Just now"
+        }
+
+        minutes < 60 -> {
+            " ${minutes.toInt()} minute${if (minutes.toInt() > 1) "s" else ""} ago"
+        }
+
+        hours < 24 -> {
+            " ${hours.toInt()} hour${if (hours.toInt() > 1) "s" else ""} ago"
+        }
+
+        days == 1L -> {
+            " Yesterday"
+        }
+
+        days < 30 -> {
+            " ${this.convertLongToTime("dd MMM")}"
+        }
+
+        months < 12 -> {
+            " ${this.convertLongToTime("dd MMM")}"
+        }
+
+        else -> {
+            " ${this.convertLongToTime("dd MMM yyyy")}"
         }
     }
-    for (r in removeIndex.reversed()) {
-        this.removeAt(r)
-    }
-    return days
 }
 
-///**
-// * @since 4.0.3
-// * @author Ayaan
-// */
-//inline fun AttendanceModel.showUndoMessage(
-//    parentView: View, crossinline action: (AttendanceModel) -> Unit
-//) = Snackbar.make(
-//    parentView, "Deleted ${this.subject}", Snackbar.LENGTH_SHORT
-//).setAction("Undo") {
-//    action.invoke(this)
-//}.apply {
-//    this.setBackgroundTint(
-//        MaterialColors.getColor(
-//            parentView.context, com.google.android.material.R.attr.colorSurface, Color.WHITE
-//        )
-//    )
-//    this.setActionTextColor(ContextCompat.getColor(parentView.context, com.atech.theme.R.color.red))
-//    this.setTextColor(ContextCompat.getColor(parentView.context, com.atech.theme.R.color.textColor))
-//}.show()
+

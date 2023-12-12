@@ -56,6 +56,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.atech.attendance.R
+import com.atech.attendance.screen.attendance.AttendanceEvent
 import com.atech.attendance.screen.attendance.AttendanceViewModel
 import com.atech.components.ImageIconButton
 import com.atech.components.ImageIconModel
@@ -136,6 +137,15 @@ fun AttendanceScreen(
                                 dampingRatio = 2f, stiffness = 600f
                             )
                         ),
+                        onTickOrCrossClickClick = { clickItems, isPresent ->
+                            viewModel
+                                .onEvent(
+                                    AttendanceEvent.ChangeAttendanceValue(
+                                        attendanceModel = clickItems,
+                                        isPresent = isPresent
+                                    )
+                                )
+                        }
                     )
                 }
             }

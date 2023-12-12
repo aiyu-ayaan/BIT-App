@@ -1,7 +1,5 @@
 package com.atech.attendance.screen.attendance
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -15,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +26,20 @@ class AttendanceViewModel @Inject constructor(
 
     init {
         getAttendance()
+    }
+
+    fun onEvent(event: AttendanceEvent) {
+        when (event) {
+            is AttendanceEvent.ChangeAttendanceValue -> {
+                viewModelScope.launch {
+                    case.updatePresentOrTotal(
+                        attendance = event.attendanceModel,
+                        isPresent = event.isPresent
+                    )
+                    getAttendance()
+                }
+            }
+        }
     }
 
     private fun getAttendance() {

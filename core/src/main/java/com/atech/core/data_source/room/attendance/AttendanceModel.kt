@@ -18,6 +18,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
+import com.atech.core.utils.convertLongToTime
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.parcelize.Parcelize
@@ -107,3 +108,20 @@ object StackTypeConvector {
     fun toDeque(stack: Deque<AttendanceSave>): String = Gson().toJson(stack)
 }
 
+
+fun ArrayList<IsPresent>.countTotalClass(size: Int, isPresent: Boolean): Int {
+    var days = 1
+    val removeIndex = arrayListOf<Int>()
+    for ((index, i) in this.withIndex()) {
+        if (this.last().day.convertLongToTime("dd/mm/yyyy") == i.day.convertLongToTime("dd/mm/yyyy") && i.isPresent == isPresent) {
+            days++
+            if (size - 1 != index) {
+                removeIndex.add(index)
+            }
+        }
+    }
+    for (r in removeIndex.reversed()) {
+        this.removeAt(r)
+    }
+    return days
+}
