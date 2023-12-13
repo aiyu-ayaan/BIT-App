@@ -20,7 +20,8 @@ import javax.inject.Inject
 
 data class AttendanceUseCase @Inject constructor(
     val getAllAttendance: GetAllAttendance,
-    val updatePresentOrTotal: UpdatePresentOrTotal
+    val updatePresentOrTotal: UpdatePresentOrTotal,
+    val getAttendanceById: GetAttendanceById
 )
 
 data class GetAllAttendance @Inject constructor(
@@ -120,4 +121,10 @@ data class UpdatePresentOrTotal @Inject constructor(
             )
         )
     }
+}
+
+class GetAttendanceById @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(id: Int) = dao.getAttendanceById(id)
 }

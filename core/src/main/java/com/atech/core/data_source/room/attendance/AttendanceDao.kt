@@ -97,5 +97,7 @@ interface AttendanceDao {
     @Query("DELETE FROM attendance_table WHERE isArchive = 1")
     suspend fun deleteAllArchiveAttendance()
 
+    @Query("SELECT * FROM attendance_table WHERE id = :id")
+    suspend fun getAttendanceById(id: Int): AttendanceModel?
 
 }

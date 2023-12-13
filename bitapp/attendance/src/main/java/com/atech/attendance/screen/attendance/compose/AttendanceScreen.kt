@@ -58,9 +58,12 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
+import com.atech.attendance.AttendanceScreenRoutes
 import com.atech.attendance.R
 import com.atech.attendance.screen.attendance.AttendanceEvent
 import com.atech.attendance.screen.attendance.AttendanceViewModel
@@ -75,13 +78,13 @@ import com.atech.theme.grid_2
 import com.atech.utils.isScrollingUp
 
 @OptIn(
-    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
+    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun AttendanceScreen(
     modifier: Modifier = Modifier,
-    viewModel: AttendanceViewModel = hiltViewModel()
+    viewModel: AttendanceViewModel = hiltViewModel(),
+    navController: NavController = rememberNavController()
 ) {
     val attendanceList = viewModel.attendance.collectAsLazyPagingItems()
     val lazyListState = rememberLazyListState()
@@ -89,46 +92,43 @@ fun AttendanceScreen(
     var currentClickAttendance by rememberSaveable {
         mutableStateOf<AttendanceModel?>(null)
     }
-    Scaffold(
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        bottomBar = {
-            AttendanceBottomAppbar()
-        },
-        topBar = {
-            TopAppBar(
-                title = {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceAround
-                    ) {
-                        Text(
-                            text = "Goal : 80%",
-                            modifier = Modifier.padding(start = grid_1),
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(grid_1))
-                        Text(
-                            text = "😎",
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Spacer(modifier = Modifier.width(grid_1))
-                        Text(
-                            text = "Current : 75%",
-                            style = MaterialTheme.typography.titleSmall,
-                            modifier = Modifier.padding(end = grid_1),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
-                },
-                scrollBehavior = scrollBehavior
-            )
-        }
-    ) {
+    Scaffold(modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection), bottomBar = {
+        AttendanceBottomAppbar(action = {
+            navController.navigate(
+                    AttendanceScreenRoutes.AddEditAttendanceScreen.route
+                )
+        })
+    }, topBar = {
+        TopAppBar(
+            title = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Text(
+                        text = "Goal : 80%",
+                        modifier = Modifier.padding(start = grid_1),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.width(grid_1))
+                    Text(
+                        text = "😎",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Spacer(modifier = Modifier.width(grid_1))
+                    Text(
+                        text = "Current : 75%",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier.padding(end = grid_1),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }, scrollBehavior = scrollBehavior
+        )
+    }) {
         val sheetState = rememberModalBottomSheetState()
         var isSheetOpen by rememberSaveable {
             mutableStateOf(false)
@@ -138,8 +138,7 @@ fun AttendanceScreen(
             ModalBottomSheet(
                 onDismissRequest = {
                     isSheetOpen = false
-                },
-                sheetState = sheetState
+                }, sheetState = sheetState
             ) {
                 AttendanceCalenderView(
                     model = currentClickAttendance!!
@@ -148,37 +147,26 @@ fun AttendanceScreen(
         }
 
         LazyColumn(
-            modifier = Modifier.consumeWindowInsets(it),
-            contentPadding = it,
-            state = lazyListState
+            modifier = Modifier.consumeWindowInsets(it), contentPadding = it, state = lazyListState
         ) {
-            items(
-                count = attendanceList.itemCount,
+            items(count = attendanceList.itemCount,
                 key = attendanceList.itemKey { model -> model.id },
-                contentType = attendanceList.itemContentType { it1 -> it1.subject }
-            ) { index ->
+                contentType = attendanceList.itemContentType { it1 -> it1.subject }) { index ->
                 attendanceList[index]?.let { model ->
-                    AttendanceItem(
-                        model = model,
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = spring(
-                                dampingRatio = 2f, stiffness = 600f
-                            )
-                        ),
-                        onTickOrCrossClickClick = { clickItems, isPresent ->
-                            viewModel
-                                .onEvent(
-                                    AttendanceEvent.ChangeAttendanceValue(
-                                        attendanceModel = clickItems,
-                                        isPresent = isPresent
-                                    )
+                    AttendanceItem(model = model, modifier = Modifier.animateItemPlacement(
+                        animationSpec = spring(
+                            dampingRatio = 2f, stiffness = 600f
+                        )
+                    ), onTickOrCrossClickClick = { clickItems, isPresent ->
+                        viewModel.onEvent(
+                                AttendanceEvent.ChangeAttendanceValue(
+                                    attendanceModel = clickItems, isPresent = isPresent
                                 )
-                        },
-                        onClick = {
-                            currentClickAttendance = it
-                            isSheetOpen = true
-                        }
-                    )
+                            )
+                    }, onClick = {
+                        currentClickAttendance = it
+                        isSheetOpen = true
+                    })
                 }
             }
         }
@@ -187,56 +175,42 @@ fun AttendanceScreen(
 
 @Composable
 fun AttendanceBottomAppbar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier, action: () -> Unit = {}
 ) {
     val actionList = listOf(
-        ImageIconModel(
-            imageVector = Icons.Rounded.MenuOpen,
+        ImageIconModel(imageVector = Icons.Rounded.MenuOpen,
             contentDescription = R.string.menu,
-            onClick = {}
-        ),
-        ImageIconModel(
-            imageVector = Icons.Outlined.Book,
+            onClick = {}),
+        ImageIconModel(imageVector = Icons.Outlined.Book,
             contentDescription = R.string.add_from_Syllabus,
-            onClick = {}
-        ),
-        ImageIconModel(
-            imageVector = Icons.Outlined.Archive,
+            onClick = {}),
+        ImageIconModel(imageVector = Icons.Outlined.Archive,
             contentDescription = R.string.archive,
-            onClick = {}
-        ),
-        ImageIconModel(
-            imageVector = Icons.Outlined.Settings,
+            onClick = {}),
+        ImageIconModel(imageVector = Icons.Outlined.Settings,
             contentDescription = R.string.settings,
-            onClick = {}
-        ),
+            onClick = {}),
     )
-    BottomAppBar(
-        modifier = modifier,
-        actions = {
-            actionList.forEach { action ->
-                ImageIconButton(iconModel = action)
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /*TODO*/ },
-                containerColor = MaterialTheme.colorScheme.primary,
-                contentColor = MaterialTheme.colorScheme.onPrimary
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Add,
-                    contentDescription = "add"
-                )
-            }
+    BottomAppBar(modifier = modifier, actions = {
+        actionList.forEach { action ->
+            ImageIconButton(iconModel = action)
         }
-    )
+    }, floatingActionButton = {
+        FloatingActionButton(
+            onClick = action,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        ) {
+            Icon(
+                imageVector = Icons.Outlined.Add, contentDescription = "add"
+            )
+        }
+    })
 }
 
 @Composable
 fun AttendanceScreenToolbar(
-    modifier: Modifier = Modifier,
-    state: LazyListState
+    modifier: Modifier = Modifier, state: LazyListState
 ) {
     Box(modifier = modifier) {
         AnimatedVisibility(
@@ -263,8 +237,7 @@ fun ShrinkToolBarCompose(
     Card(
         modifier = modifier
             .padding(grid_1)
-            .fillMaxWidth(),
-        colors = CardDefaults.cardColors(
+            .fillMaxWidth(), colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.dividerOrCardColor,
         )
     ) {
@@ -276,15 +249,13 @@ fun ShrinkToolBarCompose(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "Goal : 80%",
-                modifier = Modifier.padding(start = grid_1)
+                text = "Goal : 80%", modifier = Modifier.padding(start = grid_1)
             )
             Spacer(modifier = Modifier.width(grid_1))
             Text(text = "😎")
             Spacer(modifier = Modifier.width(grid_1))
             Text(
-                text = "Current : 75%",
-                modifier = Modifier.padding(end = grid_1)
+                text = "Current : 75%", modifier = Modifier.padding(end = grid_1)
             )
         }
     }
@@ -302,8 +273,7 @@ private fun ExpandToolbarCompose(
     ) {
 
         Box(
-            modifier = Modifier
-                .size(95.dp)
+            modifier = Modifier.size(95.dp)
         ) {
 
             CircularProgressIndicator(
@@ -326,8 +296,7 @@ private fun ExpandToolbarCompose(
             )
             Text(
                 text = "😎",
-                modifier = Modifier
-                    .align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center),
                 style = MaterialTheme.typography.headlineSmall
             )
         }

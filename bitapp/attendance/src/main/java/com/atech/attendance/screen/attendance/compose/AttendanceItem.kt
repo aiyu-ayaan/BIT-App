@@ -154,7 +154,8 @@ fun AttendanceItem(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                imageVector = if (checkForLab(model)
+                                imageVector = if (checkForLab(model.subject
+                                )
                                 ) Icons.Default.Computer else Icons.Default.MenuBook,
                                 contentDescription = null,
                                 modifier = Modifier.size(30.dp),
@@ -269,11 +270,11 @@ fun AttendanceItem(
 }
 
 
-private fun checkForLab(model: AttendanceModel) =
-    (model.subject.lowercase().contains("lab")
-            || model.subject.lowercase().contains("practical")
-            || model.subject.lowercase().contains("tutorial")
-            || model.subject.lowercase().contains("prac"))
+fun checkForLab(model: String) =
+    (model.lowercase().contains("lab")
+            || model.lowercase().contains("practical")
+            || model.lowercase().contains("tutorial")
+            || model.lowercase().contains("prac"))
 
 
 @Preview(

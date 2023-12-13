@@ -11,4 +11,13 @@
     <string name="leave_class">Status: You can leave %s class</string>
     <string name="error">Error</string>
     <string name="attend_class">Status: Attend Next %s Class</string>
+    <string name="subject">Subject Name</string>
+    <string name="required">Required *</string>
+    <string name="teacher_name">Teacher Name</string>
+    <string name="optional">Optional</string>
+    <string name="initail_present">Initial Present</string>
+    <string name="edit_text_empty_messge_for_days">If 0 then leave it empty</string>
+    <string name="total_days">Total Classes</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

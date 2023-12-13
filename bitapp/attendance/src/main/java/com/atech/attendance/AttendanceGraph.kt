@@ -2,7 +2,10 @@ package com.atech.attendance
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import com.atech.attendance.screen.add_edit.components.AddEditAttendanceScreen
 import com.atech.attendance.screen.attendance.compose.AttendanceScreen
 import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
@@ -10,7 +13,7 @@ import com.atech.utils.getSimpleName
 
 sealed class AttendanceScreenRoutes(val route: String) {
     data object AttendanceScreen : AttendanceScreenRoutes("attendance_screen")
-
+    data object AddEditAttendanceScreen : AttendanceScreenRoutes("add_edit_attendance_screen")
 }
 
 
@@ -24,7 +27,22 @@ fun NavGraphBuilder.attendanceNavigation(
         animatedCompose(
             route = AttendanceScreenRoutes.AttendanceScreen.route
         ) {
-            AttendanceScreen()
+            AttendanceScreen(
+                navController = navHostController
+            )
+        }
+        animatedCompose(
+            route = AttendanceScreenRoutes.AddEditAttendanceScreen.route + "?attendance_id={attendance_id}",
+            arguments = listOf(
+                navArgument("attendance_id") {
+                    defaultValue = -1
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            AddEditAttendanceScreen(
+                navController = navHostController
+            )
         }
     }
 }
