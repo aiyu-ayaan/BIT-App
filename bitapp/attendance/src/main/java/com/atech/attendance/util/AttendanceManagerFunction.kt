@@ -88,7 +88,7 @@ fun AttendanceModel.getEventList(): List<Event> {
     return events
 }
 
-fun AttendanceModel.getCurrentMonthList(data: Date) = this.run {
+fun AttendanceModel.getCurrentMonthList(data: Date): List<IsPresent> = this.run {
     val list = arrayListOf<IsPresent>()
     val sf = SimpleDateFormat("MMMM/yyyy", Locale.getDefault())
     val compare = sf.format(data)
@@ -97,7 +97,7 @@ fun AttendanceModel.getCurrentMonthList(data: Date) = this.run {
             list.add(it)
         }
     }
-    list
+    list.toList()
 }
 
 private fun ArrayList<IsPresent>.getOnly50Data(): ArrayList<IsPresent> {

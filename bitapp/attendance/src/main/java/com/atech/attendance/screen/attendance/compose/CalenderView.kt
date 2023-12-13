@@ -1,7 +1,9 @@
 package com.atech.attendance.screen.attendance.compose
 
 
+import android.util.Log
 import android.view.View
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,6 +28,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,6 +62,9 @@ fun AttendanceCalenderView(
     Column(
         modifier = modifier
     ) {
+        var date by rememberSaveable {
+            mutableStateOf(Date())
+        }
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -121,6 +127,7 @@ fun AttendanceCalenderView(
                                             "MMMM yyyy",
                                             Locale.getDefault()
                                         ).format(firstDayOfNewMonth!!)
+                                        date = firstDayOfNewMonth
                                     }
                                 })
 
@@ -131,24 +138,25 @@ fun AttendanceCalenderView(
                 )
             }
         }
-        Divider(
-            color = MaterialTheme.colorScheme.onPrimary,
-        )
-        val items = model.getCurrentMonthList(data = Date())
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(grid_1),
-            colors = CardDefaults
-                .cardColors(
-                    containerColor = MaterialTheme.colorScheme.dividerOrCardColor
-                )
-        ) {
-            LazyColumn {
-                items(items = items) { item ->
-                    ShowDateItems(
-                        model = item
+        AnimatedVisibility(visible =model.getCurrentMonthList(data = date).isNotEmpty()) {
+            Divider(
+                color = MaterialTheme.colorScheme.onPrimary,
+            )
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(grid_1),
+                colors = CardDefaults
+                    .cardColors(
+                        containerColor = MaterialTheme.colorScheme.dividerOrCardColor
                     )
+            ) {
+                LazyColumn {
+                    items(items = model.getCurrentMonthList(data = date)) { item ->
+                        ShowDateItems(
+                            model = item
+                        )
+                    }
                 }
             }
         }
@@ -172,15 +180,15 @@ fun ShowDateItems(
             modifier = Modifier.padding(end = grid_1),
             text = if (model.totalClasses == null) "1" else model.totalClasses.toString(),
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleMedium
         )
         Box(modifier = Modifier) {
             Divider(
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = .45f),
                 modifier = Modifier
                     .align(Alignment.Center)
                     .fillMaxHeight()  //fill the max height
-                    .width(1.dp)
+                    .width(.8.dp)
             )
             Box(
                 modifier = Modifier
@@ -200,12 +208,12 @@ fun ShowDateItems(
                 text = SimpleDateFormat("dd-MMMM", Locale.getDefault())
                     .format(model.day),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.bodyMedium
             )
             Text(
                 text = if (model.isPresent) "Present" else "Absent",
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleSmall
+                style = MaterialTheme.typography.bodySmall
             )
         }
     }
