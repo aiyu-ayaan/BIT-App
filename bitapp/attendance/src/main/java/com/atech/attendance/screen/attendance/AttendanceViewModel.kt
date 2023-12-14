@@ -157,6 +157,8 @@ class AttendanceViewModel @Inject constructor(
         }
     }
 
+    suspend fun getElementIdFromSubject(sub: String) = case.getElementIdFromSubjectName(sub)
+
     sealed class OneTimeAttendanceEvent {
         data class ShowUndoDeleteAttendanceMessage(val message: String) : OneTimeAttendanceEvent()
     }

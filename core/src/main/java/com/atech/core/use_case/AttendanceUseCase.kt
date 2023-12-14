@@ -36,7 +36,8 @@ data class AttendanceUseCase @Inject constructor(
     val deleteAttendance: DeleteAttendance,
     val deleteAllAttendance: DeleteAllAttendance,
     val getAllSubject: GetAllSubject,
-    val addOrRemoveFromSyllabus: AddOrRemoveFromSyllabus
+    val addOrRemoveFromSyllabus: AddOrRemoveFromSyllabus,
+    val getElementIdFromSubjectName: GetElementIdFromSubjectName
 )
 
 data class GetAllAttendance @Inject constructor(
@@ -305,4 +306,10 @@ data class AddOrRemoveFromSyllabus @Inject constructor(
             dao.deleteFromSubjectName(model.subject)
         }
     }
+}
+
+data class GetElementIdFromSubjectName @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(subject: String) = dao.getElementIdFromSubject(subject)
 }

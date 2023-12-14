@@ -73,8 +73,8 @@ interface AttendanceDao {
     @Query("SELECT * FROM attendance_table WHERE fromOnlineSyllabus = 1")
     fun getAttendanceAddedFromOnline(): Flow<List<AttendanceModel>>
 
-    @Query("SELECT * FROM attendance_table WHERE subject_name = :subjectName AND fromOnlineSyllabus = 1")
-    suspend fun checkSubjectFromOnline(subjectName: String): AttendanceModel?
+    @Query("SELECT id from attendance_table where subject_name = :subjectName")
+    suspend fun getElementIdFromSubject(subjectName: String): Int?
 
     @Query("SELECT * FROM attendance_table WHERE isArchive = 1 ORDER BY id ASC")
     fun getAllArchiveAttendance(): Flow<List<AttendanceModel>>
@@ -87,7 +87,7 @@ interface AttendanceDao {
 
 
     @Query("DELETE FROM attendance_table WHERE subject_name = :name")
-    suspend fun deleteFromSubjectName(name :  String)
+    suspend fun deleteFromSubjectName(name: String)
 
 
     /**

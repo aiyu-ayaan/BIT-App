@@ -64,6 +64,8 @@ fun AddEditAttendanceScreen(
         SnackbarHostState()
     }
 
+    val fromAddFromSyllabus = viewModel.fromAddFromSyllabus
+
     LaunchedEffect(key1 = true) {
         viewModel.oneTimeEvent.collectLatest { event ->
             when (event) {
@@ -105,7 +107,8 @@ fun AddEditAttendanceScreen(
                 .padding(it)
                 .padding(grid_1)
         ) {
-            EditText(modifier = Modifier.fillMaxWidth(),
+            EditText(
+                modifier = Modifier.fillMaxWidth(),
                 value = subject,
                 placeholder = stringResource(id = R.string.subject),
                 supportingMessage = stringResource(id = R.string.required),
@@ -127,7 +130,8 @@ fun AddEditAttendanceScreen(
                 if (viewModel.isEdit) null else
                     remember {
                         FocusRequester()
-                    }
+                    },
+                enable = !fromAddFromSyllabus
             )
             Spacer(modifier = Modifier.height(grid_1))
             EditText(
@@ -150,7 +154,12 @@ fun AddEditAttendanceScreen(
                 },
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
-                )
+                ),
+                focusRequester =
+                if (!fromAddFromSyllabus) null
+                else remember {
+                    FocusRequester()
+                }
             )
             Spacer(modifier = Modifier.height(grid_1))
             EditText(

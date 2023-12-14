@@ -33,7 +33,8 @@ fun AttendanceSyllabusItem(
     modifier: Modifier = Modifier,
     model: SyllabusUIModel,
     isOnline: Boolean = false,
-    onClick: (SyllabusUIModel, Boolean) -> Unit = {_,_->}
+    onClick: (SyllabusUIModel, Boolean) -> Unit = {_,_->},
+    onEditClick : (SyllabusUIModel) -> Unit = {}
 ) {
     var isChecked by rememberSaveable {
         mutableStateOf(
@@ -77,7 +78,8 @@ fun AttendanceSyllabusItem(
                 )
                 AnimatedVisibility(visible = isChecked) {
                     ImageIconButton(
-                        icon = Icons.Outlined.Edit
+                        icon = Icons.Outlined.Edit,
+                        onClick = { onEditClick.invoke(model) }
                     )
                 }
                 Checkbox(checked = isChecked, onCheckedChange = {

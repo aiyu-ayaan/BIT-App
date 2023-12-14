@@ -1,5 +1,6 @@
 package com.atech.attendance.screen.add_edit
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -8,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.use_case.AttendanceUseCase
+import com.atech.core.utils.toBoolean
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -20,6 +22,8 @@ class AddEditViewModel @Inject constructor(
     private val useCase: AttendanceUseCase, state: SavedStateHandle
 ) : ViewModel() {
     private val _id = state.get<Int>("attendanceId") ?: -1
+
+    val fromAddFromSyllabus = (state.get<Int>("fromAddFromSyllabus") ?: 0).toBoolean()
 
     val isEdit = _id != -1
 
@@ -41,6 +45,7 @@ class AddEditViewModel @Inject constructor(
     val oneTimeEvent = _oneTimeEvent.asSharedFlow()
 
     init {
+        Log.d("AAA", " $fromAddFromSyllabus ")
         if (_id != -1) {
             getElement(_id)
         }

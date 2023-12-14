@@ -12,3 +12,6 @@ fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).
 
 fun String.encodeUrlSpaces(): String = this.replace(" ", "%20")
 
+
+fun Int.toBoolean() = this == 1
+

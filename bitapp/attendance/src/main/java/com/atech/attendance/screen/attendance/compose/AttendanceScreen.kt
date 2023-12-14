@@ -1,7 +1,6 @@
 package com.atech.attendance.screen.attendance.compose
 
 import android.content.res.Configuration
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -206,7 +205,11 @@ fun AttendanceScreen(
                 onDismissRequest = { isAddFromSyllabusBottomSheetVisible = false }
             ) {
                 bottomSheetAddFromSyllabus(
-                    viewModel = viewModel
+                    viewModel = viewModel,
+                    navController = navController,
+                    dismissRequest = {
+                        isAddFromSyllabusBottomSheetVisible = false
+                    }
                 )
             }
         if (attendanceList.itemCount == 0) {
