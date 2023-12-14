@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Cancel
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.FlipCameraAndroid
 import androidx.compose.material.icons.outlined.Person
@@ -273,7 +274,7 @@ fun AddEditAttendanceScreen(
                         .padding(grid_1)
                 ) {
                     Icon(
-                        imageVector = Icons.Outlined.Save,
+                        imageVector = Icons.Outlined.Cancel,
                         contentDescription = stringResource(id = R.string.cancel),
                     )
                     Spacer(modifier = Modifier.width(grid_1))

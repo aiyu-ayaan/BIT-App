@@ -27,7 +27,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.components.BackToolbar
-import com.atech.components.EmptyScreen
+import com.atech.components.NetworkScreenEmptyScreen
 import com.atech.syllabus.getFragment
 import com.atech.theme.BITAppTheme
 import com.atech.utils.hexToRgb
@@ -83,7 +83,7 @@ fun ViewSubjectScreen(
                 verticalArrangement = Arrangement.Center,
             ) {
                 if (hasError.first) {
-                    EmptyScreen(
+                    NetworkScreenEmptyScreen(
                         modifier = Modifier.fillMaxSize(),
                         text = hasError.second
                     )

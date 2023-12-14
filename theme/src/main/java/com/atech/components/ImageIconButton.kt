@@ -26,7 +26,8 @@ fun ImageIconButton(
         onClick = iconModel.onClick,
         icon = iconModel.imageVector,
         contextDes = iconModel.contentDescription,
-        tint = iconModel.tint ?: tint
+        tint = iconModel.tint ?: tint,
+        isEnable = iconModel.isEnable
     )
 }
 
@@ -37,10 +38,12 @@ fun ImageIconButton(
     tint: Color = LocalContentColor.current,
     @StringRes contextDes: Int? = null,
     onClick: () -> Unit = {},
+    isEnable: Boolean = true
 ) {
     IconButton(
         modifier = modifier,
-        onClick = { onClick() }
+        onClick = { onClick() },
+        enabled = isEnable
     ) {
         Icon(
             imageVector = icon,
@@ -76,7 +79,8 @@ data class ImageIconModel(
     @StringRes val contentDescription: Int? = null,
     val onClick: () -> Unit,
     val isVisible: Boolean = true,
-    val tint: Color? = null
+    val tint: Color? = null,
+    val isEnable: Boolean = true
 )
 
 val backIconModel = ImageIconModel(

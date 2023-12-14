@@ -104,9 +104,24 @@ class AttendanceViewModel @Inject constructor(
             }
 
             AttendanceEvent.ClearSelection -> _selectedAttendance.value = emptyList()
-            AttendanceEvent.SelectedItemToArchive -> {}
-            AttendanceEvent.DeleteSelectedItems -> {
+            AttendanceEvent.SelectedItemToArchive -> {
+                viewModelScope.launch {
+                    _selectedAttendance.value.forEach {
+                        case.archiveAttendance(it)
+                    }
+                    _selectedAttendance.value = emptyList()
+                }
+                getAttendance()
+            }
 
+            AttendanceEvent.DeleteSelectedItems -> {
+                viewModelScope.launch {
+                    _selectedAttendance.value.forEach {
+                        case.deleteAttendance(it)
+                    }
+                    _selectedAttendance.value = emptyList()
+                }
+                getAttendance()
             }
         }
     }

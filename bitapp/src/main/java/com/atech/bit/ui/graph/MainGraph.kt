@@ -33,7 +33,7 @@ fun HomeNavigation(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = MainScreenRoutes.Attendance.route
+        startDestination = MainScreenRoutes.Home.route
     ) {
         homeNavigation(
             navHostController,

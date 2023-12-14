@@ -50,7 +50,7 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.atech.components.BackToolbar
 import com.atech.components.BottomPadding
-import com.atech.components.EmptyScreen
+import com.atech.components.NetworkScreenEmptyScreen
 import com.atech.components.singleElement
 import com.atech.core.data_source.firebase.remote.model.CourseDetailModel
 import com.atech.core.data_source.room.syllabus.SubjectType
@@ -162,7 +162,7 @@ fun SemChooseScreen(
 
 @Composable
 private fun ShowEmptyScreen() {
-    EmptyScreen(
+    NetworkScreenEmptyScreen(
         modifier = Modifier.fillMaxSize(),
         text = "No syllabus found for this semester."
     )

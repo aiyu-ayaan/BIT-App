@@ -22,7 +22,7 @@ import com.atech.theme.R
 import com.atech.theme.grid_2
 
 @Composable
-fun EmptyScreen(
+fun NetworkScreenEmptyScreen(
     modifier: Modifier = Modifier,
     text: String = "No Data Found"
 ) {
@@ -53,4 +53,21 @@ fun EmptyScreen(
             color = MaterialTheme.colorScheme.onSurface
         )
     }
+}
+
+@Composable
+fun EmptyScreen(
+    modifier: Modifier = Modifier
+) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.empty_screen))
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever
+    )
+    LottieAnimation(
+        modifier = modifier
+            .size(300.dp),
+        composition = composition,
+        progress = { progress },
+    )
 }
