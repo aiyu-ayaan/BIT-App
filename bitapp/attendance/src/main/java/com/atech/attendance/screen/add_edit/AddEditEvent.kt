@@ -5,6 +5,6 @@ sealed class AddEditEvent {
     data class OnPresentChange(val present: Int) : AddEditEvent()
     data class OnTotalChange(val total: Int) : AddEditEvent()
     data class OnTeacherNameChange(val teacherName: String) : AddEditEvent()
-    data object OnSaveClick : AddEditEvent()
+    data class OnSaveClick(val action : ()->Unit = {}) : AddEditEvent()
 
 }

@@ -9,6 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.use_case.AttendanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,6 +20,8 @@ class AddEditViewModel @Inject constructor(
     private val useCase: AttendanceUseCase, state: SavedStateHandle
 ) : ViewModel() {
     private val _id = state.get<Int>("attendance_id") ?: -1
+
+    val isEdit = _id != -1
 
     private val _attendanceModel = mutableStateOf<AttendanceModel?>(null)
 
@@ -30,8 +34,11 @@ class AddEditViewModel @Inject constructor(
     private val _total = mutableIntStateOf(_attendanceModel.value?.total ?: 0)
     val total: State<Int> get() = _total
 
-    private val _teacherName = mutableStateOf<String>(_attendanceModel.value?.teacher ?: "")
+    private val _teacherName = mutableStateOf(_attendanceModel.value?.teacher ?: "")
     val teacherName: State<String> get() = _teacherName
+
+    private val _oneTimeEvent = MutableSharedFlow<AddEditOneTimeEvent>()
+    val oneTimeEvent = _oneTimeEvent.asSharedFlow()
 
     init {
         if (_id != -1) {
@@ -39,18 +46,48 @@ class AddEditViewModel @Inject constructor(
         }
     }
 
-    fun onEvent(event : AddEditEvent){
-        when(event){
+    fun onEvent(event: AddEditEvent) {
+        when (event) {
             is AddEditEvent.OnSubjectChange -> _subject.value = event.subject
             is AddEditEvent.OnTeacherNameChange -> _teacherName.value = event.teacherName
             is AddEditEvent.OnPresentChange -> _present.intValue = event.present
             is AddEditEvent.OnTotalChange -> _total.intValue = event.total
-            AddEditEvent.OnSaveClick -> save()
+            is AddEditEvent.OnSaveClick -> save(event.action)
         }
     }
 
-    private fun save() {
+    private fun save(action: () -> Unit) = viewModelScope.launch {
+        if (_id == -1)
+            useCase.addAttendance.invoke(
+                AttendanceModel(
+                    subject = _subject.value,
+                    present = _present.intValue,
+                    total = _total.intValue,
+                    teacher = _teacherName.value
+                )
+            )
+        else {
+            try {
+                useCase.updateAttendance.invoke(
+                    _attendanceModel.value!!,
+                    AttendanceModel(
+                        id = _id,
+                        subject = _subject.value,
+                        present = _present.intValue,
+                        total = _total.intValue,
+                        teacher = _teacherName.value
+                    )
+                )
+            } catch (e: Exception) {
+                _oneTimeEvent.emit(
+                    AddEditOneTimeEvent.ShowSnackBar(
+                        "Subject name already exist"
+                    )
+                )
+            }
+        }
 
+        action.invoke()
     }
 
 
@@ -58,5 +95,9 @@ class AddEditViewModel @Inject constructor(
         useCase.getAttendanceById.invoke(id).let {
             _attendanceModel.value = it
         }
+    }
+
+    sealed class AddEditOneTimeEvent {
+        data class ShowSnackBar(val message: String) : AddEditOneTimeEvent()
     }
 }

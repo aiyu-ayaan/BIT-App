@@ -1,6 +1,7 @@
 package com.atech.attendance.screen.add_edit.components
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -22,13 +23,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,6 +48,7 @@ import com.atech.attendance.screen.add_edit.AddEditViewModel
 import com.atech.components.BackToolbar
 import com.atech.theme.BITAppTheme
 import com.atech.theme.grid_1
+import kotlinx.coroutines.flow.collectLatest
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,6 +58,22 @@ fun AddEditAttendanceScreen(
     viewModel: AddEditViewModel = hiltViewModel(),
     navController: NavController = rememberNavController()
 ) {
+
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.oneTimeEvent.collectLatest { event ->
+            when (event) {
+                is AddEditViewModel.AddEditOneTimeEvent.ShowSnackBar ->
+                    snackBarHostState.showSnackbar(
+                        message = event.message
+                    )
+            }
+        }
+    }
+
     val subject = viewModel.subject.value
     val teacherName = viewModel.teacherName.value
     val present = viewModel.present.value
@@ -67,9 +89,10 @@ fun AddEditAttendanceScreen(
 
     Scaffold(
         modifier = modifier,
+        snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
             BackToolbar(
-                title = "Add",
+                title = if (viewModel.isEdit) "Edit" else "Add",
                 onNavigationClick = {
                     navController.navigateUp()
                 }
@@ -81,12 +104,14 @@ fun AddEditAttendanceScreen(
                 .padding(it)
                 .padding(grid_1)
         ) {
-            EditText(
-                modifier = Modifier.fillMaxWidth(),
+            EditText(modifier = Modifier.fillMaxWidth(),
                 value = subject,
                 placeholder = stringResource(id = R.string.subject),
                 supportingMessage = stringResource(id = R.string.required),
                 onValueChange = { sub ->
+                    if (isSubjectIsEmpty) {
+                        isSubjectIsEmpty = false
+                    }
                     viewModel.onEvent(AddEditEvent.OnSubjectChange(sub))
                 },
                 errorMessage = stringResource(id = R.string.required),
@@ -95,10 +120,11 @@ fun AddEditAttendanceScreen(
                     viewModel.onEvent(AddEditEvent.OnSubjectChange(""))
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
-                )
-            )
+                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
+                ),
+                focusRequester = remember {
+                    FocusRequester()
+                })
             Spacer(modifier = Modifier.height(grid_1))
             EditText(
                 modifier = Modifier.fillMaxWidth(),
@@ -119,8 +145,7 @@ fun AddEditAttendanceScreen(
                     viewModel.onEvent(AddEditEvent.OnTeacherNameChange(""))
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
                 )
             )
             Spacer(modifier = Modifier.height(grid_1))
@@ -138,35 +163,40 @@ fun AddEditAttendanceScreen(
                 },
                 maxLines = 1,
                 onValueChange = { typedPresent ->
-                    if (present.toString().length != 3) {
-                        viewModel.onEvent(AddEditEvent.OnPresentChange(typedPresent.toInt()))
-                        if (typedPresent.toInt() > total) {
+                    if (typedPresent.length > 3) return@EditText
+                    try {
+                        viewModel.onEvent(
+                            AddEditEvent.OnPresentChange(
+                                if (typedPresent.isBlank()) 0 else typedPresent.toInt()
+                            )
+                        )
+                        if (typedPresent.isNotBlank() && typedPresent.toInt() > total) {
                             isPresentHaveError = true
                         }
-                    }
-                },
-                clearIconClick = {
-                    if (!isPresentHaveError)
-                        viewModel.onEvent(AddEditEvent.OnPresentChange(0))
-                    else {
-                        viewModel.onEvent(AddEditEvent.OnTotalChange(present))
-                        viewModel.onEvent(AddEditEvent.OnPresentChange(total))
-                        isPresentHaveError = false
+                    } catch (e: Exception) {
+                        AddEditEvent.OnPresentChange(
+                            0
+                        )
                     }
 
                 },
                 trailingIcon = {
-                    Icon(
-                        imageVector = if (isPresentHaveError) Icons.Outlined.FlipCameraAndroid else Icons.Outlined.Clear,
+                    if (present != 0) Icon(imageVector = if (isPresentHaveError) Icons.Outlined.FlipCameraAndroid else Icons.Outlined.Clear,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.error
-                    )
+                        tint = if (isPresentHaveError) MaterialTheme.colorScheme.error
+                        else MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.clickable {
+                            if (isPresentHaveError) {
+                                viewModel.onEvent(AddEditEvent.OnTotalChange(present))
+                                viewModel.onEvent(AddEditEvent.OnPresentChange(total))
+                                isPresentHaveError = false
+                            } else viewModel.onEvent(AddEditEvent.OnPresentChange(0))
+                        })
                 },
                 isError = isPresentHaveError,
                 errorMessage = "Check your input ($present > $total)\nPress error button to flip the values !!",
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                 )
             )
             Spacer(modifier = Modifier.height(grid_1))
@@ -184,24 +214,45 @@ fun AddEditAttendanceScreen(
                 },
                 maxLines = 1,
                 onValueChange = { typedTotal ->
-                    if (total.toString().length != 3)
-                        viewModel.onEvent(AddEditEvent.OnTotalChange(typedTotal.toInt()))
+                    if (typedTotal.length > 3) return@EditText
+                    try {
+                        viewModel.onEvent(
+                            AddEditEvent.OnTotalChange(
+                                if (typedTotal.isBlank()) 0 else typedTotal.toInt()
+                            )
+                        )
+                        if (typedTotal.isNotBlank() && typedTotal.toInt() >= present) {
+                            isPresentHaveError = false
+                        }
+                        if (typedTotal.isNotBlank() && typedTotal.toInt() < present) {
+                            isPresentHaveError = true
+                        }
+                    } catch (e: Exception) {
+                        AddEditEvent.OnTotalChange(
+                            0
+                        )
+                    }
                 },
                 clearIconClick = {
                     viewModel.onEvent(AddEditEvent.OnTotalChange(0))
                 },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Number,
-                    imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Number, imeAction = ImeAction.Done
                 )
             )
             Spacer(modifier = Modifier.height(grid_1))
             Row {
                 Button(
                     onClick = {
-                        viewModel.onEvent(AddEditEvent.OnSaveClick)
-                    },
-                    modifier = Modifier
+                        if (subject.isBlank()) {
+                            isSubjectIsEmpty = true
+                            return@Button
+                        }
+                        isSubjectIsEmpty = false
+                        viewModel.onEvent(AddEditEvent.OnSaveClick {
+                            navController.navigateUp()
+                        })
+                    }, modifier = Modifier
                         .weight(1f)
                         .padding(grid_1)
                 ) {
@@ -232,8 +283,7 @@ fun AddEditAttendanceScreen(
 
 @Preview(showBackground = true)
 @Preview(
-    showBackground = false,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Composable
 fun AddEditAttendanceScreenPreview() {

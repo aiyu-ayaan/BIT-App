@@ -14,6 +14,7 @@ import com.atech.core.utils.INITIALlOADSIZE
 import com.atech.core.utils.MAX_STACK_SIZE
 import com.atech.core.utils.convertLongToTime
 import kotlinx.coroutines.flow.Flow
+import java.util.ArrayDeque
 import java.util.Deque
 import javax.inject.Inject
 
@@ -21,7 +22,9 @@ import javax.inject.Inject
 data class AttendanceUseCase @Inject constructor(
     val getAllAttendance: GetAllAttendance,
     val updatePresentOrTotal: UpdatePresentOrTotal,
-    val getAttendanceById: GetAttendanceById
+    val getAttendanceById: GetAttendanceById,
+    val addAttendance: AddAttendance,
+    val updateAttendance: UpdateAttendance
 )
 
 data class GetAllAttendance @Inject constructor(
@@ -127,4 +130,47 @@ class GetAttendanceById @Inject constructor(
     private val dao: AttendanceDao
 ) {
     suspend operator fun invoke(id: Int) = dao.getAttendanceById(id)
+}
+
+class AddAttendance @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(attendance: AttendanceModel) = dao.insert(attendance)
+}
+
+class UpdateAttendance @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(old: AttendanceModel, updated: AttendanceModel) {
+        when {
+            old == updated -> { // no change
+                return
+            }
+
+            (updated.subject != old.subject || updated.teacher != old.teacher)
+                    && updated.present == old.present
+                    && updated.total == old.total -> { // subject name or teacher name change
+
+                dao.update(
+                    old.copy(
+                        subject = updated.subject,
+                        teacher = updated.teacher
+                    )
+                )
+            }
+
+            else -> {
+                val ques: Deque<AttendanceSave> = ArrayDeque()
+                dao.update(
+                    old.copy(
+                        subject = updated.subject,
+                        present = updated.present,
+                        total = updated.total,
+                        stack = ques,
+                        teacher = updated.teacher
+                    )
+                )
+            }
+        }
+    }
 }
