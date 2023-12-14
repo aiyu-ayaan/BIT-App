@@ -86,6 +86,9 @@ import com.atech.theme.BITAppTheme
 import com.atech.theme.captionColor
 import com.atech.theme.grid_1
 import com.atech.theme.grid_2
+import com.atech.view_model.SharedEvents
+import com.atech.view_model.SharedViewModel
+import com.atech.view_model.toggleDrawer
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(
@@ -95,6 +98,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun AttendanceScreen(
     modifier: Modifier = Modifier,
     viewModel: AttendanceViewModel = hiltViewModel(),
+    communicatorViewModel: SharedViewModel = hiltViewModel(),
     navController: NavController = rememberNavController()
 ) {
     val attendanceList = viewModel.attendance.collectAsLazyPagingItems()
@@ -120,6 +124,9 @@ fun AttendanceScreen(
         mutableStateOf(false)
     }
     var isAddFromSyllabusBottomSheetVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isArchiveBottomSheetVisible by rememberSaveable {
         mutableStateOf(false)
     }
     BackHandler {
@@ -193,9 +200,18 @@ fun AttendanceScreen(
                 onArchiveClick = {
                     if (isSelectWindowActive)
                         viewModel.onEvent(AttendanceEvent.SelectedItemToArchive)
+                    else
+                        isArchiveBottomSheetVisible = true
                 },
                 onAddFromSyllabusClick = {
                     isAddFromSyllabusBottomSheetVisible = !isAddFromSyllabusBottomSheetVisible
+                },
+                onMenuClick = {
+                    communicatorViewModel.onEvent(
+                        SharedEvents.ToggleDrawer(
+                            toggleDrawer(communicatorViewModel)
+                        )
+                    )
                 }
             )
         })
@@ -212,6 +228,13 @@ fun AttendanceScreen(
                     }
                 )
             }
+        if (isArchiveBottomSheetVisible) {
+            ModalBottomSheet(onDismissRequest = { isArchiveBottomSheetVisible = false }) {
+                bottomSheetArchive(
+                    viewModel = viewModel
+                )
+            }
+        }
         if (attendanceList.itemCount == 0) {
             EmptyScreen(
                 modifier = Modifier

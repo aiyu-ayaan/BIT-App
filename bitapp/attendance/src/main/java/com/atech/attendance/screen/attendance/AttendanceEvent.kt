@@ -44,4 +44,20 @@ sealed class AttendanceEvent {
         val model: SyllabusUIModel,
         val isAdded: Boolean
     ) : AttendanceEvent()
+
+
+    data class ArchiveItemClick(
+        val attendanceModel: AttendanceModel,
+        val isAdded: Boolean = true
+    ) : AttendanceEvent()
+
+    data class ArchiveSelectAllClick(
+        val attendanceModelList: List<AttendanceModel>,
+        val isAdded: Boolean = true
+    ) : AttendanceEvent()
+
+    data object ArchiveScreenUnArchiveSelectedItems : AttendanceEvent()
+    data object ArchiveScreenDeleteSelectedItems : AttendanceEvent()
+
+
 }

@@ -27,7 +27,12 @@ class AttendanceViewModel @Inject constructor(
 ) : ViewModel() {
     private val _attendance = MutableStateFlow<PagingData<AttendanceModel>>(PagingData.empty())
     val attendance: StateFlow<PagingData<AttendanceModel>> get() = _attendance.asStateFlow()
+
+    private val _archiveAttendance = mutableStateOf<List<AttendanceModel>>(emptyList())
+    val archiveAttendance: State<List<AttendanceModel>> get() = _archiveAttendance
+
     private var attendanceGetJob: Job? = null
+    private var attendanceArchiveGetJob: Job? = null
     private var recentlyDeletedAttendance: AttendanceModel? = null
 
     private val _oneTimeAttendanceScreenEvent = MutableSharedFlow<OneTimeAttendanceEvent>()
@@ -36,6 +41,11 @@ class AttendanceViewModel @Inject constructor(
 
     private val _selectedAttendance = mutableStateOf<List<AttendanceModel>>(emptyList())
     val selectedAttendance: State<List<AttendanceModel>> get() = _selectedAttendance
+
+
+    private val _selectedArchiveItems = mutableStateOf<List<AttendanceModel>>(emptyList())
+    val selectedArchiveItems: State<List<AttendanceModel>> get() = _selectedArchiveItems
+
 
     private val _fetchSyllabus = mutableStateOf<Pair<List<SyllabusUIModel>, List<SyllabusUIModel>>>(
         Pair(emptyList(), emptyList())
@@ -95,37 +105,40 @@ class AttendanceViewModel @Inject constructor(
 
             is AttendanceEvent.ItemSelectedClick -> {
                 if (event.isAdded) {
-                    _selectedAttendance.value += event.attendanceModel
+                    _selectedArchiveItems.value += event.attendanceModel
                 } else {
-                    _selectedAttendance.value -= event.attendanceModel
+                    _selectedArchiveItems.value -= event.attendanceModel
                 }
             }
 
             is AttendanceEvent.SelectAllClick -> {
                 if (event.isAdded) {
-                    _selectedAttendance.value = event.attendanceModelList
+                    _selectedArchiveItems.value = event.attendanceModelList
                 } else {
-                    _selectedAttendance.value = emptyList()
+                    _selectedArchiveItems.value = emptyList()
                 }
             }
 
-            AttendanceEvent.ClearSelection -> _selectedAttendance.value = emptyList()
+            AttendanceEvent.ClearSelection -> {
+                _selectedArchiveItems.value = emptyList()
+            }
+
             AttendanceEvent.SelectedItemToArchive -> {
                 viewModelScope.launch {
-                    _selectedAttendance.value.forEach {
+                    _selectedArchiveItems.value.forEach {
                         case.archiveAttendance(it)
                     }
-                    _selectedAttendance.value = emptyList()
+                    _selectedArchiveItems.value = emptyList()
                 }
                 getAttendance()
             }
 
             AttendanceEvent.DeleteSelectedItems -> {
                 viewModelScope.launch {
-                    _selectedAttendance.value.forEach {
+                    _selectedArchiveItems.value.forEach {
                         case.deleteAttendance(it)
                     }
-                    _selectedAttendance.value = emptyList()
+                    _selectedArchiveItems.value = emptyList()
                 }
                 getAttendance()
             }
@@ -138,6 +151,44 @@ class AttendanceViewModel @Inject constructor(
                     )
                 }
                 getAttendance()
+            }
+
+            is AttendanceEvent.ArchiveItemClick -> {
+                if (event.isAdded) {
+                    _selectedArchiveItems.value += event.attendanceModel
+                } else {
+                    _selectedArchiveItems.value -= event.attendanceModel
+                }
+            }
+
+            AttendanceEvent.ArchiveScreenDeleteSelectedItems -> {
+                viewModelScope.launch {
+                    _selectedArchiveItems.value.forEach {
+                        case.deleteAttendance(it)
+                    }
+                    _selectedArchiveItems.value = emptyList()
+                }
+                getAttendance()
+                getAllArchiveAttendance()
+            }
+
+            AttendanceEvent.ArchiveScreenUnArchiveSelectedItems -> {
+                viewModelScope.launch {
+                    _selectedArchiveItems.value.forEach {
+                        case.archiveAttendance(it, false)
+                    }
+                    _selectedArchiveItems.value = emptyList()
+                }
+                getAttendance()
+                getAllArchiveAttendance()
+            }
+
+            is AttendanceEvent.ArchiveSelectAllClick -> {
+                if (event.isAdded) {
+                    _selectedArchiveItems.value = event.attendanceModelList
+                } else {
+                    _selectedArchiveItems.value = emptyList()
+                }
             }
         }
     }
@@ -155,6 +206,14 @@ class AttendanceViewModel @Inject constructor(
         viewModelScope.launch {
             _fetchSyllabus.value = case.getAllSubject()
         }
+    }
+
+    fun getAllArchiveAttendance() {
+        attendanceArchiveGetJob?.cancel()
+        attendanceArchiveGetJob = case.getAllArchiveSubject()
+            .onEach {
+                _archiveAttendance.value = it
+            }.launchIn(viewModelScope)
     }
 
     suspend fun getElementIdFromSubject(sub: String) = case.getElementIdFromSubjectName(sub)

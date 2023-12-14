@@ -1,5 +1,6 @@
 package com.atech.attendance
 
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,6 +10,7 @@ import com.atech.attendance.screen.add_edit.components.AddEditAttendanceScreen
 import com.atech.attendance.screen.attendance.compose.AttendanceScreen
 import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
+import com.atech.view_model.SharedViewModel
 
 
 sealed class AttendanceScreenRoutes(val route: String) {
@@ -18,7 +20,8 @@ sealed class AttendanceScreenRoutes(val route: String) {
 
 
 fun NavGraphBuilder.attendanceNavigation(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    communicatorViewModel: SharedViewModel
 ) {
     navigation(
         startDestination = AttendanceScreenRoutes.AttendanceScreen.route,
@@ -28,7 +31,8 @@ fun NavGraphBuilder.attendanceNavigation(
             route = AttendanceScreenRoutes.AttendanceScreen.route
         ) {
             AttendanceScreen(
-                navController = navHostController
+                navController = navHostController,
+                communicatorViewModel = communicatorViewModel
             )
         }
         animatedCompose(
