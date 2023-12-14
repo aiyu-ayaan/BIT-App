@@ -1,6 +1,7 @@
 package com.atech.attendance.screen.attendance
 
 import com.atech.core.data_source.room.attendance.AttendanceModel
+import com.atech.core.use_case.SyllabusUIModel
 
 sealed class AttendanceEvent {
     data class ChangeAttendanceValue(
@@ -38,4 +39,8 @@ sealed class AttendanceEvent {
     data object ClearSelection : AttendanceEvent()
     data object SelectedItemToArchive : AttendanceEvent()
     data object DeleteSelectedItems : AttendanceEvent()
+
+    data class AddFromSyllabusItemClick(
+        val model: SyllabusUIModel
+    ) : AttendanceEvent()
 }

@@ -1,6 +1,7 @@
 package com.atech.attendance.screen.attendance.compose
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
@@ -119,6 +120,9 @@ fun AttendanceScreen(
     var isDialogBoxVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    var isAddFromSyllabusBottomSheetVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
     BackHandler {
         if (isSelectWindowActive) {
             isSelectWindowActive = false
@@ -190,10 +194,22 @@ fun AttendanceScreen(
                 onArchiveClick = {
                     if (isSelectWindowActive)
                         viewModel.onEvent(AttendanceEvent.SelectedItemToArchive)
+                },
+                onAddFromSyllabusClick = {
+                    Log.d("AAA", "AttendanceScreen: $isAddFromSyllabusBottomSheetVisible")
+                    isAddFromSyllabusBottomSheetVisible = !isAddFromSyllabusBottomSheetVisible
                 }
             )
         })
     {
+        if (isAddFromSyllabusBottomSheetVisible)
+            ModalBottomSheet(
+                onDismissRequest = { isAddFromSyllabusBottomSheetVisible = false }
+            ) {
+                bottomSheetAddFromSyllabus(
+                    viewModel = viewModel
+                )
+            }
         if (attendanceList.itemCount == 0) {
             EmptyScreen(
                 modifier = Modifier

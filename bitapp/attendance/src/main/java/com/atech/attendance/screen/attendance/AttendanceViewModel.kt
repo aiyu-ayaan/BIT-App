@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.atech.attendance.util.toAttendanceModel
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.use_case.AttendanceUseCase
+import com.atech.core.use_case.SyllabusUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -35,6 +37,9 @@ class AttendanceViewModel @Inject constructor(
 
     private val _selectedAttendance = mutableStateOf<List<AttendanceModel>>(emptyList())
     val selectedAttendance: State<List<AttendanceModel>> get() = _selectedAttendance
+
+    private val _fetchSyllabus = mutableStateOf<List<SyllabusUIModel>>(emptyList())
+    val fetchSyllabus: State<List<SyllabusUIModel>> get() = _fetchSyllabus
 
     init {
         getAttendance()
@@ -123,6 +128,13 @@ class AttendanceViewModel @Inject constructor(
                 }
                 getAttendance()
             }
+
+            is AttendanceEvent.AddFromSyllabusItemClick -> {
+                viewModelScope.launch {
+                    case.addAttendance(event.model.toAttendanceModel())
+                    getAttendance()
+                }
+            }
         }
     }
 
@@ -133,6 +145,12 @@ class AttendanceViewModel @Inject constructor(
             .onEach {
                 _attendance.value = it
             }.launchIn(viewModelScope)
+    }
+
+    fun getSubjectFromSyllabus() {
+        viewModelScope.launch {
+            _fetchSyllabus.value = case.getAllSubject()
+        }
     }
 
     sealed class OneTimeAttendanceEvent {

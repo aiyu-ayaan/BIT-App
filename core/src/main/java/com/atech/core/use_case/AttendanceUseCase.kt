@@ -1,19 +1,23 @@
 package com.atech.core.use_case
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.atech.core.data_source.datastore.DataStoreCases
 import com.atech.core.data_source.room.attendance.AttendanceDao
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.data_source.room.attendance.AttendanceSave
 import com.atech.core.data_source.room.attendance.IsPresent
 import com.atech.core.data_source.room.attendance.Sort
 import com.atech.core.data_source.room.attendance.countTotalClass
+import com.atech.core.data_source.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULTPAGESIZE
 import com.atech.core.utils.INITIALlOADSIZE
 import com.atech.core.utils.MAX_STACK_SIZE
 import com.atech.core.utils.convertLongToTime
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import java.util.ArrayDeque
 import java.util.Deque
 import javax.inject.Inject
@@ -28,7 +32,8 @@ data class AttendanceUseCase @Inject constructor(
     val undoAttendance: UndoAttendance,
     val archiveAttendance: ArchiveAttendance,
     val deleteAttendance: DeleteAttendance,
-    val deleteAllAttendance: DeleteAllAttendance
+    val deleteAllAttendance: DeleteAllAttendance,
+    val getAllSubject: GetAllSubject
 )
 
 data class GetAllAttendance @Inject constructor(
@@ -221,5 +226,31 @@ class DeleteAllAttendance @Inject constructor(
 ) {
     suspend operator fun invoke() {
         dao.deleteAll()
+    }
+}
+
+class GetAllSubject @Inject constructor(
+    private val onlineMapper: OnlineSyllabusUIMapper,
+    private val offlineMapper: OfflineSyllabusUIMapper,
+    private val syllabusDao: SyllabusDao,
+    private val attendanceDao: AttendanceDao,
+    private val dataScoreCase: DataStoreCases
+) {
+    suspend operator fun invoke(): List<SyllabusUIModel> {
+        val courseSem = dataScoreCase.getAll().first().courseWithSem
+        Log.d("AAA", "invoke: $courseSem")
+        val item = syllabusDao.getSyllabusEdit(courseSem).map {
+            offlineMapper.mapFormEntity(it)
+        }
+        val attendanceItem = attendanceDao.getAllAttendance()
+        item.map {
+            offlineMapper.mapToEntity(it)
+                .copy(
+                    isAdded = attendanceItem.find { model ->
+                        model.subject == it.subject
+                    } != null
+                )
+        }
+        return item
     }
 }

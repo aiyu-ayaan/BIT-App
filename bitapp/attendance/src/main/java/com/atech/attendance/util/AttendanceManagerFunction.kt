@@ -13,6 +13,7 @@ package com.atech.attendance.util
 import androidx.compose.ui.graphics.toArgb
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.data_source.room.attendance.IsPresent
+import com.atech.core.use_case.SyllabusUIModel
 import com.atech.core.utils.convertLongToTime
 import com.atech.theme.SwipeGreen
 import com.atech.theme.SwipeRed
@@ -109,3 +110,13 @@ private fun ArrayList<IsPresent>.getOnly50Data(): ArrayList<IsPresent> {
     }
     return list
 }
+
+
+fun SyllabusUIModel.toAttendanceModel() =
+    AttendanceModel(
+        subject = subject,
+        total = 0,
+        present = 0,
+        teacher = "",
+        fromSyllabus = true
+    )
