@@ -122,9 +122,12 @@ fun AddEditAttendanceScreen(
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
                 ),
-                focusRequester = remember {
-                    FocusRequester()
-                })
+                focusRequester =
+                if (viewModel.isEdit) null else
+                    remember {
+                        FocusRequester()
+                    }
+            )
             Spacer(modifier = Modifier.height(grid_1))
             EditText(
                 modifier = Modifier.fillMaxWidth(),

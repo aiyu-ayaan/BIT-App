@@ -32,9 +32,9 @@ fun NavGraphBuilder.attendanceNavigation(
             )
         }
         animatedCompose(
-            route = AttendanceScreenRoutes.AddEditAttendanceScreen.route + "?attendance_id={attendance_id}",
+            route = AttendanceScreenRoutes.AddEditAttendanceScreen.route + "?attendanceId={attendanceId}",
             arguments = listOf(
-                navArgument("attendance_id") {
+                navArgument("attendanceId") {
                     defaultValue = -1
                     type = NavType.IntType
                 }

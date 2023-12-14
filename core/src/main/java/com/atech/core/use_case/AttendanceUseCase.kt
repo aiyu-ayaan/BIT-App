@@ -24,7 +24,11 @@ data class AttendanceUseCase @Inject constructor(
     val updatePresentOrTotal: UpdatePresentOrTotal,
     val getAttendanceById: GetAttendanceById,
     val addAttendance: AddAttendance,
-    val updateAttendance: UpdateAttendance
+    val updateAttendance: UpdateAttendance,
+    val undoAttendance: UndoAttendance,
+    val archiveAttendance: ArchiveAttendance,
+    val deleteAttendance: DeleteAttendance,
+    val deleteAllAttendance: DeleteAllAttendance
 )
 
 data class GetAllAttendance @Inject constructor(
@@ -172,5 +176,50 @@ class UpdateAttendance @Inject constructor(
                 )
             }
         }
+    }
+}
+
+class UndoAttendance @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(attendance: AttendanceModel) {
+        val stack: Deque<AttendanceSave> = attendance.stack
+        val save = stack.peekFirst()
+        if (save != null) {
+            stack.pop()
+            val att = attendance.copy(
+                present = save.present,
+                total = save.total,
+                days = save.days,
+                stack = stack,
+            )
+            dao.update(att)
+        }
+    }
+}
+
+
+class ArchiveAttendance @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(attendance: AttendanceModel, isArchive: Boolean = true) {
+        dao.update(attendance.copy(isArchive = isArchive))
+    }
+}
+
+
+class DeleteAttendance @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(attendance: AttendanceModel) {
+        dao.delete(attendance)
+    }
+}
+
+class DeleteAllAttendance @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke() {
+        dao.deleteAll()
     }
 }

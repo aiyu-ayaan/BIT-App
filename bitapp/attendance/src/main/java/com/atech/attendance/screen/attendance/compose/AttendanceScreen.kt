@@ -1,6 +1,7 @@
 package com.atech.attendance.screen.attendance.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.fadeIn
@@ -41,13 +42,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -76,6 +82,7 @@ import com.atech.theme.grid_0_5
 import com.atech.theme.grid_1
 import com.atech.theme.grid_2
 import com.atech.utils.isScrollingUp
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(
     ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
@@ -92,52 +99,78 @@ fun AttendanceScreen(
     var currentClickAttendance by rememberSaveable {
         mutableStateOf<AttendanceModel?>(null)
     }
-    Scaffold(modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection), bottomBar = {
-        AttendanceBottomAppbar(action = {
-            navController.navigate(
+    val snackBarHostState = remember {
+        SnackbarHostState()
+    }
+    LaunchedEffect(key1 = true) {
+        viewModel.oneTimeAttendanceScreenEvent
+            .collectLatest { event ->
+                when (event) {
+                    is AttendanceViewModel.OneTimeAttendanceEvent.ShowUndoDeleteAttendanceMessage ->
+                        snackBarHostState.showSnackbar(
+                            event.message,
+                            actionLabel = "Undo"
+                        ).let { snackBarResult ->
+                            if (snackBarResult == SnackbarResult.ActionPerformed)
+                                viewModel.onEvent(AttendanceEvent.RestorerAttendance)
+                        }
+                }
+            }
+    }
+
+    Scaffold(
+        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = {
+            SnackbarHost(hostState = snackBarHostState)
+        },
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        Text(
+                            text = "Goal : 80%",
+                            modifier = Modifier.padding(start = grid_1),
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(grid_1))
+                        Text(
+                            text = "😎",
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.width(grid_1))
+                        Text(
+                            text = "Current : 75%",
+                            style = MaterialTheme.typography.titleSmall,
+                            modifier = Modifier.padding(end = grid_1),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }, scrollBehavior = scrollBehavior
+            )
+        },
+        bottomBar = {
+            AttendanceBottomAppbar(action = {
+                navController.navigate(
                     AttendanceScreenRoutes.AddEditAttendanceScreen.route
                 )
-        })
-    }, topBar = {
-        TopAppBar(
-            title = {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    Text(
-                        text = "Goal : 80%",
-                        modifier = Modifier.padding(start = grid_1),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.width(grid_1))
-                    Text(
-                        text = "😎",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                    Spacer(modifier = Modifier.width(grid_1))
-                    Text(
-                        text = "Current : 75%",
-                        style = MaterialTheme.typography.titleSmall,
-                        modifier = Modifier.padding(end = grid_1),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }, scrollBehavior = scrollBehavior
-        )
-    }) {
+            })
+        }
+    ) {
         val sheetState = rememberModalBottomSheetState()
-        var isSheetOpen by rememberSaveable {
+        var isCalenderBottomSheetVisible by rememberSaveable {
             mutableStateOf(false)
         }
 
-        if (isSheetOpen && currentClickAttendance != null) {
+        if (isCalenderBottomSheetVisible && currentClickAttendance != null) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    isSheetOpen = false
+                    isCalenderBottomSheetVisible = false
                 }, sheetState = sheetState
             ) {
                 AttendanceCalenderView(
@@ -146,8 +179,50 @@ fun AttendanceScreen(
             }
         }
 
+        var isMenuBottomSheetVisible by rememberSaveable {
+            mutableStateOf(false)
+        }
+        if (isMenuBottomSheetVisible && currentClickAttendance != null) {
+            ModalBottomSheet(onDismissRequest = { isMenuBottomSheetVisible = false }) {
+                AttendanceMenu(
+                    attendanceModel = currentClickAttendance!!,
+                    onEditClick = { attendanceModel ->
+                        navController.navigate(
+                            AttendanceScreenRoutes.AddEditAttendanceScreen.route +
+                                    "?attendanceId=${attendanceModel.id}"
+                        )
+                    },
+                    isUndoEnable = currentClickAttendance?.stack?.isNotEmpty() ?: true,
+                    onUndoClick = { attendanceModel ->
+                        viewModel.onEvent(
+                            AttendanceEvent.UndoAttendanceState(attendanceModel)
+                        )
+                    },
+                    onArchiveClick = { attendanceModel ->
+                        viewModel.onEvent(
+                            AttendanceEvent.ArchiveAttendance(attendanceModel)
+                        )
+                    },
+                    onDeleteClick = { attendanceModel ->
+                        viewModel.onEvent(
+                            AttendanceEvent.DeleteAttendance(
+                                attendanceModel
+                            )
+                        )
+                    },
+                    commonAction = {
+                        isMenuBottomSheetVisible = false
+                    }
+                )
+            }
+        }
+
+
         LazyColumn(
-            modifier = Modifier.consumeWindowInsets(it), contentPadding = it, state = lazyListState
+            modifier = Modifier
+                .consumeWindowInsets(it)
+                .animateContentSize(),
+            contentPadding = it, state = lazyListState
         ) {
             items(count = attendanceList.itemCount,
                 key = attendanceList.itemKey { model -> model.id },
@@ -159,14 +234,18 @@ fun AttendanceScreen(
                         )
                     ), onTickOrCrossClickClick = { clickItems, isPresent ->
                         viewModel.onEvent(
-                                AttendanceEvent.ChangeAttendanceValue(
-                                    attendanceModel = clickItems, isPresent = isPresent
-                                )
+                            AttendanceEvent.ChangeAttendanceValue(
+                                attendanceModel = clickItems, isPresent = isPresent
                             )
-                    }, onClick = {
-                        currentClickAttendance = it
-                        isSheetOpen = true
-                    })
+                        )
+                    }, onClick = { it1 ->
+                        currentClickAttendance = it1
+                        isCalenderBottomSheetVisible = true
+                    }, onLongClick = { it1 ->
+                        currentClickAttendance = it1
+                        isMenuBottomSheetVisible = true
+                    }
+                    )
                 }
             }
         }

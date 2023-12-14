@@ -6,7 +6,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -56,13 +58,15 @@ import com.atech.theme.grid_0_5
 import com.atech.theme.grid_1
 import kotlin.math.ceil
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AttendanceItem(
     modifier: Modifier = Modifier,
     model: AttendanceModel,
     minPercentage: Int = 75,
     onTickOrCrossClickClick: (AttendanceModel, Boolean) -> Unit = { _, _ -> },
-    onClick: (AttendanceModel) -> Unit = {}
+    onClick: (AttendanceModel) -> Unit = {},
+    onLongClick: (AttendanceModel) -> Unit = {},
 ) {
     var isCheckBoxEnable by remember {
         mutableStateOf(false)
@@ -72,7 +76,16 @@ fun AttendanceItem(
     }
     val context = LocalContext.current
     Surface(
-        modifier = Modifier.clickable { onClick.invoke(model) }
+        modifier = modifier
+            .combinedClickable(
+                onClick = {
+                    onClick.invoke(model)
+                },
+                onLongClick = {
+                    onLongClick.invoke(model)
+                }
+            )
+
     ) {
         val percentage = findPercentage(
             model.present.toFloat(), model.total.toFloat()
@@ -154,8 +167,9 @@ fun AttendanceItem(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(
-                                imageVector = if (checkForLab(model.subject
-                                )
+                                imageVector = if (checkForLab(
+                                        model.subject
+                                    )
                                 ) Icons.Default.Computer else Icons.Default.MenuBook,
                                 contentDescription = null,
                                 modifier = Modifier.size(30.dp),
@@ -208,14 +222,17 @@ fun AttendanceItem(
                             )
                         }
                     }
-                    val isVisible = model.days.presetDays.size != 0
+                    val isVisible = model.days.presetDays.isNotEmpty()
                     AnimatedVisibility(visible = isVisible) {
                         Box(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
                                 text = "Last Attended : ${
-                                    model.days.presetDays.last().getRelativeDateForAttendance()
+                                    if (model.days.presetDays.isNotEmpty())
+                                        model.days.presetDays.last().getRelativeDateForAttendance()
+                                    else
+                                        "Not started yet !!"
                                 }",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.primary

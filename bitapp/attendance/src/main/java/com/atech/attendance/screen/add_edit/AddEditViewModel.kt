@@ -19,7 +19,7 @@ import javax.inject.Inject
 class AddEditViewModel @Inject constructor(
     private val useCase: AttendanceUseCase, state: SavedStateHandle
 ) : ViewModel() {
-    private val _id = state.get<Int>("attendance_id") ?: -1
+    private val _id = state.get<Int>("attendanceId") ?: -1
 
     val isEdit = _id != -1
 
@@ -92,8 +92,12 @@ class AddEditViewModel @Inject constructor(
 
 
     private fun getElement(id: Int) = viewModelScope.launch {
-        useCase.getAttendanceById.invoke(id).let {
-            _attendanceModel.value = it
+        useCase.getAttendanceById.invoke(id)?.let { model ->
+            _attendanceModel.value = model
+            _subject.value = model.subject
+            _present.intValue = model.present
+            _total.intValue = model.total
+            _teacherName.value = model.teacher ?: ""
         }
     }
 

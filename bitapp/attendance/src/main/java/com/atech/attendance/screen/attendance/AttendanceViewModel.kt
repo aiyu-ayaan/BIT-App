@@ -8,8 +8,10 @@ import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.use_case.AttendanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -23,6 +25,11 @@ class AttendanceViewModel @Inject constructor(
     private val _attendance = MutableStateFlow<PagingData<AttendanceModel>>(PagingData.empty())
     val attendance: StateFlow<PagingData<AttendanceModel>> get() = _attendance.asStateFlow()
     private var attendanceGetJob: Job? = null
+    private var recentlyDeletedAttendance: AttendanceModel? = null
+
+    private val _oneTimeAttendanceScreenEvent = MutableSharedFlow<OneTimeAttendanceEvent>()
+
+    val oneTimeAttendanceScreenEvent = _oneTimeAttendanceScreenEvent.asSharedFlow()
 
     init {
         getAttendance()
@@ -39,6 +46,41 @@ class AttendanceViewModel @Inject constructor(
                     getAttendance()
                 }
             }
+
+            is AttendanceEvent.UndoAttendanceState -> {
+                viewModelScope.launch {
+                    case.undoAttendance.invoke(event.attendanceModel)
+                    getAttendance()
+                }
+            }
+
+            is AttendanceEvent.ArchiveAttendance -> {
+                viewModelScope.launch {
+                    case.archiveAttendance(event.attendanceModel)
+                    getAttendance()
+                }
+            }
+
+            is AttendanceEvent.DeleteAttendance -> {
+                viewModelScope.launch {
+                    recentlyDeletedAttendance = event.attendanceModel
+                    case.deleteAttendance(event.attendanceModel)
+                    _oneTimeAttendanceScreenEvent.emit(
+                        OneTimeAttendanceEvent.ShowUndoDeleteAttendanceMessage(
+                            "Attendance Deleted"
+                        )
+                    )
+                    getAttendance()
+                }
+            }
+
+            AttendanceEvent.RestorerAttendance -> {
+                viewModelScope.launch {
+                    case.addAttendance(recentlyDeletedAttendance ?: return@launch)
+                    recentlyDeletedAttendance = null
+                    getAttendance()
+                }
+            }
         }
     }
 
@@ -51,5 +93,7 @@ class AttendanceViewModel @Inject constructor(
             }.launchIn(viewModelScope)
     }
 
-
+    sealed class OneTimeAttendanceEvent {
+        data class ShowUndoDeleteAttendanceMessage(val message: String) : OneTimeAttendanceEvent()
+    }
 }
