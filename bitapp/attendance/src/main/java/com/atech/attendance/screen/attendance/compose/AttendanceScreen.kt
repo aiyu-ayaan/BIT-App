@@ -196,7 +196,6 @@ fun AttendanceScreen(
                         viewModel.onEvent(AttendanceEvent.SelectedItemToArchive)
                 },
                 onAddFromSyllabusClick = {
-                    Log.d("AAA", "AttendanceScreen: $isAddFromSyllabusBottomSheetVisible")
                     isAddFromSyllabusBottomSheetVisible = !isAddFromSyllabusBottomSheetVisible
                 }
             )

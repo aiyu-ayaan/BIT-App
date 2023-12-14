@@ -1,12 +1,13 @@
 package com.atech.attendance.screen.attendance.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
-import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -31,9 +32,14 @@ import com.atech.theme.grid_1
 fun AttendanceSyllabusItem(
     modifier: Modifier = Modifier,
     model: SyllabusUIModel,
+    isOnline: Boolean = false,
+    onClick: (SyllabusUIModel, Boolean) -> Unit = {_,_->}
 ) {
     var isChecked by rememberSaveable {
-        mutableStateOf(model.isFromOnline)
+        mutableStateOf(
+            if (isOnline) model.isFromOnline
+            else model.isAdded ?: false
+        )
     }
     Surface(
         modifier = modifier
@@ -41,8 +47,10 @@ fun AttendanceSyllabusItem(
                 top = grid_1,
             )
             .clickable {
-//                Todo handle click
+                isChecked = !isChecked
+                onClick(model, isChecked)
             }
+            .animateContentSize()
     ) {
         OutlinedCard(
             modifier = Modifier
@@ -56,7 +64,7 @@ fun AttendanceSyllabusItem(
         ) {
             Row(
                 modifier = Modifier
-                    .padding(vertical = grid_0_5 , horizontal = grid_1)
+                    .padding(vertical = grid_0_5, horizontal = grid_1)
                     .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -67,9 +75,11 @@ fun AttendanceSyllabusItem(
                     modifier = Modifier
                         .weight(1f)
                 )
-                ImageIconButton(
-                    icon = Icons.Outlined.Edit
-                )
+                AnimatedVisibility(visible = isChecked) {
+                    ImageIconButton(
+                        icon = Icons.Outlined.Edit
+                    )
+                }
                 Checkbox(checked = isChecked, onCheckedChange = {
                     isChecked = it
                 })

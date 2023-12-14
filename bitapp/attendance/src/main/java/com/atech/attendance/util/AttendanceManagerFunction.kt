@@ -110,13 +110,3 @@ private fun ArrayList<IsPresent>.getOnly50Data(): ArrayList<IsPresent> {
     }
     return list
 }
-
-
-fun SyllabusUIModel.toAttendanceModel() =
-    AttendanceModel(
-        subject = subject,
-        total = 0,
-        present = 0,
-        teacher = "",
-        fromSyllabus = true
-    )

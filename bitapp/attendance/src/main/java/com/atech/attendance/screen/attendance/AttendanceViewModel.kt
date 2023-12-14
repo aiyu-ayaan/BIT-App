@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.atech.attendance.util.toAttendanceModel
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.use_case.AttendanceUseCase
 import com.atech.core.use_case.SyllabusUIModel
@@ -38,8 +37,10 @@ class AttendanceViewModel @Inject constructor(
     private val _selectedAttendance = mutableStateOf<List<AttendanceModel>>(emptyList())
     val selectedAttendance: State<List<AttendanceModel>> get() = _selectedAttendance
 
-    private val _fetchSyllabus = mutableStateOf<List<SyllabusUIModel>>(emptyList())
-    val fetchSyllabus: State<List<SyllabusUIModel>> get() = _fetchSyllabus
+    private val _fetchSyllabus = mutableStateOf<Pair<List<SyllabusUIModel>, List<SyllabusUIModel>>>(
+        Pair(emptyList(), emptyList())
+    )
+    val fetchSyllabus: State<Pair<List<SyllabusUIModel>, List<SyllabusUIModel>>> get() = _fetchSyllabus
 
     init {
         getAttendance()
@@ -131,9 +132,12 @@ class AttendanceViewModel @Inject constructor(
 
             is AttendanceEvent.AddFromSyllabusItemClick -> {
                 viewModelScope.launch {
-                    case.addAttendance(event.model.toAttendanceModel())
-                    getAttendance()
+                    case.addOrRemoveFromSyllabus(
+                        model = event.model,
+                        isAdded = event.isAdded
+                    )
                 }
+                getAttendance()
             }
         }
     }

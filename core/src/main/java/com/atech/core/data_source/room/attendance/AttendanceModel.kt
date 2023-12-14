@@ -18,6 +18,7 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
+import com.atech.core.use_case.SyllabusUIModel
 import com.atech.core.utils.convertLongToTime
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -125,3 +126,13 @@ fun ArrayList<IsPresent>.countTotalClass(size: Int, isPresent: Boolean): Int {
     }
     return days
 }
+
+
+fun SyllabusUIModel.toAttendanceModel() =
+    AttendanceModel(
+        subject = subject,
+        total = 0,
+        present = 0,
+        teacher = "",
+        fromSyllabus = true
+    )

@@ -1,6 +1,5 @@
 package com.atech.core.use_case
 
-import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -11,11 +10,14 @@ import com.atech.core.data_source.room.attendance.AttendanceSave
 import com.atech.core.data_source.room.attendance.IsPresent
 import com.atech.core.data_source.room.attendance.Sort
 import com.atech.core.data_source.room.attendance.countTotalClass
+import com.atech.core.data_source.room.attendance.toAttendanceModel
 import com.atech.core.data_source.room.syllabus.SyllabusDao
 import com.atech.core.utils.DEFAULTPAGESIZE
 import com.atech.core.utils.INITIALlOADSIZE
 import com.atech.core.utils.MAX_STACK_SIZE
 import com.atech.core.utils.convertLongToTime
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import java.util.ArrayDeque
@@ -33,7 +35,8 @@ data class AttendanceUseCase @Inject constructor(
     val archiveAttendance: ArchiveAttendance,
     val deleteAttendance: DeleteAttendance,
     val deleteAllAttendance: DeleteAllAttendance,
-    val getAllSubject: GetAllSubject
+    val getAllSubject: GetAllSubject,
+    val addOrRemoveFromSyllabus: AddOrRemoveFromSyllabus
 )
 
 data class GetAllAttendance @Inject constructor(
@@ -230,27 +233,76 @@ class DeleteAllAttendance @Inject constructor(
 }
 
 class GetAllSubject @Inject constructor(
-    private val onlineMapper: OnlineSyllabusUIMapper,
     private val offlineMapper: OfflineSyllabusUIMapper,
     private val syllabusDao: SyllabusDao,
     private val attendanceDao: AttendanceDao,
-    private val dataScoreCase: DataStoreCases
+    private val dataScoreCase: DataStoreCases,
+    private val kTorUseCase: KTorUseCase
 ) {
-    suspend operator fun invoke(): List<SyllabusUIModel> {
-        val courseSem = dataScoreCase.getAll().first().courseWithSem
-        Log.d("AAA", "invoke: $courseSem")
-        val item = syllabusDao.getSyllabusEdit(courseSem).map {
-            offlineMapper.mapFormEntity(it)
+    suspend operator fun invoke(): Pair<List<SyllabusUIModel>, List<SyllabusUIModel>> =
+        coroutineScope {
+            val courseSem = dataScoreCase.getAll().first().courseWithSem
+            val attendanceItem = attendanceDao.getAllAttendance()
+            val job = async {
+                val item = syllabusDao.getSyllabusEdit(courseSem).map {
+                    offlineMapper.mapFormEntity(it)
+                }.map {
+                    it
+                        .copy(
+                            isAdded = attendanceItem.find { model ->
+                                model.subject == it.subject
+                            } != null
+                        )
+                }
+                item
+            }
+            val job2 = async {
+                try {
+                    val item = kTorUseCase.fetchSyllabus(courseSem.lowercase()).let { item ->
+                        item.first + item.second + item.third
+                    }.map { item ->
+                        item.copy(
+                            isFromOnline = attendanceItem.find { model ->
+                                model.subject == item.subject
+                            } != null
+                        )
+                    }
+                    item
+                } catch (e: Exception) {
+                    listOf(
+                        SyllabusUIModel(
+                            subject = "",
+                            code = "",
+                            credits = 0,
+                            openCode = "",
+                            type = "",
+                            group = "",
+                            shortName = "",
+                            listOrder = 1,
+                            subjectContent = null,
+                            isChecked = false,
+                            isAdded = false,
+                            fromNetwork = false,
+                            deprecated = false
+                        )
+                    )
+                }
+            }
+            val offlineSyllabus = job.await()
+            val onlineSyllabus = job2.await()
+
+            Pair(onlineSyllabus, offlineSyllabus)
         }
-        val attendanceItem = attendanceDao.getAllAttendance()
-        item.map {
-            offlineMapper.mapToEntity(it)
-                .copy(
-                    isAdded = attendanceItem.find { model ->
-                        model.subject == it.subject
-                    } != null
-                )
+}
+
+data class AddOrRemoveFromSyllabus @Inject constructor(
+    private val dao: AttendanceDao
+) {
+    suspend operator fun invoke(model: SyllabusUIModel, isAdded: Boolean) {
+        if (isAdded) {
+            dao.insert(model.toAttendanceModel())
+        } else {
+            dao.deleteFromSubjectName(model.subject)
         }
-        return item
     }
 }

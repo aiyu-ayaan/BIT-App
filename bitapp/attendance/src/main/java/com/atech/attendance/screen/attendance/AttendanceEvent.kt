@@ -41,6 +41,7 @@ sealed class AttendanceEvent {
     data object DeleteSelectedItems : AttendanceEvent()
 
     data class AddFromSyllabusItemClick(
-        val model: SyllabusUIModel
+        val model: SyllabusUIModel,
+        val isAdded: Boolean
     ) : AttendanceEvent()
 }

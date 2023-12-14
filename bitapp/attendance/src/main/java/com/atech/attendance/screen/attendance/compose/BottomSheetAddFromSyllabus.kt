@@ -2,9 +2,13 @@ package com.atech.attendance.screen.attendance.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -14,13 +18,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.atech.attendance.screen.attendance.AttendanceEvent
 import com.atech.attendance.screen.attendance.AttendanceViewModel
 import com.atech.components.BottomPadding
+import com.atech.components.singleElement
 import com.atech.theme.BITAppTheme
 import com.atech.theme.grid_1
+import com.atech.theme.grid_3
 
 @Composable
 fun ColumnScope.bottomSheetAddFromSyllabus(
@@ -28,15 +37,17 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
     viewModel: AttendanceViewModel = hiltViewModel()
 ) = this.apply {
 
+    val fetchOfflineSyllabus = viewModel.fetchSyllabus.value.second
+    val fetchOnlineSyllabus = viewModel.fetchSyllabus.value.first
+
+    var selectTabIndex by rememberSaveable {
+        mutableIntStateOf(0)
+    }
     LaunchedEffect(key1 = true) {
         viewModel.getSubjectFromSyllabus()
     }
 
-    val fetchSyllabus = viewModel.fetchSyllabus.value
 
-    var selectTabIndex by rememberSaveable {
-        mutableIntStateOf(1)
-    }
     Column(
         modifier = modifier
     ) {
@@ -63,16 +74,63 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
             }
         }
         LazyColumn(
-            modifier = Modifier
+            modifier = Modifier,
         ) {
-            items(
-                items = fetchSyllabus,
-                key = { model ->
-                    model.subject + model.isFromOnline
+            if (fetchOfflineSyllabus.isEmpty() && fetchOnlineSyllabus.isEmpty())
+                singleElement(key = "Progress") {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.padding(grid_3))
+                        CircularProgressIndicator(
+                            modifier = modifier.size(80.dp),
+                            strokeWidth = grid_1
+                        )
+                    }
                 }
-            ) { model ->
-                AttendanceSyllabusItem(model = model)
-            }
+            if (selectTabIndex == 0) {
+                if (fetchOnlineSyllabus.size == 1 && fetchOnlineSyllabus[0].subject.isBlank()) {
+                    selectTabIndex = 1
+                }
+                items(
+                    items = fetchOnlineSyllabus,
+                    key = { model ->
+                        model.subject + model.isFromOnline
+                    }
+                ) { model ->
+                    AttendanceSyllabusItem(
+                        model = model,
+                        isOnline = true,
+                        onClick = { clickItem, isChecked ->
+                            viewModel.onEvent(
+                                AttendanceEvent.AddFromSyllabusItemClick(
+                                    model = clickItem,
+                                    isAdded = isChecked
+                                )
+                            )
+                        }
+                    )
+                }
+            } else
+                items(
+                    items = fetchOfflineSyllabus,
+                    key = { model ->
+                        model.subject + model.isFromOnline
+                    }
+                ) { model ->
+                    AttendanceSyllabusItem(
+                        model = model,
+                        onClick = { clickItem, isChecked ->
+                            viewModel.onEvent(
+                                AttendanceEvent.AddFromSyllabusItemClick(
+                                    model = clickItem,
+                                    isAdded = isChecked
+                                )
+                            )
+                        }
+                    )
+                }
         }
         BottomPadding()
         BottomPadding()
