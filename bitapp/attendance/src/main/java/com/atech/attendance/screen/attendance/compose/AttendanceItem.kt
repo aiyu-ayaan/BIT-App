@@ -67,10 +67,10 @@ fun AttendanceItem(
     onTickOrCrossClickClick: (AttendanceModel, Boolean) -> Unit = { _, _ -> },
     onClick: (AttendanceModel) -> Unit = {},
     onLongClick: (AttendanceModel) -> Unit = {},
+    onSelect: (AttendanceModel, Boolean) -> Unit = { _, _ -> },
+    isCheckBoxVisible: Boolean = false,
+    isItemIsSelected: Boolean = false
 ) {
-    var isCheckBoxEnable by remember {
-        mutableStateOf(false)
-    }
     var status by remember {
         mutableStateOf("")
     }
@@ -79,7 +79,10 @@ fun AttendanceItem(
         modifier = modifier
             .combinedClickable(
                 onClick = {
-                    onClick.invoke(model)
+                    if (isCheckBoxVisible) {
+                        onSelect(model, !isItemIsSelected)
+                    } else
+                        onClick.invoke(model)
                 },
                 onLongClick = {
                     onLongClick.invoke(model)
@@ -114,11 +117,9 @@ fun AttendanceItem(
                             R.string.on_track
                         )
 
-                        day != 0 -> context.getString(
+                        else -> context.getString(
                             R.string.leave_class, day.toString()
                         )
-
-                        else -> context.getString(R.string.error)
                     }
                 }
 
@@ -145,9 +146,9 @@ fun AttendanceItem(
             Row(
                 modifier = Modifier.animateContentSize()
             ) {
-                AnimatedVisibility(visible = isCheckBoxEnable) {
-                    Checkbox(checked = isCheckBoxEnable, onCheckedChange = {
-                        isCheckBoxEnable = it
+                AnimatedVisibility(visible = isCheckBoxVisible) {
+                    Checkbox(checked = isItemIsSelected, onCheckedChange = {
+                        onSelect(model, it)
                     })
                 }
                 Column(
@@ -240,7 +241,7 @@ fun AttendanceItem(
                         }
                     }
                     AnimatedVisibility(
-                        visible = !isCheckBoxEnable,
+                        visible = !isCheckBoxVisible,
                         enter = slideInVertically() + fadeIn(),
                         exit = slideOutVertically() + fadeOut()
                     ) {

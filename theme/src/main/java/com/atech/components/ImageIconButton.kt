@@ -26,7 +26,7 @@ fun ImageIconButton(
         onClick = iconModel.onClick,
         icon = iconModel.imageVector,
         contextDes = iconModel.contentDescription,
-        tint = tint
+        tint = iconModel.tint ?: tint
     )
 }
 
@@ -75,6 +75,8 @@ data class ImageIconModel(
     val imageVector: ImageVector,
     @StringRes val contentDescription: Int? = null,
     val onClick: () -> Unit,
+    val isVisible: Boolean = true,
+    val tint: Color? = null
 )
 
 val backIconModel = ImageIconModel(

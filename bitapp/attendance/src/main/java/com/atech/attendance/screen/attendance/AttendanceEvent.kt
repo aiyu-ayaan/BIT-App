@@ -23,4 +23,19 @@ sealed class AttendanceEvent {
     ) : AttendanceEvent()
 
     data object RestorerAttendance : AttendanceEvent()
+
+    data class ItemSelectedClick(
+        val attendanceModel: AttendanceModel,
+        val isAdded: Boolean = true
+    ) : AttendanceEvent()
+
+    data class SelectAllClick(
+        val attendanceModelList: List<AttendanceModel>,
+        val isAdded: Boolean = true
+    ) :
+        AttendanceEvent()
+
+    data object ClearSelection : AttendanceEvent()
+    data object SelectedItemToArchive : AttendanceEvent()
+    data object DeleteSelectedItems : AttendanceEvent()
 }

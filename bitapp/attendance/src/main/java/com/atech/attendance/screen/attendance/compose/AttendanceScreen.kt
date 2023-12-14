@@ -30,6 +30,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Book
+import androidx.compose.material.icons.outlined.Checklist
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.rounded.MenuOpen
 import androidx.compose.material3.BottomAppBar
@@ -39,6 +41,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -48,10 +51,12 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -61,6 +66,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -96,30 +102,37 @@ fun AttendanceScreen(
     val attendanceList = viewModel.attendance.collectAsLazyPagingItems()
     val lazyListState = rememberLazyListState()
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val selectedAttendance = viewModel.selectedAttendance.value
     var currentClickAttendance by rememberSaveable {
         mutableStateOf<AttendanceModel?>(null)
     }
     val snackBarHostState = remember {
         SnackbarHostState()
     }
+    val attendanceListSize = rememberSaveable {
+        mutableIntStateOf(0)
+    }
+    var isSelectWindowActive: Boolean by rememberSaveable {
+        mutableStateOf(false)
+    }
+    var isSelectAllClick by rememberSaveable {
+        mutableStateOf(false)
+    }
     LaunchedEffect(key1 = true) {
-        viewModel.oneTimeAttendanceScreenEvent
-            .collectLatest { event ->
-                when (event) {
-                    is AttendanceViewModel.OneTimeAttendanceEvent.ShowUndoDeleteAttendanceMessage ->
-                        snackBarHostState.showSnackbar(
-                            event.message,
-                            actionLabel = "Undo"
-                        ).let { snackBarResult ->
-                            if (snackBarResult == SnackbarResult.ActionPerformed)
-                                viewModel.onEvent(AttendanceEvent.RestorerAttendance)
-                        }
+        viewModel.oneTimeAttendanceScreenEvent.collectLatest { event ->
+            when (event) {
+                is AttendanceViewModel.OneTimeAttendanceEvent.ShowUndoDeleteAttendanceMessage -> snackBarHostState.showSnackbar(
+                    event.message, actionLabel = "Undo"
+                ).let { snackBarResult ->
+                    if (snackBarResult == SnackbarResult.ActionPerformed) viewModel.onEvent(
+                        AttendanceEvent.RestorerAttendance
+                    )
                 }
             }
+        }
     }
 
-    Scaffold(
-        modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+    Scaffold(modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = {
             SnackbarHost(hostState = snackBarHostState)
         },
@@ -155,13 +168,34 @@ fun AttendanceScreen(
             )
         },
         bottomBar = {
-            AttendanceBottomAppbar(action = {
-                navController.navigate(
-                    AttendanceScreenRoutes.AddEditAttendanceScreen.route
-                )
-            })
-        }
-    ) {
+            AttendanceBottomAppbar(
+                isSelectWindowActive = isSelectWindowActive,
+                action = {
+                    navController.navigate(
+                        AttendanceScreenRoutes.AddEditAttendanceScreen.route
+                    )
+                },
+                onSelectClick = {
+                    isSelectWindowActive = !isSelectWindowActive
+                    if (!isSelectWindowActive) {
+                        viewModel.onEvent(AttendanceEvent.ClearSelection)
+                        isSelectAllClick = false
+                    }
+                },
+                list = selectedAttendance,
+                checkBoxTickState = selectedAttendance.size == attendanceListSize.intValue,
+                onCheckBoxClick = {
+                    isSelectAllClick = !isSelectAllClick
+                    viewModel
+                        .onEvent(
+                            AttendanceEvent.SelectAllClick(
+                                attendanceList.itemSnapshotList.items.toList(),
+                                isSelectAllClick
+                            )
+                        )
+                }
+            )
+        }) {
         val sheetState = rememberModalBottomSheetState()
         var isCalenderBottomSheetVisible by rememberSaveable {
             mutableStateOf(false)
@@ -184,12 +218,10 @@ fun AttendanceScreen(
         }
         if (isMenuBottomSheetVisible && currentClickAttendance != null) {
             ModalBottomSheet(onDismissRequest = { isMenuBottomSheetVisible = false }) {
-                AttendanceMenu(
-                    attendanceModel = currentClickAttendance!!,
+                AttendanceMenu(attendanceModel = currentClickAttendance!!,
                     onEditClick = { attendanceModel ->
                         navController.navigate(
-                            AttendanceScreenRoutes.AddEditAttendanceScreen.route +
-                                    "?attendanceId=${attendanceModel.id}"
+                            AttendanceScreenRoutes.AddEditAttendanceScreen.route + "?attendanceId=${attendanceModel.id}"
                         )
                     },
                     isUndoEnable = currentClickAttendance?.stack?.isNotEmpty() ?: true,
@@ -212,8 +244,7 @@ fun AttendanceScreen(
                     },
                     commonAction = {
                         isMenuBottomSheetVisible = false
-                    }
-                )
+                    })
             }
         }
 
@@ -222,29 +253,46 @@ fun AttendanceScreen(
             modifier = Modifier
                 .consumeWindowInsets(it)
                 .animateContentSize(),
-            contentPadding = it, state = lazyListState
+            contentPadding = it,
+            state = lazyListState
         ) {
+            attendanceListSize.intValue = attendanceList.itemCount
             items(count = attendanceList.itemCount,
                 key = attendanceList.itemKey { model -> model.id },
                 contentType = attendanceList.itemContentType { it1 -> it1.subject }) { index ->
                 attendanceList[index]?.let { model ->
-                    AttendanceItem(model = model, modifier = Modifier.animateItemPlacement(
-                        animationSpec = spring(
-                            dampingRatio = 2f, stiffness = 600f
-                        )
-                    ), onTickOrCrossClickClick = { clickItems, isPresent ->
-                        viewModel.onEvent(
-                            AttendanceEvent.ChangeAttendanceValue(
-                                attendanceModel = clickItems, isPresent = isPresent
+                    AttendanceItem(
+                        model = model,
+                        modifier = Modifier.animateItemPlacement(
+                            animationSpec = spring(
+                                dampingRatio = 2f, stiffness = 600f
                             )
-                        )
-                    }, onClick = { it1 ->
-                        currentClickAttendance = it1
-                        isCalenderBottomSheetVisible = true
-                    }, onLongClick = { it1 ->
-                        currentClickAttendance = it1
-                        isMenuBottomSheetVisible = true
-                    }
+                        ),
+                        onTickOrCrossClickClick = { clickItems, isPresent ->
+                            viewModel.onEvent(
+                                AttendanceEvent.ChangeAttendanceValue(
+                                    attendanceModel = clickItems, isPresent = isPresent
+                                )
+                            )
+                        },
+                        onClick = { it1 ->
+                            currentClickAttendance = it1
+                            isCalenderBottomSheetVisible = true
+                        },
+                        onLongClick = { it1 ->
+                            currentClickAttendance = it1
+                            isMenuBottomSheetVisible = true
+                        },
+                        isCheckBoxVisible = isSelectWindowActive,
+                        onSelect = { clAtt, isSelected ->
+                            viewModel.onEvent(
+                                AttendanceEvent.ItemSelectedClick(
+                                    attendanceModel = clAtt,
+                                    isAdded = isSelected
+                                )
+                            )
+                        },
+                        isItemIsSelected = selectedAttendance.contains(model)
                     )
                 }
             }
@@ -254,35 +302,90 @@ fun AttendanceScreen(
 
 @Composable
 fun AttendanceBottomAppbar(
-    modifier: Modifier = Modifier, action: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    action: () -> Unit = {},
+    isSelectWindowActive: Boolean = false,
+    onMenuClick: () -> Unit = {},
+    onAddFromSyllabusClick: () -> Unit = {},
+    onArchiveClick: () -> Unit = {},
+    onSettingClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {},
+    onSelectClick: () -> Unit = {},
+    list: List<AttendanceModel> = emptyList(),
+    checkBoxTickState: Boolean = false,
+    onCheckBoxClick: () -> Unit = {},
 ) {
     val actionList = listOf(
-        ImageIconModel(imageVector = Icons.Rounded.MenuOpen,
+        ImageIconModel(
+            imageVector = Icons.Rounded.MenuOpen,
             contentDescription = R.string.menu,
-            onClick = {}),
-        ImageIconModel(imageVector = Icons.Outlined.Book,
+            onClick = onMenuClick,
+            isVisible = !isSelectWindowActive
+        ),
+        ImageIconModel(
+            imageVector = Icons.Outlined.Book,
             contentDescription = R.string.add_from_Syllabus,
-            onClick = {}),
-        ImageIconModel(imageVector = Icons.Outlined.Archive,
+            onClick = onAddFromSyllabusClick,
+            isVisible = !isSelectWindowActive
+        ),
+        ImageIconModel(
+            imageVector = Icons.Outlined.Archive,
             contentDescription = R.string.archive,
-            onClick = {}),
-        ImageIconModel(imageVector = Icons.Outlined.Settings,
+            onClick = onArchiveClick,
+        ),
+        ImageIconModel(
+            imageVector = Icons.Outlined.Settings,
             contentDescription = R.string.settings,
-            onClick = {}),
+            onClick = onSettingClick,
+            isVisible = !isSelectWindowActive
+        ),
+        ImageIconModel(
+            imageVector = Icons.Outlined.Delete,
+            contentDescription = R.string.delete,
+            onClick = onDeleteClick,
+            isVisible = isSelectWindowActive,
+        ),
+        ImageIconModel(
+            imageVector = Icons.Outlined.Checklist,
+            contentDescription = R.string.select,
+            onClick = onSelectClick,
+            tint = if (isSelectWindowActive) MaterialTheme.colorScheme.primary
+            else LocalContentColor.current
+        ),
     )
     BottomAppBar(modifier = modifier, actions = {
+        AnimatedVisibility(visible = isSelectWindowActive) {
+            TriStateCheckbox(
+                state = when {
+                    list.isEmpty() -> ToggleableState.Off
+                    checkBoxTickState -> ToggleableState.On
+                    else -> ToggleableState.Indeterminate
+                },
+                onClick = {
+                    onCheckBoxClick()
+                }
+            )
+        }
         actionList.forEach { action ->
-            ImageIconButton(iconModel = action)
+            AnimatedVisibility(visible = action.isVisible) {
+                ImageIconButton(iconModel = action)
+            }
         }
     }, floatingActionButton = {
-        FloatingActionButton(
-            onClick = action,
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
+        AnimatedVisibility(
+            visible = !isSelectWindowActive,
+            enter = scaleIn() + fadeIn(),
+            exit = scaleOut() + fadeOut()
         ) {
-            Icon(
-                imageVector = Icons.Outlined.Add, contentDescription = "add"
-            )
+            FloatingActionButton(
+                onClick = action,
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Add, contentDescription = "add"
+                )
+            }
         }
     })
 }

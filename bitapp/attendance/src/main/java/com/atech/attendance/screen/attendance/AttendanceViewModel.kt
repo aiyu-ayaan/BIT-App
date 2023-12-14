@@ -1,5 +1,7 @@
 package com.atech.attendance.screen.attendance
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -30,6 +32,9 @@ class AttendanceViewModel @Inject constructor(
     private val _oneTimeAttendanceScreenEvent = MutableSharedFlow<OneTimeAttendanceEvent>()
 
     val oneTimeAttendanceScreenEvent = _oneTimeAttendanceScreenEvent.asSharedFlow()
+
+    private val _selectedAttendance = mutableStateOf<List<AttendanceModel>>(emptyList())
+    val selectedAttendance: State<List<AttendanceModel>> get() = _selectedAttendance
 
     init {
         getAttendance()
@@ -80,6 +85,28 @@ class AttendanceViewModel @Inject constructor(
                     recentlyDeletedAttendance = null
                     getAttendance()
                 }
+            }
+
+            is AttendanceEvent.ItemSelectedClick -> {
+                if (event.isAdded) {
+                    _selectedAttendance.value += event.attendanceModel
+                } else {
+                    _selectedAttendance.value -= event.attendanceModel
+                }
+            }
+
+            is AttendanceEvent.SelectAllClick -> {
+                if (event.isAdded) {
+                    _selectedAttendance.value = event.attendanceModelList
+                } else {
+                    _selectedAttendance.value = emptyList()
+                }
+            }
+
+            AttendanceEvent.ClearSelection -> _selectedAttendance.value = emptyList()
+            AttendanceEvent.SelectedItemToArchive -> {}
+            AttendanceEvent.DeleteSelectedItems -> {
+
             }
         }
     }
