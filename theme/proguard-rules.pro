@@ -1,23 +1,6 @@
--dontwarn groovy.lang.GroovyObject
--dontwarn groovy.lang.MetaClass
--dontwarn java.lang.management.ManagementFactory
--dontwarn javax.management.InstanceNotFoundException
--dontwarn javax.management.MBeanRegistrationException
--dontwarn javax.management.MBeanServer
--dontwarn javax.management.MalformedObjectNameException
--dontwarn javax.management.ObjectInstance
--dontwarn javax.management.ObjectName
--dontwarn javax.naming.Context
--dontwarn javax.naming.InitialContext
--dontwarn javax.naming.NamingException
+# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
 -dontwarn javax.servlet.ServletContainerInitializer
--dontwarn org.codehaus.groovy.reflection.ClassInfo
--dontwarn org.codehaus.groovy.runtime.BytecodeInterface8
--dontwarn org.codehaus.groovy.runtime.ScriptBytecodeAdapter
--dontwarn org.codehaus.groovy.runtime.callsite.CallSite
--dontwarn org.codehaus.groovy.runtime.callsite.CallSiteArray
--dontwarn org.codehaus.janino.ClassBodyEvaluator
--dontwarn sun.reflect.Reflection
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket
 -dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider

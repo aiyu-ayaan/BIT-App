@@ -76,8 +76,9 @@ data class IsPresent(val day: Long, var isPresent: Boolean, var totalClasses: In
 object DaysTypeConvector {
     @TypeConverter
     @JvmStatic
-    fun toString(value: String): ArrayList<Long> =
-        Gson().fromJson(value, object : TypeToken<ArrayList<Long>>() {}.type)
+    fun toString(value: String): ArrayList<Long> {
+        return Gson().fromJson(value, object : TypeToken<ArrayList<Long>>() {}.type)
+    }
 
 
     @TypeConverter

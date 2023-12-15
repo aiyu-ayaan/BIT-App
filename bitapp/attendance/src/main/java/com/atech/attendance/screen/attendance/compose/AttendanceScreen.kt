@@ -78,9 +78,11 @@ import com.atech.attendance.AttendanceScreenRoutes
 import com.atech.attendance.R
 import com.atech.attendance.screen.attendance.AttendanceEvent
 import com.atech.attendance.screen.attendance.AttendanceViewModel
+import com.atech.components.BottomPadding
 import com.atech.components.EmptyScreen
 import com.atech.components.ImageIconButton
 import com.atech.components.ImageIconModel
+import com.atech.components.singleElement
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.theme.BITAppTheme
 import com.atech.theme.captionColor
@@ -103,7 +105,7 @@ fun AttendanceScreen(
 ) {
     val attendanceList = viewModel.attendance.collectAsLazyPagingItems()
     val lazyListState = rememberLazyListState()
-    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val selectedAttendance = viewModel.selectedAttendance.value
     var currentClickAttendance by rememberSaveable {
         mutableStateOf<AttendanceModel?>(null)
@@ -356,6 +358,9 @@ fun AttendanceScreen(
                         isItemIsSelected = selectedAttendance.contains(model)
                     )
                 }
+            }
+            singleElement (key = "Bottom Padding"){
+                BottomPadding()
             }
         }
     }

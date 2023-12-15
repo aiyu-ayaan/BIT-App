@@ -105,30 +105,30 @@ class AttendanceViewModel @Inject constructor(
 
             is AttendanceEvent.ItemSelectedClick -> {
                 if (event.isAdded) {
-                    _selectedArchiveItems.value += event.attendanceModel
+                    _selectedAttendance.value += event.attendanceModel
                 } else {
-                    _selectedArchiveItems.value -= event.attendanceModel
+                    _selectedAttendance.value -= event.attendanceModel
                 }
             }
 
             is AttendanceEvent.SelectAllClick -> {
                 if (event.isAdded) {
-                    _selectedArchiveItems.value = event.attendanceModelList
+                    _selectedAttendance.value = event.attendanceModelList
                 } else {
-                    _selectedArchiveItems.value = emptyList()
+                    _selectedAttendance.value = emptyList()
                 }
             }
 
             AttendanceEvent.ClearSelection -> {
-                _selectedArchiveItems.value = emptyList()
+                _selectedAttendance.value = emptyList()
             }
 
             AttendanceEvent.SelectedItemToArchive -> {
                 viewModelScope.launch {
-                    _selectedArchiveItems.value.forEach {
+                    _selectedAttendance.value.forEach {
                         case.archiveAttendance(it)
                     }
-                    _selectedArchiveItems.value = emptyList()
+                    _selectedAttendance.value = emptyList()
                 }
                 getAttendance()
             }
