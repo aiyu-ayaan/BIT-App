@@ -60,9 +60,7 @@ fun ViewSubjectScreen(
         navController.navigateUp()
     }
 
-    BITAppTheme(
-        dynamicColor = isOnline
-    ) {
+    BITAppTheme() {
         Scaffold(topBar = {
             BackToolbar(
                 title = "", onNavigationClick = {

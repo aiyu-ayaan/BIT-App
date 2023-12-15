@@ -44,6 +44,7 @@ navigationCommonKtx = "2.7.5"
 firebaseBom = "32.7.0"
 pagingCommonKtx = "3.2.1"
 calendarVersion = "3.0.0"
+retrofit-version = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -100,6 +101,9 @@ firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashly
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "pagingCommonKtx" }
 calender = { group = "com.github.sundeepk", name = "compact-calendar-view", version.ref = "calendarVersion" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
+retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
+retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-version" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

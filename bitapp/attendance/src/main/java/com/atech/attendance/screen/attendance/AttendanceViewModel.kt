@@ -135,10 +135,10 @@ class AttendanceViewModel @Inject constructor(
 
             AttendanceEvent.DeleteSelectedItems -> {
                 viewModelScope.launch {
-                    _selectedArchiveItems.value.forEach {
+                    _selectedAttendance.value.forEach {
                         case.deleteAttendance(it)
                     }
-                    _selectedArchiveItems.value = emptyList()
+                    _selectedAttendance.value = emptyList()
                 }
                 getAttendance()
             }

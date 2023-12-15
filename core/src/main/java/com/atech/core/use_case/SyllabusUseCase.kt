@@ -5,7 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
-import com.atech.core.data_source.ktor.model.SubjectModel
+import com.atech.core.data_source.retrofit.model.SubjectModel
 import com.atech.core.data_source.room.syllabus.Subject
 import com.atech.core.data_source.room.syllabus.SubjectType
 import com.atech.core.data_source.room.syllabus.SyllabusDao

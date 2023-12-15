@@ -1,7 +1,7 @@
 package com.atech.core.use_case
 
-import com.atech.core.data_source.ktor.BitAppApiService
-import com.atech.core.data_source.ktor.model.Subject
+import com.atech.core.data_source.retrofit.BitAppApiService
+import com.atech.core.data_source.retrofit.model.Subject
 import javax.inject.Inject
 
 

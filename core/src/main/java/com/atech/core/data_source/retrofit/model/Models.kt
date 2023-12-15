@@ -1,4 +1,4 @@
-package com.atech.core.data_source.ktor.model
+package com.atech.core.data_source.retrofit.model
 
 
 import androidx.annotation.Keep
@@ -63,18 +63,16 @@ data class Society(
 //----------------------------------- Syllabus -----------------------------------
 
 
-@kotlinx.serialization.Serializable
+@Keep
 data class SyllabusResponse(val semester: Semester?)
 
 @Keep
-@kotlinx.serialization.Serializable
 data class Semester(
     val id: String,
     val subjects: Subject
 )
 
 @Keep
-@kotlinx.serialization.Serializable
 data class Subject(
     val theory: List<SubjectModel>,
     val lab: List<SubjectModel>,
@@ -83,7 +81,6 @@ data class Subject(
 
 
 @Keep
-@kotlinx.serialization.Serializable
 data class SubjectModel(
     val subjectName: String,
     val code: String,

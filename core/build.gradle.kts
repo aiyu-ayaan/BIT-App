@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
-    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {
@@ -70,13 +69,12 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.remote.config)
 
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.android)
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.logging)
-    implementation(libs.logback.classic)
-    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.json)
+    implementation(libs.retrofit.scalars)
+
+
 
     implementation(libs.androidx.datastore.preferences)
 }

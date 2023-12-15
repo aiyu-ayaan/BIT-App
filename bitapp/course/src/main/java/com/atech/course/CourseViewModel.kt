@@ -1,6 +1,7 @@
 package com.atech.course
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -143,6 +144,7 @@ class CourseViewModel @Inject constructor(
             _onlineSyllabus.value =
                 kTorUseCase.fetchSyllabus("${_currentClickItem.value.name}${_currentSem.intValue}")
         } catch (e: Exception) {
+            Log.d("AAA", "getOnlineSubjects: ${e.message}")
             onEvent(CourseEvents.ErrorDuringLoadingError("Can't load online syllabus. Check your internet connection."))
         }
 
