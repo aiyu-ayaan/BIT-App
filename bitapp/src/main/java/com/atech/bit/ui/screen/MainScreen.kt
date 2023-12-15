@@ -12,7 +12,9 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,7 +31,6 @@ import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -47,12 +48,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.ColorUtils
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -73,7 +77,6 @@ import com.atech.view_model.SharedEvents
 import com.atech.view_model.SharedViewModel
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
@@ -195,7 +198,9 @@ fun NavDrawer(
     val currentDestination = navBackStackEntry?.destination
     DismissibleDrawerSheet(
         modifier = modifier,
-        drawerContainerColor = MaterialTheme.colorScheme.primaryContainer,
+        drawerContainerColor = Color(
+            color()
+        ),
         drawerShape = RoundedCornerShape(grid_2)
     ) {
         LazyColumn {
@@ -234,7 +239,9 @@ private fun ColumnScope.drawerItem(
                 NavigationDrawerItemDefaults.ItemPadding
             ),
         colors = NavigationDrawerItemDefaults.colors(
-            unselectedContainerColor = MaterialTheme.colorScheme.primaryContainer
+            unselectedContainerColor = Color(
+                color()
+            )
         ),
         label = {
             Text(
@@ -258,6 +265,13 @@ private fun ColumnScope.drawerItem(
             )
         })
 }
+
+@Composable
+private fun color() = ColorUtils.blendARGB(
+    MaterialTheme.colorScheme.surface.toArgb(),
+    MaterialTheme.colorScheme.primary.toArgb(),
+    .09f
+)
 
 
 val navBarItems = listOf(
@@ -297,7 +311,15 @@ fun NavBar(
         initialAlpha = 0.3f
     ), exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
         NavigationBar(
-            modifier = modifier.fillMaxWidth(), contentColor = MaterialTheme.colorScheme.primary
+            modifier = modifier.fillMaxWidth(),
+            contentColor = Color(
+                ColorUtils.blendARGB(
+                    MaterialTheme.colorScheme.surface.toArgb(),
+                    Color.Gray.toArgb(),
+                    .6f
+                )
+            ),
+            windowInsets = WindowInsets.navigationBars
         ) {
             navBarItems.forEachIndexed { index, navBarModel ->
                 AddItem(

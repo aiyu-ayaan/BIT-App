@@ -350,6 +350,7 @@ fun AttendanceScreen(
                 attendanceList[index]?.let { model ->
                     AttendanceItem(
                         model = model,
+                        minPercentage = defPercentage,
                         modifier = Modifier.animateItemPlacement(
                             animationSpec = spring(
                                 dampingRatio = 2f, stiffness = 600f

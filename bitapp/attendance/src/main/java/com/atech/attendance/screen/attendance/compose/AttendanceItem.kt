@@ -174,12 +174,20 @@ fun AttendanceItem(
                                 ) Icons.Default.Computer else Icons.Default.MenuBook,
                                 contentDescription = null,
                                 modifier = Modifier.size(30.dp),
-                                tint = MaterialTheme.colorScheme.primary
+                                tint = when {
+                                    percentage == 0.0F -> MaterialTheme.colorScheme.primary
+                                    percentage >= minPercentage -> MaterialTheme.colorScheme.primary
+                                    else -> SwipeRed
+                                },
                             )
                             Text(
                                 text = "${model.present}/${model.total}",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.primary
+                                color = when {
+                                    percentage == 0.0F -> MaterialTheme.colorScheme.primary
+                                    percentage >= minPercentage -> MaterialTheme.colorScheme.primary
+                                    else -> SwipeRed
+                                },
                             )
                         }
                         Spacer(modifier = Modifier.width(grid_1))
@@ -199,7 +207,11 @@ fun AttendanceItem(
                             Spacer(modifier = Modifier.height(grid_1))
                             Text(
                                 text = (if (model.teacher == null || model.teacher?.isEmpty() == true) "No teacher name " else model.teacher).toString(),
-                                color = MaterialTheme.colorScheme.primary,
+                                color = when {
+                                    percentage == 0.0F -> MaterialTheme.colorScheme.primary
+                                    percentage >= minPercentage -> MaterialTheme.colorScheme.primary
+                                    else -> SwipeRed
+                                },
                                 style = MaterialTheme.typography.bodySmall,
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis
@@ -213,7 +225,8 @@ fun AttendanceItem(
                                 progress = model.present / model.total.toFloat(),
                                 trackColor = MaterialTheme.colorScheme.surface,
                                 strokeCap = StrokeCap.Round,
-                                strokeWidth = grid_1
+                                strokeWidth = grid_1,
+                                color = if (percentage >= minPercentage) MaterialTheme.colorScheme.primary else SwipeRed,
                             )
                             Text(
                                 text = "${percentage.toInt()}%",
