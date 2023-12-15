@@ -16,7 +16,9 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RawQuery
 import androidx.room.Update
+import androidx.sqlite.db.SupportSQLiteQuery
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -34,30 +36,8 @@ interface AttendanceDao {
     suspend fun delete(attendance: AttendanceModel)
 
 
-    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY created ||:sortOrder")
-    fun getAttendanceCreated(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
-
-    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY subject_name ||:sortOrder")
-    fun getAttendanceSubject(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
-
-    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY total ||:sortOrder")
-    fun getAttendanceTotal(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
-
-    @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY present ||:sortOrder")
-    fun getAttendancePresent(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
-
-    @Query("SELECT *,  (CAST(present AS REAL) / total) * 100 AS percentage FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY percentage ||:sortOrder")
-    fun getNonArchiveAttendanceOrderByPercentage(sortOrder: SortOrder): PagingSource<Int, AttendanceModel>
-
-
-    fun getAttendanceSorted(sort: Sort = Sort()): PagingSource<Int, AttendanceModel> =
-        when (sort.sortBy) {
-            SortBy.SUBJECT -> getAttendanceSubject(sort.sortOrder)
-            SortBy.CREATED -> getAttendanceCreated(sort.sortOrder)
-            SortBy.TOTAL -> getAttendanceTotal(sort.sortOrder)
-            SortBy.PRESENT -> getAttendancePresent(sort.sortOrder)
-            SortBy.PERCENTAGE -> getNonArchiveAttendanceOrderByPercentage(sort.sortOrder)
-        }
+    @RawQuery(observedEntities = [AttendanceModel::class])
+    fun getAttendanceSorted(query: SupportSQLiteQuery): PagingSource<Int, AttendanceModel>
 
 
     @Query("SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0")

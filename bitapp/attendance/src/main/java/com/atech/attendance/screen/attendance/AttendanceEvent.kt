@@ -1,6 +1,7 @@
 package com.atech.attendance.screen.attendance
 
 import com.atech.core.data_source.room.attendance.AttendanceModel
+import com.atech.core.data_source.room.attendance.Sort
 import com.atech.core.use_case.SyllabusUIModel
 
 sealed class AttendanceEvent {
@@ -60,4 +61,5 @@ sealed class AttendanceEvent {
     data object ArchiveScreenDeleteSelectedItems : AttendanceEvent()
 
 
+    data class UpdateSettings(val percentage: Int,val sort : Sort) : AttendanceEvent()
 }

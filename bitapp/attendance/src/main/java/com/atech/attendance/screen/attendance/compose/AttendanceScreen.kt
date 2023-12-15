@@ -68,6 +68,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -131,6 +132,11 @@ fun AttendanceScreen(
     var isArchiveBottomSheetVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    var isSettingDialogVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val defPercentage = viewModel.defaultPercentage.value
+    val sort = viewModel.sort.value
     BackHandler {
         if (isSelectWindowActive) {
             isSelectWindowActive = false
@@ -166,7 +172,10 @@ fun AttendanceScreen(
                 enter = slideInVertically() + fadeIn(),
                 exit = slideOutVertically() + fadeOut()
             ) {
-                AttendanceTopBar(scrollBehavior)
+                AttendanceTopBar(
+                    scrollBehavior = scrollBehavior,
+                    defPercentage = defPercentage
+                )
             }
         },
         bottomBar = {
@@ -214,6 +223,9 @@ fun AttendanceScreen(
                             toggleDrawer(communicatorViewModel)
                         )
                     )
+                },
+                onSettingClick = {
+                    isSettingDialogVisible = true
                 }
             )
         })
@@ -234,6 +246,18 @@ fun AttendanceScreen(
             ModalBottomSheet(onDismissRequest = { isArchiveBottomSheetVisible = false }) {
                 bottomSheetArchive(
                     viewModel = viewModel
+                )
+            }
+        }
+        if (isSettingDialogVisible) {
+            Dialog(
+                onDismissRequest = { isSettingDialogVisible = false },
+            ) {
+                AttendanceSettingDialog(
+                    viewModel = viewModel,
+                    onDismiss = {
+                        isSettingDialogVisible = false
+                    }
                 )
             }
         }
@@ -359,7 +383,7 @@ fun AttendanceScreen(
                     )
                 }
             }
-            singleElement (key = "Bottom Padding"){
+            singleElement(key = "Bottom Padding") {
                 BottomPadding()
             }
         }
@@ -368,7 +392,10 @@ fun AttendanceScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun AttendanceTopBar(scrollBehavior: TopAppBarScrollBehavior) {
+private fun AttendanceTopBar(
+    scrollBehavior: TopAppBarScrollBehavior,
+    defPercentage: Int
+) {
     TopAppBar(
         title = {
             Row(
@@ -377,7 +404,7 @@ private fun AttendanceTopBar(scrollBehavior: TopAppBarScrollBehavior) {
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
-                    text = "Goal : 80%",
+                    text = "Goal : $defPercentage%",
                     modifier = Modifier.padding(start = grid_1),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary

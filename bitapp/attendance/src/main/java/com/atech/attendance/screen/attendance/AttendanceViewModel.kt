@@ -1,12 +1,15 @@
 package com.atech.attendance.screen.attendance
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.atech.core.data_source.datastore.DataStoreCases
 import com.atech.core.data_source.room.attendance.AttendanceModel
+import com.atech.core.data_source.room.attendance.Sort
 import com.atech.core.use_case.AttendanceUseCase
 import com.atech.core.use_case.SyllabusUIModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
-    private val case: AttendanceUseCase
+    private val case: AttendanceUseCase,
+    private val prefCase: DataStoreCases
 ) : ViewModel() {
     private val _attendance = MutableStateFlow<PagingData<AttendanceModel>>(PagingData.empty())
     val attendance: StateFlow<PagingData<AttendanceModel>> get() = _attendance.asStateFlow()
@@ -52,7 +56,14 @@ class AttendanceViewModel @Inject constructor(
     )
     val fetchSyllabus: State<Pair<List<SyllabusUIModel>, List<SyllabusUIModel>>> get() = _fetchSyllabus
 
+    private val _defaultPercentage = mutableIntStateOf(75)
+    val defaultPercentage: State<Int> get() = _defaultPercentage
+
+    private val _sort = mutableStateOf(Sort())
+    val sort: State<Sort> get() = _sort
+
     init {
+        getAllPref()
         getAttendance()
     }
 
@@ -190,16 +201,14 @@ class AttendanceViewModel @Inject constructor(
                     _selectedArchiveItems.value = emptyList()
                 }
             }
-        }
-    }
 
-    private fun getAttendance() {
-        attendanceGetJob?.cancel()
-        attendanceGetJob = case.getAllAttendance()
-            .cachedIn(viewModelScope)
-            .onEach {
-                _attendance.value = it
-            }.launchIn(viewModelScope)
+            is AttendanceEvent.UpdateSettings -> viewModelScope.launch {
+                prefCase.updatePercentage.invoke(event.percentage)
+                prefCase.updateAttendanceSort.invoke(event.sort)
+                getAllPref()
+                getAttendance()
+            }
+        }
     }
 
     fun getSubjectFromSyllabus() {
@@ -220,5 +229,29 @@ class AttendanceViewModel @Inject constructor(
 
     sealed class OneTimeAttendanceEvent {
         data class ShowUndoDeleteAttendanceMessage(val message: String) : OneTimeAttendanceEvent()
+    }
+
+    private fun getAttendance() {
+        attendanceGetJob?.cancel()
+        attendanceGetJob = case.getAllAttendance(
+            _sort.value
+        )
+            .cachedIn(viewModelScope)
+            .onEach {
+                _attendance.value = it
+            }.launchIn(viewModelScope)
+    }
+
+//     ----------------------------------------------- Pref ----------------------------------------
+
+
+    private var prefJob: Job? = null
+
+    private fun getAllPref() {
+        prefJob?.cancel()
+        prefJob = prefCase.getAll.invoke().onEach {
+            _defaultPercentage.intValue = it.defPercentage
+            _sort.value = it.sort
+        }.launchIn(viewModelScope)
     }
 }

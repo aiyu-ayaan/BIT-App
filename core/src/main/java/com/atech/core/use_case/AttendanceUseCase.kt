@@ -3,12 +3,14 @@ package com.atech.core.use_case
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.atech.core.data_source.datastore.DataStoreCases
 import com.atech.core.data_source.room.attendance.AttendanceDao
 import com.atech.core.data_source.room.attendance.AttendanceModel
 import com.atech.core.data_source.room.attendance.AttendanceSave
 import com.atech.core.data_source.room.attendance.IsPresent
 import com.atech.core.data_source.room.attendance.Sort
+import com.atech.core.data_source.room.attendance.SortBy
 import com.atech.core.data_source.room.attendance.countTotalClass
 import com.atech.core.data_source.room.attendance.toAttendanceModel
 import com.atech.core.data_source.room.syllabus.SyllabusDao
@@ -54,9 +56,18 @@ data class GetAllAttendance @Inject constructor(
                 initialLoadSize = INITIALlOADSIZE
             )
         ) {
-            dao.getAttendanceSorted(sort)
+            dao.getAttendanceSorted(SimpleSQLiteQuery(buildQueryString(sort)))
         }.flow
+}
 
+private fun buildQueryString(sort: Sort): String {
+    return when (sort.sortBy) {
+        SortBy.SUBJECT -> "SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY subject_name ${sort.sortOrder.name}"
+        SortBy.CREATED -> "SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY created_date ${sort.sortOrder.name}"
+        SortBy.TOTAL -> "SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY total ${sort.sortOrder.name}"
+        SortBy.PRESENT -> "SELECT * FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY present ${sort.sortOrder.name}"
+        SortBy.PERCENTAGE -> "SELECT *, (CAST(present AS REAL) / total) * 100 AS percentage FROM attendance_table WHERE isArchive is NULL or isArchive = 0 ORDER BY percentage ${sort.sortOrder.name}"
+    }
 }
 
 data class UpdatePresentOrTotal @Inject constructor(
