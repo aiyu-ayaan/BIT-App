@@ -3,10 +3,10 @@ package com.atech.bit.ui.screen.home.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -30,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import com.atech.components.ImageIconButton
 import com.atech.theme.BITAppTheme
 import com.atech.theme.grid_1
-import com.atech.theme.grid_2
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,8 +66,8 @@ fun SearchToolBar(
             leadingIcon = {
                 AnimatedVisibility(
                     visible = active,
-                    enter = slideInVertically() + fadeIn(),
-                    exit = slideOutVertically() + fadeOut()
+                    enter = scaleIn() + fadeIn(),
+                    exit = scaleOut() + fadeOut()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Search,

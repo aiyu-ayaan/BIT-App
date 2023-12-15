@@ -27,6 +27,10 @@ data class Devs(
 )
 
 //----------------------------------- Holiday -----------------------------------
+
+enum class HolidayType(val value : String){
+    ALL("main") , RES("res")
+}
 @Keep
 class HolidayModel(
     val holidays: List<Holiday>

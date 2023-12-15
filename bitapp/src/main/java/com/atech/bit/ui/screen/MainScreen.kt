@@ -105,7 +105,13 @@ fun MainScreen(
         drawerContent = {
             NavDrawer(
                 navController = navController
-            )
+            ) {
+                communicatorViewModel.onEvent(
+                    SharedEvents.ToggleDrawer(
+                        DrawerValue.Closed
+                    )
+                )
+            }
         },
     ) {
         Scaffold(modifier = modifier, bottomBar = {
@@ -153,6 +159,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.holidays,
             selectedIcon = com.atech.bit.R.drawable.ic_holiday,
+            route = MainScreenRoutes.Holiday.route
         )
     ), "Societies & Events" to listOf(
         NavDrawer(
@@ -192,7 +199,8 @@ val navDrawerItem = listOf(
 @Composable
 fun NavDrawer(
     modifier: Modifier = Modifier,
-    navController: NavHostController
+    navController: NavHostController,
+    closeAction: () -> Unit
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -218,7 +226,8 @@ fun NavDrawer(
                         screen = navBarModel,
                         currentDestination = currentDestination,
                         index = index,
-                        navController = navController
+                        navController = navController,
+                        closeAction = closeAction
                     )
                 }
             }
@@ -231,7 +240,8 @@ private fun ColumnScope.drawerItem(
     screen: NavDrawer,
     currentDestination: NavDestination?,
     index: Int,
-    navController: NavHostController
+    navController: NavHostController,
+    closeAction: () -> Unit
 ) = this.apply {
     NavigationDrawerItem(
         modifier = Modifier
@@ -250,11 +260,13 @@ private fun ColumnScope.drawerItem(
         },
         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
         onClick = {
-
-//            navController.navigate(screen.route) {
-//                popUpTo(navController.graph.findStartDestination().id)
-//                launchSingleTop = true
-//            }
+            if (screen.route == "")
+                return@NavigationDrawerItem
+            navController.navigate(screen.route) {
+                popUpTo(navController.graph.findStartDestination().id)
+                launchSingleTop = true
+            }
+            closeAction()
         },
         icon = {
             Icon(

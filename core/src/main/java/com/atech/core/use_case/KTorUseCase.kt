@@ -1,13 +1,16 @@
 package com.atech.core.use_case
 
 import com.atech.core.data_source.retrofit.BitAppApiService
+import com.atech.core.data_source.retrofit.model.Holiday
+import com.atech.core.data_source.retrofit.model.HolidayType
 import com.atech.core.data_source.retrofit.model.Subject
 import javax.inject.Inject
 
 
 class KTorUseCase @Inject constructor(
     val fetchSyllabus: FetchSyllabus,
-    val fetchSubjectMarkDown: FetchSubjectMarkDown
+    val fetchSubjectMarkDown: FetchSubjectMarkDown,
+    val fetchHolidays: FetchHolidays
 )
 
 data class FetchSyllabus @Inject constructor(
@@ -48,3 +51,16 @@ fun Subject.mapToTriple(mapper: OnlineSyllabusUIMapper) =
         mapper.mapFromEntityList(this.lab),
         mapper.mapFromEntityList(this.pe)
     )
+
+
+data class FetchHolidays @Inject constructor(
+    private val api: BitAppApiService,
+) {
+    suspend operator fun invoke(
+        type: HolidayType
+    ): List<Holiday> = try {
+        api.getHoliday().holidays.filter { it.type == type.value }
+    } catch (e: Exception) {
+        emptyList()
+    }
+}
