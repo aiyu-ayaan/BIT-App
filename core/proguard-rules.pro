@@ -14,3 +14,36 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn groovy.lang.GroovyObject
+-dontwarn groovy.lang.MetaClass
+-dontwarn java.lang.management.ManagementFactory
+-dontwarn javax.management.InstanceNotFoundException
+-dontwarn javax.management.MBeanRegistrationException
+-dontwarn javax.management.MBeanServer
+-dontwarn javax.management.MalformedObjectNameException
+-dontwarn javax.management.ObjectInstance
+-dontwarn javax.management.ObjectName
+-dontwarn javax.naming.Context
+-dontwarn javax.naming.InitialContext
+-dontwarn javax.naming.NamingException
+-dontwarn org.codehaus.groovy.reflection.ClassInfo
+-dontwarn org.codehaus.groovy.runtime.BytecodeInterface8
+-dontwarn org.codehaus.groovy.runtime.ScriptBytecodeAdapter
+-dontwarn org.codehaus.groovy.runtime.callsite.CallSite
+-dontwarn org.codehaus.groovy.runtime.callsite.CallSiteArray
+-dontwarn org.codehaus.janino.ClassBodyEvaluator
+-dontwarn sun.reflect.Reflection
+
+
+-keepclassmembers,allowobfuscation class * {
+ @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# Keep `INSTANCE.serializer()` of serializable objects.
+-if @kotlinx.serialization.Serializable class ** {
+    public static ** INSTANCE;
+}
+-keepclassmembers class <1> {
+    public static <1> INSTANCE;
+    kotlinx.serialization.KSerializer serializer(...);
+}

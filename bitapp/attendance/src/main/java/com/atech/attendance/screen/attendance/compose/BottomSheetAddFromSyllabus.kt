@@ -1,5 +1,6 @@
 package com.atech.attendance.screen.attendance.compose
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -55,6 +57,9 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
         viewModel.getSubjectFromSyllabus()
     }
 
+    var isTabVisible by rememberSaveable {
+        mutableStateOf(true)
+    }
 
     Column(
         modifier = modifier
@@ -62,11 +67,12 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
         TabRow(
             selectedTabIndex = selectTabIndex,
         ) {
-            Tab(selected = selectTabIndex == 0, onClick = { selectTabIndex = 0 }) {
-                Text(
-                    text = "From Online", Modifier.padding(grid_1)
-                )
-            }
+            if (isTabVisible)
+                Tab(selected = selectTabIndex == 0, onClick = { selectTabIndex = 0 }) {
+                    Text(
+                        text = "From Online", Modifier.padding(grid_1)
+                    )
+                }
             Tab(selected = selectTabIndex == 1, onClick = { selectTabIndex = 1 }) {
                 Text(
                     text = "From Offline", Modifier.padding(grid_1)
@@ -76,21 +82,53 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
         LazyColumn(
             modifier = Modifier,
         ) {
-            if (fetchOfflineSyllabus.isEmpty() && fetchOnlineSyllabus.isEmpty()) singleElement(key = "Progress") {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Spacer(modifier = Modifier.padding(grid_3))
-                    CircularProgressIndicator(
-                        modifier = modifier.size(80.dp), strokeWidth = grid_1
+            if (fetchOfflineSyllabus.isEmpty() && fetchOnlineSyllabus.isEmpty()) {
+                singleElement(key = "Progress") {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Spacer(modifier = Modifier.padding(grid_3))
+                        CircularProgressIndicator(
+                            modifier = modifier.size(80.dp), strokeWidth = grid_1
+                        )
+                    }
+                }
+                return@LazyColumn
+            }
+            if (fetchOnlineSyllabus.size == 1 && fetchOnlineSyllabus[0].subject.isBlank()) {
+                selectTabIndex = 1
+                isTabVisible = false
+            }
+            if (selectTabIndex == 1) {
+                items(items = fetchOfflineSyllabus, key = { model ->
+                    model.subject + model.isFromOnline
+                }) { model ->
+                    AttendanceSyllabusItem(
+                        model = model,
+                        onClick = { clickItem, isChecked ->
+                            viewModel.onEvent(
+                                AttendanceEvent.AddFromSyllabusItemClick(
+                                    model = clickItem, isAdded = isChecked
+                                )
+                            )
+                        },
+                        onEditClick = { model1 ->
+                            coroutineScope.launch {
+                                viewModel.getElementIdFromSubject(
+                                    model1.subject
+                                )?.let {
+                                    navigateToEdit(
+                                        navController,
+                                        it
+                                    )
+                                }
+                                dismissRequest.invoke()
+                            }
+                        }
                     )
                 }
-            }
-            if (selectTabIndex == 0) {
-                if (fetchOnlineSyllabus.size == 1 && fetchOnlineSyllabus[0].subject.isBlank()) {
-                    selectTabIndex = 1
-                }
+            } else {
                 items(items = fetchOnlineSyllabus, key = { model ->
                     model.subject + model.isFromOnline
                 }) { model ->
@@ -118,32 +156,6 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
                         }
                     )
                 }
-            } else items(items = fetchOfflineSyllabus, key = { model ->
-                model.subject + model.isFromOnline
-            }) { model ->
-                AttendanceSyllabusItem(
-                    model = model,
-                    onClick = { clickItem, isChecked ->
-                        viewModel.onEvent(
-                            AttendanceEvent.AddFromSyllabusItemClick(
-                                model = clickItem, isAdded = isChecked
-                            )
-                        )
-                    },
-                    onEditClick = { model1 ->
-                        coroutineScope.launch {
-                            viewModel.getElementIdFromSubject(
-                                model1.subject
-                            )?.let {
-                                navigateToEdit(
-                                    navController,
-                                    it
-                                )
-                            }
-                            dismissRequest.invoke()
-                        }
-                    }
-                )
             }
         }
         BottomPadding()

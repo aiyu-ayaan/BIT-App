@@ -1,7 +1,6 @@
 package com.atech.core.module
 
 import android.content.Context
-import com.atech.core.BuildConfig
 import com.atech.core.data_source.ktor.BitAppApiImp
 import com.atech.core.data_source.ktor.BitAppApiService
 import dagger.Module
@@ -36,10 +35,10 @@ object KTorModule {
                 }
             }
 
-            if (BuildConfig.DEBUG)
-                install(Logging) {
-                    level = LogLevel.ALL
-                }
+//            if (BuildConfig.DEBUG)
+            install(Logging) {
+                level = LogLevel.ALL
+            }
 
 
             install(JsonFeature) {
