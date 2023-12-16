@@ -34,7 +34,7 @@ import com.atech.components.singleElement
 import com.atech.components.stateLoadingScreen
 import com.atech.theme.BITAppTheme
 import com.atech.theme.grid_1
-import com.atech.view_model.SharedOneTimeEvent
+import com.atech.view_model.OnErrorEvent
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(
@@ -59,7 +59,7 @@ fun HolidayScreen(
     LaunchedEffect(key1 = true) {
         viewModel.oneTimeEvent.collectLatest {
             when (it) {
-                is SharedOneTimeEvent.OnError -> {
+                is OnErrorEvent.OnError -> {
                     hasError = true to it.message
                 }
             }

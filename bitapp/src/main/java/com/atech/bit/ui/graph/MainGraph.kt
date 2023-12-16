@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import com.atech.attendance.AttendanceScreenRoutes
 import com.atech.attendance.attendanceNavigation
 import com.atech.bit.ui.screen.holiday.compose.HolidayScreen
+import com.atech.bit.ui.screen.society.SocietyRoutes
+import com.atech.bit.ui.screen.society.societyNavigation
 import com.atech.course.CourseScreenRoute
 import com.atech.course.courseNavigation
 import com.atech.utils.animatedCompose
@@ -22,6 +24,8 @@ sealed class MainScreenRoutes(val route: String) {
     data object Course : MainScreenRoutes(route = getSimpleName(CourseScreenRoute::class.java))
     data object Home : MainScreenRoutes(route = getSimpleName(HomeScreenRoutes::class.java))
     data object Holiday : MainScreenRoutes(route = "holiday")
+
+    data object Society : MainScreenRoutes(route = getSimpleName(SocietyRoutes::class.java))
 }
 
 
@@ -58,6 +62,9 @@ fun HomeNavigation(
                 navController = navHostController,
             )
         }
+        societyNavigation(
+            navHostController = navHostController
+        )
     }
 }
 

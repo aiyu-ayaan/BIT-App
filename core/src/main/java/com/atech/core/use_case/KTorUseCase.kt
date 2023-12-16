@@ -10,7 +10,8 @@ import javax.inject.Inject
 class KTorUseCase @Inject constructor(
     val fetchSyllabus: FetchSyllabus,
     val fetchSubjectMarkDown: FetchSubjectMarkDown,
-    val fetchHolidays: FetchHolidays
+    val fetchHolidays: FetchHolidays,
+    val fetchSociety: FetchSociety
 )
 
 data class FetchSyllabus @Inject constructor(
@@ -61,6 +62,17 @@ data class FetchHolidays @Inject constructor(
         type: HolidayType
     ): List<Holiday> = try {
         api.getHoliday().holidays.filter { it.type == type.value }
+    } catch (e: Exception) {
+        throw e
+    }
+}
+
+data class FetchSociety @Inject constructor(
+    private val api : BitAppApiService
+){
+    @Throws(Exception::class)
+    suspend operator fun invoke() = try {
+        api.getSociety().societies to api.getSociety().ngos
     } catch (e: Exception) {
         throw e
     }

@@ -41,4 +41,5 @@
 
 
     <string name="erp_link">https://erpportal.bitmesra.ac.in/login.htm</string>
+    <string name="loaded_image">Loaded Image</string>
 </resources>

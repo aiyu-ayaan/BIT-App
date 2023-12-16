@@ -1,6 +1,7 @@
 package com.atech.core.data_source.retrofit
 
 import com.atech.core.data_source.retrofit.model.HolidayModel
+import com.atech.core.data_source.retrofit.model.SocietyModel
 import com.atech.core.data_source.retrofit.model.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -26,4 +27,7 @@ interface BitAppApiService {
 
     @GET("holiday/holiday.json")
     suspend fun getHoliday(): HolidayModel
+
+    @GET("society/society.json")
+    suspend fun getSociety(): SocietyModel
 }

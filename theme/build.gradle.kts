@@ -70,5 +70,9 @@ dependencies {
 
     implementation(libs.lottie.compose)
 
+    implementation(libs.coil)
+    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.coil.svg)
+
 
 }

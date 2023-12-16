@@ -185,6 +185,7 @@ val navDrawerItem = listOf(
         NavDrawer(
             title = R.string.societies,
             selectedIcon = com.atech.bit.R.drawable.ic_society,
+            route = MainScreenRoutes.Society.route
         ), NavDrawer(
             title = R.string.events,
             selectedIcon = com.atech.bit.R.drawable.ic_event,

@@ -60,39 +60,37 @@ fun ViewSubjectScreen(
         navController.navigateUp()
     }
 
-    BITAppTheme() {
-        Scaffold(topBar = {
-            BackToolbar(
-                title = "", onNavigationClick = {
-                    isComposeViewVisible = false
-                    navController.navigateUp()
-                }, scrollBehavior = toolbarScroll
-            )
-        }) {
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .nestedScroll(toolbarScroll.nestedScrollConnection)
-                    .verticalScroll(scrollState)
-                    .padding(it)
-                    .background(
-                        MaterialTheme.colorScheme.surface
-                    ),
-                verticalArrangement = Arrangement.Center,
-            ) {
-                if (hasError.first) {
-                    NetworkScreenEmptyScreen(
-                        modifier = Modifier.fillMaxSize(),
-                        text = hasError.second
-                    )
-                    return@Scaffold
-                }
-                if (isOnline) {
-                    if (isComposeViewVisible) LoadMarkDown(
-                        data = data
-                    )
-                } else LoadSyllabusFromXml(res = courseSem, viewModel = viewModel)
+    Scaffold(topBar = {
+        BackToolbar(
+            title = "", onNavigationClick = {
+                isComposeViewVisible = false
+                navController.navigateUp()
+            }, scrollBehavior = toolbarScroll
+        )
+    }) {
+        Column(
+            modifier = modifier
+                .fillMaxSize()
+                .nestedScroll(toolbarScroll.nestedScrollConnection)
+                .verticalScroll(scrollState)
+                .padding(it)
+                .background(
+                    MaterialTheme.colorScheme.surface
+                ),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            if (hasError.first) {
+                NetworkScreenEmptyScreen(
+                    modifier = Modifier.fillMaxSize(),
+                    text = hasError.second
+                )
+                return@Scaffold
             }
+            if (isOnline) {
+                if (isComposeViewVisible) LoadMarkDown(
+                    data = data
+                )
+            } else LoadSyllabusFromXml(res = courseSem, viewModel = viewModel)
         }
     }
 }
