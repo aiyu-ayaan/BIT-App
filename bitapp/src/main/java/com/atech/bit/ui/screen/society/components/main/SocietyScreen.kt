@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.atech.bit.ui.screen.society.SocietyRoutes
 import com.atech.bit.ui.screen.society.SocietyViewModel
 import com.atech.components.BackToolbar
 import com.atech.components.BottomPadding
@@ -30,8 +31,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
-    ExperimentalFoundationApi::class
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun SocietyScreen(
@@ -78,7 +78,17 @@ fun SocietyScreen(
                     SocietyType(title = key)
                 }
                 items(value, key = { it1 -> it1.name + it1.sno }) { item ->
-                    SocietyItem(model = item)
+                    SocietyItem(model = item,
+                        onClick = { society ->
+                            viewModel.onEvent(
+                                SocietyViewModel.SocietyEvent.NavigateToDetailScreen(
+                                    society
+                                )
+                            )
+                            navController.navigate(
+                                SocietyRoutes.DetailSocietyScreen.routes
+                            )
+                        })
                 }
             }
             singleElement(key = "padding") { BottomPadding() }

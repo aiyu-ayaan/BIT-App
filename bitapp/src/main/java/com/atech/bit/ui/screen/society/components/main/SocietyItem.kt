@@ -1,6 +1,7 @@
 package com.atech.bit.ui.screen.society.components.main
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,9 +40,15 @@ fun SocietyType(title: String) {
 @Composable
 fun SocietyItem(
     modifier: Modifier = Modifier,
-    model: Society
+    model: Society,
+    onClick: (Society) -> Unit = {}
 ) {
-    Surface {
+    Surface(
+        modifier = modifier
+            .clickable {
+                onClick(model)
+            },
+    ) {
         OutlinedCard(
             modifier = modifier
                 .padding(vertical = grid_0_5, horizontal = grid_1)

@@ -24,8 +24,20 @@ class SocietyViewModel @Inject constructor(
     private val _oneTimeEvent = MutableSharedFlow<OnErrorEvent>()
     val oneTimeEvent = _oneTimeEvent.asSharedFlow()
 
+    private val _currentClickSociety =
+        mutableStateOf(Society(1, "", "Something went wrong", "", ""))
+    val currentClickSociety: State<Society> get() = _currentClickSociety
+
+
     init {
         fetchData()
+    }
+
+    fun onEvent(event: SocietyEvent) {
+        when (event) {
+            is SocietyEvent.NavigateToDetailScreen ->
+                _currentClickSociety.value = event.society
+        }
     }
 
     private fun fetchData() = viewModelScope.launch {
@@ -36,5 +48,9 @@ class SocietyViewModel @Inject constructor(
         } catch (e: Exception) {
             _oneTimeEvent.emit(OnErrorEvent.OnError(e.message.toString()))
         }
+    }
+
+    sealed class SocietyEvent {
+        data class NavigateToDetailScreen(val society: Society) : SocietyEvent()
     }
 }
