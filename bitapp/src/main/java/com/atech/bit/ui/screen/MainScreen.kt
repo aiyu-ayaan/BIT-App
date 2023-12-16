@@ -51,6 +51,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -73,8 +74,10 @@ import com.atech.theme.captionColor
 import com.atech.theme.grid_0_5
 import com.atech.theme.grid_2
 import com.atech.theme.grid_3
+import com.atech.utils.openCustomChromeTab
 import com.atech.view_model.SharedEvents
 import com.atech.view_model.SharedViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -87,6 +90,20 @@ fun MainScreen(
     val isSearchBarActive = communicatorViewModel.isSearchActive.value
     val toggleDrawerState by communicatorViewModel.toggleDrawerState
     val drawerSate = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val context = LocalContext.current
+    val color = MaterialTheme.colorScheme.primary.toArgb()
+    LaunchedEffect(key1 = true) {
+        communicatorViewModel.oneTimeEvent.collectLatest { event ->
+            when (event) {
+                is SharedViewModel.MainScreenOneTimeEvent.OpenLink ->
+                    context.openCustomChromeTab(
+                        event.link,
+                        color
+                    )
+            }
+        }
+    }
+
     LaunchedEffect(toggleDrawerState) {
         toggleDrawerState?.let {
             if (drawerSate.isOpen)
@@ -136,17 +153,20 @@ val navDrawerItem = listOf(
         NavDrawer(
             title = R.string.git,
             selectedIcon = com.atech.bit.R.drawable.ic_read_me,
+            link = R.string.github_link
         ), NavDrawer(
             title = R.string.whats_new,
             selectedIcon = com.atech.bit.R.drawable.ic_release_notes,
         ), NavDrawer(
             title = R.string.issue,
             selectedIcon = com.atech.bit.R.drawable.ic_issue,
+            link = R.string.issue_link
         )
     ), "Erp & Classes" to listOf(
         NavDrawer(
             title = R.string.erp,
             selectedIcon = com.atech.bit.R.drawable.ic_web,
+            link = R.string.erp_link
         ), NavDrawer(
             title = R.string.administration,
             selectedIcon = com.atech.bit.R.drawable.ic_admin,
@@ -241,8 +261,10 @@ private fun ColumnScope.drawerItem(
     currentDestination: NavDestination?,
     index: Int,
     navController: NavHostController,
+    onLinkClick: (String) -> Unit = {},
     closeAction: () -> Unit
 ) = this.apply {
+    val context = LocalContext.current
     NavigationDrawerItem(
         modifier = Modifier
             .padding(
@@ -260,6 +282,13 @@ private fun ColumnScope.drawerItem(
         },
         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
         onClick = {
+            if (screen.link != null) {
+                onLinkClick.invoke(
+                    context
+                        .getString(screen.link)
+                )
+                return@NavigationDrawerItem
+            }
             if (screen.route == "")
                 return@NavigationDrawerItem
             navController.navigate(screen.route) {
@@ -400,7 +429,8 @@ data class NavDrawer(
     @StringRes val title: Int,
     @DrawableRes val selectedIcon: Int,
     @DrawableRes val unSelectedIcon: Int? = null,
-    val route: String = ""
+    val route: String = "",
+    @StringRes val link: Int? = null
 )
 
 data class NavBarModel(

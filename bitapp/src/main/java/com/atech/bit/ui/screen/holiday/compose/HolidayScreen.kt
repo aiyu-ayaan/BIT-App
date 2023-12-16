@@ -4,6 +4,7 @@ import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,8 +15,11 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -27,10 +31,14 @@ import androidx.navigation.compose.rememberNavController
 import com.atech.bit.ui.screen.holiday.HolidayViewModel
 import com.atech.components.BackToolbar
 import com.atech.components.singleElement
+import com.atech.components.stateLoadingScreen
 import com.atech.theme.BITAppTheme
 import com.atech.theme.grid_1
+import com.atech.view_model.SharedOneTimeEvent
+import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+@OptIn(
+    ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
     ExperimentalFoundationApi::class
 )
 @Composable
@@ -44,6 +52,19 @@ fun HolidayScreen(
         mutableIntStateOf(0)
     }
     val holiday = viewModel.holidays.value
+    var hasError by remember {
+        mutableStateOf(false to "")
+    }
+
+    LaunchedEffect(key1 = true) {
+        viewModel.oneTimeEvent.collectLatest {
+            when (it) {
+                is SharedOneTimeEvent.OnError -> {
+                    hasError = true to it.message
+                }
+            }
+        }
+    }
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -62,6 +83,18 @@ fun HolidayScreen(
                 .nestedScroll(scrollState.nestedScrollConnection),
             contentPadding = it
         ) {
+            if (holiday.isEmpty()) {
+                singleElement(key = "LoadingOrError") {
+                    stateLoadingScreen(
+                        modifier = Modifier.fillMaxSize(),
+                        isLoading = holiday.isEmpty() && !hasError.first,
+                        isHasError = hasError.first,
+                        errorMessage = "Unable to load data \n Error : ${hasError.second}"
+                    )
+                }
+                return@LazyColumn
+            }
+
             singleElement(key = "TabView") {
                 HolidayTabLayout(
                     selectedTabIndex = selectedIndex,

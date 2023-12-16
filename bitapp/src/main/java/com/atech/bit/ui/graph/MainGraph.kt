@@ -1,5 +1,6 @@
 package com.atech.bit.ui.graph
 
+import androidx.annotation.Keep
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -13,6 +14,7 @@ import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
 import com.atech.view_model.SharedViewModel
 
+@Keep
 sealed class MainScreenRoutes(val route: String) {
     data object Attendance :
         MainScreenRoutes(route = getSimpleName(AttendanceScreenRoutes::class.java))

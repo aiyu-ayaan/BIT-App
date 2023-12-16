@@ -1,5 +1,6 @@
 package com.atech.attendance
 
+import androidx.annotation.Keep
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -12,7 +13,7 @@ import com.atech.utils.animatedCompose
 import com.atech.utils.getSimpleName
 import com.atech.view_model.SharedViewModel
 
-
+@Keep
 sealed class AttendanceScreenRoutes(val route: String) {
     data object AttendanceScreen : AttendanceScreenRoutes("attendance_screen")
     data object AddEditAttendanceScreen : AttendanceScreenRoutes("add_edit_attendance_screen")

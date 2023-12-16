@@ -33,4 +33,12 @@
 
     <string name="display">Display</string>
     <string name="notification">Notifications</string>
+
+
+    <string name="issue_link">https://bitapp.page.link/issue</string>
+    <string name="github_link">https://bitapp.page.link/BIT</string>
+    <string name="github_dev">https://www.github.com/aiyu-ayaan</string>
+
+
+    <string name="erp_link">https://erpportal.bitmesra.ac.in/login.htm</string>
 </resources>

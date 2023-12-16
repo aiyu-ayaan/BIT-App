@@ -1,5 +1,6 @@
 package com.atech.course
 
+import androidx.annotation.Keep
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -14,6 +15,7 @@ import com.atech.utils.sharedViewModel
 import com.atech.view_model.SharedViewModel
 
 
+@Keep
 sealed class CourseScreenRoute(val route: String) {
     data object CourseScreen : CourseScreenRoute("course_screen")
     data object SemChooseScreen : CourseScreenRoute("sem_choose_screen")

@@ -56,11 +56,12 @@ fun Subject.mapToTriple(mapper: OnlineSyllabusUIMapper) =
 data class FetchHolidays @Inject constructor(
     private val api: BitAppApiService,
 ) {
+    @Throws(Exception::class)
     suspend operator fun invoke(
         type: HolidayType
     ): List<Holiday> = try {
         api.getHoliday().holidays.filter { it.type == type.value }
     } catch (e: Exception) {
-        emptyList()
+        throw e
     }
 }

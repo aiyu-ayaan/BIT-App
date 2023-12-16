@@ -7,7 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.atech.core.data_source.retrofit.model.Holiday
 import com.atech.core.data_source.retrofit.model.HolidayType
 import com.atech.core.use_case.KTorUseCase
+import com.atech.view_model.SharedOneTimeEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -19,12 +21,14 @@ class HolidayViewModel @Inject constructor(
     private val _holidays = mutableStateOf<List<Holiday>>(emptyList())
     val holidays: State<List<Holiday>> get() = _holidays
 
+    private val _oneTimeEvent = MutableSharedFlow<SharedOneTimeEvent>()
+
+    val oneTimeEvent = _oneTimeEvent
+
 
     fun onEvent(selectedTabIndex: Int) {
-        if (selectedTabIndex == 1)
-            getHolidays(HolidayType.RES)
-        else
-            getHolidays(HolidayType.ALL)
+        if (selectedTabIndex == 1) getHolidays(HolidayType.RES)
+        else getHolidays(HolidayType.ALL)
     }
 
     init {
@@ -34,6 +38,10 @@ class HolidayViewModel @Inject constructor(
     private fun getHolidays(
         type: HolidayType = HolidayType.ALL
     ) = viewModelScope.launch {
-        _holidays.value = case.fetchHolidays.invoke(type)
+        try {
+            _holidays.value = case.fetchHolidays.invoke(type)
+        } catch (e: Exception) {
+            _oneTimeEvent.emit(SharedOneTimeEvent.OnError(e.message ?: "Something went wrong"))
+        }
     }
 }

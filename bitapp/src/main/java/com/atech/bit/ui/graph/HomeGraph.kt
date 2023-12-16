@@ -1,5 +1,6 @@
 package com.atech.bit.ui.graph
 
+import androidx.annotation.Keep
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
@@ -9,6 +10,7 @@ import com.atech.utils.getSimpleName
 import com.atech.view_model.SharedViewModel
 
 
+@Keep
 sealed class HomeScreenRoutes(val route: String) {
     data object HomeScreen : HomeScreenRoutes("home_screen")
 }
