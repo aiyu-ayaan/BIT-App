@@ -12,7 +12,7 @@ import com.atech.bit.ui.screen.society.SocietyRoutes
 import com.atech.bit.ui.screen.society.societyNavigation
 import com.atech.course.CourseScreenRoute
 import com.atech.course.courseNavigation
-import com.atech.utils.animatedCompose
+import com.atech.utils.animatedComposable
 import com.atech.utils.getSimpleName
 import com.atech.view_model.SharedViewModel
 
@@ -55,7 +55,7 @@ fun HomeNavigation(
             navHostController,
             communicatorViewModel = communicatorViewModel
         )
-        animatedCompose(
+        animatedComposable(
             route = MainScreenRoutes.Holiday.route
         ) {
             HolidayScreen(

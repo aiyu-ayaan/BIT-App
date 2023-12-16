@@ -1,7 +1,6 @@
 package com.atech.attendance
 
 import androidx.annotation.Keep
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -9,7 +8,8 @@ import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.atech.attendance.screen.add_edit.components.AddEditAttendanceScreen
 import com.atech.attendance.screen.attendance.compose.AttendanceScreen
-import com.atech.utils.animatedCompose
+import com.atech.utils.animatedComposable
+import com.atech.utils.fadeThroughComposable
 import com.atech.utils.getSimpleName
 import com.atech.view_model.SharedViewModel
 
@@ -28,7 +28,7 @@ fun NavGraphBuilder.attendanceNavigation(
         startDestination = AttendanceScreenRoutes.AttendanceScreen.route,
         route = getSimpleName(AttendanceScreenRoutes::class.java)
     ) {
-        animatedCompose(
+        fadeThroughComposable(
             route = AttendanceScreenRoutes.AttendanceScreen.route
         ) {
             AttendanceScreen(
@@ -36,7 +36,7 @@ fun NavGraphBuilder.attendanceNavigation(
                 communicatorViewModel = communicatorViewModel
             )
         }
-        animatedCompose(
+        animatedComposable(
             route = AttendanceScreenRoutes.AddEditAttendanceScreen.route + "?attendanceId={attendanceId}"
             +"&fromAddFromSyllabus={fromAddFromSyllabus}",
             arguments = listOf(

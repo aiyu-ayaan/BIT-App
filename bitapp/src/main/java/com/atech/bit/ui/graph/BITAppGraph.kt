@@ -5,7 +5,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.atech.bit.ui.screen.MainScreen
-import com.atech.utils.animatedCompose
+import com.atech.utils.animatedComposable
 import com.atech.view_model.SharedViewModel
 
 sealed class BITAppRoutes(val route: String) {
@@ -20,7 +20,7 @@ fun BITAppRootGraph(
     NavHost(
         navController = navHostController, startDestination = BITAppRoutes.MainScreen.route
     ) {
-        animatedCompose(
+        animatedComposable(
             route = BITAppRoutes.MainScreen.route
         ) {
             MainScreen(

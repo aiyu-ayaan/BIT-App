@@ -9,7 +9,8 @@ import androidx.navigation.navigation
 import com.atech.course.screen.course.CourseScreen
 import com.atech.course.screen.sem_choose.SemChooseScreen
 import com.atech.course.screen.sub_view.ViewSubjectScreen
-import com.atech.utils.animatedCompose
+import com.atech.utils.animatedComposable
+import com.atech.utils.fadeThroughComposable
 import com.atech.utils.getSimpleName
 import com.atech.utils.sharedViewModel
 import com.atech.view_model.SharedViewModel
@@ -31,7 +32,7 @@ fun NavGraphBuilder.courseNavigation(
         startDestination = CourseScreenRoute.CourseScreen.route,
         route = getSimpleName(CourseScreenRoute::class.java)
     ) {
-        animatedCompose(
+        fadeThroughComposable(
             route = CourseScreenRoute.CourseScreen.route
         ) {
             val viewModel = it.sharedViewModel<CourseViewModel>(navController)
@@ -41,7 +42,7 @@ fun NavGraphBuilder.courseNavigation(
                 communicatorViewModel = communicatorViewModel
             )
         }
-        animatedCompose(
+        animatedComposable(
             route = CourseScreenRoute.SemChooseScreen.route
         ) {
             val viewModel = it.sharedViewModel<CourseViewModel>(navController = navController)
@@ -50,7 +51,7 @@ fun NavGraphBuilder.courseNavigation(
                 navController = navController
             )
         }
-        animatedCompose(
+        animatedComposable(
             route = CourseScreenRoute.ViewSubjectScreen.route +
                     "?course={course}&courseSem={courseSem}" +
                     "&subject={subject}&isOnline={isOnline}",

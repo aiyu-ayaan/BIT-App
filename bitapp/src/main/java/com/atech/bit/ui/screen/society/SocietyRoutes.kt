@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.atech.bit.ui.screen.society.components.detail.SocietyDetailScreen
 import com.atech.bit.ui.screen.society.components.main.SocietyScreen
-import com.atech.utils.animatedCompose
+import com.atech.utils.animatedComposable
 import com.atech.utils.getSimpleName
 import com.atech.utils.sharedViewModel
 
@@ -24,7 +24,7 @@ fun NavGraphBuilder.societyNavigation(
         startDestination = SocietyRoutes.SocietyScreen.routes,
         route = getSimpleName(SocietyRoutes::class.java)
     ) {
-        animatedCompose(
+        animatedComposable(
             route = SocietyRoutes.SocietyScreen.routes
         ) {
             val viewModel = it.sharedViewModel<SocietyViewModel>(navHostController)
@@ -33,7 +33,7 @@ fun NavGraphBuilder.societyNavigation(
                 viewModel = viewModel
             )
         }
-        animatedCompose(
+        animatedComposable(
             route = SocietyRoutes.DetailSocietyScreen.routes
         ) {
             val viewModel = it.sharedViewModel<SocietyViewModel>(navHostController)

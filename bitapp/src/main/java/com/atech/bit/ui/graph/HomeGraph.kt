@@ -5,7 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.atech.bit.ui.screen.home.compose.HomeScreen
-import com.atech.utils.animatedCompose
+import com.atech.utils.fadeThroughComposable
 import com.atech.utils.getSimpleName
 import com.atech.view_model.SharedViewModel
 
@@ -23,7 +23,7 @@ fun NavGraphBuilder.homeNavigation(
         startDestination = HomeScreenRoutes.HomeScreen.route,
         route = getSimpleName(HomeScreenRoutes::class.java)
     ) {
-        animatedCompose(
+        fadeThroughComposable(
             route = HomeScreenRoutes.HomeScreen.route
         ) {
             HomeScreen(
