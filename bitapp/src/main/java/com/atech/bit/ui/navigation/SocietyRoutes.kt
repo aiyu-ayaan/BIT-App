@@ -22,7 +22,7 @@ fun NavGraphBuilder.societyGraph(
 ) {
     navigation(
         startDestination = SocietyRoutes.SocietyScreen.routes,
-        route = RouteName.Society.value
+        route = RouteName.SOCIETY.value
     ) {
         animatedComposable(
             route = SocietyRoutes.SocietyScreen.routes

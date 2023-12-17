@@ -163,6 +163,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.library,
             selectedIcon = R.drawable.ic_library,
+            route = Screen.LibraryScreen.route
         ), NavDrawer(
             title = R.string.cgpa_calculator,
             selectedIcon = R.drawable.ic_cgpa_calculator,

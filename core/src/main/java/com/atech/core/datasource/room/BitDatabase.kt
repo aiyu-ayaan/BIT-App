@@ -9,6 +9,8 @@ import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.datasource.room.attendance.DaysTypeConvector
 import com.atech.core.datasource.room.attendance.IsPresentTypeConvector
 import com.atech.core.datasource.room.attendance.StackTypeConvector
+import com.atech.core.datasource.room.library.LibraryDao
+import com.atech.core.datasource.room.library.LibraryModel
 import com.atech.core.datasource.room.syllabus.SyllabusDao
 import com.atech.core.datasource.room.syllabus.SyllabusList
 import com.atech.core.datasource.room.syllabus.SyllabusModel
@@ -20,7 +22,11 @@ import javax.inject.Provider
 
 
 @Database(
-    entities = [AttendanceModel::class, SyllabusModel::class],
+    entities = [
+        AttendanceModel::class,
+        SyllabusModel::class,
+        LibraryModel::class
+    ],
     version = 1,
 )
 @TypeConverters(
@@ -31,6 +37,7 @@ import javax.inject.Provider
 abstract class BitDatabase : RoomDatabase() {
     abstract fun attendanceDao(): AttendanceDao
     abstract fun syllabusDao(): SyllabusDao
+    abstract fun libraryDao(): LibraryDao
 
     companion object {
         const val DATABASE_NAME = "bit_database"

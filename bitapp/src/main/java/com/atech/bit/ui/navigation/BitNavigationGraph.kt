@@ -17,7 +17,8 @@ enum class RouteName(val value: String) {
     ATTENDANCE("attendance"),
     COURSE("course"),
     HOME("home"),
-    Society("society"),
+    SOCIETY("society"),
+    LIBRARY("library"),
 }
 
 
@@ -28,11 +29,13 @@ sealed class Screen(val route: String) {
 
     data object HomeScreen : Screen(RouteName.HOME.value)
 
-    data object SocietyScreen : Screen(RouteName.Society.value)
+    data object SocietyScreen : Screen(RouteName.SOCIETY.value)
 
     data object HolidayScreen : Screen("holiday")
 
     data object AdministrationScreen : Screen("administration")
+
+    data object LibraryScreen : Screen(RouteName.LIBRARY.value)
 }
 
 
@@ -74,6 +77,7 @@ fun BitAppNavigationGraph(
                 navController = navHostController
             )
         }
+        libraryGraph(navHostController = navHostController)
     }
 }
 

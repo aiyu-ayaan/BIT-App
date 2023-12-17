@@ -34,4 +34,8 @@ object RoomModule {
     @Singleton
     @Provides
     fun getSyllabusDao(database: BitDatabase) = database.syllabusDao()
+
+    @Singleton
+    @Provides
+    fun getLibraryDao(database: BitDatabase) = database.libraryDao()
 }
