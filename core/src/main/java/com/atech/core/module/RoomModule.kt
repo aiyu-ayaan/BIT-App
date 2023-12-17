@@ -1,21 +1,8 @@
-/*
- * BIT Lalpur App
- *
- * Created by Ayaan on 3/22/22, 10:45 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 3/22/22, 9:55 AM
- */
-
-
-
 package com.atech.core.module
 
 import android.content.Context
 import androidx.room.Room
-import com.atech.core.data.room.library.LibraryDao
-import com.atech.core.data_source.room.BitDatabase
-import com.atech.core.data_source.room.attendance.AttendanceDao
-import com.atech.core.data_source.room.syllabus.SyllabusDao
+import com.atech.core.datasource.room.BitDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,46 +24,14 @@ object RoomModule {
             context,
             BitDatabase::class.java,
             BitDatabase.DATABASE_NAME
-        ).fallbackToDestructiveMigration()
-            .addMigrations(BitDatabase.migration_1_2)
-            .addMigrations(BitDatabase.migration_2_3)
-            .addMigrations(BitDatabase.migration_3_4)
-            .addMigrations(BitDatabase.migration_4_5)
-            .addMigrations(BitDatabase.migration_5_6)
-            .addMigrations(BitDatabase.migration_6_7)
-            .addMigrations(BitDatabase.migration_7_8)
-            .addMigrations(BitDatabase.migration_8_9)
-            .addMigrations(BitDatabase.migration_9_10)
-            .addMigrations(BitDatabase.migration_10_11)
-            .addMigrations(BitDatabase.migration_11_12)
-            .addMigrations(BitDatabase.migration_12_13)
-            .addCallback(callback)
+        ).addCallback(callback).fallbackToDestructiveMigrationFrom()
             .build()
 
+    @Singleton
+    @Provides
+    fun getAttendanceDao(database: BitDatabase) = database.attendanceDao()
 
     @Singleton
     @Provides
-    fun getAttendanceDao(noticeDatabase: BitDatabase): AttendanceDao =
-        noticeDatabase.attendanceDao()
-
-//    @Singleton
-//    @Provides
-//    fun getEventDao(noticeDatabase: BitDatabase): EventsDao =
-//        noticeDatabase.eventDao()
-
-    @Singleton
-    @Provides
-    fun getSyllabusDao(noticeDatabase: BitDatabase): SyllabusDao =
-        noticeDatabase.syllabusDao()
-
-//    @Singleton
-//    @Provides
-//    fun getNotice3Dao(noticeDatabase: BitDatabase): Notice3Dao =
-//        noticeDatabase.notice3Dao()
-
-
-    @Singleton
-    @Provides
-    fun getLibraryDao(noticeDatabase: BitDatabase): LibraryDao =
-        noticeDatabase.libraryDao()
+    fun getSyllabusDao(database: BitDatabase) = database.syllabusDao()
 }

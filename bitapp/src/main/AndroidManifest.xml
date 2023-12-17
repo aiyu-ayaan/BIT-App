@@ -10,11 +10,8 @@
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
 
-    <queries>
-        <package android:name="com.aatec.bit" />
-    </queries>
+
     <application
-        android:hardwareAccelerated="false"
         android:name=".BITApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,33 +22,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BITApp"
         tools:targetApi="31">
-
-
-
         <activity
-            android:name=".ui.activity.main.MainActivity"
+            android:name=".ui.activity.MainActivity"
             android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/Theme.BITApp"
-            tools:ignore="LockedOrientationActivity">
-
-            <intent-filter android:autoVerify="true">
+            android:theme="@style/Theme.BITApp">
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-<!--        <provider-->
-<!--            android:name="androidx.core.content.FileProvider"-->
-<!--            android:authorities="${applicationId}.provider"-->
-<!--            android:exported="false"-->
-<!--            android:grantUriPermissions="true">-->
-<!--            <meta-data-->
-<!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-<!--                android:resource="@xml/provider_path" />-->
-<!--        </provider>-->
     </application>
 
 </manifest>

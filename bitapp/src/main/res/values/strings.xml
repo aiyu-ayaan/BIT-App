@@ -1,4 +1,68 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">BIT App</string>
+    <string name="menu">Menu</string>
+    <string name="add_from_Syllabus">Add From Syllabus</string>
+    <string name="archive">Archive</string>
+    <string name="sort">Sort</string>
+    <string name="settings">Settings</string>
+    <string name="select">Select</string>
+    <string name="status">Status : Not Started</string>
+    <string name="on_track">Status: On track don\'t miss next class</string>
+    <string name="leave_class">Status: You can leave %s class</string>
+    <string name="error">Error</string>
+    <string name="attend_class">Status: Attend Next %s Class</string>
+    <string name="subject">Subject Name</string>
+    <string name="required">Required *</string>
+    <string name="teacher_name">Teacher Name</string>
+    <string name="optional">Optional</string>
+    <string name="initail_present">Initial Present</string>
+    <string name="edit_text_empty_messge_for_days">If 0 then leave it empty</string>
+    <string name="total_days">Total Classes</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="count_selected">"%s selected "</string>
+    <string name="unArchive">UnArchive</string>
+    <string name="back">Back</string>
+    <string name="loaded_image">Loaded Image</string>
+
+    <string name="home">Home</string>
+    <string name="course">Course</string>
+    <string name="attendance">Attendance</string>
+    <string name="sem_with_sem_count">Total sem : %s</string>
+    <string name="search">Search for anything !!</string>
+    <string name="drawer">Drawer</string>
+    <string name="notice">Notice</string>
+    <string name="profile">Profile</string>
+
+    <string name="git">GitHub</string>
+    <string name="whats_new">What\'s new</string>
+    <string name="issue">Issue</string>
+
+    <string name="erp">ERP</string>
+    <string name="administration">Administration</string>
+    <string name="library">Library Manager</string>
+    <string name="cgpa_calculator">CGPA Calculator</string>
+    <string name="holidays">Holidays</string>
+
+
+    <string name="societies">Societies</string>
+    <string name="events">Events</string>
+
+    <string name="connect">Connect with us</string>
+    <string name="feedback">Feedback</string>
+
+    <string name="share">Share</string>
+    <string name="rate_us">Rate Us</string>
+
+    <string name="display">Display</string>
+    <string name="notification">Notifications</string>
+
+
+    <string name="issue_link">https://bitapp.page.link/issue</string>
+    <string name="github_link">https://bitapp.page.link/BIT</string>
+    <string name="github_dev">https://www.github.com/aiyu-ayaan</string>
+
+
+    <string name="erp_link">https://erpportal.bitmesra.ac.in/login.htm</string>
 </resources>

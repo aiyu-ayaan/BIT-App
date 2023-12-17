@@ -1,8 +1,8 @@
 package com.atech.core.module
 
 import android.content.Context
-import com.atech.core.data_source.retrofit.BitAppApiService
-import com.atech.core.data_source.retrofit.BitAppApiService.Companion.BASE_URL
+import com.atech.core.datasource.retrofit.BitAppApiService
+import com.atech.core.datasource.retrofit.BitAppApiService.Companion.BASE_URL
 import com.atech.core.utils.hasNetwork
 import com.google.gson.GsonBuilder
 import dagger.Module

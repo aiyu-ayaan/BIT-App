@@ -1,6 +1,12 @@
 pluginManagement {
     repositories {
-        google()
+        google {
+            content {
+                includeGroupByRegex("com\\.android.*")
+                includeGroupByRegex("com\\.google.*")
+                includeGroupByRegex("androidx.*")
+            }
+        }
         mavenCentral()
         gradlePluginPortal()
     }
@@ -11,7 +17,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         maven("https://jitpack.io")
-        maven("https://oss.sonatype.org/content/repositories/snapshots/")
+
     }
 }
 
@@ -19,7 +25,3 @@ rootProject.name = "BIT App"
 include(":bitapp")
 include(":core")
 include(":syllabus")
-include(":bitapp:course")
-include(":bitapp:attendance")
-include(":bitapp:login")
-include(":theme")

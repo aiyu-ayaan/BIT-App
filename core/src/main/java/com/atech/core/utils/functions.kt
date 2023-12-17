@@ -15,3 +15,5 @@ fun String.encodeUrlSpaces(): String = this.replace(" ", "%20")
 
 fun Int.toBoolean() = this == 1
 
+
+fun Number.ifZero(action: () -> Int): Number = if (this == 0) action() else this

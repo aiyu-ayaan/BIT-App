@@ -18,6 +18,10 @@ android {
         versionName = "5.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
     bundle {
         storeArchive {
@@ -70,17 +74,17 @@ android {
         compose = true
         buildConfig = true
     }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
 }
 
 dependencies {
 
-    implementation(project(mapOf("path" to ":bitapp:attendance")))
-    implementation(project(mapOf("path" to ":bitapp:course")))
-    implementation(project(mapOf("path" to ":bitapp:login")))
     implementation(project(":core"))
     implementation(project(":syllabus"))
-    implementation(project(":theme"))
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -89,8 +93,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
+//    androidTestImplementation(platform(libs.androidx.compose.bom))
+//    androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.material.icons.extended)
@@ -110,4 +114,16 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+
+    implementation(libs.calender)
+
+
+    implementation(libs.lottie.compose)
+
+    implementation(libs.coil)
+    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.coil.svg)
+
+
+    implementation(libs.markdownView.android)
 }

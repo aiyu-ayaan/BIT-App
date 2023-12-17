@@ -22,6 +22,7 @@ activityCompose = "1.8.1"
 composeBom = "2023.10.01"
 logbackClassic = "1.2.3"
 lottieCompose = "6.2.0"
+markdownviewAndroid = "2.0.0"
 materialIconsExtended = "1.5.4"
 pagingCompose = "3.3.0-alpha02"
 pagingRuntimeKtx = "3.2.1"
@@ -30,7 +31,7 @@ roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
 roomPaging = "2.6.1"
 roomRuntime = "2.6.1"
-navigationCompose = "2.7.5"
+navigationCompose = "2.7.6"
 seeker = "1.0.2"
 swipe = "1.2.0"
 junit = "4.13.2"
@@ -46,6 +47,7 @@ pagingCommonKtx = "3.2.1"
 calendarVersion = "3.0.0"
 retrofit-version = "2.9.0"
 browser = "1.7.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -85,6 +87,7 @@ ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorCli
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorClientLogging" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logbackClassic" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+markdownView-android = { module = "com.github.mukeshsolanki:MarkdownView-Android", version.ref = "markdownviewAndroid" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 seeker = { module = "io.github.2307vivek:seeker", version.ref = "seeker" }
 swipe = { module = "me.saket.swipe:swipe", version.ref = "swipe" }
@@ -111,6 +114,4 @@ androidx-browser = { group = "androidx.browser", name = "browser", version.ref =
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-
-[bundles]
 
