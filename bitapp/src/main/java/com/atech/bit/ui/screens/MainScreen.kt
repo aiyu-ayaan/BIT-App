@@ -112,6 +112,9 @@ fun MainScreen(
             NavDrawer(
                 navController = navController
             ) {
+                communicatorViewModel.onEvent(
+                    MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Closed)
+                )
             }
         },
     ) {
@@ -156,6 +159,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.administration,
             selectedIcon = R.drawable.ic_admin,
+            route = Screen.AdministrationScreen.route
         ), NavDrawer(
             title = R.string.library,
             selectedIcon = R.drawable.ic_library,
@@ -228,7 +232,7 @@ fun NavDrawer(
                         color = MaterialTheme.colorScheme.captionColor
                     )
                 }
-                it.second.forEach {  navBarModel ->
+                it.second.forEach { navBarModel ->
                     drawerItem(
                         screen = navBarModel,
                         currentDestination = currentDestination,

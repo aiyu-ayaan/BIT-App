@@ -11,7 +11,8 @@ class KTorUseCase @Inject constructor(
     val fetchSyllabus: FetchSyllabus,
     val fetchSubjectMarkDown: FetchSubjectMarkDown,
     val fetchHolidays: FetchHolidays,
-    val fetchSociety: FetchSociety
+    val fetchSociety: FetchSociety,
+    val fetchAdministration: FetchAdministration
 )
 
 data class FetchSyllabus @Inject constructor(
@@ -73,6 +74,16 @@ data class FetchSociety @Inject constructor(
     @Throws(Exception::class)
     suspend operator fun invoke() = try {
         api.getSociety().societies to api.getSociety().ngos
+    } catch (e: Exception) {
+        throw e
+    }
+}
+
+class FetchAdministration @Inject constructor(
+    private val api: BitAppApiService
+) {
+    suspend operator fun invoke() = try {
+        api.getAdministration()
     } catch (e: Exception) {
         throw e
     }

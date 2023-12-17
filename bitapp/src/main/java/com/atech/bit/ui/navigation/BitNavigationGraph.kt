@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.screens.administration.AdministrationScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
 import com.atech.bit.utils.animatedComposable
 
@@ -30,6 +31,8 @@ sealed class Screen(val route: String) {
     data object SocietyScreen : Screen(RouteName.Society.value)
 
     data object HolidayScreen : Screen("holiday")
+
+    data object AdministrationScreen : Screen("administration")
 }
 
 
@@ -59,8 +62,15 @@ fun BitAppNavigationGraph(
         )
         animatedComposable(
             route = Screen.HolidayScreen.route
-        ){
+        ) {
             HolidayScreen(
+                navController = navHostController
+            )
+        }
+        animatedComposable(
+            route = Screen.AdministrationScreen.route
+        ) {
+            AdministrationScreen(
                 navController = navHostController
             )
         }

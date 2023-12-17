@@ -9,6 +9,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
@@ -20,7 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() , LifecycleEventObserver {
 
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +42,7 @@ class MainActivity : ComponentActivity() {
             }
         }
         observeRemoteData()
+        lifecycle.addObserver(this)
     }
 
     private fun observeRemoteData() {
@@ -47,6 +50,12 @@ class MainActivity : ComponentActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.fetchRemoteConfigDetails()
             }
+        }
+    }
+
+    override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+        if (event == Lifecycle.Event.ON_DESTROY) {
+            viewModel.onEvent(MainViewModel.SharedEvents.ToggleDrawer(null))
         }
     }
 }

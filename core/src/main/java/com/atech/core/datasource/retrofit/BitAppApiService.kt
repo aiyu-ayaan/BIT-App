@@ -30,4 +30,7 @@ interface BitAppApiService {
 
     @GET("society/society.json")
     suspend fun getSociety(): SocietyModel
+
+    @GET("admin/admin.md")
+    suspend fun getAdministration(): String
 }

@@ -30,7 +30,6 @@ fun ImageLoader(
             .let { if (isRounderCorner) it.clip(shape = CircleShape) else it },
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
-            .allowHardware(false)
             .decoderFactory(SvgDecoder.Factory())
             .crossfade(true)
             .build(),
