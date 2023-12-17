@@ -333,7 +333,6 @@ fun NavBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val isTheir = listOfFragmentsWithBottomAppBar.any { it == currentDestination?.route }
-    Log.d("AAA", "NavBar: ${currentDestination?.route}")
     val density = LocalDensity.current
     AnimatedVisibility(visible = isTheir && !isSearchBarActive, enter = slideInVertically {
         with(density) { -40.dp.roundToPx() }

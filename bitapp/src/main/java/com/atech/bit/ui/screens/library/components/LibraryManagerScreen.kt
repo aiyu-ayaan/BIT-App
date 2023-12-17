@@ -22,6 +22,8 @@ import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.ImageIconButton
+import com.atech.bit.ui.navigation.LibraryRoute
+import com.atech.bit.ui.screens.library.LibraryEvent
 import com.atech.bit.ui.screens.library.LibraryManagerViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 
@@ -56,7 +58,11 @@ fun LibraryManagerScreen(
                 }, floatingActionButton = {
                     FloatingActionButton(
                         onClick = {
-                    },
+                            viewModel.onEvent(LibraryEvent.NavigateToAddEditScreen())
+                            navHostController.navigate(
+                                LibraryRoute.LibraryAddEditScreen.route
+                            )
+                        },
                         containerColor = MaterialTheme.colorScheme.primary,
                         contentColor = MaterialTheme.colorScheme.onPrimary
                     ) {
@@ -70,7 +76,7 @@ fun LibraryManagerScreen(
             modifier = Modifier.consumeWindowInsets(it),
             contentPadding = it
         ) {
-            items(items, key = { it1 -> it1.id }) {model->
+            items(items, key = { it1 -> it1.id }) { model ->
                 LibraryItem(
                     model = model
                 )

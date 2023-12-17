@@ -2,6 +2,8 @@ package com.atech.bit.ui.comman
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -16,6 +18,7 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
@@ -42,18 +45,16 @@ fun EditText(
     colors: TextFieldColors = textFieldColors(),
     leadingIcon: (@Composable () -> Unit)? = { DefaultLeadingIcon(value) },
     trailingIcon: @Composable (() -> Unit)? = {
-        if (value.isNotBlank())
-            Icon(
-                imageVector = Icons.Outlined.Clear,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
-                    .clickable {
-                        clearIconClick()
-                    }
-            )
+        if (value.isNotBlank()) Icon(imageVector = Icons.Outlined.Clear,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.clickable {
+                    clearIconClick()
+                })
     },
     maxLines: Int = Int.MAX_VALUE,
+    readOnly: Boolean = false,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
 
     LaunchedEffect(focusRequester) {
@@ -61,13 +62,10 @@ fun EditText(
         focusRequester?.requestFocus()
     }
 
-    OutlinedTextField(
-        modifier = modifier
-            .let {
-                if (focusRequester == null) it
-                else
-                    it.focusRequester(focusRequester)
-            },
+    OutlinedTextField(modifier = modifier.let {
+            if (focusRequester == null) it
+            else it.focusRequester(focusRequester)
+        },
         value = value,
         maxLines = maxLines,
         onValueChange = onValueChange,
@@ -87,19 +85,33 @@ fun EditText(
         },
         keyboardOptions = keyboardOptions,
         enabled = enable,
+        readOnly = readOnly,
+        interactionSource = interactionSource
     )
+}
+
+@Composable
+fun MutableInteractionSource.clickable(
+    action: () -> Unit
+) = this.also { interactionSource ->
+    LaunchedEffect(key1 = interactionSource) {
+        interactionSource.interactions.collect {
+            if (it is PressInteraction.Release) {
+                action()
+            }
+        }
+    }
+
 }
 
 @Composable
 private fun DefaultLeadingIcon(
     value: String
-) =
-    Icon(
-        imageVector = if (checkForLab(value)
-        ) Icons.Default.Computer else Icons.Default.MenuBook,
-        contentDescription = null,
-        tint = MaterialTheme.colorScheme.primary
-    )
+) = Icon(
+    imageVector = if (checkForLab(value)) Icons.Default.Computer else Icons.Default.MenuBook,
+    contentDescription = null,
+    tint = MaterialTheme.colorScheme.primary
+)
 
 
 @Composable
@@ -113,8 +125,7 @@ fun textFieldColors() = TextFieldDefaults.colors(
     showBackground = true
 )
 @Preview(
-    showBackground = false,
-    uiMode = Configuration.UI_MODE_NIGHT_YES
+    showBackground = false, uiMode = Configuration.UI_MODE_NIGHT_YES
 )
 @Preview(
     showBackground = false,
@@ -127,12 +138,10 @@ fun textFieldColors() = TextFieldDefaults.colors(
     wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
 )
 @Preview(
-    showBackground = false,
-    wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE
+    showBackground = false, wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE
 )
 @Preview(
-    showBackground = false,
-    wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
+    showBackground = false, wallpaper = Wallpapers.GREEN_DOMINATED_EXAMPLE
 )
 @Composable
 fun EditTextPreview() {
