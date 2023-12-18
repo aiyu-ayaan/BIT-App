@@ -13,9 +13,13 @@ sealed class LibraryEvent {
 
     data class OnReturnDateChange(val value: Long) : LibraryEvent()
 
-    data class PickDateClick(val pickFor: PickFor,val date : Long) : LibraryEvent()
+    data class PickDateClick(val pickFor: PickFor, val date: Long) : LibraryEvent()
 
     data object ResetValue : LibraryEvent()
+
+    data class HasError(val hasError: Boolean = false, val message: String = "") : LibraryEvent()
+
+    data object SaveBook : LibraryEvent()
 }
 
 enum class PickFor {

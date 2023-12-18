@@ -78,7 +78,13 @@ fun LibraryManagerScreen(
         ) {
             items(items, key = { it1 -> it1.id }) { model ->
                 LibraryItem(
-                    model = model
+                    model = model,
+                    onEditClick = {
+                        viewModel.onEvent(LibraryEvent.NavigateToAddEditScreen(model))
+                        navHostController.navigate(
+                            LibraryRoute.LibraryAddEditScreen.route
+                        )
+                    }
                 )
             }
         }
