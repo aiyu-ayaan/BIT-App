@@ -189,6 +189,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.events,
             selectedIcon = R.drawable.ic_event,
+            route = Screen.EventScreen.route
         )
     ), "Communication" to listOf(
         NavDrawer(

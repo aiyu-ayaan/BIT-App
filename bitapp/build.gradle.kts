@@ -128,4 +128,8 @@ dependencies {
     implementation(libs.markdownView.android)
 
     implementation(libs.accompanist.permissions)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    releaseImplementation(libs.firebase.crashlytics)
 }

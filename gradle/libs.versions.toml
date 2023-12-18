@@ -105,6 +105,7 @@ firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.r
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
+firebase-firestore ={ group = "com.google.firebase", name = "firebase-firestore" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "pagingCommonKtx" }
 calender = { group = "com.github.sundeepk", name = "compact-calendar-view", version.ref = "calendarVersion" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }

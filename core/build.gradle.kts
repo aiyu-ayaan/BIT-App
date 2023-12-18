@@ -78,6 +78,8 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.remote.config)
+    implementation(libs.firebase.firestore)
+
 
 
     implementation(libs.retrofit)

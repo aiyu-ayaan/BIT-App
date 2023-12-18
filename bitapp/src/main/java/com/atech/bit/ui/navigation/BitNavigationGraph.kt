@@ -20,6 +20,7 @@ enum class RouteName(val value: String) {
     HOME("home"),
     SOCIETY("society"),
     LIBRARY("library"),
+    EVENT("event"),
 }
 
 
@@ -38,7 +39,9 @@ sealed class Screen(val route: String) {
 
     data object LibraryScreen : Screen(RouteName.LIBRARY.value)
 
-    data object CgpaScreen: Screen("cgpa")
+    data object CgpaScreen : Screen("cgpa")
+
+    data object EventScreen : Screen(RouteName.EVENT.value)
 }
 
 
@@ -84,9 +87,10 @@ fun BitAppNavigationGraph(
 
         animatedComposable(
             route = Screen.CgpaScreen.route
-        ){
+        ) {
             CgpaScreen(navController = navHostController)
         }
+        eventGraph(navHostController = navHostController)
     }
 }
 
