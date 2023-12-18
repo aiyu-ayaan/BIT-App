@@ -18,13 +18,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AddAlert
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.CheckCircleOutline
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Unpublished
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
@@ -54,9 +54,9 @@ import com.atech.core.datasource.room.library.LibraryModel
 fun LibraryItem(
     modifier: Modifier = Modifier,
     model: LibraryModel,
-    onEditClick : (LibraryModel) -> Unit = {},
-    onTickClick : (LibraryModel) -> Unit = {},
-    onDeleteClick : (LibraryModel) -> Unit = {},
+    onEditClick: (LibraryModel) -> Unit = {},
+    onTickClick: (LibraryModel) -> Unit = {},
+    onDeleteClick: (LibraryModel) -> Unit = {},
 ) {
     val isIconVisible by remember(model) {
         mutableStateOf(
@@ -107,13 +107,14 @@ fun LibraryItem(
                             }, contentDescription = null, tint = when {
                                 model.markAsReturn.not() && model.eventId != -1L -> MaterialTheme.colorScheme.primary
                                 model.markAsReturn -> SwipeGreen
-                                else -> LocalContentColor.current
+                                else -> MaterialTheme.colorScheme.primary
                             }
                         )
-                        Spacer(modifier = Modifier.width(grid_1))
                     }
                     Text(
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = if (isIconVisible) grid_1 else 0.dp),
                         text = model.bookName,
                         color = MaterialTheme.colorScheme.onSurface,
                         style = MaterialTheme.typography.titleMedium,
@@ -179,7 +180,7 @@ fun LibraryItem(
                         ImageIconButton(
                             modifier = Modifier.weight(.5f),
                             icon = if (model.markAsReturn) Icons.Outlined.Unpublished
-                            else Icons.Outlined.Check,
+                            else Icons.Outlined.CheckCircleOutline,
                             tint = MaterialTheme.colorScheme.primary,
                             onClick = {
                                 onTickClick(model)

@@ -14,6 +14,8 @@ import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.convertLongToTime
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -72,6 +74,9 @@ class LibraryManagerViewModel @Inject constructor(
         set(value) = pref.edit()
             .putBoolean(SharePrefKeys.SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME.name, value).apply()
 
+    private val _oneTimeEvent = MutableSharedFlow<LibraryOneTimeEvent>()
+    val oneTimeEvent = _oneTimeEvent.asSharedFlow()
+    private var recentlyDeleteItem: LibraryModel? = null
 
     init {
         getAllData()
@@ -90,6 +95,31 @@ class LibraryManagerViewModel @Inject constructor(
                     _eventId.longValue = event.model.eventId
                     _currentId.longValue = event.model.id
                 }
+            }
+
+            is LibraryEvent.OnTickClick -> viewModelScope.launch {
+                useCase.isMarkAsDone(
+                    event.model
+                )
+                _oneTimeEvent
+                    .emit(LibraryOneTimeEvent.ShowSnackBar)
+            }
+
+            is LibraryEvent.OnDeleteClick -> viewModelScope.launch {
+                recentlyDeleteItem = event.model
+                useCase.deleteBook(event.model)
+                _oneTimeEvent
+                    .emit(LibraryOneTimeEvent.ShowActionSnackBar("Undo delete !!"))
+            }
+
+            LibraryEvent.UndoDelete -> viewModelScope.launch {
+                useCase.insertBook(recentlyDeleteItem ?: return@launch)
+                recentlyDeleteItem = null
+            }
+
+
+            LibraryEvent.DeleteAll -> viewModelScope.launch {
+                useCase.deleteAll()
             }
 //            Add Edit Screen
             is LibraryEvent.OnBookIdChange -> _bookId.value = event.value
@@ -242,5 +272,10 @@ class LibraryManagerViewModel @Inject constructor(
         job = useCase.getAll.invoke().onEach { items ->
             _libraryList.value = items
         }.launchIn(viewModelScope)
+    }
+
+    sealed class LibraryOneTimeEvent {
+        data class ShowActionSnackBar(val message: String) : LibraryOneTimeEvent()
+        data object ShowSnackBar : LibraryOneTimeEvent()
     }
 }

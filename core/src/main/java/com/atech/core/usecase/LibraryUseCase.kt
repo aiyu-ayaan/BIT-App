@@ -10,7 +10,8 @@ data class LibraryUseCase @Inject constructor(
     val insertBook: InsertBook,
     val updateBook: UpdateBook,
     val deleteBook: DeleteBook,
-    val deleteAll: DeleteAll
+    val deleteAll: DeleteAll,
+    val isMarkAsDone: IsMarkAsDone
 )
 
 data class GetAll @Inject constructor(
@@ -41,4 +42,18 @@ data class DeleteAll @Inject constructor(
     private val dao: LibraryDao
 ) {
     suspend operator fun invoke() = dao.deleteAll()
+}
+
+data class IsMarkAsDone @Inject constructor(
+    private val dao: LibraryDao
+) {
+    suspend operator fun invoke(
+        book: LibraryModel,
+    ) = dao.updateBook(
+        book.copy(
+            markAsReturn = !book.markAsReturn,
+            eventId = -1,
+            alertDate = -1
+        )
+    )
 }

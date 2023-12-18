@@ -3,6 +3,11 @@ package com.atech.bit.ui.screens.library
 import com.atech.core.datasource.room.library.LibraryModel
 
 sealed class LibraryEvent {
+
+    data class OnTickClick(val model: LibraryModel) : LibraryEvent()
+
+    data class OnDeleteClick(val model: LibraryModel) : LibraryEvent()
+
     data class NavigateToAddEditScreen(val model: LibraryModel? = null) : LibraryEvent()
 
     data class OnBookNameChange(val value: String) : LibraryEvent()
@@ -31,6 +36,10 @@ sealed class LibraryEvent {
     data class OnEventAdded(val eventId: Long) : LibraryEvent()
 
     data object OnEventDelete : LibraryEvent()
+
+    data object UndoDelete : LibraryEvent()
+
+    data object DeleteAll : LibraryEvent()
 }
 
 enum class PickFor {
