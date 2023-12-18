@@ -23,7 +23,7 @@ data class LibraryModel(
     val eventId: Long = -1L,
     val markAsReturn: Boolean = false,
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    val id: Long = 0L
 ) : Parcelable {
     @get:Ignore
     @IgnoredOnParcel

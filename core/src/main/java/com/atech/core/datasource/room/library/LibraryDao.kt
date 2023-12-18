@@ -16,7 +16,7 @@ interface LibraryDao {
     fun getAll(): Flow<List<LibraryModel>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBook(library: LibraryModel)
+    suspend fun insertBook(library: LibraryModel): Long
 
     @Update
     suspend fun updateBook(library: LibraryModel)

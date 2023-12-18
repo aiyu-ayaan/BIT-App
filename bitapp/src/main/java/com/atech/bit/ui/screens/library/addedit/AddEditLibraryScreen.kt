@@ -47,6 +47,7 @@ import com.atech.bit.ui.screens.library.LibraryManagerViewModel
 import com.atech.bit.ui.screens.library.PickFor
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
+import com.atech.core.utils.CalendarReminder
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
 import com.atech.core.utils.Permissions
 import com.atech.core.utils.convertLongToTime
@@ -57,6 +58,7 @@ import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
+import java.util.Calendar
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
@@ -72,10 +74,12 @@ fun AddEditLibraryScreen(
     val bookId by viewModel.bookId
     val issueDate by viewModel.issueDate
     val returnDate by viewModel.returnDate
+    val alertDate by viewModel.alertDate
     val hasSubjectError by viewModel.hasSubjectError
     val hasIssueDateError by viewModel.hasIssueDateError
+    val eventId by viewModel.eventId
     var isEventVisible by rememberSaveable {
-        mutableStateOf(false)
+        mutableStateOf(eventId != -1L)
     }
     var isDatePickerActive by rememberSaveable {
         mutableStateOf(Triple(false, PickFor.ISSUE_DATE, -1L))
@@ -223,8 +227,8 @@ fun AddEditLibraryScreen(
                     isError = hasError
                 )
             }
-            TextButton(
-                modifier = Modifier.fillMaxWidth(),
+            TextButton(modifier = Modifier.fillMaxWidth(),
+                enabled = bookName.isNotEmpty() && issueDate != -1L && returnDate != -1L && !hasError,
                 onClick = { isEventVisible = !isEventVisible }) {
                 Text(
                     modifier = Modifier.padding(grid_1), text = "Add Event"
@@ -232,13 +236,43 @@ fun AddEditLibraryScreen(
             }
             AnimatedVisibility(visible = isEventVisible) {
                 EditText(modifier = Modifier.fillMaxWidth(),
-                    value = "",
+                    enable = bookName.isNotEmpty() && issueDate != -1L && returnDate != -1L && !hasError,
+                    value = alertDate.let { date ->
+                        if (date == -1L) "" else date.convertLongToTime(
+                            EDIT_TEXT_DATE_FORMAT
+                        )
+                    },
+                    onValueChange = { value ->
+                        viewModel.onEvent(
+                            LibraryEvent.OnAlertDateChange(
+                                value.toLong()
+                            )
+                        )
+                    },
                     placeholder = "Reminder",
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.AddAlert,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary
+                        )
+                    },
+                    clearIconClick = {
+                        CalendarReminder.deleteEvent(
+                            context = context,
+                            eventID = eventId,
+                            error = { error ->
+                                viewModel.onEvent(
+                                    LibraryEvent.HasErrorInReminder(
+                                        true, error
+                                    )
+                                )
+                            },
+                            action = {
+                                viewModel.onEvent(
+                                    LibraryEvent.OnEventDelete
+                                )
+                            }
                         )
                     },
                     readOnly = true,
@@ -259,7 +293,8 @@ fun AddEditLibraryScreen(
                             viewModel.onEvent(
                                 LibraryEvent.HasErrorInReminder()
                             )
-                            isDatePickerActive = Triple(true, PickFor.RETURN_DATE, issueDate)
+                            isDatePickerActive = Triple(true, PickFor.REMINDER_DATE, alertDate)
+
                         }
                     })
             }
@@ -286,12 +321,71 @@ fun AddEditLibraryScreen(
             }
         }
 
-        if (isDatePickerActive.first) LibraryDatePickerDialog(onDismissRequest = {
-            isDatePickerActive = Triple(false, PickFor.ISSUE_DATE, issueDate)
-        }, onDateSelected = { date ->
-            viewModel.onEvent(LibraryEvent.PickDateClick(isDatePickerActive.second, date))
-        }, selectedDate = isDatePickerActive.third
-        )
+        if (isDatePickerActive.first)
+            LibraryDatePickerDialog(
+                onDismissRequest = {
+                    isDatePickerActive = Triple(false, PickFor.ISSUE_DATE, issueDate)
+                },
+                onDateSelected = { date ->
+                    viewModel.onEvent(LibraryEvent.PickDateClick(isDatePickerActive.second, date))
+                    if (isDatePickerActive.second == PickFor.REMINDER_DATE) {
+                        val calender = Calendar.getInstance().also { pickedDate ->
+                            pickedDate.timeInMillis = date
+                        }
+                        if (eventId == -1L)
+                            CalendarReminder
+                                .addEventAndReminderToCalendar(
+                                    context = context,
+                                    calendar = calender,
+                                    error = { error ->
+                                        viewModel.onEvent(
+                                            LibraryEvent.HasErrorInReminder(
+                                                true, error
+                                            )
+                                        )
+                                    },
+                                    action = { eventId ->
+                                        viewModel.onEvent(
+                                            LibraryEvent.HasErrorInReminder(
+                                                false, ""
+                                            )
+                                        )
+                                        viewModel.onEvent(
+                                            LibraryEvent.OnEventAdded(eventId)
+                                        )
+                                    }
+                                )
+                        else {
+                            CalendarReminder
+                                .updateEventAndReminder(
+                                    context = context,
+                                    calendar = calender,
+                                    eventID = eventId,
+                                    error = { error ->
+                                        viewModel.onEvent(
+                                            LibraryEvent.HasErrorInReminder(
+                                                true, error
+                                            )
+                                        )
+                                    },
+                                    action = {
+                                        viewModel.onEvent(
+                                            LibraryEvent.HasErrorInReminder(
+                                                false, ""
+                                            )
+                                        )
+                                        viewModel.onEvent(
+                                            LibraryEvent.OnEventAdded(
+                                                eventId
+                                            )
+                                        )
+                                    }
+                                )
+                        }
+                    }
+                },
+                selectedDate = isDatePickerActive.third
+            )
     }
 }
 
