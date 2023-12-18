@@ -8,9 +8,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -30,7 +32,7 @@ fun CgpaScreen(
     navController: NavController = rememberNavController(),
     viewModel: CgpaViewModel = hiltViewModel()
 ) {
-    val sem by viewModel.savedSem
+    val sem /*by viewModel.savedSem*/ = 6
     val course by viewModel.savedCourse
     val sem1 by viewModel.sem1
     val sem2 by viewModel.sem2
@@ -38,15 +40,25 @@ fun CgpaScreen(
     val sem4 by viewModel.sem4
     val sem5 by viewModel.sem5
     val sem6 by viewModel.sem6
+    val hasError by viewModel.hasError
+    val calculateCGPA by viewModel.savedCalculateCGPA
 
     val rememberScrollState = rememberScrollState()
+    val topBarScrollState = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
 
-    Scaffold(modifier = modifier, topBar = {
-        BackToolbar(title = R.string.cgpa_calculator, onNavigationClick = {
-            navController.navigateUp()
-        })
-    }) {
+    Scaffold(
+        modifier = modifier
+            .nestedScroll(topBarScrollState.nestedScrollConnection),
+        topBar = {
+            BackToolbar(
+                title = R.string.cgpa_calculator, onNavigationClick = {
+                    navController.navigateUp()
+                },
+                scrollBehavior = topBarScrollState
+            )
+        }
+    ) {
         Column(
             modifier = Modifier
                 .padding(it)
@@ -110,7 +122,13 @@ fun CgpaScreen(
                         )
                     }
                 )
-            CgpaFooter(value = "")
+            CgpaFooter(
+                value = if (calculateCGPA == 1.0) " " else calculateCGPA.toString(),
+                enable = !hasError,
+                onCalculate = {
+                    viewModel.onEvent(CGPAEvent.CalculateAndSave)
+                }
+            )
         }
     }
 }

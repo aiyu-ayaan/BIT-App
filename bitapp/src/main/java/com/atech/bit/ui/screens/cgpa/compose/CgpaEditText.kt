@@ -31,6 +31,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.atech.bit.R
 import com.atech.bit.ui.comman.EditText
 import com.atech.bit.ui.screens.cgpa.CgpaEditModel
+import com.atech.bit.ui.screens.cgpa.hasCgpaError
+import com.atech.bit.ui.screens.cgpa.hasCreditError
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.dividerOrCardColor
@@ -63,12 +65,7 @@ fun CgpaEditText(
             onValueChange = {
                 if (it.length > 4) return@EditText
                 onValueChange(model.copy(semester = it))
-                if (it.isNotEmpty()) {
-                    hasSemError = if (it.toDouble() > 10.0)
-                        true
-                    else
-                        false
-                }
+                hasSemError = it.hasCgpaError()
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
@@ -86,17 +83,12 @@ fun CgpaEditText(
         Spacer(modifier = Modifier.width(grid_1))
         EditText(
             modifier = Modifier.weight(1f),
-            value = if (model.gpa.isEmpty() || model.gpa == "0.0") "" else model.gpa,
+            value = if (model.earnCredit.isEmpty() || model.earnCredit == "0.0") "" else model.earnCredit,
             placeholder = stringResource(R.string.total_credit),
             onValueChange = {
                 if (it.length > 4) return@EditText
-                onValueChange(model.copy(gpa = it))
-                if (it.isNotEmpty()) {
-                    hasTotalGrade = if (it.toDouble() > 10.0)
-                        true
-                    else
-                        false
-                }
+                onValueChange(model.copy(earnCredit = it))
+                hasTotalGrade = it.hasCreditError()
             },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
@@ -143,7 +135,8 @@ fun CgpaTitle(
 fun CgpaFooter(
     modifier: Modifier = Modifier,
     onCalculate: () -> Unit = {},
-    value: String ="",
+    enable: Boolean = true,
+    value: String = "",
     onValueChange: (String) -> Unit = {}
 ) {
     Column(
@@ -151,6 +144,7 @@ fun CgpaFooter(
     ) {
         Spacer(modifier = Modifier.height(grid_1))
         TextButton(
+            enabled = enable,
             modifier = Modifier.fillMaxWidth(),
             onClick = onCalculate
         ) {
