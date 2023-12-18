@@ -337,6 +337,11 @@ fun AddEditLibraryScreen(
                                 .addEventAndReminderToCalendar(
                                     context = context,
                                     calendar = calender,
+                                    setContent = {
+                                        "Return $bookName to library" to
+                                                "\uD83D\uDCDA Don't forget! Return " +
+                                                "'$bookName' to the library today. \uD83D\uDCC5"
+                                    },
                                     error = { error ->
                                         viewModel.onEvent(
                                             LibraryEvent.HasErrorInReminder(
@@ -361,6 +366,11 @@ fun AddEditLibraryScreen(
                                     context = context,
                                     calendar = calender,
                                     eventID = eventId,
+                                    setContent = {
+                                        "Return $bookName to library" to
+                                                "\uD83D\uDCDA Don't forget! Return " +
+                                                "'$bookName' to the library today. \uD83D\uDCC5"
+                                    },
                                     error = { error ->
                                         viewModel.onEvent(
                                             LibraryEvent.HasErrorInReminder(

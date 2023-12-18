@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.provider.CalendarContract
-import android.util.Log
 import java.util.Calendar
 import java.util.TimeZone
 
@@ -96,8 +95,10 @@ object CalendarReminder {
             action.invoke(eventID)
 
         } catch (e: Exception) {
-            Log.d("AAA", "addEventAndReminderToCalendar: $e")
-            error.invoke(e.message ?: "Error")
+            error.invoke(
+                "Error Occur !!" +
+                        "\n$e"
+            )
         }
     }
 

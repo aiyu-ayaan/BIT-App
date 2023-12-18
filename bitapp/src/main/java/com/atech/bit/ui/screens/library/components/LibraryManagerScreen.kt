@@ -124,7 +124,7 @@ fun LibraryManagerScreen(
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(it), contentPadding = it
         ) {
-            items(items, key = { it1 -> it1.id }) { model ->
+            items(items, key = { it1 -> it1.id!! }) { model ->
                 LibraryItem(modifier = Modifier.animateItemPlacement(
                     animationSpec = spring(
                         dampingRatio = Spring.DampingRatioLowBouncy,
@@ -170,6 +170,13 @@ fun LibraryManagerScreen(
                 onDismissRequest = { isDeleteAllDialogVisible = false },
                 confirmButton = {
                     TextButton(onClick = {
+                        viewModel.libraryList.value.forEach {items->
+                            if (items.eventId != -1L) {
+                                CalendarReminder.deleteEvent(
+                                    context = context, eventID = items.eventId
+                                )
+                            }
+                        }
                         viewModel.onEvent(
                             LibraryEvent.DeleteAll
                         )

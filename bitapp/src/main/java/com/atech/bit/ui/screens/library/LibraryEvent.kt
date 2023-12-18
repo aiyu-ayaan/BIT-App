@@ -30,6 +30,7 @@ sealed class LibraryEvent {
         LibraryEvent()
 
     data class SaveBook(
+        val fromAlert : Boolean = false,
         val action: (() -> Unit)? = null
     ) : LibraryEvent()
 

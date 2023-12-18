@@ -1,6 +1,7 @@
 package com.atech.bit.ui.screens.library
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,9 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class LibraryManagerViewModel @Inject constructor(
     private val useCase: LibraryUseCase,
-    private val pref: SharedPreferences,
-
-    ) : ViewModel() {
+    private val pref: SharedPreferences
+) : ViewModel() {
     private val _libraryList = mutableStateOf<List<LibraryModel>>(emptyList())
     val libraryList: State<List<LibraryModel>> get() = _libraryList
 
@@ -36,7 +36,7 @@ class LibraryManagerViewModel @Inject constructor(
     //     Add Edit Screen
     private val _currentClickLibraryModel = mutableStateOf<LibraryModel?>(null)
 
-    private val _currentId = mutableLongStateOf(_currentClickLibraryModel.value?.id ?: 0)
+    private val _currentId = mutableStateOf(_currentClickLibraryModel.value?.id)
 
 
     private val _eventId = mutableLongStateOf(_currentClickLibraryModel.value?.eventId ?: -1)
@@ -77,6 +77,7 @@ class LibraryManagerViewModel @Inject constructor(
     private val _oneTimeEvent = MutableSharedFlow<LibraryOneTimeEvent>()
     val oneTimeEvent = _oneTimeEvent.asSharedFlow()
     private var recentlyDeleteItem: LibraryModel? = null
+    private var currentId: Long? = null
 
     init {
         getAllData()
@@ -85,6 +86,7 @@ class LibraryManagerViewModel @Inject constructor(
     fun onEvent(event: LibraryEvent) {
         when (event) {
             is LibraryEvent.NavigateToAddEditScreen -> {
+                Log.d("AAA", "onEvent: ${event.model}")
                 _currentClickLibraryModel.value = event.model
                 if (event.model != null) {
                     _bookId.value = event.model.bookId
@@ -93,7 +95,7 @@ class LibraryManagerViewModel @Inject constructor(
                     _returnDate.longValue = event.model.returnDate
                     _alertDate.longValue = event.model.alertDate
                     _eventId.longValue = event.model.eventId
-                    _currentId.longValue = event.model.id
+                    _currentId.value = event.model.id
                 }
             }
 
@@ -163,6 +165,7 @@ class LibraryManagerViewModel @Inject constructor(
             }
 
             LibraryEvent.ResetValue -> {
+                _currentClickLibraryModel.value = null
                 _bookId.value = ""
                 _bookName.value = ""
                 _issueDate.longValue = -1L
@@ -171,10 +174,10 @@ class LibraryManagerViewModel @Inject constructor(
                 _hasSubjectError.value = false
                 _hasIssueDateError.value = false
                 _hasErrorInRemainder.value = false to ""
-                _eventId.longValue = -1
-                _currentId.longValue = -1
-                _alertDate.longValue = -1
-                _currentClickLibraryModel.value = null
+                _eventId.longValue = -1L
+                _currentId.value = null
+                _alertDate.longValue = -1L
+                currentId = null
             }
 
             is LibraryEvent.HasError -> {
@@ -211,10 +214,14 @@ class LibraryManagerViewModel @Inject constructor(
                     markAsReturn = _currentClickLibraryModel.value?.markAsReturn ?: false,
                     alertDate = _alertDate.longValue,
                     eventId = _eventId.longValue,
-                    id = _currentId.longValue
+                    id = _currentId.value
                 )
                 viewModelScope.launch {
-                    _currentId.longValue = useCase.insertBook(model)
+                    useCase.insertBook(model).let { vl ->
+                        if (event.fromAlert) {
+                            _currentId.value = vl
+                        }
+                    }
                 }
                 event.action?.invoke()
             }
@@ -225,7 +232,10 @@ class LibraryManagerViewModel @Inject constructor(
             is LibraryEvent.OnEventAdded -> {
                 _eventId.longValue = event.eventId
                 onEvent(
-                    LibraryEvent.SaveBook(action = null)
+                    LibraryEvent.SaveBook(
+                        fromAlert = true,
+                        action = null
+                    )
                 )
             }
 
@@ -234,7 +244,7 @@ class LibraryManagerViewModel @Inject constructor(
                 _alertDate.longValue = -1L
                 onEvent(
                     LibraryEvent.SaveBook(
-                        null
+                        action = null
                     )
                 )
             }
