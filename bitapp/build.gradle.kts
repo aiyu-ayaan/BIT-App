@@ -126,4 +126,6 @@ dependencies {
 
 
     implementation(libs.markdownView.android)
+
+    implementation(libs.accompanist.permissions)
 }

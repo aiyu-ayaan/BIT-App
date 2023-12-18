@@ -1,5 +1,6 @@
 package com.atech.bit.ui.screens.library.addedit
 
+import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -31,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,9 +48,17 @@ import com.atech.bit.ui.screens.library.PickFor
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 import com.atech.core.utils.EDIT_TEXT_DATE_FORMAT
+import com.atech.core.utils.Permissions
 import com.atech.core.utils.convertLongToTime
+import com.atech.core.utils.openAppSettings
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.MultiplePermissionsState
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.shouldShowRationale
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun AddEditLibraryScreen(
     modifier: Modifier = Modifier,
@@ -57,6 +67,7 @@ fun AddEditLibraryScreen(
 ) {
 
     val (hasError, errorMessage) = viewModel.harError.value
+    val (hasErrorInRemainder, errorMessageRemainder) = viewModel.hasErrorInRemainder.value
     val bookName by viewModel.bookName
     val bookId by viewModel.bookId
     val issueDate by viewModel.issueDate
@@ -69,12 +80,17 @@ fun AddEditLibraryScreen(
     var isDatePickerActive by rememberSaveable {
         mutableStateOf(Triple(false, PickFor.ISSUE_DATE, -1L))
     }
-
+    val permissionState = rememberMultiplePermissionsState(
+        permissions = listOf(
+            Permissions.READ_CALENDER.value, Permissions.WRITE_CALENDER.value
+        )
+    )
+    var isPermissionGranted = permissionState.permissions.all { it.status.isGranted }
+    val context = LocalContext.current
     BackHandler {
         if (isDatePickerActive.first) {
             isDatePickerActive = Triple(false, PickFor.ISSUE_DATE, -1L)
-        } else
-            backPressed(viewModel, navController)
+        } else backPressed(viewModel, navController)
 
     }
     Scaffold(
@@ -112,8 +128,7 @@ fun AddEditLibraryScreen(
                     )
                 },
                 keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences,
-                    imeAction = ImeAction.Next
+                    capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Next
                 )
             )
             Spacer(modifier = Modifier.padding(grid_1))
@@ -138,8 +153,7 @@ fun AddEditLibraryScreen(
                 },
                 maxLines = 2,
                 keyboardOptions = KeyboardOptions(
-                    capitalization = KeyboardCapitalization.Sentences,
-                    imeAction = ImeAction.Next
+                    capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Next
                 ),
 
                 )
@@ -147,8 +161,7 @@ fun AddEditLibraryScreen(
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
-                EditText(
-                    modifier = Modifier.weight(1f),
+                EditText(modifier = Modifier.weight(1f),
                     value = issueDate.let { date ->
                         if (date == -1L) "" else date.convertLongToTime(
                             EDIT_TEXT_DATE_FORMAT
@@ -171,17 +184,15 @@ fun AddEditLibraryScreen(
                             )
                         )
                     },
-                    interactionSource = remember { MutableInteractionSource() }
-                        .clickable {
-                            isDatePickerActive = Triple(true, PickFor.ISSUE_DATE, issueDate)
-                        },
+                    interactionSource = remember { MutableInteractionSource() }.clickable {
+                        isDatePickerActive = Triple(true, PickFor.ISSUE_DATE, issueDate)
+                    },
                     readOnly = true,
                     errorMessage = "Can't be empty !!",
                     isError = hasIssueDateError
                 )
                 Spacer(modifier = Modifier.padding(grid_1))
-                EditText(
-                    modifier = Modifier.weight(1f),
+                EditText(modifier = Modifier.weight(1f),
                     value = returnDate.let { date ->
                         if (date == -1L) "" else date.convertLongToTime(
                             EDIT_TEXT_DATE_FORMAT
@@ -205,10 +216,9 @@ fun AddEditLibraryScreen(
                         )
                     },
                     readOnly = true,
-                    interactionSource = remember { MutableInteractionSource() }
-                        .clickable {
-                            isDatePickerActive = Triple(true, PickFor.RETURN_DATE, returnDate)
-                        },
+                    interactionSource = remember { MutableInteractionSource() }.clickable {
+                        isDatePickerActive = Triple(true, PickFor.RETURN_DATE, returnDate)
+                    },
                     errorMessage = errorMessage,
                     isError = hasError
                 )
@@ -221,9 +231,7 @@ fun AddEditLibraryScreen(
                 )
             }
             AnimatedVisibility(visible = isEventVisible) {
-                EditText(
-                    modifier = Modifier.
-                    fillMaxWidth(),
+                EditText(modifier = Modifier.fillMaxWidth(),
                     value = "",
                     placeholder = "Reminder",
                     leadingIcon = {
@@ -234,23 +242,36 @@ fun AddEditLibraryScreen(
                         )
                     },
                     readOnly = true,
+                    errorMessage = errorMessageRemainder,
+                    isError = hasErrorInRemainder,
                     interactionSource = remember {
                         MutableInteractionSource()
                     }.clickable {
-
-                    }
-                )
+                        if (!isPermissionGranted) {
+                            requestPermission(
+                                permissionState = permissionState,
+                                viewModel = viewModel,
+                                context = context
+                            ) { it1 ->
+                                isPermissionGranted = it1
+                            }
+                        } else {
+                            viewModel.onEvent(
+                                LibraryEvent.HasErrorInReminder()
+                            )
+                            isDatePickerActive = Triple(true, PickFor.RETURN_DATE, issueDate)
+                        }
+                    })
             }
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(
                     onClick = {
-                        viewModel.onEvent(LibraryEvent.SaveBook)
-                        backPressed(viewModel, navController)
-                    },
-                    modifier = Modifier.weight(1f),
-                    enabled = !hasError
+                        viewModel.onEvent(LibraryEvent.SaveBook {
+                            backPressed(viewModel, navController)
+                        })
+                    }, modifier = Modifier.weight(1f), enabled = !hasError
                 ) {
                     Text(text = "Save")
                 }
@@ -265,21 +286,70 @@ fun AddEditLibraryScreen(
             }
         }
 
-        if (isDatePickerActive.first) LibraryDatePickerDialog(
-            onDismissRequest = {
-                isDatePickerActive = Triple(false, PickFor.ISSUE_DATE, issueDate)
-            },
-            onDateSelected = { date ->
-                viewModel.onEvent(LibraryEvent.PickDateClick(isDatePickerActive.second, date))
-            },
-            selectedDate = isDatePickerActive.third
+        if (isDatePickerActive.first) LibraryDatePickerDialog(onDismissRequest = {
+            isDatePickerActive = Triple(false, PickFor.ISSUE_DATE, issueDate)
+        }, onDateSelected = { date ->
+            viewModel.onEvent(LibraryEvent.PickDateClick(isDatePickerActive.second, date))
+        }, selectedDate = isDatePickerActive.third
         )
     }
 }
 
-private fun backPressed(
+
+@OptIn(ExperimentalPermissionsApi::class)
+private fun requestPermission(
+    permissionState: MultiplePermissionsState,
     viewModel: LibraryManagerViewModel,
-    navController: NavController
+    context: Context,
+    onPermissionGranted: (Boolean) -> Unit = {}
+) {
+    permissionState.launchMultiplePermissionRequest()
+    permissionState.permissions.forEach { perm ->
+        when (perm.permission) {
+            Permissions.WRITE_CALENDER.value -> {
+                when {
+                    perm.status.isGranted -> {
+                        (permissionState.permissions.find { it1 ->
+                            it1.permission == Permissions.READ_CALENDER.value
+                        }?.status is PermissionStatus.Granted).let(onPermissionGranted)
+                    }
+
+                    perm.status.shouldShowRationale -> {
+                        viewModel.onEvent(
+                            LibraryEvent.HasErrorInReminder(
+                                true, "Permission is require to work this feature"
+                            )
+                        )
+                        viewModel.showPermissionForFirstTime = false
+                    }
+
+                    !perm.status.shouldShowRationale && !perm.status.isGranted && !viewModel.showPermissionForFirstTime -> {
+                        viewModel.onEvent(
+                            LibraryEvent.HasErrorInReminder(
+                                true,
+                                "Permission decline permanently !!" + "\nTab to open setting and grant Calendar permission."
+                            )
+                        )
+                        context.openAppSettings()
+                    }
+                }
+            }
+
+            Permissions.READ_CALENDER.value -> {
+                when {
+                    perm.status.isGranted -> {
+                        (permissionState.permissions.find { it1 ->
+                            it1.permission == Permissions.WRITE_CALENDER.value
+                        }?.status is PermissionStatus.Granted).let(onPermissionGranted)
+                    }
+                }
+            }
+        }
+    }
+}
+
+private fun backPressed(
+    viewModel: LibraryManagerViewModel, navController: NavController
 ) {
     viewModel.onEvent(LibraryEvent.ResetValue)
     navController.navigateUp()
@@ -288,9 +358,7 @@ private fun backPressed(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryDatePickerDialog(
-    onDismissRequest: () -> Unit = {},
-    onDateSelected: (Long) -> Unit = {},
-    selectedDate: Long
+    onDismissRequest: () -> Unit = {}, onDateSelected: (Long) -> Unit = {}, selectedDate: Long
 ) {
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = if (selectedDate == -1L) null
@@ -299,26 +367,22 @@ fun LibraryDatePickerDialog(
     val confirmEnabled = remember {
         derivedStateOf { datePickerState.selectedDateMillis != null }
     }
-    DatePickerDialog(
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDateSelected(datePickerState.selectedDateMillis!!)
-                    onDismissRequest()
-                }, enabled = confirmEnabled.value
-            ) {
-                Text("OK")
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = onDismissRequest
-            ) {
-                Text("Cancel")
-            }
+    DatePickerDialog(onDismissRequest = onDismissRequest, confirmButton = {
+        TextButton(
+            onClick = {
+                onDateSelected(datePickerState.selectedDateMillis!!)
+                onDismissRequest()
+            }, enabled = confirmEnabled.value
+        ) {
+            Text("OK")
         }
-    ) {
+    }, dismissButton = {
+        TextButton(
+            onClick = onDismissRequest
+        ) {
+            Text("Cancel")
+        }
+    }) {
         DatePicker(state = datePickerState)
     }
 }

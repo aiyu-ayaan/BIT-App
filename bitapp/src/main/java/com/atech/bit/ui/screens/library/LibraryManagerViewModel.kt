@@ -1,6 +1,6 @@
 package com.atech.bit.ui.screens.library
 
-import android.util.Log
+import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.room.library.LibraryModel
 import com.atech.core.usecase.LibraryUseCase
+import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.compareDifferenceInDays
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryManagerViewModel @Inject constructor(
-    private val useCase: LibraryUseCase
+    private val useCase: LibraryUseCase, private val pref: SharedPreferences
 ) : ViewModel() {
     private val _libraryList = mutableStateOf<List<LibraryModel>>(emptyList())
     val libraryList: State<List<LibraryModel>> get() = _libraryList
@@ -49,6 +50,14 @@ class LibraryManagerViewModel @Inject constructor(
 
     private val _hasIssueDateError = mutableStateOf(false)
     val hasIssueDateError: State<Boolean> get() = _hasIssueDateError
+
+    private val _hasErrorInRemainder = mutableStateOf(false to "")
+    val hasErrorInRemainder: State<Pair<Boolean, String>> get() = _hasErrorInRemainder
+
+    var showPermissionForFirstTime: Boolean
+        get() = pref.getBoolean(SharePrefKeys.SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME.name, true)
+        set(value) = pref.edit()
+            .putBoolean(SharePrefKeys.SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME.name, value).apply()
 
 
     init {
@@ -81,20 +90,20 @@ class LibraryManagerViewModel @Inject constructor(
 
             is LibraryEvent.PickDateClick -> {
                 when (event.pickFor) {
-                    PickFor.ISSUE_DATE ->
-                        onEvent(
-                            LibraryEvent.OnIssueDateChange(
-                                event.date
-                            )
+                    PickFor.ISSUE_DATE -> onEvent(
+                        LibraryEvent.OnIssueDateChange(
+                            event.date
                         )
+                    )
 
 
-                    PickFor.RETURN_DATE ->
-                        onEvent(
-                            LibraryEvent.OnReturnDateChange(
-                                event.date
-                            )
+                    PickFor.RETURN_DATE -> onEvent(
+                        LibraryEvent.OnReturnDateChange(
+                            event.date
                         )
+                    )
+
+                    PickFor.REMINDER_DATE -> TODO()
                 }
             }
 
@@ -110,7 +119,7 @@ class LibraryManagerViewModel @Inject constructor(
                 _harError.value = event.hasError to event.message
             }
 
-            LibraryEvent.SaveBook -> {
+            is LibraryEvent.SaveBook -> {
                 if (_bookName.value.isBlank()) {
                     _hasSubjectError.value = true
                     return
@@ -125,8 +134,7 @@ class LibraryManagerViewModel @Inject constructor(
                 if (_returnDate.longValue == -1L) {
                     onEvent(
                         LibraryEvent.HasError(
-                            true,
-                            "Return date can't be empty"
+                            true, "Return date can't be empty"
                         )
                     )
                     return
@@ -145,27 +153,26 @@ class LibraryManagerViewModel @Inject constructor(
                 viewModelScope.launch {
                     useCase.insertBook(model)
                 }
+                event.action.invoke()
             }
+
+            is LibraryEvent.HasErrorInReminder -> _hasErrorInRemainder.value =
+                event.hasError to event.message
         }
     }
 
     private fun checkError() {
-        Log.d("AAA", "checkError: ${_returnDate.longValue} , ${_issueDate.longValue}")
         if (_returnDate.longValue != -1L && _issueDate.longValue != -1L) {
-            if (Date(_returnDate.longValue)
-                    .compareDifferenceInDays(Date(_issueDate.longValue)) < 0
-            ) {
+            if (Date(_returnDate.longValue).compareDifferenceInDays(Date(_issueDate.longValue)) < 0) {
                 onEvent(LibraryEvent.HasError(true, "Return date can't be before issue date"))
-            } else
-                onEvent(LibraryEvent.HasError())
+            } else onEvent(LibraryEvent.HasError())
         }
     }
 
     private fun getAllData() {
         job?.cancel()
-        job = useCase.getAll.invoke()
-            .onEach { items ->
-                _libraryList.value = items
-            }.launchIn(viewModelScope)
+        job = useCase.getAll.invoke().onEach { items ->
+            _libraryList.value = items
+        }.launchIn(viewModelScope)
     }
 }

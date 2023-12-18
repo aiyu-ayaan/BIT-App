@@ -19,9 +19,14 @@ sealed class LibraryEvent {
 
     data class HasError(val hasError: Boolean = false, val message: String = "") : LibraryEvent()
 
-    data object SaveBook : LibraryEvent()
+    data class HasErrorInReminder(val hasError: Boolean = false, val message: String = " ") :
+        LibraryEvent()
+
+    data class SaveBook(
+        val action: () -> Unit,
+    ) : LibraryEvent()
 }
 
 enum class PickFor {
-    ISSUE_DATE, RETURN_DATE
+    ISSUE_DATE, RETURN_DATE, REMINDER_DATE
 }
