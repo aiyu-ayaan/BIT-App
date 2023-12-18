@@ -2,9 +2,11 @@ package com.atech.bit.ui.screens.event.component.event
 
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -23,6 +25,7 @@ fun EventScreen(
     navController: NavController = rememberNavController(),
     viewModel: EventViewModel = hiltViewModel()
 ) {
+    val events by viewModel.fetchEvents
     Scaffold(
         topBar = {
             BackToolbar(
@@ -39,6 +42,9 @@ fun EventScreen(
                 .consumeWindowInsets(it),
             contentPadding = it
         ) {
+            items(events, key = { event -> event.title + event.created }) { model ->
+                EventItem(model = model)
+            }
         }
     }
 }

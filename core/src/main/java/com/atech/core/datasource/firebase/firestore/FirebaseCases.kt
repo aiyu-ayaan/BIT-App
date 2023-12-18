@@ -2,6 +2,7 @@ package com.atech.core.datasource.firebase.firestore
 
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.snapshots
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
@@ -20,14 +21,15 @@ enum class Db(val value: String) {
 data class GetEvent @Inject constructor(
     private val db: FirebaseFirestore, private val getAttach: GetAttach
 ) {
-    suspend operator fun invoke() =
-        db.collection(Db.Event.value).snapshots().map { it.toObjects(EventModel::class.java) }.map {
-            it.forEach { event ->
-                event.attach = getAttach(Db.Event, event.path ?: "").first()
+    operator fun invoke() =
+        db.collection(Db.Event.value).orderBy("created", Query.Direction.DESCENDING)
+            .snapshots()
+            .map { it.toObjects(EventModel::class.java) }.map {
+                it.forEach { event ->
+                    event.attach = getAttach(Db.Event, event.path ?: "").first()
+                }
+                it
             }
-            it
-        }
-
 }
 
 
