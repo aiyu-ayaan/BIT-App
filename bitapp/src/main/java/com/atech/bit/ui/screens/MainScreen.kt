@@ -1,6 +1,5 @@
 package com.atech.bit.ui.screens
 
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
@@ -45,6 +44,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -76,6 +76,7 @@ import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.grid_0_5
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.ui.theme.grid_3
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -90,6 +91,7 @@ fun MainScreen(
 
     val drawerSate = rememberDrawerState(initialValue = DrawerValue.Closed)
     val toggleDrawerState by communicatorViewModel.toggleDrawerState
+    val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(toggleDrawerState) {
         toggleDrawerState?.let {
             if (drawerSate.isOpen)
@@ -112,6 +114,12 @@ fun MainScreen(
             NavDrawer(
                 navController = navController
             ) {
+                coroutineScope.launch {
+                    setDrawerState(
+                        drawerSate,
+                        toggleDrawerState!!
+                    )
+                }
                 communicatorViewModel.onEvent(
                     MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Closed)
                 )
@@ -281,11 +289,11 @@ private fun ColumnScope.drawerItem(
             }
             if (screen.route == "")
                 return@NavigationDrawerItem
+            closeAction()
             navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)
                 launchSingleTop = true
             }
-            closeAction()
         },
         icon = {
             Icon(
