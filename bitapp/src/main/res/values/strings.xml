@@ -65,4 +65,10 @@
 
 
     <string name="erp_link">https://erpportal.bitmesra.ac.in/login.htm</string>
+    <string name="enter_your_sgpa_with_earn_credits">Enter your SGPA with earn credits</string>
+    <string name="total_credit">Total Cr</string>
+    <string name="value_range_between_1_to_10">Value range between 1 to 10</string>
+    <string name="calculate">Calculate</string>
+    <string name="calculated_cgpa">Calculated CGPA</string>
+    <string name="this_will_automatically_save_your_cgpa_to_clear_your_cgpa_tap_the_clear_option_in_option_menu">* This will automatically save your CGPA.\nTo Clear your CGPA, tap the clear option in option menu.</string>
 </resources>

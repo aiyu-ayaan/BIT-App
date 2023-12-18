@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.screens.administration.AdministrationScreen
+import com.atech.bit.ui.screens.cgpa.compose.CgpaScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
 import com.atech.bit.utils.animatedComposable
 
@@ -36,6 +37,8 @@ sealed class Screen(val route: String) {
     data object AdministrationScreen : Screen("administration")
 
     data object LibraryScreen : Screen(RouteName.LIBRARY.value)
+
+    data object CgpaScreen: Screen("cgpa")
 }
 
 
@@ -78,6 +81,12 @@ fun BitAppNavigationGraph(
             )
         }
         libraryGraph(navHostController = navHostController)
+
+        animatedComposable(
+            route = Screen.CgpaScreen.route
+        ){
+            CgpaScreen(navController = navHostController)
+        }
     }
 }
 

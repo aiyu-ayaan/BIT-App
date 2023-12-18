@@ -49,8 +49,8 @@ fun EditText(
             contentDescription = null,
             tint = MaterialTheme.colorScheme.primary,
             modifier = Modifier.clickable {
-                    clearIconClick()
-                })
+                clearIconClick()
+            })
     },
     maxLines: Int = Int.MAX_VALUE,
     readOnly: Boolean = false,

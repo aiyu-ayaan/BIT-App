@@ -175,6 +175,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.cgpa_calculator,
             selectedIcon = R.drawable.ic_cgpa_calculator,
+            route = Screen.CgpaScreen.route
         ), NavDrawer(
             title = R.string.holidays,
             selectedIcon = R.drawable.ic_holiday,
