@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.bit.ui.screens.event.EventScreenEvent
 import com.atech.core.datasource.firebase.firestore.FirebaseCase
 import com.atech.core.datasource.firebase.firestore.GetAttach
 import com.atech.core.datasource.firebase.firestore.NoticeModel
@@ -23,6 +24,16 @@ class NoticeViewModel @Inject constructor(
 
     private var job: Job? = null
 
+    private val _currentClickEvent = mutableStateOf(null as NoticeModel?)
+    val currentClickEvent: State<NoticeModel?> get() = _currentClickEvent
+
+
+    fun onEvent(event: NoticeScreenEvent) {
+        when (event) {
+            is NoticeScreenEvent.OnEventClick ->
+                _currentClickEvent.value = event.model
+        }
+    }
 
     init {
         fetchNotice()

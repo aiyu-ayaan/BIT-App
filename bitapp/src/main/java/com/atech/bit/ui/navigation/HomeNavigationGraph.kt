@@ -6,13 +6,16 @@ import androidx.navigation.navigation
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.screens.home.compose.HomeScreen
 import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
-import com.atech.bit.ui.screens.home.screen.notice.compose.notice.NoticeScreen
+import com.atech.bit.ui.screens.home.screen.notice.detail.compose.NoticeDetailScreen
+import com.atech.bit.ui.screens.home.screen.notice.notice.compose.NoticeScreen
+import com.atech.bit.utils.animatedComposable
 import com.atech.bit.utils.fadeThroughComposable
 import com.atech.bit.utils.sharedViewModel
 
 
 sealed class NoticeScreenRoute(val route: String) {
     data object NoticeScreen : NoticeScreenRoute("notice_screen")
+    data object NoticeDetailsScreen : NoticeScreenRoute("notice_details_screen")
 }
 
 fun NavGraphBuilder.noticeGraph(
@@ -27,6 +30,15 @@ fun NavGraphBuilder.noticeGraph(
         ) {
             val viewModel = it.sharedViewModel<NoticeViewModel>(navController = navController)
             NoticeScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+        animatedComposable(
+            route = NoticeScreenRoute.NoticeDetailsScreen.route
+        ) {
+            val viewModel = it.sharedViewModel<NoticeViewModel>(navController = navController)
+            NoticeDetailScreen(
                 navController = navController,
                 viewModel = viewModel
             )

@@ -156,7 +156,7 @@ fun EventItem(
 fun NoticeItem(
     modifier: Modifier = Modifier,
     model: NoticeModel,
-    onEventClick: (NoticeModel) -> Unit = {},
+    onNoticeClick: (NoticeModel) -> Unit = {},
     getAttach: GetAttach
 ) {
     var attach by rememberSaveable {
@@ -166,7 +166,7 @@ fun NoticeItem(
     Surface(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onEventClick.invoke(model) }
+            .clickable { onNoticeClick.invoke(model) }
     ) {
         OutlinedCard(
             modifier = Modifier.padding(grid_1),

@@ -1,4 +1,4 @@
-package com.atech.bit.ui.screens.home.screen.notice.compose.notice
+package com.atech.bit.ui.screens.home.screen.notice.notice.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -16,6 +16,8 @@ import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.NoticeItem
+import com.atech.bit.ui.navigation.NoticeScreenRoute
+import com.atech.bit.ui.screens.home.screen.notice.NoticeScreenEvent
 import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 
@@ -51,7 +53,19 @@ fun NoticeScreen(
                 NoticeItem(
                     model = notice,
                     modifier = Modifier.animateItemPlacement(),
-                    getAttach = viewModel.getAttach
+                    getAttach = viewModel.getAttach,
+                    onNoticeClick = { noticeModel ->
+                        viewModel.onEvent(
+                            NoticeScreenEvent
+                                .OnEventClick(
+                                    noticeModel
+                                )
+                        )
+                        navController.navigate(
+                            NoticeScreenRoute
+                                .NoticeDetailsScreen.route
+                        )
+                    }
                 )
             }
         }

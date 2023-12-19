@@ -1,6 +1,7 @@
 package com.atech.bit.ui.comman
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,34 +25,36 @@ import kotlin.math.ceil
 
 @Composable
 fun ColumnScope.GridImageLayout(list: List<Attach>) = this.apply {
-    Spacer(modifier = Modifier.height(grid_2))
-    Text(
-        text = stringResource(R.string.attached_images),
-        color = MaterialTheme.colorScheme.captionColor,
-        style = MaterialTheme.typography.titleSmall
-    )
-    Spacer(modifier = Modifier.height(grid_1))
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(3),
-        verticalItemSpacing = 4.dp,
-        horizontalArrangement = Arrangement.spacedBy(4.dp),
-        content = {
-            items(list.size) { attach ->
-                ImageLoader(
-                    imageUrl = list[attach].link ?: "",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp),
-                    contentScale = ContentScale.Crop,
+    Column {
+        Spacer(modifier = Modifier.height(grid_2))
+        Text(
+            text = stringResource(R.string.attached_images),
+            color = MaterialTheme.colorScheme.captionColor,
+            style = MaterialTheme.typography.titleSmall
+        )
+        Spacer(modifier = Modifier.height(grid_1))
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(3),
+            verticalItemSpacing = 4.dp,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            content = {
+                items(list.size) { attach ->
+                    ImageLoader(
+                        imageUrl = list[attach].link ?: "",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(200.dp),
+                        contentScale = ContentScale.Crop,
+                    )
+                }
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(
+                    calculateSize(list.size)
                 )
-            }
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(
-                calculateSize(list.size)
-            )
-    )
+        )
+    }
 }
 
 fun calculateSize(size: Int) = (ceil(size.toFloat() / 3.0) * 200).dp
