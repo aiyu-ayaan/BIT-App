@@ -42,6 +42,8 @@ import com.atech.bit.ui.comman.GridImageLayout
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.ImageLoader
 import com.atech.bit.ui.comman.getImageLinkNotification
+import com.atech.bit.ui.navigation.DeepLinkRoutes
+import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.utils.openLinks
@@ -146,7 +148,12 @@ fun NoticeDetailScreen(
             }
             AnimatedVisibility(attach.isNotEmpty()) {
                 GridImageLayout(
-                    list = attach
+                    list = attach,
+                    onClick = { it1 ->
+                        navController.navigateWithDeepLink(
+                            DeepLinkRoutes.ViewImageRoute(it1)
+                        )
+                    }
                 )
             }
         }

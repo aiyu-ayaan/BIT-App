@@ -1,5 +1,6 @@
 package com.atech.bit.ui.comman
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -24,7 +25,10 @@ import kotlin.math.ceil
 
 
 @Composable
-fun ColumnScope.GridImageLayout(list: List<Attach>) = this.apply {
+fun ColumnScope.GridImageLayout(
+    list: List<Attach>,
+    onClick: (String) -> Unit
+) = this.apply {
     Column {
         Spacer(modifier = Modifier.height(grid_2))
         Text(
@@ -43,7 +47,8 @@ fun ColumnScope.GridImageLayout(list: List<Attach>) = this.apply {
                         imageUrl = list[attach].link ?: "",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(200.dp),
+                            .height(200.dp)
+                            .clickable { onClick(list[attach].link!!) },
                         contentScale = ContentScale.Crop,
                     )
                 }

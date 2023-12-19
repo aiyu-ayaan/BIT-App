@@ -49,7 +49,8 @@ fun EventItem(
     modifier: Modifier = Modifier,
     model: EventModel,
     getAttach: GetAttach,
-    onEventClick: (EventModel) -> Unit = {}
+    onEventClick: (EventModel) -> Unit = {},
+    onClick: (String) -> Unit
 ) {
     var attach by rememberSaveable {
         mutableStateOf(emptyList<Attach>())
@@ -145,7 +146,8 @@ fun EventItem(
             }
             AnimatedVisibility(visible = attach.isNotEmpty()) {
                 AttachCompose(
-                    list = attach
+                    list = attach,
+                    onClick = onClick
                 )
             }
         }
@@ -157,7 +159,8 @@ fun NoticeItem(
     modifier: Modifier = Modifier,
     model: NoticeModel,
     onNoticeClick: (NoticeModel) -> Unit = {},
-    getAttach: GetAttach
+    getAttach: GetAttach,
+    onClick: (String) -> Unit
 ) {
     var attach by rememberSaveable {
         mutableStateOf(emptyList<Attach>())
@@ -253,7 +256,8 @@ fun NoticeItem(
             }
             AnimatedVisibility(visible = attach.isNotEmpty()) {
                 AttachCompose(
-                    list = attach
+                    list = attach,
+                    onClick = onClick
                 )
             }
         }
@@ -263,13 +267,15 @@ fun NoticeItem(
 
 @Composable
 fun AttachCompose(
-    modifier: Modifier = Modifier, list: List<Attach>
+    modifier: Modifier = Modifier, list: List<Attach>,
+    onClick: (String) -> Unit
 ) {
     LazyRow(modifier = modifier.fillMaxWidth()) {
         items(list.size) {
             AttachItems(
                 modifier = Modifier.padding(start = grid_1),
-                model = list[it]
+                model = list[it],
+                onClick = onClick
             )
         }
     }
@@ -277,13 +283,17 @@ fun AttachCompose(
 
 @Composable
 fun AttachItems(
-    modifier: Modifier = Modifier, model: Attach
+    modifier: Modifier = Modifier, model: Attach,
+    onClick: (String) -> Unit
 ) {
     ImageLoader(
         modifier = modifier
             .padding(grid_1)
             .width(120.dp)
-            .height(96.dp),
+            .height(96.dp)
+            .clickable {
+                onClick.invoke(model.link!!)
+            },
         imageUrl = model.link,
     )
 }

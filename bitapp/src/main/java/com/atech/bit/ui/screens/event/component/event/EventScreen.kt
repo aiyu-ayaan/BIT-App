@@ -17,7 +17,9 @@ import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.EventItem
+import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.EventRoute
+import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.event.EventScreenEvent
 import com.atech.bit.ui.screens.event.EventViewModel
 import com.atech.bit.ui.theme.BITAppTheme
@@ -62,7 +64,12 @@ fun EventScreen(
                         viewModel.onEvent(EventScreenEvent.OnEventClick(clickItems))
                         navController.navigate(EventRoute.DetailScreen.route)
                     },
-                    getAttach = viewModel.getAttach
+                    getAttach = viewModel.getAttach,
+                    onClick = {
+                        navController.navigateWithDeepLink(
+                            DeepLinkRoutes.ViewImageRoute(it)
+                        )
+                    }
                 )
             }
         }

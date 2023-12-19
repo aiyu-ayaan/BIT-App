@@ -43,6 +43,8 @@ import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.GridImageLayout
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.ImageLoader
+import com.atech.bit.ui.navigation.DeepLinkRoutes
+import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.event.EventViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.bottomPaddingSize
@@ -74,29 +76,17 @@ fun EventDetailScreen(
         mutableStateOf(emptyList<Attach>())
     }
     val scope = rememberCoroutineScope()
-    Scaffold(
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
-        topBar = {
-            BackToolbar(
-                title = "",
-                onNavigationClick = {
-                    navController.navigateUp()
-                },
-                scrollBehavior = scrollBehavior,
-                actions = {
-                    if (!event?.insta_link.isNullOrEmpty())
-                        ImageIconButton(
-                            icon = Icons.Outlined.Link,
-                            contextDes = R.string.attached_link,
-                            onClick = {
-                                event?.insta_link?.openLinks(context)
-                            }
-                        )
-                }
-            )
-        }
-    ) {
+    Scaffold(modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+        BackToolbar(title = "", onNavigationClick = {
+            navController.navigateUp()
+        }, scrollBehavior = scrollBehavior, actions = {
+            if (!event?.insta_link.isNullOrEmpty()) ImageIconButton(icon = Icons.Outlined.Link,
+                contextDes = R.string.attached_link,
+                onClick = {
+                    event?.insta_link?.openLinks(context)
+                })
+        })
+    }) {
         if (event == null) {
             Toast.makeText(context, "Something went wrong !!", Toast.LENGTH_SHORT).show()
             navController.navigateUp()
@@ -159,18 +149,16 @@ fun EventDetailScreen(
             )
             Spacer(modifier = Modifier.height(grid_1))
             scope.launch {
-                viewModel.getAttach.invoke(
-                    Db.Event,
-                    event.path!!,
-                    action = { attaches ->
-                        attach = attaches
-                    }
-                )
+                viewModel.getAttach.invoke(Db.Event, event.path!!, action = { attaches ->
+                    attach = attaches
+                })
             }
-            AnimatedVisibility (attach.isNotEmpty()) {
-                GridImageLayout(
-                    list = attach
-                )
+            AnimatedVisibility(attach.isNotEmpty()) {
+                GridImageLayout(list = attach, onClick = { it1 ->
+                    navController.navigateWithDeepLink(
+                        DeepLinkRoutes.ViewImageRoute(it1)
+                    )
+                })
             }
             if (!event.video_link.isNullOrEmpty()) {
                 Spacer(modifier = Modifier.height(grid_2))

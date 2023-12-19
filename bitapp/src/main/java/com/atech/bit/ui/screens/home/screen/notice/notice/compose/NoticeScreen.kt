@@ -16,7 +16,9 @@ import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.NoticeItem
+import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.NoticeScreenRoute
+import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.home.screen.notice.NoticeScreenEvent
 import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
@@ -64,6 +66,11 @@ fun NoticeScreen(
                         navController.navigate(
                             NoticeScreenRoute
                                 .NoticeDetailsScreen.route
+                        )
+                    },
+                    onClick = {
+                        navController.navigateWithDeepLink(
+                            DeepLinkRoutes.ViewImageRoute(it)
                         )
                     }
                 )
