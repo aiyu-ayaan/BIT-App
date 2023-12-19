@@ -27,6 +27,9 @@ interface AttendanceDao {
     @RawQuery(observedEntities = [AttendanceModel::class])
     fun getAttendanceSorted(query: SupportSQLiteQuery): PagingSource<Int, AttendanceModel>
 
+    @Query("SELECT * FROM attendance_table ")
+    fun getAttendance(): PagingSource<Int, AttendanceModel>
+
     @Query("SELECT * FROM attendance_table ORDER BY id ASC")
     suspend fun getAllAttendance(): List<AttendanceModel>
 

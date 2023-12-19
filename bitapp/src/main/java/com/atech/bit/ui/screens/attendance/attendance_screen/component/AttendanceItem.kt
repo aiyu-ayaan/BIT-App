@@ -34,7 +34,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -92,8 +91,8 @@ fun AttendanceItem(
             )
 
     ) {
-        val percentage by remember {
-            derivedStateOf {
+        val percentage by remember(model) {
+            mutableStateOf(
                 findPercentage(
                     model.present.toFloat(), model.total.toFloat()
                 ) { present, total ->
@@ -102,47 +101,47 @@ fun AttendanceItem(
                         else -> (present / total) * 100
                     }
                 }
-            }
+            )
         }
-        LaunchedEffect(key1 = true) {
-            setResources(percentage.toInt()) { per ->
-                when {
-                    per == 0 -> {
-                        status = context.getString(
-                            R.string.status,
+
+        setResources(percentage.toInt()) { per ->
+            when {
+                per == 0 -> {
+                    status = context.getString(
+                        R.string.status,
+                    )
+                }
+
+                per >= minPercentage -> {
+                    val day = calculatedDays(
+                        model.present, model.total
+                    ) { present, total ->
+                        (((100 * present) - (minPercentage * total)) / minPercentage)
+                    }.toInt()
+                    status = when {
+                        per == minPercentage || day <= 0 -> context.getString(
+                            R.string.on_track
                         )
-                    }
 
-                    per >= minPercentage -> {
-                        val day = calculatedDays(
-                            model.present, model.total
-                        ) { present, total ->
-                            (((100 * present) - (minPercentage * total)) / minPercentage)
-                        }.toInt()
-                        status = when {
-                            per == minPercentage || day <= 0 -> context.getString(
-                                R.string.on_track
-                            )
-
-                            else -> context.getString(
-                                R.string.leave_class, day.toString()
-                            )
-                        }
-                    }
-
-                    per < minPercentage -> {
-                        val day = calculatedDays(
-                            model.present, model.total
-                        ) { present, total ->
-                            (((minPercentage * total) - (100 * present)) / (100 - minPercentage))
-                        }
-                        status = context.getString(
-                            R.string.attend_class, (ceil(day).toInt()).toString()
+                        else -> context.getString(
+                            R.string.leave_class, day.toString()
                         )
                     }
                 }
+
+                per < minPercentage -> {
+                    val day = calculatedDays(
+                        model.present, model.total
+                    ) { present, total ->
+                        (((minPercentage * total) - (100 * present)) / (100 - minPercentage))
+                    }
+                    status = context.getString(
+                        R.string.attend_class, (ceil(day).toInt()).toString()
+                    )
+                }
             }
         }
+
         Card(
             modifier = modifier
                 .padding(horizontal = grid_1, vertical = grid_0_5)

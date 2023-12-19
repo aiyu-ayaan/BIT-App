@@ -233,6 +233,7 @@ class AttendanceViewModel @Inject constructor(
 
     private fun getAttendance() {
         attendanceGetJob?.cancel()
+        _attendance.value = PagingData.empty()
         attendanceGetJob = case.getAllAttendance(
             _sort.value
         )

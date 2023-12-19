@@ -3,7 +3,7 @@ package com.atech.bit.ui.screens.attendance.attendance_screen.component
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -331,16 +331,15 @@ fun AttendanceScreen(
         ) {
             attendanceListSize.intValue = attendanceList.itemCount
             items(count = attendanceList.itemCount,
-                key = attendanceList.itemKey { model -> model.id },
-                contentType = attendanceList.itemContentType { it1 -> it1.subject }) { index ->
+                key = attendanceList.itemKey { model -> model.id.toString() + "" + model.subject },
+                contentType = attendanceList.itemContentType { model -> model.id.toString() })
+            { index ->
                 attendanceList[index]?.let { model ->
                     AttendanceItem(
                         model = model,
                         minPercentage = defPercentage,
                         modifier = Modifier.animateItemPlacement(
-                            animationSpec = spring(
-                                dampingRatio = 2f, stiffness = 600f
-                            )
+                            animationSpec = tween(),
                         ),
                         onTickOrCrossClickClick = { clickItems, isPresent ->
                             viewModel.onEvent(
