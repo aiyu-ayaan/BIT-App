@@ -16,6 +16,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Link
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,14 +37,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
+import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.ImageLoader
 import com.atech.bit.ui.screens.event.EventViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.bottomPaddingSize
-import com.atech.bit.ui.theme.bottom_nav_height
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
+import com.atech.bit.utils.openLinks
 import com.atech.core.utils.getDate
 import io.sanghun.compose.video.VideoPlayer
 import io.sanghun.compose.video.controller.VideoPlayerControllerConfig
@@ -70,7 +72,17 @@ fun EventDetailScreen(
                 onNavigationClick = {
                     navController.navigateUp()
                 },
-                scrollBehavior = scrollBehavior
+                scrollBehavior = scrollBehavior,
+                actions = {
+                    if (!event?.insta_link.isNullOrEmpty())
+                        ImageIconButton(
+                            icon = Icons.Outlined.Link,
+                            contextDes = R.string.attached_link,
+                            onClick = {
+                                event?.insta_link?.openLinks(context)
+                            }
+                        )
+                }
             )
         }
     ) {

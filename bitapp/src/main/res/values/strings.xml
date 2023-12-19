@@ -73,4 +73,5 @@
     <string name="this_will_automatically_save_your_cgpa_to_clear_your_cgpa_tap_the_clear_option_in_option_menu">* This will automatically save your CGPA.\nTo Clear your CGPA, tap the clear option in option menu.</string>
     <string name="attached_video">Attached Video</string>
     <string name="attached_images">Attached Images</string>
+    <string name="attached_link">Attached Link</string>
 </resources>

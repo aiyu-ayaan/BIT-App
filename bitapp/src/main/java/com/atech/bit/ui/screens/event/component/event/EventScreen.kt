@@ -51,7 +51,10 @@ fun EventScreen(
                 .consumeWindowInsets(it),
             contentPadding = it
         ) {
-            items(events, key = { event -> event.title + event.created }) { model ->
+            items(
+                items =events,
+                key = { event -> event.title + event.created }
+            ) { model ->
                 EventItem(
                     model = model,
                     onEventClick = { clickItems ->
