@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.firebase.firestore.FirebaseCase
+import com.atech.core.datasource.firebase.firestore.GetAttach
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
-    private val firebaseCase: FirebaseCase
+    private val firebaseCase: FirebaseCase,
+    val getAttach: GetAttach
 ) : ViewModel() {
     private val _fetchEvents = mutableStateOf<List<EventModel>>(emptyList())
     val fetchEvents: State<List<EventModel>> get() = _fetchEvents

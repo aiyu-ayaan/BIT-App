@@ -5,11 +5,39 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.screens.home.compose.HomeScreen
+import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
+import com.atech.bit.ui.screens.home.screen.notice.compose.notice.NoticeScreen
 import com.atech.bit.utils.fadeThroughComposable
+import com.atech.bit.utils.sharedViewModel
 
+
+sealed class NoticeScreenRoute(val route: String) {
+    data object NoticeScreen : NoticeScreenRoute("notice_screen")
+}
+
+fun NavGraphBuilder.noticeGraph(
+    navController: NavController,
+) {
+    navigation(
+        startDestination = NoticeScreenRoute.NoticeScreen.route,
+        route = HomeScreenRoutes.NoticeScreen.route
+    ) {
+        fadeThroughComposable(
+            route = NoticeScreenRoute.NoticeScreen.route
+        ) {
+            val viewModel = it.sharedViewModel<NoticeViewModel>(navController = navController)
+            NoticeScreen(
+                navController = navController,
+                viewModel = viewModel
+            )
+        }
+    }
+}
 
 sealed class HomeScreenRoutes(val route: String) {
     data object HomeScreen : HomeScreenRoutes("home_screen")
+
+    data object NoticeScreen : HomeScreenRoutes("notice_route")
 }
 
 fun NavGraphBuilder.homeGraph(
@@ -24,9 +52,11 @@ fun NavGraphBuilder.homeGraph(
             route = HomeScreenRoutes.HomeScreen.route
         ) {
             HomeScreen(
-                communicatorViewModel = communicatorViewModel
+                communicatorViewModel = communicatorViewModel,
+                navController = navController
             )
         }
+        noticeGraph(navController)
     }
 
 }

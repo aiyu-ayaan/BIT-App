@@ -1,6 +1,7 @@
 package com.atech.bit.ui.screens.event.component.detail
 
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +23,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -44,10 +50,13 @@ import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.utils.openLinks
+import com.atech.core.datasource.firebase.firestore.Attach
+import com.atech.core.datasource.firebase.firestore.Db
 import com.atech.core.utils.getDate
 import io.sanghun.compose.video.VideoPlayer
 import io.sanghun.compose.video.controller.VideoPlayerControllerConfig
 import io.sanghun.compose.video.uri.VideoPlayerMediaItem
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,6 +69,11 @@ fun EventDetailScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val scrollState = rememberScrollState()
+
+    var attach by remember {
+        mutableStateOf(emptyList<Attach>())
+    }
+    val scope = rememberCoroutineScope()
     Scaffold(
         modifier = modifier
             .nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -144,9 +158,18 @@ fun EventDetailScreen(
                 style = MaterialTheme.typography.bodyLarge,
             )
             Spacer(modifier = Modifier.height(grid_1))
-            if (!event.attach.isNullOrEmpty()) {
+            scope.launch {
+                viewModel.getAttach.invoke(
+                    Db.Event,
+                    event.path!!,
+                    action = { attaches ->
+                        attach = attaches
+                    }
+                )
+            }
+            AnimatedVisibility (attach.isNotEmpty()) {
                 GridImageLayout(
-                    list = event.attach ?: emptyList()
+                    list = attach
                 )
             }
             if (!event.video_link.isNullOrEmpty()) {

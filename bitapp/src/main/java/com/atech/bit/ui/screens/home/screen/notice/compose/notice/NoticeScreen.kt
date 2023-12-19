@@ -1,49 +1,41 @@
-package com.atech.bit.ui.screens.event.component.event
+package com.atech.bit.ui.screens.home.screen.notice.compose.notice
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
-import com.atech.bit.ui.comman.EventItem
-import com.atech.bit.ui.navigation.EventRoute
-import com.atech.bit.ui.screens.event.EventScreenEvent
-import com.atech.bit.ui.screens.event.EventViewModel
+import com.atech.bit.ui.comman.NoticeItem
+import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun EventScreen(
+fun NoticeScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
-    viewModel: EventViewModel = hiltViewModel()
+    viewModel: NoticeViewModel = hiltViewModel()
 ) {
-    val events by viewModel.fetchEvents
-
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
+    val fetchedNotice by viewModel.fetchNotice
     Scaffold(
-        modifier = modifier
-            .nestedScroll(scrollBehavior.nestedScrollConnection),
+        modifier = modifier,
         topBar = {
             BackToolbar(
-                title = R.string.events,
-                modifier = modifier,
+                title = R.string.notice,
                 onNavigationClick = {
                     navController.navigateUp()
-                },
-                scrollBehavior = scrollBehavior
+                }
             )
         }
     ) {
@@ -53,15 +45,12 @@ fun EventScreen(
             contentPadding = it
         ) {
             items(
-                items = events,
-                key = { event -> event.title + event.created }
-            ) { model ->
-                EventItem(
-                    model = model,
-                    onEventClick = { clickItems ->
-                        viewModel.onEvent(EventScreenEvent.OnEventClick(clickItems))
-                        navController.navigate(EventRoute.DetailScreen.route)
-                    },
+                items = fetchedNotice,
+                key = { it1 -> it1.created.toString() }
+            ) { notice ->
+                NoticeItem(
+                    model = notice,
+                    modifier = Modifier.animateItemPlacement(),
                     getAttach = viewModel.getAttach
                 )
             }
@@ -71,8 +60,8 @@ fun EventScreen(
 
 @Preview(showBackground = true)
 @Composable
-private fun EventScreenPreview() {
+private fun NoticeScreenPreview() {
     BITAppTheme {
-        EventScreen()
+        NoticeScreen()
     }
 }

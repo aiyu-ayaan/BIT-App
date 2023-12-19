@@ -12,17 +12,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.activity.toggleDrawer
+import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.theme.BITAppTheme
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    communicatorViewModel: MainViewModel
+    communicatorViewModel: MainViewModel,
+    navController: NavController
 ) {
-        val isSearchBarActive = communicatorViewModel.isSearchActive.value
+    val isSearchBarActive = communicatorViewModel.isSearchActive.value
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -30,18 +33,23 @@ fun HomeScreen(
             SearchToolBar(
                 query = query,
                 onQueryChange = { query = it },
-                active = false,
-                 onActiveChange = { communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive) },
-                 onTrailingIconClick = {
-                     communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive)
-                 },
-                 onLeadingIconClick = {
-                     communicatorViewModel.onEvent(
-                         MainViewModel.SharedEvents.ToggleDrawer(
-                             toggleDrawer(communicatorViewModel)
-                         )
-                     )
-                 }
+                active = isSearchBarActive,
+                onActiveChange = { communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive) },
+                onTrailingIconClick = {
+                    communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive)
+                },
+                onLeadingIconClick = {
+                    communicatorViewModel.onEvent(
+                        MainViewModel.SharedEvents.ToggleDrawer(
+                            toggleDrawer(communicatorViewModel)
+                        )
+                    )
+                },
+                onNotificationClick = {
+                    navController.navigate(
+                        HomeScreenRoutes.NoticeScreen.route
+                    )
+                }
             )
         }
     ) {

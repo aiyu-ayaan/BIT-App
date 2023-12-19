@@ -16,19 +16,19 @@ data class EventModel(
     val society: String? = null,
     val video_link: String? = null,
     var attach: List<Attach>? = null,
-): Parcelable
+) : Parcelable
 
 
 @Parcelize
 @Keep
-class NoticeModel(
+data class NoticeModel(
     val title: String? = null,
     val body: String? = null,
     val link: String? = null,
     val sender: String? = null,
     val path: String? = null,
     val created: Long? = null,
-): Parcelable
+) : Parcelable
 
 @Parcelize
 @Keep
