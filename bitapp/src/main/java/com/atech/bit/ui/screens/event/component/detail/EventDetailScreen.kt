@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -27,7 +25,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +34,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
+import com.atech.bit.ui.comman.GridImageLayout
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.ImageLoader
 import com.atech.bit.ui.screens.event.EventViewModel
@@ -50,7 +48,6 @@ import com.atech.core.utils.getDate
 import io.sanghun.compose.video.VideoPlayer
 import io.sanghun.compose.video.controller.VideoPlayerControllerConfig
 import io.sanghun.compose.video.uri.VideoPlayerMediaItem
-import kotlin.math.ceil
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -148,33 +145,8 @@ fun EventDetailScreen(
             )
             Spacer(modifier = Modifier.height(grid_1))
             if (!event.attach.isNullOrEmpty()) {
-                Spacer(modifier = Modifier.height(grid_2))
-                Text(
-                    text = stringResource(R.string.attached_images),
-                    color = MaterialTheme.colorScheme.captionColor,
-                    style = MaterialTheme.typography.titleSmall
-                )
-                Spacer(modifier = Modifier.height(grid_1))
-                LazyVerticalStaggeredGrid(
-                    columns = StaggeredGridCells.Fixed(3),
-                    verticalItemSpacing = 4.dp,
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    content = {
-                        items(event.attach?.size ?: 0) { attach ->
-                            ImageLoader(
-                                imageUrl = event.attach?.get(attach)?.link,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(200.dp),
-                                contentScale = ContentScale.Crop,
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(
-                            calculateSize(event.attach?.size ?: 0)
-                        )
+                GridImageLayout(
+                    list = event.attach ?: emptyList()
                 )
             }
             if (!event.video_link.isNullOrEmpty()) {
@@ -220,8 +192,6 @@ fun EventDetailScreen(
         }
     }
 }
-
-private fun calculateSize(size: Int) = (ceil(size.toFloat() / 3.0) * 200).dp
 
 
 @Preview(showBackground = true)

@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
+import com.atech.bit.ui.comman.EventOrNoticeItem
 import com.atech.bit.ui.navigation.EventRoute
 import com.atech.bit.ui.screens.event.EventScreenEvent
 import com.atech.bit.ui.screens.event.EventViewModel
@@ -55,7 +56,7 @@ fun EventScreen(
                 items =events,
                 key = { event -> event.title + event.created }
             ) { model ->
-                EventItem(
+                EventOrNoticeItem(
                     model = model,
                     onEventClick = { clickItems ->
                         viewModel.onEvent(EventScreenEvent.OnEventClick(clickItems))

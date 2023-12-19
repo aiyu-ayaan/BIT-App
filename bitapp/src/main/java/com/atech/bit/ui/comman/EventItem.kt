@@ -1,9 +1,10 @@
-package com.atech.bit.ui.screens.event.component.event
+package com.atech.bit.ui.comman
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DateRange
 import androidx.compose.material3.Icon
@@ -22,10 +25,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.atech.bit.ui.comman.ImageLoader
+import com.atech.bit.R
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.dividerOrCardColor
@@ -34,15 +39,17 @@ import com.atech.bit.ui.theme.grid_2
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.utils.getDate
+import kotlin.math.ceil
 
 @Composable
-fun EventItem(
+fun EventOrNoticeItem(
     modifier: Modifier = Modifier,
     model: EventModel,
-    onEventClick : (EventModel) -> Unit = {}
+    onEventClick: (EventModel) -> Unit = {}
 ) {
     Surface(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
             .clickable { onEventClick.invoke(model) }
     ) {
         OutlinedCard(
@@ -57,7 +64,8 @@ fun EventItem(
                 verticalArrangement = Arrangement.SpaceEvenly
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(end = grid_1),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -155,11 +163,45 @@ fun AttachItems(
 }
 
 
+@Composable
+fun ColumnScope.GridImageLayout(list: List<Attach>) = this.apply {
+    Spacer(modifier = Modifier.height(grid_2))
+    Text(
+        text = stringResource(R.string.attached_images),
+        color = MaterialTheme.colorScheme.captionColor,
+        style = MaterialTheme.typography.titleSmall
+    )
+    Spacer(modifier = Modifier.height(grid_1))
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(3),
+        verticalItemSpacing = 4.dp,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        content = {
+            items(list.size) { attach ->
+                ImageLoader(
+                    imageUrl = list[attach].link ?: "",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Crop,
+                )
+            }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(
+                calculateSize(list.size)
+            )
+    )
+}
+
+fun calculateSize(size: Int) = (ceil(size.toFloat() / 3.0) * 200).dp
+
 @Preview(showBackground = true)
 @Composable
 private fun EventItemPreview() {
     BITAppTheme {
-        EventItem(
+        EventOrNoticeItem(
             model = EventModel(
                 title = "Title",
                 content = "Content",
