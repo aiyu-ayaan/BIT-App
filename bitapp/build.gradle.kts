@@ -133,4 +133,9 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
     releaseImplementation(libs.firebase.crashlytics)
+
+    implementation(libs.compose.video)
+    implementation(libs.androidx.media3.exoplayer) // [Required] androidx.media3 ExoPlayer dependency
+    implementation(libs.androidx.media3.session) // [Required] MediaSession Extension dependency
+    implementation(libs.media3.ui) // [Required] Base Player UI
 }

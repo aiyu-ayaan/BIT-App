@@ -28,17 +28,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.ImageLoader
 import com.atech.bit.ui.screens.event.EventViewModel
 import com.atech.bit.ui.theme.BITAppTheme
+import com.atech.bit.ui.theme.bottomPaddingSize
+import com.atech.bit.ui.theme.bottom_nav_height
+import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.grid_1
+import com.atech.bit.ui.theme.grid_2
 import com.atech.core.utils.getDate
+import io.sanghun.compose.video.VideoPlayer
+import io.sanghun.compose.video.controller.VideoPlayerControllerConfig
+import io.sanghun.compose.video.uri.VideoPlayerMediaItem
 import kotlin.math.ceil
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,6 +136,13 @@ fun EventDetailScreen(
             )
             Spacer(modifier = Modifier.height(grid_1))
             if (!event.attach.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(grid_2))
+                Text(
+                    text = stringResource(R.string.attached_images),
+                    color = MaterialTheme.colorScheme.captionColor,
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Spacer(modifier = Modifier.height(grid_1))
                 LazyVerticalStaggeredGrid(
                     columns = StaggeredGridCells.Fixed(3),
                     verticalItemSpacing = 4.dp,
@@ -149,7 +165,46 @@ fun EventDetailScreen(
                         )
                 )
             }
+            if (!event.video_link.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(grid_2))
+                Text(
+                    text = stringResource(R.string.attached_video),
+                    color = MaterialTheme.colorScheme.captionColor,
+                    style = MaterialTheme.typography.titleSmall
+                )
+                Spacer(modifier = Modifier.height(grid_1))
+                VideoPlayer(
+                    mediaItems = listOf(
+                        VideoPlayerMediaItem.NetworkMediaItem(
+                            url = event.video_link ?: "",
+                        )
+                    ),
+                    handleLifecycle = true,
+                    autoPlay = false,
+                    usePlayerController = true,
+                    enablePip = false,
+                    handleAudioFocus = true,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(500.dp),
+                    controllerConfig = VideoPlayerControllerConfig(
+                        showSpeedAndPitchOverlay = false,
+                        showSubtitleButton = false,
+                        showCurrentTimeAndTotalTime = true,
+                        showBufferingProgress = true,
+                        showForwardIncrementButton = false,
+                        showBackwardIncrementButton = false,
+                        showBackTrackButton = false,
+                        showNextTrackButton = false,
+                        showRepeatModeButton = false,
+                        controllerShowTimeMilliSeconds = 5_000,
+                        controllerAutoShow = true,
+                        showFullScreenButton = true
+                    )
+                )
 
+            }
+            Spacer(modifier = Modifier.height(bottomPaddingSize))
         }
     }
 }
