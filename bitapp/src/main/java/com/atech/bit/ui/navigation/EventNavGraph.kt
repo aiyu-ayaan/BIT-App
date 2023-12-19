@@ -4,6 +4,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import com.atech.bit.ui.screens.event.EventViewModel
+import com.atech.bit.ui.screens.event.component.detail.EventDetailScreen
 import com.atech.bit.ui.screens.event.component.event.EventScreen
 import com.atech.bit.utils.animatedComposable
 import com.atech.bit.utils.sharedViewModel
@@ -30,12 +31,14 @@ fun NavGraphBuilder.eventGraph(
                 viewModel = viewModel
             )
         }
-//        animatedComposable(
-//            route = EventRoute.DetailScreen.route,
-//        ) {
-////            DetailScreen(
-////                navController = navHostController
-////            )
-//        }
+        animatedComposable(
+            route = EventRoute.DetailScreen.route,
+        ) {
+            val viewModel = it.sharedViewModel<EventViewModel>(navController = navHostController)
+            EventDetailScreen(
+                navController = navHostController,
+                viewModel = viewModel
+            )
+        }
     }
 }

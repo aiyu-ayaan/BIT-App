@@ -21,6 +21,17 @@ class EventViewModel @Inject constructor(
 
     private var job: Job? = null
 
+    private val _currentClickEvent = mutableStateOf(null as EventModel?)
+    val currentClickEvent: State<EventModel?> get() = _currentClickEvent
+
+
+    fun onEvent(event: EventScreenEvent) {
+        when (event) {
+            is EventScreenEvent.OnEventClick ->
+                _currentClickEvent.value = event.model
+        }
+    }
+
     init {
         fetchEvents()
     }

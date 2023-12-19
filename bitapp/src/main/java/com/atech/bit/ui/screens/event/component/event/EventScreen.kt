@@ -5,15 +5,19 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
+import com.atech.bit.ui.navigation.EventRoute
+import com.atech.bit.ui.screens.event.EventScreenEvent
 import com.atech.bit.ui.screens.event.EventViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 
@@ -26,14 +30,19 @@ fun EventScreen(
     viewModel: EventViewModel = hiltViewModel()
 ) {
     val events by viewModel.fetchEvents
+
+    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
+        modifier = modifier
+            .nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             BackToolbar(
                 title = R.string.events,
                 modifier = modifier,
                 onNavigationClick = {
                     navController.navigateUp()
-                }
+                },
+                scrollBehavior = scrollBehavior
             )
         }
     ) {
@@ -43,7 +52,13 @@ fun EventScreen(
             contentPadding = it
         ) {
             items(events, key = { event -> event.title + event.created }) { model ->
-                EventItem(model = model)
+                EventItem(
+                    model = model,
+                    onEventClick = { clickItems ->
+                        viewModel.onEvent(EventScreenEvent.OnEventClick(clickItems))
+                        navController.navigate(EventRoute.DetailScreen.route)
+                    }
+                )
             }
         }
     }
