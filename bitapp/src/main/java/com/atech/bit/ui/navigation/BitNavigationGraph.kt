@@ -21,6 +21,7 @@ enum class RouteName(val value: String) {
     SOCIETY("society"),
     LIBRARY("library"),
     EVENT("event"),
+    SETTINGS("settings")
 }
 
 
@@ -42,6 +43,8 @@ sealed class Screen(val route: String) {
     data object CgpaScreen : Screen("cgpa")
 
     data object EventScreen : Screen(RouteName.EVENT.value)
+
+    data object SettingsScreen : Screen(RouteName.SETTINGS.value)
 }
 
 
@@ -91,6 +94,11 @@ fun BitAppNavigationGraph(
             CgpaScreen(navController = navHostController)
         }
         eventGraph(navHostController = navHostController)
+
+        settingNavigationGraph(
+            navHostController = navHostController,
+            mainViewModel = communicatorViewModel
+        )
     }
 }
 

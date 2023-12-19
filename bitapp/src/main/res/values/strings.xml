@@ -74,4 +74,10 @@
     <string name="attached_video">Attached Video</string>
     <string name="attached_images">Attached Images</string>
     <string name="attached_link">Attached Link</string>
+    <string name="dynamic_color">Dynamic Color</string>
+    <string name="apply_colors_from_wallpaper_to_the_app_theme">Apply colors from wallpaper to the app theme</string>
+    <string name="only_available_on_android_12_or_above">Only available on Android 12 or above</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="dark_mode">Dark Mode</string>
 </resources>

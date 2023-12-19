@@ -6,13 +6,13 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.atech.bit.utils.getTheme
+import com.atech.bit.utils.saveTheme
 import com.atech.core.datasource.firebase.remote.RemoteConfigHelper
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
 
 @HiltViewModel
@@ -40,6 +40,8 @@ class MainViewModel @Inject constructor(
 
     private val _toggleDrawerState = mutableStateOf(null as DrawerValue?)
     val toggleDrawerState: State<DrawerValue?> get() = _toggleDrawerState
+    private val _themeState = mutableStateOf(getTheme(pref))
+    val themeState: State<ThemeState> get() = _themeState
 
 
     fun onEvent(event: SharedEvents) {
@@ -49,11 +51,20 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun onThemeChange(event: ThemeEvent) {
+        when (event) {
+            is ThemeEvent.ChangeTheme -> {
+                _themeState.value = event.state
+                saveTheme(_themeState.value, pref)
+            }
+        }
+    }
+
 
     sealed class SharedEvents {
         data object ToggleSearchActive : SharedEvents()
 
-        data class ToggleDrawer( val state : DrawerValue?) : SharedEvents()
+        data class ToggleDrawer(val state: DrawerValue?) : SharedEvents()
     }
 
 }

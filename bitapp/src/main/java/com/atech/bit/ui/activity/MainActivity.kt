@@ -4,9 +4,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -26,15 +28,21 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val themeState by viewModel.themeState
             val navHostController = rememberNavController()
-            BITAppTheme {
+            BITAppTheme(
+                dynamicColor = themeState.isDynamicColorActive,
+                darkTheme = when (themeState.isDarkTheme) {
+                    ThemeMode.LIGHT -> false
+                    ThemeMode.DARK -> true
+                    ThemeMode.SYSTEM -> isSystemInDarkTheme()
+                }
+            ) {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.surface
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface
                 ) {
                     MainScreen(
-                        navController = navHostController,
-                        communicatorViewModel = viewModel
+                        navController = navHostController, communicatorViewModel = viewModel
                     )
                 }
             }

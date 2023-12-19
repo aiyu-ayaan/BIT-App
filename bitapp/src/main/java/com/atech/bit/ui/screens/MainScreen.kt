@@ -209,11 +209,9 @@ val navDrawerItem = listOf(
         )
     ), "App Setting" to listOf(
         NavDrawer(
-            title = R.string.display,
-            selectedIcon = R.drawable.round_aod_24,
-        ), NavDrawer(
-            title = R.string.notification,
-            selectedIcon = R.drawable.outline_notifications_active_24,
+            title = R.string.settings,
+            selectedIcon = R.drawable.outline_settings_24,
+            route = Screen.SettingsScreen.route
         )
     )
 )

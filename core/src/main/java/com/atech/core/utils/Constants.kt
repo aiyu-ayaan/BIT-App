@@ -14,8 +14,8 @@ enum class RowSubjectAdapterRequest {
 enum class SharePrefKeys {
     SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
     SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin,
-    SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime,
-    ShowTimes, KeyAnnVersion, CurrentShowTime, IsDynamicThemeEnabled,
+    SetUpDone, AppThemeState, NewShowUninstallDialog, KeyAppOpenMinimumTime,
+    ShowTimes, KeyAnnVersion, CurrentShowTime,
     IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
     FirstTimeLogIn, CourseDetails,SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME
 }
