@@ -1,6 +1,7 @@
 package com.atech.bit.ui.screens.home.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +35,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.activity.toggleDrawer
 import com.atech.bit.ui.comman.BottomPadding
+import com.atech.bit.ui.comman.ChooseSemBottomSheet
 import com.atech.bit.ui.comman.DevNote
 import com.atech.bit.ui.comman.GITHUB_LINK
 import com.atech.bit.ui.comman.ImageIconButton
@@ -67,6 +70,11 @@ fun HomeScreen(
     val events = viewModel.events.value
     val cgpa = viewModel.currentCgpa.value
     val context = LocalContext.current
+    val courseDetails by communicatorViewModel.courseDetail
+
+    var isChooseSemSelected by rememberSaveable {
+        mutableStateOf(false)
+    }
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
         SearchToolBar(query = query,
@@ -90,16 +98,23 @@ fun HomeScreen(
             })
     }) {
         LazyColumn(
-            modifier = Modifier.consumeWindowInsets(it), contentPadding = it
+            modifier = Modifier.consumeWindowInsets(it)
+                .animateContentSize(),
+            contentPadding = it
         ) {
             singleElement(key = "Header") {
-                HeaderCompose(isEnable = isOnlineEnable, onEnableChange = { currentState ->
-                    viewModel.onEvent(
-                        HomeScreenEvents.ToggleOnlineSyllabusClick(
-                            currentState
+                HeaderCompose(isEnable = isOnlineEnable,
+                    onEnableChange = { currentState ->
+                        viewModel.onEvent(
+                            HomeScreenEvents.ToggleOnlineSyllabusClick(
+                                currentState
+                            )
                         )
-                    )
-                })
+                    },
+                    onSettingClick = {
+                        isChooseSemSelected = !isChooseSemSelected
+                    }
+                )
             }
             if (isOnlineEnable) onlineDataSource(onlineData.first,
                 onlineData.second,
@@ -136,6 +151,21 @@ fun HomeScreen(
                 })
             }
             singleElement(key = "BottomPadding") { BottomPadding() }
+        }
+        if (isChooseSemSelected) {
+            ChooseSemBottomSheet(
+                model = courseDetails,
+                sem = viewModel.sem.value,
+                course = viewModel.course.value,
+                onDismissRequest = {
+                    isChooseSemSelected = false
+                },
+                onSaveClick = { it1 ->
+                    viewModel.onEvent(
+                        HomeScreenEvents.OnCourseChange(it1)
+                    )
+                }
+            )
         }
     }
 }

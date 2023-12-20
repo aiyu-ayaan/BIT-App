@@ -9,9 +9,12 @@ import androidx.lifecycle.ViewModel
 import com.atech.bit.utils.getTheme
 import com.atech.bit.utils.saveTheme
 import com.atech.core.datasource.firebase.remote.RemoteConfigHelper
+import com.atech.core.datasource.firebase.remote.model.CourseDetails
+import com.atech.core.datasource.firebase.remote.model.defaultCourseSem
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
+import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -20,6 +23,8 @@ class MainViewModel @Inject constructor(
     private val conf: RemoteConfigHelper,
     private val pref: SharedPreferences,
 ) : ViewModel() {
+    private val _courseDetail = mutableStateOf(defaultCourseSem)
+    val courseDetail: State<CourseDetails> get() = _courseDetail
     fun fetchRemoteConfigDetails() {
         conf.fetchData(
             failure = {
@@ -27,7 +32,11 @@ class MainViewModel @Inject constructor(
             }
         ) {
             conf.getString(RemoteConfigKeys.CourseDetails.value)
-                .let { pref.edit().putString(SharePrefKeys.CourseDetails.name, it).apply() }
+                .let {
+                    _courseDetail.value =
+                        fromJSON(it, CourseDetails::class.java) ?: defaultCourseSem
+                    pref.edit().putString(SharePrefKeys.CourseDetails.name, it).apply()
+                }
             conf.getString(RemoteConfigKeys.KeyToggleSyllabusSource.value)
                 .let {
                     pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()

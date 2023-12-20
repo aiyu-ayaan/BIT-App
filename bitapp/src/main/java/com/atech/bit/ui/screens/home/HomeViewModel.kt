@@ -105,6 +105,20 @@ class HomeViewModel @Inject constructor(
                 if (event.isOnline) getOnlineSubjects()
                 else getAllSubjects()
             }
+
+            is HomeScreenEvents.OnCourseChange -> {
+                course.value = event.value.first
+                sem.value = event.value.second
+                _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
+                    course.value + sem.value
+                )
+                viewModelScope.launch {
+                    dateStoreCase.updateCourse.invoke(event.value.first)
+                    dateStoreCase.updateSem.invoke(event.value.second)
+                }
+                if (isOnlineSyllabusEnable.value) getOnlineSubjects()
+                else getAllSubjects()
+            }
         }
     }
 

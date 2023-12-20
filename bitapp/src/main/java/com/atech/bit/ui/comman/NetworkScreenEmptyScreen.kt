@@ -1,5 +1,6 @@
 package com.atech.bit.ui.comman
 
+import androidx.annotation.RawRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -67,6 +68,23 @@ fun EmptyScreen(
     LottieAnimation(
         modifier = modifier
             .size(300.dp),
+        composition = composition,
+        progress = { progress },
+    )
+}
+
+@Composable
+fun LottieAnim(
+    modifier: Modifier = Modifier,
+    @RawRes res: Int
+) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(res))
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever
+    )
+    LottieAnimation(
+        modifier = modifier,
         composition = composition,
         progress = { progress },
     )
