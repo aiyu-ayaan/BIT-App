@@ -80,4 +80,6 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="dark_mode">Dark Mode</string>
+    <string name="by_puppeteers">By Puppeteers</string>
+    <string name="version">Version %1$s</string>
 </resources>

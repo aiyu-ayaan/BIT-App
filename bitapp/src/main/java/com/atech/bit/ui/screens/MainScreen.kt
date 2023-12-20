@@ -14,9 +14,11 @@ import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -29,6 +31,7 @@ import androidx.compose.material.icons.rounded.CollectionsBookmark
 import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material3.DismissibleDrawerSheet
 import androidx.compose.material3.DismissibleNavigationDrawer
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
@@ -68,11 +71,14 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.comman.NavHeader
+import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.BitAppNavigationGraph
 import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.navigation.listOfFragmentsWithBottomAppBar
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
+import com.atech.bit.ui.theme.dividerOrCardColor
 import com.atech.bit.ui.theme.grid_0_5
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.ui.theme.grid_3
@@ -232,6 +238,11 @@ fun NavDrawer(
         drawerShape = RoundedCornerShape(grid_2)
     ) {
         LazyColumn {
+            singleElement (
+                "Header"
+            ){
+                NavHeader()
+            }
             items(navDrawerItem) {
                 it.first?.let { title ->
                     Text(
