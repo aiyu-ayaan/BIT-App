@@ -1,4 +1,4 @@
-package com.atech.bit.ui.screens.home.screen.notice
+package com.atech.bit.ui.screens.notice
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

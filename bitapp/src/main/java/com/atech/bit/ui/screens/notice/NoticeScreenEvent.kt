@@ -1,4 +1,4 @@
-package com.atech.bit.ui.screens.home.screen.notice
+package com.atech.bit.ui.screens.notice
 
 import com.atech.core.datasource.firebase.firestore.NoticeModel
 

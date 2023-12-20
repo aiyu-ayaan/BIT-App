@@ -24,6 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -32,6 +33,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.activity.toggleDrawer
 import com.atech.bit.ui.comman.BottomPadding
+import com.atech.bit.ui.comman.DevNote
+import com.atech.bit.ui.comman.GITHUB_LINK
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.CourseScreenRoute
@@ -44,6 +47,7 @@ import com.atech.bit.ui.screens.home.HomeScreenEvents
 import com.atech.bit.ui.screens.home.HomeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
+import com.atech.bit.utils.openLinks
 import com.atech.core.usecase.SyllabusUIModel
 
 @Composable
@@ -62,6 +66,7 @@ fun HomeScreen(
     val holiday = viewModel.holidays.value
     val events = viewModel.events.value
     val cgpa = viewModel.currentCgpa.value
+    val context = LocalContext.current
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
         SearchToolBar(query = query,
@@ -124,6 +129,11 @@ fun HomeScreen(
                 CgpaHomeElement(
                     cgpa = cgpa
                 )
+            }
+            singleElement(key = "DevNote") {
+                DevNote(onClick = {
+                    GITHUB_LINK.openLinks(context)
+                })
             }
             singleElement(key = "BottomPadding") { BottomPadding() }
         }

@@ -163,6 +163,7 @@ class HomeViewModel @Inject constructor(
                 retrofitUseCase.fetchSyllabus("${course.value}${sem.value}".lowercase())
         } catch (e: Exception) {
             Log.d("AAA", "getOnlineSubjects: ${e.message}")
+            _isOnlineSyllabusEnable.value = false
 //            onEvent(CourseEvents.ErrorDuringLoadingError("Can't load online syllabus. Check your internet connection."))
         }
     }

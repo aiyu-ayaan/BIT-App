@@ -5,9 +5,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.screens.home.compose.HomeScreen
-import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
-import com.atech.bit.ui.screens.home.screen.notice.detail.compose.NoticeDetailScreen
-import com.atech.bit.ui.screens.home.screen.notice.notice.compose.NoticeScreen
+import com.atech.bit.ui.screens.notice.NoticeViewModel
+import com.atech.bit.ui.screens.notice.detail.compose.NoticeDetailScreen
+import com.atech.bit.ui.screens.notice.notice.compose.NoticeScreen
 import com.atech.bit.utils.animatedComposable
 import com.atech.bit.utils.fadeThroughComposable
 import com.atech.bit.utils.sharedViewModel

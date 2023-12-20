@@ -1,4 +1,4 @@
-package com.atech.bit.ui.screens.home.screen.notice.detail.compose
+package com.atech.bit.ui.screens.notice.detail.compose
 
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
@@ -44,7 +44,7 @@ import com.atech.bit.ui.comman.ImageLoader
 import com.atech.bit.ui.comman.getImageLinkNotification
 import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.navigateWithDeepLink
-import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
+import com.atech.bit.ui.screens.notice.NoticeViewModel
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.utils.openLinks
 import com.atech.core.datasource.firebase.firestore.Attach

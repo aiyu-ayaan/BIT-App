@@ -1,4 +1,4 @@
-package com.atech.bit.ui.screens.home.screen.notice.notice.compose
+package com.atech.bit.ui.screens.notice.notice.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -19,8 +19,8 @@ import com.atech.bit.ui.comman.NoticeItem
 import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.NoticeScreenRoute
 import com.atech.bit.ui.navigation.navigateWithDeepLink
-import com.atech.bit.ui.screens.home.screen.notice.NoticeScreenEvent
-import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
+import com.atech.bit.ui.screens.notice.NoticeScreenEvent
+import com.atech.bit.ui.screens.notice.NoticeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 
 
