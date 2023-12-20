@@ -59,6 +59,7 @@ fun HomeScreen(
     val pe = viewModel.pe.collectAsLazyPagingItems()
     val onlineData = viewModel.onlineSyllabus.value
     val holiday = viewModel.holidays.value
+    val events = viewModel.events.value
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
         SearchToolBar(query = query,
@@ -115,6 +116,10 @@ fun HomeScreen(
                     Screen.HolidayScreen.route
                 )
             })
+            showEvents(
+                items = events,
+                getAttach = viewModel.firebaseCase.getAttach
+            )
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }
@@ -128,8 +133,8 @@ private fun navigateToViewSyllabus(
 ) {
     navController.navigate(
         CourseScreenRoute.ViewSubjectScreen.route
-                + "?course=${(viewModel._course.value).lowercase()}"
-                + "&courseSem=${if (isOnlineEnable) "${viewModel._course.value}${viewModel._sem.value}".lowercase() else model.openCode}"
+                + "?course=${(viewModel.course.value).lowercase()}"
+                + "&courseSem=${if (isOnlineEnable) "${viewModel.course.value}${viewModel.sem.value}".lowercase() else model.openCode}"
                 + "&subject=${model.subject}"
                 + "&isOnline=$isOnlineEnable"
     )

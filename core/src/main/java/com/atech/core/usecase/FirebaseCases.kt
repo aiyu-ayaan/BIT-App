@@ -14,7 +14,8 @@ import javax.inject.Inject
 
 data class FirebaseCase @Inject constructor(
     val getEvent: GetEvent,
-    val getNotice: GetNotice
+    val getNotice: GetNotice,
+    val getAttach: GetAttach
 )
 
 enum class Db(val value: String) {

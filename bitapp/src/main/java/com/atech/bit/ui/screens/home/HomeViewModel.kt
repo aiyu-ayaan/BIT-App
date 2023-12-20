@@ -10,6 +10,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.compareToCourseSem
+import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.retrofit.model.Holiday
 import com.atech.core.datasource.retrofit.model.HolidayType
 import com.atech.core.datasource.room.syllabus.SubjectType
@@ -37,7 +38,7 @@ class HomeViewModel @Inject constructor(
     private val syllabusUSeCase: SyllabusUseCase,
     private val retrofitUseCase: KTorUseCase,
     private val dateStoreCase: DataStoreCases,
-    private val firebaseCase: FirebaseCase,
+    val firebaseCase: FirebaseCase,
     private val pref: SharedPreferences,
     calendar: Calendar,
 ) : ViewModel() {
@@ -59,8 +60,8 @@ class HomeViewModel @Inject constructor(
     val isOnlineSyllabusEnable: State<Boolean> get() = _isOnlineSyllabusEnable
 
     private var _dateStoreJob: Job? = null
-    val _course = mutableStateOf("BCA")
-    val _sem = mutableStateOf("1")
+    val course = mutableStateOf("BCA")
+    val sem = mutableStateOf("1")
 
     private val _theory: MutableStateFlow<PagingData<SyllabusUIModel>> =
         MutableStateFlow(PagingData.empty())
@@ -88,6 +89,11 @@ class HomeViewModel @Inject constructor(
     private val _holidays = mutableStateOf<List<Holiday>>(emptyList())
     val holidays: State<List<Holiday>> get() = _holidays
 
+    private val _fetchEvents = mutableStateOf<List<EventModel>>(emptyList())
+    val events: State<List<EventModel>> get() = _fetchEvents
+
+    private var job: Job? = null
+
     fun onEvent(event: HomeScreenEvents) {
         when (event) {
             is HomeScreenEvents.ToggleOnlineSyllabusClick -> {
@@ -104,39 +110,40 @@ class HomeViewModel @Inject constructor(
     init {
         getDataStore()
         _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
-            _course.value + _sem.value
+            course.value + sem.value
         )
         if (isOnlineSyllabusEnable.value) getOnlineSubjects()
         else getAllSubjects()
         getHolidays()
+        getAllEvents()
     }
 
     private fun getDataStore() {
         _dateStoreJob?.cancel()
         _dateStoreJob = dateStoreCase.getAll.invoke().onEach {
-            _course.value = it.course
-            _sem.value = it.sem
+            course.value = it.course
+            sem.value = it.sem
         }.launchIn(viewModelScope)
     }
 
     private fun getAllSubjects() {
         theoryJob?.cancel()
         theoryJob = syllabusUSeCase.getSubjectsByType(
-            courseSem = "${_course.value}${_sem.value}".lowercase(), type = SubjectType.THEORY
+            courseSem = "${course.value}${sem.value}".lowercase(), type = SubjectType.THEORY
         ).cachedIn(viewModelScope).onEach {
             _theory.value = it
         }.launchIn(viewModelScope)
 
         labJob?.cancel()
         labJob = syllabusUSeCase.getSubjectsByType(
-            courseSem = "${_course.value}${_sem.value}".lowercase(), type = SubjectType.LAB
+            courseSem = "${course.value}${sem.value}".lowercase(), type = SubjectType.LAB
         ).cachedIn(viewModelScope).onEach {
             _lab.value = it
         }.launchIn(viewModelScope)
 
         peJob?.cancel()
         peJob = syllabusUSeCase.getSubjectsByType(
-            courseSem = "${_course.value}${_sem.value}".lowercase(), type = SubjectType.PE
+            courseSem = "${course.value}${sem.value}".lowercase(), type = SubjectType.PE
         ).cachedIn(viewModelScope).onEach {
             _pe.value = it
         }.launchIn(viewModelScope)
@@ -148,7 +155,7 @@ class HomeViewModel @Inject constructor(
                 emptyList(), emptyList(), emptyList()
             )
             _onlineSyllabus.value =
-                retrofitUseCase.fetchSyllabus("${_course.value}${_sem.value}".lowercase())
+                retrofitUseCase.fetchSyllabus("${course.value}${sem.value}".lowercase())
         } catch (e: Exception) {
             Log.d("AAA", "getOnlineSubjects: ${e.message}")
 //            onEvent(CourseEvents.ErrorDuringLoadingError("Can't load online syllabus. Check your internet connection."))
@@ -165,5 +172,12 @@ class HomeViewModel @Inject constructor(
         } catch (e: Exception) {
             _holidays.value = emptyList()
         }
+    }
+
+    private fun getAllEvents() {
+        job?.cancel()
+        job = firebaseCase.getEvent().onEach {
+            _fetchEvents.value = it
+        }.launchIn(viewModelScope)
     }
 }
