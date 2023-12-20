@@ -53,7 +53,7 @@ import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.utils.openLinks
 import com.atech.core.datasource.firebase.firestore.Attach
-import com.atech.core.datasource.firebase.firestore.Db
+import com.atech.core.usecase.Db
 import com.atech.core.utils.getDate
 import io.sanghun.compose.video.VideoPlayer
 import io.sanghun.compose.video.controller.VideoPlayerControllerConfig

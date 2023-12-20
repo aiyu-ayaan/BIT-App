@@ -224,7 +224,7 @@ fun LazyListScope.onlineDataSource(
 
 
 @OptIn(ExperimentalFoundationApi::class)
-private fun LazyListScope.offlineDataSource(
+fun LazyListScope.offlineDataSource(
     theoryData: LazyPagingItems<SyllabusUIModel>,
     labData: LazyPagingItems<SyllabusUIModel>,
     peData: LazyPagingItems<SyllabusUIModel>,

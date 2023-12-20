@@ -7,6 +7,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.atech.bit.R
@@ -48,12 +51,16 @@ fun SearchToolBar(
     contents: @Composable () -> Unit = {}
 ) {
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .background(
+                MaterialTheme.colorScheme.surface
+            ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         SearchBar(
             modifier = Modifier
+                .semantics { traversalIndex = -1f }
                 .weight(1f)
                 .padding(start = if (!active) grid_1 else 0.dp),
             query = query,

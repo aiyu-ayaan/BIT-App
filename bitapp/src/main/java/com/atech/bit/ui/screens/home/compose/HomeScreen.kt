@@ -1,9 +1,22 @@
 package com.atech.bit.ui.screens.home.compose
 
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.Wifi
+import androidx.compose.material.icons.outlined.WifiOff
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -12,55 +25,131 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.activity.toggleDrawer
+import com.atech.bit.ui.comman.BottomPadding
+import com.atech.bit.ui.comman.ImageIconButton
+import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.HomeScreenRoutes
+import com.atech.bit.ui.screens.course.screen.sem_choose.offlineDataSource
+import com.atech.bit.ui.screens.course.screen.sem_choose.onlineDataSource
+import com.atech.bit.ui.screens.home.HomeScreenEvents
+import com.atech.bit.ui.screens.home.HomeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
+import com.atech.bit.ui.theme.grid_1
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     communicatorViewModel: MainViewModel,
-    navController: NavController
+    navController: NavController = rememberNavController(),
+    viewModel: HomeViewModel = hiltViewModel()
 ) {
     val isSearchBarActive = communicatorViewModel.isSearchActive.value
-    Scaffold(
-        modifier = modifier,
-        topBar = {
-            var query by remember { mutableStateOf("") }
-            SearchToolBar(
-                query = query,
-                onQueryChange = { query = it },
-                active = isSearchBarActive,
-                onActiveChange = { communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive) },
-                onTrailingIconClick = {
-                    communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive)
-                },
-                onLeadingIconClick = {
-                    communicatorViewModel.onEvent(
-                        MainViewModel.SharedEvents.ToggleDrawer(
-                            toggleDrawer(communicatorViewModel)
-                        )
+    val isOnlineEnable by viewModel.isOnlineSyllabusEnable
+    val theory = viewModel.theory.collectAsLazyPagingItems()
+    val lab = viewModel.lab.collectAsLazyPagingItems()
+    val pe = viewModel.pe.collectAsLazyPagingItems()
+    val onlineData = viewModel.onlineSyllabus.value
+    Scaffold(modifier = modifier, topBar = {
+        var query by remember { mutableStateOf("") }
+        SearchToolBar(query = query,
+            onQueryChange = { query = it },
+            active = isSearchBarActive,
+            onActiveChange = { communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive) },
+            onTrailingIconClick = {
+                communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive)
+            },
+            onLeadingIconClick = {
+                communicatorViewModel.onEvent(
+                    MainViewModel.SharedEvents.ToggleDrawer(
+                        toggleDrawer(communicatorViewModel)
                     )
-                },
-                onNotificationClick = {
-                    navController.navigate(
-                        HomeScreenRoutes.NoticeScreen.route
-                    )
-                }
-            )
-        }
-    ) {
+                )
+            },
+            onNotificationClick = {
+                navController.navigate(
+                    HomeScreenRoutes.NoticeScreen.route
+                )
+            })
+    }) {
         LazyColumn(
             modifier = Modifier.consumeWindowInsets(it),
             contentPadding = it
         ) {
-            items(1) {
-                Text(text = "Home")
+            singleElement(key = "Header") {
+                HeaderCompose(isEnable = isOnlineEnable, onEnableChange = { currentState ->
+                    viewModel.onEvent(
+                        HomeScreenEvents.ToggleOnlineSyllabusClick(
+                            currentState
+                        )
+                    )
+                })
             }
+
+            if (isOnlineEnable) onlineDataSource(
+                onlineData.first,
+                onlineData.second,
+                onlineData.third,
+            )
+            else offlineDataSource(
+                theoryData = theory,
+                labData = lab,
+                peData = pe,
+            )
+            singleElement(key = "BottomPadding") { BottomPadding() }
         }
+    }
+}
+
+@Composable
+private fun HeaderCompose(
+    modifier: Modifier = Modifier,
+    isEnable: Boolean = false,
+    onEnableChange: (Boolean) -> Unit = {},
+    onEditClick: () -> Unit = {},
+    onSettingClick: () -> Unit = {}
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = grid_1, top = grid_1),
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Your Subjects",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.weight(1f)
+        )
+        Switch(colors = SwitchDefaults.colors(
+            checkedIconColor = MaterialTheme.colorScheme.primary
+        ), checked = isEnable, onCheckedChange = {
+            onEnableChange.invoke(it)
+        }, thumbContent = {
+            Icon(
+                modifier = Modifier.size(SwitchDefaults.IconSize),
+                imageVector = if (isEnable) Icons.Outlined.Wifi
+                else Icons.Outlined.WifiOff,
+                contentDescription = null
+            )
+        })
+        AnimatedVisibility(visible = !isEnable) {
+            ImageIconButton(
+                icon = Icons.Outlined.Edit,
+                tint = MaterialTheme.colorScheme.primary,
+                onClick = onEditClick
+            )
+        }
+        ImageIconButton(
+            icon = Icons.Outlined.Settings,
+            tint = MaterialTheme.colorScheme.primary,
+            onClick = onSettingClick
+        )
     }
 }
 
@@ -69,6 +158,6 @@ fun HomeScreen(
 @Composable
 fun HomeScreenPreview() {
     BITAppTheme {
-
+        HeaderCompose()
     }
 }

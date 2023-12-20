@@ -1,6 +1,9 @@
-package com.atech.core.datasource.firebase.firestore
+package com.atech.core.usecase
 
 
+import com.atech.core.datasource.firebase.firestore.Attach
+import com.atech.core.datasource.firebase.firestore.EventModel
+import com.atech.core.datasource.firebase.firestore.NoticeModel
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.snapshots

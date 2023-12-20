@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.firebase.firestore.EventModel
-import com.atech.core.datasource.firebase.firestore.FirebaseCase
-import com.atech.core.datasource.firebase.firestore.GetAttach
+import com.atech.core.usecase.FirebaseCase
+import com.atech.core.usecase.GetAttach
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn

@@ -48,7 +48,7 @@ import com.atech.bit.ui.screens.home.screen.notice.NoticeViewModel
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.utils.openLinks
 import com.atech.core.datasource.firebase.firestore.Attach
-import com.atech.core.datasource.firebase.firestore.Db
+import com.atech.core.usecase.Db
 import com.atech.core.utils.getDate
 import kotlinx.coroutines.launch
 
@@ -141,7 +141,8 @@ fun NoticeDetailScreen(
             )
             Spacer(modifier = Modifier.height(grid_1))
             scope.launch {
-                viewModel.getAttach.invoke(Db.Notice,
+                viewModel.getAttach.invoke(
+                    Db.Notice,
                     notice.path!!, action = { attaches ->
                         attach = attaches
                     })

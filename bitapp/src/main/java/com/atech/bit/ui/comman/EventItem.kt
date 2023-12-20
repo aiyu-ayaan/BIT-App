@@ -37,9 +37,9 @@ import com.atech.bit.ui.theme.dividerOrCardColor
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
 import com.atech.core.datasource.firebase.firestore.Attach
-import com.atech.core.datasource.firebase.firestore.Db
+import com.atech.core.usecase.Db
 import com.atech.core.datasource.firebase.firestore.EventModel
-import com.atech.core.datasource.firebase.firestore.GetAttach
+import com.atech.core.usecase.GetAttach
 import com.atech.core.datasource.firebase.firestore.NoticeModel
 import com.atech.core.utils.getDate
 import kotlinx.coroutines.launch
