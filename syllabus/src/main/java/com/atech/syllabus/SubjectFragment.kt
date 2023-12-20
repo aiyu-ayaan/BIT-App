@@ -18,8 +18,6 @@ fun getFragment(syllabusModel: String) =
         else -> {
             R.layout.fragment_no_sylabus_found
         }
-    }.also {
-        Log.d("AAA", "getFragment: $syllabusModel")
     }
 
 

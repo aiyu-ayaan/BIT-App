@@ -109,7 +109,6 @@ fun ColumnScope.bottomSheetArchive(
                 model = model,
                 isCheckBoxVisible = true,
                 onSelect = { clickItems, isSelected ->
-                    Log.d("AAA", "bottomSheetArchive: $isSelected")
                     viewModel.onEvent(
                         AttendanceEvent.ArchiveItemClick(
                             clickItems,

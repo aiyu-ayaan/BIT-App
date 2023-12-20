@@ -1,6 +1,5 @@
 package com.atech.bit.ui.screens.attendance.addedit
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -45,7 +44,6 @@ class AddEditViewModel @Inject constructor(
     val oneTimeEvent = _oneTimeEvent.asSharedFlow()
 
     init {
-        Log.d("AAA", " $fromAddFromSyllabus ")
         if (_id != -1) {
             getElement(_id)
         }

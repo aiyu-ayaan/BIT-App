@@ -29,7 +29,7 @@ data class Devs(
 //----------------------------------- Holiday -----------------------------------
 
 enum class HolidayType(val value : String){
-    ALL("main") , RES("res")
+    MAIN("main") , RES("res"), ALL("ALL")
 }
 @Keep
 class HolidayModel(

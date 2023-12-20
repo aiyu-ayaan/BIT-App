@@ -34,13 +34,16 @@ import com.atech.bit.ui.activity.toggleDrawer
 import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.singleElement
+import com.atech.bit.ui.navigation.CourseScreenRoute
 import com.atech.bit.ui.navigation.HomeScreenRoutes
+import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.screens.course.screen.sem_choose.offlineDataSource
 import com.atech.bit.ui.screens.course.screen.sem_choose.onlineDataSource
 import com.atech.bit.ui.screens.home.HomeScreenEvents
 import com.atech.bit.ui.screens.home.HomeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
+import com.atech.core.usecase.SyllabusUIModel
 
 @Composable
 fun HomeScreen(
@@ -55,6 +58,7 @@ fun HomeScreen(
     val lab = viewModel.lab.collectAsLazyPagingItems()
     val pe = viewModel.pe.collectAsLazyPagingItems()
     val onlineData = viewModel.onlineSyllabus.value
+    val holiday = viewModel.holidays.value
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
         SearchToolBar(query = query,
@@ -78,8 +82,7 @@ fun HomeScreen(
             })
     }) {
         LazyColumn(
-            modifier = Modifier.consumeWindowInsets(it),
-            contentPadding = it
+            modifier = Modifier.consumeWindowInsets(it), contentPadding = it
         ) {
             singleElement(key = "Header") {
                 HeaderCompose(isEnable = isOnlineEnable, onEnableChange = { currentState ->
@@ -95,15 +98,41 @@ fun HomeScreen(
                 onlineData.first,
                 onlineData.second,
                 onlineData.third,
+                onClick = { model ->
+                    navigateToViewSyllabus(navController, viewModel, true, model)
+                }
             )
             else offlineDataSource(
                 theoryData = theory,
                 labData = lab,
                 peData = pe,
+                onClick = { model ->
+                    navigateToViewSyllabus(navController, viewModel, false, model)
+                }
             )
+            showHoliday(holiday, endItem = "View All", endItemClick = {
+                navController.navigate(
+                    Screen.HolidayScreen.route
+                )
+            })
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }
+}
+
+private fun navigateToViewSyllabus(
+    navController: NavController,
+    viewModel: HomeViewModel,
+    isOnlineEnable: Boolean,
+    model: SyllabusUIModel
+) {
+    navController.navigate(
+        CourseScreenRoute.ViewSubjectScreen.route
+                + "?course=${(viewModel._course.value).lowercase()}"
+                + "&courseSem=${if (isOnlineEnable) "${viewModel._course.value}${viewModel._sem.value}".lowercase() else model.openCode}"
+                + "&subject=${model.subject}"
+                + "&isOnline=$isOnlineEnable"
+    )
 }
 
 @Composable

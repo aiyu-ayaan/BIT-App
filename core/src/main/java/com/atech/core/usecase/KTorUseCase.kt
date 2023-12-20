@@ -5,6 +5,7 @@ import com.atech.core.datasource.retrofit.BitAppApiService
 import com.atech.core.datasource.retrofit.model.Holiday
 import com.atech.core.datasource.retrofit.model.HolidayType
 import com.atech.core.datasource.retrofit.model.Subject
+import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -13,7 +14,7 @@ class KTorUseCase @Inject constructor(
     val fetchSubjectMarkDown: FetchSubjectMarkDown,
     val fetchHolidays: FetchHolidays,
     val fetchSociety: FetchSociety,
-    val fetchAdministration: FetchAdministration
+    val fetchAdministration: FetchAdministration,
 )
 
 data class FetchSyllabus @Inject constructor(
@@ -28,7 +29,6 @@ data class FetchSyllabus @Inject constructor(
             course = courseWithSem.replace("\\d".toRegex(), ""),
             courseSem = courseWithSem
         )
-        Log.d("AAA", "invoke: ${res.semester?.subjects}")
         if (res.semester?.subjects == null) {
             throw Exception("No data found")
         }
@@ -62,9 +62,14 @@ data class FetchHolidays @Inject constructor(
 ) {
     @Throws(Exception::class)
     suspend operator fun invoke(
-        type: HolidayType
+        type: HolidayType,
+        month: String = ""
     ): List<Holiday> = try {
-        api.getHoliday().holidays.filter { it.type == type.value }
+        api.getHoliday().holidays
+            .let {
+                if (type == HolidayType.ALL) it.filter { holiday -> holiday.month == month }
+                else it.filter { holiday -> holiday.type == type.value }
+            }
     } catch (e: Exception) {
         throw e
     }

@@ -86,7 +86,6 @@ class LibraryManagerViewModel @Inject constructor(
     fun onEvent(event: LibraryEvent) {
         when (event) {
             is LibraryEvent.NavigateToAddEditScreen -> {
-                Log.d("AAA", "onEvent: ${event.model}")
                 _currentClickLibraryModel.value = event.model
                 if (event.model != null) {
                     _bookId.value = event.model.bookId

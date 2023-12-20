@@ -30,7 +30,6 @@ fun ViewImageScreen(
     navController: NavController = rememberNavController(),
     link: String = ""
 ) {
-    Log.d("AAA", "ViewImageScreen: $link")
     Scaffold(
         modifier = modifier,
         topBar = {

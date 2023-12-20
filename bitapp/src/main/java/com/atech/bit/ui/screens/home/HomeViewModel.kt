@@ -10,6 +10,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.compareToCourseSem
+import com.atech.core.datasource.retrofit.model.Holiday
+import com.atech.core.datasource.retrofit.model.HolidayType
 import com.atech.core.datasource.room.syllabus.SubjectType
 import com.atech.core.usecase.DataStoreCases
 import com.atech.core.usecase.FirebaseCase
@@ -26,6 +28,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,9 +38,13 @@ class HomeViewModel @Inject constructor(
     private val retrofitUseCase: KTorUseCase,
     private val dateStoreCase: DataStoreCases,
     private val firebaseCase: FirebaseCase,
-    private val pref: SharedPreferences
+    private val pref: SharedPreferences,
+    calendar: Calendar,
 ) : ViewModel() {
 
+    private val currentMonth = calendar.getDisplayName(
+        Calendar.MONTH, Calendar.LONG, Locale.ENGLISH
+    ) ?: "January"
     private val syllabusEnableModel: SyllabusEnableModel by lazy {
         pref.getString(
             SharePrefKeys.KeyToggleSyllabusSource.name, SYLLABUS_SOURCE_DATA
@@ -51,8 +59,8 @@ class HomeViewModel @Inject constructor(
     val isOnlineSyllabusEnable: State<Boolean> get() = _isOnlineSyllabusEnable
 
     private var _dateStoreJob: Job? = null
-    private val _course = mutableStateOf("BCA")
-    private val _sem = mutableStateOf("1")
+    val _course = mutableStateOf("BCA")
+    val _sem = mutableStateOf("1")
 
     private val _theory: MutableStateFlow<PagingData<SyllabusUIModel>> =
         MutableStateFlow(PagingData.empty())
@@ -76,6 +84,10 @@ class HomeViewModel @Inject constructor(
         )
     val onlineSyllabus: State<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>> get() = _onlineSyllabus
 
+
+    private val _holidays = mutableStateOf<List<Holiday>>(emptyList())
+    val holidays: State<List<Holiday>> get() = _holidays
+
     fun onEvent(event: HomeScreenEvents) {
         when (event) {
             is HomeScreenEvents.ToggleOnlineSyllabusClick -> {
@@ -96,7 +108,7 @@ class HomeViewModel @Inject constructor(
         )
         if (isOnlineSyllabusEnable.value) getOnlineSubjects()
         else getAllSubjects()
-
+        getHolidays()
     }
 
     private fun getDataStore() {
@@ -141,6 +153,17 @@ class HomeViewModel @Inject constructor(
             Log.d("AAA", "getOnlineSubjects: ${e.message}")
 //            onEvent(CourseEvents.ErrorDuringLoadingError("Can't load online syllabus. Check your internet connection."))
         }
+    }
 
+    private fun getHolidays(
+    ) = viewModelScope.launch {
+        try {
+            _holidays.value = retrofitUseCase.fetchHolidays.invoke(
+                HolidayType.ALL,
+                month = currentMonth
+            )
+        } catch (e: Exception) {
+            _holidays.value = emptyList()
+        }
     }
 }

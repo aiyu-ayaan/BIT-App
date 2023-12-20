@@ -29,7 +29,7 @@ class HolidayViewModel @Inject constructor(
 
     fun onEvent(selectedTabIndex: Int) {
         if (selectedTabIndex == 1) getHolidays(HolidayType.RES)
-        else getHolidays(HolidayType.ALL)
+        else getHolidays(HolidayType.MAIN)
     }
 
     init {
@@ -37,7 +37,7 @@ class HolidayViewModel @Inject constructor(
     }
 
     private fun getHolidays(
-        type: HolidayType = HolidayType.ALL
+        type: HolidayType = HolidayType.MAIN
     ) = viewModelScope.launch {
         try {
             _holidays.value = case.fetchHolidays.invoke(type)
