@@ -20,7 +20,7 @@ ktorClientAndroid = "1.6.3"
 ktorClientCore = "1.6.3"
 ktorClientLogging = "1.6.3"
 lifecycleRuntimeKtx = "2.6.2"
-activityCompose = "1.8.1"
+activityCompose = "1.8.2"
 composeBom = "2023.10.01"
 logbackClassic = "1.2.3"
 lottieCompose = "6.2.0"
@@ -43,15 +43,16 @@ junit = "4.13.2"
 junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 appcompat = "1.6.1"
-material = "1.10.0"
+material = "1.11.0"
 gson-version = "2.10.1"
 urlImageloader = "1.0.6"
-navigationCommonKtx = "2.7.5"
+navigationCommonKtx = "2.7.6"
 firebaseBom = "32.7.0"
 pagingCommonKtx = "3.2.1"
 calendarVersion = "3.0.0"
 retrofit-version = "2.9.0"
 browser = "1.7.0"
+graphVersion = "v3.1.0"
 
 
 [libraries]
@@ -120,6 +121,7 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-version" }
 retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-version" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
+graph = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "graphVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

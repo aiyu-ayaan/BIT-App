@@ -10,6 +10,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.atech.bit.utils.SyllabusEnableModel
 import com.atech.bit.utils.compareToCourseSem
+import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.retrofit.model.Holiday
 import com.atech.core.datasource.retrofit.model.HolidayType
@@ -76,6 +77,9 @@ class HomeViewModel @Inject constructor(
     val pe get() = _pe.asStateFlow()
     private var peJob: Job? = null
 
+    private val _currentCgpa = mutableStateOf(Cgpa())
+    val currentCgpa: State<Cgpa> get() = _currentCgpa
+
 
     private var _onlineSyllabus =
         mutableStateOf<Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>>>(
@@ -123,6 +127,7 @@ class HomeViewModel @Inject constructor(
         _dateStoreJob = dateStoreCase.getAll.invoke().onEach {
             course.value = it.course
             sem.value = it.sem
+            _currentCgpa.value = it.cgpa
         }.launchIn(viewModelScope)
     }
 

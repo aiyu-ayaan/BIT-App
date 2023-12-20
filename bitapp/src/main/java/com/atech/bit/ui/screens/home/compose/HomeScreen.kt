@@ -61,6 +61,7 @@ fun HomeScreen(
     val onlineData = viewModel.onlineSyllabus.value
     val holiday = viewModel.holidays.value
     val events = viewModel.events.value
+    val cgpa = viewModel.currentCgpa.value
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
         SearchToolBar(query = query,
@@ -95,36 +96,35 @@ fun HomeScreen(
                     )
                 })
             }
-
-            if (isOnlineEnable) onlineDataSource(
-                onlineData.first,
+            if (isOnlineEnable) onlineDataSource(onlineData.first,
                 onlineData.second,
                 onlineData.third,
                 onClick = { model ->
                     navigateToViewSyllabus(navController, viewModel, true, model)
-                }
-            )
-            else offlineDataSource(
-                theoryData = theory,
+                })
+            else offlineDataSource(theoryData = theory,
                 labData = lab,
                 peData = pe,
                 onClick = { model ->
                     navigateToViewSyllabus(navController, viewModel, false, model)
-                }
-            )
+                })
             showHoliday(holiday, endItem = "View All", endItemClick = {
                 navController.navigate(
                     Screen.HolidayScreen.route
                 )
             })
-            showEvents(
-                items = events,
+            showEvents(items = events,
                 getAttach = viewModel.firebaseCase.getAttach,
                 onClick = { event ->
-                    navController.navigate(EventRoute.DetailScreen.route
-                            + "?eventId=${event.created}")
-                }
-            )
+                    navController.navigate(
+                        EventRoute.DetailScreen.route + "?eventId=${event.created}"
+                    )
+                })
+            singleElement(key = "CGPA") {
+                CgpaHomeElement(
+                    cgpa = cgpa
+                )
+            }
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
     }
@@ -137,11 +137,7 @@ private fun navigateToViewSyllabus(
     model: SyllabusUIModel
 ) {
     navController.navigate(
-        CourseScreenRoute.ViewSubjectScreen.route
-                + "?course=${(viewModel.course.value).lowercase()}"
-                + "&courseSem=${if (isOnlineEnable) "${viewModel.course.value}${viewModel.sem.value}".lowercase() else model.openCode}"
-                + "&subject=${model.subject}"
-                + "&isOnline=$isOnlineEnable"
+        CourseScreenRoute.ViewSubjectScreen.route + "?course=${(viewModel.course.value).lowercase()}" + "&courseSem=${if (isOnlineEnable) "${viewModel.course.value}${viewModel.sem.value}".lowercase() else model.openCode}" + "&subject=${model.subject}" + "&isOnline=$isOnlineEnable"
     )
 }
 
