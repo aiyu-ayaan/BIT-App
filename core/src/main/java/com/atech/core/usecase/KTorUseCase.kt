@@ -1,5 +1,6 @@
 package com.atech.core.usecase
 
+import android.util.Log
 import com.atech.core.datasource.retrofit.BitAppApiService
 import com.atech.core.datasource.retrofit.model.Holiday
 import com.atech.core.datasource.retrofit.model.HolidayType
@@ -27,6 +28,7 @@ data class FetchSyllabus @Inject constructor(
             course = courseWithSem.replace("\\d".toRegex(), ""),
             courseSem = courseWithSem
         )
+        Log.d("AAA", "invoke: ${res.semester?.subjects}")
         if (res.semester?.subjects == null) {
             throw Exception("No data found")
         }

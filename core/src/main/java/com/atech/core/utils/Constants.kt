@@ -2,6 +2,9 @@ package com.atech.core.utils
 
 //const val TAG = "Aiyu"
 
+
+const val cacheSize = (40 * 1024 * 1024).toLong()
+
 enum class AppTheme { Light, Dark, Sys }
 enum class TAGS {
     BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE
@@ -17,7 +20,7 @@ enum class SharePrefKeys {
     SetUpDone, AppThemeState, NewShowUninstallDialog, KeyAppOpenMinimumTime,
     ShowTimes, KeyAnnVersion, CurrentShowTime,
     IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
-    FirstTimeLogIn, CourseDetails,SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME
+    FirstTimeLogIn, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME
 }
 
 const val SYLLABUS_SOURCE_DATA =

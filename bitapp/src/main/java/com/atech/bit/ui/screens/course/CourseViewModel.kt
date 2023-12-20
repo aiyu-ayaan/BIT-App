@@ -97,14 +97,14 @@ class CourseViewModel @Inject constructor(
         when (events) {
             is CourseEvents.NavigateToSemChoose -> {
                 _currentClickItem.value = events.model
-                _isSelected.value = syllabusEnableModel.compareToCourseSem(
-                    _currentClickItem.value.name + _currentSem.intValue
-                )
                 _currentSem.intValue =
                     pref.getInt(SharePrefKeys.ChooseSemLastSelectedSem.name, 1).let {
                         if (_currentClickItem.value.sem < it) _currentClickItem.value.sem
                         else it
                     }
+                _isSelected.value = syllabusEnableModel.compareToCourseSem(
+                    _currentClickItem.value.name + _currentSem.intValue
+                )
                 if (_isSelected.value) getOnlineSubjects()
                 else getAllSubjects()
             }
