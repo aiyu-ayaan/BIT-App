@@ -2,6 +2,7 @@ package com.atech.bit.ui.screens.event
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.firebase.firestore.EventModel
@@ -16,14 +17,18 @@ import javax.inject.Inject
 @HiltViewModel
 class EventViewModel @Inject constructor(
     private val firebaseCase: FirebaseCase,
-    val getAttach: GetAttach
+    val getAttach: GetAttach,
+    private val state: SavedStateHandle
 ) : ViewModel() {
+
+    val eventId = state.get<Long>("eventId") ?: -1L
+
     private val _fetchEvents = mutableStateOf<List<EventModel>>(emptyList())
     val fetchEvents: State<List<EventModel>> get() = _fetchEvents
 
     private var job: Job? = null
 
-    private val _currentClickEvent = mutableStateOf(null as EventModel?)
+    private val _currentClickEvent = mutableStateOf(EventModel())
     val currentClickEvent: State<EventModel?> get() = _currentClickEvent
 
 
@@ -42,6 +47,12 @@ class EventViewModel @Inject constructor(
         job?.cancel()
         job = firebaseCase.getEvent().onEach {
             _fetchEvents.value = it
+            if (eventId != -1L)
+                _currentClickEvent.value = it.find { it1 -> it1.created == eventId } ?: EventModel(
+                    title = "Something went wrong",
+                    content = "Try some time later !! 🥲🥹"
+                )
+
         }.launchIn(viewModelScope)
     }
 }

@@ -1,5 +1,6 @@
 package com.atech.bit.ui.screens.event.component.detail
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
@@ -87,11 +88,14 @@ fun EventDetailScreen(
                 })
         })
     }) {
-        if (event == null) {
+        Log.d("AAA", "EventDetailScreen: ${viewModel.eventId}")
+        if (event == null && viewModel.eventId == -1L) {
             Toast.makeText(context, "Something went wrong !!", Toast.LENGTH_SHORT).show()
             navController.navigateUp()
             return@Scaffold
         }
+
+        val nonNullEvent = event!!
         Column(
             modifier = Modifier
                 .padding(it)
@@ -99,7 +103,7 @@ fun EventDetailScreen(
                 .verticalScroll(scrollState)
         ) {
             Text(
-                text = event.title ?: "",
+                text = nonNullEvent.title ?: "",
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.headlineMedium,
@@ -114,7 +118,7 @@ fun EventDetailScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = event.society ?: "",
+                        text = nonNullEvent.society ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -129,7 +133,7 @@ fun EventDetailScreen(
                     )
                     Spacer(modifier = Modifier.width(grid_1))
                     Text(
-                        text = event.created?.getDate() ?: "",
+                        text = nonNullEvent.created?.getDate() ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -137,30 +141,32 @@ fun EventDetailScreen(
                 ImageLoader(
                     modifier = Modifier.size(
                         30.dp
-                    ), imageUrl = event.logo_link, isRounderCorner = true
+                    ), imageUrl = nonNullEvent.logo_link, isRounderCorner = true
                 )
             }
             Spacer(modifier = Modifier.height(grid_1))
             Text(
-                text = event.content ?: "",
+                text = nonNullEvent.content ?: "",
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge,
             )
-            Spacer(modifier = Modifier.height(grid_1))
-            scope.launch {
-                viewModel.getAttach.invoke(Db.Event, event.path!!, action = { attaches ->
-                    attach = attaches
-                })
+            if (!nonNullEvent.path.isNullOrEmpty()) {
+                Spacer(modifier = Modifier.height(grid_2))
+                scope.launch {
+                    viewModel.getAttach.invoke(Db.Event, nonNullEvent.path!!, action = { attaches ->
+                        attach = attaches
+                    })
+                }
+                AnimatedVisibility(attach.isNotEmpty()) {
+                    GridImageLayout(list = attach, onClick = { it1 ->
+                        navController.navigateWithDeepLink(
+                            DeepLinkRoutes.ViewImageRoute(it1)
+                        )
+                    })
+                }
             }
-            AnimatedVisibility(attach.isNotEmpty()) {
-                GridImageLayout(list = attach, onClick = { it1 ->
-                    navController.navigateWithDeepLink(
-                        DeepLinkRoutes.ViewImageRoute(it1)
-                    )
-                })
-            }
-            if (!event.video_link.isNullOrEmpty()) {
+            if (!nonNullEvent.video_link.isNullOrEmpty()) {
                 Spacer(modifier = Modifier.height(grid_2))
                 Text(
                     text = stringResource(R.string.attached_video),

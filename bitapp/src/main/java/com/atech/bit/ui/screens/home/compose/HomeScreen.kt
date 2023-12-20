@@ -35,6 +35,7 @@ import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.CourseScreenRoute
+import com.atech.bit.ui.navigation.EventRoute
 import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.screens.course.screen.sem_choose.offlineDataSource
@@ -118,7 +119,11 @@ fun HomeScreen(
             })
             showEvents(
                 items = events,
-                getAttach = viewModel.firebaseCase.getAttach
+                getAttach = viewModel.firebaseCase.getAttach,
+                onClick = { event ->
+                    navController.navigate(EventRoute.DetailScreen.route
+                            + "?eventId=${event.created}")
+                }
             )
             singleElement(key = "BottomPadding") { BottomPadding() }
         }

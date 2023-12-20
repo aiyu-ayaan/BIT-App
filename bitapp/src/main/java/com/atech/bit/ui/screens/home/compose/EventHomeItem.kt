@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,14 +37,15 @@ fun LazyListScope.showEvents(
     items: List<EventModel>,
     getAttach: GetAttach,
     endItem: String? = null,
-    endItemClick: (() -> Unit)? = null
+    endItemClick: (() -> Unit)? = null,
+    onClick: (EventModel) -> Unit = {}
 ) = this.apply {
     if (items.isEmpty()) {
         return@apply
     }
     singleElement(key = "event_title") {
         HomeTitle(
-            title = "Holidays", endItem = endItem, endItemClick = endItemClick
+            title = "Event", endItem = endItem, endItemClick = endItemClick
         )
     }
     singleElement(
@@ -57,7 +58,11 @@ fun LazyListScope.showEvents(
         ) {
             items(items.size) { index ->
                 HomeEventItems(
-                    model = items[index], getAttach = getAttach
+                    model = items[index],
+                    getAttach = getAttach,
+                    click = {
+                        onClick.invoke(items[index])
+                    }
                 )
             }
         }
@@ -71,7 +76,7 @@ fun HomeEventItems(
     getAttach: GetAttach,
     click: (() -> Unit) = {}
 ) {
-    var rememberImageLink by rememberSaveable {
+    var rememberImageLink by remember {
         mutableStateOf(model.logo_link)
     }
     LaunchedEffect(model.path) {
