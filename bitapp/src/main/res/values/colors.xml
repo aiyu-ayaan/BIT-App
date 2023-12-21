@@ -14,4 +14,6 @@
     <color name="textColorSubTitle">#FFFFFF</color>
     <color name="textColorSecondary">#99000000</color>
     <color name="textColorSecondary_oppo">#99FFFFFF</color>
+    <color name="colorSurface">#eefcfd</color>
+
 </resources>

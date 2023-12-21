@@ -139,6 +139,7 @@ dependencies {
     implementation(libs.androidx.media3.session) // [Required] MediaSession Extension dependency
     implementation(libs.media3.ui) // [Required] Base Player UI
 
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.graph)
 }

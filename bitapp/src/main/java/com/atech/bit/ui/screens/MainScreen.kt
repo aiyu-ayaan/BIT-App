@@ -9,6 +9,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.RowScope
@@ -68,6 +69,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.activity.ThemeMode
 import com.atech.bit.ui.comman.NavHeader
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.AppNavigationGraph
@@ -112,7 +114,13 @@ fun MainScreen(
         }
     }
     BITAppTheme(
-        statusBarColor = null
+        statusBarColor = null,
+        dynamicColor = communicatorViewModel.themeState.value.isDynamicColorActive,
+        darkTheme = when (communicatorViewModel.themeState.value.isDarkTheme) {
+            ThemeMode.LIGHT -> false
+            ThemeMode.DARK -> true
+            ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        }
     ) {
         DismissibleNavigationDrawer(
             drawerState = drawerSate,

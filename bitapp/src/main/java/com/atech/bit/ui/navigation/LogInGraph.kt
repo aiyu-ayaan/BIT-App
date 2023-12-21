@@ -30,7 +30,8 @@ fun NavGraphBuilder.logInScreenGraph(
             val viewModel = it.sharedViewModel<LogInViewModel>(navController = navController)
             LoginScreen(
                 navController = navController,
-                viewModel = viewModel
+                viewModel = viewModel,
+                communicatorViewModel = communicatorViewModel
             )
         }
         animatedComposable(

@@ -3,6 +3,7 @@ package com.atech.bit.ui.screens.login.screen.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
+import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.activity.ThemeMode
 import com.atech.bit.ui.comman.GoogleButton
 import com.atech.bit.ui.navigation.LogInRoutes
 import com.atech.bit.ui.screens.login.LogInViewModel
@@ -47,11 +50,18 @@ import com.atech.bit.ui.theme.image_view_log_in_size
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
-    viewModel: LogInViewModel = hiltViewModel()
+    viewModel: LogInViewModel = hiltViewModel(),
+    communicatorViewModel: MainViewModel = hiltViewModel()
 ) {
     var isDialogVisible by rememberSaveable { mutableStateOf(false) }
     BITAppTheme(
-        statusBarColor = AppLogo
+        statusBarColor = AppLogo,
+        dynamicColor = communicatorViewModel.themeState.value.isDynamicColorActive,
+        darkTheme = when (communicatorViewModel.themeState.value.isDarkTheme) {
+            ThemeMode.LIGHT -> false
+            ThemeMode.DARK -> true
+            ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        }
     ) {
         Column(
             modifier = modifier.fillMaxSize(),

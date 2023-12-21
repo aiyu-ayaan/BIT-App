@@ -1,5 +1,6 @@
 package com.atech.bit.ui.screens.login.screen.setup
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -29,6 +30,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.activity.ThemeMode
 import com.atech.bit.ui.comman.ChooseSemBottomSheet
 import com.atech.bit.ui.comman.LottieAnim
 import com.atech.bit.ui.navigation.TopLevelRoute
@@ -53,7 +55,13 @@ fun SetUpScreen(
         mutableStateOf(false)
     }
     BITAppTheme(
-        statusBarColor = null
+        statusBarColor = null,
+        dynamicColor = communicatorViewModel.themeState.value.isDynamicColorActive,
+        darkTheme = when (communicatorViewModel.themeState.value.isDarkTheme) {
+            ThemeMode.LIGHT -> false
+            ThemeMode.DARK -> true
+            ThemeMode.SYSTEM -> isSystemInDarkTheme()
+        }
     ) {
         Box(
             modifier = modifier

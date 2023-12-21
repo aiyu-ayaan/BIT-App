@@ -5,6 +5,7 @@ coil = "2.5.0"
 coilCompose = "2.5.0"
 coilSvg = "2.4.0"
 composeVideo = "1.2.0"
+coreSplashscreen = "1.0.1"
 datastorePreferences = "1.0.0"
 hiltAndroidCompiler = "2.48"
 hiltAndroid = "2.48"
@@ -59,6 +60,7 @@ play-service-auth = "20.6.0"
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hiltCompiler" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
