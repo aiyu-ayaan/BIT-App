@@ -26,6 +26,9 @@ fun CgpaHomeElement(
     modifier: Modifier = Modifier,
     cgpa: Cgpa = Cgpa()
 ) {
+    if (cgpa.isAllZero) {
+        return
+    }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -34,9 +37,6 @@ fun CgpaHomeElement(
     ) {
         val primaryColor = MaterialTheme.colorScheme.primary.toArgb()
         val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
-        if (cgpa.isAllZero) {
-            return
-        }
         HomeTitle(title = "GPA Graph")
         AndroidView(
             modifier = Modifier
