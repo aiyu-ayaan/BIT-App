@@ -45,7 +45,6 @@ fun NavGraphBuilder.aboutUsNavGraph(
         animatedComposable(
             route = AboutUsRoute.CreditScreen.route
         ) {
-            val viewModel = it.sharedViewModel<AboutUsViewModel>(navController = navHostController)
             CreditsScreen(
                 navController = navHostController,
             )

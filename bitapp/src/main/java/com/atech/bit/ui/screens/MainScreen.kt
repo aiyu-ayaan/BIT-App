@@ -78,6 +78,10 @@ import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.grid_0_5
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.ui.theme.grid_3
+import com.atech.bit.utils.openBugLink
+import com.atech.bit.utils.openReleaseNotes
+import com.atech.core.utils.openCustomChromeTab
+import com.atech.core.utils.openPlayStore
 import kotlinx.coroutines.launch
 
 
@@ -156,6 +160,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.whats_new,
             selectedIcon = R.drawable.ic_release_notes,
+            link = R.string.whats_new
         ), NavDrawer(
             title = R.string.issue,
             selectedIcon = R.drawable.ic_issue,
@@ -200,6 +205,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.feedback,
             selectedIcon = R.drawable.ic_mail,
+            link = R.string.feedback,
         )
     ), "Share & Rate" to listOf(
         NavDrawer(
@@ -208,6 +214,7 @@ val navDrawerItem = listOf(
         ), NavDrawer(
             title = R.string.rate_us,
             selectedIcon = R.drawable.ic_star,
+            route = "play_store"
         )
     ), "App Setting" to listOf(
         NavDrawer(
@@ -271,10 +278,10 @@ private fun ColumnScope.drawerItem(
     screen: NavDrawer,
     currentDestination: NavDestination?,
     navController: NavHostController,
-    onLinkClick: (String) -> Unit = {},
     closeAction: () -> Unit
 ) = this.apply {
     val context = LocalContext.current
+    val color = MaterialTheme.colorScheme.primary.toArgb()
     NavigationDrawerItem(
         modifier = Modifier
             .padding(
@@ -293,14 +300,30 @@ private fun ColumnScope.drawerItem(
         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
         onClick = {
             if (screen.link != null) {
-                onLinkClick.invoke(
-                    context
-                        .getString(screen.link)
+                if (screen.link == R.string.whats_new) {
+                    closeAction.invoke()
+                    context.openReleaseNotes(color)
+                    return@NavigationDrawerItem
+                }
+                if (screen.link == R.string.feedback) {
+                    closeAction.invoke()
+                    context.openBugLink()
+                    return@NavigationDrawerItem
+                }
+                closeAction.invoke()
+                context.openCustomChromeTab(
+                    context.getString(screen.link),
+                    color
                 )
                 return@NavigationDrawerItem
             }
             if (screen.route == "")
                 return@NavigationDrawerItem
+            if (screen.route == "play_store") {
+                context.openPlayStore(context.packageName)
+                closeAction.invoke()
+                return@NavigationDrawerItem
+            }
             closeAction()
             navController.navigate(screen.route) {
                 popUpTo(navController.graph.findStartDestination().id)

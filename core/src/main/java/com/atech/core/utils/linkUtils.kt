@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 
 
 const val PRIVACY_POLICY =
@@ -28,5 +30,20 @@ fun String.openLinks(context: Context) {
         Toast.makeText(
             context, e.message, Toast.LENGTH_SHORT
         ).show()
+    }
+}
+
+
+fun Context.openCustomChromeTab(link: String, color: Int) = this.run {
+    val defaultColors = CustomTabColorSchemeParams.Builder().setToolbarColor(
+        color
+    ).build()
+    try {
+        val customTabIntent =
+            CustomTabsIntent.Builder().setDefaultColorSchemeParams(defaultColors).build()
+        customTabIntent.intent.`package` = "com.android.chrome"
+        customTabIntent.launchUrl(this, Uri.parse(link))
+    } catch (e: Exception) {
+        Toast.makeText(this, "${e.message}", Toast.LENGTH_SHORT).show()
     }
 }

@@ -54,7 +54,7 @@ fun DevDetailsScreen(
 ) {
     val currentDev = viewModel.currentClickDev.value
     Scaffold(
-        modifier = Modifier,
+        modifier = modifier,
         topBar = {
             BackToolbar(
                 title = currentDev.name,

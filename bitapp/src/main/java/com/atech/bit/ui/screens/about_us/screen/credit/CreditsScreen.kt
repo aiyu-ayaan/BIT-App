@@ -42,7 +42,7 @@ fun CreditsScreen(
 ) {
     val context = LocalContext.current
     Scaffold(
-        modifier = Modifier,
+        modifier = modifier,
         topBar = {
             BackToolbar(
                 title = "Credits",

@@ -82,4 +82,14 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="by_puppeteers">By Puppeteers</string>
     <string name="version">Version %1$s</string>
+
+    <string name="bug_repost">BUG Report 😰</string>
+    <string name="bug_title">Send Mail</string>
+    <string name="gmail_package">com.google.android.gm</string>
+    <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>
+
+
+    <string-array name="email">
+        <item>ayaan35200@gmail.com</item>
+    </string-array>
 </resources>
