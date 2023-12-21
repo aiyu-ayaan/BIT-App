@@ -61,8 +61,12 @@ class HomeViewModel @Inject constructor(
     val isOnlineSyllabusEnable: State<Boolean> get() = _isOnlineSyllabusEnable
 
     private var _dateStoreJob: Job? = null
-    val course = mutableStateOf("BCA")
-    val sem = mutableStateOf("1")
+    private val _course = mutableStateOf("BCA")
+    val course: State<String> get() = _course
+
+
+    private val _sem = mutableStateOf("1")
+    val sem: State<String> get() = _sem
 
     private val _theory: MutableStateFlow<PagingData<SyllabusUIModel>> =
         MutableStateFlow(PagingData.empty())
@@ -107,8 +111,8 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeScreenEvents.OnCourseChange -> {
-                course.value = event.value.first
-                sem.value = event.value.second
+                _course.value = event.value.first
+                _sem.value = event.value.second
                 _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
                     course.value + sem.value
                 )
@@ -139,8 +143,8 @@ class HomeViewModel @Inject constructor(
     private fun getDataStore() {
         _dateStoreJob?.cancel()
         _dateStoreJob = dateStoreCase.getAll.invoke().onEach {
-            course.value = it.course
-            sem.value = it.sem
+            _course.value = it.course
+            _sem.value = it.sem
             _currentCgpa.value = it.cgpa
         }.launchIn(viewModelScope)
     }

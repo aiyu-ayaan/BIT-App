@@ -31,10 +31,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.GoogleButton
+import com.atech.bit.ui.navigation.LogInRoutes
+import com.atech.bit.ui.screens.login.LogInViewModel
 import com.atech.bit.ui.theme.AppLogo
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
@@ -44,6 +47,7 @@ import com.atech.bit.ui.theme.image_view_log_in_size
 fun LoginScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
+    viewModel: LogInViewModel = hiltViewModel()
 ) {
     var isDialogVisible by rememberSaveable { mutableStateOf(false) }
     BITAppTheme(
@@ -87,7 +91,12 @@ fun LoginScreen(
             ) {
                 GoogleButton(onClicked = {})
                 Spacer(modifier = Modifier.height(grid_1))
-                TextButton(onClick = { /*TODO*/ }) {
+                TextButton(onClick = {
+                    navController
+                        .navigate(
+                            LogInRoutes.SetupScreen.route
+                        )
+                }) {
                     Text(
                         text = stringResource(R.string.skip), modifier = Modifier.padding(grid_1)
                     )

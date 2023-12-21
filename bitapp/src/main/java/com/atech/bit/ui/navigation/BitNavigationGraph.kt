@@ -42,7 +42,8 @@ fun TopLevelNavigationGraph(
         startDestination = startDestination
     ) {
         logInScreenGraph(
-            navHostController
+            navHostController,
+            communicatorViewModel
         )
         animatedComposable(
             route = ParentScreenRoutes.MainScreen.route
