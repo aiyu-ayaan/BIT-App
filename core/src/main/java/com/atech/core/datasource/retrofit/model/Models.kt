@@ -28,7 +28,8 @@ data class Devs(
 
 fun List<Devs?>?.toDevsList(): List<Devs> = this?.filterNotNull() ?: emptyList()
 
-fun AboutUsModel.isEmpty(): Boolean = devs.isEmpty() && managers.isEmpty() && contributors.isNullOrEmpty()
+fun AboutUsModel.isEmpty(): Boolean =
+    devs.isEmpty() && managers.isEmpty() && contributors.isNullOrEmpty()
 
 fun AboutUsModel.toMap(): Map<String, List<Devs>> = mapOf(
     "Developers" to devs,

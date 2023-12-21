@@ -39,6 +39,7 @@ import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.singleElement
+import com.atech.bit.ui.navigation.AboutUsRoute
 import com.atech.bit.ui.screens.about_us.AboutUsViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
@@ -82,7 +83,16 @@ fun AboutUsScreen(
                 }
                 items(list) { item ->
                     DevItem(
-                        devs = item
+                        devs = item,
+                        onClick = {
+                            viewModel.setCurrentClickDev(
+                                item
+                            )
+                            navController
+                                .navigate(
+                                    AboutUsRoute.DevDetailsScreen.route
+                                )
+                        }
                     )
                 }
             }

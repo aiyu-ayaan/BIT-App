@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.retrofit.model.AboutUsModel
+import com.atech.core.datasource.retrofit.model.Devs
 import com.atech.core.usecase.KTorUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +26,10 @@ class AboutUsViewModel @Inject constructor(
     )
     val aboutUsModel: State<AboutUsModel> get() = _aboutUsModel
 
+
+    private val _currentClickDev = mutableStateOf(Devs(-1, "", "", "", "", "", "", "", ""))
+    val currentClickDev: State<Devs> get() = _currentClickDev
+
     init {
         getAboutUs()
     }
@@ -35,5 +40,9 @@ class AboutUsViewModel @Inject constructor(
         } catch (e: Exception) {
             _aboutUsModel.value = empty
         }
+    }
+
+    fun setCurrentClickDev(devs: Devs) {
+        _currentClickDev.value = devs
     }
 }
