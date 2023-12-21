@@ -109,6 +109,7 @@ dependencies {
 
 //    implementation(libs.swipe)
 
+    implementation(libs.play.service.auth)
 
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)

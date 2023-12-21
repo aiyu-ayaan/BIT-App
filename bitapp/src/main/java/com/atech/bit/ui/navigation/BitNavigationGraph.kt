@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.screens.MainScreen
 import com.atech.bit.ui.screens.administration.AdministrationScreen
 import com.atech.bit.ui.screens.cgpa.compose.CgpaScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
@@ -18,6 +19,41 @@ import com.atech.bit.ui.screens.view_image.ViewImageScreen
 import com.atech.bit.utils.animatedComposable
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
+
+
+enum class TopLevelRoute(val route: String) {
+    LOGIN("login"),
+    MAIN_SCREEN("main_screen"),
+}
+
+sealed class ParentScreenRoutes(val route: String) {
+    data object LoginScreen : ParentScreenRoutes(TopLevelRoute.LOGIN.route)
+    data object MainScreen : ParentScreenRoutes(TopLevelRoute.MAIN_SCREEN.route)
+}
+
+@Composable
+fun TopLevelNavigationGraph(
+    navHostController: NavHostController,
+    communicatorViewModel: MainViewModel,
+    startDestination: String = ParentScreenRoutes.LoginScreen.route
+) {
+    NavHost(
+        navController = navHostController,
+        startDestination = startDestination
+    ) {
+        logInScreenGraph(
+            navHostController
+        )
+        animatedComposable(
+            route = ParentScreenRoutes.MainScreen.route
+        ) {
+            MainScreen(
+                communicatorViewModel = communicatorViewModel
+            )
+        }
+    }
+}
+
 
 val listOfFragmentsWithBottomAppBar = listOf(
     CourseScreenRoute.CourseScreen.route,
@@ -98,7 +134,7 @@ sealed class Screen(val route: String) {
 
 
 @Composable
-fun BitAppNavigationGraph(
+fun AppNavigationGraph(
     navHostController: NavHostController,
     communicatorViewModel: MainViewModel,
     startDestination: String = Screen.HomeScreen.route

@@ -87,6 +87,8 @@
     <string name="bug_title">Send Mail</string>
     <string name="gmail_package">com.google.android.gm</string>
     <string name="release_notes">https://github.com/aiyu-ayaan/BIT-App/releases/tag/%s</string>
+    <string name="why_would_you_log_in">Why would you log In ?</string>
+    <string name="skip">Skip</string>
 
 
     <string-array name="email">

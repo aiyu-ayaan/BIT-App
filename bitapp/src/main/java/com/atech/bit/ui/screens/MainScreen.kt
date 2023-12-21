@@ -70,7 +70,7 @@ import com.atech.bit.R
 import com.atech.bit.ui.activity.MainViewModel
 import com.atech.bit.ui.comman.NavHeader
 import com.atech.bit.ui.comman.singleElement
-import com.atech.bit.ui.navigation.BitAppNavigationGraph
+import com.atech.bit.ui.navigation.AppNavigationGraph
 import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.navigation.listOfFragmentsWithBottomAppBar
 import com.atech.bit.ui.theme.BITAppTheme
@@ -91,10 +91,7 @@ fun MainScreen(
     navController: NavHostController = rememberNavController(),
     communicatorViewModel: MainViewModel = hiltViewModel()
 ) {
-
-
     val isSearchBarActive = communicatorViewModel.isSearchActive.value
-
     val drawerSate = rememberDrawerState(initialValue = DrawerValue.Closed)
     val toggleDrawerState by communicatorViewModel.toggleDrawerState
     val coroutineScope = rememberCoroutineScope()
@@ -114,37 +111,41 @@ fun MainScreen(
             )
         }
     }
-    DismissibleNavigationDrawer(
-        drawerState = drawerSate,
-        drawerContent = {
-            NavDrawer(
-                navController = navController
-            ) {
-                coroutineScope.launch {
-                    setDrawerState(
-                        drawerSate,
-                        toggleDrawerState!!
+    BITAppTheme(
+        statusBarColor = null
+    ) {
+        DismissibleNavigationDrawer(
+            drawerState = drawerSate,
+            drawerContent = {
+                NavDrawer(
+                    navController = navController
+                ) {
+                    coroutineScope.launch {
+                        setDrawerState(
+                            drawerSate,
+                            toggleDrawerState!!
+                        )
+                    }
+                    communicatorViewModel.onEvent(
+                        MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Closed)
                     )
                 }
-                communicatorViewModel.onEvent(
-                    MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Closed)
+            },
+        ) {
+            Scaffold(modifier = modifier, bottomBar = {
+                NavBar(
+                    navController = navController,
+                    isSearchBarActive = isSearchBarActive
                 )
-            }
-        },
-    ) {
-        Scaffold(modifier = modifier, bottomBar = {
-            NavBar(
-                navController = navController,
-                isSearchBarActive = isSearchBarActive
-            )
-        }) {
-            Column(
-                modifier = Modifier.padding(it)
-            ) {
-                BitAppNavigationGraph(
-                    navHostController = navController,
-                    communicatorViewModel = communicatorViewModel
-                )
+            }) {
+                Column(
+                    modifier = Modifier.padding(it)
+                ) {
+                    AppNavigationGraph(
+                        navHostController = navController,
+                        communicatorViewModel = communicatorViewModel
+                    )
+                }
             }
         }
     }

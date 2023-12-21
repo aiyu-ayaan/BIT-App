@@ -82,6 +82,7 @@ fun BITAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
+    statusBarColor: Color? = null,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
@@ -98,8 +99,9 @@ fun BITAppTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colorScheme.surface.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+            window.statusBarColor =
+                statusBarColor?.toArgb() ?: colorScheme.surface.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme && statusBarColor == null
         }
     }
 

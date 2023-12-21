@@ -53,6 +53,7 @@ calendarVersion = "3.0.0"
 retrofit-version = "2.9.0"
 browser = "1.7.0"
 graphVersion = "v3.1.0"
+play-service-auth = "20.6.0"
 
 
 [libraries]
@@ -122,6 +123,7 @@ retrofit-json = { group = "com.squareup.retrofit2", name = "converter-gson", ver
 retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars", version.ref = "retrofit-version" }
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 graph = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "graphVersion" }
+play-service-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-service-auth" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

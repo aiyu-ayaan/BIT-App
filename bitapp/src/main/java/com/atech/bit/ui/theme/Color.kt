@@ -23,3 +23,6 @@ val secondaryContainerDark = Color(0xFF0D4C45)
 
 val surfaceContainerDark = Color(0xFF0B2021)
 val surfaceContainerLight = Color(0xFFDCF0F0)
+
+
+val AppLogo = Color(0xFF181F28)

@@ -16,7 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.atech.bit.ui.screens.MainScreen
+import com.atech.bit.ui.navigation.TopLevelNavigationGraph
 import com.atech.bit.ui.theme.BITAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -41,8 +41,9 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface
                 ) {
-                    MainScreen(
-                        navController = navHostController, communicatorViewModel = viewModel
+                    TopLevelNavigationGraph(
+                        navHostController = navHostController,
+                        communicatorViewModel = viewModel
                     )
                 }
             }
