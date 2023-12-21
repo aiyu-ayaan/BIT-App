@@ -98,7 +98,13 @@ fun AboutUsScreen(
             }
             val list = listOf(
                 AboutUsButtonModel(
-                    title = "Credits"
+                    title = "Credits",
+                    onClick = {
+                        navController
+                            .navigate(
+                                AboutUsRoute.CreditScreen.route
+                            )
+                    }
                 ),
                 AboutUsButtonModel(title = "Privacy Policy", onClick = {
                     PRIVACY_POLICY.openLinks(context)
