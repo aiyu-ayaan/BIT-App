@@ -50,8 +50,8 @@ import com.atech.bit.ui.screens.home.HomeScreenEvents
 import com.atech.bit.ui.screens.home.HomeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
-import com.atech.bit.utils.openLinks
 import com.atech.core.usecase.SyllabusUIModel
+import com.atech.core.utils.openLinks
 
 @Composable
 fun HomeScreen(

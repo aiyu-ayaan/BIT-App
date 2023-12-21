@@ -1,0 +1,32 @@
+package com.atech.core.utils
+
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.widget.Toast
+
+
+const val PRIVACY_POLICY =
+    "https://bit-lalpur-app.github.io/BIT-App-Data/privacy_polocy/privacy-policy"
+
+fun Context.openPlayStore(name: String) {
+    startActivity(
+        Intent(
+            Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$name")
+        ).also {
+            it.flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
+            it.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        })
+}
+
+fun String.openLinks(context: Context) {
+    try {
+        context.startActivity(Intent(Intent.ACTION_VIEW).also {
+            it.data = Uri.parse(this)
+        })
+    } catch (e: Exception) {
+        Toast.makeText(
+            context, e.message, Toast.LENGTH_SHORT
+        ).show()
+    }
+}

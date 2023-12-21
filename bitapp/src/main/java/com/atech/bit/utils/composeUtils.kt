@@ -17,15 +17,3 @@ fun Color.hexToRgb(): String {
     val blue = this.toArgb().blue
     return "rgb($red,$green,$blue)"
 }
-
-fun String.openLinks(context: Context) {
-    try {
-        context.startActivity(Intent(Intent.ACTION_VIEW).also {
-            it.data = Uri.parse(this)
-        })
-    } catch (e: Exception) {
-        Toast.makeText(
-            context, e.message, Toast.LENGTH_SHORT
-        ).show()
-    }
-}

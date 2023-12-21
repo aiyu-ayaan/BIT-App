@@ -1,5 +1,6 @@
 package com.atech.core.datasource.retrofit
 
+import com.atech.core.datasource.retrofit.model.AboutUsModel
 import com.atech.core.datasource.retrofit.model.HolidayModel
 import com.atech.core.datasource.retrofit.model.SocietyModel
 import com.atech.core.datasource.retrofit.model.SyllabusResponse
@@ -33,4 +34,7 @@ interface BitAppApiService {
 
     @GET("admin/admin.md")
     suspend fun getAdministration(): String
+
+    @GET("aboutUs/aboutUs.json")
+    suspend fun getAboutUs(): AboutUsModel
 }

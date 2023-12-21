@@ -46,10 +46,10 @@ import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.notice.NoticeViewModel
 import com.atech.bit.ui.theme.grid_1
-import com.atech.bit.utils.openLinks
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.usecase.Db
 import com.atech.core.utils.getDate
+import com.atech.core.utils.openLinks
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

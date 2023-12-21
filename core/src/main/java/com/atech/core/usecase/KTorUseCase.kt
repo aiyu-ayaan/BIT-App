@@ -1,11 +1,9 @@
 package com.atech.core.usecase
 
-import android.util.Log
 import com.atech.core.datasource.retrofit.BitAppApiService
 import com.atech.core.datasource.retrofit.model.Holiday
 import com.atech.core.datasource.retrofit.model.HolidayType
 import com.atech.core.datasource.retrofit.model.Subject
-import java.util.Calendar
 import javax.inject.Inject
 
 
@@ -15,6 +13,7 @@ class KTorUseCase @Inject constructor(
     val fetchHolidays: FetchHolidays,
     val fetchSociety: FetchSociety,
     val fetchAdministration: FetchAdministration,
+    val fetchDevs: FetchDevs
 )
 
 data class FetchSyllabus @Inject constructor(
@@ -95,3 +94,14 @@ class FetchAdministration @Inject constructor(
         throw e
     }
 }
+
+class FetchDevs @Inject constructor(
+    private val api: BitAppApiService
+) {
+    suspend operator fun invoke() = try {
+        api.getAboutUs()
+    } catch (e: Exception) {
+        throw e
+    }
+}
+

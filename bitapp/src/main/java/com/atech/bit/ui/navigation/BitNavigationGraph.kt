@@ -65,7 +65,8 @@ enum class RouteName(val value: String) {
     SOCIETY("society"),
     LIBRARY("library"),
     EVENT("event"),
-    SETTINGS("settings")
+    SETTINGS("settings"),
+    ABOUT_US("about_us"),
 }
 
 
@@ -91,6 +92,8 @@ sealed class Screen(val route: String) {
     data object SettingsScreen : Screen(RouteName.SETTINGS.value)
 
     data object ViewImageRoute : Screen("view_image_route")
+
+    data object AboutUsScreen : Screen(RouteName.ABOUT_US.value)
 }
 
 
@@ -166,6 +169,7 @@ fun BitAppNavigationGraph(
                 link = link ?: ""
             )
         }
+        aboutUsNavGraph(navHostController = navHostController)
     }
 }
 

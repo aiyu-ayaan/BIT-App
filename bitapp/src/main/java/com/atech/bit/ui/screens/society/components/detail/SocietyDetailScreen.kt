@@ -33,7 +33,7 @@ import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.screens.society.SocietyViewModel
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.utils.hexToRgb
-import com.atech.bit.utils.openLinks
+import com.atech.core.utils.openLinks
 
 
 @OptIn(ExperimentalMaterial3Api::class)
