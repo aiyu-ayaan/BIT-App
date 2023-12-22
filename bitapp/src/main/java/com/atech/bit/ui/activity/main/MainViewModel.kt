@@ -8,10 +8,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.atech.bit.utils.getTheme
 import com.atech.bit.utils.saveTheme
+import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.remote.RemoteConfigHelper
 import com.atech.core.datasource.firebase.remote.model.CourseDetails
 import com.atech.core.datasource.firebase.remote.model.defaultCourseSem
-import com.atech.core.usecase.HasLogIn
+import com.atech.core.usecase.AuthUseCases
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
@@ -23,24 +24,41 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val conf: RemoteConfigHelper,
     private val pref: SharedPreferences,
-    private val logIn: HasLogIn,
+    private val authUseCases: AuthUseCases
 ) : ViewModel() {
     private val _courseDetail = mutableStateOf(defaultCourseSem)
     val courseDetail: State<CourseDetails> get() = _courseDetail
 
-    val hasSetUpDone =
-        (logIn.invoke() || pref.getBoolean(SharePrefKeys.SetUpDone.name, false)) || pref.getBoolean(
-            SharePrefKeys.PermanentSkipLogin.name,
-            false
-        )
+    val hasSetUpDone = (authUseCases.hasLogIn.invoke() || pref.getBoolean(
+        SharePrefKeys.SetUpDone.name, false
+    )) || pref.getBoolean(
+        SharePrefKeys.PermanentSkipLogin.name, false
+    )
+
+    private val _useModel = mutableStateOf(null as UserModel?)
+    val useModel: State<UserModel?> get() = _useModel
+
+    private val _profileLink = mutableStateOf<String?>(null)
+    val profileLink: State<String?> get() = _profileLink
+
+    init {
+        if (authUseCases.hasLogIn.invoke()) {
+            authUseCases.getUserData().let { (model, _) ->
+                if (model != null) {
+                    _useModel.value = model
+                    _profileLink.value = model.profilePic
+                }
+            }
+        }
+    }
+
 
     fun fetchRemoteConfigDetails() {
         conf.fetchData(failure = {
             Log.e(TAGS.BIT_REMOTE.name, "fetchRemoteConfigDetails: ${it.message}")
         }) {
             conf.getString(RemoteConfigKeys.CourseDetails.value).let {
-                _courseDetail.value =
-                    fromJSON(it, CourseDetails::class.java) ?: defaultCourseSem
+                _courseDetail.value = fromJSON(it, CourseDetails::class.java) ?: defaultCourseSem
                 pref.edit().putString(SharePrefKeys.CourseDetails.name, it).apply()
             }
             conf.getString(RemoteConfigKeys.KeyToggleSyllabusSource.value).let {

@@ -11,6 +11,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.outlined.Close
@@ -19,6 +20,7 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
@@ -32,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.atech.bit.R
 import com.atech.bit.ui.comman.ImageIconButton
+import com.atech.bit.ui.comman.ImageLoader
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 
@@ -48,6 +51,7 @@ fun SearchToolBar(
     onNotificationClick: () -> Unit = {},
     onProfileClick: () -> Unit = {},
     onLeadingIconClick: () -> Unit = {},
+    url: String? = null,
     contents: @Composable () -> Unit = {}
 ) {
     Row(
@@ -103,7 +107,8 @@ fun SearchToolBar(
                         icon = Icons.Outlined.Close,
                         contextDes = R.string.search,
                         onClick = onTrailingIconClick,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.primary,
+
                     )
                 }
             }
@@ -120,14 +125,39 @@ fun SearchToolBar(
             )
         }
         AnimatedVisibility(visible = !active) {
-            ImageIconButton(
+            ProfileImage(
                 modifier = Modifier.weight(.2f),
-                icon = Icons.Default.AccountCircle,
-                tint = MaterialTheme.colorScheme.primary,
+                url = url,
                 onClick = onProfileClick,
-                contextDes = R.string.profile
             )
         }
+    }
+}
+
+@Composable
+fun ProfileImage(
+    modifier: Modifier = Modifier,
+    url: String? = null,
+    onClick: () -> Unit = {},
+) {
+    AnimatedVisibility(visible = url != null) {
+        IconButton(onClick = onClick) {
+            ImageLoader(
+                modifier = Modifier
+                    .size(30.dp),
+                imageUrl = url,
+                isRounderCorner = true
+            )
+        }
+    }
+    AnimatedVisibility(visible = url == null) {
+        ImageIconButton(
+            modifier = modifier,
+            icon = Icons.Default.AccountCircle,
+            tint = MaterialTheme.colorScheme.primary,
+            onClick = onClick,
+            contextDes = R.string.profile,
+        )
     }
 }
 

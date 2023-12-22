@@ -72,6 +72,8 @@ fun HomeScreen(
     val context = LocalContext.current
     val courseDetails by communicatorViewModel.courseDetail
 
+    val profileUrl by communicatorViewModel.profileLink
+
     var isChooseSemSelected by rememberSaveable {
         mutableStateOf(false)
     }
@@ -95,34 +97,35 @@ fun HomeScreen(
                 navController.navigate(
                     HomeScreenRoutes.NoticeScreen.route
                 )
-            })
+            },
+            url = profileUrl
+        )
     }) {
         LazyColumn(
-            modifier = Modifier.consumeWindowInsets(it)
-                .animateContentSize(),
-            contentPadding = it
+            modifier = Modifier
+                .consumeWindowInsets(it)
+                .animateContentSize(), contentPadding = it
         ) {
             singleElement(key = "Header") {
-                HeaderCompose(isEnable = isOnlineEnable,
-                    onEnableChange = { currentState ->
-                        viewModel.onEvent(
-                            HomeScreenEvents.ToggleOnlineSyllabusClick(
-                                currentState
-                            )
+                HeaderCompose(isEnable = isOnlineEnable, onEnableChange = { currentState ->
+                    viewModel.onEvent(
+                        HomeScreenEvents.ToggleOnlineSyllabusClick(
+                            currentState
                         )
-                    },
-                    onSettingClick = {
-                        isChooseSemSelected = !isChooseSemSelected
-                    }
-                )
+                    )
+                }, onSettingClick = {
+                    isChooseSemSelected = !isChooseSemSelected
+                })
             }
-            if (isOnlineEnable) onlineDataSource(onlineData.first,
+            if (isOnlineEnable) onlineDataSource(
+                onlineData.first,
                 onlineData.second,
                 onlineData.third,
                 onClick = { model ->
                     navigateToViewSyllabus(navController, viewModel, true, model)
                 })
-            else offlineDataSource(theoryData = theory,
+            else offlineDataSource(
+                theoryData = theory,
                 labData = lab,
                 peData = pe,
                 onClick = { model ->
@@ -133,7 +136,8 @@ fun HomeScreen(
                     Screen.HolidayScreen.route
                 )
             })
-            showEvents(items = events,
+            showEvents(
+                items = events,
                 getAttach = viewModel.firebaseCase.getAttach,
                 onClick = { event ->
                     navController.navigate(
@@ -153,8 +157,7 @@ fun HomeScreen(
             singleElement(key = "BottomPadding") { BottomPadding() }
         }
         if (isChooseSemSelected) {
-            ChooseSemBottomSheet(
-                model = courseDetails,
+            ChooseSemBottomSheet(model = courseDetails,
                 sem = viewModel.sem.value,
                 course = viewModel.course.value,
                 onDismissRequest = {
@@ -164,8 +167,7 @@ fun HomeScreen(
                     viewModel.onEvent(
                         HomeScreenEvents.OnCourseChange(it1)
                     )
-                }
-            )
+                })
         }
     }
 }

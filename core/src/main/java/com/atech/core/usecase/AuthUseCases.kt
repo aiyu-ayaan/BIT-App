@@ -1,7 +1,6 @@
 package com.atech.core.usecase
 
 import android.content.Context
-import android.util.Log
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserModel
@@ -25,7 +24,8 @@ data class AuthUseCases @Inject constructor(
     val logIn: LogIn, val getUid: GetUid,
     val hasLogIn: HasLogIn,
     val uploadData: UploadData,
-    val performRestore: PerformRestore
+    val performRestore: PerformRestore,
+    val getUserData: GetUserData
 )
 
 data class LogIn @Inject constructor(
@@ -157,5 +157,28 @@ data class PerformRestore @Inject constructor(
         }
     } catch (e: Exception) {
         e
+    }
+}
+
+data class GetUserData @Inject constructor(
+    private val auth: FirebaseAuth
+) {
+    operator fun invoke(): Pair<UserModel?, Exception?> = try {
+        val user = auth.currentUser
+        if (user == null) {
+            Pair(null, Exception("User not found"))
+        }
+        user?.let { logInUser ->
+            val userId = logInUser.uid
+            val userName = logInUser.displayName
+            val userEmail = logInUser.email
+            val userPhoto = logInUser.photoUrl
+            val userModel = UserModel(
+                userId, userName, userEmail, userPhoto.toString()
+            )
+            Pair(userModel, null)
+        } ?: Pair(null, Exception("User not found"))
+    } catch (e: Exception) {
+        Pair(null, e)
     }
 }
