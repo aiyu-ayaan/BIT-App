@@ -15,6 +15,7 @@ import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.retrofit.model.Holiday
 import com.atech.core.datasource.retrofit.model.HolidayType
 import com.atech.core.datasource.room.syllabus.SubjectType
+import com.atech.core.usecase.AuthUseCases
 import com.atech.core.usecase.DataStoreCases
 import com.atech.core.usecase.FirebaseCase
 import com.atech.core.usecase.KTorUseCase
@@ -22,6 +23,8 @@ import com.atech.core.usecase.SyllabusUIModel
 import com.atech.core.usecase.SyllabusUseCase
 import com.atech.core.utils.SYLLABUS_SOURCE_DATA
 import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.TAGS
+import com.atech.core.utils.UpdateDataType
 import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -41,6 +44,7 @@ class HomeViewModel @Inject constructor(
     private val dateStoreCase: DataStoreCases,
     val firebaseCase: FirebaseCase,
     private val pref: SharedPreferences,
+    private val authUseCases: AuthUseCases,
     calendar: Calendar,
 ) : ViewModel() {
 
@@ -119,6 +123,10 @@ class HomeViewModel @Inject constructor(
                 viewModelScope.launch {
                     dateStoreCase.updateCourse.invoke(event.value.first)
                     dateStoreCase.updateSem.invoke(event.value.second)
+                    updateCourseSem(
+                        _course.value,
+                        _sem.value
+                    )
                 }
                 if (isOnlineSyllabusEnable.value) getOnlineSubjects()
                 else getAllSubjects()
@@ -203,5 +211,22 @@ class HomeViewModel @Inject constructor(
         job = firebaseCase.getEvent().onEach {
             _fetchEvents.value = it
         }.launchIn(viewModelScope)
+    }
+
+    private fun updateCourseSem(
+        course: String,
+        sem: String
+    ) = viewModelScope.launch {
+        if (!authUseCases.hasLogIn.invoke()) return@launch
+        try {
+            authUseCases.uploadData.invoke(
+                UpdateDataType.UpdateCourseSem(
+                    course = course,
+                    sem = sem
+                )
+            )
+        } catch (e: Exception) {
+            Log.e(TAGS.BIT_ERROR.name, "uploadCgpa: ${e.message ?: "Error"}")
+        }
     }
 }

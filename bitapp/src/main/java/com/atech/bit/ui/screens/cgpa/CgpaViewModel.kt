@@ -1,12 +1,16 @@
 package com.atech.bit.ui.screens.cgpa
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.datastore.Cgpa
+import com.atech.core.usecase.AuthUseCases
 import com.atech.core.usecase.DataStoreCases
+import com.atech.core.utils.TAGS
+import com.atech.core.utils.UpdateDataType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -14,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CgpaViewModel @Inject constructor(
-    private val case: DataStoreCases
+    private val case: DataStoreCases,
+    private val authUseCases: AuthUseCases,
 ) : ViewModel() {
 
     private val _savedCgpa = mutableStateOf(Cgpa())
@@ -111,6 +116,9 @@ class CgpaViewModel @Inject constructor(
                 cgpa.copy(cgpa = calculatedCGPA).also {
                     case.updateCgpa.invoke(it)
                 }
+                uploadCgpa(
+                    cgpa
+                )
                 _savedCalculateCGPA.value = calculatedCGPA
             }
         }
@@ -144,6 +152,21 @@ class CgpaViewModel @Inject constructor(
                 "Sem6", _savedCgpa.value.sem6.toString(), _savedCgpa.value.earnCrSem6.toString()
             )
             _savedCalculateCGPA.value = it.cgpa.cgpa
+        }
+    }
+
+    private fun uploadCgpa(
+        model: Cgpa
+    ) = viewModelScope.launch {
+        if (!authUseCases.hasLogIn.invoke()) return@launch
+        try {
+            authUseCases.uploadData.invoke(
+                UpdateDataType.UpdateCgpa(
+                    model
+                )
+            )
+        } catch (e: Exception) {
+            Log.e(TAGS.BIT_ERROR.name, "uploadCgpa: ${e.message ?: "Error"}")
         }
     }
 }
