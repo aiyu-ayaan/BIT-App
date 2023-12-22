@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.core.usecase.AuthUseCases
 import com.atech.core.usecase.DataStoreCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -15,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LogInViewModel @Inject constructor(
     private val dateStoreCase: DataStoreCases,
+    val logInUseCase: AuthUseCases
 ) : ViewModel() {
     private val _course = mutableStateOf("BCA")
     val course: State<String> get() = _course

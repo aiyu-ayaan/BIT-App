@@ -57,6 +57,7 @@ import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.image_view_log_in_size
 import com.google.android.gms.auth.api.identity.Identity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,6 +68,8 @@ fun LoginScreen(
     communicatorViewModel: MainViewModel = hiltViewModel()
 ) {
     var isDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var logInMessage by rememberSaveable { mutableStateOf("Creating Account...") }
+    var hasClick by  rememberSaveable { mutableStateOf(false) }
     val logInState by viewModel.logInState
     val context = LocalContext.current
     val googleAuthUiClient by lazy {
@@ -75,14 +78,34 @@ fun LoginScreen(
         )
     }
 
-    LaunchedEffect(key1 = logInState.isSignInError) {
-        logInState.isSignInError?.let { error ->
+    LaunchedEffect(key1 = logInState.errorMessage) {
+        logInState.errorMessage?.let { error ->
+            hasClick = false
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
         }
     }
     LaunchedEffect(key1 = logInState.userToken) {
         logInState.userToken?.let { token ->
-//            todo: Handle Login here
+            logInMessage = "Signing In... 🔃"
+            viewModel.logInUseCase.logIn(token).let { (hasData, ex) ->
+                if (ex != null) {
+                    viewModel.onEvent(
+                        LogInScreenEvents.OnSignInResult(
+                            logInState.copy(
+                                errorMessage = ex.message ?: "Unknown Error",
+                            )
+                        )
+                    )
+                } else {
+                    if (!hasData) {
+                        logInMessage = "Welcome ❤️ !!"
+                        delay(500)
+                        navigateToChooseSem(navController)
+                    } else {
+                        logInMessage = "Setting things up 🏗️!!"
+                    }
+                }
+            }
         }
     }
 
@@ -99,9 +122,8 @@ fun LoginScreen(
                         viewModel.onEvent(
                             LogInScreenEvents.OnSignInResult(
                                 LogInState(
-                                    isSignInSuccessful = signInResult.first != null,
                                     userToken = signInResult.first,
-                                    isSignInError = signInResult.second?.message
+                                    errorMessage = signInResult.second?.message
                                 )
                             )
                         )
@@ -154,21 +176,23 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                GoogleButton(onClicked = {
-                    coroutineScope.launch {
-                        val sigInIntentSender = googleAuthUiClient.signIn()
-                        launcher.launch(
-                            IntentSenderRequest.Builder(
-                                sigInIntentSender ?: return@launch
-                            ).build()
-                        )
+                GoogleButton(
+                    loadingText = logInMessage,
+                    hasClick = hasClick,
+                    onClicked = {
+                        coroutineScope.launch {
+                            val sigInIntentSender = googleAuthUiClient.signIn()
+                            launcher.launch(
+                                IntentSenderRequest.Builder(
+                                    sigInIntentSender ?: return@launch
+                                ).build()
+                            )
+                        }
                     }
-                })
+                )
                 Spacer(modifier = Modifier.height(grid_1))
                 TextButton(onClick = {
-                    navController.navigate(
-                        LogInRoutes.SetupScreen.route
-                    )
+                    navigateToChooseSem(navController)
                 }) {
                     Text(
                         text = stringResource(R.string.skip), modifier = Modifier.padding(grid_1)
@@ -193,6 +217,16 @@ fun LoginScreen(
             if (isDialogVisible) WhyLogIn(onDismissRequest = {
                 isDialogVisible = false
             })
+        }
+    }
+}
+
+private fun navigateToChooseSem(navController: NavController) {
+    navController.navigate(
+        LogInRoutes.SetupScreen.route
+    ) {
+        popUpTo(LogInRoutes.LogInScreen.route) {
+            inclusive = true
         }
     }
 }

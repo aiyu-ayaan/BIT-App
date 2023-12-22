@@ -49,4 +49,6 @@ interface AttendanceDao {
     @Query("DELETE FROM attendance_table WHERE subject_name = :name")
     suspend fun deleteFromSubjectName(name: String)
 
+
+
 }

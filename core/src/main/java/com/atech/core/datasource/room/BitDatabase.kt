@@ -50,14 +50,14 @@ abstract class BitDatabase : RoomDatabase() {
 
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
-            val dao = database.get().attendanceDao()
+//            val dao = database.get().attendanceDao()
             val syllabusDao = database.get().syllabusDao()
-            appScope.launch {
-                (1..100).toList().map { AttendanceModel("Subject $it") }
-                    .onEach {
-                        dao.insert(it)
-                    }
-            }
+//            appScope.launch {
+//                (1..100).toList().map { AttendanceModel("Subject $it") }
+//                    .onEach {
+//                        dao.insert(it)
+//                    }
+//            }
             appScope.launch {
                 val syllabus = SyllabusList.syllabus
                 syllabusDao.insertAll(syllabus)
