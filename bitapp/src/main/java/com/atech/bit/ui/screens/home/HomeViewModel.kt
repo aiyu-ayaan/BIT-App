@@ -28,8 +28,10 @@ import com.atech.core.utils.UpdateDataType
 import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -60,6 +62,7 @@ class HomeViewModel @Inject constructor(
             SYLLABUS_SOURCE_DATA, SyllabusEnableModel::class.java
         )!!
     }
+    private val courseDetail = MutableSharedFlow<Triple<String, String, Cgpa>>()
 
     private val _isOnlineSyllabusEnable = mutableStateOf(false)
     val isOnlineSyllabusEnable: State<Boolean> get() = _isOnlineSyllabusEnable
@@ -115,21 +118,14 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeScreenEvents.OnCourseChange -> {
-                _course.value = event.value.first
-                _sem.value = event.value.second
-                _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
-                    course.value + sem.value
-                )
                 viewModelScope.launch {
                     dateStoreCase.updateCourse.invoke(event.value.first)
                     dateStoreCase.updateSem.invoke(event.value.second)
-                    updateCourseSem(
+                    updateCourseSemInOnlineDatabase(
                         _course.value,
                         _sem.value
                     )
                 }
-                if (isOnlineSyllabusEnable.value) getOnlineSubjects()
-                else getAllSubjects()
             }
         }
     }
@@ -139,21 +135,42 @@ class HomeViewModel @Inject constructor(
 
     init {
         getDataStore()
-        _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
-            course.value + sem.value
-        )
-        if (isOnlineSyllabusEnable.value) getOnlineSubjects()
-        else getAllSubjects()
+        observeDate()
+//        _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
+//            _course.value + _sem.value
+//        )
+//        if (isOnlineSyllabusEnable.value) getOnlineSubjects()
+//        else getAllSubjects()
         getHolidays()
         getAllEvents()
+    }
+
+    private fun observeDate() {
+        viewModelScope.launch {
+            courseDetail.collectLatest { (course, sem, cgpa) ->
+                _course.value = course
+                _sem.value = sem
+                _currentCgpa.value = cgpa
+                _isOnlineSyllabusEnable.value = syllabusEnableModel.compareToCourseSem(
+                    course + sem
+                )
+                if (isOnlineSyllabusEnable.value) getOnlineSubjects()
+                else getAllSubjects()
+
+            }
+        }
     }
 
     private fun getDataStore() {
         _dateStoreJob?.cancel()
         _dateStoreJob = dateStoreCase.getAll.invoke().onEach {
-            _course.value = it.course
-            _sem.value = it.sem
-            _currentCgpa.value = it.cgpa
+            courseDetail.emit(
+                Triple(
+                    it.course,
+                    it.sem,
+                    it.cgpa
+                )
+            )
         }.launchIn(viewModelScope)
     }
 
@@ -167,14 +184,14 @@ class HomeViewModel @Inject constructor(
 
         labJob?.cancel()
         labJob = syllabusUSeCase.getSubjectsByType(
-            courseSem = "${course.value}${sem.value}".lowercase(), type = SubjectType.LAB
+            courseSem = "${_course.value}${_course.value}".lowercase(), type = SubjectType.LAB
         ).cachedIn(viewModelScope).onEach {
             _lab.value = it
         }.launchIn(viewModelScope)
 
         peJob?.cancel()
         peJob = syllabusUSeCase.getSubjectsByType(
-            courseSem = "${course.value}${sem.value}".lowercase(), type = SubjectType.PE
+            courseSem = "${_course.value}${_sem.value}".lowercase(), type = SubjectType.PE
         ).cachedIn(viewModelScope).onEach {
             _pe.value = it
         }.launchIn(viewModelScope)
@@ -186,7 +203,7 @@ class HomeViewModel @Inject constructor(
                 emptyList(), emptyList(), emptyList()
             )
             _onlineSyllabus.value =
-                retrofitUseCase.fetchSyllabus("${course.value}${sem.value}".lowercase())
+                retrofitUseCase.fetchSyllabus("${_course.value}${_sem.value}".lowercase())
         } catch (e: Exception) {
             Log.d("AAA", "getOnlineSubjects: ${e.message}")
             _isOnlineSyllabusEnable.value = false
@@ -213,7 +230,7 @@ class HomeViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    private fun updateCourseSem(
+    private fun updateCourseSemInOnlineDatabase(
         course: String,
         sem: String
     ) = viewModelScope.launch {
