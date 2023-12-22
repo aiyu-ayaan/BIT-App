@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.remote.config)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
 
 
 
@@ -90,4 +91,5 @@ dependencies {
 
 
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.cryptore)
 }

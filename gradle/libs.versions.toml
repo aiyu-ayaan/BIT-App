@@ -54,7 +54,8 @@ calendarVersion = "3.0.0"
 retrofit-version = "2.9.0"
 browser = "1.7.0"
 graphVersion = "v3.1.0"
-play-service-auth = "20.6.0"
+play-service-auth = "20.7.0"
+cryptoreVersion = "1.4.0"
 
 
 [libraries]
@@ -118,6 +119,7 @@ firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config" }
 firebase-firestore ={ group = "com.google.firebase", name = "firebase-firestore" }
+firebase-auth= { group = "com.google.firebase", name = "firebase-auth" }
 androidx-paging-common-ktx = { group = "androidx.paging", name = "paging-common-ktx", version.ref = "pagingCommonKtx" }
 calender = { group = "com.github.sundeepk", name = "compact-calendar-view", version.ref = "calendarVersion" }
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit-version" }
@@ -126,6 +128,7 @@ retrofit-scalars = { group = "com.squareup.retrofit2", name = "converter-scalars
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 graph = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "graphVersion" }
 play-service-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "play-service-auth" }
+cryptore = { group = "com.kazakago.cryptore", name = "cryptore", version.ref = "cryptoreVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

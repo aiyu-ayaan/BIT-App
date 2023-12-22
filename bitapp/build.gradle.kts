@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -23,6 +25,10 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").reader())
+
+        buildConfigField("String","FIREBASE_WEB_CLIENT","\"${properties.getProperty("FIREBASE_WEB_CLIENT")}\"")
     }
     bundle {
         storeArchive {
