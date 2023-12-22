@@ -59,7 +59,6 @@ fun SetUpScreen(
         mutableStateOf(false)
     }
     val scope = rememberCoroutineScope()
-    val context = LocalContext.current
     BITAppTheme(
         statusBarColor = null,
         dynamicColor = communicatorViewModel.themeState.value.isDynamicColorActive,

@@ -3,6 +3,7 @@ package com.atech.core.usecase
 
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
+import com.atech.core.datasource.firebase.auth.UserData
 import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.datasource.firebase.firestore.EventModel
@@ -21,6 +22,7 @@ data class FirebaseLoginUseCase @Inject constructor(
     val addUser: AddUser,
     val checkUserData: CheckUserData,
     val uploadDataToFirebase: UploadDataToFirebase,
+    val getUserSavedData: GetUserSavedData
 )
 
 
@@ -155,4 +157,25 @@ class UploadDataToFirebase @Inject constructor(
     } catch (e: Exception) {
         e
     }
+}
+
+class GetUserSavedData @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> =
+        try {
+            val snapShot =
+                db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid)
+                    .get()
+                    .await()
+            if (!snapShot.exists()) {
+                null to Exception("No data found")
+            } else {
+                val model = snapShot.toObject(UserData::class.java)
+                model to null
+            }
+        } catch (e: Exception) {
+            null to e
+        }
+
 }

@@ -118,6 +118,17 @@ fun LoginScreen(
                         navigateToChooseSem(navController)
                     } else {
                         logInMessage = "Setting things up 🏗️!!"
+                        viewModel.logInUseCase.performRestore.invoke(
+                            viewModel.logInUseCase.getUid.invoke()!!
+                        ) {
+                            navController.navigate(
+                                TopLevelRoute.MAIN_SCREEN.route
+                            ) {
+                                popUpTo(TopLevelRoute.LOGIN.route) {
+                                    inclusive = true
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -126,25 +137,25 @@ fun LoginScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val launcher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult(),
-            onResult = { result ->
-                if (result.resultCode == RESULT_OK) {
-                    coroutineScope.launch {
-                        val signInResult = googleAuthUiClient.signInWithIntent(
-                            data = result.data ?: return@launch
-                        )
-                        viewModel.onEvent(
-                            LogInScreenEvents.OnSignInResult(
-                                LogInState(
-                                    userToken = signInResult.first,
-                                    errorMessage = signInResult.second?.message
-                                )
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult(),
+        onResult = { result ->
+            if (result.resultCode == RESULT_OK) {
+                coroutineScope.launch {
+                    val signInResult = googleAuthUiClient.signInWithIntent(
+                        data = result.data ?: return@launch
+                    )
+                    viewModel.onEvent(
+                        LogInScreenEvents.OnSignInResult(
+                            LogInState(
+                                userToken = signInResult.first,
+                                errorMessage = signInResult.second?.message
                             )
                         )
-                    }
+                    )
                 }
-            })
+            }
+        })
 
     BITAppTheme(
         statusBarColor = AppLogo,
@@ -191,20 +202,16 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                GoogleButton(
-                    loadingText = logInMessage,
-                    hasClick = hasClick,
-                    onClicked = {
-                        coroutineScope.launch {
-                            val sigInIntentSender = googleAuthUiClient.signIn()
-                            launcher.launch(
-                                IntentSenderRequest.Builder(
-                                    sigInIntentSender ?: return@launch
-                                ).build()
-                            )
-                        }
+                GoogleButton(loadingText = logInMessage, hasClick = hasClick, onClicked = {
+                    coroutineScope.launch {
+                        val sigInIntentSender = googleAuthUiClient.signIn()
+                        launcher.launch(
+                            IntentSenderRequest.Builder(
+                                sigInIntentSender ?: return@launch
+                            ).build()
+                        )
                     }
-                )
+                })
                 Spacer(modifier = Modifier.height(grid_1))
                 TextButton(onClick = {
                     navigateToChooseSem(navController)
