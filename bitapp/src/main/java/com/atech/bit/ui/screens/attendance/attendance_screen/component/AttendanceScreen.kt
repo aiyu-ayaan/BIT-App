@@ -85,6 +85,8 @@ import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
 import com.atech.core.datasource.room.attendance.AttendanceModel
 import kotlinx.coroutines.flow.collectLatest
+import java.math.RoundingMode
+import java.text.DecimalFormat
 
 
 @OptIn(
@@ -136,19 +138,23 @@ fun AttendanceScreen(
             navController.navigateUp()
         }
     }
+    val overAllPercentage: Float = remember(attendanceList) {
+        if (attendanceList.itemCount == 0) return@remember 0f
+        val total = attendanceList.itemSnapshotList.items.sumOf { it.total }
+        if (total == 0) return@remember 0f
+        val present = attendanceList.itemSnapshotList.items.sumOf { it.present }
+        (present.toFloat() / total.toFloat()) * 100
+    }
     LaunchedEffect(key1 = true) {
         viewModel.oneTimeAttendanceScreenEvent.collectLatest { event ->
             when (event) {
-                is AttendanceViewModel.OneTimeAttendanceEvent.ShowUndoDeleteAttendanceMessage ->
-                    snackBarHostState.showSnackbar(
-                        event.message,
-                        actionLabel = "Undo",
-                        duration = SnackbarDuration.Short
-                    ).let { snackBarResult ->
-                        if (snackBarResult == SnackbarResult.ActionPerformed) viewModel.onEvent(
-                            AttendanceEvent.RestorerAttendance
-                        )
-                    }
+                is AttendanceViewModel.OneTimeAttendanceEvent.ShowUndoDeleteAttendanceMessage -> snackBarHostState.showSnackbar(
+                    event.message, actionLabel = "Undo", duration = SnackbarDuration.Short
+                ).let { snackBarResult ->
+                    if (snackBarResult == SnackbarResult.ActionPerformed) viewModel.onEvent(
+                        AttendanceEvent.RestorerAttendance
+                    )
+                }
             }
         }
     }
@@ -165,13 +171,13 @@ fun AttendanceScreen(
             ) {
                 AttendanceTopBar(
                     scrollBehavior = scrollBehavior,
-                    defPercentage = defPercentage
+                    defPercentage = defPercentage,
+                    currentOverAll = overAllPercentage
                 )
             }
         },
         bottomBar = {
-            AttendanceBottomAppbar(
-                isSelectWindowActive = isSelectWindowActive,
+            AttendanceBottomAppbar(isSelectWindowActive = isSelectWindowActive,
                 action = {
                     navController.navigate(
                         AttendanceRoute.AddEditAttendanceScreen.route
@@ -191,41 +197,32 @@ fun AttendanceScreen(
                 checkBoxTickState = selectedAttendance.size == attendanceListSize.intValue,
                 onCheckBoxClick = {
                     isSelectAllClick = !isSelectAllClick
-                    viewModel
-                        .onEvent(
-                            AttendanceEvent.SelectAllClick(
-                                attendanceList.itemSnapshotList.items.toList(),
-                                isSelectAllClick
-                            )
+                    viewModel.onEvent(
+                        AttendanceEvent.SelectAllClick(
+                            attendanceList.itemSnapshotList.items.toList(), isSelectAllClick
                         )
+                    )
                 },
                 onArchiveClick = {
-                    if (isSelectWindowActive)
-                        viewModel.onEvent(AttendanceEvent.SelectedItemToArchive)
-                    else
-                        isArchiveBottomSheetVisible = true
+                    if (isSelectWindowActive) viewModel.onEvent(AttendanceEvent.SelectedItemToArchive)
+                    else isArchiveBottomSheetVisible = true
                 },
                 onAddFromSyllabusClick = {
                     isAddFromSyllabusBottomSheetVisible = !isAddFromSyllabusBottomSheetVisible
                 },
                 onSettingClick = {
                     isSettingDialogVisible = true
-                }
-            )
-        })
-    {
-        if (isAddFromSyllabusBottomSheetVisible)
-            ModalBottomSheet(
-                onDismissRequest = { isAddFromSyllabusBottomSheetVisible = false }
-            ) {
-                bottomSheetAddFromSyllabus(
-                    viewModel = viewModel,
-                    navController = navController,
-                    dismissRequest = {
-                        isAddFromSyllabusBottomSheetVisible = false
-                    }
-                )
-            }
+                })
+        }) {
+        if (isAddFromSyllabusBottomSheetVisible) ModalBottomSheet(onDismissRequest = {
+            isAddFromSyllabusBottomSheetVisible = false
+        }) {
+            bottomSheetAddFromSyllabus(viewModel = viewModel,
+                navController = navController,
+                dismissRequest = {
+                    isAddFromSyllabusBottomSheetVisible = false
+                })
+        }
         if (isArchiveBottomSheetVisible) {
             ModalBottomSheet(onDismissRequest = { isArchiveBottomSheetVisible = false }) {
                 bottomSheetArchive(
@@ -237,12 +234,9 @@ fun AttendanceScreen(
             Dialog(
                 onDismissRequest = { isSettingDialogVisible = false },
             ) {
-                AttendanceSettingDialog(
-                    viewModel = viewModel,
-                    onDismiss = {
-                        isSettingDialogVisible = false
-                    }
-                )
+                AttendanceSettingDialog(viewModel = viewModel, onDismiss = {
+                    isSettingDialogVisible = false
+                })
             }
         }
         if (attendanceList.itemCount == 0) {
@@ -254,20 +248,16 @@ fun AttendanceScreen(
             return@Scaffold
         }
         if (isDialogBoxVisible) {
-            ShowWarningDialog(
-                onDismissRequest = {
-                    isDialogBoxVisible = false
-                },
-                onConfirmClick = {
-                    viewModel.onEvent(
-                        AttendanceEvent.DeleteSelectedItems
-                    )
-                    isDialogBoxVisible = false
-                },
-                onDismissClick = {
-                    isDialogBoxVisible = false
-                }
-            )
+            ShowWarningDialog(onDismissRequest = {
+                isDialogBoxVisible = false
+            }, onConfirmClick = {
+                viewModel.onEvent(
+                    AttendanceEvent.DeleteSelectedItems
+                )
+                isDialogBoxVisible = false
+            }, onDismissClick = {
+                isDialogBoxVisible = false
+            })
         }
         val sheetState = rememberModalBottomSheetState()
         var isCalenderBottomSheetVisible by rememberSaveable {
@@ -294,8 +284,7 @@ fun AttendanceScreen(
                 AttendanceMenu(attendanceModel = currentClickAttendance!!,
                     onEditClick = { attendanceModel ->
                         navController.navigate(
-                            AttendanceRoute.AddEditAttendanceScreen.route +
-                                    "?attendanceId=${attendanceModel.id}"
+                            AttendanceRoute.AddEditAttendanceScreen.route + "?attendanceId=${attendanceModel.id}"
                         )
                     },
                     isUndoEnable = currentClickAttendance?.stack?.isNotEmpty() ?: true,
@@ -331,8 +320,7 @@ fun AttendanceScreen(
             attendanceListSize.intValue = attendanceList.itemCount
             items(count = attendanceList.itemCount,
                 key = attendanceList.itemKey { model -> model.id.toString() + "" + model.subject },
-                contentType = attendanceList.itemContentType { model -> model.id.toString() })
-            { index ->
+                contentType = attendanceList.itemContentType { model -> model.id.toString() }) { index ->
                 attendanceList[index]?.let { model ->
                     AttendanceItem(
                         model = model,
@@ -359,8 +347,7 @@ fun AttendanceScreen(
                         onSelect = { clAtt, isSelected ->
                             viewModel.onEvent(
                                 AttendanceEvent.ItemSelectedClick(
-                                    attendanceModel = clAtt,
-                                    isAdded = isSelected
+                                    attendanceModel = clAtt, isAdded = isSelected
                                 )
                             )
                         },
@@ -379,7 +366,8 @@ fun AttendanceScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 private fun AttendanceTopBar(
     scrollBehavior: TopAppBarScrollBehavior,
-    defPercentage: Int
+    defPercentage: Int,
+    currentOverAll: Float
 ) {
     TopAppBar(
         title = {
@@ -395,14 +383,23 @@ private fun AttendanceTopBar(
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(grid_1))
+                val emoji = when {
+                    currentOverAll >= 80 -> stringResource(id = R.string.moreThan80)
+                    currentOverAll >= defPercentage -> stringResource(id = R.string.moreThanDefault)
+                    currentOverAll < defPercentage && currentOverAll > 60F -> stringResource(id = R.string.lessThanDefault)
+                    currentOverAll < 60F && currentOverAll != 0F -> stringResource(id = R.string.lessThan60)
+                    else -> stringResource(id = R.string.def_emoji)
+                }
                 Text(
-                    text = "😎",
+                    text = emoji,
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(grid_1))
+                val df = DecimalFormat("#.#")
+                df.roundingMode = RoundingMode.FLOOR
                 Text(
-                    text = "Current : 75%",
+                    text = "Current : ${df.format(currentOverAll)}%",
                     style = MaterialTheme.typography.titleSmall,
                     modifier = Modifier.padding(end = grid_1),
                     color = MaterialTheme.colorScheme.primary
@@ -419,39 +416,31 @@ fun ShowWarningDialog(
     onConfirmClick: () -> Unit = {},
     onDismissClick: () -> Unit = {}
 ) {
-    AlertDialog(
-        modifier = modifier,
-        icon = {
-            Icon(imageVector = Icons.Outlined.DeleteForever, contentDescription = null)
-        },
-        title = {
-            Text(text = "Delete Attendance")
-        },
-        text = {
-            Text(text = "Are you sure you want to delete selected attendance?")
-        },
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(onClick = onConfirmClick) {
-                Icon(
-                    modifier = Modifier.padding(end = grid_1),
-                    imageVector = Icons.Default.CheckCircle,
-                    contentDescription = null
-                )
-                Text(text = "Confirm")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismissClick) {
-                Icon(
-                    modifier = Modifier.padding(end = grid_1),
-                    imageVector = Icons.Default.Cancel,
-                    contentDescription = null
-                )
-                Text(text = "Cancel")
-            }
+    AlertDialog(modifier = modifier, icon = {
+        Icon(imageVector = Icons.Outlined.DeleteForever, contentDescription = null)
+    }, title = {
+        Text(text = "Delete Attendance")
+    }, text = {
+        Text(text = "Are you sure you want to delete selected attendance?")
+    }, onDismissRequest = onDismissRequest, confirmButton = {
+        TextButton(onClick = onConfirmClick) {
+            Icon(
+                modifier = Modifier.padding(end = grid_1),
+                imageVector = Icons.Default.CheckCircle,
+                contentDescription = null
+            )
+            Text(text = "Confirm")
         }
-    )
+    }, dismissButton = {
+        TextButton(onClick = onDismissClick) {
+            Icon(
+                modifier = Modifier.padding(end = grid_1),
+                imageVector = Icons.Default.Cancel,
+                contentDescription = null
+            )
+            Text(text = "Cancel")
+        }
+    })
 }
 
 @Composable
@@ -480,13 +469,9 @@ fun AttendanceBottomAppbar(
             contentDescription = R.string.archive,
             onClick = onArchiveClick,
             isEnable = if (isSelectWindowActive) list.isNotEmpty() else true,
-            tint = if (isSelectWindowActive)
-                if (list.isEmpty())
-                    MaterialTheme.colorScheme.captionColor
-                else
-                    MaterialTheme.colorScheme.primary
-            else
-                LocalContentColor.current
+            tint = if (isSelectWindowActive) if (list.isEmpty()) MaterialTheme.colorScheme.captionColor
+            else MaterialTheme.colorScheme.primary
+            else LocalContentColor.current
 
         ),
         ImageIconModel(
@@ -501,13 +486,9 @@ fun AttendanceBottomAppbar(
             onClick = onDeleteClick,
             isVisible = isSelectWindowActive,
             isEnable = if (isSelectWindowActive) list.isNotEmpty() else true,
-            tint = if (isSelectWindowActive)
-                if (list.isEmpty())
-                    MaterialTheme.colorScheme.captionColor
-                else
-                    MaterialTheme.colorScheme.primary
-            else
-                LocalContentColor.current
+            tint = if (isSelectWindowActive) if (list.isEmpty()) MaterialTheme.colorScheme.captionColor
+            else MaterialTheme.colorScheme.primary
+            else LocalContentColor.current
         ),
         ImageIconModel(
             imageVector = Icons.Outlined.Checklist,
@@ -519,16 +500,13 @@ fun AttendanceBottomAppbar(
     )
     BottomAppBar(modifier = modifier, actions = {
         AnimatedVisibility(visible = isSelectWindowActive) {
-            TriStateCheckbox(
-                state = when {
-                    list.isEmpty() -> ToggleableState.Off
-                    checkBoxTickState -> ToggleableState.On
-                    else -> ToggleableState.Indeterminate
-                },
-                onClick = {
-                    onCheckBoxClick()
-                }
-            )
+            TriStateCheckbox(state = when {
+                list.isEmpty() -> ToggleableState.Off
+                checkBoxTickState -> ToggleableState.On
+                else -> ToggleableState.Indeterminate
+            }, onClick = {
+                onCheckBoxClick()
+            })
         }
         AnimatedVisibility(visible = isSelectWindowActive) {
             Text(

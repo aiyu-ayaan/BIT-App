@@ -94,4 +94,10 @@
     <string-array name="email">
         <item>ayaan35200@gmail.com</item>
     </string-array>
+
+    <string name="moreThan80">😎</string>
+    <string name="moreThanDefault">😁</string>
+    <string name="lessThanDefault">😥</string>
+    <string name="lessThan60">😣</string>
+    <string name="def_emoji">🤓</string>
 </resources>
