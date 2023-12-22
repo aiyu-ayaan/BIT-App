@@ -11,6 +11,7 @@ import com.atech.bit.utils.saveTheme
 import com.atech.core.datasource.firebase.remote.RemoteConfigHelper
 import com.atech.core.datasource.firebase.remote.model.CourseDetails
 import com.atech.core.datasource.firebase.remote.model.defaultCourseSem
+import com.atech.core.usecase.HasLogIn
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
@@ -22,9 +23,13 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val conf: RemoteConfigHelper,
     private val pref: SharedPreferences,
+    private val logIn: HasLogIn,
 ) : ViewModel() {
     private val _courseDetail = mutableStateOf(defaultCourseSem)
     val courseDetail: State<CourseDetails> get() = _courseDetail
+
+    val hasSetUpDone = logIn.invoke() || pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
+
     fun fetchRemoteConfigDetails() {
         conf.fetchData(
             failure = {

@@ -48,6 +48,7 @@ import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.activity.main.ThemeMode
 import com.atech.bit.ui.comman.GoogleButton
 import com.atech.bit.ui.navigation.LogInRoutes
+import com.atech.bit.ui.navigation.TopLevelRoute
 import com.atech.bit.ui.screens.login.LogInScreenEvents
 import com.atech.bit.ui.screens.login.LogInState
 import com.atech.bit.ui.screens.login.LogInViewModel
@@ -69,13 +70,27 @@ fun LoginScreen(
 ) {
     var isDialogVisible by rememberSaveable { mutableStateOf(false) }
     var logInMessage by rememberSaveable { mutableStateOf("Creating Account...") }
-    var hasClick by  rememberSaveable { mutableStateOf(false) }
+    var hasClick by rememberSaveable { mutableStateOf(false) }
     val logInState by viewModel.logInState
     val context = LocalContext.current
     val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
             context = context, oneTapClient = Identity.getSignInClient(context)
         )
+    }
+    LaunchedEffect(key1 = true) {
+        if (viewModel.logInUseCase.hasLogIn() && !viewModel.hasSetUpDone) {
+            navigateToChooseSem(navController)
+        }
+        if (viewModel.logInUseCase.hasLogIn() && viewModel.hasSetUpDone) {
+            navController.navigate(
+                TopLevelRoute.MAIN_SCREEN.route
+            ) {
+                popUpTo(TopLevelRoute.LOGIN.route) {
+                    inclusive = true
+                }
+            }
+        }
     }
 
     LaunchedEffect(key1 = logInState.errorMessage) {

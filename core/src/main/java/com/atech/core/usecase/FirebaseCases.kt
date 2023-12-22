@@ -1,10 +1,13 @@
 package com.atech.core.usecase
 
 
+import com.atech.core.datasource.datastore.Cgpa
+import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.firebase.firestore.NoticeModel
+import com.atech.core.utils.toJSON
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.snapshots
@@ -17,13 +20,12 @@ import javax.inject.Inject
 data class FirebaseLoginUseCase @Inject constructor(
     val addUser: AddUser,
     val checkUserData: CheckUserData,
+    val uploadDataToFirebase: UploadDataToFirebase,
 )
 
 
 data class FirebaseCase @Inject constructor(
-    val getEvent: GetEvent,
-    val getNotice: GetNotice,
-    val getAttach: GetAttach
+    val getEvent: GetEvent, val getNotice: GetNotice, val getAttach: GetAttach
 )
 
 enum class Db(val value: String) {
@@ -84,18 +86,73 @@ class CheckUserData @Inject constructor(
 ) {
     suspend operator fun invoke(
         uid: String,
-    ): (Pair<Boolean?, Exception?>) =
-        try {
-            val d = db.collection(Db.User.value).document(uid).collection(Db.Data.value)
-                .document(uid).get().await()
-            if (d != null) {
-                val s = d.getString("courseSem")
-                if (s != null) Pair(true, null)
-                else Pair(false, null)
-            } else {
-                Pair(false, null)
-            }
-        } catch (e: Exception) {
-            Pair(null, e)
+    ): (Pair<Boolean?, Exception?>) = try {
+        val d =
+            db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).get()
+                .await()
+        if (d != null) {
+            val s = d.getString("courseSem")
+            if (s != null) Pair(true, null)
+            else Pair(false, null)
+        } else {
+            Pair(false, null)
         }
+    } catch (e: Exception) {
+        Pair(null, e)
+    }
+}
+
+
+class UploadDataToFirebase @Inject constructor(
+    private val db: FirebaseFirestore, private val checkUserData: CheckUserData
+) {
+    private suspend fun updateSyncTime(uid: String): Exception? = try {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid)
+            .update("syncTime", System.currentTimeMillis()).await()
+        null
+    } catch (e: Exception) {
+        e
+    }
+
+    suspend fun updateCourse(uid: String, course: String, sem: String): Exception? = try {
+        val ref = db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+        val courseSem = "$course $sem"
+        val (hasData, exception) = checkUserData.invoke(uid)
+        if (exception != null) {
+            ref.document(uid).set(mapOf("courseSem" to courseSem)).await()
+        } else {
+            if (hasData == true) ref.document(uid).update(mapOf("courseSem" to courseSem)).await()
+            else ref.document(uid).set(mapOf("courseSem" to courseSem)).await()
+        }
+        updateSyncTime(uid)
+        null
+    } catch (e: Exception) {
+        e
+    }
+
+    suspend fun updateCgpa(
+        uid: String,
+        cgpa: Cgpa,
+    ): Exception? = try {
+        val ref = db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+        val jsonCgpa = toJSON(cgpa)
+        ref.document(uid).update(mapOf("cgpa" to jsonCgpa)).await()
+        updateSyncTime(uid)
+        null
+    } catch (e: Exception) {
+        e
+    }
+
+    suspend fun updateAttendance(
+        uid: String,
+        attendance: List<AttendanceUploadModel>,
+    ): Exception? = try {
+        val json = toJSON(attendance)
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value)
+            .document(uid).update(mapOf("attendance" to json))
+        updateSyncTime(uid)
+        null
+    } catch (e: Exception) {
+        e
+    }
 }

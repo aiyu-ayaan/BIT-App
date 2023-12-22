@@ -6,6 +6,7 @@ import com.atech.core.datasource.room.attendance.AttendanceDao
 import com.atech.core.usecase.Encryption.encryptText
 import com.atech.core.usecase.Encryption.getCryptore
 import com.atech.core.utils.BitAppScope
+import com.atech.core.utils.UpdateDataType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -16,6 +17,9 @@ import javax.inject.Inject
 
 data class AuthUseCases @Inject constructor(
     val logIn: LogIn,
+    val getUid: GetUid,
+    val hasLogIn: HasLogIn,
+    val uploadData: UploadData
 )
 
 data class LogIn @Inject constructor(
@@ -65,8 +69,48 @@ data class LogIn @Inject constructor(
     }
 }
 
-class GetUid @Inject constructor(
+
+data class HasLogIn @Inject constructor(
+    private val auth: FirebaseAuth
+) {
+    operator fun invoke(): Boolean = auth.currentUser != null
+}
+
+
+data class GetUid @Inject constructor(
     private val auth: FirebaseAuth
 ) {
     operator fun invoke(): String? = auth.currentUser?.uid
+}
+
+data class UploadData @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseLoginUseCase,
+) {
+    suspend fun invoke(
+        updateDataType: UpdateDataType
+    ): Exception? = try {
+        when (updateDataType) {
+            is UpdateDataType.UpdateCgpa ->
+                firebaseCases.uploadDataToFirebase.updateCgpa(
+                    auth.currentUser?.uid.toString(),
+                    updateDataType.cgpa
+                )
+
+            is UpdateDataType.UpdateCourseSem ->
+                firebaseCases.uploadDataToFirebase.updateCourse(
+                    auth.currentUser?.uid.toString(),
+                    updateDataType.course,
+                    updateDataType.sem
+                )
+
+            is UpdateDataType.UploadAttendance ->
+                firebaseCases.uploadDataToFirebase.updateAttendance(
+                    auth.currentUser?.uid.toString(),
+                    updateDataType.data
+                )
+        }
+    } catch (e: Exception) {
+        e
+    }
 }

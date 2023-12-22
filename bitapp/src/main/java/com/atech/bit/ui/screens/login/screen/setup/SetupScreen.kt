@@ -18,10 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,8 @@ import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.utils.getVersion
+import com.atech.core.utils.UpdateDataType
+import kotlinx.coroutines.launch
 
 @Composable
 fun SetUpScreen(
@@ -54,6 +58,8 @@ fun SetUpScreen(
     var isBottomSheetVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
     BITAppTheme(
         statusBarColor = null,
         dynamicColor = communicatorViewModel.themeState.value.isDynamicColorActive,
@@ -118,6 +124,18 @@ fun SetUpScreen(
                                 it.second
                             )
                         )
+                        if (viewModel.logInUseCase.hasLogIn()) {
+                            scope.launch {
+                                viewModel.logInUseCase.uploadData.invoke(
+                                    UpdateDataType
+                                        .UpdateCourseSem(
+                                            course = it.first,
+                                            sem = it.second
+                                        )
+                                )
+                            }
+                            viewModel.updateSetUpDone(true)
+                        }
                         navController.navigate(
                             TopLevelRoute.MAIN_SCREEN.route
                         ) {
