@@ -49,6 +49,15 @@ class LogInViewModel @Inject constructor(
         }.apply()
     }
 
+    fun updateSkipLog(
+        value: Boolean = false
+    ) {
+        pref.edit().apply {
+            putBoolean(SharePrefKeys.PermanentSkipLogin.name, value)
+        }.apply()
+    }
+
+
     fun onEvent(event: LogInScreenEvents) {
         when (event) {
             is LogInScreenEvents.SaveCoursePref -> viewModelScope.launch {

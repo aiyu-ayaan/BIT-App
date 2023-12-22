@@ -12,7 +12,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
@@ -89,7 +88,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 
 @OptIn(
-    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
+    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
 )
 @Composable
 fun AttendanceScreen(

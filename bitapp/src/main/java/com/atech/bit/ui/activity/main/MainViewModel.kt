@@ -28,24 +28,24 @@ class MainViewModel @Inject constructor(
     private val _courseDetail = mutableStateOf(defaultCourseSem)
     val courseDetail: State<CourseDetails> get() = _courseDetail
 
-    val hasSetUpDone = logIn.invoke() || pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
+    val hasSetUpDone =
+        (logIn.invoke() || pref.getBoolean(SharePrefKeys.SetUpDone.name, false)) || pref.getBoolean(
+            SharePrefKeys.PermanentSkipLogin.name,
+            false
+        )
 
     fun fetchRemoteConfigDetails() {
-        conf.fetchData(
-            failure = {
-                Log.e(TAGS.BIT_REMOTE.name, "fetchRemoteConfigDetails: ${it.message}")
+        conf.fetchData(failure = {
+            Log.e(TAGS.BIT_REMOTE.name, "fetchRemoteConfigDetails: ${it.message}")
+        }) {
+            conf.getString(RemoteConfigKeys.CourseDetails.value).let {
+                _courseDetail.value =
+                    fromJSON(it, CourseDetails::class.java) ?: defaultCourseSem
+                pref.edit().putString(SharePrefKeys.CourseDetails.name, it).apply()
             }
-        ) {
-            conf.getString(RemoteConfigKeys.CourseDetails.value)
-                .let {
-                    _courseDetail.value =
-                        fromJSON(it, CourseDetails::class.java) ?: defaultCourseSem
-                    pref.edit().putString(SharePrefKeys.CourseDetails.name, it).apply()
-                }
-            conf.getString(RemoteConfigKeys.KeyToggleSyllabusSource.value)
-                .let {
-                    pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
-                }
+            conf.getString(RemoteConfigKeys.KeyToggleSyllabusSource.value).let {
+                pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
+            }
         }
     }
 

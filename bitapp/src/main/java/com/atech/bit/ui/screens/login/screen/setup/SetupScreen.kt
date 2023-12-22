@@ -23,7 +23,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,17 +68,14 @@ fun SetUpScreen(
         }
     ) {
         Box(
-            modifier = modifier
-                .fillMaxSize()
+            modifier = modifier.fillMaxSize()
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 LottieAnim(
-                    res = R.raw.welcome,
-                    modifier = Modifier.size(400.dp)
+                    res = R.raw.welcome, modifier = Modifier.size(400.dp)
                 )
                 Text(
                     text = stringResource(id = R.string.app_name),
@@ -91,10 +87,9 @@ fun SetUpScreen(
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
-            ExtendedFloatingActionButton(
-                modifier = Modifier
-                    .padding(grid_2)
-                    .align(Alignment.BottomEnd),
+            ExtendedFloatingActionButton(modifier = Modifier
+                .padding(grid_2)
+                .align(Alignment.BottomEnd),
                 containerColor = MaterialTheme.colorScheme.primary,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 text = { Text(text = "Course Preference") },
@@ -108,8 +103,7 @@ fun SetUpScreen(
                     isBottomSheetVisible = true
                 })
             if (isBottomSheetVisible) {
-                ChooseSemBottomSheet(
-                    model = courseDetail,
+                ChooseSemBottomSheet(model = courseDetail,
                     course = course,
                     sem = sem,
                     onDismissRequest = {
@@ -119,21 +113,23 @@ fun SetUpScreen(
                         isBottomSheetVisible = false
                         viewModel.onEvent(
                             LogInScreenEvents.SaveCoursePref(
-                                it.first,
-                                it.second
+                                it.first, it.second
                             )
                         )
                         if (viewModel.logInUseCase.hasLogIn()) {
                             scope.launch {
                                 viewModel.logInUseCase.uploadData.invoke(
-                                    UpdateDataType
-                                        .UpdateCourseSem(
-                                            course = it.first,
-                                            sem = it.second
-                                        )
+                                    UpdateDataType.UpdateCourseSem(
+                                        course = it.first, sem = it.second
+                                    )
                                 )
+                                viewModel.updateSetUpDone(true)
                             }
-                            viewModel.updateSetUpDone(true)
+                        }
+                        if (!viewModel.logInUseCase.hasLogIn() &&
+                            viewModel.logInUseCase.getUid() == null
+                        ) {
+                            viewModel.updateSkipLog(true)
                         }
                         navController.navigate(
                             TopLevelRoute.MAIN_SCREEN.route
@@ -142,8 +138,7 @@ fun SetUpScreen(
                                 inclusive = true
                             }
                         }
-                    }
-                )
+                    })
             }
         }
     }
