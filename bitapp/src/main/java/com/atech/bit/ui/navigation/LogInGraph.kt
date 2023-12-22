@@ -3,7 +3,7 @@ package com.atech.bit.ui.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
-import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.screens.login.LogInViewModel
 import com.atech.bit.ui.screens.login.screen.login.LoginScreen
 import com.atech.bit.ui.screens.login.screen.setup.SetUpScreen

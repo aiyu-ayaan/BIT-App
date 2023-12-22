@@ -10,7 +10,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.screens.MainScreen
 import com.atech.bit.ui.screens.administration.AdministrationScreen
 import com.atech.bit.ui.screens.cgpa.compose.CgpaScreen

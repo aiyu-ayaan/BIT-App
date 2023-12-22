@@ -68,8 +68,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
-import com.atech.bit.ui.activity.MainViewModel
-import com.atech.bit.ui.activity.ThemeMode
+import com.atech.bit.ui.activity.main.MainViewModel
+import com.atech.bit.ui.activity.main.ThemeMode
 import com.atech.bit.ui.comman.NavHeader
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.AppNavigationGraph

@@ -32,8 +32,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.atech.bit.ui.activity.MainViewModel
-import com.atech.bit.ui.activity.toggleDrawer
+import com.atech.bit.ui.activity.main.MainViewModel
+import com.atech.bit.ui.activity.main.toggleDrawer
 import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.ChooseSemBottomSheet
 import com.atech.bit.ui.comman.DevNote

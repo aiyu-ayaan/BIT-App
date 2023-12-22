@@ -36,8 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
-import com.atech.bit.ui.activity.MainViewModel
-import com.atech.bit.ui.activity.ThemeMode
+import com.atech.bit.ui.activity.main.MainViewModel
+import com.atech.bit.ui.activity.main.ThemeMode
 import com.atech.bit.ui.comman.GoogleButton
 import com.atech.bit.ui.navigation.LogInRoutes
 import com.atech.bit.ui.screens.login.LogInViewModel

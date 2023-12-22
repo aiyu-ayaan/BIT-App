@@ -1,4 +1,4 @@
-package com.atech.bit.ui.activity
+package com.atech.bit.ui.activity.main
 
 import android.content.SharedPreferences
 import android.util.Log

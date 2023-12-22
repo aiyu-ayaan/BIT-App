@@ -1,4 +1,4 @@
-package com.atech.bit.ui.activity
+package com.atech.bit.ui.activity.main
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -31,31 +31,6 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen().apply {
-            setOnExitAnimationListener { screen ->
-                val zoomX = ObjectAnimator.ofFloat(
-                    screen.iconView,
-                    "scaleX",
-                    1f,
-                    1.5f
-                )
-                zoomX.interpolator = OvershootInterpolator()
-                zoomX.duration = 500L
-                zoomX.doOnEnd { screen.remove() }
-                val zoomY = ObjectAnimator.ofFloat(
-                    screen.iconView,
-                    "scaleY",
-                    1f,
-                    1.5f
-                )
-                zoomY.interpolator = OvershootInterpolator()
-                zoomY.duration = 500L
-                zoomY.doOnEnd { screen.remove() }
-
-                zoomX.start()
-                zoomY.start()
-            }
-        }
         setContent {
             val themeState by viewModel.themeState
             val navHostController = rememberNavController()

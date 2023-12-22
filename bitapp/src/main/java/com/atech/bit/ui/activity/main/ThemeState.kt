@@ -1,4 +1,4 @@
-package com.atech.bit.ui.activity
+package com.atech.bit.ui.activity.main
 
 enum class ThemeMode {
     LIGHT, DARK, SYSTEM

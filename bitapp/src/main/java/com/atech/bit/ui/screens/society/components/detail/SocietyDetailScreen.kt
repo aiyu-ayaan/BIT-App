@@ -24,7 +24,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.atech.bit.R
-import com.atech.bit.ui.activity.MainActivity
+import com.atech.bit.ui.activity.main.MainActivity
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.ImageIconButton

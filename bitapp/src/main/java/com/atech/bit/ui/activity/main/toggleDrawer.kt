@@ -1,4 +1,4 @@
-package com.atech.bit.ui.activity
+package com.atech.bit.ui.activity.main
 
 import androidx.compose.material3.DrawerValue
 

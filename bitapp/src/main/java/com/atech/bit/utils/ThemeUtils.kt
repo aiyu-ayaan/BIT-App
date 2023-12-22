@@ -1,7 +1,7 @@
 package com.atech.bit.utils
 
 import android.content.SharedPreferences
-import com.atech.bit.ui.activity.ThemeState
+import com.atech.bit.ui.activity.main.ThemeState
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
 import com.atech.core.utils.toJSON

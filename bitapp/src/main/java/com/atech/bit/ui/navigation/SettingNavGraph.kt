@@ -3,7 +3,7 @@ package com.atech.bit.ui.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.navigation
-import com.atech.bit.ui.activity.MainViewModel
+import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.screens.settings.component.SettingScreen
 import com.atech.bit.utils.animatedComposable
 

@@ -51,10 +51,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
-import com.atech.bit.ui.activity.MainViewModel
-import com.atech.bit.ui.activity.ThemeEvent
-import com.atech.bit.ui.activity.ThemeMode
-import com.atech.bit.ui.activity.ThemeState
+import com.atech.bit.ui.activity.main.MainViewModel
+import com.atech.bit.ui.activity.main.ThemeEvent
+import com.atech.bit.ui.activity.main.ThemeMode
+import com.atech.bit.ui.activity.main.ThemeState
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.PreferenceItem
