@@ -1,13 +1,16 @@
 package com.atech.core.usecase
 
 import android.content.Context
+import android.util.Log
 import com.atech.core.datasource.datastore.Cgpa
+import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserModel
+import com.atech.core.datasource.firebase.auth.toAttendanceModelList
 import com.atech.core.datasource.room.attendance.AttendanceDao
 import com.atech.core.datasource.room.syllabus.SyllabusDao
-import com.atech.core.usecase.Encryption.encryptText
-import com.atech.core.usecase.Encryption.getCryptore
 import com.atech.core.utils.BitAppScope
+import com.atech.core.utils.Encryption.encryptText
+import com.atech.core.utils.Encryption.getCryptore
 import com.atech.core.utils.UpdateDataType
 import com.atech.core.utils.fromJSON
 import com.google.firebase.auth.FirebaseAuth
@@ -129,6 +132,24 @@ data class PerformRestore @Inject constructor(
             user.cgpa?.let { cgpa ->
                 fromJSON(cgpa, Cgpa::class.java)?.let {
                     dataStoreCases.updateCgpa(it)
+                }
+            }
+            user.attendance?.let {
+                fromJSON(
+                    it, Array<AttendanceUploadModel>::class.java
+                )?.let { attendanceData ->
+                    val backupAtt = attendanceData.toAttendanceModelList()
+                    attendanceDao.insertAll(backupAtt)
+                    backupAtt.filter { it1 -> it1.fromSyllabus == true }
+                        .forEach { attendanceModel ->
+                            syllabusDao.getSyllabus(attendanceModel.subject)?.let { syllabus ->
+                                syllabusDao.updateSyllabus(
+                                    syllabus.copy(
+                                        isAdded = true
+                                    )
+                                )
+                            }
+                        }
                 }
             }
             onCompletion.invoke()

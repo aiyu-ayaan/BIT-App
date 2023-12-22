@@ -3,6 +3,8 @@ package com.atech.core.datasource.firebase.auth
 import android.os.Parcelable
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
+import com.atech.core.datasource.room.attendance.AttendanceModel
+import com.atech.core.datasource.room.attendance.Days
 import kotlinx.parcelize.Parcelize
 
 @Keep
@@ -28,6 +30,25 @@ data class AttendanceUploadModel(
     val isFromOnlineSyllabus: Boolean? = false,
     val created: Long? = System.currentTimeMillis()
 )
+
+fun Array<AttendanceUploadModel>.toAttendanceModelList() =
+    this.map {
+        AttendanceModel(
+            subject = it.subject,
+            total = it.total,
+            present = it.present,
+            teacher = it.teacher,
+            fromSyllabus = it.fromSyllabus,
+            isArchive = it.isArchive,
+            created = it.created,
+            days = Days(
+                presetDays = arrayListOf(),
+                absentDays = arrayListOf(),
+                totalDays = arrayListOf()
+            ),
+            fromOnlineSyllabus = it.isFromOnlineSyllabus ?: false
+        )
+    }
 
 @Keep
 data class UserData(

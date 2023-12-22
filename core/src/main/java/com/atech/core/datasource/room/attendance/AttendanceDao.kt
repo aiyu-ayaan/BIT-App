@@ -16,6 +16,9 @@ interface AttendanceDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(attendance: AttendanceModel)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(attendances: List<AttendanceModel>)
+
 
     @Update
     suspend fun update(attendance: AttendanceModel)
@@ -48,7 +51,6 @@ interface AttendanceDao {
 
     @Query("DELETE FROM attendance_table WHERE subject_name = :name")
     suspend fun deleteFromSubjectName(name: String)
-
 
 
 }
