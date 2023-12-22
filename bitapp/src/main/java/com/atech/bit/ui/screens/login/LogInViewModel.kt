@@ -25,13 +25,20 @@ class LogInViewModel @Inject constructor(
 
     private var _dateStoreJob: Job? = null
 
+    private val _logInState = mutableStateOf(LogInState())
+    val logInState: State<LogInState> get() = _logInState
+
+    private val _token = mutableStateOf<String?>(null)
+    val token: State<String?> get() = _token
 
     fun onEvent(event: LogInScreenEvents) {
         when (event) {
-            is LogInScreenEvents.SaveCoursePref -> viewModelScope.launch{
+            is LogInScreenEvents.SaveCoursePref -> viewModelScope.launch {
                 dateStoreCase.updateCourse(event.course)
                 dateStoreCase.updateSem(event.sem)
             }
+
+            is LogInScreenEvents.OnSignInResult -> _logInState.value = event.state
         }
     }
 

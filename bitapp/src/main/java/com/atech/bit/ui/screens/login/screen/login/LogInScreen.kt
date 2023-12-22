@@ -1,5 +1,10 @@
 package com.atech.bit.ui.screens.login.screen.login
 
+import android.app.Activity.RESULT_OK
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -21,12 +26,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -40,11 +48,16 @@ import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.activity.main.ThemeMode
 import com.atech.bit.ui.comman.GoogleButton
 import com.atech.bit.ui.navigation.LogInRoutes
+import com.atech.bit.ui.screens.login.LogInScreenEvents
+import com.atech.bit.ui.screens.login.LogInState
 import com.atech.bit.ui.screens.login.LogInViewModel
+import com.atech.bit.ui.screens.login.util.GoogleAuthUiClient
 import com.atech.bit.ui.theme.AppLogo
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.image_view_log_in_size
+import com.google.android.gms.auth.api.identity.Identity
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
@@ -54,6 +67,48 @@ fun LoginScreen(
     communicatorViewModel: MainViewModel = hiltViewModel()
 ) {
     var isDialogVisible by rememberSaveable { mutableStateOf(false) }
+    val logInState by viewModel.logInState
+    val context = LocalContext.current
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = context, oneTapClient = Identity.getSignInClient(context)
+        )
+    }
+
+    LaunchedEffect(key1 = logInState.isSignInError) {
+        logInState.isSignInError?.let { error ->
+            Toast.makeText(context, error, Toast.LENGTH_LONG).show()
+        }
+    }
+    LaunchedEffect(key1 = logInState.userToken) {
+        logInState.userToken?.let { token ->
+//            todo: Handle Login here
+        }
+    }
+
+    val coroutineScope = rememberCoroutineScope()
+
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartIntentSenderForResult(),
+            onResult = { result ->
+                if (result.resultCode == RESULT_OK) {
+                    coroutineScope.launch {
+                        val signInResult = googleAuthUiClient.signInWithIntent(
+                            data = result.data ?: return@launch
+                        )
+                        viewModel.onEvent(
+                            LogInScreenEvents.OnSignInResult(
+                                LogInState(
+                                    isSignInSuccessful = signInResult.first != null,
+                                    userToken = signInResult.first,
+                                    isSignInError = signInResult.second?.message
+                                )
+                            )
+                        )
+                    }
+                }
+            })
+
     BITAppTheme(
         statusBarColor = AppLogo,
         dynamicColor = communicatorViewModel.themeState.value.isDynamicColorActive,
@@ -99,13 +154,21 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                GoogleButton(onClicked = {})
+                GoogleButton(onClicked = {
+                    coroutineScope.launch {
+                        val sigInIntentSender = googleAuthUiClient.signIn()
+                        launcher.launch(
+                            IntentSenderRequest.Builder(
+                                sigInIntentSender ?: return@launch
+                            ).build()
+                        )
+                    }
+                })
                 Spacer(modifier = Modifier.height(grid_1))
                 TextButton(onClick = {
-                    navController
-                        .navigate(
-                            LogInRoutes.SetupScreen.route
-                        )
+                    navController.navigate(
+                        LogInRoutes.SetupScreen.route
+                    )
                 }) {
                     Text(
                         text = stringResource(R.string.skip), modifier = Modifier.padding(grid_1)
@@ -127,23 +190,18 @@ fun LoginScreen(
                 )
                 Spacer(modifier = Modifier.height(grid_1))
             }
-            if (isDialogVisible)
-                WhyLogIn(
-                    onDismissRequest = {
-                        isDialogVisible = false
-                    }
-                )
+            if (isDialogVisible) WhyLogIn(onDismissRequest = {
+                isDialogVisible = false
+            })
         }
     }
 }
 
 @Composable
 fun WhyLogIn(
-    modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit = {}
+    modifier: Modifier = Modifier, onDismissRequest: () -> Unit = {}
 ) {
-    AlertDialog(
-        modifier = modifier,
+    AlertDialog(modifier = modifier,
         onDismissRequest = { onDismissRequest.invoke() },
         confirmButton = {
             TextButton(onClick = { onDismissRequest.invoke() }) {
@@ -164,8 +222,7 @@ fun WhyLogIn(
                         This way you can access your data from any device.
                     """.trimIndent()
             )
-        }
-    )
+        })
 }
 
 @Preview(showBackground = true)
