@@ -106,6 +106,10 @@ fun HomeScreen(
             onProfileClick = {
                 if (communicatorViewModel.checkHasLogIn()) {
                     isProfileDialogVisible = true
+                } else {
+                    communicatorViewModel.onEvent(
+                        MainViewModel.SharedEvents.OpenLogInScreen
+                    )
                 }
             })
     }) {

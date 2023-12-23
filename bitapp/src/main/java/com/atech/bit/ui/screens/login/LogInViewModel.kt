@@ -41,6 +41,8 @@ class LogInViewModel @Inject constructor(
 
     val hasSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
 
+    val hasPermanentSkipLogin = pref.getBoolean(SharePrefKeys.PermanentSkipLogin.name, false)
+
     fun updateSetUpDone(
         value: Boolean = false
     ) {

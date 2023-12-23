@@ -42,6 +42,11 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface
                 ) {
+                    viewModel.action = {
+                        navHostController.navigate(
+                            TopLevelRoute.LOGIN.route
+                        )
+                    }
                     TopLevelNavigationGraph(
                         navHostController = navHostController,
                         communicatorViewModel = viewModel,

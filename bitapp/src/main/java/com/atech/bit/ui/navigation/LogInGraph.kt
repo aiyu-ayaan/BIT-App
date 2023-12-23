@@ -1,7 +1,9 @@
 package com.atech.bit.ui.navigation
 
+import android.content.Intent
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.screens.login.LogInViewModel

@@ -218,7 +218,9 @@ fun LoginScreen(
                 })
                 Spacer(modifier = Modifier.height(grid_1))
                 TextButton(onClick = {
-                    navigateToChooseSem(navController)
+                    if (viewModel.hasSetUpDone || viewModel.hasPermanentSkipLogin)
+                        navController.popBackStack()
+                    else navigateToChooseSem(navController)
                 }) {
                     Text(
                         text = stringResource(R.string.skip), modifier = Modifier.padding(grid_1)

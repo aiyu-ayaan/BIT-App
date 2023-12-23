@@ -37,6 +37,7 @@ class MainViewModel @Inject constructor(
     )) || pref.getBoolean(
         SharePrefKeys.PermanentSkipLogin.name, false
     )
+    var action: () -> Unit = {}
 
     fun checkHasLogIn() = authUseCases.hasLogIn.invoke()
 
@@ -104,6 +105,8 @@ class MainViewModel @Inject constructor(
                     }
                 }
             }
+
+            SharedEvents.OpenLogInScreen -> action.invoke()
         }
     }
 
@@ -136,6 +139,8 @@ class MainViewModel @Inject constructor(
         data object PreformSignOut : SharedEvents
 
         data object FetchUserDetails : SharedEvents
+
+        data object OpenLogInScreen : SharedEvents
     }
 
 }
