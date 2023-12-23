@@ -3,11 +3,13 @@ package com.atech.core.usecase
 import android.content.Context
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
+import com.atech.core.datasource.firebase.auth.UserData
 import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.auth.toAttendanceModelList
 import com.atech.core.datasource.room.attendance.AttendanceDao
 import com.atech.core.datasource.room.syllabus.SyllabusDao
 import com.atech.core.utils.BitAppScope
+import com.atech.core.utils.Encryption.decryptText
 import com.atech.core.utils.Encryption.encryptText
 import com.atech.core.utils.Encryption.getCryptore
 import com.atech.core.utils.UpdateDataType
@@ -21,11 +23,14 @@ import javax.inject.Inject
 
 
 data class AuthUseCases @Inject constructor(
-    val logIn: LogIn, val getUid: GetUid,
+    val logIn: LogIn,
+    val getUid: GetUid,
     val hasLogIn: HasLogIn,
     val uploadData: UploadData,
     val performRestore: PerformRestore,
-    val getUserData: GetUserData
+    val getUserDataFromAuth: GetUserDataFromAuth,
+    val getUserSavedData: GetUserDetails,
+    val getUserFromDatabase: GetUserFromDatabase
 )
 
 data class LogIn @Inject constructor(
@@ -123,7 +128,7 @@ data class PerformRestore @Inject constructor(
         uid: String,
         onCompletion: () -> Unit
     ): Exception? = try {
-        val (user, exception) = firebaseCases.getUserSavedData(uid)
+        val (user, exception) = firebaseCases.getUserSaveDetails(uid)
         exception.also { onCompletion.invoke() } ?: if (user == null) {
             Exception("User not found")
         } else {
@@ -160,8 +165,8 @@ data class PerformRestore @Inject constructor(
     }
 }
 
-data class GetUserData @Inject constructor(
-    private val auth: FirebaseAuth
+data class GetUserDataFromAuth @Inject constructor(
+    private val auth: FirebaseAuth,
 ) {
     operator fun invoke(): Pair<UserModel?, Exception?> = try {
         val user = auth.currentUser
@@ -174,11 +179,60 @@ data class GetUserData @Inject constructor(
             val userEmail = logInUser.email
             val userPhoto = logInUser.photoUrl
             val userModel = UserModel(
-                userId, userName, userEmail, userPhoto.toString()
+                userId,
+                userName,
+                userEmail,
+                userPhoto.toString(),
             )
             Pair(userModel, null)
         } ?: Pair(null, Exception("User not found"))
     } catch (e: Exception) {
         Pair(null, e)
     }
+}
+
+
+data class GetUserFromDatabase @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseLoginUseCase,
+    @ApplicationContext private val context: Context,
+) {
+    suspend operator fun invoke(): Pair<UserModel?, Exception?> = try {
+        firebaseCases.getUserEncryptedData.invoke(auth.uid!!)
+            .let { (user, ex) ->
+                user?.let { enUser ->
+                    convertEncryptedData(auth.uid!!, enUser) to null
+                } ?: run {
+                    null to ex
+                }
+            }
+    } catch (e: Exception) {
+        null to e
+    }
+
+    private fun convertEncryptedData(uid: String, user: UserModel): UserModel {
+        val cryptore = context.getCryptore(uid)
+        val email = cryptore.decryptText(user.email)
+        val name = cryptore.decryptText(user.name)
+        val profilePic = cryptore.decryptText(user.profilePic)
+        return UserModel(
+            email = email,
+            name = name,
+            profilePic = profilePic,
+            uid = user.uid,
+            syncTime = user.syncTime
+        )
+    }
+}
+
+data class GetUserDetails @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val case: FirebaseLoginUseCase
+) {
+    suspend operator fun invoke(): Pair<UserData?, Exception?> =
+        try {
+            case.getUserSaveDetails.invoke(auth.currentUser!!.uid)
+        } catch (e: Exception) {
+            null to e
+        }
 }

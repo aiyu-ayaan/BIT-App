@@ -77,6 +77,10 @@ fun HomeScreen(
     var isChooseSemSelected by rememberSaveable {
         mutableStateOf(false)
     }
+    var isProfileDialogVisible by rememberSaveable {
+        mutableStateOf(false)
+    }
+
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
         SearchToolBar(query = query,
@@ -98,8 +102,12 @@ fun HomeScreen(
                     HomeScreenRoutes.NoticeScreen.route
                 )
             },
-            url = profileUrl
-        )
+            url = profileUrl,
+            onProfileClick = {
+                if (communicatorViewModel.hasLogIn) {
+                    isProfileDialogVisible = true
+                }
+            })
     }) {
         LazyColumn(
             modifier = Modifier
@@ -167,6 +175,13 @@ fun HomeScreen(
                     viewModel.onEvent(
                         HomeScreenEvents.OnCourseChange(it1)
                     )
+                })
+        }
+        if (isProfileDialogVisible) {
+            ProfileDialog(
+                viewModel = communicatorViewModel,
+                onDismissRequest = {
+                    isProfileDialogVisible = false
                 })
         }
     }

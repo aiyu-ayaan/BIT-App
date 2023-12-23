@@ -325,9 +325,12 @@ fun AttendanceScreen(
                     AttendanceItem(
                         model = model,
                         minPercentage = defPercentage,
-                        modifier = Modifier.animateItemPlacement(
-                            animationSpec = tween(),
-                        ),
+                        modifier = Modifier/*.let { it1 ->
+                            if (isAddFromSyllabusBottomSheetVisible && isSelectWindowActive) it1
+                            else it1.animateItemPlacement(
+                                animationSpec = tween(),
+                            )
+                        }*/,
                         onTickOrCrossClickClick = { clickItems, isPresent ->
                             viewModel.onEvent(
                                 AttendanceEvent.ChangeAttendanceValue(

@@ -22,12 +22,15 @@ data class FirebaseLoginUseCase @Inject constructor(
     val addUser: AddUser,
     val checkUserData: CheckUserData,
     val uploadDataToFirebase: UploadDataToFirebase,
-    val getUserSavedData: GetUserSavedData
+    val getUserEncryptedData: GetUserEncryptedData,
+    val getUserSaveDetails: GetUserSaveDetails
 )
 
 
 data class FirebaseCase @Inject constructor(
-    val getEvent: GetEvent, val getNotice: GetNotice, val getAttach: GetAttach
+    val getEvent: GetEvent,
+    val getNotice: GetNotice,
+    val getAttach: GetAttach
 )
 
 enum class Db(val value: String) {
@@ -159,23 +162,35 @@ class UploadDataToFirebase @Inject constructor(
     }
 }
 
-class GetUserSavedData @Inject constructor(
+class GetUserEncryptedData @Inject constructor(
     private val db: FirebaseFirestore
 ) {
-    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> =
+    suspend operator fun invoke(uid: String): Pair<UserModel?, Exception?> =
         try {
             val snapShot =
-                db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid)
-                    .get()
+                db.collection(Db.User.value).document(uid).get()
                     .await()
             if (!snapShot.exists()) {
                 null to Exception("No data found")
             } else {
-                val model = snapShot.toObject(UserData::class.java)
+                val model = snapShot.toObject(UserModel::class.java)
                 model to null
             }
         } catch (e: Exception) {
             null to e
         }
+}
 
+data class GetUserSaveDetails @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> =
+        try {
+            db.collection(Db.User.value).document(uid)
+                .collection(Db.Data.value)
+                .document(uid).get().await()
+                .toObject(UserData::class.java) to null
+        } catch (e: Exception) {
+            null to e
+        }
 }

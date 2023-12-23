@@ -111,6 +111,7 @@ class CgpaViewModel @Inject constructor(
                     earnCrSem4 = sem4.value.earnCredit.toDouble(),
                     earnCrSem5 = sem5.value.earnCredit.toDouble(),
                     earnCrSem6 = sem6.value.earnCredit.toDouble(),
+                    cgpa = _savedCgpa.value.cgpa,
                 )
                 val calculatedCGPA = cgpa.toPair().calculateCgpa()
                 cgpa.copy(cgpa = calculatedCGPA).also {

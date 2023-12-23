@@ -123,7 +123,7 @@ fun CgpaScreen(
                     }
                 )
             CgpaFooter(
-                value = if (calculateCGPA == 1.0) " " else calculateCGPA.toString(),
+                value = if (calculateCGPA == 1.0 || calculateCGPA == 0.0) " " else calculateCGPA.toString(),
                 enable = !hasError,
                 onCalculate = {
                     viewModel.onEvent(CGPAEvent.CalculateAndSave)

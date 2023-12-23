@@ -6,8 +6,10 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.atech.bit.utils.getTheme
 import com.atech.bit.utils.saveTheme
+import com.atech.core.datasource.firebase.auth.UserData
 import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.remote.RemoteConfigHelper
 import com.atech.core.datasource.firebase.remote.model.CourseDetails
@@ -18,6 +20,7 @@ import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,17 +38,21 @@ class MainViewModel @Inject constructor(
         SharePrefKeys.PermanentSkipLogin.name, false
     )
 
-    private val _useModel = mutableStateOf(null as UserModel?)
-    val useModel: State<UserModel?> get() = _useModel
+    val hasLogIn = authUseCases.hasLogIn.invoke()
+
+    private val _useModel = mutableStateOf(UserModel())
+    val useModel: State<UserModel> get() = _useModel
+
+    private val _userData = mutableStateOf(UserData())
+    val userData: State<UserData> get() = _userData
 
     private val _profileLink = mutableStateOf<String?>(null)
     val profileLink: State<String?> get() = _profileLink
 
     init {
         if (authUseCases.hasLogIn.invoke()) {
-            authUseCases.getUserData().let { (model, _) ->
+            authUseCases.getUserDataFromAuth().let { (model, _) ->
                 if (model != null) {
-                    _useModel.value = model
                     _profileLink.value = model.profilePic
                 }
             }
@@ -92,11 +99,24 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun fetchAccountDetail() = viewModelScope.launch {
+        authUseCases.getUserSavedData().let {
+            it.first?.let { data ->
+                _userData.value = data
+            }
+        }
+        authUseCases.getUserFromDatabase().let { (model, _) ->
+            if (model != null) {
+                _useModel.value = model
+            }
+        }
+    }
 
-    sealed class SharedEvents {
-        data object ToggleSearchActive : SharedEvents()
 
-        data class ToggleDrawer(val state: DrawerValue?) : SharedEvents()
+    sealed interface SharedEvents {
+        data object ToggleSearchActive : SharedEvents
+
+        data class ToggleDrawer(val state: DrawerValue?) : SharedEvents
     }
 
 }
