@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(
         SharePrefKeys.PermanentSkipLogin.name, false
     )
 
-    val hasLogIn = authUseCases.hasLogIn.invoke()
+    fun checkHasLogIn() = authUseCases.hasLogIn.invoke()
 
     private val _useModel = mutableStateOf(UserModel())
     val useModel: State<UserModel> get() = _useModel
@@ -87,6 +87,23 @@ class MainViewModel @Inject constructor(
         when (event) {
             SharedEvents.ToggleSearchActive -> _isSearchActive.value = !_isSearchActive.value
             is SharedEvents.ToggleDrawer -> _toggleDrawerState.value = event.state
+            SharedEvents.PreformSignOut -> {
+                authUseCases.signOut.invoke {
+                    _useModel.value = UserModel()
+                    _userData.value = UserData()
+                    _profileLink.value = null
+                }
+            }
+
+            SharedEvents.FetchUserDetails -> {
+                if (authUseCases.hasLogIn.invoke()) {
+                    authUseCases.getUserDataFromAuth().let { (model, _) ->
+                        if (model != null) {
+                            _profileLink.value = model.profilePic
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -115,8 +132,10 @@ class MainViewModel @Inject constructor(
 
     sealed interface SharedEvents {
         data object ToggleSearchActive : SharedEvents
-
         data class ToggleDrawer(val state: DrawerValue?) : SharedEvents
+        data object PreformSignOut : SharedEvents
+
+        data object FetchUserDetails : SharedEvents
     }
 
 }

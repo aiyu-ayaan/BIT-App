@@ -100,4 +100,11 @@
     <string name="lessThanDefault">😥</string>
     <string name="lessThan60">😣</string>
     <string name="def_emoji">🤓</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="cgpa">CGPA</string>
+    <string name="sem">Sem</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="really_want_to_sign_out">Really want to sign out ?</string>
+    <string name="delete_my_account">Delete my Account</string>
 </resources>

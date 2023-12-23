@@ -121,6 +121,10 @@ fun LoginScreen(
                         viewModel.logInUseCase.performRestore.invoke(
                             viewModel.logInUseCase.getUid.invoke()!!
                         ) {
+                            viewModel.updateSetUpDone(true)
+                            communicatorViewModel.onEvent(
+                                MainViewModel.SharedEvents.FetchUserDetails
+                            )
                             navController.navigate(
                                 TopLevelRoute.MAIN_SCREEN.route
                             ) {

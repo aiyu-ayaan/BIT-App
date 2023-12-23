@@ -104,7 +104,7 @@ fun HomeScreen(
             },
             url = profileUrl,
             onProfileClick = {
-                if (communicatorViewModel.hasLogIn) {
+                if (communicatorViewModel.checkHasLogIn()) {
                     isProfileDialogVisible = true
                 }
             })

@@ -124,6 +124,9 @@ fun SetUpScreen(
                                     )
                                 )
                                 viewModel.updateSetUpDone(true)
+                                communicatorViewModel.onEvent(
+                                    MainViewModel.SharedEvents.FetchUserDetails
+                                )
                             }
                         }
                         if (!viewModel.logInUseCase.hasLogIn() &&

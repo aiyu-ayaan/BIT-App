@@ -30,7 +30,8 @@ data class AuthUseCases @Inject constructor(
     val performRestore: PerformRestore,
     val getUserDataFromAuth: GetUserDataFromAuth,
     val getUserSavedData: GetUserDetails,
-    val getUserFromDatabase: GetUserFromDatabase
+    val getUserFromDatabase: GetUserFromDatabase,
+    val signOut: SignOut
 )
 
 data class LogIn @Inject constructor(
@@ -235,4 +236,15 @@ data class GetUserDetails @Inject constructor(
         } catch (e: Exception) {
             null to e
         }
+}
+
+data class SignOut @Inject constructor(
+    private val auth: FirebaseAuth
+) {
+    operator fun invoke(
+        action: () -> Unit
+    ) {
+        auth.signOut()
+        action.invoke()
+    }
 }

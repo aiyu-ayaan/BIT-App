@@ -18,6 +18,7 @@ import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.Leaderboard
 import androidx.compose.material.icons.outlined.Segment
 import androidx.compose.material.icons.outlined.Sync
+import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Card
@@ -30,8 +31,13 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,6 +47,7 @@ import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.comman.EditText
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.ImageLoader
+import com.atech.bit.ui.screens.login.util.GoogleAuthUiClient
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.dividerOrCardColor
 import com.atech.bit.ui.theme.grid_1
@@ -51,6 +58,8 @@ import com.atech.core.datasource.firebase.auth.UserData
 import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.utils.fromJSON
 import com.atech.core.utils.getDate
+import com.google.android.gms.auth.api.identity.Identity
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,11 +68,17 @@ fun ProfileDialog(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     onDismissRequest: () -> Unit = {},
-    signOutClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
 ) {
     val userModel by viewModel.useModel
     val userData by viewModel.userData
+    val context = LocalContext.current
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = context, oneTapClient = Identity.getSignInClient(context)
+        )
+    }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(key1 = true) {
         viewModel.fetchAccountDetail()
@@ -77,8 +92,17 @@ fun ProfileDialog(
             userModel = userModel,
             userData = userData,
             onCloseClick = onDismissRequest,
-            signOutClick = signOutClick,
-            onDeleteClick = onDeleteClick
+            onDeleteClick = onDeleteClick,
+            onSignOutClick = {
+                scope.launch {
+                    googleAuthUiClient.signOut {
+                        viewModel.onEvent(
+                            MainViewModel.SharedEvents.PreformSignOut
+                        )
+                    }
+                    onDismissRequest.invoke()
+                }
+            }
         )
     }
 }
@@ -89,9 +113,10 @@ fun ProfileDialogCompose(
     userModel: UserModel,
     userData: UserData,
     onCloseClick: () -> Unit = {},
-    signOutClick: () -> Unit = {},
+    onSignOutClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
 ) {
+    var isLogOutDialogVisible by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -156,13 +181,13 @@ fun ProfileDialogCompose(
                 EditText(
                     modifier = Modifier.fillMaxWidth(),
                     value = userData.course,
-                    placeholder = "Course",
+                    placeholder = stringResource(R.string.course),
                     readOnly = true,
                     trailingIcon = null
                 )
                 EditText(modifier = Modifier.fillMaxWidth(),
                     value = userData.sem,
-                    placeholder = "Sem",
+                    placeholder = stringResource(R.string.sem),
                     readOnly = true,
                     trailingIcon = null,
                     leadingIcon = {
@@ -184,7 +209,7 @@ fun ProfileDialogCompose(
                     modifier = Modifier.fillMaxWidth(),
                     value = cgpa,
                     trailingIcon = null,
-                    placeholder = "CGPA",
+                    placeholder = stringResource(R.string.cgpa),
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Outlined.Leaderboard,
@@ -195,9 +220,11 @@ fun ProfileDialogCompose(
                     readOnly = true
                 )
                 TextButton(
-                    onClick = signOutClick, modifier = Modifier.fillMaxWidth()
+                    onClick = {
+                        isLogOutDialogVisible = true
+                    }, modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Sign Out")
+                    Text(text = stringResource(R.string.sign_out))
                 }
                 Spacer(modifier = Modifier.height(grid_1))
                 Row(
@@ -225,12 +252,58 @@ fun ProfileDialogCompose(
                     )
                     Spacer(modifier = Modifier.width(grid_1))
                     Text(
-                        text = "Delete my Account", style = MaterialTheme.typography.bodyMedium
+                        text = stringResource(R.string.delete_my_account),
+                        style = MaterialTheme.typography.bodyMedium
                     )
                 }
             }
         }
     }
+    if (isLogOutDialogVisible) {
+        LogOutAlterDialog(
+            onDismissRequest = { isLogOutDialogVisible = false },
+            onPositiveClick = onSignOutClick
+        )
+    }
+}
+
+@Composable
+fun LogOutAlterDialog(
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit = {},
+    onPositiveClick: () -> Unit = {},
+) {
+    AlertDialog(
+        modifier = modifier,
+        title = {
+            Text(text = stringResource(R.string.sign_out))
+        },
+        text = {
+            Text(text = stringResource(R.string.really_want_to_sign_out))
+        },
+        icon = {
+            Icon(
+                imageVector = Icons.Outlined.Warning,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
+        },
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(onClick = {
+                onPositiveClick.invoke()
+                onDismissRequest.invoke()
+            }
+            ) {
+                Text(text = stringResource(R.string.yes))
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text(text = stringResource(R.string.no))
+            }
+        },
+    )
 }
 
 
