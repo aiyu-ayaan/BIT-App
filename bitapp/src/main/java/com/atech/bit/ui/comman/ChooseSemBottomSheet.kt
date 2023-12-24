@@ -121,7 +121,11 @@ fun ChooseSemBottomSheetScreen(
         Spacer(modifier = Modifier.height(grid_1))
         Text(text = "Choose your Course !!")
         Spacer(modifier = Modifier.height(grid_1))
-        Row {
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ){
             mapList.keys.forEach {
                 val isSelected = course == it
                 FilterChip(selected = isSelected,
@@ -145,7 +149,11 @@ fun ChooseSemBottomSheetScreen(
         Text(text = "Choose your Semester !!")
         Spacer(modifier = Modifier.height(grid_1))
         val maxSem = mapList[course]!!.toInt()
-        Row {
+        Row (
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ){
             (1..maxSem).forEach {
                 val isSelected = sem == it.toString()
                 FilterChip(
@@ -168,7 +176,7 @@ fun ChooseSemBottomSheetScreen(
 @Composable
 private fun ChooseSemBottomSheetPreview() {
     BITAppTheme {
-        ChooseSemBottomSheet(
+        ChooseSemBottomSheetScreen(
             model = CourseDetails(
                 course = listOf(
                     CourseDetailModel(
