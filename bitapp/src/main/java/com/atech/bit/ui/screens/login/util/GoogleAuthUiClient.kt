@@ -1,6 +1,5 @@
 package com.atech.bit.ui.screens.login.util
 
-import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.util.Log
@@ -13,7 +12,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
 class GoogleAuthUiClient(
-    private val context: Context, private val oneTapClient: SignInClient
+    private val oneTapClient: SignInClient
 ) {
     suspend fun signIn(): IntentSender? {
         val result = try {
@@ -35,6 +34,7 @@ class GoogleAuthUiClient(
         }
         Pair(null, Exception("No Google ID token"))
     } catch (e: Exception) {
+        Log.d("AAA", "signInWithIntent: $e")
         Pair(null, e)
     }
 

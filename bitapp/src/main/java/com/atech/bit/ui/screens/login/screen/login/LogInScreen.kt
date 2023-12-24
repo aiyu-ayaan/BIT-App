@@ -75,7 +75,7 @@ fun LoginScreen(
     val context = LocalContext.current
     val googleAuthUiClient by lazy {
         GoogleAuthUiClient(
-            context = context, oneTapClient = Identity.getSignInClient(context)
+            oneTapClient = Identity.getSignInClient(context)
         )
     }
     LaunchedEffect(key1 = true) {
@@ -86,6 +86,7 @@ fun LoginScreen(
             navController.navigate(
                 TopLevelRoute.MAIN_SCREEN.route
             ) {
+                launchSingleTop = true
                 popUpTo(TopLevelRoute.LOGIN.route) {
                     inclusive = true
                 }
@@ -128,6 +129,7 @@ fun LoginScreen(
                             navController.navigate(
                                 TopLevelRoute.MAIN_SCREEN.route
                             ) {
+                                launchSingleTop = true
                                 popUpTo(TopLevelRoute.LOGIN.route) {
                                     inclusive = true
                                 }

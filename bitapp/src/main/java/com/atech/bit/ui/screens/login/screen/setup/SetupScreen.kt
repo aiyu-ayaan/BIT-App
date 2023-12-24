@@ -137,6 +137,7 @@ fun SetUpScreen(
                         navController.navigate(
                             TopLevelRoute.MAIN_SCREEN.route
                         ) {
+                            launchSingleTop = true
                             popUpTo(TopLevelRoute.LOGIN.route) {
                                 inclusive = true
                             }
