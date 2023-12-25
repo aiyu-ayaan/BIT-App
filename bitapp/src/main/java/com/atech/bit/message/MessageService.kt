@@ -49,7 +49,7 @@ class MessageService : FirebaseMessagingService() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
 
         val pendingIntent = when {
-//            p0.data["type"] == "Notice" -> providePendingIntentNotice(getPath(p0))
+            p0.data["type"] == "Notice" -> providePendingIntentNotice(getPath(p0))
             p0.data["type"] == "Event" -> providePendingIntentEvent(getPath(p0))
             p0.data["type"] == "Update" -> providePendingIntentUpdate()
             else -> providePendingIntentApp()
@@ -69,6 +69,22 @@ class MessageService : FirebaseMessagingService() {
             return
         }
         managerCompat.notify(Random.nextInt(), builder.build())
+    }
+
+    private fun providePendingIntentNotice(path: String): PendingIntent? {
+        val deepLinkIntent =
+            Intent(
+                Intent.ACTION_VIEW,
+                DeepLinkRoutes.NoticeDetailScreen(path).route.toUri(),
+                this,
+                MainActivity::class.java
+            )
+        val deepLinkPendingIntent: PendingIntent? = TaskStackBuilder
+            .create(this).run {
+                addNextIntentWithParentStack(deepLinkIntent)
+                getPendingIntent(0, getPendingIntentFlag())
+            }
+        return deepLinkPendingIntent
     }
 
     private fun providePendingIntentEvent(path: String): PendingIntent? {

@@ -2,11 +2,12 @@ package com.atech.bit.ui.screens.notice
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.core.datasource.firebase.firestore.NoticeModel
 import com.atech.core.usecase.FirebaseCase
 import com.atech.core.usecase.GetAttach
-import com.atech.core.datasource.firebase.firestore.NoticeModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -16,21 +17,24 @@ import javax.inject.Inject
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val case: FirebaseCase,
-    val getAttach: GetAttach
+    val getAttach: GetAttach,
+    state: SavedStateHandle
 ) : ViewModel() {
+    val noticeId = state.get<String>("noticeId") ?: ""
+
     private val _fetchNotice = mutableStateOf<List<NoticeModel>>(emptyList())
     val fetchNotice: State<List<NoticeModel>> get() = _fetchNotice
 
     private var job: Job? = null
 
-    private val _currentClickEvent = mutableStateOf(null as NoticeModel?)
-    val currentClickEvent: State<NoticeModel?> get() = _currentClickEvent
+    private val _currentClickNotice = mutableStateOf(NoticeModel())
+    val currentClickNotice: State<NoticeModel?> get() = _currentClickNotice
 
 
     fun onEvent(event: NoticeScreenEvent) {
         when (event) {
             is NoticeScreenEvent.OnEventClick ->
-                _currentClickEvent.value = event.model
+                _currentClickNotice.value = event.model
         }
     }
 
@@ -43,6 +47,13 @@ class NoticeViewModel @Inject constructor(
         job = case.getNotice()
             .onEach {
                 _fetchNotice.value = it
+                if (noticeId != "") {
+                    _currentClickNotice.value =
+                        it.find { it1 -> it1.path == noticeId } ?: NoticeModel(
+                            title = "Something went wrong",
+                            body = "Try some time later !! 🥲🥹"
+                        )
+                }
             }.launchIn(viewModelScope)
     }
 }

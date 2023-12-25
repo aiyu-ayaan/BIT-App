@@ -59,7 +59,7 @@ fun NoticeDetailScreen(
     viewModel: NoticeViewModel = hiltViewModel(),
     navController: NavController = rememberNavController()
 ) {
-    val notice = viewModel.currentClickEvent.value
+    val notice = viewModel.currentClickNotice.value
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     val scrollState = rememberScrollState()
@@ -79,7 +79,7 @@ fun NoticeDetailScreen(
                 })
         })
     }) {
-        if (notice == null) {
+        if (notice == null && viewModel.noticeId == "") {
             Toast.makeText(context, "Something went wrong !!", Toast.LENGTH_SHORT).show()
             navController.navigateUp()
             return@Scaffold
@@ -91,7 +91,7 @@ fun NoticeDetailScreen(
                 .verticalScroll(scrollState)
         ) {
             Text(
-                text = notice.title ?: "",
+                text = notice?.title ?: "",
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.headlineMedium,
@@ -106,7 +106,7 @@ fun NoticeDetailScreen(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = notice.sender ?: "",
+                        text = notice?.sender ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -121,7 +121,7 @@ fun NoticeDetailScreen(
                     )
                     Spacer(modifier = Modifier.width(grid_1))
                     Text(
-                        text = notice.created?.getDate() ?: "",
+                        text = notice?.created?.getDate() ?: "",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -129,12 +129,12 @@ fun NoticeDetailScreen(
                 ImageLoader(
                     modifier = Modifier.size(
                         30.dp
-                    ), imageUrl = notice.getImageLinkNotification(), isRounderCorner = true
+                    ), imageUrl = notice?.getImageLinkNotification(), isRounderCorner = true
                 )
             }
             Spacer(modifier = Modifier.height(grid_1))
             Text(
-                text = notice.body ?: "",
+                text = notice?.body ?: "",
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.bodyLarge,
@@ -143,7 +143,7 @@ fun NoticeDetailScreen(
             scope.launch {
                 viewModel.getAttach.invoke(
                     Db.Notice,
-                    notice.path!!, action = { attaches ->
+                    notice?.path ?: return@launch, action = { attaches ->
                         attach = attaches
                     })
             }

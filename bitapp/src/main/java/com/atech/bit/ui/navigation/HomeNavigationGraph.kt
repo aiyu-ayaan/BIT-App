@@ -1,7 +1,11 @@
 package com.atech.bit.ui.navigation
 
+import android.content.Intent
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.screens.home.compose.HomeScreen
@@ -35,7 +39,19 @@ fun NavGraphBuilder.noticeGraph(
             )
         }
         animatedComposable(
-            route = NoticeScreenRoute.NoticeDetailsScreen.route
+            route = NoticeScreenRoute.NoticeDetailsScreen.route + "?noticeId={noticeId}",
+            arguments = listOf(
+                navArgument("noticeId") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
+            ),
+            deepLinks = listOf(
+                navDeepLink{
+                    uriPattern = DeepLinkRoutes.NoticeDetailScreen().route
+                    action = Intent.ACTION_VIEW
+                }
+            )
         ) {
             val viewModel = it.sharedViewModel<NoticeViewModel>(navController = navController)
             NoticeDetailScreen(

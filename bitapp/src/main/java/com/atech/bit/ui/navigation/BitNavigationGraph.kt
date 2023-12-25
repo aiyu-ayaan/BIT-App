@@ -83,8 +83,14 @@ sealed class DeepLinkRoutes(val route: String) {
     )
 
     data class EventDetailScreen(val eventId: String = "{eventId}") : DeepLinkRoutes(
-        "$BASE_IN_APP_NAVIGATION_LINK/eventDetailScreen/events/?eventId=${
+        "$BASE_IN_APP_NAVIGATION_LINK/events/eventDetails/?eventId=${
             eventId
+        }"
+    )
+
+    data class NoticeDetailScreen(val noticeId: String = "{noticeId}") : DeepLinkRoutes(
+        "$BASE_IN_APP_NAVIGATION_LINK/notice/noticeDetails/?noticeId=${
+            noticeId
         }"
     )
 }
@@ -178,15 +184,14 @@ fun AppNavigationGraph(
         settingNavigationGraph(
             navHostController = navHostController, mainViewModel = communicatorViewModel
         )
-        animatedComposable(
-            route = Screen.ViewImageRoute.route,
-            deepLinks = listOf(navDeepLink {
+        animatedComposable(route = Screen.ViewImageRoute.route, deepLinks = listOf(navDeepLink {
             uriPattern = DeepLinkRoutes.ViewImageRoute().route
             action = Intent.ACTION_VIEW
         }), arguments = listOf(navArgument("imageLink") {
             type = NavType.StringType
             defaultValue = ""
-        })) { backStack ->
+        })
+        ) { backStack ->
             val link = backStack.arguments?.getString("imageLink")?.replaceAsteriskWithAmpersand()
             ViewImageScreen(
                 navController = navHostController, link = link ?: ""
