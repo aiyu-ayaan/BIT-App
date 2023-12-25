@@ -78,6 +78,7 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    releaseImplementation(libs.firebase.crashlytics)
     implementation(libs.firebase.remote.config)
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)

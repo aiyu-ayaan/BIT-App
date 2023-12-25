@@ -22,8 +22,7 @@ import java.net.URLEncoder
 
 
 enum class TopLevelRoute(val route: String) {
-    LOGIN("login"),
-    MAIN_SCREEN("main_screen"),
+    LOGIN("login"), MAIN_SCREEN("main_screen"),
 }
 
 sealed class ParentScreenRoutes(val route: String) {
@@ -38,12 +37,10 @@ fun TopLevelNavigationGraph(
     startDestination: String = ParentScreenRoutes.LoginScreen.route
 ) {
     NavHost(
-        navController = navHostController,
-        startDestination = startDestination
+        navController = navHostController, startDestination = startDestination
     ) {
         logInScreenGraph(
-            navHostController,
-            communicatorViewModel
+            navHostController, communicatorViewModel
         )
         animatedComposable(
             route = ParentScreenRoutes.MainScreen.route
@@ -57,8 +54,7 @@ fun TopLevelNavigationGraph(
 
 
 val listOfFragmentsWithBottomAppBar = listOf(
-    CourseScreenRoute.CourseScreen.route,
-    HomeScreenRoutes.HomeScreen.route
+    CourseScreenRoute.CourseScreen.route, HomeScreenRoutes.HomeScreen.route
 )
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
@@ -80,30 +76,29 @@ fun String.encodeUrl(): String {
 }
 
 sealed class DeepLinkRoutes(val route: String) {
-    data class ViewImageRoute(val imageLink: String = "{imageLink}") :
-        DeepLinkRoutes(
-            "$BASE_IN_APP_NAVIGATION_LINK/viewImage/?imageLink=${
-                imageLink.encodeUrl().replaceAmpersandWithAsterisk()
-            }"
-        )
+    data class ViewImageRoute(val imageLink: String = "{imageLink}") : DeepLinkRoutes(
+        "$BASE_IN_APP_NAVIGATION_LINK/viewImage/?imageLink=${
+            imageLink.encodeUrl().replaceAmpersandWithAsterisk()
+        }"
+    )
+
+    data class EventDetailScreen(val eventId: String = "{eventId}") : DeepLinkRoutes(
+        "$BASE_IN_APP_NAVIGATION_LINK/eventDetailScreen/events/?eventId=${
+            eventId
+        }"
+    )
 }
 
 fun NavController.navigateWithDeepLink(route: DeepLinkRoutes) {
-    val action = NavDeepLinkRequest.Builder
-        .fromUri(route.route.toUri())
-        .build()
+    val action = NavDeepLinkRequest.Builder.fromUri(route.route.toUri()).build()
     this.navigate(action)
 }
 
 enum class RouteName(val value: String) {
-    ATTENDANCE("attendance"),
-    COURSE("course"),
-    HOME("home"),
-    SOCIETY("society"),
-    LIBRARY("library"),
-    EVENT("event"),
-    SETTINGS("settings"),
-    ABOUT_US("about_us"),
+    ATTENDANCE("attendance"), COURSE("course"), HOME("home"), SOCIETY("society"), LIBRARY("library"), EVENT(
+        "event"
+    ),
+    SETTINGS("settings"), ABOUT_US("about_us"),
 }
 
 
@@ -152,8 +147,7 @@ fun AppNavigationGraph(
         )
 
         homeGraph(
-            navController = navHostController,
-            communicatorViewModel = communicatorViewModel
+            navController = navHostController, communicatorViewModel = communicatorViewModel
         )
         societyGraph(
             navHostController = navHostController
@@ -182,28 +176,20 @@ fun AppNavigationGraph(
         eventGraph(navHostController = navHostController)
 
         settingNavigationGraph(
-            navHostController = navHostController,
-            mainViewModel = communicatorViewModel
+            navHostController = navHostController, mainViewModel = communicatorViewModel
         )
         animatedComposable(
             route = Screen.ViewImageRoute.route,
-            deepLinks = listOf(
-                navDeepLink {
-                    uriPattern = DeepLinkRoutes.ViewImageRoute().route
-                    action = Intent.ACTION_VIEW
-                }
-            ),
-            arguments = listOf(
-                navArgument("imageLink") {
-                    type = NavType.StringType
-                    defaultValue = ""
-                }
-            )
-        ) { backStack ->
+            deepLinks = listOf(navDeepLink {
+            uriPattern = DeepLinkRoutes.ViewImageRoute().route
+            action = Intent.ACTION_VIEW
+        }), arguments = listOf(navArgument("imageLink") {
+            type = NavType.StringType
+            defaultValue = ""
+        })) { backStack ->
             val link = backStack.arguments?.getString("imageLink")?.replaceAsteriskWithAmpersand()
             ViewImageScreen(
-                navController = navHostController,
-                link = link ?: ""
+                navController = navHostController, link = link ?: ""
             )
         }
         aboutUsNavGraph(navHostController = navHostController)

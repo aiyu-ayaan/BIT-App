@@ -1,9 +1,11 @@
 package com.atech.bit.ui.navigation
 
+import android.content.Intent
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import androidx.navigation.navigation
 import com.atech.bit.ui.screens.event.EventViewModel
 import com.atech.bit.ui.screens.event.component.detail.EventDetailScreen
@@ -35,10 +37,16 @@ fun NavGraphBuilder.eventGraph(
         }
         animatedComposable(
             route = EventRoute.DetailScreen.route + "?eventId={eventId}",
+            deepLinks = listOf(
+                navDeepLink{
+                    uriPattern = DeepLinkRoutes.EventDetailScreen().route
+                    action = Intent.ACTION_VIEW
+                }
+            ),
             arguments = listOf(
                 navArgument("eventId") {
-                    type = NavType.LongType
-                    defaultValue = -1L
+                    type = NavType.StringType
+                    defaultValue = ""
                 })
         ) {
             val viewModel = it.sharedViewModel<EventViewModel>(navController = navHostController)

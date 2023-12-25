@@ -21,7 +21,7 @@ class EventViewModel @Inject constructor(
     private val state: SavedStateHandle
 ) : ViewModel() {
 
-    val eventId = state.get<Long>("eventId") ?: -1L
+    val eventId = state.get<String>("eventId") ?: ""
 
     private val _fetchEvents = mutableStateOf<List<EventModel>>(emptyList())
     val fetchEvents: State<List<EventModel>> get() = _fetchEvents
@@ -47,8 +47,8 @@ class EventViewModel @Inject constructor(
         job?.cancel()
         job = firebaseCase.getEvent().onEach {
             _fetchEvents.value = it
-            if (eventId != -1L)
-                _currentClickEvent.value = it.find { it1 -> it1.created == eventId } ?: EventModel(
+            if (eventId != "")
+                _currentClickEvent.value = it.find { it1 -> it1.path == eventId } ?: EventModel(
                     title = "Something went wrong",
                     content = "Try some time later !! 🥲🥹"
                 )

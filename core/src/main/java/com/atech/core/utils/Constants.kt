@@ -105,3 +105,16 @@ enum class RemoteConfigKeys(val value: String) {
     CourseDetails("course_details"),
     KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
 }
+
+enum class MessageTopic(val value: String) {
+    Notice("NoticeByAiyu"),
+    Event("EventByAiyu"),
+    App("AppByAiyu"),
+    Update("UpdateByAiyu")
+}
+enum class MessageTopicTest(val value: String) {
+    Notice("NoticeByAiyuTest"),
+    Event("EventByAiyuTest"),
+    App("AppByAiyuTest"),
+    Update("UpdateByAiyuTest")
+}

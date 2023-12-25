@@ -154,7 +154,7 @@ fun HomeScreen(
                 getAttach = viewModel.firebaseCase.getAttach,
                 onClick = { event ->
                     navController.navigate(
-                        EventRoute.DetailScreen.route + "?eventId=${event.created}"
+                        EventRoute.DetailScreen.route + "?eventId=${event.path}"
                     )
                 })
             singleElement(key = "CGPA") {

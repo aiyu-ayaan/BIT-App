@@ -89,7 +89,7 @@ fun EventDetailScreen(
         })
     }) {
         Log.d("AAA", "EventDetailScreen: ${viewModel.eventId}")
-        if (event == null && viewModel.eventId == -1L) {
+        if (event == null && viewModel.eventId == "") {
             Toast.makeText(context, "Something went wrong !!", Toast.LENGTH_SHORT).show()
             navController.navigateUp()
             return@Scaffold
