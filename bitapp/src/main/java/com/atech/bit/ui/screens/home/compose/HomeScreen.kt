@@ -20,7 +20,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,14 +61,15 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val isSearchBarActive = communicatorViewModel.isSearchActive.value
-    val isOnlineEnable by viewModel.isOnlineSyllabusEnable
-    val theory = viewModel.theory.collectAsLazyPagingItems()
-    val lab = viewModel.lab.collectAsLazyPagingItems()
-    val pe = viewModel.pe.collectAsLazyPagingItems()
-    val onlineData = viewModel.onlineSyllabus.value
-    val holiday = viewModel.holidays.value
-    val events = viewModel.events.value
-    val cgpa = viewModel.currentCgpa.value
+    val homeScreenState by viewModel.homeScreenState
+    val isOnlineEnable = homeScreenState.isOnlineSyllabusEnable
+    val theory = homeScreenState.offTheory.collectAsLazyPagingItems()
+    val lab = homeScreenState.offLab.collectAsLazyPagingItems()
+    val pe = homeScreenState.offTheory.collectAsLazyPagingItems()
+    val onlineData = homeScreenState.onlineSyllabus
+    val holiday = homeScreenState.holiday
+    val events = homeScreenState.events.value
+    val cgpa = homeScreenState.currentCgpa
     val context = LocalContext.current
     val courseDetails by communicatorViewModel.courseDetail
 
@@ -129,27 +129,28 @@ fun HomeScreen(
                     isChooseSemSelected = !isChooseSemSelected
                 })
             }
-            if (isOnlineEnable) onlineDataSource(
-                onlineData.first,
+            if (isOnlineEnable) onlineDataSource(onlineData.first,
                 onlineData.second,
                 onlineData.third,
                 onClick = { model ->
-                    navigateToViewSyllabus(navController, viewModel, true, model)
+                    navigateToViewSyllabus(
+                        navController, homeScreenState.course, homeScreenState.sem, true, model
+                    )
                 })
-            else offlineDataSource(
-                theoryData = theory,
+            else offlineDataSource(theoryData = theory,
                 labData = lab,
                 peData = pe,
                 onClick = { model ->
-                    navigateToViewSyllabus(navController, viewModel, false, model)
+                    navigateToViewSyllabus(
+                        navController, homeScreenState.course, homeScreenState.sem, false, model
+                    )
                 })
             showHoliday(holiday, endItem = "View All", endItemClick = {
                 navController.navigate(
                     Screen.HolidayScreen.route
                 )
             })
-            showEvents(
-                items = events,
+            showEvents(items = events,
                 getAttach = viewModel.firebaseCase.getAttach,
                 onClick = { event ->
                     navController.navigate(
@@ -170,8 +171,8 @@ fun HomeScreen(
         }
         if (isChooseSemSelected) {
             ChooseSemBottomSheet(model = courseDetails,
-                sem = viewModel.sem.value,
-                course = viewModel.course.value,
+                sem = homeScreenState.sem,
+                course = homeScreenState.course,
                 onDismissRequest = {
                     isChooseSemSelected = false
                 },
@@ -182,23 +183,24 @@ fun HomeScreen(
                 })
         }
         if (isProfileDialogVisible) {
-            ProfileDialog(
-                viewModel = communicatorViewModel,
-                onDismissRequest = {
-                    isProfileDialogVisible = false
-                })
+            ProfileDialog(viewModel = communicatorViewModel, onDismissRequest = {
+                isProfileDialogVisible = false
+            })
         }
     }
 }
 
 private fun navigateToViewSyllabus(
     navController: NavController,
-    viewModel: HomeViewModel,
+    course: String,
+    sem: String,
     isOnlineEnable: Boolean,
     model: SyllabusUIModel
 ) {
     navController.navigate(
-        CourseScreenRoute.ViewSubjectScreen.route + "?course=${(viewModel.course.value).lowercase()}" + "&courseSem=${if (isOnlineEnable) "${viewModel.course.value}${viewModel.sem.value}".lowercase() else model.openCode}" + "&subject=${model.subject}" + "&isOnline=$isOnlineEnable"
+        CourseScreenRoute.ViewSubjectScreen.route + "?course=${(course).lowercase()}"
+                + "&courseSem=${if (isOnlineEnable) "${course}${sem}".lowercase() else model.openCode}"
+                + "&subject=${model.subject}" + "&isOnline=$isOnlineEnable"
     )
 }
 

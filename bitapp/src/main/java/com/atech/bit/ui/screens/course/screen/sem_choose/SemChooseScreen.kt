@@ -181,7 +181,7 @@ fun LazyListScope.onlineDataSource(
         singleElement(
             key = SubjectType.THEORY.name + "Online"
         ) { SubjectTitle("Theory") }
-        items(items = theory, key = { item -> item.subject + item.code }) { ele ->
+        items(items = theory, key = { item -> item.subject + item.code + "online" }) { ele ->
             SubjectItem(
                 data = ele, modifier = Modifier.animateItemPlacement(
                     animationSpec = spring(
@@ -235,7 +235,7 @@ fun LazyListScope.offlineDataSource(
             key = SubjectType.THEORY.name
         ) { SubjectTitle("Theory") }
         items(count = theoryData.itemCount,
-            key = theoryData.itemKey { model -> model.openCode },
+            key = theoryData.itemKey { model -> model.openCode + "offline" },
             contentType = theoryData.itemContentType { "Theory" }) { index ->
             theoryData[index]?.let { model ->
                 SubjectItem(
