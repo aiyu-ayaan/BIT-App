@@ -6,7 +6,20 @@
         <State />
       </entry>
       <entry key="bitapp">
-        <State />
+        <State>
+          <targetSelectedWithDropDown>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="D:\AndroidWorkSpace\.android\.android\avd\Pixel_5_API_30.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetSelectedWithDropDown>
+          <timeTargetWasSelectedWithDropDown value="2023-12-26T08:05:45.698132Z" />
+        </State>
       </entry>
     </value>
   </component>

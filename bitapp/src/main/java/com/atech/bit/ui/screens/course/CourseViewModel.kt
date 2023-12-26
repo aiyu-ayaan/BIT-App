@@ -176,7 +176,7 @@ class CourseViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    sealed class OneTimeEvent {
-        data class ShowSnackBar(val message: String) : OneTimeEvent()
+    sealed interface OneTimeEvent {
+        data class ShowSnackBar(val message: String) : OneTimeEvent
     }
 }

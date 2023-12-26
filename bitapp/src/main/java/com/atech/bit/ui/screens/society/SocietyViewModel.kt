@@ -50,7 +50,7 @@ class SocietyViewModel @Inject constructor(
         }
     }
 
-    sealed class SocietyEvent {
-        data class NavigateToDetailScreen(val society: Society) : SocietyEvent()
+    sealed interface SocietyEvent {
+        data class NavigateToDetailScreen(val society: Society) : SocietyEvent
     }
 }

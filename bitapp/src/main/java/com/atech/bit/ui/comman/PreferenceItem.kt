@@ -232,7 +232,8 @@ fun PreferenceCard(
     description: String? = null,
     icon: ImageVector,
     endIcon: ImageVector? = null,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    endIconClick: (() -> Unit)? = null
 ) {
     Surface(onClick = onClick) {
         Card(
@@ -272,11 +273,17 @@ fun PreferenceCard(
                         )
                 }
                 if (endIcon != null)
-                    Icon(
-                        modifier = Modifier.weight(.1f),
-                        imageVector = endIcon,
-                        contentDescription = null,
+                    ImageIconButton(
+                        modifier = Modifier
+                            .weight(.1f),
+                        icon = endIcon,
                         tint = MaterialTheme.colorScheme.primary,
+                        onClick = {
+                            if (endIconClick != null)
+                                endIconClick.invoke()
+                            else
+                                onClick.invoke()
+                        }
                     )
             }
         }

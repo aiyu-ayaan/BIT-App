@@ -3,7 +3,6 @@ package com.atech.bit.ui.screens.attendance.attendance_screen.component
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -30,6 +29,8 @@ import androidx.compose.material.icons.outlined.Book
 import androidx.compose.material.icons.outlined.Checklist
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.DeleteForever
+import androidx.compose.material.icons.outlined.HideSource
+import androidx.compose.material.icons.outlined.LibraryBooks
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
@@ -76,8 +77,10 @@ import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.EmptyScreen
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.ImageIconModel
+import com.atech.bit.ui.comman.PreferenceCard
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.AttendanceRoute
+import com.atech.bit.ui.navigation.LibraryRoute
 import com.atech.bit.ui.screens.attendance.attendance_screen.AttendanceEvent
 import com.atech.bit.ui.screens.attendance.attendance_screen.AttendanceViewModel
 import com.atech.bit.ui.theme.captionColor
@@ -239,14 +242,7 @@ fun AttendanceScreen(
                 })
             }
         }
-        if (attendanceList.itemCount == 0) {
-            EmptyScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)
-            )
-            return@Scaffold
-        }
+
         if (isDialogBoxVisible) {
             ShowWarningDialog(onDismissRequest = {
                 isDialogBoxVisible = false
@@ -317,6 +313,28 @@ fun AttendanceScreen(
             contentPadding = it,
             state = lazyListState
         ) {
+            if (viewModel.isLibraryCardVisible.value) {
+                singleElement(
+                    "Library Advertisement",
+                ) {
+                    PreferenceCard(
+                        modifier = Modifier.padding(grid_1),
+                        title = "Library Manager",
+                        icon = Icons.Outlined.LibraryBooks,
+                        description = "Manage your library books",
+                        onClick = {
+                            navController.navigate(LibraryRoute.LibraryManagerScreen.route)
+                        },
+                        endIcon = Icons.Outlined.HideSource,
+                        endIconClick = {
+                            viewModel.onEvent(
+                                AttendanceEvent
+                                    .UpdateIsLibraryCardVisible
+                            )
+                        }
+                    )
+                }
+            }
             attendanceListSize.intValue = attendanceList.itemCount
             items(count = attendanceList.itemCount,
                 key = attendanceList.itemKey { model -> model.id.toString() + "" + model.subject },
@@ -361,6 +379,13 @@ fun AttendanceScreen(
             singleElement(key = "Bottom Padding") {
                 BottomPadding()
             }
+        }
+        if (attendanceList.itemCount == 0) {
+            EmptyScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it)
+            )
         }
     }
 }

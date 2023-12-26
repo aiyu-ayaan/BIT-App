@@ -283,8 +283,8 @@ class LibraryManagerViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    sealed class LibraryOneTimeEvent {
-        data class ShowActionSnackBar(val message: String) : LibraryOneTimeEvent()
-        data object ShowSnackBar : LibraryOneTimeEvent()
+    sealed interface LibraryOneTimeEvent {
+        data class ShowActionSnackBar(val message: String) : LibraryOneTimeEvent
+        data object ShowSnackBar : LibraryOneTimeEvent
     }
 }

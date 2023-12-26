@@ -195,7 +195,7 @@ class MainViewModel @Inject constructor(
     }
 
     //    -------------------------------- Permissions -------------------------------------------------
-    private val _isNotificationPrefItemVisible = mutableStateOf(false)
+    private val _isNotificationPrefItemVisible = mutableStateOf(true)
     val isNotificationPrefItemVisible: State<Boolean> get() = _isNotificationPrefItemVisible
     fun onNotificationPrefItemVisibleChange(value: Boolean) {
         _isNotificationPrefItemVisible.value = value

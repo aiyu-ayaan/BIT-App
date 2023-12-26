@@ -4,62 +4,64 @@ import com.atech.core.data_source.room.attendance.Sort
 import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.usecase.SyllabusUIModel
 
-sealed class AttendanceEvent {
+sealed interface AttendanceEvent {
     data class ChangeAttendanceValue(
         val attendanceModel: AttendanceModel,
         val value: Int = 1,
         val isPresent: Boolean = true
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
 
     data class UndoAttendanceState(
         val attendanceModel: AttendanceModel
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
     data class DeleteAttendance(
         val attendanceModel: AttendanceModel
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
     data class ArchiveAttendance(
         val attendanceModel: AttendanceModel
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
-    data object RestorerAttendance : AttendanceEvent()
+    data object RestorerAttendance : AttendanceEvent
 
     data class ItemSelectedClick(
         val attendanceModel: AttendanceModel,
         val isAdded: Boolean = true
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
     data class SelectAllClick(
         val attendanceModelList: List<AttendanceModel>,
         val isAdded: Boolean = true
     ) :
-        AttendanceEvent()
+        AttendanceEvent
 
-    data object ClearSelection : AttendanceEvent()
-    data object SelectedItemToArchive : AttendanceEvent()
-    data object DeleteSelectedItems : AttendanceEvent()
+    data object ClearSelection : AttendanceEvent
+    data object SelectedItemToArchive : AttendanceEvent
+    data object DeleteSelectedItems : AttendanceEvent
 
     data class AddFromSyllabusItemClick(
         val model: SyllabusUIModel,
         val isAdded: Boolean
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
 
     data class ArchiveItemClick(
         val attendanceModel: AttendanceModel,
         val isAdded: Boolean = true
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
     data class ArchiveSelectAllClick(
         val attendanceModelList: List<AttendanceModel>,
         val isAdded: Boolean = true
-    ) : AttendanceEvent()
+    ) : AttendanceEvent
 
-    data object ArchiveScreenUnArchiveSelectedItems : AttendanceEvent()
-    data object ArchiveScreenDeleteSelectedItems : AttendanceEvent()
+    data object ArchiveScreenUnArchiveSelectedItems : AttendanceEvent
+    data object ArchiveScreenDeleteSelectedItems : AttendanceEvent
 
 
-    data class UpdateSettings(val percentage: Int, val sort: Sort) : AttendanceEvent()
+    data class UpdateSettings(val percentage: Int, val sort: Sort) : AttendanceEvent
+
+    data object UpdateIsLibraryCardVisible : AttendanceEvent
 }

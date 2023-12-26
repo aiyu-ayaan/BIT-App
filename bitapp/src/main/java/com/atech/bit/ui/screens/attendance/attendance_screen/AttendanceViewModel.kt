@@ -1,5 +1,6 @@
 package com.atech.bit.ui.screens.attendance.attendance_screen
 
+import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -12,6 +13,7 @@ import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.usecase.AttendanceUseCase
 import com.atech.core.usecase.DataStoreCases
 import com.atech.core.usecase.SyllabusUIModel
+import com.atech.core.utils.SharePrefKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,13 +29,22 @@ import javax.inject.Inject
 @HiltViewModel
 class AttendanceViewModel @Inject constructor(
     private val case: AttendanceUseCase,
-    private val prefCase: DataStoreCases
+    private val prefCase: DataStoreCases,
+    private val pref: SharedPreferences
 ) : ViewModel() {
     private val _attendance = MutableStateFlow<PagingData<AttendanceModel>>(PagingData.empty())
     val attendance: StateFlow<PagingData<AttendanceModel>> get() = _attendance.asStateFlow()
 
     private val _archiveAttendance = mutableStateOf<List<AttendanceModel>>(emptyList())
     val archiveAttendance: State<List<AttendanceModel>> get() = _archiveAttendance
+
+    private val _isLibraryCardVisible = mutableStateOf(
+        pref.getBoolean(
+            SharePrefKeys.IsLibraryCardVisibleAttendanceScreen.name,
+            true
+        )
+    )
+    val isLibraryCardVisible: State<Boolean> get() = _isLibraryCardVisible
 
     private var attendanceGetJob: Job? = null
     private var attendanceArchiveGetJob: Job? = null
@@ -208,6 +219,18 @@ class AttendanceViewModel @Inject constructor(
                 getAllPref()
                 getAttendance()
             }
+
+            AttendanceEvent.UpdateIsLibraryCardVisible -> {
+                _isLibraryCardVisible.value = false
+                pref.edit()
+                    .apply {
+                        putBoolean(
+                            SharePrefKeys.IsLibraryCardVisibleAttendanceScreen.name,
+                            false
+                        )
+                    }
+                    .apply()
+            }
         }
     }
 
@@ -227,8 +250,8 @@ class AttendanceViewModel @Inject constructor(
 
     suspend fun getElementIdFromSubject(sub: String) = case.getElementIdFromSubjectName(sub)
 
-    sealed class OneTimeAttendanceEvent {
-        data class ShowUndoDeleteAttendanceMessage(val message: String) : OneTimeAttendanceEvent()
+    sealed interface OneTimeAttendanceEvent {
+        data class ShowUndoDeleteAttendanceMessage(val message: String) : OneTimeAttendanceEvent
     }
 
     private fun getAttendance() {

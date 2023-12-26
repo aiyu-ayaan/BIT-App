@@ -21,12 +21,12 @@ enum class RemoteConfigKeys(val value: String) {
 }
 enum class SharePrefKeys {
     BITAppPref, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
-    SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin,
+    SyllabusVisibility, PermanentSkipLogin,
     SetUpDone, AppThemeState, NewShowUninstallDialog, KeyAppOpenMinimumTime,
     ShowTimes, KeyAnnVersion, CurrentShowTime,
     IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
     FirstTimeLogIn, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
-    AppAlertDialog
+    AppAlertDialog,IsLibraryCardVisibleAttendanceScreen
 }
 
 const val SYLLABUS_SOURCE_DATA =

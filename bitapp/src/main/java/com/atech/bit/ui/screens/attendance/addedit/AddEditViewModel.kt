@@ -104,7 +104,7 @@ class AddEditViewModel @Inject constructor(
         }
     }
 
-    sealed class AddEditOneTimeEvent {
-        data class ShowSnackBar(val message: String) : AddEditOneTimeEvent()
+    sealed interface AddEditOneTimeEvent {
+        data class ShowSnackBar(val message: String) : AddEditOneTimeEvent
     }
 }

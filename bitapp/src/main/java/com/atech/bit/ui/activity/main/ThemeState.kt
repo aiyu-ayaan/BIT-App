@@ -9,8 +9,8 @@ data class ThemeState(
     val isDynamicColorActive: Boolean = true
 )
 
-sealed class ThemeEvent {
+sealed interface ThemeEvent {
     data class ChangeTheme(
         val state: ThemeState
-    ) : ThemeEvent()
+    ) : ThemeEvent
 }

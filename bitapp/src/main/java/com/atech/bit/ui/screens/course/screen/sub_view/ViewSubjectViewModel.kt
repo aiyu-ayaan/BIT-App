@@ -64,7 +64,7 @@ class ViewSubjectViewModel @Inject constructor(
         }
     }
 
-    sealed class ViewSubjectEvents {
-        data class OnError(val message: String) : ViewSubjectEvents()
+    sealed interface ViewSubjectEvents {
+        data class OnError(val message: String) : ViewSubjectEvents
     }
 }
