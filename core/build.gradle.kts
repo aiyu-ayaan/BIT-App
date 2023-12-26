@@ -88,6 +88,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit.json)
     implementation(libs.retrofit.scalars)
+    implementation(libs.okhttp3.logging.interceptor)
 
 
 

@@ -26,12 +26,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.NetworkScreenEmptyScreen
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.utils.hexToRgb
 import com.atech.syllabus.getFragment
-import com.mukesh.MarkDown
+import com.github.mikephil.charting.components.MarkerView
+import com.mukesh.MarkdownView
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -126,8 +128,17 @@ fun LoadMarkDown(
     val d = data + "<br> <br><style> body{background-color: ${
         MaterialTheme.colorScheme.surface.hexToRgb()
     } ; color:${MaterialTheme.colorScheme.onSurface.hexToRgb()};}</style>"
-    MarkDown(
-        text = d, modifier = modifier.fillMaxSize()
+    AndroidView(factory = { context ->
+        View.inflate(
+            context,
+            R.layout.layout_markdown,
+            null
+        )
+    },
+        modifier = modifier.fillMaxSize(),
+        update = {
+            it.findViewById<MarkdownView>(R.id.markdown).setMarkDownText(d)
+        }
     )
 }
 

@@ -1,5 +1,6 @@
 package com.atech.bit.ui.screens.administration
 
+import android.view.View
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,6 +19,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -27,7 +29,7 @@ import com.atech.bit.ui.comman.StateLoadingScreen
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.utils.OnErrorEvent
 import com.atech.bit.utils.hexToRgb
-import com.mukesh.MarkDown
+import com.mukesh.MarkdownView
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,8 +85,17 @@ fun AdministrationScreen(
             val d = data + "<br> <br><style> body{background-color: ${
                 MaterialTheme.colorScheme.surface.hexToRgb()
             } ; color:${MaterialTheme.colorScheme.onSurface.hexToRgb()};}</style>"
-            MarkDown(
-                text = d, modifier = modifier.fillMaxSize()
+            AndroidView(factory = { context ->
+                View.inflate(
+                    context,
+                    R.layout.layout_markdown,
+                    null
+                )
+            },
+                modifier = modifier.fillMaxSize(),
+                update = { view ->
+                    view.findViewById<MarkdownView>(R.id.markdown).setMarkDownText(d)
+                }
             )
         }
     }

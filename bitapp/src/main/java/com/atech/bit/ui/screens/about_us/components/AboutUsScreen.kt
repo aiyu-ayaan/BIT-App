@@ -77,7 +77,7 @@ fun AboutUsScreen(
                     Text(
                         modifier = Modifier.padding(grid_1),
                         text = type,
-                        style = androidx.compose.material.MaterialTheme.typography.caption,
+                        style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.captionColor
                     )
                 }

@@ -22,6 +22,7 @@ import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.notice.NoticeScreenEvent
 import com.atech.bit.ui.screens.notice.NoticeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
+import java.util.UUID
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -50,7 +51,7 @@ fun NoticeScreen(
         ) {
             items(
                 items = fetchedNotice,
-                key = { it1 -> it1.created.toString() }
+                key = { UUID.randomUUID() }
             ) { notice ->
                 NoticeItem(
                     model = notice,

@@ -1,6 +1,7 @@
 package com.atech.core.module
 
 import android.content.Context
+import com.atech.core.BuildConfig
 import com.atech.core.datasource.retrofit.BitAppApiService
 import com.atech.core.datasource.retrofit.BitAppApiService.Companion.BASE_URL
 import com.atech.core.utils.cacheSize
@@ -13,6 +14,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
@@ -58,6 +60,17 @@ object RetrofitModule {
             .addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
+            .client(
+                OkHttpClient.Builder().apply {
+                    addInterceptor(HttpLoggingInterceptor().apply {
+                        this.level =
+                            if (BuildConfig.DEBUG)
+                                HttpLoggingInterceptor.Level.HEADERS
+                            else
+                                HttpLoggingInterceptor.Level.NONE
+                    })
+                }.build()
+            )
             .build()
 
 
