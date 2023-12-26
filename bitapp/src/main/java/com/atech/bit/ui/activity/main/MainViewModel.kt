@@ -118,7 +118,7 @@ class MainViewModel @Inject constructor(
                                 .apply()
                         }
                     } catch (e: Exception) {
-                        Log.d("AAA", "fetchRemoteConfigDetails: $e")
+                        Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigDetails: $e")
                         _isShowAlertDialog.value = false
                     }
                 }
@@ -194,4 +194,10 @@ class MainViewModel @Inject constructor(
         data object OpenLogInScreen : SharedEvents
     }
 
+    //    -------------------------------- Permissions -------------------------------------------------
+    private val _isNotificationPrefItemVisible = mutableStateOf(false)
+    val isNotificationPrefItemVisible: State<Boolean> get() = _isNotificationPrefItemVisible
+    fun onNotificationPrefItemVisibleChange(value: Boolean) {
+        _isNotificationPrefItemVisible.value = value
+    }
 }

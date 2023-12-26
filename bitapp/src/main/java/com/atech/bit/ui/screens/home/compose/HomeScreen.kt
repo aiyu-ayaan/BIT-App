@@ -1,5 +1,9 @@
 package com.atech.bit.ui.screens.home.compose
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Row
@@ -10,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.NotificationsOff
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Wifi
 import androidx.compose.material.icons.outlined.WifiOff
@@ -40,6 +45,7 @@ import com.atech.bit.ui.comman.ChooseSemBottomSheet
 import com.atech.bit.ui.comman.DevNote
 import com.atech.bit.ui.comman.GITHUB_LINK
 import com.atech.bit.ui.comman.ImageIconButton
+import com.atech.bit.ui.comman.PreferenceCard
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.CourseScreenRoute
 import com.atech.bit.ui.navigation.EventRoute
@@ -51,9 +57,17 @@ import com.atech.bit.ui.screens.home.HomeScreenEvents
 import com.atech.bit.ui.screens.home.HomeViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
+import com.atech.bit.ui.theme.grid_2
 import com.atech.core.usecase.SyllabusUIModel
+import com.atech.core.utils.Permissions
+import com.atech.core.utils.isAPI33AndUp
 import com.atech.core.utils.openLinks
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionState
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.rememberPermissionState
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -82,8 +96,28 @@ fun HomeScreen(
     var isProfileDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
+
+    var permissionState: PermissionState? = null
+    isAPI33AndUp {
+        permissionState = rememberPermissionState(permission = Permissions.NOTIFICATION.value)
+        LaunchedEffect(permissionState?.status) {
+            when (permissionState?.status) {
+                is PermissionStatus.Denied -> communicatorViewModel
+                    .onNotificationPrefItemVisibleChange(false)
+
+                PermissionStatus.Granted -> communicatorViewModel
+                    .onNotificationPrefItemVisibleChange(true)
+
+                null -> communicatorViewModel
+                    .onNotificationPrefItemVisibleChange(false)
+            }
+        }
+    }
     Scaffold(modifier = modifier, topBar = {
         var query by remember { mutableStateOf("") }
+        isAPI33AndUp {
+            permissionState?.launchPermissionRequest()
+        }
         SearchToolBar(query = query,
             onQueryChange = { query = it },
             active = isSearchBarActive,
@@ -119,6 +153,23 @@ fun HomeScreen(
                 .consumeWindowInsets(it)
                 .animateContentSize(), contentPadding = it
         ) {
+            singleElement(key = "Notification Permission") {
+                if (!communicatorViewModel.isNotificationPrefItemVisible.value) {
+                    PreferenceCard(
+                        modifier = Modifier
+                            .padding(vertical = grid_1, horizontal = grid_2),
+                        title = "Notification is disabled",
+                        icon = Icons.Outlined.NotificationsOff,
+                        description = "Allow Notification to get latest notice and announcement",
+                        endIcon = Icons.Outlined.Settings,
+                        onClick = {
+                            enableNotificationClick(
+                                context
+                            )
+                        }
+                    )
+                }
+            }
             singleElement(key = "Header") {
                 HeaderCompose(isEnable = isOnlineEnable, onEnableChange = { currentState ->
                     viewModel.onEvent(
@@ -258,6 +309,15 @@ private fun HeaderCompose(
             onClick = onSettingClick
         )
     }
+}
+
+private fun enableNotificationClick(
+    context: Context
+) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+    val uri = Uri.fromParts("package", context.packageName, null)
+    intent.data = uri
+    context.startActivity(intent)
 }
 
 

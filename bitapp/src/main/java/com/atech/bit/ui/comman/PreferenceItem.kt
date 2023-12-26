@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -13,7 +14,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.NightlightRound
+import androidx.compose.material.icons.outlined.NotificationsOff
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,13 +30,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
+import com.atech.bit.ui.theme.drawerColor
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.ui.theme.grid_3
@@ -221,6 +225,64 @@ fun PreferenceItemBorder(
     }
 }
 
+@Composable
+fun PreferenceCard(
+    modifier: Modifier = Modifier,
+    title: String,
+    description: String? = null,
+    icon: ImageVector,
+    endIcon: ImageVector? = null,
+    onClick: () -> Unit = {}
+) {
+    Surface(onClick = onClick) {
+        Card(
+            modifier = modifier
+                .fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.drawerColor,
+            )
+        ) {
+            Row(
+                modifier = Modifier
+                    .padding(grid_2)
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.weight(.1f),
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+                Spacer(modifier = Modifier.width(grid_2))
+                Column(
+                    horizontalAlignment = Alignment.Start,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                    if (description != null)
+                        Text(
+                            text = description,
+                            style = androidx.compose.material.MaterialTheme.typography.caption,
+                            color = MaterialTheme.colorScheme.captionColor
+                        )
+                }
+                if (endIcon != null)
+                    Icon(
+                        modifier = Modifier.weight(.1f),
+                        imageVector = endIcon,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                    )
+            }
+        }
+    }
+}
+
 
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
@@ -229,10 +291,11 @@ fun PreferenceItemBorder(
 @Composable
 private fun PreferenceItemPreview() {
     BITAppTheme {
-        PreferenceItem(
-            title = "Dynamic Color",
-            description = "This is description",
-            icon = Icons.Outlined.NightlightRound,
+        PreferenceCard(
+            title = "Notification is disabled",
+            icon = Icons.Outlined.NotificationsOff,
+            description = "Allow Notification to get latest notice and announcement",
+            endIcon = Icons.Outlined.Settings
         )
     }
 }
