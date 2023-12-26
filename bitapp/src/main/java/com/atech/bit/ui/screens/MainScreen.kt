@@ -77,6 +77,7 @@ import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.navigation.listOfFragmentsWithBottomAppBar
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
+import com.atech.bit.ui.theme.drawerColor
 import com.atech.bit.ui.theme.grid_0_5
 import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.ui.theme.grid_3
@@ -99,17 +100,14 @@ fun MainScreen(
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(toggleDrawerState) {
         toggleDrawerState?.let {
-            if (drawerSate.isOpen)
-                communicatorViewModel.onEvent(
-                    MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Closed)
-                )
-            else
-                communicatorViewModel.onEvent(
-                    MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Open)
-                )
+            if (drawerSate.isOpen) communicatorViewModel.onEvent(
+                MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Closed)
+            )
+            else communicatorViewModel.onEvent(
+                MainViewModel.SharedEvents.ToggleDrawer(DrawerValue.Open)
+            )
             setDrawerState(
-                drawerSate,
-                toggleDrawerState!!
+                drawerSate, toggleDrawerState!!
             )
         }
     }
@@ -130,8 +128,7 @@ fun MainScreen(
                 ) {
                     coroutineScope.launch {
                         setDrawerState(
-                            drawerSate,
-                            toggleDrawerState!!
+                            drawerSate, toggleDrawerState!!
                         )
                     }
                     communicatorViewModel.onEvent(
@@ -142,8 +139,7 @@ fun MainScreen(
         ) {
             Scaffold(modifier = modifier, bottomBar = {
                 NavBar(
-                    navController = navController,
-                    isSearchBarActive = isSearchBarActive
+                    navController = navController, isSearchBarActive = isSearchBarActive
                 )
             }) {
                 Column(
@@ -163,23 +159,17 @@ fun MainScreen(
 val navDrawerItem = listOf(
     null to listOf(
         NavDrawer(
-            title = R.string.git,
-            selectedIcon = R.drawable.ic_read_me,
-            link = R.string.github_link
+            title = R.string.git, selectedIcon = R.drawable.ic_read_me, link = R.string.github_link
         ), NavDrawer(
             title = R.string.whats_new,
             selectedIcon = R.drawable.ic_release_notes,
             link = R.string.whats_new
         ), NavDrawer(
-            title = R.string.issue,
-            selectedIcon = R.drawable.ic_issue,
-            link = R.string.issue_link
+            title = R.string.issue, selectedIcon = R.drawable.ic_issue, link = R.string.issue_link
         )
     ), "Erp & Classes" to listOf(
         NavDrawer(
-            title = R.string.erp,
-            selectedIcon = R.drawable.ic_web,
-            link = R.string.erp_link
+            title = R.string.erp, selectedIcon = R.drawable.ic_web, link = R.string.erp_link
         ), NavDrawer(
             title = R.string.administration,
             selectedIcon = R.drawable.ic_admin,
@@ -221,9 +211,7 @@ val navDrawerItem = listOf(
             title = R.string.share,
             selectedIcon = R.drawable.ic_share,
         ), NavDrawer(
-            title = R.string.rate_us,
-            selectedIcon = R.drawable.ic_star,
-            route = "play_store"
+            title = R.string.rate_us, selectedIcon = R.drawable.ic_star, route = "play_store"
         )
     ), "App Setting" to listOf(
         NavDrawer(
@@ -236,29 +224,23 @@ val navDrawerItem = listOf(
 
 @Composable
 fun NavDrawer(
-    modifier: Modifier = Modifier,
-    navController: NavHostController,
-    closeAction: () -> Unit
+    modifier: Modifier = Modifier, navController: NavHostController, closeAction: () -> Unit
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     DismissibleDrawerSheet(
         modifier = modifier,
-        drawerContainerColor = Color(
-            color()
-        ),
+        drawerContainerColor = MaterialTheme.colorScheme.drawerColor,
         drawerShape = RoundedCornerShape(grid_2)
     ) {
         LazyColumn {
             singleElement(
                 "Header"
             ) {
-                NavHeader(
-                    onClick = {
-                        navController.navigate(Screen.AboutUsScreen.route)
-                        closeAction.invoke()
-                    }
-                )
+                NavHeader(onClick = {
+                    navController.navigate(Screen.AboutUsScreen.route)
+                    closeAction.invoke()
+                })
             }
             items(navDrawerItem) {
                 it.first?.let { title ->
@@ -291,15 +273,11 @@ private fun ColumnScope.drawerItem(
 ) = this.apply {
     val context = LocalContext.current
     val color = MaterialTheme.colorScheme.primary.toArgb()
-    NavigationDrawerItem(
-        modifier = Modifier
-            .padding(
-                NavigationDrawerItemDefaults.ItemPadding
-            ),
+    NavigationDrawerItem(modifier = Modifier.padding(
+            NavigationDrawerItemDefaults.ItemPadding
+        ),
         colors = NavigationDrawerItemDefaults.colors(
-            unselectedContainerColor = Color(
-                color()
-            )
+            unselectedContainerColor = MaterialTheme.colorScheme.drawerColor,
         ),
         label = {
             Text(
@@ -321,13 +299,11 @@ private fun ColumnScope.drawerItem(
                 }
                 closeAction.invoke()
                 context.openCustomChromeTab(
-                    context.getString(screen.link),
-                    color
+                    context.getString(screen.link), color
                 )
                 return@NavigationDrawerItem
             }
-            if (screen.route == "")
-                return@NavigationDrawerItem
+            if (screen.route == "") return@NavigationDrawerItem
             if (screen.route == "play_store") {
                 context.openPlayStore(context.packageName)
                 closeAction.invoke()
@@ -348,13 +324,6 @@ private fun ColumnScope.drawerItem(
             )
         })
 }
-
-@Composable
-private fun color() = ColorUtils.blendARGB(
-    MaterialTheme.colorScheme.surface.toArgb(),
-    MaterialTheme.colorScheme.primary.toArgb(),
-    .09f
-)
 
 
 val navBarItems = listOf(
@@ -394,15 +363,11 @@ fun NavBar(
         initialAlpha = 0.3f
     ), exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
         NavigationBar(
-            modifier = modifier.fillMaxWidth(),
-            contentColor = Color(
+            modifier = modifier.fillMaxWidth(), contentColor = Color(
                 ColorUtils.blendARGB(
-                    MaterialTheme.colorScheme.surface.toArgb(),
-                    Color.Gray.toArgb(),
-                    .6f
+                    MaterialTheme.colorScheme.surface.toArgb(), Color.Gray.toArgb(), .6f
                 )
-            ),
-            windowInsets = WindowInsets.navigationBars
+            ), windowInsets = WindowInsets.navigationBars
         ) {
             navBarItems.forEachIndexed { index, navBarModel ->
                 AddItem(
@@ -427,44 +392,39 @@ fun RowScope.AddItem(
         mutableIntStateOf(0)
     }
     val isSelected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
-    NavigationBarItem(
-        icon = {
-            if (screen.unSelectedIcon == null) {
-                Icon(
-                    modifier = Modifier.size(grid_3),
-                    imageVector = screen.selectedIcon,
-                    contentDescription = stringResource(id = screen.title)
-                )
-                return@NavigationBarItem
-            }
-            if (isSelected) Icon(
+    NavigationBarItem(icon = {
+        if (screen.unSelectedIcon == null) {
+            Icon(
+                modifier = Modifier.size(grid_3),
                 imageVector = screen.selectedIcon,
                 contentDescription = stringResource(id = screen.title)
             )
-            else Icon(
-                imageVector = screen.unSelectedIcon,
-                contentDescription = stringResource(id = screen.title)
-            )
-        },
-        selected = isSelected,
-        onClick = {
-            selectedItem = index
-            navController.navigate(screen.route) {
-                popUpTo(navController.graph.findStartDestination().id)
-                launchSingleTop = true
-            }
-        })
+            return@NavigationBarItem
+        }
+        if (isSelected) Icon(
+            imageVector = screen.selectedIcon,
+            contentDescription = stringResource(id = screen.title)
+        )
+        else Icon(
+            imageVector = screen.unSelectedIcon,
+            contentDescription = stringResource(id = screen.title)
+        )
+    }, selected = isSelected, onClick = {
+        selectedItem = index
+        navController.navigate(screen.route) {
+            popUpTo(navController.graph.findStartDestination().id)
+            launchSingleTop = true
+        }
+    })
 }
 
 suspend fun setDrawerState(
-    drawerState: DrawerState,
-    value: DrawerValue
+    drawerState: DrawerState, value: DrawerValue
 ) {
     if (value == DrawerValue.Closed) {
         drawerState.close()
 
-    } else
-        drawerState.open()
+    } else drawerState.open()
 }
 
 data class NavDrawer(

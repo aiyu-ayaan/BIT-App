@@ -20,6 +20,7 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,11 +42,9 @@ import com.atech.bit.ui.comman.GITHUB_LINK
 import com.atech.bit.ui.comman.ImageIconButton
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.CourseScreenRoute
-import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.EventRoute
 import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.navigation.Screen
-import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.course.screen.sem_choose.offlineDataSource
 import com.atech.bit.ui.screens.course.screen.sem_choose.onlineDataSource
 import com.atech.bit.ui.screens.home.HomeScreenEvents
@@ -188,6 +187,14 @@ fun HomeScreen(
             ProfileDialog(viewModel = communicatorViewModel, onDismissRequest = {
                 isProfileDialogVisible = false
             })
+        }
+        if (communicatorViewModel.isShowAlertDialog.value) {
+            AppAlertDialog(
+                model = communicatorViewModel.dialogModel.value,
+                onDismissRequest = {
+                    communicatorViewModel.onDismissRequest()
+                }
+            )
         }
     }
 }

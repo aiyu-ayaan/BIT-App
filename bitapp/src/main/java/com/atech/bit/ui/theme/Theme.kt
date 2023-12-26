@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
 
 private val DarkColorScheme = darkColorScheme(
@@ -40,6 +41,15 @@ val ColorScheme.captionColor: Color
 val ColorScheme.dividerOrCardColor: Color
     @Composable
     get() = primary.copy(alpha = .3f)
+
+
+val ColorScheme.drawerColor: Color
+    @Composable
+    get() = ColorUtils.blendARGB(
+        MaterialTheme.colorScheme.surface.toArgb(),
+        MaterialTheme.colorScheme.primary.toArgb(),
+        .09f
+    ).let { Color(it) }
 
 
 val grid_0_5 = 4.dp
@@ -101,7 +111,8 @@ fun BITAppTheme(
             val window = (view.context as Activity).window
             window.statusBarColor =
                 statusBarColor?.toArgb() ?: colorScheme.surface.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme && statusBarColor == null
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                !darkTheme && statusBarColor == null
         }
     }
 

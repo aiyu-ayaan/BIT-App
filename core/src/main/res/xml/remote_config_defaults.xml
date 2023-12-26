@@ -5,6 +5,10 @@
         <value>{"course":[{"name":"bca","sem":6},{"name":"bba","sem":6},{"name":"mca","sem":4},{"name":"mba","sem":4}]}</value>
     </entry>
     <entry>
+        <key>app_alert_dialog</key>
+        <value>{   "body": "Welcome to BIT App.",   "isShow": true,   "lottieLink": "https://lottie.host/aef42e66-22ea-4aed-a84f-d3c8029a2488/xApVTSr32n.json",   "maxTimesToShow": 5,   "title": "BIT APP",   "version": 1 }</value>
+    </entry>
+    <entry>
         <key>ann_title</key>
         <value>Enjoy BIT App ?</value>
     </entry>

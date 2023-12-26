@@ -7,6 +7,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.bit.ui.screens.home.compose.EventAlertModel
+import com.atech.bit.ui.screens.home.compose.eventAlertModel
 import com.atech.bit.utils.getTheme
 import com.atech.bit.utils.saveTheme
 import com.atech.core.datasource.firebase.auth.UserData
@@ -50,6 +52,16 @@ class MainViewModel @Inject constructor(
     private val _profileLink = mutableStateOf<String?>(null)
     val profileLink: State<String?> get() = _profileLink
 
+    private val _isShowAlertDialog = mutableStateOf(false)
+    val isShowAlertDialog: State<Boolean> get() = _isShowAlertDialog
+
+    private val _dialogModel = mutableStateOf(eventAlertModel)
+    val dialogModel: State<EventAlertModel> get() = _dialogModel
+
+    fun onDismissRequest() {
+        _isShowAlertDialog.value = false
+    }
+
     init {
         if (authUseCases.hasLogIn.invoke()) {
             authUseCases.getUserDataFromAuth().let { (model, _) ->
@@ -71,6 +83,45 @@ class MainViewModel @Inject constructor(
             }
             conf.getString(RemoteConfigKeys.KeyToggleSyllabusSource.value).let {
                 pref.edit().putString(SharePrefKeys.KeyToggleSyllabusSource.name, it).apply()
+            }
+            conf.getString(RemoteConfigKeys.AppAlertDialog.value).let { fetchData ->
+                pref.getString(SharePrefKeys.AppAlertDialog.name, "")?.apply {
+                    val times = pref.getInt(SharePrefKeys.ShowTimes.name, 0)
+                    if (this.isBlank()) {
+                        pref.edit().putString(SharePrefKeys.AppAlertDialog.name, fetchData).apply()
+                        return@let
+                    }
+                    try {
+                        val savedJson = fromJSON(
+                            pref.getString(SharePrefKeys.AppAlertDialog.name, "")!!,
+                            EventAlertModel::class.java
+                        )
+                        val newJson = fromJSON(fetchData, EventAlertModel::class.java)
+                        if (savedJson?.version == newJson?.version
+                            && savedJson?.maxTimesToShow!! > times &&
+                            newJson?.isShow == true
+                        ) {
+                            _isShowAlertDialog.value = true
+                            _dialogModel.value = newJson
+                            pref.edit().putInt(SharePrefKeys.ShowTimes.name, times + 1).apply()
+                        }
+                        if (savedJson?.version != newJson?.version) {
+                            pref.edit().putInt(SharePrefKeys.ShowTimes.name, 0).apply()
+                        }
+                        if (savedJson?.version != newJson?.version && newJson?.isShow == true && newJson.maxTimesToShow > times) {
+                            _dialogModel.value = newJson
+                            _isShowAlertDialog.value = true
+                            pref.edit().putInt(SharePrefKeys.ShowTimes.name, times + 1).apply()
+                        }
+                        if (newJson?.maxTimesToShow == times && newJson.isShow && newJson.version != savedJson?.version) {
+                            pref.edit().putString(SharePrefKeys.AppAlertDialog.name, fetchData)
+                                .apply()
+                        }
+                    } catch (e: Exception) {
+                        Log.d("AAA", "fetchRemoteConfigDetails: $e")
+                        _isShowAlertDialog.value = false
+                    }
+                }
             }
         }
     }

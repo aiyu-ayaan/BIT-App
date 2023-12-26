@@ -21,7 +21,7 @@ object AppModule {
     @Singleton
     @Provides
     fun provideSharedPreference(@ApplicationContext context: Context): SharedPreferences =
-        context.getSharedPreferences(SharePrefKeys.SharedPreferenceName.name, Context.MODE_PRIVATE)
+        context.getSharedPreferences(SharePrefKeys.BITAppPref.name, Context.MODE_PRIVATE)
 
 
     @Singleton

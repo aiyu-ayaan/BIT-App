@@ -1,5 +1,6 @@
 package com.atech.bit.ui.comman
 
+import android.util.Log
 import androidx.annotation.RawRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
+import com.airbnb.lottie.compose.rememberLottieRetrySignal
 import com.atech.bit.R
 import com.atech.bit.ui.theme.grid_2
 
@@ -79,6 +81,31 @@ fun LottieAnim(
     @RawRes res: Int
 ) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(res))
+    val progress by animateLottieCompositionAsState(
+        composition,
+        iterations = LottieConstants.IterateForever
+    )
+    LottieAnimation(
+        modifier = modifier,
+        composition = composition,
+        progress = { progress },
+    )
+}
+
+@Composable
+fun LottieAnimLink(
+    modifier: Modifier = Modifier,
+    link: String
+) {
+    val retrySignal = rememberLottieRetrySignal()
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.Url(link),
+        onRetry = { _, ex ->
+            Log.d("AAA", "LottieAnimLink:$ex ")
+            retrySignal.awaitRetry()
+            true
+        }
+    )
     val progress by animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever

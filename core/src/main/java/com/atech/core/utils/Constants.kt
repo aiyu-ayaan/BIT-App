@@ -14,13 +14,19 @@ enum class RowSubjectAdapterRequest {
     FROM_ATTENDANCE, FROM_HOME
 }
 
+enum class RemoteConfigKeys(val value: String) {
+    CourseDetails("course_details"),
+    KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
+    AppAlertDialog("app_alert_dialog")
+}
 enum class SharePrefKeys {
-    SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
+    BITAppPref, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
     SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin,
     SetUpDone, AppThemeState, NewShowUninstallDialog, KeyAppOpenMinimumTime,
     ShowTimes, KeyAnnVersion, CurrentShowTime,
     IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
-    FirstTimeLogIn, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME
+    FirstTimeLogIn, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
+    AppAlertDialog
 }
 
 const val SYLLABUS_SOURCE_DATA =
@@ -101,10 +107,6 @@ const val CHANNEL_APP = "App Notification"
 const val DEFAULT_PAGE_SIZE = 20
 const val INITIAL_LOAD_SIZE = 20
 
-enum class RemoteConfigKeys(val value: String) {
-    CourseDetails("course_details"),
-    KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
-}
 
 enum class MessageTopic(val value: String) {
     Notice("NoticeByAiyu"),
