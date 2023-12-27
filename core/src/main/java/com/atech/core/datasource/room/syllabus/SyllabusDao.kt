@@ -27,7 +27,7 @@ interface SyllabusDao {
      * Get syllabus for search
      */
     @Query("SELECT * FROM syllabus_table WHERE subject LIKE '%'||:query||'%' OR code LIKE '%'||:query||'%' OR openCode LIKE '%'||:query||'%' OR shortName LIKE '%'||:query||'%'  ORDER BY openCode ASC")
-    fun getSyllabusSearch(query: String): Flow<List<SyllabusModel>>
+    fun getSyllabusSearch(query: String): PagingSource<Int, SyllabusModel>
 
     @Query("SELECT * FROM syllabus_table WHERE (subject LIKE '%'||:query||'%' OR code LIKE '%'||:query||'%' OR openCode LIKE '%'||:query||'%' OR shortName LIKE '%'||:query||'%') AND type LIKE '%'||:type||'%'  ORDER BY openCode ASC")
     suspend fun getSyllabusSearchSync(query: String, type: String): List<SyllabusModel>
@@ -41,7 +41,6 @@ interface SyllabusDao {
      */
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")
     fun getSyllabusType(query: String, type: String): PagingSource<Int, SyllabusModel>
-
 
 
     @Query("SELECT * FROM syllabus_table WHERE openCode LIKE '%'||:query||'%' and type Like '%'||:type||'%' ORDER BY listOrder ASC")

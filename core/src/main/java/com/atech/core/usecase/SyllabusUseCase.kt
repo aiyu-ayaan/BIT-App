@@ -19,7 +19,8 @@ import javax.inject.Inject
 
 
 data class SyllabusUseCase @Inject constructor(
-    val getSubjectsByType: GetSubjectsByType
+    val getSubjectsByType: GetSubjectsByType,
+    val getSearchSyllabus: GetSearchSyllabus,
 )
 
 
@@ -43,8 +44,27 @@ data class GetSubjectsByType @Inject constructor(
             offlineMapper.mapFormEntity(model)
         }
     }
-
 }
+
+data class GetSearchSyllabus @Inject constructor(
+    private val dao: SyllabusDao,
+    private val offlineMapper: OfflineSyllabusUIMapper
+) {
+    operator fun invoke(query: String): Flow<PagingData<SyllabusUIModel>> = Pager(
+        config = PagingConfig(
+            pageSize = DEFAULT_PAGE_SIZE,
+            enablePlaceholders = false,
+            initialLoadSize = INITIAL_LOAD_SIZE
+        )
+    ) {
+        dao.getSyllabusSearch(query)
+    }.flow.map {
+        it.map { model ->
+            offlineMapper.mapFormEntity(model)
+        }
+    }
+}
+
 
 @Keep
 data class SyllabusUIModel(

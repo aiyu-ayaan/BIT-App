@@ -23,3 +23,13 @@ data class HomeScreenState(
     val holiday: List<Holiday> = emptyList(),
     val events: StateFlow<List<EventModel>> = MutableStateFlow(emptyList()),
 )
+
+
+data class HomeScreechScreenState(
+    val onlineSyllabus: Triple<List<SyllabusUIModel>, List<SyllabusUIModel>, List<SyllabusUIModel>> = Triple(
+        emptyList(), emptyList(), emptyList()
+    ),
+    val offSyllabus: StateFlow<PagingData<SyllabusUIModel>> = MutableStateFlow(PagingData.empty()),
+    val holiday: List<Holiday> = emptyList(),
+    val events: StateFlow<List<EventModel>> = MutableStateFlow(emptyList()),
+)

@@ -40,7 +40,10 @@ fun AboutUsModel.toMap(): Map<String, List<Devs>> = mapOf(
 //----------------------------------- Holiday -----------------------------------
 
 enum class HolidayType(val value: String) {
-    MAIN("main"), RES("res"), ALL("ALL")
+    MAIN("MAIN"),
+    RES("RES"),
+    ALL("ALL"),
+    SEARCH("SEARCH")
 }
 
 @Keep

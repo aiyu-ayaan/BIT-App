@@ -62,12 +62,22 @@ data class FetchHolidays @Inject constructor(
     @Throws(Exception::class)
     suspend operator fun invoke(
         type: HolidayType,
-        month: String = ""
+        query: String = ""
     ): List<Holiday> = try {
         api.getHoliday().holidays
             .let {
-                if (type == HolidayType.ALL) it.filter { holiday -> holiday.month == month }
-                else it.filter { holiday -> holiday.type == type.value }
+                when (type) {
+                    HolidayType.ALL -> it.filter { holiday -> holiday.month == query }
+                    HolidayType.SEARCH -> it.filter { holiday ->
+                        holiday.occasion.contains(query, ignoreCase = true) ||
+                                holiday.day.contains(query, ignoreCase = true) ||
+                                holiday.date.contains(query, ignoreCase = true) ||
+                                holiday.month.contains(query, ignoreCase = true) ||
+                                holiday.type.contains(query, ignoreCase = true)
+                    }
+
+                    else -> it.filter { holiday -> holiday.type == type.value }
+                }
             }
     } catch (e: Exception) {
         throw e

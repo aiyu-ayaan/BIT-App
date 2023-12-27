@@ -87,6 +87,7 @@ fun HomeScreen(
     val cgpa = homeScreenState.currentCgpa
     val context = LocalContext.current
     val courseDetails by communicatorViewModel.courseDetail
+    var query by remember { mutableStateOf("") }
 
     val profileUrl by communicatorViewModel.profileLink
 
@@ -102,26 +103,33 @@ fun HomeScreen(
         permissionState = rememberPermissionState(permission = Permissions.NOTIFICATION.value)
         LaunchedEffect(permissionState?.status) {
             when (permissionState?.status) {
-                is PermissionStatus.Denied -> communicatorViewModel
-                    .onNotificationPrefItemVisibleChange(false)
+                is PermissionStatus.Denied -> communicatorViewModel.onNotificationPrefItemVisibleChange(
+                    false
+                )
 
-                PermissionStatus.Granted -> communicatorViewModel
-                    .onNotificationPrefItemVisibleChange(true)
+                PermissionStatus.Granted -> communicatorViewModel.onNotificationPrefItemVisibleChange(
+                    true
+                )
 
-                null -> communicatorViewModel
-                    .onNotificationPrefItemVisibleChange(false)
+                null -> communicatorViewModel.onNotificationPrefItemVisibleChange(false)
             }
         }
     }
     Scaffold(modifier = modifier, topBar = {
-        var query by remember { mutableStateOf("") }
         isAPI33AndUp {
             permissionState?.launchPermissionRequest()
         }
         SearchToolBar(query = query,
-            onQueryChange = { query = it },
+            onQueryChange = {
+                query = it
+                viewModel.getSearchItem(it)
+            },
             active = isSearchBarActive,
-            onActiveChange = { communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive) },
+            onActiveChange = {
+                communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive)
+                query = ""
+                viewModel.getSearchItem(query)
+            },
             onTrailingIconClick = {
                 communicatorViewModel.onEvent(MainViewModel.SharedEvents.ToggleSearchActive)
             },
@@ -146,6 +154,13 @@ fun HomeScreen(
                         MainViewModel.SharedEvents.OpenLogInScreen
                     )
                 }
+            },
+            contents = {
+                AnimatedVisibility(isSearchBarActive) {
+                    SearchScreen(
+                        state = viewModel.homeSearchScreenState.value
+                    )
+                }
             })
     }) {
         LazyColumn(
@@ -155,9 +170,10 @@ fun HomeScreen(
         ) {
             singleElement(key = "Notification Permission") {
                 if (!communicatorViewModel.isNotificationPrefItemVisible.value) {
-                    PreferenceCard(
-                        modifier = Modifier
-                            .padding(vertical = grid_1, horizontal = grid_2),
+                    PreferenceCard(modifier = Modifier.padding(
+                        vertical = grid_1,
+                        horizontal = grid_2
+                    ),
                         title = "Notification is disabled",
                         icon = Icons.Outlined.NotificationsOff,
                         description = "Allow Notification to get latest notice and announcement",
@@ -166,8 +182,7 @@ fun HomeScreen(
                             enableNotificationClick(
                                 context
                             )
-                        }
-                    )
+                        })
                 }
             }
             singleElement(key = "Header") {
@@ -181,7 +196,8 @@ fun HomeScreen(
                     isChooseSemSelected = !isChooseSemSelected
                 })
             }
-            if (isOnlineEnable) onlineDataSource(onlineData.first,
+            if (isOnlineEnable) onlineDataSource(
+                onlineData.first,
                 onlineData.second,
                 onlineData.third,
                 onClick = { model ->
@@ -189,7 +205,8 @@ fun HomeScreen(
                         navController, homeScreenState.course, homeScreenState.sem, true, model
                     )
                 })
-            else offlineDataSource(theoryData = theory,
+            else offlineDataSource(
+                theoryData = theory,
                 labData = lab,
                 peData = pe,
                 onClick = { model ->
@@ -202,7 +219,8 @@ fun HomeScreen(
                     Screen.HolidayScreen.route
                 )
             })
-            showEvents(items = events,
+            showEvents(
+                items = events,
                 getAttach = viewModel.firebaseCase.getAttach,
                 onClick = { event ->
                     navController.navigate(
@@ -240,12 +258,9 @@ fun HomeScreen(
             })
         }
         if (communicatorViewModel.isShowAlertDialog.value) {
-            AppAlertDialog(
-                model = communicatorViewModel.dialogModel.value,
-                onDismissRequest = {
-                    communicatorViewModel.onDismissRequest()
-                }
-            )
+            AppAlertDialog(model = communicatorViewModel.dialogModel.value, onDismissRequest = {
+                communicatorViewModel.onDismissRequest()
+            })
         }
     }
 }
@@ -258,9 +273,7 @@ private fun navigateToViewSyllabus(
     model: SyllabusUIModel
 ) {
     navController.navigate(
-        CourseScreenRoute.ViewSubjectScreen.route + "?course=${(course).lowercase()}"
-                + "&courseSem=${if (isOnlineEnable) "${course}${sem}".lowercase() else model.openCode}"
-                + "&subject=${model.subject}" + "&isOnline=$isOnlineEnable"
+        CourseScreenRoute.ViewSubjectScreen.route + "?course=${(course).lowercase()}" + "&courseSem=${if (isOnlineEnable) "${course}${sem}".lowercase() else model.openCode}" + "&subject=${model.subject}" + "&isOnline=$isOnlineEnable"
     )
 }
 
@@ -296,7 +309,7 @@ private fun HeaderCompose(
                 contentDescription = null
             )
         })
-        AnimatedVisibility(visible = !isEnable) {
+        AnimatedVisibility(visible = /*!isEnable*/ false) {
             ImageIconButton(
                 icon = Icons.Outlined.Edit,
                 tint = MaterialTheme.colorScheme.primary,

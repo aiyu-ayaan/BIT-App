@@ -25,6 +25,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -60,14 +61,18 @@ class HomeViewModel @Inject constructor(
 
     private var _dateStoreJob: Job? = null
 
+    private val _homeSearchScreenState = mutableStateOf(
+        HomeScreechScreenState()
+    )
+    val homeSearchScreenState: State<HomeScreechScreenState> get() = _homeSearchScreenState
+
 
     fun onEvent(event: HomeScreenEvents) {
         when (event) {
             is HomeScreenEvents.ToggleOnlineSyllabusClick -> {
-                _homeScreenState.value = _homeScreenState
-                    .value.copy(
-                        isOnlineSyllabusEnable = event.isOnline
-                    )
+                _homeScreenState.value = _homeScreenState.value.copy(
+                    isOnlineSyllabusEnable = event.isOnline
+                )
             }
 
             is HomeScreenEvents.OnCourseChange -> {
@@ -93,42 +98,57 @@ class HomeViewModel @Inject constructor(
     private fun getDataStore() {
         _dateStoreJob?.cancel()
         _dateStoreJob = dateStoreCase.getAll.invoke().onEach {
-            _homeScreenState.value = _homeScreenState.value
-                .copy(
-                    course = it.course,
-                    sem = it.sem,
-                    currentCgpa = it.cgpa,
-                    isOnlineSyllabusEnable = syllabusEnableModel.compareToCourseSem(
-                        it.course + it.sem
-                    ),
-                    offTheory = syllabusUSeCase.getSubjectsByType(
-                        courseSem = "${it.course}${it.sem}".lowercase(), type = SubjectType.THEORY
-                    ).cachedIn(viewModelScope).stateIn(scope = viewModelScope),
-                    offLab = syllabusUSeCase.getSubjectsByType(
-                        courseSem = "${it.course}${it.sem}".lowercase(), type = SubjectType.LAB
-                    ).cachedIn(viewModelScope).stateIn(scope = viewModelScope),
-                    offPractical = syllabusUSeCase.getSubjectsByType(
-                        courseSem = "${it.course}${it.sem}".lowercase(), type = SubjectType.PE
-                    ).cachedIn(viewModelScope).stateIn(scope = viewModelScope),
-                    onlineSyllabus = try {
-                        retrofitUseCase.fetchSyllabus("${it.course}${it.sem}".lowercase())
-                    } catch (e: Exception) {
-                        Triple(emptyList(), emptyList(), emptyList())
-                    },
-                    holiday = try {
-                        retrofitUseCase.fetchHolidays.invoke(
-                            HolidayType.ALL, month = currentMonth
-                        )
-                    } catch (e: Exception) {
-                        emptyList()
-                    },
-                    events = try {
-                        firebaseCase.getEvent().stateIn(scope = viewModelScope)
-                    } catch (e: Exception) {
-                        MutableStateFlow(emptyList())
-                    }
-                )
+            val event = getEvent()
+            _homeScreenState.value = _homeScreenState.value.copy(
+                course = it.course,
+                sem = it.sem,
+                currentCgpa = it.cgpa,
+                isOnlineSyllabusEnable = syllabusEnableModel.compareToCourseSem(
+                    it.course + it.sem
+                ),
+                offTheory = syllabusUSeCase.getSubjectsByType(
+                    courseSem = "${it.course}${it.sem}".lowercase(), type = SubjectType.THEORY
+                ).cachedIn(viewModelScope).stateIn(scope = viewModelScope),
+                offLab = syllabusUSeCase.getSubjectsByType(
+                    courseSem = "${it.course}${it.sem}".lowercase(), type = SubjectType.LAB
+                ).cachedIn(viewModelScope).stateIn(scope = viewModelScope),
+                offPractical = syllabusUSeCase.getSubjectsByType(
+                    courseSem = "${it.course}${it.sem}".lowercase(), type = SubjectType.PE
+                ).cachedIn(viewModelScope).stateIn(scope = viewModelScope),
+                onlineSyllabus = try {
+                    retrofitUseCase.fetchSyllabus("${it.course}${it.sem}".lowercase())
+                } catch (e: Exception) {
+                    Triple(emptyList(), emptyList(), emptyList())
+                },
+                holiday = getHoliday(query = currentMonth),
+                events = event
+            )
         }.launchIn(viewModelScope)
+    }
+
+    private suspend fun getEvent(
+        query: String? = null
+    ) = try {
+        firebaseCase.getEvent().let { filter ->
+            if (query == null) filter
+            else filter.map {
+                it.filter { event ->
+                    event.title?.contains(query, ignoreCase = true) ?: false
+                }
+            }
+        }.stateIn(scope = viewModelScope)
+    } catch (e: Exception) {
+        MutableStateFlow(emptyList())
+    }
+
+    private suspend fun getHoliday(
+        type: HolidayType = HolidayType.ALL, query: String
+    ) = try {
+        retrofitUseCase.fetchHolidays.invoke(
+            type, query = query
+        )
+    } catch (e: Exception) {
+        emptyList()
     }
 
 
@@ -144,6 +164,22 @@ class HomeViewModel @Inject constructor(
             )
         } catch (e: Exception) {
             Log.e(TAGS.BIT_ERROR.name, "uploadCgpa: ${e.message ?: "Error"}")
+        }
+    }
+//    ------------------------------------------ Searching -----------------------------------------
+
+    fun getSearchItem(query: String) {
+        if (query.isBlank()) {
+            _homeSearchScreenState.value = HomeScreechScreenState()
+            return
+        }
+        viewModelScope.launch {
+            _homeSearchScreenState.value = _homeSearchScreenState.value.copy(
+                offSyllabus = syllabusUSeCase.getSearchSyllabus(query).cachedIn(viewModelScope)
+                    .stateIn(scope = viewModelScope),
+                holiday = getHoliday(HolidayType.SEARCH, query = query),
+                events = getEvent(query = query)
+            )
         }
     }
 }

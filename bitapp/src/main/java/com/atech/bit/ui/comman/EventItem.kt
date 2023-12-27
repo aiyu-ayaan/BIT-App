@@ -48,7 +48,7 @@ import kotlinx.coroutines.launch
 fun EventItem(
     modifier: Modifier = Modifier,
     model: EventModel,
-    getAttach: GetAttach,
+    getAttach: GetAttach? = null,
     onEventClick: (EventModel) -> Unit = {},
     onClick: (String) -> Unit
 ) {
@@ -136,7 +136,7 @@ fun EventItem(
             )
             Spacer(modifier = Modifier.height(grid_1))
             scope.launch {
-                getAttach.invoke(
+                getAttach?.invoke(
                     Db.Event,
                     model.path!!,
                     action = {
