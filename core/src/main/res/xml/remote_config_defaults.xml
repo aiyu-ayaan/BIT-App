@@ -6,7 +6,11 @@
     </entry>
     <entry>
         <key>app_alert_dialog</key>
-        <value>{   "body": "Welcome to BIT App.",   "isShow": true,   "lottieLink": "https://lottie.host/aef42e66-22ea-4aed-a84f-d3c8029a2488/xApVTSr32n.json",   "maxTimesToShow": 5,   "title": "BIT APP",   "version": 1 }</value>
+        <value>{"body":"Welcome to BIT App","isShow":false,"lottieLink":"https://lottie.host/aef42e66-22ea-4aed-a84f-d3c8029a2488/xApVTSr32n.json","maxTimesToShow":5,"title":"BIT APP","version":3,"link":"https://jsoncrack.com/editor"}</value>
+    </entry>
+    <entry>
+        <key>force_screen</key>
+        <value>{"description":"This app end its support","isEnable":true,"link":"https://play.google.com/store/apps/details?id=com.atech.bit","minVersion":-1,"title":"About App"}</value>
     </entry>
     <entry>
         <key>ann_title</key>

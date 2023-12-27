@@ -17,7 +17,8 @@ enum class RowSubjectAdapterRequest {
 enum class RemoteConfigKeys(val value: String) {
     CourseDetails("course_details"),
     KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
-    AppAlertDialog("app_alert_dialog")
+    AppAlertDialog("app_alert_dialog"),
+    ForceScreen("force_screen")
 }
 enum class SharePrefKeys {
     BITAppPref, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,

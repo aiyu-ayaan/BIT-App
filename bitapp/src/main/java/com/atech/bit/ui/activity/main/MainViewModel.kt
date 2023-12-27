@@ -7,6 +7,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.bit.BuildConfig
+import com.atech.bit.ui.screens.force.ForceScreenModel
 import com.atech.bit.ui.screens.home.compose.EventAlertModel
 import com.atech.bit.ui.screens.home.compose.eventAlertModel
 import com.atech.bit.utils.getTheme
@@ -57,6 +59,12 @@ class MainViewModel @Inject constructor(
 
     private val _dialogModel = mutableStateOf(eventAlertModel)
     val dialogModel: State<EventAlertModel> get() = _dialogModel
+
+    private val _forceScreenModel = mutableStateOf(ForceScreenModel())
+    val forceScreenModel: State<ForceScreenModel> get() = _forceScreenModel
+
+    private val _isForceScreenEnable = mutableStateOf(false)
+    val isForceScreenEnable: State<Boolean> get() = _isForceScreenEnable
 
     fun onDismissRequest() {
         _isShowAlertDialog.value = false
@@ -121,6 +129,17 @@ class MainViewModel @Inject constructor(
                         Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigDetails: $e")
                         _isShowAlertDialog.value = false
                     }
+                }
+            }
+            conf.getString(RemoteConfigKeys.ForceScreen.value).let { json ->
+                try {
+                    fromJSON(json, ForceScreenModel::class.java)?.let { model ->
+                        _forceScreenModel.value = model
+                        _isForceScreenEnable.value =
+                            model.isEnable && model.minVersion >= BuildConfig.VERSION_CODE
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigDetails: $e")
                 }
             }
         }

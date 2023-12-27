@@ -16,6 +16,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.atech.bit.ui.navigation.ParentScreenRoutes
 import com.atech.bit.ui.navigation.TopLevelNavigationGraph
 import com.atech.bit.ui.navigation.TopLevelRoute
 import com.atech.bit.ui.theme.BITAppTheme
@@ -50,8 +51,12 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
                     TopLevelNavigationGraph(
                         navHostController = navHostController,
                         communicatorViewModel = viewModel,
-                        startDestination = if (viewModel.hasSetUpDone) TopLevelRoute.MAIN_SCREEN.route
-                        else TopLevelRoute.LOGIN.route
+                        startDestination =
+                        if (viewModel.isForceScreenEnable.value)
+                            ParentScreenRoutes.ForceScreen.route
+                        else
+                            if (viewModel.hasSetUpDone) TopLevelRoute.MAIN_SCREEN.route
+                            else TopLevelRoute.LOGIN.route
                     )
                 }
             }

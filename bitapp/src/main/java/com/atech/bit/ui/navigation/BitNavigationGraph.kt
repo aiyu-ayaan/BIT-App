@@ -14,6 +14,7 @@ import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.screens.MainScreen
 import com.atech.bit.ui.screens.administration.AdministrationScreen
 import com.atech.bit.ui.screens.cgpa.compose.CgpaScreen
+import com.atech.bit.ui.screens.force.ForceScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
 import com.atech.bit.ui.screens.view_image.ViewImageScreen
 import com.atech.bit.utils.animatedComposable
@@ -28,6 +29,8 @@ enum class TopLevelRoute(val route: String) {
 sealed class ParentScreenRoutes(val route: String) {
     data object LoginScreen : ParentScreenRoutes(TopLevelRoute.LOGIN.route)
     data object MainScreen : ParentScreenRoutes(TopLevelRoute.MAIN_SCREEN.route)
+
+    data object ForceScreen : ParentScreenRoutes("force_screen")
 }
 
 @Composable
@@ -48,6 +51,11 @@ fun TopLevelNavigationGraph(
             MainScreen(
                 communicatorViewModel = communicatorViewModel
             )
+        }
+        animatedComposable(
+            route = ParentScreenRoutes.ForceScreen.route
+        ) {
+            ForceScreen()
         }
     }
 }
