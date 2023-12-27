@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -45,6 +46,7 @@ import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.dividerOrCardColor
 import com.atech.bit.ui.theme.grid_1
+import com.atech.bit.utils.getVersion
 import com.atech.core.datasource.retrofit.model.toMap
 import com.atech.core.utils.PRIVACY_POLICY
 import com.atech.core.utils.openLinks
@@ -184,23 +186,23 @@ private fun AboutUsHeader(
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
-                    text = "BIT App",
+                    text = stringResource(R.string.app_name),
                     style = androidx.compose.material.MaterialTheme.typography.h4,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(grid_1))
                 Text(
-                    text = "Developed by Ayaan",
+                    text = stringResource(R.string.developed_by_ayaan),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
-                    text = "Version",
+                    text = stringResource(R.string.s_version),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.captionColor
                 )
                 Text(
-                    text = "1.0.1",
+                    text = getVersion(),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )

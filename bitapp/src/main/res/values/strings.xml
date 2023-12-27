@@ -107,4 +107,6 @@
     <string name="no">No</string>
     <string name="really_want_to_sign_out">Really want to sign out ?</string>
     <string name="delete_my_account">Delete my Account</string>
+    <string name="s_version">Version</string>
+    <string name="developed_by_ayaan">Developed by Ayaan</string>
 </resources>
