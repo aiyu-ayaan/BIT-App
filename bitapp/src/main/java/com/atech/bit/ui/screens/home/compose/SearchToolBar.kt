@@ -1,9 +1,9 @@
 package com.atech.bit.ui.screens.home.compose
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -78,8 +78,12 @@ fun SearchToolBar(
             leadingIcon = {
                 AnimatedVisibility(
                     visible = active,
-                    enter = scaleIn() + fadeIn(),
-                    exit = scaleOut() + fadeOut()
+                    enter = slideInHorizontally(
+                        animationSpec = spring(),
+                        initialOffsetX = { 500 },
+                    ) + fadeIn(),
+                    exit = scaleOut()
+                            + fadeOut()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Search,
@@ -109,7 +113,7 @@ fun SearchToolBar(
                         onClick = onTrailingIconClick,
                         tint = MaterialTheme.colorScheme.primary,
 
-                    )
+                        )
                 }
             }
         ) {

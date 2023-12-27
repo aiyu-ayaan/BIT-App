@@ -32,16 +32,13 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import com.atech.bit.ui.comman.EventItem
 import com.atech.bit.ui.comman.singleElement
-import com.atech.bit.ui.navigation.DeepLinkRoutes
-import com.atech.bit.ui.navigation.EventRoute
-import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.course.components.SubjectItem
 import com.atech.bit.ui.screens.course.components.SubjectTitle
-import com.atech.bit.ui.screens.event.EventScreenEvent
 import com.atech.bit.ui.screens.home.HomeScreechScreenState
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_0_5
 import com.atech.bit.ui.theme.grid_1
+import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.usecase.SyllabusUIModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -49,7 +46,8 @@ import com.atech.core.usecase.SyllabusUIModel
 fun SearchScreen(
     modifier: Modifier = Modifier,
     state: HomeScreechScreenState = HomeScreechScreenState(),
-    onSyllabusClick: (SyllabusUIModel) -> Unit = {}
+    onSyllabusClick: (SyllabusUIModel) -> Unit = {},
+    onEventClick: (EventModel) -> Unit = {}
 ) {
     var currentSelected by remember { mutableStateOf(FilterType.ALL) }
 //    val onlineData = state.onlineSyllabus
@@ -112,10 +110,8 @@ fun SearchScreen(
             ) { model ->
                 EventItem(
                     model = model,
-                    onClick = {
-//                        navController.navigateWithDeepLink(
-//                            DeepLinkRoutes.ViewImageRoute(it)
-//                        )
+                    onEventClick = {
+                        onEventClick.invoke(model)
                     }
                 )
             }
