@@ -1,0 +1,12 @@
+-keep class com.generativelanguage.api.** { *; }
+-keep class com.generativelanguage.model.** { *; }
+-keep class com.generativelanguage.serialization.** { *; }
+-keep class io.grpc.stub.** { *; }
+-keep class io.grpc.** { *; }
+-keep class com.google.protobuf.** { *; }
+-keep class com.google.gson.** { *; }
+-dontwarn com.squareup.okhttp.CipherSuite
+-dontwarn com.squareup.okhttp.ConnectionSpec
+-dontwarn com.squareup.okhttp.TlsVersion
+
+-keep class com.google.ai.client.generativeai.** { *; }

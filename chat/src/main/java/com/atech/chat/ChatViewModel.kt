@@ -97,6 +97,7 @@ class ChatViewModel @Inject constructor(
                     )
                 }
             } catch (e: Exception) {
+                Log.d("AAA", "sendMessage: $e")
                 if (e is PromptBlockedException) {
                     _uiState.value.addMessage(
                         ChatMessage(
