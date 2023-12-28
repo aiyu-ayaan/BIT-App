@@ -31,7 +31,8 @@ import androidx.compose.ui.unit.dp
 fun MessageInput(
     onSendMessage: (String) -> Unit,
     resetScroll: () -> Unit = {},
-    isLoading: Boolean = true
+    isLoading: Boolean = true,
+    onCancelClick: () -> Unit = {}
 ) {
     var userMessage by rememberSaveable { mutableStateOf("") }
 
@@ -43,17 +44,15 @@ fun MessageInput(
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            val trailingIcon: @Composable (() -> Unit)? =
-                if (isLoading) {
-                    {
-                        CircularProgressIndicator(
-                            modifier = Modifier
-                                .size(24.dp),
-                            strokeWidth = 2.dp,
-                            strokeCap = StrokeCap.Round
-                        )
-                    }
-                } else null
+            val trailingIcon: @Composable (() -> Unit)? = if (isLoading) {
+                {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        strokeWidth = 2.dp,
+                        strokeCap = StrokeCap.Round
+                    )
+                }
+            } else null
             OutlinedTextField(
                 value = userMessage,
                 label = { Text("Chat") },
@@ -67,9 +66,12 @@ fun MessageInput(
                     .weight(0.85f),
                 trailingIcon = trailingIcon
             )
+            val isEnable = userMessage.isNotBlank() || isLoading
             IconButton(
+                enabled = isEnable,
                 onClick = {
-                    if (userMessage.isNotBlank()) {
+                    if (isLoading) onCancelClick()
+                    else if (userMessage.isNotBlank()) {
                         onSendMessage(userMessage)
                         userMessage = ""
                         resetScroll()
@@ -82,13 +84,12 @@ fun MessageInput(
                     .weight(0.15f)
             ) {
                 Icon(
-                    if (isLoading)
-                        Icons.Outlined.PauseCircle
-                    else
-                        Icons.Outlined.Send,
+                    if (isLoading) Icons.Outlined.PauseCircle
+                    else Icons.Outlined.Send,
                     contentDescription = "send",
                     modifier = Modifier,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = if (isEnable) MaterialTheme.colorScheme.primary
+                    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f)
                 )
             }
         }

@@ -12,33 +12,34 @@ data class ChatUseCases @Inject constructor(
 )
 
 data class InsertChat @Inject constructor(
-    val chatRepository: ChatDao
+    val dao: ChatDao
 ) {
     suspend operator fun invoke(chat: ChatModel) =
-        chatRepository.insert(chat)
+        dao.insert(chat)
 
 }
 
 data class DeleteChat @Inject constructor(
-    val chatRepository: ChatDao
+    val dao: ChatDao
 ) {
     suspend operator fun invoke(chat: ChatModel) {
-        chatRepository.delete(chat)
+        dao.delete(chat)
+        dao.deleteFromId(chat.linkId)
     }
 }
 
 data class DeleteAllChat @Inject constructor(
-    val chatRepository: ChatDao
+    val dao: ChatDao
 ) {
     suspend operator fun invoke() {
-        chatRepository.deleteAll()
+        dao.deleteAll()
     }
 }
 
 data class GetAllChat @Inject constructor(
-    val chatRepository: ChatDao
+    val dao: ChatDao
 ) {
     suspend operator fun invoke(): List<ChatModel> {
-        return chatRepository.getAll()
+        return dao.getAll()
     }
 }

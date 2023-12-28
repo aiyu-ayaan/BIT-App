@@ -11,6 +11,10 @@ interface ChatDao {
     @Query("SELECT * FROM chat order by created")
     suspend fun getAll(): List<ChatModel>
 
+
+    @Query("DELETE FROM chat WHERE id = :id")
+    suspend fun deleteFromId(id: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(chat: ChatModel)
 

@@ -1,18 +1,19 @@
 package com.atech.chat
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.usecase.ChatUseCases
+import com.atech.core.utils.TAGS
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.PromptBlockedException
 import com.google.ai.client.generativeai.type.asTextOrNull
-import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,15 +32,14 @@ class ChatViewModel @Inject constructor(
 
     private val _isLoading = mutableStateOf<Boolean>(false)
     val isLoading: State<Boolean> get() = _isLoading
+    private var job: Job? = null
 
     init {
         getChat()
     }
 
     private fun getChat() = viewModelScope.launch {
-        val history = mapper.mapFromEntityList(case.getAllChat.invoke()).toContent().ifEmpty {
-            emptyChat()
-        }
+        val history = mapper.mapFromEntityList(case.getAllChat.invoke()).toContent()
         chat = generativeModel.startChat(history)
         _uiState.value = ChatUiState(
             chat?.history?.map { content ->
@@ -53,16 +53,14 @@ class ChatViewModel @Inject constructor(
     }
 
 
-    private fun emptyChat(): List<Content> = listOf(
-        content(role = "user") { text("Hey") },
-        content(role = "model") {
-            text(
-                "\uD83D\uDC4B Hey! I'm your friendly Chatbot, powered by Gemini Pro! \uD83D\uDE80 Feel free to ask " +
-                        "me anything about your course, dive into the functions, or explore the amazing features available." +
-                        "Whether it's information," +
-                        " assistance, or just a friendly chat, I'm here to help! \uD83C\uDF10\uD83D\uDCAC"
-            )
-        })
+    fun cancelJob() {
+        try {
+            _isLoading.value = false
+            job?.cancel()
+        } catch (e: Exception) {
+            Log.e(TAGS.BIT_ERROR.name, "cancelJob: ${e.localizedMessage}")
+        }
+    }
 
     fun sendMessage(userMessage: String) {
         // Add a pending message
@@ -73,7 +71,7 @@ class ChatViewModel @Inject constructor(
         _uiState.value.addMessage(
             userInput
         )
-        viewModelScope.launch {
+        job = viewModelScope.launch {
             try {
                 val response = chat!!.sendMessage(userMessage)
                 _isLoading.value = false
@@ -83,8 +81,13 @@ class ChatViewModel @Inject constructor(
                     )
                     mapper.mapToEntityList(
                         listOf(
-                            _uiState.value.getLastMessage()!!,
-                            modelRes
+                            _uiState.value.getLastMessage()!!
+                                .copy(
+                                    linkedId = modelRes.id
+                                ),
+                            modelRes.copy(
+                                linkedId = _uiState.value.getLastMessage()!!.id
+                            )
                         )
                     ).forEach {
                         case.insertChat.invoke(it)
@@ -95,7 +98,6 @@ class ChatViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 if (e is PromptBlockedException) {
-                    _isLoading.value = false
                     _uiState.value.addMessage(
                         ChatMessage(
                             text = "The input you provided contains offensive language, which goes against our community guidelines " +
@@ -113,6 +115,9 @@ class ChatViewModel @Inject constructor(
                         participant = Participant.ERROR
                     )
                 )
+            } finally {
+                _isLoading.value = false
+                job = null
             }
         }
     }

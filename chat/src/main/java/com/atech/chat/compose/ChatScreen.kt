@@ -45,7 +45,10 @@ fun ChatScreen(
                         listState.scrollToItem(0)
                     }
                 },
-                isLoading = isLoading
+                isLoading = isLoading,
+                onCancelClick = {
+                    viewModel.cancelJob()
+                }
             )
         }) { paddingValues ->
         ChatList(

@@ -15,17 +15,21 @@ data class ChatMessage(
     val id: String = UUID.randomUUID().toString(),
     var text: String = "",
     val participant: Participant = Participant.USER,
+    val linkedId: String = ""
 )
 
 class ChatMessageToModelMapper @Inject constructor() : EntityMapper<ChatMessage, ChatModel> {
     override fun mapFormEntity(entity: ChatMessage): ChatModel = ChatModel(
-        id = entity.id, text = entity.text, participant = entity.participant.name
+        id = entity.id, text = entity.text,
+        participant = entity.participant.name,
+        linkId = entity.linkedId
     )
 
     override fun mapToEntity(domainModel: ChatModel): ChatMessage = ChatMessage(
         id = domainModel.id,
         text = domainModel.text,
-        participant = Participant.valueOf(domainModel.participant)
+        participant = Participant.valueOf(domainModel.participant),
+        linkedId = domainModel.linkId
     )
 
     fun mapFromEntityList(entities: List<ChatModel>): List<ChatMessage> =

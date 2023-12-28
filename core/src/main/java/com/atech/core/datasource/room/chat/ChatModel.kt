@@ -11,6 +11,7 @@ data class ChatModel(
     val id: String,
     val text: String,
     val participant: String,
-    val created: Long = System.currentTimeMillis()
+    val created: Long = System.currentTimeMillis(),
+    val linkId: String = ""
 )
 

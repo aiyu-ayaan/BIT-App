@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "aa20da787b5aa4c2d2dba2c6c41e47a5",
+    "identityHash": "5e10dda04d7f4ad03ee38cd97c1939ef",
     "entities": [
       {
         "tableName": "attendance_table",
@@ -274,7 +274,7 @@
       },
       {
         "tableName": "chat",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `participant` TEXT NOT NULL, `created` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `text` TEXT NOT NULL, `participant` TEXT NOT NULL, `created` INTEGER NOT NULL, `linkId` TEXT NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -299,6 +299,12 @@
             "columnName": "created",
             "affinity": "INTEGER",
             "notNull": true
+          },
+          {
+            "fieldPath": "linkId",
+            "columnName": "linkId",
+            "affinity": "TEXT",
+            "notNull": true
           }
         ],
         "primaryKey": {
@@ -314,7 +320,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'aa20da787b5aa4c2d2dba2c6c41e47a5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '5e10dda04d7f4ad03ee38cd97c1939ef')"
     ]
   }
 }
