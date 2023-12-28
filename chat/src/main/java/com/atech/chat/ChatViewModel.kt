@@ -6,8 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.usecase.ChatUseCases
+import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.Content
+import com.google.ai.client.generativeai.type.PromptBlockedException
 import com.google.ai.client.generativeai.type.asTextOrNull
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,15 +18,42 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    generativeModel: GenerativeModel,
-    private val case : ChatUseCases
+    private val generativeModel: GenerativeModel,
+    private val case: ChatUseCases,
+    private val mapper: ChatMessageToModelMapper
 ) : ViewModel() {
-    private val chat =
-        generativeModel.startChat(
-            history = list()
-        )
 
-    private fun list(): List<Content> = listOf(
+    private var chat: Chat? = null
+
+    private val _uiState: MutableState<ChatUiState> =
+        mutableStateOf(ChatUiState())
+    val uiState: State<ChatUiState> = _uiState
+
+    private val _isLoading = mutableStateOf<Boolean>(false)
+    val isLoading: State<Boolean> get() = _isLoading
+
+    init {
+        getChat()
+    }
+
+    private fun getChat() = viewModelScope.launch {
+        val history = mapper.mapFromEntityList(case.getAllChat.invoke()).toContent().ifEmpty {
+            emptyChat()
+        }
+        chat = generativeModel.startChat(history)
+        _uiState.value = ChatUiState(
+            chat?.history?.map { content ->
+                // Map the initial messages
+                ChatMessage(
+                    text = content.parts.first().asTextOrNull() ?: "",
+                    participant = if (content.role == "user") Participant.USER else Participant.MODEL,
+                )
+            } ?: emptyList()
+        )
+    }
+
+
+    private fun emptyChat(): List<Content> = listOf(
         content(role = "user") { text("Hey") },
         content(role = "model") {
             text(
@@ -35,40 +64,49 @@ class ChatViewModel @Inject constructor(
             )
         })
 
-    private val _uiState: MutableState<ChatUiState> =
-        mutableStateOf(ChatUiState(chat.history.map { content ->
-            // Map the initial messages
-            ChatMessage(
-                text = content.parts.first().asTextOrNull() ?: "",
-                participant = if (content.role == "user") Participant.USER else Participant.MODEL,
-                isPending = false
-            )
-        }))
-    val uiState: State<ChatUiState> = _uiState
-
-
     fun sendMessage(userMessage: String) {
         // Add a pending message
-        _uiState.value.addMessage(
-            ChatMessage(
-                text = userMessage, participant = Participant.USER, isPending = true
-            )
+        val userInput = ChatMessage(
+            text = userMessage, participant = Participant.USER,
         )
-
+        _isLoading.value = true
+        _uiState.value.addMessage(
+            userInput
+        )
         viewModelScope.launch {
             try {
-                val response = chat.sendMessage(userMessage)
-                _uiState.value.replaceLastPendingMessage()
-
+                val response = chat!!.sendMessage(userMessage)
+                _isLoading.value = false
                 response.text?.let { modelResponse ->
-                    _uiState.value.addMessage(
-                        ChatMessage(
-                            text = modelResponse, participant = Participant.MODEL, isPending = false
+                    val modelRes = ChatMessage(
+                        text = modelResponse, participant = Participant.MODEL
+                    )
+                    mapper.mapToEntityList(
+                        listOf(
+                            _uiState.value.getLastMessage()!!,
+                            modelRes
                         )
+                    ).forEach {
+                        case.insertChat.invoke(it)
+                    }
+                    _uiState.value.addMessage(
+                        modelRes
                     )
                 }
             } catch (e: Exception) {
-                _uiState.value.replaceLastPendingMessage()
+                if (e is PromptBlockedException) {
+                    _isLoading.value = false
+                    _uiState.value.addMessage(
+                        ChatMessage(
+                            text = "The input you provided contains offensive language, which goes against our community guidelines " +
+                                    "and standards. Please refrain from using inappropriate language and ensure that your input is " +
+                                    "respectful and adheres to our guidelines. If you have any questions or concerns, feel free " +
+                                    "to contact our support team.",
+                            participant = Participant.ERROR
+                        )
+                    )
+                    return@launch
+                }
                 _uiState.value.addMessage(
                     ChatMessage(
                         text = e.localizedMessage ?: "Unknown error",
@@ -78,4 +116,5 @@ class ChatViewModel @Inject constructor(
             }
         }
     }
+
 }

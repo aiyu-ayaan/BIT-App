@@ -14,9 +14,9 @@ data class ChatUseCases @Inject constructor(
 data class InsertChat @Inject constructor(
     val chatRepository: ChatDao
 ) {
-    suspend operator fun invoke(chat: ChatModel) {
+    suspend operator fun invoke(chat: ChatModel) =
         chatRepository.insert(chat)
-    }
+
 }
 
 data class DeleteChat @Inject constructor(

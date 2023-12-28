@@ -7,10 +7,10 @@ import androidx.room.PrimaryKey
 @Keep
 @Entity(tableName = "chat")
 data class ChatModel(
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val text: String,
     val participant: String,
-    @PrimaryKey(autoGenerate = false)
     val created: Long = System.currentTimeMillis()
 )
 
