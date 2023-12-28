@@ -25,3 +25,4 @@ rootProject.name = "BIT App"
 include(":bitapp")
 include(":core")
 include(":syllabus")
+include(":chat")

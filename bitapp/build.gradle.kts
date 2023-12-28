@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
@@ -90,6 +91,7 @@ android {
 
 dependencies {
 
+    implementation(project(":chat"))
     implementation(project(":core"))
     implementation(project(":syllabus"))
     implementation(libs.androidx.core.ktx)

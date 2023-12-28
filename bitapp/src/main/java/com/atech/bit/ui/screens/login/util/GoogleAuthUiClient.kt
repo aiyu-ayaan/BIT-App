@@ -51,7 +51,7 @@ class GoogleAuthUiClient(
 
 
     private fun buildSignInRequest(): BeginSignInRequest {
-        val webClient = BuildConfig.FIREBASE_WEB_CLIENT
+        val webClient = BuildConfig.firebaseWebClient
         return BeginSignInRequest.Builder().setGoogleIdTokenRequestOptions(
             GoogleIdTokenRequestOptions.Builder().setSupported(true)
                 .setFilterByAuthorizedAccounts(false).setServerClientId(webClient).build()
