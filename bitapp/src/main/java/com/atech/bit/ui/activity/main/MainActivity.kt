@@ -16,10 +16,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
-import com.atech.bit.ui.navigation.ParentScreenRoutes
-import com.atech.bit.ui.navigation.TopLevelNavigationGraph
-import com.atech.bit.ui.navigation.TopLevelRoute
 import com.atech.bit.ui.theme.BITAppTheme
+import com.atech.chat.compose.ChatScreen
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -43,21 +41,22 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface
                 ) {
-                    viewModel.action = {
-                        navHostController.navigate(
-                            TopLevelRoute.LOGIN.route
-                        )
-                    }
-                    TopLevelNavigationGraph(
-                        navHostController = navHostController,
-                        communicatorViewModel = viewModel,
-                        startDestination =
-                        if (viewModel.isForceScreenEnable.value)
-                            ParentScreenRoutes.ForceScreen.route
-                        else
-                            if (viewModel.hasSetUpDone) TopLevelRoute.MAIN_SCREEN.route
-                            else TopLevelRoute.LOGIN.route
-                    )
+//                    viewModel.action = {
+//                        navHostController.navigate(
+//                            TopLevelRoute.LOGIN.route
+//                        )
+//                    }
+//                    TopLevelNavigationGraph(
+//                        navHostController = navHostController,
+//                        communicatorViewModel = viewModel,
+//                        startDestination =
+//                        if (viewModel.isForceScreenEnable.value)
+//                            ParentScreenRoutes.ForceScreen.route
+//                        else
+//                            if (viewModel.hasSetUpDone) TopLevelRoute.MAIN_SCREEN.route
+//                            else TopLevelRoute.LOGIN.route
+//                    )
+                    ChatScreen()
                 }
             }
         }

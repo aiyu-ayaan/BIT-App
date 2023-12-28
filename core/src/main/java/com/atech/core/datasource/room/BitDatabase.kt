@@ -9,6 +9,8 @@ import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.datasource.room.attendance.DaysTypeConvector
 import com.atech.core.datasource.room.attendance.IsPresentTypeConvector
 import com.atech.core.datasource.room.attendance.StackTypeConvector
+import com.atech.core.datasource.room.chat.ChatDao
+import com.atech.core.datasource.room.chat.ChatModel
 import com.atech.core.datasource.room.library.LibraryDao
 import com.atech.core.datasource.room.library.LibraryModel
 import com.atech.core.datasource.room.syllabus.SyllabusDao
@@ -25,7 +27,8 @@ import javax.inject.Provider
     entities = [
         AttendanceModel::class,
         SyllabusModel::class,
-        LibraryModel::class
+        LibraryModel::class,
+        ChatModel::class
     ],
     version = 1,
 )
@@ -38,6 +41,8 @@ abstract class BitDatabase : RoomDatabase() {
     abstract fun attendanceDao(): AttendanceDao
     abstract fun syllabusDao(): SyllabusDao
     abstract fun libraryDao(): LibraryDao
+
+    abstract fun chatDao(): ChatDao
 
     companion object {
         const val DATABASE_NAME = "bit_database"

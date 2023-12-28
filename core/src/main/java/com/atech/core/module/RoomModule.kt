@@ -38,4 +38,8 @@ object RoomModule {
     @Singleton
     @Provides
     fun getLibraryDao(database: BitDatabase) = database.libraryDao()
+
+    @Singleton
+    @Provides
+    fun getChatDao(database: BitDatabase) = database.chatDao()
 }
