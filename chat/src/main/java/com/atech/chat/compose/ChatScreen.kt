@@ -13,10 +13,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,6 +33,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.atech.chat.ChatViewModel
 import com.atech.chat.R
 import dev.jeziellago.compose.markdowntext.MarkdownText
@@ -40,7 +44,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ChatScreen(
-    viewModel: ChatViewModel = hiltViewModel()
+    viewModel: ChatViewModel = hiltViewModel(),
+    navController: NavHostController = rememberNavController()
 ) {
     val chatUiState by viewModel.uiState
     val isLoading by viewModel.isLoading
@@ -49,7 +54,25 @@ fun ChatScreen(
 
     Scaffold(modifier = Modifier, topBar = {
         TopAppBar(
-            title = { Text(text = stringResource(R.string.tutortalk)) },
+            title = {
+                Text(
+                    text = stringResource(R.string.tutortalk),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            },
+            navigationIcon = {
+                IconButton(
+                    onClick = {
+                        navController.popBackStack()
+                    },
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.ArrowBack,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
         )
     }, bottomBar = {
         MessageInput(onSendMessage = { inputText ->

@@ -18,6 +18,8 @@ import com.atech.bit.ui.screens.force.ForceScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
 import com.atech.bit.ui.screens.view_image.ViewImageScreen
 import com.atech.bit.utils.animatedComposable
+import com.atech.bit.utils.fadeThroughComposable
+import com.atech.chat.compose.ChatScreen
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
@@ -140,6 +142,8 @@ sealed class Screen(val route: String) {
     data object ViewImageRoute : Screen("view_image_route")
 
     data object AboutUsScreen : Screen(RouteName.ABOUT_US.value)
+
+    data object ChatScreen : Screen("chat_screen")
 }
 
 
@@ -206,6 +210,13 @@ fun AppNavigationGraph(
             )
         }
         aboutUsNavGraph(navHostController = navHostController)
+        fadeThroughComposable(
+            route = Screen.ChatScreen.route
+        ) {
+            ChatScreen(
+                navController = navHostController
+            )
+        }
     }
 }
 

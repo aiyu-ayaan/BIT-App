@@ -1,5 +1,6 @@
 package com.atech.chat
 
+import androidx.annotation.Keep
 import com.atech.core.datasource.room.chat.ChatModel
 import com.atech.core.utils.EntityMapper
 import com.google.ai.client.generativeai.type.Content
@@ -7,10 +8,12 @@ import com.google.ai.client.generativeai.type.content
 import java.util.UUID
 import javax.inject.Inject
 
+@Keep
 enum class Participant {
     USER, MODEL, ERROR
 }
 
+@Keep
 data class ChatMessage(
     val id: String = UUID.randomUUID().toString(),
     var text: String = "",

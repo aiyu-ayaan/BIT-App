@@ -22,9 +22,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.CoPresent
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Dashboard
+import androidx.compose.material.icons.rounded.Chat
 import androidx.compose.material.icons.rounded.CoPresent
 import androidx.compose.material.icons.rounded.CollectionsBookmark
 import androidx.compose.material.icons.rounded.Dashboard
@@ -332,7 +334,13 @@ val navBarItems = listOf(
         selectedIcon = Icons.Rounded.Dashboard,
         unSelectedIcon = Icons.Outlined.Dashboard,
         route = Screen.HomeScreen.route
-    ), NavBarModel(
+    ),NavBarModel(
+        title = com.atech.chat.R.string.tutortalk,
+        selectedIcon = Icons.Rounded.Chat,
+        unSelectedIcon = Icons.Outlined.Chat,
+        route = Screen.ChatScreen.route
+    ),
+    NavBarModel(
         title = R.string.course,
         selectedIcon = Icons.Rounded.CollectionsBookmark,
         unSelectedIcon = Icons.Outlined.CollectionsBookmark,
