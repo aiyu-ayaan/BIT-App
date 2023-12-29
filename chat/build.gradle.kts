@@ -74,4 +74,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.androidx.hilt.compiler)
+
+    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.coil.svg)
 }
