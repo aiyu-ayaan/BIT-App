@@ -39,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -46,6 +47,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.atech.chat.ChatMessage
 import com.atech.chat.Participant
@@ -91,9 +93,20 @@ fun ChatMessageItem(
     val interactionSource = remember {
         MutableInteractionSource()
     }
+    var pressOffset by remember {
+        mutableStateOf(DpOffset.Zero)
+    }
+    var itemHeight by remember {
+        mutableStateOf(0.dp)
+    }
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     Surface(
         modifier = modifier
+            .onSizeChanged {
+                itemHeight = with(density) {
+                    it.height.toDp()
+                }
+            }
             .indication(interactionSource, LocalIndication.current),
     ) {
         val hasError = model.participant == Participant.ERROR
@@ -103,6 +116,7 @@ fun ChatMessageItem(
                 .pointerInput(true) {
                     detectTapGestures(onLongPress = {
                         isContextMenuVisible = true
+                        pressOffset = DpOffset(it.x.toDp(), it.y.toDp())
                     }, onPress = {
                         val press = PressInteraction.Press(it)
                         interactionSource.emit(press)
@@ -166,6 +180,9 @@ fun ChatMessageItem(
         DropdownMenu(
             expanded = isContextMenuVisible,
             onDismissRequest = { isContextMenuVisible = false },
+            offset = pressOffset.copy(
+                y = pressOffset.y - itemHeight
+            )
         ) {
             DropdownMenuItem(text = { Text(text = stringResource(R.string.copy)) }, leadingIcon = {
                 Icon(
