@@ -67,8 +67,9 @@ dependencies {
     implementation(libs.generativeai)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    implementation(libs.compose.markdown)
     implementation(libs.androidx.material.icons.extended)
+
+    implementation(libs.compose.markdown)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

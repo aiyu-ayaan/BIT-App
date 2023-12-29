@@ -15,4 +15,7 @@ class ChatUiState(
     fun getLastMessage(): ChatMessage? {
         return _messages.lastOrNull()
     }
+    fun removeChatMessage(msg: ChatMessage) {
+
+    }
 }

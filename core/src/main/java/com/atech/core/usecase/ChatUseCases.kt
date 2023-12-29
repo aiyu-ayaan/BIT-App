@@ -23,7 +23,7 @@ data class DeleteChat @Inject constructor(
     val dao: ChatDao
 ) {
     suspend operator fun invoke(chat: ChatModel) {
-        dao.delete(chat)
+        dao.deleteFromId(chat.id)
         dao.deleteFromId(chat.linkId)
     }
 }

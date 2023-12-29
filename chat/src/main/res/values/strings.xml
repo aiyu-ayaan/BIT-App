@@ -4,5 +4,11 @@
     <string name="intro_text">👋 Hey! **I\'m your friendly TutorTalk, powered by Gemini Pro!** 🚀 \n\nFeel free to ask me anything about your course, dive into the functions, or explore the amazing features available. Whether it\'s information, assistance or just a friendly chat, **I\'m here to help!** 🌐💬\n</string>
     <string name="copy">Copy to clipboard</string>
     <string name="delete">Delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_chat">Delete chat?</string>
+    <string name="delete_all_chats">Delete all chats?</string>
+    <string name="are_you_sure_you_want_to_delete_all_chats">Are you sure you want to delete all chats?</string>
+    <string name="are_you_sure_delete_single_chat">Are you sure you want to delete this chat? This will delete corresponding chat request or response.</string>
 
 </resources>

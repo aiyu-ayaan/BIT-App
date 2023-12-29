@@ -64,15 +64,22 @@ fun ChatList(
     chatMessages: List<ChatMessage>,
     listState: LazyListState,
     modifier: Modifier = Modifier,
+    onDeleteClick: (ChatMessage) -> Unit = {}
 ) {
     LazyColumn(
         modifier = modifier,
         reverseLayout = false,
         state = listState,
     ) {
-        items(chatMessages) { message ->
+        items(
+            chatMessages,
+            key = { item -> item.id }
+        ) { message ->
             ChatMessageItem(
-                model = message
+                model = message,
+                onDeleteClick = {
+                    onDeleteClick.invoke(message)
+                }
             )
         }
     }
@@ -84,7 +91,6 @@ fun ChatMessageItem(
     modifier: Modifier = Modifier,
     model: ChatMessage,
     onDeleteClick: () -> Unit = {},
-    onCopyClick: () -> Unit = {}
 ) {
     var isContextMenuVisible by remember { mutableStateOf(false) }
     var pressOffset by remember { mutableStateOf(DpOffset.Zero) }

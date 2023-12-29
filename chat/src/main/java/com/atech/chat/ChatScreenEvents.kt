@@ -5,7 +5,7 @@ sealed interface ChatScreenEvents {
 
     data object OnCancelClick : ChatScreenEvents
 
-    data class OnChatHistoryDelete(val model : ChatMessage) : ChatScreenEvents
+    data class OnChatDelete(val model : ChatMessage) : ChatScreenEvents
 
     data object OnDeleteAllClick : ChatScreenEvents
 

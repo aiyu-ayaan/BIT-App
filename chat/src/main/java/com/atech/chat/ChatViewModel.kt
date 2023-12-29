@@ -12,7 +12,6 @@ import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.PromptBlockedException
 import com.google.ai.client.generativeai.type.asTextOrNull
-import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -32,29 +31,42 @@ class ChatViewModel @Inject constructor(
 
     private val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> get() = _isLoading
-    private var job: Job? = null
+    private var chatJob: Job? = null
+    private var responseJob: Job? = null
 
     init {
         getChat()
     }
 
-    private fun getChat() = viewModelScope.launch {
-        val history = mapper.mapFromEntityList(case.getAllChat.invoke()).toContent()
-        chat = generativeModel.startChat(history)
-        _uiState.value = ChatUiState(chat?.history?.map { content ->
-            // Map the initial messages
-            ChatMessage(
-                text = content.parts.first().asTextOrNull() ?: "",
-                participant = if (content.role == "user") Participant.USER else Participant.MODEL,
-            )
-        } ?: emptyList())
+    private fun getChat() {
+        chatJob?.cancel()
+        chatJob =
+            viewModelScope.launch {
+                val fromDatabase = mapper.mapFromEntityList(case.getAllChat.invoke())
+                val history = fromDatabase.toContent()
+                chat = generativeModel.startChat(history)
+                _uiState.value = ChatUiState(chat?.history?.mapIndexed { index, content ->
+                    // Map the initial messages
+                    ChatMessage(
+                        text = content.parts.first().asTextOrNull() ?: "",
+                        participant = if (content.role == "user") Participant.USER else Participant.MODEL,
+                        id = fromDatabase[index].id,
+                        linkedId = fromDatabase[index].linkedId
+                    )
+                } ?: emptyList())
+            }
     }
 
     fun onEvent(event: ChatScreenEvents) {
         when (event) {
             is ChatScreenEvents.OnNewMessage -> sendMessage(event.message)
             ChatScreenEvents.OnCancelClick -> cancelJob()
-            is ChatScreenEvents.OnChatHistoryDelete -> TODO()
+            is ChatScreenEvents.OnChatDelete -> viewModelScope.launch {
+                Log.d("AAA", "onEvent: ${event.model.id}")
+                case.deleteChat.invoke(mapper.mapFormEntity(event.model))
+                getChat()
+            }
+
             ChatScreenEvents.OnDeleteAllClick -> viewModelScope.launch {
                 case.deleteAllChat.invoke()
                 _uiState.value = ChatUiState()
@@ -66,7 +78,7 @@ class ChatViewModel @Inject constructor(
     private fun cancelJob() {
         try {
             _isLoading.value = false
-            job?.cancel()
+            responseJob?.cancel()
         } catch (e: Exception) {
             Log.e(TAGS.BIT_ERROR.name, "cancelJob: ${e.localizedMessage}")
         }
@@ -81,7 +93,7 @@ class ChatViewModel @Inject constructor(
         _uiState.value.addMessage(
             userInput
         )
-        job = viewModelScope.launch {
+        responseJob = viewModelScope.launch {
             try {
                 val response = chat!!.sendMessage(userMessage)
                 response.text?.let { modelResponse ->
@@ -103,6 +115,7 @@ class ChatViewModel @Inject constructor(
                         modelRes
                     )
                 }
+                getChat()
             } catch (e: Exception) {
                 Log.d("AAA", "sendMessage: $e")
                 if (e is PromptBlockedException) {
@@ -122,7 +135,7 @@ class ChatViewModel @Inject constructor(
                 )
             } finally {
                 _isLoading.value = false
-                job = null
+                responseJob = null
             }
         }
     }
