@@ -3,17 +3,17 @@ package com.atech.chat.compose
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Computer
 import androidx.compose.material.icons.outlined.Error
@@ -24,10 +24,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.atech.chat.ChatMessage
 import com.atech.chat.Participant
@@ -39,16 +41,17 @@ import dev.jeziellago.compose.markdowntext.MarkdownText
 fun ChatList(
     chatMessages: List<ChatMessage>,
     listState: LazyListState,
-    contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
+//    LaunchedEffect(chatMessages) {
+//        listState.scrollToItem(chatMessages.size)
+//    }
     LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        reverseLayout = true,
+        modifier = modifier,
+        reverseLayout = false,
         state = listState,
-        contentPadding = contentPadding
     ) {
-        items(chatMessages.reversed()) { message ->
+        items(chatMessages) { message ->
             ChatMessageItem(
                 model = message
             )
@@ -72,8 +75,7 @@ fun ChatMessageItem(
         Column(
             modifier
                 .padding(8.dp),
-
-            ) {
+        ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -136,5 +138,25 @@ fun ChatMessageItem(
                 textAlign = TextAlign.Start,
             )
         }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun ChatMessagePreview() {
+    MaterialTheme {
+        ChatList(
+            chatMessages = listOf(
+                ChatMessage(
+                    text = "Hello world",
+                    participant = Participant.MODEL
+                ),
+                ChatMessage(
+                    text = "Hello world",
+                    participant = Participant.USER
+                )
+            ), listState = rememberLazyListState()
+        )
     }
 }

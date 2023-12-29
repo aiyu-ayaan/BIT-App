@@ -12,6 +12,7 @@ import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.PromptBlockedException
 import com.google.ai.client.generativeai.type.asTextOrNull
+import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -26,11 +27,10 @@ class ChatViewModel @Inject constructor(
 
     private var chat: Chat? = null
 
-    private val _uiState: MutableState<ChatUiState> =
-        mutableStateOf(ChatUiState())
+    private val _uiState: MutableState<ChatUiState> = mutableStateOf(ChatUiState())
     val uiState: State<ChatUiState> = _uiState
 
-    private val _isLoading = mutableStateOf<Boolean>(false)
+    private val _isLoading = mutableStateOf(false)
     val isLoading: State<Boolean> get() = _isLoading
     private var job: Job? = null
 
@@ -41,19 +41,29 @@ class ChatViewModel @Inject constructor(
     private fun getChat() = viewModelScope.launch {
         val history = mapper.mapFromEntityList(case.getAllChat.invoke()).toContent()
         chat = generativeModel.startChat(history)
-        _uiState.value = ChatUiState(
-            chat?.history?.map { content ->
-                // Map the initial messages
-                ChatMessage(
-                    text = content.parts.first().asTextOrNull() ?: "",
-                    participant = if (content.role == "user") Participant.USER else Participant.MODEL,
-                )
-            } ?: emptyList()
-        )
+        _uiState.value = ChatUiState(chat?.history?.map { content ->
+            // Map the initial messages
+            ChatMessage(
+                text = content.parts.first().asTextOrNull() ?: "",
+                participant = if (content.role == "user") Participant.USER else Participant.MODEL,
+            )
+        } ?: emptyList())
+    }
+
+    fun onEvent(event: ChatScreenEvents) {
+        when (event) {
+            is ChatScreenEvents.OnNewMessage -> sendMessage(event.message)
+            ChatScreenEvents.OnCancelClick -> cancelJob()
+            is ChatScreenEvents.OnChatHistoryDelete -> TODO()
+            ChatScreenEvents.OnDeleteAllClick -> viewModelScope.launch {
+                case.deleteAllChat.invoke()
+                _uiState.value = ChatUiState()
+            }
+        }
     }
 
 
-    fun cancelJob() {
+    private fun cancelJob() {
         try {
             _isLoading.value = false
             job?.cancel()
@@ -62,7 +72,7 @@ class ChatViewModel @Inject constructor(
         }
     }
 
-    fun sendMessage(userMessage: String) {
+    private fun sendMessage(userMessage: String) {
         // Add a pending message
         val userInput = ChatMessage(
             text = userMessage, participant = Participant.USER,
@@ -74,18 +84,15 @@ class ChatViewModel @Inject constructor(
         job = viewModelScope.launch {
             try {
                 val response = chat!!.sendMessage(userMessage)
-                _isLoading.value = false
                 response.text?.let { modelResponse ->
                     val modelRes = ChatMessage(
                         text = modelResponse, participant = Participant.MODEL
                     )
                     mapper.mapToEntityList(
                         listOf(
-                            _uiState.value.getLastMessage()!!
-                                .copy(
-                                    linkedId = modelRes.id
-                                ),
-                            modelRes.copy(
+                            _uiState.value.getLastMessage()!!.copy(
+                                linkedId = modelRes.id
+                            ), modelRes.copy(
                                 linkedId = _uiState.value.getLastMessage()!!.id
                             )
                         )
@@ -101,10 +108,7 @@ class ChatViewModel @Inject constructor(
                 if (e is PromptBlockedException) {
                     _uiState.value.addMessage(
                         ChatMessage(
-                            text = "The input you provided contains offensive language, which goes against our community guidelines " +
-                                    "and standards. Please refrain from using inappropriate language and ensure that your input is " +
-                                    "respectful and adheres to our guidelines. If you have any questions or concerns, feel free " +
-                                    "to contact our support team.",
+                            text = "The input you provided contains offensive language, which goes against our community guidelines " + "and standards. Please refrain from using inappropriate language and ensure that your input is " + "respectful and adheres to our guidelines. If you have any questions or concerns, feel free " + "to contact our support team.",
                             participant = Participant.ERROR
                         )
                     )
