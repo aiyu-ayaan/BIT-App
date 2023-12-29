@@ -10,7 +10,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-
+import androidx.compose.ui.unit.sp
 import com.halilibo.richtext.markdown.Markdown
 import com.halilibo.richtext.ui.CodeBlockStyle
 import com.halilibo.richtext.ui.RichTextStyle
@@ -31,10 +31,14 @@ fun MarkDown(
                 codeBlockStyle = CodeBlockStyle.Default
                     .copy(
                         modifier = Modifier
-                            .background(color = codeBlockBackBackground),
+                            .background(color = Color.Black, shape = MaterialTheme.shapes.small),
                         textStyle = TextStyle(
                             fontFamily = FontFamily.Monospace,
+                            fontSize = MaterialTheme.typography.bodySmall.fontSize,
+                            color = Color.White
                         ),
+                        wordWrap = true,
+                        padding = 8.sp
                     ),
                 stringStyle = RichTextStringStyle.Default.copy(
                     linkStyle = SpanStyle(
