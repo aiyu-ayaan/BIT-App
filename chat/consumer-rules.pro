@@ -9,4 +9,4 @@
 -dontwarn com.squareup.okhttp.ConnectionSpec
 -dontwarn com.squareup.okhttp.TlsVersion
 
--keep class com.google.ai.client.generativeai.** { *; }
+-keep class com.google.ai.client.generativeai.internal.** { *; }

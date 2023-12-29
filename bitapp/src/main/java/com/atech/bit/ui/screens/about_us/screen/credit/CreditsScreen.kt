@@ -246,6 +246,21 @@ val credits = listOf(
         "Paging 3",
         "https://developer.android.com/topic/libraries/architecture/paging/v3-overview",
         listOf(Licenses.APACHE_2_0)
+    ),
+    Credit(
+        "RichText-UI-Material3",
+        "https://github.com/halilozercan/compose-richtext",
+        listOf(Licenses.APACHE_2_0)
+    ),
+    Credit(
+        "RichText-UI-CommonMark",
+        "https://github.com/halilozercan/compose-richtext",
+        listOf(Licenses.APACHE_2_0)
+    ),
+    Credit(
+        "Generative-AI-Android",
+        "https://ai.google.dev/",
+        listOf(Licenses.APACHE_2_0)
     )
 ).sortedBy {
     it.title
