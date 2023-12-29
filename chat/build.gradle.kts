@@ -69,7 +69,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.material.icons.extended)
 
-    implementation(libs.compose.markdown)
+    implementation(libs.richtext.commonmark)
+    implementation(libs.richtext.ui.material3)
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)

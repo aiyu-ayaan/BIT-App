@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -22,21 +21,18 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.NetworkScreenEmptyScreen
 import com.atech.bit.ui.theme.BITAppTheme
-import com.atech.bit.ui.theme.bottomPaddingSize
-import com.atech.bit.ui.theme.grid_2
-import com.atech.core.utils.openLinks
+import com.atech.bit.utils.hexToRgb
 import com.atech.syllabus.getFragment
-import dev.jeziellago.compose.markdowntext.MarkdownText
+import com.mukesh.MarkdownView
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,7 +52,6 @@ fun ViewSubjectScreen(
         mutableStateOf(false)
     }
     val courseSem = viewModel.courseSem
-    val context = LocalContext.current
     LaunchedEffect(key1 = true) {
         delay(500)
         isComposeViewVisible = true
@@ -66,21 +61,18 @@ fun ViewSubjectScreen(
         navController.navigateUp()
     }
 
-    Scaffold(
-        modifier = modifier
-            .fillMaxWidth()
-            .nestedScroll(toolbarScroll.nestedScrollConnection),
-        topBar = {
-            BackToolbar(
-                title = "", onNavigationClick = {
-                    isComposeViewVisible = false
-                    navController.navigateUp()
-                }, scrollBehavior = toolbarScroll
-            )
-        }) {
+    Scaffold(topBar = {
+        BackToolbar(
+            title = "", onNavigationClick = {
+                isComposeViewVisible = false
+                navController.navigateUp()
+            }, scrollBehavior = toolbarScroll
+        )
+    }) {
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize()
+                .nestedScroll(toolbarScroll.nestedScrollConnection)
                 .verticalScroll(scrollState)
                 .padding(it)
                 .background(
@@ -96,21 +88,9 @@ fun ViewSubjectScreen(
                 return@Scaffold
             }
             if (isOnline) {
-                if (isComposeViewVisible)
-                    MarkdownText(
-                        markdown = data,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(horizontal = grid_2)
-                            .padding(bottom = bottomPaddingSize),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Start,
-                        isTextSelectable = true,
-                        linkColor = MaterialTheme.colorScheme.primary,
-                        onLinkClicked = { link ->
-                            link.openLinks(context = context)
-                        },
-                    )
+                if (isComposeViewVisible) LoadMarkDown(
+                    data = data
+                )
             } else LoadSyllabusFromXml(res = courseSem, viewModel = viewModel)
         }
     }
@@ -140,10 +120,32 @@ fun LoadSyllabusFromXml(res: String, viewModel: ViewSubjectViewModel) {
 }
 
 
+@Composable
+fun LoadMarkDown(
+    modifier: Modifier = Modifier, data: String = ""
+) {
+    val d = data + "<br> <br><style> body{background-color: ${
+        MaterialTheme.colorScheme.surface.hexToRgb()
+    } ; color:${MaterialTheme.colorScheme.onSurface.hexToRgb()};}</style>"
+    AndroidView(factory = { context ->
+        View.inflate(
+            context,
+            R.layout.layout_markdown,
+            null
+        )
+    },
+        modifier = modifier.fillMaxSize(),
+        update = {
+            it.findViewById<MarkdownView>(R.id.markdown).setMarkDownText(d)
+        }
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 fun ViewSubjectScreenPreview() {
     BITAppTheme {
+        LoadMarkDown()
     }
 }
 

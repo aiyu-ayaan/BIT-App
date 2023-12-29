@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -39,7 +38,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,8 +47,8 @@ import com.atech.chat.ChatMessage
 import com.atech.chat.ChatScreenEvents
 import com.atech.chat.ChatViewModel
 import com.atech.chat.R
+import com.atech.chat.comman.MarkDown
 import com.atech.core.utils.connectivity.ConnectivityObserver
-import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.launch
 
 
@@ -65,7 +63,7 @@ fun ChatScreen(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
     val isConnected by
-        viewModel.connectivity.collectAsState(initial = ConnectivityObserver.Status.Unavailable)
+    viewModel.connectivity.collectAsState(initial = ConnectivityObserver.Status.Unavailable)
 
     var isDeleteAllDialogVisible by rememberSaveable {
         mutableStateOf(false)
@@ -74,13 +72,6 @@ fun ChatScreen(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(key1 = chatUiState.messages, key2 = isLoading) {
-        coroutineScope.launch {
-            listState.scrollToItem(
-                listState.layoutInfo.totalItemsCount
-            )
-        }
-    }
     var selectedChat: ChatMessage? by remember {
         mutableStateOf(null)
     }
@@ -127,11 +118,12 @@ fun ChatScreen(
             resetScroll = {
                 coroutineScope.launch {
                     listState.scrollToItem(
-                        listState.layoutInfo.totalItemsCount
+                        0
                     )
                 }
             },
             isLoading = isLoading,
+            isConnected = isConnected,
             onCancelClick = {
                 ChatScreenEvents.OnCancelClick
             },
@@ -206,12 +198,9 @@ fun EmptyScreen(modifier: Modifier = Modifier) {
                 tint = MaterialTheme.colorScheme.primary,
             )
             Spacer(modifier = Modifier.height(8.dp))
-            MarkdownText(
+            MarkDown(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
-                markdown = stringResource(R.string.intro_text),
-                textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                markDown = stringResource(R.string.intro_text),
             )
         }
 

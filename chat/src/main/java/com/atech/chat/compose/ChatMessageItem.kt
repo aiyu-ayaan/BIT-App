@@ -1,6 +1,5 @@
 package com.atech.chat.compose
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.indication
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,18 +45,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.ImageLoader
 import com.atech.chat.ChatMessage
 import com.atech.chat.Participant
 import com.atech.chat.R
-import com.atech.core.utils.openLinks
-import dev.jeziellago.compose.markdowntext.MarkdownText
+import com.atech.chat.comman.MarkDown
 
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChatList(
     chatMessages: List<ChatMessage>,
@@ -67,13 +61,12 @@ fun ChatList(
     onDeleteClick: (ChatMessage) -> Unit = {}
 ) {
     LazyColumn(
-        modifier = modifier
-            .fillMaxSize(),
-        reverseLayout = false,
+        modifier = modifier,
+        reverseLayout = true,
         state = listState,
     ) {
         items(
-            chatMessages,
+            chatMessages.reversed(),
             key = { item -> item.id }
         ) { message ->
             ChatMessageItem(
@@ -159,24 +152,14 @@ fun ChatMessageItem(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                MarkdownText(
+                MarkDown(
                     modifier = Modifier
                         .padding(
                             top = 8.dp,
                             start = MaterialTheme.typography.titleSmall.fontSize.value.dp + 8.dp
                         ),
-                    markdown = model.text,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = MaterialTheme.typography.bodyMedium,
-                    onLinkClicked = {
-                        it.openLinks(
-                            context
-                        )
-                    },
-                    linkColor = MaterialTheme.colorScheme.primary,
-                    textAlign = TextAlign.Start,
-                    imageLoader = ImageLoader(context),
-                    isTextSelectable = true
+                    markDown = model.text,
+                    codeBlockBackBackground = drawerColor,
                 )
             }
         }
