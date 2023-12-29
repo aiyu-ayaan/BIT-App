@@ -1,7 +1,5 @@
 package com.atech.chat.compose
 
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -13,6 +11,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,7 +21,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Computer
+import androidx.compose.material.icons.outlined.BubbleChart
 import androidx.compose.material.icons.outlined.ContentCopy
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Error
@@ -42,7 +41,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
@@ -51,7 +49,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
 import com.atech.chat.ChatMessage
@@ -70,7 +67,8 @@ fun ChatList(
     onDeleteClick: (ChatMessage) -> Unit = {}
 ) {
     LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxSize(),
         reverseLayout = false,
         state = listState,
     ) {
@@ -79,13 +77,6 @@ fun ChatList(
             key = { item -> item.id }
         ) { message ->
             ChatMessageItem(
-                modifier = Modifier
-                    .animateItemPlacement(
-                        animationSpec = spring(
-                            dampingRatio = Spring.DampingRatioLowBouncy,
-                            stiffness = Spring.StiffnessLow
-                        )
-                    ),
                 model = message,
                 onDeleteClick = {
                     onDeleteClick.invoke(message)
@@ -102,10 +93,6 @@ fun ChatMessageItem(
     onDeleteClick: () -> Unit = {},
 ) {
     var isContextMenuVisible by remember { mutableStateOf(false) }
-    var pressOffset by remember { mutableStateOf(DpOffset.Zero) }
-    var itemHeight by remember {
-        mutableStateOf(0.dp)
-    }
     val context = LocalContext.current
     val density = LocalDensity.current
     val interactionSource = remember {
@@ -114,12 +101,7 @@ fun ChatMessageItem(
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     Surface(
         modifier = modifier
-            .indication(interactionSource, LocalIndication.current)
-            .onSizeChanged {
-                itemHeight = with(density) {
-                    it.height.toDp()
-                }
-            },
+            .indication(interactionSource, LocalIndication.current),
     ) {
         val hasError = model.participant == Participant.ERROR
         Column(
@@ -128,9 +110,6 @@ fun ChatMessageItem(
                 .pointerInput(true) {
                     detectTapGestures(onLongPress = {
                         isContextMenuVisible = true
-                        pressOffset = DpOffset(
-                            x = it.x.toDp(), y = it.y.toDp()
-                        )
                     }, onPress = {
                         val press = PressInteraction.Press(it)
                         interactionSource.emit(press)
@@ -147,7 +126,7 @@ fun ChatMessageItem(
                 Icon(
                     modifier = Modifier.size(MaterialTheme.typography.titleSmall.fontSize.value.dp),
                     imageVector = when (model.participant) {
-                        Participant.MODEL -> Icons.Outlined.Computer
+                        Participant.MODEL -> Icons.Outlined.BubbleChart
                         Participant.USER -> Icons.Outlined.Person
                         Participant.ERROR -> Icons.Outlined.Error
                     },
@@ -204,9 +183,6 @@ fun ChatMessageItem(
         DropdownMenu(
             expanded = isContextMenuVisible,
             onDismissRequest = { isContextMenuVisible = false },
-            offset = pressOffset.copy(
-                y = pressOffset.y - itemHeight
-            ),
         ) {
             DropdownMenuItem(text = { Text(text = stringResource(R.string.copy)) }, leadingIcon = {
                 Icon(

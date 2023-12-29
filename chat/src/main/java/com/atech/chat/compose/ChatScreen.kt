@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.BubbleChart
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.ClearAll
 import androidx.compose.material3.AlertDialog
@@ -28,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import com.atech.chat.ChatMessage
 import com.atech.chat.ChatScreenEvents
 import com.atech.chat.ChatViewModel
 import com.atech.chat.R
+import com.atech.core.utils.connectivity.ConnectivityObserver
 import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.coroutines.launch
 
@@ -62,6 +64,9 @@ fun ChatScreen(
     val isLoading by viewModel.isLoading
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
+    val isConnected by
+        viewModel.connectivity.collectAsState(initial = ConnectivityObserver.Status.Unavailable)
+
     var isDeleteAllDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
@@ -92,7 +97,7 @@ fun ChatScreen(
                 },
             ) {
                 Icon(
-                    imageVector = Icons.Outlined.ArrowBack,
+                    imageVector = Icons.Outlined.BubbleChart,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                 )
@@ -111,21 +116,26 @@ fun ChatScreen(
             }
         })
     }, bottomBar = {
-        MessageInput(onSendMessage = { inputText ->
-            viewModel.onEvent(
-                ChatScreenEvents.OnNewMessage(
-                    inputText
+        MessageInput(
+            onSendMessage = { inputText ->
+                viewModel.onEvent(
+                    ChatScreenEvents.OnNewMessage(
+                        inputText
+                    )
                 )
-            )
-        }, resetScroll = {
-            coroutineScope.launch {
-                listState.scrollToItem(
-                    listState.layoutInfo.totalItemsCount
-                )
-            }
-        }, isLoading = isLoading, onCancelClick = {
-            ChatScreenEvents.OnCancelClick
-        })
+            },
+            resetScroll = {
+                coroutineScope.launch {
+                    listState.scrollToItem(
+                        listState.layoutInfo.totalItemsCount
+                    )
+                }
+            },
+            isLoading = isLoading,
+            onCancelClick = {
+                ChatScreenEvents.OnCancelClick
+            },
+        )
     }) { paddingValues ->
         Column(
             modifier = Modifier

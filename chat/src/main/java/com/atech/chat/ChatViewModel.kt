@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.usecase.ChatUseCases
 import com.atech.core.utils.TAGS
+import com.atech.core.utils.connectivity.ConnectivityObserver
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.PromptBlockedException
@@ -21,9 +22,11 @@ import javax.inject.Inject
 class ChatViewModel @Inject constructor(
     private val generativeModel: GenerativeModel,
     private val case: ChatUseCases,
-    private val mapper: ChatMessageToModelMapper
+    private val mapper: ChatMessageToModelMapper,
+    connectivityObserver: ConnectivityObserver
 ) : ViewModel() {
 
+    val connectivity = connectivityObserver.observe()
     private var chat: Chat? = null
 
     private val _uiState: MutableState<ChatUiState> = mutableStateOf(ChatUiState())
