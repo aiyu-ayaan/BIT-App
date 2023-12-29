@@ -42,7 +42,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -88,7 +87,6 @@ fun ChatMessageItem(
     onDeleteClick: () -> Unit = {},
 ) {
     var isContextMenuVisible by remember { mutableStateOf(false) }
-    val context = LocalContext.current
     val density = LocalDensity.current
     val interactionSource = remember {
         MutableInteractionSource()

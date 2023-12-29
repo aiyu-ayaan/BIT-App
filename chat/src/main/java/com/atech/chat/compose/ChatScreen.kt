@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +75,11 @@ fun ChatScreen(
 
     var selectedChat: ChatMessage? by remember {
         mutableStateOf(null)
+    }
+    LaunchedEffect(
+        key1 = listState, key2 = isLoading
+    ) {
+        listState.scrollToItem(0)
     }
 
     Scaffold(modifier = Modifier, topBar = {
