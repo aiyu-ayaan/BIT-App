@@ -8,17 +8,17 @@ import androidx.room.Query
 
 @Dao
 interface ChatDao {
-    @Query("SELECT * FROM chat order by created")
+    @Query("SELECT * FROM chat_table order by created")
     suspend fun getAll(): List<ChatModel>
 
 
-    @Query("DELETE FROM chat WHERE id = :id")
+    @Query("DELETE FROM chat_table WHERE id = :id")
     suspend fun deleteFromId(id: String)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(chat: ChatModel)
 
-    @Query("DELETE FROM chat")
+    @Query("DELETE FROM chat_table")
     suspend fun deleteAll()
 
     @Delete

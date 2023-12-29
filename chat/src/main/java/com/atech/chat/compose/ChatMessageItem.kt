@@ -1,5 +1,7 @@
 package com.atech.chat.compose
 
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -59,6 +61,7 @@ import com.atech.core.utils.openLinks
 import dev.jeziellago.compose.markdowntext.MarkdownText
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChatList(
     chatMessages: List<ChatMessage>,
@@ -76,6 +79,13 @@ fun ChatList(
             key = { item -> item.id }
         ) { message ->
             ChatMessageItem(
+                modifier = Modifier
+                    .animateItemPlacement(
+                        animationSpec = spring(
+                            dampingRatio = Spring.DampingRatioLowBouncy,
+                            stiffness = Spring.StiffnessLow
+                        )
+                    ),
                 model = message,
                 onDeleteClick = {
                     onDeleteClick.invoke(message)
@@ -85,7 +95,6 @@ fun ChatList(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ChatMessageItem(
     modifier: Modifier = Modifier,
@@ -104,7 +113,7 @@ fun ChatMessageItem(
     }
     val clipboardManager: ClipboardManager = LocalClipboardManager.current
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .indication(interactionSource, LocalIndication.current)
             .onSizeChanged {
                 itemHeight = with(density) {
@@ -114,7 +123,7 @@ fun ChatMessageItem(
     ) {
         val hasError = model.participant == Participant.ERROR
         Column(
-            modifier
+            Modifier
                 .padding(8.dp)
                 .pointerInput(true) {
                     detectTapGestures(onLongPress = {
@@ -199,6 +208,16 @@ fun ChatMessageItem(
                 y = pressOffset.y - itemHeight
             ),
         ) {
+            DropdownMenuItem(text = { Text(text = stringResource(R.string.copy)) }, leadingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.ContentCopy,
+                    contentDescription = stringResource(R.string.copy)
+                )
+            }, onClick = {
+                clipboardManager.setText(AnnotatedString(model.text))
+                isContextMenuVisible = false
+            }
+            )
             DropdownMenuItem(text = { Text(text = stringResource(R.string.delete)) },
                 onClick = {
                     onDeleteClick.invoke()
@@ -210,16 +229,6 @@ fun ChatMessageItem(
                         contentDescription = stringResource(R.string.delete)
                     )
                 })
-            DropdownMenuItem(text = { Text(text = stringResource(R.string.copy)) }, leadingIcon = {
-                Icon(
-                    imageVector = Icons.Outlined.ContentCopy,
-                    contentDescription = stringResource(R.string.copy)
-                )
-            }, onClick = {
-                clipboardManager.setText(AnnotatedString(model.text))
-                isContextMenuVisible = false
-            }
-            )
         }
     }
 }

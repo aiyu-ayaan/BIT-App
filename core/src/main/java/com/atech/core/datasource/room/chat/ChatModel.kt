@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Keep
-@Entity(tableName = "chat")
+@Entity(tableName = "chat_table")
 data class ChatModel(
     @PrimaryKey(autoGenerate = false)
     val id: String,

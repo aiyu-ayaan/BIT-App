@@ -21,12 +21,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MessageInput(
     onSendMessage: (String) -> Unit,
@@ -35,6 +38,7 @@ fun MessageInput(
     onCancelClick: () -> Unit = {}
 ) {
     var userMessage by rememberSaveable { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     ElevatedCard(
         modifier = Modifier.fillMaxWidth()
@@ -75,6 +79,7 @@ fun MessageInput(
                         onSendMessage(userMessage)
                         userMessage = ""
                         resetScroll()
+                        focusManager.clearFocus()
                     }
                 },
                 modifier = Modifier
