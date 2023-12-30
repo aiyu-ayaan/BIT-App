@@ -6,8 +6,15 @@ import android.app.NotificationManager
 import android.content.SharedPreferences
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatDelegate
-import com.atech.core.utils.AppTheme
+import coil.ImageLoader
+import coil.ImageLoaderFactory
+import coil.disk.DiskCache
+import coil.memory.MemoryCache
+import coil.request.CachePolicy
+import coil.util.DebugLogger
+import com.atech.chat.utils.getChatSetting
+import com.atech.core.usecase.AutoDeleteChatIn30Days
+import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.CHANNEL_APP
 import com.atech.core.utils.CHANNEL_DES
 import com.atech.core.utils.CHANNEL_EVENT
@@ -18,80 +25,86 @@ import com.atech.core.utils.CHANNEL_ID_UPDATE
 import com.atech.core.utils.CHANNEL_NOTICE
 import com.atech.core.utils.CHANNEL_UPDATE
 import com.atech.core.utils.MAX_APP_OPEN_TIME
+import com.atech.core.utils.MessageTopic
+import com.atech.core.utils.MessageTopicTest
 import com.atech.core.utils.SharePrefKeys
-import com.atech.theme.setAppTheme
-import com.google.android.material.color.DynamicColors
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
+import io.sanghun.compose.video.cache.VideoPlayerCacheManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltAndroidApp
-class BITApp : Application() {
+class BITApp : Application(), ImageLoaderFactory {
 
     @Inject
     lateinit var pref: SharedPreferences
 
+
     @Inject
     lateinit var fcm: FirebaseMessaging
+
+    @Inject
+    lateinit var autoDeleteChatIn30Days: AutoDeleteChatIn30Days
+
+    @BitAppScope
+    @Inject
+    lateinit var bitAppScope: CoroutineScope
     override fun onCreate() {
         super.onCreate()
-        setDynamicTheme()
-        when (pref.getString(SharePrefKeys.AppTheme.name, AppTheme.Sys.name)) {
-            AppTheme.Sys.name -> setAppTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-            AppTheme.Light.name -> setAppTheme(AppCompatDelegate.MODE_NIGHT_NO)
-            AppTheme.Dark.name -> setAppTheme(AppCompatDelegate.MODE_NIGHT_YES)
-        }
-        setUpFcm()
+        // video cache
+        VideoPlayerCacheManager.initialize(this, 1024 * 1024 * 1024)
+
+//        setting up notification channels
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             createNoticeNotificationChannel()
             createEventNotificationChannel()
             createUpdateNotificationChannel()
             createAppNotificationChannel()
         }
-        setMaxTimeOpen()
+        setUpFcm()
+        autoDeleteLogic()
     }
 
-    private fun setDynamicTheme() {
-        pref.getBoolean(SharePrefKeys.IsDynamicThemeEnabled.name, true).let {
-            if (it) DynamicColors.applyToActivitiesIfAvailable(this)
+    private fun autoDeleteLogic() {
+        if (getChatSetting(pref).isAutoDeleteChat)
+            bitAppScope.launch {
+            autoDeleteChatIn30Days.invoke()
         }
     }
 
-    private fun setMaxTimeOpen() {
-        val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
-        val currentTime = pref.getInt(SharePrefKeys.KeyAppOpenMinimumTime.name, 0)
-        if (isSetUpDone)
-            if (currentTime <= MAX_APP_OPEN_TIME)
-                pref.edit().putInt(SharePrefKeys.KeyAppOpenMinimumTime.name, currentTime + 1)
-                    .apply()
-    }
-
     private fun setUpFcm() {
-        fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_update))
-        if(getValue(SharePrefKeys.IsEnableNoticeNotification.name))
-            fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_notice))
-        else
-            fcm.unsubscribeFromTopic(resources.getString(com.atech.theme.R.string.topic_notice))
-
-        if(getValue(SharePrefKeys.IsEnableEventNotification.name))
-            fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_event))
-        else
-            fcm.unsubscribeFromTopic(resources.getString(com.atech.theme.R.string.topic_event))
-
-        if(getValue(SharePrefKeys.IsEnableAppNotification.name))
-            fcm.subscribeToTopic(resources.getString(com.atech.theme.R.string.topic_app))
-        else
-            fcm.unsubscribeFromTopic(resources.getString(com.atech.theme.R.string.topic_app))
+        if (BuildConfig.DEBUG) {
+            MessageTopicTest.entries.forEach {
+                fcm.subscribeToTopic(it.value)
+            }
+        } else MessageTopic.entries.forEach {
+            fcm.subscribeToTopic(it.value)
+        }
     }
 
     private fun getValue(key: String) = pref.getBoolean(key, true)
 
+    private fun setMaxTimeOpen() {
+        val isSetUpDone = pref.getBoolean(SharePrefKeys.SetUpDone.name, false)
+        val currentTime = pref.getInt(SharePrefKeys.KeyAppOpenMinimumTime.name, 0)
+        if (isSetUpDone) if (currentTime <= MAX_APP_OPEN_TIME) pref.edit()
+            .putInt(SharePrefKeys.KeyAppOpenMinimumTime.name, currentTime + 1).apply()
+    }
+
+
+    override fun newImageLoader(): ImageLoader =
+        ImageLoader(this).newBuilder().memoryCachePolicy(CachePolicy.ENABLED).memoryCache {
+            MemoryCache.Builder(this).maxSizePercent(0.05).strongReferencesEnabled(true).build()
+        }.diskCachePolicy(CachePolicy.ENABLED).diskCache {
+            DiskCache.Builder().maxSizePercent(0.03).directory(cacheDir).build()
+        }.logger(DebugLogger()).build()
+
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createNoticeNotificationChannel() {
         val noticeChannel = NotificationChannel(
-            CHANNEL_ID_NOTICE,
-            CHANNEL_NOTICE,
-            NotificationManager.IMPORTANCE_HIGH
+            CHANNEL_ID_NOTICE, CHANNEL_NOTICE, NotificationManager.IMPORTANCE_HIGH
         )
         noticeChannel.description = CHANNEL_DES
         val manager = getSystemService(NotificationManager::class.java)
@@ -101,9 +114,7 @@ class BITApp : Application() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createEventNotificationChannel() {
         val noticeChannel = NotificationChannel(
-            CHANNEL_ID_EVENT,
-            CHANNEL_EVENT,
-            NotificationManager.IMPORTANCE_HIGH
+            CHANNEL_ID_EVENT, CHANNEL_EVENT, NotificationManager.IMPORTANCE_HIGH
         )
         noticeChannel.description = CHANNEL_DES
         val manager = getSystemService(NotificationManager::class.java)
@@ -113,9 +124,7 @@ class BITApp : Application() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createUpdateNotificationChannel() {
         val noticeChannel = NotificationChannel(
-            CHANNEL_ID_UPDATE,
-            CHANNEL_UPDATE,
-            NotificationManager.IMPORTANCE_HIGH
+            CHANNEL_ID_UPDATE, CHANNEL_UPDATE, NotificationManager.IMPORTANCE_HIGH
         )
         noticeChannel.description = CHANNEL_DES
         val manager = getSystemService(NotificationManager::class.java)
@@ -125,9 +134,7 @@ class BITApp : Application() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun createAppNotificationChannel() {
         val noticeChannel = NotificationChannel(
-            CHANNEL_ID_APP,
-            CHANNEL_APP,
-            NotificationManager.IMPORTANCE_HIGH
+            CHANNEL_ID_APP, CHANNEL_APP, NotificationManager.IMPORTANCE_HIGH
         )
         noticeChannel.description = CHANNEL_DES
         val manager = getSystemService(NotificationManager::class.java)

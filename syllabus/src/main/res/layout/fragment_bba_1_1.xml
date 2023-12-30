@@ -9,296 +9,291 @@
   ~ Last modified 9/11/21, 11:14 PM
   -->
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
-    android:paddingStart="10.0dip"
-    android:paddingEnd="10.0dip"
+    android:background="@color/MainColor"
+    android:paddingStart="10dp"
+    android:orientation="vertical"
+    android:paddingEnd="10dp"
     android:scrollbars="none">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
 
-        <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        app:cardBackgroundColor="#12695c"
+        app:cardCornerRadius="14dp">
+
+        <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:elevation="10.0dip"
-            app:cardBackgroundColor="?attr/colorPrimary"
-            app:cardCornerRadius="14.0dip">
+            android:layout_gravity="end|center"
+            android:gravity="center"
+            android:text="General Principles of Management"
+            android:textColor="@color/textColorSubTitle"
+            android:textSize="32dp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/MainColor"
+        app:cardCornerRadius="14dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end|center"
-                android:gravity="center"
-                android:text="General Principles of Management"
-                android:textColor="@color/textColorSubTitle"
-                android:textSize="32.0dip"
+                android:layout_marginTop="10dp"
+                android:text="Module – I Introduction to Management"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
                 android:textStyle="bold" />
-        </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
-            android:elevation="15.0dip"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="14.0dip">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="start"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5dp"
+                android:text="Introduction to Management Definition, Nature, Managerial Roles, Managerial skills and Levels, Basic Functions of Management, Evolution of Management Thoughts and Trends and Challenges of Management in Global Scenario."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10.0dip"
-                    android:text="Module – I Introduction to Management"
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/MainColor"
+        app:cardCornerRadius="14dp">
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:gravity="start"
-                    android:lineSpacingMultiplier="1.1"
-                    android:padding="5.0dip"
-                    android:text="Introduction to Management Definition, Nature, Managerial Roles, Managerial skills and Levels, Basic Functions of Management, Evolution of Management Thoughts and Trends and Challenges of Management in Global Scenario."
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
-            android:elevation="15.0dip"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="14.0dip">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="10dp"
+                android:text="Module – II Planning "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10.0dip"
-                    android:text="Module – II Planning "
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="left"
+                android:lineSpacingMultiplier="1.1"
+                android:paddingLeft="4.0dip"
+                android:text="Definition, Nature, Importance, Types of Planning, Steps in Planning, Planning Premises Forecasting and decision making."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+                android:textStyle="italic" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:gravity="left"
-                    android:lineSpacingMultiplier="1.1"
-                    android:paddingLeft="4.0dip"
-                    android:text="Definition, Nature, Importance, Types of Planning, Steps in Planning, Planning Premises Forecasting and decision making."
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary"
-                    android:textIsSelectable="true"
-                    android:textSize="20.0dip"
-                    android:textStyle="italic" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/MainColor"
+        app:cardCornerRadius="14dp">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
-            android:elevation="15.0dip"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="14.0dip">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp"
+                android:text="Module – III Organizing"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:text="Module – III Organizing"
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5dp"
+                android:text="Concept, Definition, Formal and Informal Organisation, Organizational Structure:- Types &amp;significance (Functional Organization, Product/ Market Organisation and Matrix Structure), Span of Management, Delegation of authority.  "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:lineSpacingMultiplier="1.1"
-                    android:padding="5.0dip"
-                    android:text="Concept, Definition, Formal and Informal Organisation, Organizational Structure:- Types &amp;significance (Functional Organization, Product/ Market Organisation and Matrix Structure), Span of Management, Delegation of authority.  "
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary"
-                    android:textIsSelectable="true"
-                    android:textSize="20.0dip"
-                    android:textStyle="italic" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                android:textStyle="italic" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="fill_parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/MainColor"
+        app:cardCornerRadius="14dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
-            android:elevation="15.0dip"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="14.0dip">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp"
+                android:text="Module – IV Staffing &amp;Controlling "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:text="Module – IV Staffing &amp;Controlling "
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5dp"
+                android:text="Definition, Process of staffing, Meaning &amp;Need of Control, Controlling Process, Types of Control Devices. "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:lineSpacingMultiplier="1.1"
-                    android:padding="5.0dip"
-                    android:text="Definition, Process of staffing, Meaning &amp;Need of Control, Controlling Process, Types of Control Devices. "
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary"
-                    android:textIsSelectable="true"
-                    android:textSize="20.0dip"
-                    android:textStyle="italic" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                android:textStyle="italic" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="fill_parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/MainColor"
+        app:cardCornerRadius="14dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
-            android:elevation="15.0dip"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="14.0dip">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp"
+                android:text="Module – V Directing "
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:text="Module – V Directing "
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5dp"
+                android:text="Meaning of Motivation, Motivational theories - Maslow Hierarchy of Need Theory &amp;Herzberg Two Factor Theory Leadership Definition, Characteristics (referring few theories of leadership ."
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:lineSpacingMultiplier="1.1"
-                    android:padding="5.0dip"
-                    android:text="Meaning of Motivation, Motivational theories - Maslow Hierarchy of Need Theory &amp;Herzberg Two Factor Theory Leadership Definition, Characteristics (referring few theories of leadership ."
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary"
-                    android:textIsSelectable="true"
-                    android:textSize="20.0dip"
-                    android:textStyle="italic" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                android:textStyle="italic" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="fill_parent"
+    <androidx.cardview.widget.CardView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:elevation="15dp"
+        app:cardBackgroundColor="@color/MainColor"
+        app:cardCornerRadius="14dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
-            android:elevation="15.0dip"
-            app:cardBackgroundColor="?attr/colorSurface"
-            app:cardCornerRadius="14.0dip">
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="30dp"
+                android:text="Text Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:text="Text Books:"
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5dp"
+                android:text="1. Koontz, H. and Weihrich, H (1998) &amp; (2001) Essentials Of Management (Tata McGraw Hill: New Delhi) Edition- 5th and 10th "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+               />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10.0dip"
-                    android:lineSpacingMultiplier="1.1"
-                    android:padding="5.0dip"
-                    android:text="1. Koontz, H. and Weihrich, H (1998) &amp; (2001) Essentials Of Management (Tata McGraw Hill: New Delhi) Edition- 5th and 10th "
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary"
-                    android:textIsSelectable="true"
-                    android:textSize="20.0dip" />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Reference Books:"
+                android:textColor="@color/textColor"
+                android:textIsSelectable="true"
+                android:textSize="25dp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20.0dip"
-                    android:text="Reference Books:"
-                    android:textColor="@color/textColor"
-                    android:textIsSelectable="true"
-                    android:textSize="25.0dip"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10.0dip"
-                    android:layout_marginBottom="10.0dip"
-                    android:lineSpacingMultiplier="1.1"
-                    android:padding="5.0dip"
-                    android:text="1.Stoner, Freeman and Gilbert, Management (Prentice Hall of India: New Delhi)Edition -5 "
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="@color/textColorSecondary"
-                    android:textIsSelectable="true"
-                    android:textSize="20.0dip" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </LinearLayout>
-</ScrollView>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:lineSpacingMultiplier="1.1"
+                android:padding="5dp"
+                android:text="1.Stoner, Freeman and Gilbert, Management (Prentice Hall of India: New Delhi)Edition -5 "
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@color/textColorSecondary"
+                android:textIsSelectable="true"
+               />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

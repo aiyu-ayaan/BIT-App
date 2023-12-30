@@ -10,12 +10,9 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/bitapp" />
-            <option value="$PROJECT_DIR$/bitapp/attendance" />
-            <option value="$PROJECT_DIR$/bitapp/course" />
-            <option value="$PROJECT_DIR$/bitapp/login" />
+            <option value="$PROJECT_DIR$/chat" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/syllabus" />
-            <option value="$PROJECT_DIR$/theme" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

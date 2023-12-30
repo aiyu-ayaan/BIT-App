@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:fillViewport="true"
     android:padding="8.0dip"
     android:scrollbars="none">
@@ -26,17 +26,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="HTML Programming LAB"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical"
@@ -48,7 +48,7 @@
                 android:text="1. Create a web page having background color Navy, text color Chocolate and title ‘My homepage’."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -59,7 +59,7 @@
                 android:text="2. Create a web page giving details of your enrolment no., name and address with all possible text formatting style."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -70,7 +70,7 @@
                 android:text="3. Create a web page to display ‘Internet &#38; Web Technology’ with different heading."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -81,7 +81,7 @@
                 android:text="4. Create a web page to display a marquee (containing both text and images) in all possible direction.While doing so control the speed of marquee. Use also different behavior values."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -92,7 +92,7 @@
                 android:text="5. Create a web page which contains two divisions with different appearance."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -103,7 +103,7 @@
                 android:text="6. Create a web page which will implement all the elements available in head section."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -114,7 +114,7 @@
                 android:text="7. Create a web page showing a nested ordered list of the index page of your book."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -125,7 +125,7 @@
                 android:text="8. Create a web page showing a nested unordered list containing the branches available in your centre."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -136,7 +136,7 @@
                 android:text="9. Create a web page which will implement the definition list."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -147,7 +147,7 @@
                 android:text="10. Create a web page to create an external link to a hypermedia document.Use the target attribute."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -158,7 +158,7 @@
                 android:text="11. Create a web page to create a bookmark in the same document."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -169,7 +169,7 @@
                 android:text="12. Create a web page to create a vertical menu using unordered list and hyperlinks."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -180,7 +180,7 @@
                 android:text="13. Create a web page which contains images in four corners of the web document."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -191,7 +191,7 @@
                 android:text="14. Create a web page which will implement the image mapping."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -202,7 +202,7 @@
                 android:text="15. Create a web page to run swf (flash file) using object element."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -213,7 +213,7 @@
                 android:text="16. Create a web page to display the following table structures:"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -229,7 +229,7 @@
                 android:text="17. Create a web page which contains a table as follows: (enter at least 5 records &#38; use appropriate table heading, caption and footer)"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
             <ImageView
@@ -245,7 +245,7 @@
                 android:text="18. Create a web page having two equal frames, one containing link and other containing page to be displayed. When the link is clicked the appropriate content should be displayed in second frame."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -256,7 +256,7 @@
                 android:text="19. Create a web page to perform the above task using iframe."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -267,7 +267,7 @@
                 android:text="20. Create a web page which contains header, container and footer sections. The container section further subdivided into left, middle and right subsection. Use css to design this web page."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -279,7 +279,7 @@
 \n\n(while doing the above process try to understand the difference between get &#38; post methods) "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -290,7 +290,7 @@
                 android:text="22. Design a Resume form with all possible type of form elements.\n\nColor: Black, Bisque, Chocolate, Crimson, Darkgrey, Navy, Lime "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -301,7 +301,7 @@
                 android:text="23. Write a JavaScript asking first name, middle name and surname and then print Hello [User Name]."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -312,7 +312,7 @@
                 android:text="24. Write a JavaScript to create a dialogue box containing “Welcome to my website”."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -323,7 +323,7 @@
                 android:text="25. Write a JavaScript to calculate simple interest using prompt, alert and confirm. "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -334,7 +334,7 @@
                 android:text="26. Write a JavaScript to calculate simple interest using html form."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -345,7 +345,7 @@
                 android:text="27. Write a JavaScript to display a time and print message accordingly for eg. Good Morning."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -356,7 +356,7 @@
                 android:text="28. Using JavaScript display a digital clock."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -367,7 +367,7 @@
                 android:text="29. Using JavaScript create a simple calculator using html form."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -378,7 +378,7 @@
                 android:text="30. Write a JavaScript that would ask the user if he wants a greeting message and if he does, display a Gif file called Greeting.gif and display “Hello Greeting of the day!” in the document window following the image Greeting.gif otherwise flash an alert “Bad day!” "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -389,7 +389,7 @@
                 android:text="31. Write a JavaScript to scroll the text on status bar."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -400,7 +400,7 @@
                 android:text="32. Write a program to change color of current html document’s background randomly."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -411,7 +411,7 @@
                 android:text="33. Write a JavaScript to move a text with mouse pointer."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -422,7 +422,7 @@
                 android:text="34. Write a JavaScript to implement an image rotator."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -433,7 +433,7 @@
                 android:text="35. Write a JavaScript to implement a banner changer."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -444,7 +444,7 @@
                 android:text="36. Write a JavaScript code to create a pull down menu box using a div."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -455,7 +455,7 @@
                 android:text="37. Create a web page using two image file which switch b/w one another as the mouse pointer moves over the image. "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -466,7 +466,7 @@
                 android:text="38. Write a JavaScript to create small window in main window."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -477,7 +477,7 @@
                 android:text="39. Create a web page which will implement the image mapping. Write JavaScript to display different information (use show/hide div) on selecting the different segment of the image."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -488,7 +488,7 @@
                 android:text="40. Write a JavaScript to check for null &#38; empty string."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -499,7 +499,7 @@
                 android:text="41. Using JavaScript create a web page with two forms one customer copy and one office copy when user enters date in customer copy it gets updated in office copy."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -510,7 +510,7 @@
                 android:text="42. Create a student Grade entry form. Use JavaScript for authentication and verification of the textboxes in the html form developed by you."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -521,7 +521,7 @@
                 android:text="43. Write a JavaScript to verify whether email address provided by user is valid or invalid."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -532,7 +532,7 @@
                 android:text="44. Create a well formed xml document which will display a Telephone directory. Use css."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -543,7 +543,7 @@
                 android:text="45. Create a valid xml document which contains the DTD (both internal &#38; external) structure of the Cd catalog. Use Xsl (XSLT is the recommended style sheet language of XML). "
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -554,7 +554,7 @@
                 android:text="46. Create a SAX Parser to display the Cd catalog data stored in a valid xml document."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -565,7 +565,7 @@
                 android:text="47. Using &lt;xsl:for-each&gt; display all records available in well-formed xml document containing book info."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -576,7 +576,7 @@
                 android:text="48. Create a Jsp page to implement a simple calculator."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -587,7 +587,7 @@
                 android:text="49. Create a Jsp page to display day of the week."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
 
 
@@ -598,7 +598,7 @@
                 android:text="50. Create a Jsp page to perform database connectivity with either MS Access or Oracle."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
     </LinearLayout>

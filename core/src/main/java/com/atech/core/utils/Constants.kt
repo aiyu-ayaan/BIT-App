@@ -2,6 +2,9 @@ package com.atech.core.utils
 
 //const val TAG = "Aiyu"
 
+
+const val cacheSize = (40 * 1024 * 1024).toLong()
+
 enum class AppTheme { Light, Dark, Sys }
 enum class TAGS {
     BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE
@@ -11,19 +14,47 @@ enum class RowSubjectAdapterRequest {
     FROM_ATTENDANCE, FROM_HOME
 }
 
+enum class RemoteConfigKeys(val value: String) {
+    CourseDetails("course_details"),
+    KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
+    AppAlertDialog("app_alert_dialog"),
+    ForceScreen("force_screen"),
+    MAX_TIMES_UPLOAD("MAX_TIMES_UPLOAD")
+}
+
 enum class SharePrefKeys {
-    SharedPreferenceName, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
-    SyllabusVisibility, UserHasDataInCloud, RestoreDone, PermanentSkipLogin,
-    SetUpDone, AppTheme, NewShowUninstallDialog, KeyAppOpenMinimumTime,
-    ShowTimes, KeyAnnVersion, CurrentShowTime, IsDynamicThemeEnabled,
-    IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
-    FirstTimeLogIn
+    BITAppPref, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
+    PermanentSkipLogin, SetUpDone, AppThemeState, KeyAppOpenMinimumTime,
+    ShowTimes, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
+    AppAlertDialog, IsLibraryCardVisibleAttendanceScreen, ChatScreenSetting,
+    UploadTime
 }
 
 const val SYLLABUS_SOURCE_DATA =
     "{   \"bca1\": true,   \"bca2\": false,   \"bca3\": true,   \"bca4\": false,   \"bca5\": false,   \"bca6\": false,   \"bba1\": false,   \"bba2\": false,   \"bba3\": false,   \"bba4\": false,   \"bba5\": false,   \"bba6\": false ,\"mca1\": true, \"mca2\": false, \"mca3\": false, \"mba4\": false, \"mba1\": false, \"mba2\": false, \"mba3\": false}"
 
 const val BASE_IN_APP_NAVIGATION_LINK = "bitapp://bit.aiyu/"
+
+const val COURSE_DETAILS = "{\n" +
+        "  \"course\": [\n" +
+        "    {\n" +
+        "      \"name\": \"bca\",\n" +
+        "      \"sem\": 6\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"name\": \"bba\",\n" +
+        "      \"sem\": 6\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"name\": \"mca\",\n" +
+        "      \"sem\": 4\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"name\": \"mba\",\n" +
+        "      \"sem\": 4\n" +
+        "    }\n" +
+        "  ]\n" +
+        "}"
 
 enum class Destination(val value: String) {
     ChooseSem("choosesem"), Home("home"),
@@ -73,9 +104,21 @@ const val CHANNEL_UPDATE = "App Update"
 const val CHANNEL_ID_APP = "App"
 const val CHANNEL_APP = "App Notification"
 
-enum class RemoteConfigKeys {
-    SYLLABUS_VISIBILITY, KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY, SYLLABUS_BCA, SYLLABUS_BBA,
-    KEY_TOGGLE_SYLLABUS_SOURCE, title, minVersion, link, isEnable, button_text, show_times,
-    Github_Link, Current_Year, ann_version, ann_pos_button, ann_neg_button,
-    ann_message, ann_link, ann_title, MAX_TIMES_UPLOAD
+
+const val DEFAULT_PAGE_SIZE = 20
+const val INITIAL_LOAD_SIZE = 20
+
+
+enum class MessageTopic(val value: String) {
+    Notice("NoticeByAiyu"),
+    Event("EventByAiyu"),
+    App("AppByAiyu"),
+    Update("UpdateByAiyu")
+}
+
+enum class MessageTopicTest(val value: String) {
+    Notice("NoticeByAiyuTest"),
+    Event("EventByAiyuTest"),
+    App("AppByAiyuTest"),
+    Update("UpdateByAiyuTest")
 }

@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Software Engineering Lab"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20.0dip"
+            android:layout_marginTop="30dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,26 +43,26 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:gravity="left"
                 android:text="List of Programs as Assignments"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="1. Draw use case diagram for online banking system. \n\n2. Draw use case diagram for online library system \n\n3. Draw use case diagram for online railway reservation system \n\n4. Draw use case diagram for employee information system. \n\n5. Draw use case diagram for inventory control system \n\n6. Draw use case diagram for student information system. \n\n7. Draw use case diagram for online hotel management system. \n\n8. Draw use case diagram for online bus reservation system. \n\n9. Draw use case diagram for online course registration system \n\n10. Draw use case diagram for online teacher information system. \n\n11. Draw sequence diagram for online banking system. \n\n12. Draw sequence diagram for online library system. \n\n13. Draw sequence diagram for online railway reservation system. \n\n14. Draw sequence diagram for employee information system. \n\n15. Draw sequence diagram for inventory control system. \n\n16. Draw sequence diagram for student information system. \n\n17. Draw sequence diagram for online hotel management system. \n\n18. Draw sequence diagram for online bus reservation system. \n\n19. Draw sequence diagram for online course registration system. \n\n20. Draw sequence diagram for online teacher information system. \n\n21. Draw activity diagram for online banking system. \n\n22. Draw activity diagram for online library system. \n\n23. Draw activity diagram for online railway reservation system. \n\n24. Draw activity diagram for employee information system. \n\n25. Draw activity diagram for inventory control system. \n\n26. Draw activity diagram for student information system. \n\n27. Draw activity diagram for online hotel management system. \n\n28. Draw activity diagram for online bus reservation system. \n\n29. Draw activity diagram for online course registration system \n\n30. Draw activity diagram for online teacher information system. \n\n31. Draw class diagram for online banking system. \n\n32. Draw class diagram for online library system \n\n33. Draw class diagram for online railway reservation system \n\n34. Draw class diagram for employee information system. \n\n35. Draw class diagram for inventory control system \n\n36.. Draw class diagram for student information system. \n\n37. Draw class diagram for online hotel management system. \n\n38. Draw class diagram for online bus reservation system. \n\n39. Draw class diagram for online course registration system . \n\n40. Draw class diagram for online teacher information system"
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
     </LinearLayout>

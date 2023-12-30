@@ -12,7 +12,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="?attr/colorSurface"
+    android:background="@color/MainColor"
     android:padding="8.0dip"
     android:scrollbars="none">
 
@@ -25,17 +25,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/heading_back"
-            android:backgroundTint="?attr/colorPrimary"
+            android:backgroundTint="#12695c"
             android:gravity="center"
             android:text="Software Testing Lab"
             android:textColor="@color/textColorSubTitle"
-            android:textSize="32.0dip"
+            android:textSize="32dp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10.0dip"
+            android:layout_marginTop="10dp"
 
             android:gravity="center"
             android:orientation="vertical">
@@ -43,25 +43,25 @@
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10.0dip"
+                android:layout_marginTop="10dp"
                 android:text="List of Programs as Assignments:"
                 android:textColor="@color/textColor"
                 android:textIsSelectable="true"
-                    android:textSize="25.0dip"
+                    android:textSize="25dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="20.0dip"
-                android:layout_marginBottom="10.0dip"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
                 android:gravity="left"
-                android:padding="5.0dip"
+                android:padding="5dp"
                 android:text="1. Why testing is required? \n\n2. What are the types of testing? \n\n3. What is difference between Verification and Validation? \n\n4. Explain Principles of Software Testing. \n\n5. What are Test Cases? \n\n6. Overview of Graph Theory for tester. \n\n7. Explain Boundary Value Analysis with example. \n\n8. Explain Equivalence Class Testing with example. \n\n9. Explain Decision Table Based Testing with example. \n\n10. Explain Cause Effect Graphing Technique with example. \n\n11. Explain Path testing with example. \n\n12. Explain Cyclomatic Complexity with example. \n\n13. What are Graph Metrics? \n\n14. Explain Dataflow Testing with example. \n\n15. Explain Slice based testing with example. \n\n16. What are Testing Activities? \n\n17. What are Levels of Testing? \n\n18. Explain Integration Testing. \n\n19. What is System Testing? \n\n20. What is Regression Testing? \n\n21. What is Extreme Testing? \n\n22. What is Debugging? \n\n23. Discuss the challenges and strategies of testing internet applications \n\n24. What do you understand the Automation Testing Approach ? \n\n25. Write and test a program to login a specific web page \n\n26. Write and test a program to update 10 student records into table into Excel file \n\n27. Write and test a program to select the number of students who have scored more than 60 in any one subject ( or all subjects ). \n\n28. Write and test a program to provide total number of objects present / available on the page. \n\n29. Write and test a program to get the number of list items in a list / combo box. \n\n30. Write and test a program to count number of items present on a desktop \n\n31. Give an overview of WinRunner, Note down the Testing Applications using WinRunner."
                 android:textColor="@color/textColorSecondary"
                 android:textIsSelectable="true"
-                android:textSize="20.0dip"
+
                 android:textStyle="italic" />
         </LinearLayout>
     </LinearLayout>

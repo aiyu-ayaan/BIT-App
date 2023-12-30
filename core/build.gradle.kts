@@ -1,24 +1,27 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
-    id("com.google.dagger.hilt.android")
-    id("kotlin-parcelize")
-    kotlin("kapt")
+    alias(libs.plugins.jetbrainsKotlinAndroid)
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    id("androidx.room")
 }
 
 android {
     namespace = "com.atech.core"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+
+        room {
+            schemaDirectory("$projectDir/schemas")
+        }
     }
-    flavorDimensions +="type"
+    flavorDimensions += "type"
 
     productFlavors {
         create("global") {
@@ -39,11 +42,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
     buildFeatures {
         buildConfig = true
@@ -53,40 +56,42 @@ android {
 
 dependencies {
 
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
     implementation(libs.material)
+//    testImplementation(libs.junit)
+//    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.hilt.android)
+    implementation(libs.androidx.browser)
     ksp(libs.hilt.android.compiler)
+
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.paging)
+    ksp(libs.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.gson)
+
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    releaseImplementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.remote.config)
+    implementation(libs.firebase.firestore)
+    implementation(libs.firebase.auth)
+
+
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.json)
     implementation(libs.retrofit.scalars)
+    implementation(libs.okhttp3.logging.interceptor)
 
-    implementation(libs.gson)
-    implementation(libs.data.store)
 
-    implementation(libs.room.ktx)
-    annotationProcessor(libs.room.compiler)
-    ksp(libs.room.compiler)
 
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.auth.ktx)
-    implementation(libs.firebase.config.ktx)
-
-    implementation(libs.data.store)
-
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
-
+    implementation(libs.androidx.datastore.preferences)
     implementation(libs.cryptore)
-
-}
-kapt {
-    correctErrorTypes = true
-}
-hilt {
-    enableAggregatingTask = true
 }

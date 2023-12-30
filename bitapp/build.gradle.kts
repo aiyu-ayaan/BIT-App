@@ -1,28 +1,35 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
-    kotlin("kapt")
+    alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.googleAndroidLibrariesMapsplatformSecretsGradlePlugin)
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("androidx.navigation.safeargs.kotlin")
-    id("com.google.firebase.crashlytics")
-    id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
     namespace = "com.atech.bit"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.atech.bit"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 65
-        versionName = "5.0.2"
+        versionName = "6.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables {
+            useSupportLibrary = true
+        }
+        val properties = Properties()
+        properties.load(project.rootProject.file("local.properties").reader())
+
+        buildConfigField("String","FIREBASE_WEB_CLIENT","\"${properties.getProperty("FIREBASE_WEB_CLIENT")}\"")
     }
     bundle {
         storeArchive {
@@ -61,71 +68,93 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "1.8"
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
     }
 
     buildFeatures {
-        viewBinding = true
+        compose = true
         buildConfig = true
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
 
 dependencies {
 
-    implementation(project(mapOf("path" to ":bitapp:attendance")))
-    implementation(project(mapOf("path" to ":bitapp:course")))
-    implementation(project(mapOf("path" to ":bitapp:login")))
+    implementation(project(":chat"))
     implementation(project(":core"))
     implementation(project(":syllabus"))
-    implementation(project(":theme"))
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.ui)
+    implementation(libs.androidx.ui.graphics)
+    implementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.material)
 
+    implementation(libs.app.update.ktx)
 
-    implementation(libs.core.ktx)
-    implementation(libs.appcompat)
-    implementation(libs.material)
-    implementation(libs.constraintlayout)
+//    androidTestImplementation(platform(libs.androidx.compose.bom))
+//    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.tooling)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.hilt.android)
-    implementation(libs.playstore.core)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.fragment)
+    implementation(libs.androidx.navigation.compose)
+
+//    implementation(libs.swipe)
+
+    implementation(libs.play.service.auth)
+
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.analytics.ktx)
-    implementation(libs.firebase.messaging.ktx)
-    releaseImplementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.firebase.analytics)
+    releaseImplementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.message)
+
+    implementation(libs.calender)
 
 
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui.ktx)
+    implementation(libs.lottie.compose)
 
-    implementation(libs.android.viewbinding)
+    implementation(libs.coil.kt.coil.compose)
+    implementation(libs.coil.svg)
 
-    implementation(libs.markDownView)
 
-    implementation(libs.lotti)
+    implementation(libs.markdownView.android)
 
-    implementation(libs.lifecycle.viewmodel.ktx)
-    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.accompanist.permissions)
 
-    implementation(libs.exoplayer.core)
-    implementation(libs.exoplayer.ui)
-    implementation(libs.exoplayer.dash)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    releaseImplementation(libs.firebase.crashlytics)
+
+    implementation(libs.compose.video)
+    implementation(libs.androidx.media3.exoplayer) // [Required] androidx.media3 ExoPlayer dependency
+    implementation(libs.androidx.media3.session) // [Required] MediaSession Extension dependency
+    implementation(libs.media3.ui) // [Required] Base Player UI
+
+    implementation(libs.androidx.core.splashscreen)
 
     implementation(libs.graph)
-    implementation(libs.glide)
 
-    implementation(libs.palette)
-
-    implementation(libs.core.splashscreen)
-}
-
-kapt {
-    correctErrorTypes = true
-}
-hilt {
-    enableAggregatingTask = true
 }

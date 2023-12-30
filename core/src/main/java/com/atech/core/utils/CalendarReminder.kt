@@ -95,7 +95,10 @@ object CalendarReminder {
             action.invoke(eventID)
 
         } catch (e: Exception) {
-            error.invoke(e.message ?: "Error")
+            error.invoke(
+                "Error Occur !!" +
+                        "\n$e"
+            )
         }
     }
 

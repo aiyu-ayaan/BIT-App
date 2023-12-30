@@ -5,21 +5,23 @@ import android.util.Log
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.atech.core.firebase.auth.AttendanceUploadModel
-import com.atech.core.firebase.auth.AuthUseCases
-import com.atech.core.firebase.auth.UpdateDataType
-import com.atech.core.room.attendance.AttendanceDao
-import com.atech.core.room.attendance.AttendanceModel
+import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
+import com.atech.core.datasource.room.attendance.AttendanceDao
+import com.atech.core.datasource.room.attendance.AttendanceModel
+import com.atech.core.usecase.AuthUseCases
 import com.atech.core.utils.BitAppScope
+import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.UpdateDataType
+import com.atech.core.utils.compareDifferenceInDays
 import com.atech.core.utils.fromJSON
 import com.atech.core.utils.toJSON
-import com.atech.theme.compareDifferenceInDays
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.Date
+import kotlin.math.max
 
 
 private const val TAG = "AttendanceUpload"
@@ -75,17 +77,14 @@ class AttendanceUploadDelegate : AttendanceUpload, LifecycleEventObserver {
             Lifecycle.Event.ON_PAUSE -> {
                 scope?.launch {
                     val newList = getAttendanceList().await()
-                    Log.d(TAG, "onStateChanged: ${newList.size}, ${oldList?.size}")
                     Log.d(TAG, "onStateChanged: ${newList areEqual oldList}")
                     if (!(newList areEqual oldList)) {
                         savedPrefLogic {
-                            newList.toUploadModel().let { list ->
-                                auth?.uploadData?.invoke(UpdateDataType.Attendance(list)) {
-                                    it?.let {
-                                        Log.d(TAG, "onStateChanged: $it")
-                                    }
-                                }
-                            }
+                            auth?.uploadData?.invoke(
+                                UpdateDataType.UploadAttendance(
+                                    newList.toUploadModel()
+                                )
+                            )
                         }
                     }
                 }
@@ -99,10 +98,12 @@ class AttendanceUploadDelegate : AttendanceUpload, LifecycleEventObserver {
         }
     }
 
-    private fun savedPrefLogic(
-        action: () -> Unit = {}
+    private suspend fun savedPrefLogic(
+        action: suspend () -> Unit = {}
     ) {
-        pref?.getString("UploadTimes", UploadTime().json())?.toUploadTime()?.let { uploadTime ->
+        pref?.getString(
+            SharePrefKeys.UploadTime.name, UploadTime().json()
+        )?.toUploadTime()?.let { uploadTime ->
             val (times, date) = uploadTime
             if (Date().compareDifferenceInDays(Date(date)) == 0) {
                 if (times < maxTime) {
@@ -119,7 +120,7 @@ class AttendanceUploadDelegate : AttendanceUpload, LifecycleEventObserver {
     }
 
     private fun saveUploadTime(model: UploadTime) {
-        pref?.edit()?.putString("UploadTimes", model.json())?.apply()
+        pref?.edit()?.putString(SharePrefKeys.UploadTime.name, model.json())?.apply()
     }
 
     private fun List<AttendanceModel>.toUploadModel() = this.map { a ->
@@ -156,7 +157,7 @@ class AttendanceUploadDelegate : AttendanceUpload, LifecycleEventObserver {
                 Log.e(TAG, "getAttendanceList: dao or scope is null")
                 return@async emptyList<AttendanceModel>()
             }
-            dao!!.getAllAttendanceList()
+            dao!!.getAllAttendance()
         }
     }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="MainColor">#0a1517</color>
+    <color name="textColor">#FFF</color>
+    <color name="textColorSecondary">#FFF</color>
+    <color name="textColorSubTitle">#000000</color>
+
+    <color name="textColorSecondary_oppo">#99000000</color>
+    <color name="textColor_oppo">#000</color>
+</resources>

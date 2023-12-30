@@ -6,12 +6,12 @@ import android.content.Intent
 import android.os.Build
 import androidx.annotation.StringRes
 import com.atech.bit.BuildConfig
-import com.atech.theme.R
-import com.atech.theme.convertLongToTime
-import com.atech.theme.openCustomChromeTab
+import com.atech.bit.R
+import com.atech.core.utils.convertLongToTime
+import com.atech.core.utils.openCustomChromeTab
 import java.util.Date
 
-fun Activity.openBugLink(
+fun Context.openBugLink(
     @StringRes reportType: Int = R.string.bug_repost,
     extraString: String = "",
     reportDes: String? = null
@@ -21,7 +21,7 @@ fun Activity.openBugLink(
             it.putExtra(Intent.EXTRA_EMAIL, resources.getStringArray(R.array.email))
             it.putExtra(Intent.EXTRA_SUBJECT, resources.getString(reportType))
             it.putExtra(
-                Intent.EXTRA_TEXT, if (extraString.isNotBlank()) """Found a bug on $extraString  
+                Intent.EXTRA_TEXT, if (extraString.isNotBlank()) """Found a bug on $extraString
                                 |happened on ${Date().time.convertLongToTime("dd/mm/yyyy hh:mm:aa")}
                                 |due to $reportDes .
                                 |
@@ -38,7 +38,9 @@ fun Activity.openBugLink(
 )
 
 fun Context.isBeta(): Boolean = BuildConfig.VERSION_NAME.contains("-beta")
-fun Activity.openReleaseNotes() {
+fun Context.openReleaseNotes(
+    color: Int
+) {
     val link = isBeta().let {
         val version =
             if (BuildConfig.VERSION_NAME.contains("\\sPatch\\s".toRegex())) BuildConfig.VERSION_NAME.replace(
@@ -50,7 +52,7 @@ fun Activity.openReleaseNotes() {
         )
         else resources.getString(R.string.release_notes, "v$version")
     }
-    this.openCustomChromeTab(link.replace("-[b,g]\\w+".toRegex(), ""))
+    this.openCustomChromeTab(link.replace("-[b,g]\\w+".toRegex(), ""), color)
 
 }
 
