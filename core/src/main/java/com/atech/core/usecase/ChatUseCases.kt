@@ -14,8 +14,7 @@ data class ChatUseCases @Inject constructor(
 data class InsertChat @Inject constructor(
     val dao: ChatDao
 ) {
-    suspend operator fun invoke(chat: ChatModel) =
-        dao.insert(chat)
+    suspend operator fun invoke(chat: ChatModel) = dao.insert(chat)
 
 }
 
@@ -41,5 +40,21 @@ data class GetAllChat @Inject constructor(
 ) {
     suspend operator fun invoke(): List<ChatModel> {
         return dao.getAll()
+    }
+}
+
+data class AutoDeleteChatIn30Days @Inject constructor(
+    val dao: ChatDao
+) {
+    suspend operator fun invoke() {
+        val list = dao.getAll()
+        if (list.isEmpty()) return
+        val current = System.currentTimeMillis()
+        val thirtyDaysInMillis = 30 * 24 * 60 * 60 * 1000L
+        list.filter { chat ->
+            current - chat.created > thirtyDaysInMillis
+        }.forEach { chatModel ->
+            dao.delete(chatModel)
+        }
     }
 }

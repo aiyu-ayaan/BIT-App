@@ -132,11 +132,13 @@ class ChatViewModel @Inject constructor(
                 if (_chatSettingUi.value.isKeepChat)
                     getChat()
             } catch (e: Exception) {
-                Log.d("AAA", "sendMessage: $e")
                 if (e is PromptBlockedException) {
                     _uiState.value.addMessage(
                         ChatMessage(
-                            text = "The input you provided contains offensive language, which goes against our community guidelines " + "and standards. Please refrain from using inappropriate language and ensure that your input is " + "respectful and adheres to our guidelines. If you have any questions or concerns, feel free " + "to contact our support team.",
+                            text = "The input you provided contains offensive language, which goes against our community guidelines "
+                                    + "and standards. Please refrain from using inappropriate language and ensure that your input is "
+                                    + "respectful and adheres to our guidelines. If you have any questions or concerns, feel free "
+                                    + "to contact our support team.",
                             participant = Participant.ERROR
                         )
                     )

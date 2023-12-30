@@ -12,6 +12,9 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import coil.util.DebugLogger
+import com.atech.chat.utils.getChatSetting
+import com.atech.core.usecase.AutoDeleteChatIn30Days
+import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.CHANNEL_APP
 import com.atech.core.utils.CHANNEL_DES
 import com.atech.core.utils.CHANNEL_EVENT
@@ -28,6 +31,8 @@ import com.atech.core.utils.SharePrefKeys
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 import io.sanghun.compose.video.cache.VideoPlayerCacheManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -39,6 +44,13 @@ class BITApp : Application(), ImageLoaderFactory {
 
     @Inject
     lateinit var fcm: FirebaseMessaging
+
+    @Inject
+    lateinit var autoDeleteChatIn30Days: AutoDeleteChatIn30Days
+
+    @BitAppScope
+    @Inject
+    lateinit var bitAppScope: CoroutineScope
     override fun onCreate() {
         super.onCreate()
         // video cache
@@ -52,6 +64,14 @@ class BITApp : Application(), ImageLoaderFactory {
             createAppNotificationChannel()
         }
         setUpFcm()
+        autoDeleteLogic()
+    }
+
+    private fun autoDeleteLogic() {
+        if (getChatSetting(pref).isAutoDeleteChat)
+            bitAppScope.launch {
+            autoDeleteChatIn30Days.invoke()
+        }
     }
 
     private fun setUpFcm() {
