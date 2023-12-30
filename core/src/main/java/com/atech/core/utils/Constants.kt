@@ -18,14 +18,16 @@ enum class RemoteConfigKeys(val value: String) {
     CourseDetails("course_details"),
     KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
     AppAlertDialog("app_alert_dialog"),
-    ForceScreen("force_screen")
+    ForceScreen("force_screen"),
+    MAX_TIMES_UPLOAD("MAX_TIMES_UPLOAD")
 }
 
 enum class SharePrefKeys {
     BITAppPref, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
     PermanentSkipLogin, SetUpDone, AppThemeState, KeyAppOpenMinimumTime,
     ShowTimes, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
-    AppAlertDialog, IsLibraryCardVisibleAttendanceScreen, ChatScreenSetting
+    AppAlertDialog, IsLibraryCardVisibleAttendanceScreen, ChatScreenSetting,
+    UploadTime
 }
 
 const val SYLLABUS_SOURCE_DATA =

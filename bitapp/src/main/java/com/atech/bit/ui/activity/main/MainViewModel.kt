@@ -18,12 +18,15 @@ import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.remote.RemoteConfigHelper
 import com.atech.core.datasource.firebase.remote.model.CourseDetails
 import com.atech.core.datasource.firebase.remote.model.defaultCourseSem
+import com.atech.core.datasource.room.attendance.AttendanceDao
 import com.atech.core.usecase.AuthUseCases
+import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +34,10 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val conf: RemoteConfigHelper,
     private val pref: SharedPreferences,
-    private val authUseCases: AuthUseCases
+    private val authUseCases: AuthUseCases,
+    private val attendanceDao: AttendanceDao,
+    @BitAppScope
+    private val scope: CoroutineScope
 ) : ViewModel() {
     private val _courseDetail = mutableStateOf(defaultCourseSem)
     val courseDetail: State<CourseDetails> get() = _courseDetail
@@ -81,7 +87,15 @@ class MainViewModel @Inject constructor(
     }
 
 
-    fun fetchRemoteConfigDetails() {
+    fun fetchRemoteConfigDetails(
+        action: (
+            dao: AttendanceDao,
+            auth: AuthUseCases,
+            pref: SharedPreferences,
+            maxTime: Int,
+            scope: CoroutineScope
+        ) -> Unit
+    ) {
         conf.fetchData(failure = {
             Log.e(TAGS.BIT_REMOTE.name, "fetchRemoteConfigDetails: ${it.message}")
         }) {
@@ -141,6 +155,13 @@ class MainViewModel @Inject constructor(
                 } catch (e: Exception) {
                     Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigDetails: $e")
                 }
+                action.invoke(
+                    attendanceDao,
+                    authUseCases,
+                    pref,
+                    conf.getLong(RemoteConfigKeys.MAX_TIMES_UPLOAD.name).toInt(),
+                    scope
+                )
             }
         }
     }

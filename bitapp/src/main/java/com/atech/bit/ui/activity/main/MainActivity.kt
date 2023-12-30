@@ -20,11 +20,15 @@ import com.atech.bit.ui.navigation.ParentScreenRoutes
 import com.atech.bit.ui.navigation.TopLevelNavigationGraph
 import com.atech.bit.ui.navigation.TopLevelRoute
 import com.atech.bit.ui.theme.BITAppTheme
+import com.atech.bit.utils.AttendanceUpload
+import com.atech.bit.utils.AttendanceUploadDelegate
+import com.atech.core.utils.isConnected
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity(), LifecycleEventObserver {
+class MainActivity : ComponentActivity(), LifecycleEventObserver,
+    AttendanceUpload by AttendanceUploadDelegate() {
 
     private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,24 +55,27 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver {
                     TopLevelNavigationGraph(
                         navHostController = navHostController,
                         communicatorViewModel = viewModel,
-                        startDestination =
-                        if (viewModel.isForceScreenEnable.value)
-                            ParentScreenRoutes.ForceScreen.route
-                        else
-                            if (viewModel.hasSetUpDone) TopLevelRoute.MAIN_SCREEN.route
-                            else TopLevelRoute.LOGIN.route
+                        startDestination = if (viewModel.isForceScreenEnable.value) ParentScreenRoutes.ForceScreen.route
+                        else if (viewModel.hasSetUpDone) TopLevelRoute.MAIN_SCREEN.route
+                        else TopLevelRoute.LOGIN.route
                     )
                 }
             }
         }
-        observeRemoteData()
+        if (isConnected()) {
+            observeRemoteData()
+            if (viewModel.checkHasLogIn())
+                registerLifeCycleOwner(this)
+        }
         lifecycle.addObserver(this)
     }
 
     private fun observeRemoteData() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.fetchRemoteConfigDetails()
+                viewModel.fetchRemoteConfigDetails(
+                    ::getInstances
+                )
             }
         }
     }
