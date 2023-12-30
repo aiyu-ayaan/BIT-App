@@ -20,14 +20,12 @@ enum class RemoteConfigKeys(val value: String) {
     AppAlertDialog("app_alert_dialog"),
     ForceScreen("force_screen")
 }
+
 enum class SharePrefKeys {
     BITAppPref, ChooseSemLastSelectedSem, KeyToggleSyllabusSource,
-    SyllabusVisibility, PermanentSkipLogin,
-    SetUpDone, AppThemeState, NewShowUninstallDialog, KeyAppOpenMinimumTime,
-    ShowTimes, KeyAnnVersion, CurrentShowTime,
-    IsEnableNoticeNotification, IsEnableEventNotification, IsEnableAppNotification,
-    FirstTimeLogIn, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
-    AppAlertDialog,IsLibraryCardVisibleAttendanceScreen
+    PermanentSkipLogin, SetUpDone, AppThemeState, KeyAppOpenMinimumTime,
+    ShowTimes, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
+    AppAlertDialog, IsLibraryCardVisibleAttendanceScreen, ChatScreenSetting
 }
 
 const val SYLLABUS_SOURCE_DATA =
@@ -115,6 +113,7 @@ enum class MessageTopic(val value: String) {
     App("AppByAiyu"),
     Update("UpdateByAiyu")
 }
+
 enum class MessageTopicTest(val value: String) {
     Notice("NoticeByAiyuTest"),
     Event("EventByAiyuTest"),

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BubbleChart
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.ClearAll
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,15 +49,17 @@ import com.atech.chat.ChatScreenEvents
 import com.atech.chat.ChatViewModel
 import com.atech.chat.R
 import com.atech.chat.comman.MarkDown
+import com.atech.chat.compose.setting.settingScreenRouteName
 import com.atech.core.utils.connectivity.ConnectivityObserver
 import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
     viewModel: ChatViewModel = hiltViewModel(),
-    navController: NavHostController = rememberNavController()
+    navController: NavHostController = rememberNavController(),
+    wrapLine: Boolean = false
 ) {
     val chatUiState by viewModel.uiState
     val isLoading by viewModel.isLoading
@@ -111,6 +113,17 @@ fun ChatScreen(
                     )
                 }
             }
+            IconButton(onClick = {
+                navController.navigate(
+                    settingScreenRouteName
+                )
+            }) {
+                Icon(
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = "Chat Setting",
+                    tint = MaterialTheme.colorScheme.primary,
+                )
+            }
         })
     }, bottomBar = {
         MessageInput(
@@ -148,6 +161,7 @@ fun ChatScreen(
                 chatMessages = chatUiState.messages,
                 listState = listState,
                 modifier = Modifier,
+                wrapLine = wrapLine,
             ) {
                 selectedChat = it
                 isDeleteChatDialogVisible = true

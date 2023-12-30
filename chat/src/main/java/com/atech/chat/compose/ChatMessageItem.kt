@@ -59,6 +59,7 @@ fun ChatList(
     chatMessages: List<ChatMessage>,
     listState: LazyListState,
     modifier: Modifier = Modifier,
+    wrapLine: Boolean,
     onDeleteClick: (ChatMessage) -> Unit = {}
 ) {
     LazyColumn(
@@ -72,9 +73,10 @@ fun ChatList(
         ) { message ->
             ChatMessageItem(
                 model = message,
+                wrapWord = wrapLine,
                 onDeleteClick = {
                     onDeleteClick.invoke(message)
-                }
+                },
             )
         }
     }
@@ -85,6 +87,7 @@ fun ChatMessageItem(
     modifier: Modifier = Modifier,
     model: ChatMessage,
     onDeleteClick: () -> Unit = {},
+    wrapWord: Boolean,
 ) {
     var isContextMenuVisible by remember { mutableStateOf(false) }
     val density = LocalDensity.current
@@ -172,6 +175,7 @@ fun ChatMessageItem(
                         ),
                     markDown = model.text,
                     codeBlockBackBackground = drawerColor,
+                    wrapWord = wrapWord
                 )
             }
         }
@@ -218,7 +222,7 @@ private fun ChatMessagePreview() {
                 ), ChatMessage(
                     text = "Hello world", participant = Participant.USER
                 )
-            ), listState = rememberLazyListState()
+            ), listState = rememberLazyListState(), wrapLine = true
         )
     }
 }

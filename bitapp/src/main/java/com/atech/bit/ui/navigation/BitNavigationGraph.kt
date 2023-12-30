@@ -18,8 +18,6 @@ import com.atech.bit.ui.screens.force.ForceScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
 import com.atech.bit.ui.screens.view_image.ViewImageScreen
 import com.atech.bit.utils.animatedComposable
-import com.atech.bit.utils.fadeThroughComposable
-import com.atech.chat.compose.ChatScreen
 import java.io.UnsupportedEncodingException
 import java.net.URLEncoder
 
@@ -111,10 +109,15 @@ fun NavController.navigateWithDeepLink(route: DeepLinkRoutes) {
 }
 
 enum class RouteName(val value: String) {
-    ATTENDANCE("attendance"), COURSE("course"), HOME("home"), SOCIETY("society"), LIBRARY("library"), EVENT(
-        "event"
-    ),
-    SETTINGS("settings"), ABOUT_US("about_us"),
+    ATTENDANCE("attendance"),
+    COURSE("course"),
+    HOME("home"),
+    SOCIETY("society"),
+    LIBRARY("library"),
+    EVENT("event"),
+    SETTINGS("settings"),
+    ABOUT_US("about_us"),
+    CHAT("chat")
 }
 
 
@@ -143,7 +146,7 @@ sealed class Screen(val route: String) {
 
     data object AboutUsScreen : Screen(RouteName.ABOUT_US.value)
 
-    data object ChatScreen : Screen("chat_screen")
+    data object ChatScreen : Screen(RouteName.CHAT.value)
 }
 
 
@@ -210,13 +213,9 @@ fun AppNavigationGraph(
             )
         }
         aboutUsNavGraph(navHostController = navHostController)
-        fadeThroughComposable(
-            route = Screen.ChatScreen.route
-        ) {
-            ChatScreen(
-                navController = navHostController
-            )
-        }
+        chatNavGraph(
+            navHostController = navHostController
+        )
     }
 }
 

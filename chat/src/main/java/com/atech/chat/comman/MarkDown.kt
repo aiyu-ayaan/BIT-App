@@ -22,7 +22,8 @@ fun MarkDown(
     modifier: Modifier = Modifier,
     markDown: String,
     codeBlockBackBackground: Color = Color.Gray,
-    linkTextColor: Color = MaterialTheme.colorScheme.primary
+    linkTextColor: Color = MaterialTheme.colorScheme.primary,
+    wrapWord: Boolean = true
 ) {
     Material3RichText(
         modifier = modifier,
@@ -37,7 +38,7 @@ fun MarkDown(
                             fontSize = MaterialTheme.typography.bodySmall.fontSize,
                             color = Color.White
                         ),
-                        wordWrap = true,
+                        wordWrap = wrapWord,
                         padding = 8.sp
                     ),
                 stringStyle = RichTextStringStyle.Default.copy(

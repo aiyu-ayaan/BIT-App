@@ -16,3 +16,15 @@ class ChatUiState(
         return _messages.lastOrNull()
     }
 }
+
+data class ChatSettingUiState(
+    val isKeepChat: Boolean = true,
+    val isAutoDeleteChat: Boolean = false,
+    val isWrapWord: Boolean = true
+)
+
+sealed interface ChatSettingsEvent {
+    data object KeepChat : ChatSettingsEvent
+    data object AutoDeleteChat : ChatSettingsEvent
+    data object WrapWord : ChatSettingsEvent
+}

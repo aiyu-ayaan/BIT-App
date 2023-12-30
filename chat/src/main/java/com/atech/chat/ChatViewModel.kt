@@ -1,11 +1,13 @@
 package com.atech.chat
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.chat.utils.getChatSetting
 import com.atech.core.usecase.ChatUseCases
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.connectivity.ConnectivityObserver
@@ -23,7 +25,8 @@ class ChatViewModel @Inject constructor(
     private val generativeModel: GenerativeModel,
     private val case: ChatUseCases,
     private val mapper: ChatMessageToModelMapper,
-    connectivityObserver: ConnectivityObserver
+    connectivityObserver: ConnectivityObserver,
+    pref: SharedPreferences
 ) : ViewModel() {
 
     val connectivity = connectivityObserver.observe()
@@ -36,6 +39,9 @@ class ChatViewModel @Inject constructor(
     val isLoading: State<Boolean> get() = _isLoading
     private var chatJob: Job? = null
     private var responseJob: Job? = null
+
+    private val _chatSettingUi = mutableStateOf(getChatSetting(pref))
+    val chatSettingUi: State<ChatSettingUiState> get() = _chatSettingUi
 
     init {
         getChat()
@@ -143,4 +149,22 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    fun onChatSettingEvents(event: ChatSettingsEvent) {
+        when (event) {
+            ChatSettingsEvent.KeepChat -> {
+                _chatSettingUi.value =
+                    _chatSettingUi.value.copy(isKeepChat = !_chatSettingUi.value.isKeepChat)
+            }
+
+            ChatSettingsEvent.AutoDeleteChat -> {
+                _chatSettingUi.value =
+                    _chatSettingUi.value.copy(isAutoDeleteChat = !_chatSettingUi.value.isAutoDeleteChat)
+            }
+
+            ChatSettingsEvent.WrapWord -> {
+                _chatSettingUi.value =
+                    _chatSettingUi.value.copy(isWrapWord = !_chatSettingUi.value.isWrapWord)
+            }
+        }
+    }
 }
