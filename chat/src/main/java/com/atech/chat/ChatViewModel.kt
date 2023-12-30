@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.chat.utils.getChatSetting
+import com.atech.chat.utils.saveChatSetting
 import com.atech.core.usecase.ChatUseCases
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.connectivity.ConnectivityObserver
@@ -26,7 +27,7 @@ class ChatViewModel @Inject constructor(
     private val case: ChatUseCases,
     private val mapper: ChatMessageToModelMapper,
     connectivityObserver: ConnectivityObserver,
-    pref: SharedPreferences
+    private val pref: SharedPreferences
 ) : ViewModel() {
 
     val connectivity = connectivityObserver.observe()
@@ -69,10 +70,13 @@ class ChatViewModel @Inject constructor(
     fun onEvent(event: ChatScreenEvents) {
         when (event) {
             is ChatScreenEvents.OnNewMessage -> sendMessage(event.message)
-            ChatScreenEvents.OnCancelClick -> cancelJob()
+            ChatScreenEvents.OnCancelClick -> {
+                cancelJob()
+            }
+
             is ChatScreenEvents.OnChatDelete -> viewModelScope.launch {
-                Log.d("AAA", "onEvent: ${event.model.id}")
-                case.deleteChat.invoke(mapper.mapFormEntity(event.model))
+                if (_chatSettingUi.value.isKeepChat)
+                    case.deleteChat.invoke(mapper.mapFormEntity(event.model))
                 getChat()
             }
 
@@ -109,22 +113,24 @@ class ChatViewModel @Inject constructor(
                     val modelRes = ChatMessage(
                         text = modelResponse, participant = Participant.MODEL
                     )
-                    mapper.mapToEntityList(
-                        listOf(
-                            _uiState.value.getLastMessage()!!.copy(
-                                linkedId = modelRes.id
-                            ), modelRes.copy(
-                                linkedId = _uiState.value.getLastMessage()!!.id
+                    if (_chatSettingUi.value.isKeepChat)
+                        mapper.mapToEntityList(
+                            listOf(
+                                _uiState.value.getLastMessage()!!.copy(
+                                    linkedId = modelRes.id
+                                ), modelRes.copy(
+                                    linkedId = _uiState.value.getLastMessage()!!.id
+                                )
                             )
-                        )
-                    ).forEach {
-                        case.insertChat.invoke(it)
-                    }
+                        ).forEach {
+                            case.insertChat.invoke(it)
+                        }
                     _uiState.value.addMessage(
                         modelRes
                     )
                 }
-                getChat()
+                if (_chatSettingUi.value.isKeepChat)
+                    getChat()
             } catch (e: Exception) {
                 Log.d("AAA", "sendMessage: $e")
                 if (e is PromptBlockedException) {
@@ -154,16 +160,28 @@ class ChatViewModel @Inject constructor(
             ChatSettingsEvent.KeepChat -> {
                 _chatSettingUi.value =
                     _chatSettingUi.value.copy(isKeepChat = !_chatSettingUi.value.isKeepChat)
+                saveChatSetting(
+                    pref,
+                    _chatSettingUi.value,
+                )
             }
 
             ChatSettingsEvent.AutoDeleteChat -> {
                 _chatSettingUi.value =
                     _chatSettingUi.value.copy(isAutoDeleteChat = !_chatSettingUi.value.isAutoDeleteChat)
+                saveChatSetting(
+                    pref,
+                    _chatSettingUi.value,
+                )
             }
 
             ChatSettingsEvent.WrapWord -> {
                 _chatSettingUi.value =
                     _chatSettingUi.value.copy(isWrapWord = !_chatSettingUi.value.isWrapWord)
+                saveChatSetting(
+                    pref,
+                    _chatSettingUi.value,
+                )
             }
         }
     }

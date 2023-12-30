@@ -1,6 +1,8 @@
 package com.atech.chat.compose
 
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +18,7 @@ import androidx.compose.material.icons.outlined.BubbleChart
 import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.ClearAll
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.SpeakerNotesOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,7 +31,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,15 +40,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.atech.chat.ChatMessage
 import com.atech.chat.ChatScreenEvents
-import com.atech.chat.ChatViewModel
+import com.atech.chat.ChatUiState
 import com.atech.chat.R
 import com.atech.chat.comman.MarkDown
 import com.atech.chat.compose.setting.settingScreenRouteName
@@ -57,17 +59,16 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
-    viewModel: ChatViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController(),
-    wrapLine: Boolean = false
+    wrapLine: Boolean = false,
+    chatUiState: ChatUiState,
+    isLoading: Boolean,
+    isConnected: ConnectivityObserver.Status,
+    keepChat: Boolean = true,
+    onEvent: (ChatScreenEvents) -> Unit,
 ) {
-    val chatUiState by viewModel.uiState
-    val isLoading by viewModel.isLoading
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
-    val isConnected by
-    viewModel.connectivity.collectAsState(initial = ConnectivityObserver.Status.Unavailable)
-
     var isDeleteAllDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
@@ -102,13 +103,28 @@ fun ChatScreen(
                 )
             }
         }, actions = {
-            if (chatUiState.messages.isNotEmpty()) {
+            val context = LocalContext.current
+            AnimatedVisibility(visible = !keepChat) {
+                IconButton(onClick = {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.keep_chat_is_disable), Toast.LENGTH_SHORT
+                    ).show()
+                }) {
+                    Icon(
+                        imageVector = Icons.Outlined.SpeakerNotesOff,
+                        contentDescription = stringResource(R.string.keep_chat),
+                        tint = MaterialTheme.colorScheme.primary
+                    )
+                }
+            }
+            AnimatedVisibility(chatUiState.messages.isNotEmpty()) {
                 IconButton(onClick = {
                     isDeleteAllDialogVisible = true
                 }) {
                     Icon(
                         imageVector = Icons.Outlined.ClearAll,
-                        contentDescription = "Delete All",
+                        contentDescription = stringResource(R.string.delete_all),
                         tint = MaterialTheme.colorScheme.primary,
                     )
                 }
@@ -120,7 +136,7 @@ fun ChatScreen(
             }) {
                 Icon(
                     imageVector = Icons.Outlined.Settings,
-                    contentDescription = "Chat Setting",
+                    contentDescription = stringResource(R.string.chat_setting),
                     tint = MaterialTheme.colorScheme.primary,
                 )
             }
@@ -128,7 +144,7 @@ fun ChatScreen(
     }, bottomBar = {
         MessageInput(
             onSendMessage = { inputText ->
-                viewModel.onEvent(
+                onEvent(
                     ChatScreenEvents.OnNewMessage(
                         inputText
                     )
@@ -144,7 +160,7 @@ fun ChatScreen(
             isLoading = isLoading,
             isConnected = isConnected,
             onCancelClick = {
-                ChatScreenEvents.OnCancelClick
+                onEvent(ChatScreenEvents.OnCancelClick)
             },
         )
     }) { paddingValues ->
@@ -162,6 +178,7 @@ fun ChatScreen(
                 listState = listState,
                 modifier = Modifier,
                 wrapLine = wrapLine,
+                keepChat = keepChat,
             ) {
                 selectedChat = it
                 isDeleteChatDialogVisible = true
@@ -174,7 +191,7 @@ fun ChatScreen(
             icon = Icons.Outlined.Chat,
             onDismissRequest = { isDeleteAllDialogVisible = false },
             onConfirm = {
-                viewModel.onEvent(
+                onEvent(
                     ChatScreenEvents.OnDeleteAllClick
                 )
             })
@@ -189,7 +206,7 @@ fun ChatScreen(
             },
             onConfirm = {
                 Log.d("AAA", "ChatScreen: ${selectedChat?.id}")
-                viewModel.onEvent(
+                onEvent(
                     ChatScreenEvents.OnChatDelete(selectedChat ?: return@ChatDialog)
                 )
             })

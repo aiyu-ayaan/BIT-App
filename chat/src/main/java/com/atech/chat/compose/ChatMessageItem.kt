@@ -60,6 +60,7 @@ fun ChatList(
     listState: LazyListState,
     modifier: Modifier = Modifier,
     wrapLine: Boolean,
+    keepChat: Boolean,
     onDeleteClick: (ChatMessage) -> Unit = {}
 ) {
     LazyColumn(
@@ -74,6 +75,7 @@ fun ChatList(
             ChatMessageItem(
                 model = message,
                 wrapWord = wrapLine,
+                keepChat = keepChat,
                 onDeleteClick = {
                     onDeleteClick.invoke(message)
                 },
@@ -88,6 +90,7 @@ fun ChatMessageItem(
     model: ChatMessage,
     onDeleteClick: () -> Unit = {},
     wrapWord: Boolean,
+    keepChat: Boolean,
 ) {
     var isContextMenuVisible by remember { mutableStateOf(false) }
     val density = LocalDensity.current
@@ -196,17 +199,19 @@ fun ChatMessageItem(
                 isContextMenuVisible = false
             }
             )
-            DropdownMenuItem(text = { Text(text = stringResource(R.string.delete)) },
-                onClick = {
-                    onDeleteClick.invoke()
-                    isContextMenuVisible = false
-                },
-                leadingIcon = {
-                    Icon(
-                        imageVector = Icons.Outlined.Delete,
-                        contentDescription = stringResource(R.string.delete)
-                    )
-                })
+            if (keepChat)
+                DropdownMenuItem(text = { Text(text = stringResource(R.string.delete)) },
+                    onClick = {
+                        onDeleteClick.invoke()
+                        isContextMenuVisible = false
+                    },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.Delete,
+                            contentDescription = stringResource(R.string.delete)
+                        )
+                    })
+
         }
     }
 }
@@ -222,7 +227,7 @@ private fun ChatMessagePreview() {
                 ), ChatMessage(
                     text = "Hello world", participant = Participant.USER
                 )
-            ), listState = rememberLazyListState(), wrapLine = true
+            ), listState = rememberLazyListState(), wrapLine = true, keepChat = true
         )
     }
 }
