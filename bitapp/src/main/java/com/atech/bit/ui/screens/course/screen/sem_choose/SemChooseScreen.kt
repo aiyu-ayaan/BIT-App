@@ -208,7 +208,7 @@ fun LazyListScope.onlineDataSource(
     if (pe.isNotEmpty()) {
         singleElement(
             key = SubjectType.PE.name + "Online"
-        ) { SubjectTitle("Lab") }
+        ) { SubjectTitle("PE") }
         items(items = pe, key = { item -> item.subject + item.code }) { ele ->
             SubjectItem(
                 data = ele, modifier = Modifier.animateItemPlacement(

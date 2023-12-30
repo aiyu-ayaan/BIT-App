@@ -10,5 +10,6 @@
     <string name="delete_all_chats">Delete all chats?</string>
     <string name="are_you_sure_you_want_to_delete_all_chats">Are you sure you want to delete all chats?</string>
     <string name="are_you_sure_delete_single_chat">Are you sure you want to delete this chat? This will delete corresponding chat request or response.</string>
+    <string name="message">Message</string>
 
 </resources>

@@ -28,10 +28,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
+import com.atech.chat.R
 import com.atech.core.utils.connectivity.ConnectivityObserver
 
 
@@ -72,7 +74,7 @@ fun MessageInput(
             } else null
         OutlinedTextField(
             value = userMessage,
-            label = { Text("Chat") },
+            placeholder = { Text(stringResource(R.string.message)) },
             onValueChange = { userMessage = it },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
