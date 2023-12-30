@@ -4,9 +4,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.PauseCircle
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.icons.outlined.WifiOff
@@ -49,7 +50,7 @@ val drawerColor: Color
 fun MessageInput(
     onSendMessage: (String) -> Unit,
     resetScroll: () -> Unit = {},
-    isLoading: Boolean = true,
+    isLoading: Boolean,
     onCancelClick: () -> Unit = {},
     isConnected: ConnectivityObserver.Status =
         ConnectivityObserver.Status.Available
@@ -59,7 +60,7 @@ fun MessageInput(
     Row(
         modifier = Modifier
             .padding(horizontal = 16.dp)
-            .padding(bottom = 16.dp)
+            .padding(bottom = 16.dp, top = 8.dp)
             .fillMaxWidth(),
     ) {
         val trailingIcon: @Composable (() -> Unit)? =
@@ -70,6 +71,21 @@ fun MessageInput(
                         strokeWidth = 2.dp,
                         strokeCap = StrokeCap.Round
                     )
+                }
+            } else if (userMessage.isNotBlank()) {
+                {
+                    IconButton(
+                        onClick = {
+                            userMessage = ""
+                        },
+                        modifier = Modifier.size(24.dp)
+                    ) {
+                        Icon(
+                            Icons.Outlined.Clear,
+                            contentDescription = "Clear",
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
             } else null
         OutlinedTextField(
@@ -84,7 +100,7 @@ fun MessageInput(
                 .fillMaxWidth()
                 .weight(0.85f),
             trailingIcon = trailingIcon,
-            shape = CircleShape,
+            shape = RoundedCornerShape(32.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = drawerColor,
                 unfocusedContainerColor = drawerColor,
@@ -133,6 +149,10 @@ fun MessageInput(
 @Composable
 private fun MessageInputPreview() {
     MaterialTheme {
-        MessageInput(onSendMessage = {}, isConnected = ConnectivityObserver.Status.Available)
+        MessageInput(
+            onSendMessage = {},
+            isLoading = false,
+            isConnected = ConnectivityObserver.Status.Available
+        )
     }
 }
