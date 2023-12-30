@@ -31,6 +31,13 @@ jobs:
           GOOGLE_SERVICES_JSON: ${{ secrets.APP_GOOGLE_JSON }}
         run: echo $GOOGLE_SERVICES_JSON > ./bitapp/google-services.json
 
+      - name: Creating Local.Properties
+        env:
+          FIREBASE_WEB_CLIENT_ID: ${{ secrets.FIREBASE_WEB_CLIENT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "firebaseWebClient=${FIREBASE_WEB_CLIENT_ID}" >> ./local.properties
+          echo "apiKey=${GEMINI_API_KEY}" >> ./local.properties
       - name: Copy Keystore to Project
         run: |
           mkdir -p ./bitapp/keystore
@@ -59,19 +66,19 @@ jobs:
           path: bitapp/build/outputs/bundle/betaRelease/bitapp-beta-release.aab
 
   release:
-    name : Publish APK to GitHub
-    needs : build
-    runs-on : ubuntu-latest
-    steps :
-      - name : Download APK from build
+    name: Publish APK to GitHub
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from build
         uses: actions/download-artifact@v3
         with:
           name: apk
-      - name : Download Bundle from build
+      - name: Download Bundle from build
         uses: actions/download-artifact@v3
         with:
           name: bundle
-      - name : Rename files
+      - name: Rename files
         run: |
           echo ${{ github.ref }}
           v=$(echo ${{ github.ref }} | cut -c 11-)
@@ -81,14 +88,14 @@ jobs:
 
       - name: Upload APK to Release
         env:
-            GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
         uses: softprops/action-gh-release@v1
         with:
-            fail_on_missing: true
-            files: |
-                bitapp-*.apk
-                bitapp-*.aab
-            prerelease: true
-            tag_name: ${{ steps.create_release.outputs.tag_name }}
-            name: ${{ github.event.inputs.releaseName }}
-            token: ${{ secrets.ACCOUNT_TOKEN }}
+          fail_on_missing: true
+          files: |
+            bitapp-*.apk
+            bitapp-*.aab
+          prerelease: true
+          tag_name: ${{ steps.create_release.outputs.tag_name }}
+          name: ${{ github.event.inputs.releaseName }}
+          token: ${{ secrets.ACCOUNT_TOKEN }}
