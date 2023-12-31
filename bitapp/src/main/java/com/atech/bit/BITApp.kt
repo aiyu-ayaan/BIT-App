@@ -12,6 +12,8 @@ import coil.disk.DiskCache
 import coil.memory.MemoryCache
 import coil.request.CachePolicy
 import coil.util.DebugLogger
+import com.atech.bit.ui.activity.main.MainViewModel
+import com.atech.bit.utils.mapWithNotificationEnable
 import com.atech.chat.utils.getChatSetting
 import com.atech.core.usecase.AutoDeleteChatIn30Days
 import com.atech.core.utils.BitAppScope
@@ -25,9 +27,9 @@ import com.atech.core.utils.CHANNEL_ID_UPDATE
 import com.atech.core.utils.CHANNEL_NOTICE
 import com.atech.core.utils.CHANNEL_UPDATE
 import com.atech.core.utils.MAX_APP_OPEN_TIME
-import com.atech.core.utils.MessageTopic
 import com.atech.core.utils.MessageTopicTest
 import com.atech.core.utils.SharePrefKeys
+import com.atech.core.utils.fromJSON
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.HiltAndroidApp
 import io.sanghun.compose.video.cache.VideoPlayerCacheManager
@@ -51,6 +53,14 @@ class BITApp : Application(), ImageLoaderFactory {
     @BitAppScope
     @Inject
     lateinit var bitAppScope: CoroutineScope
+
+    private val appNotificationSetting: MainViewModel.AppNotificationEnable
+        get() = fromJSON(
+            pref.getString(
+                SharePrefKeys.AppNotificationSettings.name, ""
+            )!!, MainViewModel.AppNotificationEnable::class.java
+        ) ?: MainViewModel.AppNotificationEnable()
+
     override fun onCreate() {
         super.onCreate()
         // video cache
@@ -68,8 +78,7 @@ class BITApp : Application(), ImageLoaderFactory {
     }
 
     private fun autoDeleteLogic() {
-        if (getChatSetting(pref).isAutoDeleteChat)
-            bitAppScope.launch {
+        if (getChatSetting(pref).isAutoDeleteChat) bitAppScope.launch {
             autoDeleteChatIn30Days.invoke()
         }
     }
@@ -79,9 +88,14 @@ class BITApp : Application(), ImageLoaderFactory {
             MessageTopicTest.entries.forEach {
                 fcm.subscribeToTopic(it.value)
             }
-        } else MessageTopic.entries.forEach {
-            fcm.subscribeToTopic(it.value)
-        }
+        } else mapWithNotificationEnable(appNotificationSetting).forEach(::notificationSetting)
+    }
+
+    private fun notificationSetting(
+        pair: Pair<String, Boolean>
+    ) = this.apply {
+        if (pair.second) fcm.subscribeToTopic(pair.first)
+        else fcm.unsubscribeFromTopic(pair.first)
     }
 
     private fun getValue(key: String) = pref.getBoolean(key, true)

@@ -42,6 +42,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -65,6 +70,10 @@ fun ChatScreen(
     isLoading: Boolean,
     isConnected: ConnectivityObserver.Status,
     keepChat: Boolean = true,
+    hasLogIn: Boolean = false,
+    hasError: Boolean = false,
+    chanceWithMax: String = "",
+    hasUnlimitedAccess: Boolean = false,
     onEvent: (ChatScreenEvents) -> Unit,
 ) {
     val listState = rememberLazyListState()
@@ -88,7 +97,8 @@ fun ChatScreen(
     Scaffold(modifier = Modifier, topBar = {
         TopAppBar(title = {
             Text(
-                text = stringResource(R.string.tutortalk), color = MaterialTheme.colorScheme.primary
+                text = stringResource(R.string.tutortalk),
+                color = MaterialTheme.colorScheme.primary
             )
         }, navigationIcon = {
             IconButton(
@@ -108,7 +118,8 @@ fun ChatScreen(
                 IconButton(onClick = {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.keep_chat_is_disable), Toast.LENGTH_SHORT
+                        context.getString(R.string.keep_chat_is_disable),
+                        Toast.LENGTH_SHORT
                     ).show()
                 }) {
                     Icon(
@@ -143,6 +154,8 @@ fun ChatScreen(
         })
     }, bottomBar = {
         MessageInput(
+            current = chanceWithMax,
+            hasUnlimitedAccess = hasUnlimitedAccess,
             onSendMessage = { inputText ->
                 onEvent(
                     ChatScreenEvents.OnNewMessage(
@@ -162,6 +175,7 @@ fun ChatScreen(
             onCancelClick = {
                 onEvent(ChatScreenEvents.OnCancelClick)
             },
+            hasLogIn = hasLogIn
         )
     }) { paddingValues ->
         Column(
@@ -170,7 +184,11 @@ fun ChatScreen(
                 .fillMaxWidth()
         ) {
             if (chatUiState.messages.isEmpty()) {
-                EmptyScreen(modifier = Modifier.padding(paddingValues))
+                EmptyScreen(
+                    modifier = Modifier.padding(paddingValues),
+                    hasLogIn = hasLogIn,
+                    hasError = hasError,
+                )
                 return@Scaffold
             }
             ChatList(
@@ -214,7 +232,11 @@ fun ChatScreen(
 }
 
 @Composable
-fun EmptyScreen(modifier: Modifier = Modifier) {
+fun EmptyScreen(
+    modifier: Modifier = Modifier,
+    hasLogIn: Boolean = false,
+    hasError: Boolean = false,
+) {
     Box(
         modifier = modifier
             .padding(16.dp)
@@ -239,6 +261,25 @@ fun EmptyScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 markDown = stringResource(R.string.intro_text),
             )
+            if (!hasLogIn || hasError) {
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 8.dp)
+                        .fillMaxWidth(),
+                    text = if (!hasError) "Please login to use Tutortalk" else
+                        "Something went wrong, please try again later." +
+                                "If the problem persists, try to report issue in the navigation drawer.",
+                    textDecoration = TextDecoration.Underline,
+                    textAlign = TextAlign.Start,
+                    color = if (hasError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                    style = TextStyle(
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Monospace
+                    )
+                )
+            }
         }
 
     }

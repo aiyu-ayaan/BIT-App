@@ -1,6 +1,7 @@
 package com.atech.core.usecase
 
 
+import android.util.Log
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserData
@@ -8,9 +9,12 @@ import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.firebase.firestore.NoticeModel
+import com.atech.core.utils.TAGS
+import com.atech.core.utils.hasSameDay
 import com.atech.core.utils.toJSON
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.snapshots
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,14 +27,19 @@ data class FirebaseLoginUseCase @Inject constructor(
     val checkUserData: CheckUserData,
     val uploadDataToFirebase: UploadDataToFirebase,
     val getUserEncryptedData: GetUserEncryptedData,
-    val getUserSaveDetails: GetUserSaveDetails
+    val getUserSaveDetails: GetUserSaveDetails,
+    val deleteUser: DeleteUserDataFromDatabase,
+    val setChatSettings: SetChatSettings,
+    val getChatSettings: GetChatSettings,
+    val checkHasUnlimitedAccess: CheckHasUnlimitedAccess
 )
 
 
 data class FirebaseCase @Inject constructor(
     val getEvent: GetEvent,
     val getNotice: GetNotice,
-    val getAttach: GetAttach
+    val getAttach: GetAttach,
+    val getChatSettings: GetChatSettings
 )
 
 enum class Db(val value: String) {
@@ -79,9 +88,10 @@ class AddUser @Inject constructor(
         user: UserModel
     ): Pair<String, Exception?> = try {
         val ref = db.collection(Db.User.value)
-        ref.document(user.uid!!).set(user).await()
+        ref.document(user.uid!!).set(user, SetOptions.merge()).await()
         Pair(user.uid!!, null)
     } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "invoke: AddUser $e")
         Pair("", e)
     }
 }
@@ -103,6 +113,7 @@ class CheckUserData @Inject constructor(
             Pair(false, null)
         }
     } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "invoke: CheckUserData $e")
         Pair(null, e)
     }
 }
@@ -153,8 +164,8 @@ class UploadDataToFirebase @Inject constructor(
         attendance: List<AttendanceUploadModel>,
     ): Exception? = try {
         val json = toJSON(attendance)
-        db.collection(Db.User.value).document(uid).collection(Db.Data.value)
-            .document(uid).update(mapOf("attendance" to json))
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid)
+            .update(mapOf("attendance" to json))
         updateSyncTime(uid)
         null
     } catch (e: Exception) {
@@ -165,32 +176,142 @@ class UploadDataToFirebase @Inject constructor(
 class GetUserEncryptedData @Inject constructor(
     private val db: FirebaseFirestore
 ) {
-    suspend operator fun invoke(uid: String): Pair<UserModel?, Exception?> =
-        try {
-            val snapShot =
-                db.collection(Db.User.value).document(uid).get()
-                    .await()
-            if (!snapShot.exists()) {
-                null to Exception("No data found")
-            } else {
-                val model = snapShot.toObject(UserModel::class.java)
-                model to null
-            }
-        } catch (e: Exception) {
-            null to e
+    suspend operator fun invoke(uid: String): Pair<UserModel?, Exception?> = try {
+        val snapShot = db.collection(Db.User.value).document(uid).get().await()
+        if (!snapShot.exists()) {
+            null to Exception("No data found")
+        } else {
+            val model = snapShot.toObject(UserModel::class.java)
+            model to null
         }
+    } catch (e: Exception) {
+        null to e
+    }
 }
 
 data class GetUserSaveDetails @Inject constructor(
     private val db: FirebaseFirestore
 ) {
-    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> =
+    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> = try {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).get()
+            .await().toObject(UserData::class.java) to null
+    } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "invoke: GetUserSaveDetails $e")
+        null to e
+    }
+}
+
+data class DeleteUserDataFromDatabase @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend operator fun invoke(uid: String): Exception? = try {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).delete()
+            .await()
+        db.collection(Db.User.value).document(uid).delete().await()
+        null
+    } catch (e: Exception) {
+        e
+    }
+}
+
+data class SetChatSettings @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend fun updateChatEnable(
+        uid: String,
+        isChatEnable: Boolean,
+    ) =
         try {
-            db.collection(Db.User.value).document(uid)
-                .collection(Db.Data.value)
-                .document(uid).get().await()
-                .toObject(UserData::class.java) to null
+            db.collection(Db.User.value).document(uid).update(
+                mapOf(
+                    "isChatEnable" to isChatEnable
+                )
+            ).await()
+            null
         } catch (e: Exception) {
-            null to e
+            e
         }
+
+    suspend fun updateLastChat(
+        uid: String,
+    ) =
+        try {
+            db.collection(Db.User.value).document(uid).get()
+                .await().let {
+                    val lastUpdate = it.get("lastChat") as Long?
+                    if (lastUpdate == null) {
+                        insertLastChat(uid, System.currentTimeMillis())
+                        return@let
+                    }
+                    val currentTime = System.currentTimeMillis()
+                    if (!(lastUpdate hasSameDay currentTime)) {
+                        insertLastChat(uid, currentTime)
+                        updateCurrentChatNumber(uid, 0)
+                    }
+                }
+            null
+        } catch (e: Exception) {
+            e
+        }
+
+    private suspend fun insertLastChat(uid: String, lastChat: Long) {
+        db.collection(Db.User.value).document(uid).update(
+            mapOf(
+                "lastChat" to lastChat
+            )
+        ).await()
+    }
+
+    suspend fun updateCurrentChatNumber(
+        uid: String,
+        currentChatNumber: Int,
+    ) =
+        try {
+            db.collection(Db.User.value).document(uid).update(
+                mapOf(
+                    "currentChatNumber" to currentChatNumber
+                )
+            ).await()
+            null
+        } catch (e: Exception) {
+            e
+        }
+}
+
+data class GetChatSettings @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    /**
+     * @return Triple<Boolean, Long, Int>? -> isChatEnable, lastChat, currentChatNumber
+     * @return Exception? -> Exception
+     */
+    suspend operator fun invoke(uid: String): Pair<Triple<Boolean, Long, Int>?, Exception?> = try {
+        val snapShot = db.collection(Db.User.value).document(uid).get().await()
+        if (!snapShot.exists()) {
+            null to Exception("No data found")
+        } else {
+            val isChatEnable = (snapShot.get("isChatEnable") ?: false) as Boolean
+            val lastChat = (snapShot.get("lastChat") ?: System.currentTimeMillis()) as Long
+            val currentChatNumber = (snapShot.get("currentChatNumber") ?: 0) as Number
+            Triple(isChatEnable, lastChat, currentChatNumber.toInt()) to null
+        }
+    } catch (e: Exception) {
+        null to e
+    }
+}
+
+data class CheckHasUnlimitedAccess @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend operator fun invoke(uid: String): Boolean = try {
+        val snapShot = db.collection(Db.User.value).document(uid).get().await()
+        if (!snapShot.exists()) {
+            false
+        } else {
+            val isUnlimited = (snapShot.get("isUnlimited") ?: false) as Boolean
+            isUnlimited
+        }
+    } catch (e: Exception) {
+        false
+    }
 }

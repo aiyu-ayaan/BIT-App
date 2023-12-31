@@ -49,11 +49,14 @@ val drawerColor: Color
 @Composable
 fun MessageInput(
     onSendMessage: (String) -> Unit,
+    hasUnlimitedAccess: Boolean = false,
     resetScroll: () -> Unit = {},
     isLoading: Boolean,
     onCancelClick: () -> Unit = {},
     isConnected: ConnectivityObserver.Status =
-        ConnectivityObserver.Status.Available
+        ConnectivityObserver.Status.Available,
+    current: String = "1/20",
+    hasLogIn: Boolean = true
 ) {
     var userMessage by rememberSaveable { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -71,6 +74,10 @@ fun MessageInput(
                         strokeWidth = 2.dp,
                         strokeCap = StrokeCap.Round
                     )
+                }
+            } else if (userMessage.isBlank() && !hasUnlimitedAccess) {
+                {
+                    Text(text = current)
                 }
             } else if (userMessage.isNotBlank()) {
                 {
@@ -104,7 +111,8 @@ fun MessageInput(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = drawerColor,
                 unfocusedContainerColor = drawerColor,
-            )
+            ),
+            enabled = hasLogIn
         )
         val isEnable = (userMessage.isNotBlank() || isLoading) &&
                 isConnected == ConnectivityObserver.Status.Available

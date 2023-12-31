@@ -10,6 +10,11 @@ fun Date.compareDifferenceInDays(date: Date): Int {
     return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS).toInt()
 }
 
+infix fun Long.hasSameDay(date: Long): Boolean {
+    val diff = this - date
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) == 0L
+}
+
 @SuppressLint("SimpleDateFormat")
 fun Long.convertLongToTime(pattern: String): String = SimpleDateFormat(pattern).run {
     val date = Date(this@convertLongToTime)

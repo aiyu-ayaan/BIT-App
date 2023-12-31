@@ -1,6 +1,7 @@
 package com.atech.bit.ui.screens.login.screen.login
 
 import android.app.Activity.RESULT_OK
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
@@ -57,6 +58,7 @@ import com.atech.bit.ui.theme.AppLogo
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.image_view_log_in_size
+import com.atech.core.utils.TAGS
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -100,10 +102,11 @@ fun LoginScreen(
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
         }
     }
-    LaunchedEffect(key1 = logInState.userToken) {
+    LaunchedEffect(key1 = logInState) {
         logInState.userToken?.let { token ->
             logInMessage = "Signing In... 🔃"
             viewModel.logInUseCase.logIn(token).let { (hasData, ex) ->
+                Log.d(TAGS.BIT_DEBUG.name, "LoginScreen: $hasData , $ex")
                 if (ex != null) {
                     viewModel.onEvent(
                         LogInScreenEvents.OnSignInResult(

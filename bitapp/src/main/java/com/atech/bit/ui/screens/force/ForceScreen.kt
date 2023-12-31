@@ -1,7 +1,6 @@
 package com.atech.bit.ui.screens.force
 
 import android.app.Activity
-import android.util.Log
 import androidx.annotation.Keep
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -13,7 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.ThumbUp
@@ -31,7 +30,6 @@ import com.atech.bit.R
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.grid_1
 import com.atech.core.utils.openLinks
-import com.atech.core.utils.toJSON
 
 @Composable
 fun ForceScreen(
@@ -40,12 +38,11 @@ fun ForceScreen(
         title = "About App",
         description = "This app is not available in your country",
         link = "https://play.google.com/store/apps/details?id=com.atech.bit",
-        minVersion = -1,
+        maxVersion = -1,
         isEnable = true
     )
 ) {
     val context = LocalContext.current
-    Log.d("AAA", "ForceScreen: ${toJSON(model)}")
     Column(
         modifier = modifier
             .fillMaxSize(),
@@ -60,14 +57,14 @@ fun ForceScreen(
                 .height(200.dp)
         )
         Text(
-            text = "About App",
+            text = model.title,
             modifier = Modifier,
             style = MaterialTheme.typography.headlineSmall,
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Center
         )
         Text(
-            text = "This app is not available in your country",
+            text = model.description,
             modifier = Modifier,
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
@@ -88,7 +85,7 @@ fun ForceScreen(
                     contentDescription = null,
                 )
                 Spacer(modifier = Modifier.width(grid_1))
-                androidx.compose.material3.Text(text = "Ok")
+                Text(text = "Ok")
             }
             Spacer(modifier = modifier.width(grid_1))
             if (model.link != null) {
@@ -100,7 +97,7 @@ fun ForceScreen(
                         contentDescription = null,
                     )
                     Spacer(modifier = Modifier.width(grid_1))
-                    androidx.compose.material3.Text(text = "Open")
+                    Text(text = "Open")
                 }
             }
         }
@@ -113,7 +110,7 @@ data class ForceScreenModel(
     val description: String ="",
     val link: String? = null,
     val isEnable: Boolean = false,
-    val minVersion: Int = -1
+    val maxVersion: Int = -1
 )
 
 @Preview(showBackground = true)

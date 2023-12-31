@@ -13,6 +13,7 @@ import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.Encryption.decryptText
 import com.atech.core.utils.Encryption.encryptText
 import com.atech.core.utils.Encryption.getCryptore
+import com.atech.core.utils.TAGS
 import com.atech.core.utils.UpdateDataType
 import com.atech.core.utils.fromJSON
 import com.google.firebase.auth.FirebaseAuth
@@ -32,7 +33,9 @@ data class AuthUseCases @Inject constructor(
     val getUserDataFromAuth: GetUserDataFromAuth,
     val getUserSavedData: GetUserDetails,
     val getUserFromDatabase: GetUserFromDatabase,
-    val signOut: SignOut
+    val signOut: SignOut,
+    val deleteUser: DeleteUser,
+    val chats: Chats,
 )
 
 data class LogIn @Inject constructor(
@@ -66,6 +69,7 @@ data class LogIn @Inject constructor(
                 userId, encryptedUserName, encryptedUserEmail, encryptedUserPhoto
             )
             firebaseCases.addUser(userModel).let { (uid, exception) ->
+                Log.d(TAGS.BIT_DEBUG.name, "LoginScreen: $uid")
                 dataStoreCases.clearAll.invoke()
                 attendanceDao.deleteALl()
                 if (exception != null) Pair(false, exception)
@@ -127,8 +131,7 @@ data class PerformRestore @Inject constructor(
     private val syllabusDao: SyllabusDao,
 ) {
     suspend operator fun invoke(
-        uid: String,
-        onCompletion: () -> Unit
+        uid: String, onCompletion: () -> Unit
     ): Exception? = try {
         val (user, exception) = firebaseCases.getUserSaveDetails(uid)
         exception.also { onCompletion.invoke() } ?: if (user == null) {
@@ -200,14 +203,13 @@ data class GetUserFromDatabase @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
     suspend operator fun invoke(): Pair<UserModel?, Exception?> = try {
-        firebaseCases.getUserEncryptedData.invoke(auth.uid!!)
-            .let { (user, ex) ->
-                user?.let { enUser ->
-                    convertEncryptedData(auth.uid!!, enUser) to null
-                } ?: run {
-                    null to ex
-                }
+        firebaseCases.getUserEncryptedData.invoke(auth.uid!!).let { (user, ex) ->
+            user?.let { enUser ->
+                convertEncryptedData(auth.uid!!, enUser) to null
+            } ?: run {
+                null to ex
             }
+        }
     } catch (e: Exception) {
         null to e
     }
@@ -228,15 +230,13 @@ data class GetUserFromDatabase @Inject constructor(
 }
 
 data class GetUserDetails @Inject constructor(
-    private val auth: FirebaseAuth,
-    private val case: FirebaseLoginUseCase
+    private val auth: FirebaseAuth, private val case: FirebaseLoginUseCase
 ) {
-    suspend operator fun invoke(): Pair<UserData?, Exception?> =
-        try {
-            case.getUserSaveDetails.invoke(auth.currentUser!!.uid)
-        } catch (e: Exception) {
-            null to e
-        }
+    suspend operator fun invoke(): Pair<UserData?, Exception?> = try {
+        case.getUserSaveDetails.invoke(auth.currentUser!!.uid)
+    } catch (e: Exception) {
+        null to e
+    }
 }
 
 data class SignOut @Inject constructor(
@@ -247,5 +247,69 @@ data class SignOut @Inject constructor(
     ) {
         auth.signOut()
         action.invoke()
+    }
+}
+
+data class DeleteUser @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseLoginUseCase,
+) {
+    suspend operator fun invoke(): Exception? = try {
+        firebaseCases.deleteUser(
+            auth.currentUser!!.uid
+        )
+    } catch (e: Exception) {
+        e
+    }
+}
+
+data class Chats @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val getChatSettings: GetChatSettings,
+    private val setChatSettings: SetChatSettings,
+    private val hasUnlimitedAccess: CheckHasUnlimitedAccess
+) {
+    suspend fun getChatSettings(
+    ): Pair<Triple<Boolean, Long, Int>?, Exception?> = try {
+        getChatSettings.invoke(auth.currentUser!!.uid)
+    } catch (e: Exception) {
+        null to e
+    }
+
+    suspend fun updateChatEnable(
+        isChatEnable: Boolean,
+    ): Exception? = try {
+        setChatSettings.updateChatEnable(
+            auth.currentUser!!.uid, isChatEnable
+        )
+    } catch (e: Exception) {
+        e
+    }
+
+    suspend fun updateLastChat(): Exception? = try {
+        setChatSettings.updateLastChat(
+            auth.currentUser!!.uid
+        )
+    } catch (e: Exception) {
+        e
+    }
+
+    suspend fun updateCurrentChatNumber(
+        currentChatNumber: Int,
+    ): Exception? = try {
+        setChatSettings.updateCurrentChatNumber(
+            auth.currentUser!!.uid, currentChatNumber
+        )
+    } catch (e: Exception) {
+        e
+    }
+
+    suspend fun checkUnlimitedAccess(
+    ): Boolean = try {
+        hasUnlimitedAccess.invoke(
+            auth.currentUser!!.uid
+        )
+    } catch (e: Exception) {
+        false
     }
 }

@@ -55,7 +55,10 @@ fun TopLevelNavigationGraph(
         animatedComposable(
             route = ParentScreenRoutes.ForceScreen.route
         ) {
-            ForceScreen()
+            ForceScreen(
+                model = communicatorViewModel
+                    .forceScreenModel.value
+            )
         }
     }
 }
@@ -214,7 +217,8 @@ fun AppNavigationGraph(
         }
         aboutUsNavGraph(navHostController = navHostController)
         chatNavGraph(
-            navHostController = navHostController
+            navHostController = navHostController,
+            communicatorViewModel = communicatorViewModel,
         )
     }
 }

@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AppSettingsAlt
+import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.LightMode
@@ -109,6 +110,7 @@ fun SettingScreen(
             var isThemeChangeVisible by rememberSaveable {
                 mutableStateOf(false)
             }
+            val isDarkTheme = isSystemInDarkTheme()
             PreferenceItemBorder(title = stringResource(R.string.dark_mode),
                 description = if (state.isDarkTheme.getDarkEnable()) stringResource(R.string.on)
                 else stringResource(
@@ -119,7 +121,10 @@ fun SettingScreen(
                 else Icons.Outlined.LightMode,
                 onChecked = {
                     viewModel.onThemeChange(
-                        saveTheme(state)
+                        saveTheme(
+                            state,
+                            isDarkTheme
+                        )
                     )
                 },
                 onClick = {
@@ -147,23 +152,64 @@ fun SettingScreen(
                 }
             }
             Spacer(modifier = Modifier.height(grid_2))
-            SettingTitle(text = "App Notification")
+            val (notice, event, app) = viewModel.appNotification.value
+            SettingTitle(text = stringResource(R.string.app_notification))
             PreferenceItem(
-                title = "Notice",
-                description = "All college related notification",
+                title = stringResource(id = R.string.notice),
+                description = stringResource(R.string.all_college_related_notification),
                 icon = Icons.Outlined.NotificationImportant,
+                isChecked = notice,
+                onClick = {
+                    viewModel
+                        .setAppNotification(
+                            viewModel.appNotification.value.copy(
+                                notice = !notice
+                            )
+                        )
+                }
             )
             Spacer(modifier = Modifier.height(grid_1))
             PreferenceItem(
-                title = "Event",
-                description = "All Society related notification",
+                title = stringResource(R.string.event),
+                description = stringResource(R.string.all_society_related_notification),
                 icon = Icons.Outlined.EmojiEvents,
+                isChecked = event,
+                onClick = {
+                    viewModel
+                        .setAppNotification(
+                            viewModel.appNotification.value.copy(
+                                event = !event
+                            )
+                        )
+                }
             )
             Spacer(modifier = Modifier.height(grid_1))
             PreferenceItem(
-                title = "App",
-                description = "All App related notification",
+                title = stringResource(R.string.app),
+                description = stringResource(R.string.all_app_related_notification),
                 icon = Icons.Outlined.AppSettingsAlt,
+                isChecked = app,
+                onClick = {
+                    viewModel
+                        .setAppNotification(
+                            viewModel.appNotification.value.copy(
+                                app = !app
+                            )
+                        )
+                }
+            )
+            Spacer(modifier = Modifier.height(grid_2))
+            SettingTitle(text = stringResource(R.string.experimental))
+            PreferenceItem(
+                title = stringResource(id = com.atech.chat.R.string.tutortalk),
+                description = "All new Chat feature powered by Gemini Pro",
+                icon = Icons.Outlined.Chat,
+                isChecked = viewModel.isChatScreenEnable.value,
+                onClick = {
+                    viewModel.onEvent(
+                        MainViewModel.SharedEvents.IsChatScreenEnable
+                    )
+                }
             )
             BottomPadding()
         }
@@ -203,12 +249,13 @@ fun ThemeRadioButton(
 }
 
 
-private fun saveTheme(state: ThemeState) = ThemeEvent.ChangeTheme(
+private fun saveTheme(state: ThemeState, isDarkTheme: Boolean) = ThemeEvent.ChangeTheme(
     state.copy(
         isDarkTheme = when (state.isDarkTheme) {
             ThemeMode.LIGHT -> ThemeMode.DARK
             ThemeMode.DARK -> ThemeMode.LIGHT
-            ThemeMode.SYSTEM -> ThemeMode.LIGHT
+            ThemeMode.SYSTEM -> if (isDarkTheme) ThemeMode.LIGHT
+            else ThemeMode.DARK
         }
     )
 )

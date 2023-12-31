@@ -4,6 +4,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
+import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.utils.animatedComposable
 import com.atech.bit.utils.fadeThroughComposable
 import com.atech.bit.utils.sharedViewModel
@@ -20,7 +21,8 @@ sealed class ChatScreens(val route: String) {
 }
 
 fun NavGraphBuilder.chatNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    communicatorViewModel: MainViewModel
 ) {
     navigation(
         startDestination = ChatScreens.ChatScreen.route, route = RouteName.CHAT.value
@@ -29,6 +31,11 @@ fun NavGraphBuilder.chatNavGraph(
             route = ChatScreens.ChatScreen.route
         ) {
             val viewModel = it.sharedViewModel<ChatViewModel>(navController = navHostController)
+            viewModel.setAction {
+                communicatorViewModel.onChatEvent(
+                    MainViewModel.ChatsEvent.IncreaseChance
+                )
+            }
             ChatScreen(
                 navController = navHostController,
                 wrapLine = viewModel.chatSettingUi.value.isWrapWord,
@@ -36,6 +43,10 @@ fun NavGraphBuilder.chatNavGraph(
                 chatUiState = viewModel.uiState.value,
                 isLoading = viewModel.isLoading.value,
                 keepChat = viewModel.chatSettingUi.value.isKeepChat,
+                hasLogIn = communicatorViewModel.canSendChatMessage.value,
+                chanceWithMax = communicatorViewModel.chanceWithMax.value,
+                hasError = communicatorViewModel.hasError.value,
+                hasUnlimitedAccess = communicatorViewModel.hasUnlimitedAccess.value,
                 onEvent = viewModel::onEvent
             )
         }

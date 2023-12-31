@@ -27,7 +27,7 @@ class ChatViewModel @Inject constructor(
     private val case: ChatUseCases,
     private val mapper: ChatMessageToModelMapper,
     connectivityObserver: ConnectivityObserver,
-    private val pref: SharedPreferences
+    private val pref: SharedPreferences,
 ) : ViewModel() {
 
     val connectivity = connectivityObserver.observe()
@@ -43,6 +43,12 @@ class ChatViewModel @Inject constructor(
 
     private val _chatSettingUi = mutableStateOf(getChatSetting(pref))
     val chatSettingUi: State<ChatSettingUiState> get() = _chatSettingUi
+
+    private var incrementChance: () -> Unit = {}
+
+    fun setAction(action: () -> Unit) {
+        this.incrementChance = action
+    }
 
     init {
         getChat()
@@ -128,6 +134,7 @@ class ChatViewModel @Inject constructor(
                     _uiState.value.addMessage(
                         modelRes
                     )
+                    incrementChance.invoke()
                 }
                 if (_chatSettingUi.value.isKeepChat)
                     getChat()

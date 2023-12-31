@@ -37,6 +37,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -68,7 +69,6 @@ fun ProfileDialog(
     modifier: Modifier = Modifier,
     viewModel: MainViewModel,
     onDismissRequest: () -> Unit = {},
-    onDeleteClick: () -> Unit = {},
 ) {
     val userModel by viewModel.useModel
     val userData by viewModel.userData
@@ -84,15 +84,22 @@ fun ProfileDialog(
         viewModel.fetchAccountDetail()
     }
     AlertDialog(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         onDismissRequest = onDismissRequest,
     ) {
-        ProfileDialogCompose(
-            userModel = userModel,
+        ProfileDialogCompose(userModel = userModel,
             userData = userData,
             onCloseClick = onDismissRequest,
-            onDeleteClick = onDeleteClick,
+            onDeleteClick = {
+                viewModel.deleteUser {
+                    googleAuthUiClient.signOut {
+                        viewModel.onEvent(
+                            MainViewModel.SharedEvents.PreformSignOut
+                        )
+                    }
+                }
+                onDismissRequest.invoke()
+            },
             onSignOutClick = {
                 scope.launch {
                     googleAuthUiClient.signOut {
@@ -102,8 +109,7 @@ fun ProfileDialog(
                     }
                     onDismissRequest.invoke()
                 }
-            }
-        )
+            })
     }
 }
 
@@ -117,12 +123,12 @@ fun ProfileDialogCompose(
     onDeleteClick: () -> Unit = {},
 ) {
     var isLogOutDialogVisible by rememberSaveable { mutableStateOf(false) }
+    var isDeleteUserDialogVisible by rememberSaveable { mutableStateOf(false) }
     Column(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = AlertDialogDefaults.containerColor,
-                shape = AlertDialogDefaults.shape
+                color = AlertDialogDefaults.containerColor, shape = AlertDialogDefaults.shape
             )
     ) {
         Box(
@@ -135,8 +141,7 @@ fun ProfileDialogCompose(
             )
             Text(
                 text = stringResource(id = R.string.app_name),
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center,
                 color = MaterialTheme.colorScheme.onSurface
@@ -146,17 +151,13 @@ fun ProfileDialogCompose(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    vertical = grid_2,
-                    horizontal = grid_1
-                ),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.dividerOrCardColor
-                    .copy(alpha = 0.1f)
+                    vertical = grid_2, horizontal = grid_1
+                ), colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.dividerOrCardColor.copy(alpha = 0.1f)
             )
         ) {
             Column(
-                modifier = Modifier.padding(grid_1),
-                horizontalAlignment = Alignment.Start
+                modifier = Modifier.padding(grid_1), horizontalAlignment = Alignment.Start
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -198,8 +199,7 @@ fun ProfileDialogCompose(
                         )
                     })
                 val cgpa = if (userData.cgpa != null) fromJSON(
-                    userData.cgpa!!,
-                    Cgpa::class.java
+                    userData.cgpa!!, Cgpa::class.java
                 )!!.cgpa.let {
                     if (it == 0.0 || it == 1.0) ""
                     else it.toString()
@@ -244,7 +244,9 @@ fun ProfileDialogCompose(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { onDeleteClick.invoke() },
+                        .clickable {
+                            isDeleteUserDialogVisible = true
+                        },
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
@@ -261,8 +263,16 @@ fun ProfileDialogCompose(
     }
     if (isLogOutDialogVisible) {
         LogOutAlterDialog(
-            onDismissRequest = { isLogOutDialogVisible = false },
-            onPositiveClick = onSignOutClick
+            onDismissRequest = { isLogOutDialogVisible = false }, onPositiveClick = onSignOutClick
+        )
+    }
+    if (isDeleteUserDialogVisible) {
+        LogOutAlterDialog(
+            onDismissRequest = { isDeleteUserDialogVisible = false },
+            onPositiveClick = onDeleteClick,
+            title = R.string.delete_my_account,
+            text = R.string.really_want_to_delete_account,
+            icon = Icons.Outlined.DeleteForever
         )
     }
 }
@@ -270,20 +280,23 @@ fun ProfileDialogCompose(
 @Composable
 fun LogOutAlterDialog(
     modifier: Modifier = Modifier,
+    title: Int = R.string.sign_out,
+    text: Int = R.string.really_want_to_sign_out,
+    icon: ImageVector = Icons.Outlined.Warning,
     onDismissRequest: () -> Unit = {},
     onPositiveClick: () -> Unit = {},
 ) {
     AlertDialog(
         modifier = modifier,
         title = {
-            Text(text = stringResource(R.string.sign_out))
+            Text(text = stringResource(title))
         },
         text = {
-            Text(text = stringResource(R.string.really_want_to_sign_out))
+            Text(text = stringResource(text))
         },
         icon = {
             Icon(
-                imageVector = Icons.Outlined.Warning,
+                imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary
             )
@@ -293,8 +306,7 @@ fun LogOutAlterDialog(
             TextButton(onClick = {
                 onPositiveClick.invoke()
                 onDismissRequest.invoke()
-            }
-            ) {
+            }) {
                 Text(text = stringResource(R.string.yes))
             }
         },
@@ -313,6 +325,5 @@ fun LogOutAlterDialog(
 @Preview(wallpaper = Wallpapers.RED_DOMINATED_EXAMPLE, showBackground = true)
 @Composable
 private fun ProfileDialogComposePreview() {
-    BITAppTheme {
-    }
+    BITAppTheme {}
 }
