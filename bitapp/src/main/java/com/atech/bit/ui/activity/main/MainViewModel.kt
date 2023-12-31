@@ -91,7 +91,7 @@ class MainViewModel @Inject constructor(
 
     private val _currentTry = mutableIntStateOf(0)
 
-    private val _maxChatLimit = mutableIntStateOf(1)
+    private val _maxChatLimit = mutableIntStateOf(0)
     private val _lastChat = mutableLongStateOf(0L)
     private val _chanceWithMax = mutableStateOf("${_currentTry.intValue}/${_maxChatLimit.intValue}")
     val chanceWithMax: State<String> get() = _chanceWithMax
@@ -99,6 +99,8 @@ class MainViewModel @Inject constructor(
     private val _canSendChatMessage = mutableStateOf(true)
     val canSendChatMessage: State<Boolean> get() = _canSendChatMessage
 
+    private val _hasError = mutableStateOf(false)
+    val hasError: State<Boolean> get() = _hasError
 
     fun onDismissRequest() {
         _isShowAlertDialog.value = false
@@ -116,14 +118,29 @@ class MainViewModel @Inject constructor(
 
     fun fetchChatSettings() {
         viewModelScope.launch {
-            authUseCases.chats.updateLastChat()
-            authUseCases.chats.getChatSettings().first?.let {
-                _isChatScreenEnable.value = it.first
-                _lastChat.value = it.second
-                _currentTry.intValue = it.third
-                _canSendChatMessage.value =
-                    (it.third <= _maxChatLimit.intValue && it.second hasSameDay System.currentTimeMillis())
-                            && authUseCases.hasLogIn.invoke()
+            authUseCases.chats.updateLastChat().let {
+                if (it != null) {
+                    _canSendChatMessage.value = false
+                    _hasError.value = true
+                    Log.e(TAGS.BIT_ERROR.name, "fetchChatSettings: $it")
+                    return@launch
+                }
+            }
+            authUseCases.chats.getChatSettings().let { (first, second) ->
+                if (second != null) {
+                    _canSendChatMessage.value = false
+                    _hasError.value = true
+                    Log.e(TAGS.BIT_ERROR.name, "fetchChatSettings: $second")
+                    return@launch
+                }
+                first?.let {
+                    _isChatScreenEnable.value = it.first
+                    _lastChat.value = it.second
+                    _currentTry.intValue = it.third
+                    _chanceWithMax.value = "${_currentTry.intValue}/${_maxChatLimit.intValue}"
+                    _canSendChatMessage.value =
+                        (it.third < _maxChatLimit.intValue && it.second hasSameDay System.currentTimeMillis()) && authUseCases.hasLogIn.invoke()
+                }
             }
         }
     }
@@ -192,7 +209,7 @@ class MainViewModel @Inject constructor(
                 }
             }
             conf.getLong(RemoteConfigKeys.MAX_CHAT_LIMIT.value).let {
-//                _maxChatLimit.intValue = it.toInt() TODO : Remove me
+                _maxChatLimit.intValue = it.toInt()
             }
             action.invoke(
                 attendanceDao,
@@ -323,14 +340,13 @@ class MainViewModel @Inject constructor(
         when (event) {
             ChatsEvent.IncreaseChance -> {
                 _currentTry.value += 1
+
                 _chanceWithMax.value = "${_currentTry.intValue}/${_maxChatLimit.intValue}"
                 viewModelScope.launch {
                     authUseCases.chats.updateCurrentChatNumber(_currentTry.intValue)
                 }
                 _canSendChatMessage.value =
-                    (_currentTry.intValue <= _maxChatLimit.intValue &&
-                            _lastChat.value hasSameDay System.currentTimeMillis())
-                            && authUseCases.hasLogIn.invoke()
+                    (_currentTry.intValue < _maxChatLimit.intValue && _lastChat.value hasSameDay System.currentTimeMillis()) && authUseCases.hasLogIn.invoke()
             }
         }
     }

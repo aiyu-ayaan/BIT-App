@@ -100,10 +100,12 @@ fun MainScreen(
     val drawerSate = rememberDrawerState(initialValue = DrawerValue.Closed)
     val toggleDrawerState by communicatorViewModel.toggleDrawerState
     val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect (
-        communicatorViewModel.checkHasLogIn()
-    ){
-        communicatorViewModel.fetchChatSettings()
+    LaunchedEffect(
+        key1 = communicatorViewModel.isChatScreenEnable.value,
+        key2 = communicatorViewModel.checkHasLogIn()
+    ) {
+        if (communicatorViewModel.checkHasLogIn() && communicatorViewModel.isChatScreenEnable.value)
+            communicatorViewModel.fetchChatSettings()
     }
     LaunchedEffect(toggleDrawerState) {
         toggleDrawerState?.let {
@@ -354,8 +356,7 @@ fun NavBar(
             unSelectedIcon = Icons.Outlined.Chat,
             route = Screen.ChatScreen.route,
             isVisible = isChatScreenVisible
-        ),
-        NavBarModel(
+        ), NavBarModel(
             title = R.string.course,
             selectedIcon = Icons.Rounded.CollectionsBookmark,
             unSelectedIcon = Icons.Outlined.CollectionsBookmark,
@@ -371,37 +372,28 @@ fun NavBar(
     val currentDestination = navBackStackEntry?.destination
     val isTheir = listOfFragmentsWithBottomAppBar.any { it == currentDestination?.route }
     val density = LocalDensity.current
-    AnimatedVisibility(
-        visible = isTheir && !isSearchBarActive,
-        enter = slideInVertically {
-            with(density) { -40.dp.roundToPx() }
-        } + expandVertically(
-            expandFrom = Alignment.Top
-        ) + fadeIn(
-            initialAlpha = 0.3f
-        ),
-        exit = slideOutVertically() + shrinkVertically() + fadeOut()
-    ) {
+    AnimatedVisibility(visible = isTheir && !isSearchBarActive, enter = slideInVertically {
+        with(density) { -40.dp.roundToPx() }
+    } + expandVertically(
+        expandFrom = Alignment.Top
+    ) + fadeIn(
+        initialAlpha = 0.3f
+    ), exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
         NavigationBar(
-            modifier = modifier.fillMaxWidth(),
-            contentColor = Color(
+            modifier = modifier.fillMaxWidth(), contentColor = Color(
                 ColorUtils.blendARGB(
-                    MaterialTheme.colorScheme.surface.toArgb(),
-                    Color.Gray.toArgb(),
-                    .6f
+                    MaterialTheme.colorScheme.surface.toArgb(), Color.Gray.toArgb(), .6f
                 )
-            ),
-            windowInsets = WindowInsets.navigationBars
+            ), windowInsets = WindowInsets.navigationBars
         ) {
-            navBarItems.filter { it.isVisible }
-                .forEachIndexed { index, navBarModel ->
-                    AddItem(
-                        screen = navBarModel,
-                        currentDestination = currentDestination,
-                        index = index,
-                        navController = navController
-                    )
-                }
+            navBarItems.filter { it.isVisible }.forEachIndexed { index, navBarModel ->
+                AddItem(
+                    screen = navBarModel,
+                    currentDestination = currentDestination,
+                    index = index,
+                    navController = navController
+                )
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.atech.core.usecase
 
 
+import android.util.Log
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserData
@@ -240,6 +241,7 @@ data class SetChatSettings @Inject constructor(
                     val currentTime = System.currentTimeMillis()
                     if (!(lastUpdate hasSameDay currentTime)) {
                         insertLastChat(uid, currentTime)
+                        updateCurrentChatNumber(uid, 0)
                     }
                 }
             null
@@ -283,10 +285,10 @@ data class GetChatSettings @Inject constructor(
         if (!snapShot.exists()) {
             null to Exception("No data found")
         } else {
-            val isChatEnable = snapShot.get("isChatEnable") ?: false
-            val lastChat = snapShot.get("lastChat") ?: System.currentTimeMillis()
-            val currentChatNumber = snapShot.get("currentChatNumber") ?: 1
-            Triple(isChatEnable as Boolean, lastChat as Long, currentChatNumber as Int) to null
+            val isChatEnable = (snapShot.get("isChatEnable") ?: false) as Boolean
+            val lastChat = (snapShot.get("lastChat") ?: System.currentTimeMillis()) as Long
+            val currentChatNumber = (snapShot.get("currentChatNumber") ?: 0) as Number
+            Triple(isChatEnable, lastChat, currentChatNumber.toInt()) to null
         }
     } catch (e: Exception) {
         null to e

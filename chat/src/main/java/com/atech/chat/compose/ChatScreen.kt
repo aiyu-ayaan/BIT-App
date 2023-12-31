@@ -71,6 +71,7 @@ fun ChatScreen(
     isConnected: ConnectivityObserver.Status,
     keepChat: Boolean = true,
     hasLogIn: Boolean = false,
+    hasError: Boolean = false,
     chanceWithMax: String = "",
     onEvent: (ChatScreenEvents) -> Unit,
 ) {
@@ -181,7 +182,11 @@ fun ChatScreen(
                 .fillMaxWidth()
         ) {
             if (chatUiState.messages.isEmpty()) {
-                EmptyScreen(modifier = Modifier.padding(paddingValues))
+                EmptyScreen(
+                    modifier = Modifier.padding(paddingValues),
+                    hasLogIn = hasLogIn,
+                    hasError = hasError,
+                )
                 return@Scaffold
             }
             ChatList(
@@ -226,7 +231,9 @@ fun ChatScreen(
 
 @Composable
 fun EmptyScreen(
-    modifier: Modifier = Modifier, hasLogIn: Boolean = false
+    modifier: Modifier = Modifier,
+    hasLogIn: Boolean = false,
+    hasError: Boolean = false,
 ) {
     Box(
         modifier = modifier
@@ -252,16 +259,18 @@ fun EmptyScreen(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 markDown = stringResource(R.string.intro_text),
             )
-            if (!hasLogIn) {
+            if (!hasLogIn || hasError) {
                 Text(
                     modifier = Modifier
                         .padding(horizontal = 16.dp)
                         .padding(bottom = 8.dp)
                         .fillMaxWidth(),
-                    text = "Please login to use Tutortalk",
+                    text = if (!hasError) "Please login to use Tutortalk" else
+                        "Something went wrong, please try again later." +
+                                "If the problem persists, try to report issue in the navigation drawer.",
                     textDecoration = TextDecoration.Underline,
                     textAlign = TextAlign.Start,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = if (hasError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
                     style = TextStyle(
                         fontSize = MaterialTheme.typography.labelSmall.fontSize,
                         fontWeight = FontWeight.Bold,

@@ -31,6 +31,11 @@ fun NavGraphBuilder.chatNavGraph(
             route = ChatScreens.ChatScreen.route
         ) {
             val viewModel = it.sharedViewModel<ChatViewModel>(navController = navHostController)
+            viewModel.setAction {
+                communicatorViewModel.onChatEvent(
+                    MainViewModel.ChatsEvent.IncreaseChance
+                )
+            }
             ChatScreen(
                 navController = navHostController,
                 wrapLine = viewModel.chatSettingUi.value.isWrapWord,
@@ -40,6 +45,7 @@ fun NavGraphBuilder.chatNavGraph(
                 keepChat = viewModel.chatSettingUi.value.isKeepChat,
                 hasLogIn = communicatorViewModel.canSendChatMessage.value,
                 chanceWithMax = communicatorViewModel.chanceWithMax.value,
+                hasError = communicatorViewModel.hasError.value,
                 onEvent = viewModel::onEvent
             )
         }

@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.chat.utils.getChatSetting
 import com.atech.chat.utils.saveChatSetting
-import com.atech.core.usecase.AuthUseCases
 import com.atech.core.usecase.ChatUseCases
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.connectivity.ConnectivityObserver
@@ -44,6 +43,12 @@ class ChatViewModel @Inject constructor(
 
     private val _chatSettingUi = mutableStateOf(getChatSetting(pref))
     val chatSettingUi: State<ChatSettingUiState> get() = _chatSettingUi
+
+    private var incrementChance: () -> Unit = {}
+
+    fun setAction(action: () -> Unit) {
+        this.incrementChance = action
+    }
 
     init {
         getChat()
@@ -129,6 +134,7 @@ class ChatViewModel @Inject constructor(
                     _uiState.value.addMessage(
                         modelRes
                     )
+                    incrementChance.invoke()
                 }
                 if (_chatSettingUi.value.isKeepChat)
                     getChat()
