@@ -116,8 +116,17 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private val _hasUnlimitedAccess = mutableStateOf(false)
+    val hasUnlimitedAccess: State<Boolean> get() = _hasUnlimitedAccess
+
+
     fun fetchChatSettings() {
         viewModelScope.launch {
+            if (authUseCases.chats.checkUnlimitedAccess()) {
+                _canSendChatMessage.value = true
+                _hasUnlimitedAccess.value = true
+                return@launch
+            }
             authUseCases.chats.updateLastChat().let {
                 if (it != null) {
                     _canSendChatMessage.value = false
@@ -341,6 +350,9 @@ class MainViewModel @Inject constructor(
     fun onChatEvent(event: ChatsEvent) {
         when (event) {
             ChatsEvent.IncreaseChance -> {
+                if (hasUnlimitedAccess.value) {
+                    return
+                }
                 _currentTry.value += 1
 
                 _chanceWithMax.value = "${_currentTry.intValue}/${_maxChatLimit.intValue}"

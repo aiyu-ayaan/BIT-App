@@ -49,6 +49,7 @@ val drawerColor: Color
 @Composable
 fun MessageInput(
     onSendMessage: (String) -> Unit,
+    hasUnlimitedAccess: Boolean = false,
     resetScroll: () -> Unit = {},
     isLoading: Boolean,
     onCancelClick: () -> Unit = {},
@@ -74,7 +75,7 @@ fun MessageInput(
                         strokeCap = StrokeCap.Round
                     )
                 }
-            } else if (userMessage.isBlank()) {
+            } else if (userMessage.isBlank() && !hasUnlimitedAccess) {
                 {
                     Text(text = current)
                 }

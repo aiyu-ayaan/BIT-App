@@ -30,7 +30,8 @@ data class FirebaseLoginUseCase @Inject constructor(
     val getUserSaveDetails: GetUserSaveDetails,
     val deleteUser: DeleteUserDataFromDatabase,
     val setChatSettings: SetChatSettings,
-    val getChatSettings: GetChatSettings
+    val getChatSettings: GetChatSettings,
+    val checkHasUnlimitedAccess: CheckHasUnlimitedAccess
 )
 
 
@@ -296,5 +297,21 @@ data class GetChatSettings @Inject constructor(
         }
     } catch (e: Exception) {
         null to e
+    }
+}
+
+data class CheckHasUnlimitedAccess @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend operator fun invoke(uid: String): Boolean = try {
+        val snapShot = db.collection(Db.User.value).document(uid).get().await()
+        if (!snapShot.exists()) {
+            false
+        } else {
+            val isUnlimited = (snapShot.get("isUnlimited") ?: false) as Boolean
+            isUnlimited
+        }
+    } catch (e: Exception) {
+        false
     }
 }

@@ -46,6 +46,7 @@ fun NavGraphBuilder.chatNavGraph(
                 hasLogIn = communicatorViewModel.canSendChatMessage.value,
                 chanceWithMax = communicatorViewModel.chanceWithMax.value,
                 hasError = communicatorViewModel.hasError.value,
+                hasUnlimitedAccess = communicatorViewModel.hasUnlimitedAccess.value,
                 onEvent = viewModel::onEvent
             )
         }

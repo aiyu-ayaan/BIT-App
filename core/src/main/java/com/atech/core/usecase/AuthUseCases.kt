@@ -266,7 +266,8 @@ data class DeleteUser @Inject constructor(
 data class Chats @Inject constructor(
     private val auth: FirebaseAuth,
     private val getChatSettings: GetChatSettings,
-    private val setChatSettings: SetChatSettings
+    private val setChatSettings: SetChatSettings,
+    private val hasUnlimitedAccess: CheckHasUnlimitedAccess
 ) {
     suspend fun getChatSettings(
     ): Pair<Triple<Boolean, Long, Int>?, Exception?> = try {
@@ -301,5 +302,14 @@ data class Chats @Inject constructor(
         )
     } catch (e: Exception) {
         e
+    }
+
+    suspend fun checkUnlimitedAccess(
+    ): Boolean = try {
+        hasUnlimitedAccess.invoke(
+            auth.currentUser!!.uid
+        )
+    } catch (e: Exception) {
+        false
     }
 }

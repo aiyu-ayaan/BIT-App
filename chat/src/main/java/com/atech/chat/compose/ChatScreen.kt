@@ -73,6 +73,7 @@ fun ChatScreen(
     hasLogIn: Boolean = false,
     hasError: Boolean = false,
     chanceWithMax: String = "",
+    hasUnlimitedAccess: Boolean = false,
     onEvent: (ChatScreenEvents) -> Unit,
 ) {
     val listState = rememberLazyListState()
@@ -154,6 +155,7 @@ fun ChatScreen(
     }, bottomBar = {
         MessageInput(
             current = chanceWithMax,
+            hasUnlimitedAccess = hasUnlimitedAccess,
             onSendMessage = { inputText ->
                 onEvent(
                     ChatScreenEvents.OnNewMessage(
