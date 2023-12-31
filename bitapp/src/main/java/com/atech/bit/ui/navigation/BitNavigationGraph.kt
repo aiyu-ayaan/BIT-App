@@ -55,7 +55,10 @@ fun TopLevelNavigationGraph(
         animatedComposable(
             route = ParentScreenRoutes.ForceScreen.route
         ) {
-            ForceScreen()
+            ForceScreen(
+                model = communicatorViewModel
+                    .forceScreenModel.value
+            )
         }
     }
 }

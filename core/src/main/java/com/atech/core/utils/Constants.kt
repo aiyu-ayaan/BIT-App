@@ -5,14 +5,10 @@ package com.atech.core.utils
 
 const val cacheSize = (40 * 1024 * 1024).toLong()
 
-enum class AppTheme { Light, Dark, Sys }
 enum class TAGS {
     BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE
 }
 
-enum class RowSubjectAdapterRequest {
-    FROM_ATTENDANCE, FROM_HOME
-}
 
 enum class RemoteConfigKeys(val value: String) {
     CourseDetails("course_details"),
@@ -72,15 +68,7 @@ const val MAX_TIMES: Int = 10
 
 enum class CourseCapital { BBA, BCA }
 
-const val DEFAULT_QUERY = "no_query_only_aiyu"
-const val DATE_PICKER_DIALOG = "DATE_PICKER_DIALOG"
-const val UPDATE_REQUEST = "Update"
-const val REQUEST_EDIT_SUBJECT_FROM_LIST_ALL = 674 * 453
-const val REQUEST_ADD_SUBJECT_FROM_SYLLABUS = 345 * 453
-const val REQUEST_MENU_FROM_ARCHIVE = 345 * 453 + 1
-const val REQUEST_EDIT_SUBJECT_FROM_SYLLABUS = 347 * 453
 const val MAX_APP_OPEN_TIME = 5
-const val MAX_TIME_TO_SHOW_CARD = 5
 
 const val DEFAULT_DATE_FORMAT = "dd-MM-yyyy"
 const val DEFAULT_TIME_FORMAT = "hh:mm a"
@@ -89,7 +77,6 @@ const val EDIT_TEXT_DATE_FORMAT = "MMM dd, yyyy"
 const val ERROR_IN_UPDATE = 452 * 53
 
 const val MAX_STACK_SIZE = 30
-const val UPDATE_REQUEST_CODE = 444
 
 const val CHANNEL_ID_NOTICE = "Notice"
 const val CHANNEL_NOTICE = "Notice Section"

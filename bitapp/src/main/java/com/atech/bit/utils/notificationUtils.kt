@@ -11,5 +11,6 @@ fun mapWithNotificationEnable(
     list.add(Pair(MessageTopic.Notice.value, model.notice))
     list.add(Pair(MessageTopic.Event.value, model.event))
     list.add(Pair(MessageTopic.App.value, model.app))
+    list.add(Pair(MessageTopic.Update.value, true))
     return emptyList()
 }
