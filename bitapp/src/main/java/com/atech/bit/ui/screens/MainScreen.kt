@@ -276,8 +276,8 @@ private fun ColumnScope.drawerItem(
     val context = LocalContext.current
     val color = MaterialTheme.colorScheme.primary.toArgb()
     NavigationDrawerItem(modifier = Modifier.padding(
-            NavigationDrawerItemDefaults.ItemPadding
-        ),
+        NavigationDrawerItemDefaults.ItemPadding
+    ),
         colors = NavigationDrawerItemDefaults.colors(
             unselectedContainerColor = MaterialTheme.colorScheme.drawerColor,
         ),
@@ -334,11 +334,12 @@ val navBarItems = listOf(
         selectedIcon = Icons.Rounded.Dashboard,
         unSelectedIcon = Icons.Outlined.Dashboard,
         route = Screen.HomeScreen.route
-    ),NavBarModel(
+    ), NavBarModel(
         title = com.atech.chat.R.string.tutortalk,
         selectedIcon = Icons.Rounded.Chat,
         unSelectedIcon = Icons.Outlined.Chat,
-        route = Screen.ChatScreen.route
+        route = Screen.ChatScreen.route,
+        isVisible = false
     ),
     NavBarModel(
         title = R.string.course,
@@ -363,21 +364,30 @@ fun NavBar(
     val currentDestination = navBackStackEntry?.destination
     val isTheir = listOfFragmentsWithBottomAppBar.any { it == currentDestination?.route }
     val density = LocalDensity.current
-    AnimatedVisibility(visible = isTheir && !isSearchBarActive, enter = slideInVertically {
-        with(density) { -40.dp.roundToPx() }
-    } + expandVertically(
-        expandFrom = Alignment.Top
-    ) + fadeIn(
-        initialAlpha = 0.3f
-    ), exit = slideOutVertically() + shrinkVertically() + fadeOut()) {
+    AnimatedVisibility(
+        visible = isTheir && !isSearchBarActive,
+        enter = slideInVertically {
+            with(density) { -40.dp.roundToPx() }
+        } + expandVertically(
+            expandFrom = Alignment.Top
+        ) + fadeIn(
+            initialAlpha = 0.3f
+        ),
+        exit = slideOutVertically() + shrinkVertically() + fadeOut()
+    ) {
         NavigationBar(
-            modifier = modifier.fillMaxWidth(), contentColor = Color(
+            modifier = modifier.fillMaxWidth(),
+            contentColor = Color(
                 ColorUtils.blendARGB(
-                    MaterialTheme.colorScheme.surface.toArgb(), Color.Gray.toArgb(), .6f
+                    MaterialTheme.colorScheme.surface.toArgb(),
+                    Color.Gray.toArgb(),
+                    .6f
                 )
-            ), windowInsets = WindowInsets.navigationBars
+            ),
+            windowInsets = WindowInsets.navigationBars
         ) {
-            navBarItems.forEachIndexed { index, navBarModel ->
+            navBarItems.filter { it.isVisible }
+                .forEachIndexed { index, navBarModel ->
                 AddItem(
                     screen = navBarModel,
                     currentDestination = currentDestination,
@@ -447,7 +457,8 @@ data class NavBarModel(
     @StringRes val title: Int,
     val selectedIcon: ImageVector,
     val unSelectedIcon: ImageVector? = null,
-    val route: String = ""
+    val route: String = "",
+    val isVisible: Boolean = true
 )
 
 @Preview(showBackground = true)

@@ -109,6 +109,7 @@ fun SettingScreen(
             var isThemeChangeVisible by rememberSaveable {
                 mutableStateOf(false)
             }
+            val isDarkTheme = isSystemInDarkTheme()
             PreferenceItemBorder(title = stringResource(R.string.dark_mode),
                 description = if (state.isDarkTheme.getDarkEnable()) stringResource(R.string.on)
                 else stringResource(
@@ -119,7 +120,10 @@ fun SettingScreen(
                 else Icons.Outlined.LightMode,
                 onChecked = {
                     viewModel.onThemeChange(
-                        saveTheme(state)
+                        saveTheme(
+                            state,
+                            isDarkTheme
+                        )
                     )
                 },
                 onClick = {
@@ -203,12 +207,13 @@ fun ThemeRadioButton(
 }
 
 
-private fun saveTheme(state: ThemeState) = ThemeEvent.ChangeTheme(
+private fun saveTheme(state: ThemeState, isDarkTheme: Boolean) = ThemeEvent.ChangeTheme(
     state.copy(
         isDarkTheme = when (state.isDarkTheme) {
             ThemeMode.LIGHT -> ThemeMode.DARK
             ThemeMode.DARK -> ThemeMode.LIGHT
-            ThemeMode.SYSTEM -> ThemeMode.LIGHT
+            ThemeMode.SYSTEM -> if (isDarkTheme) ThemeMode.LIGHT
+            else ThemeMode.DARK
         }
     )
 )
