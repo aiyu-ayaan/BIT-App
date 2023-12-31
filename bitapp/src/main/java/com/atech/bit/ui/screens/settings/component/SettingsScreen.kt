@@ -151,23 +151,51 @@ fun SettingScreen(
                 }
             }
             Spacer(modifier = Modifier.height(grid_2))
+            val (notice, event, app) = viewModel.appNotification.value
             SettingTitle(text = "App Notification")
             PreferenceItem(
                 title = "Notice",
                 description = "All college related notification",
                 icon = Icons.Outlined.NotificationImportant,
+                isChecked = notice,
+                onClick = {
+                    viewModel
+                        .setAppNotification(
+                            viewModel.appNotification.value.copy(
+                                notice = !notice
+                            )
+                        )
+                }
             )
             Spacer(modifier = Modifier.height(grid_1))
             PreferenceItem(
                 title = "Event",
                 description = "All Society related notification",
                 icon = Icons.Outlined.EmojiEvents,
+                isChecked = event,
+                onClick = {
+                    viewModel
+                        .setAppNotification(
+                            viewModel.appNotification.value.copy(
+                                event = !event
+                            )
+                        )
+                }
             )
             Spacer(modifier = Modifier.height(grid_1))
             PreferenceItem(
                 title = "App",
                 description = "All App related notification",
                 icon = Icons.Outlined.AppSettingsAlt,
+                isChecked = app,
+                onClick = {
+                    viewModel
+                        .setAppNotification(
+                            viewModel.appNotification.value.copy(
+                                app = !app
+                            )
+                        )
+                }
             )
             BottomPadding()
         }

@@ -2,6 +2,7 @@ package com.atech.bit.ui.activity.main
 
 import android.content.SharedPreferences
 import android.util.Log
+import androidx.annotation.Keep
 import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -25,6 +26,7 @@ import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
+import com.atech.core.utils.toJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -241,5 +243,29 @@ class MainViewModel @Inject constructor(
     val isNotificationPrefItemVisible: State<Boolean> get() = _isNotificationPrefItemVisible
     fun onNotificationPrefItemVisibleChange(value: Boolean) {
         _isNotificationPrefItemVisible.value = value
+    }
+
+    //    _________________________________ App Notification ________________________________________________
+    @Keep
+    data class AppNotificationEnable(
+        val notice: Boolean = true,
+        val event: Boolean = true,
+        val app: Boolean = true
+    )
+
+    private val _appNotification = mutableStateOf(
+        fromJSON(
+            pref.getString(
+                SharePrefKeys.AppNotificationSettings.name, ""
+            )!!, AppNotificationEnable::class.java
+        ) ?: AppNotificationEnable()
+    )
+    val appNotification: State<AppNotificationEnable> get() = _appNotification
+    fun setAppNotification(value: AppNotificationEnable) {
+        _appNotification.value = value
+        pref.edit().putString(
+            SharePrefKeys.AppNotificationSettings.name,
+            toJSON(value)
+        ).apply()
     }
 }
