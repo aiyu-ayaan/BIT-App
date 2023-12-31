@@ -168,6 +168,11 @@ class MainViewModel @Inject constructor(
     private val _themeState = mutableStateOf(getTheme(pref))
     val themeState: State<ThemeState> get() = _themeState
 
+    private val _isChatScreenEnable = mutableStateOf(
+        pref.getBoolean(SharePrefKeys.IsChatScreenEnable.name, false)
+    )
+    val isChatScreenEnable: State<Boolean> get() = _isChatScreenEnable
+
 
     fun onEvent(event: SharedEvents) {
         when (event) {
@@ -192,6 +197,12 @@ class MainViewModel @Inject constructor(
             }
 
             SharedEvents.OpenLogInScreen -> action.invoke()
+            SharedEvents.IsChatScreenEnable -> {
+                _isChatScreenEnable.value = !_isChatScreenEnable.value
+                pref.edit().putBoolean(
+                    SharePrefKeys.IsChatScreenEnable.name, _isChatScreenEnable.value
+                ).apply()
+            }
         }
     }
 
@@ -236,6 +247,7 @@ class MainViewModel @Inject constructor(
         data object FetchUserDetails : SharedEvents
 
         data object OpenLogInScreen : SharedEvents
+        data object IsChatScreenEnable : SharedEvents
     }
 
     //    -------------------------------- Permissions -------------------------------------------------
@@ -248,9 +260,7 @@ class MainViewModel @Inject constructor(
     //    _________________________________ App Notification ________________________________________________
     @Keep
     data class AppNotificationEnable(
-        val notice: Boolean = true,
-        val event: Boolean = true,
-        val app: Boolean = true
+        val notice: Boolean = true, val event: Boolean = true, val app: Boolean = true
     )
 
     private val _appNotification = mutableStateOf(
@@ -264,8 +274,7 @@ class MainViewModel @Inject constructor(
     fun setAppNotification(value: AppNotificationEnable) {
         _appNotification.value = value
         pref.edit().putString(
-            SharePrefKeys.AppNotificationSettings.name,
-            toJSON(value)
+            SharePrefKeys.AppNotificationSettings.name, toJSON(value)
         ).apply()
     }
 }

@@ -110,4 +110,11 @@
     <string name="s_version">Version</string>
     <string name="developed_by_ayaan">Developed by Ayaan</string>
     <string name="really_want_to_delete_account">Are you sure you want to delete your account?</string>
+    <string name="app_notification">App Notification</string>
+    <string name="all_college_related_notification">All college related notification</string>
+    <string name="event">Event</string>
+    <string name="all_society_related_notification">All Society related notification</string>
+    <string name="app">App</string>
+    <string name="all_app_related_notification">All App related notification</string>
+    <string name="experimental">Experimental</string>
 </resources>

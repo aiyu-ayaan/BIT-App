@@ -27,7 +27,7 @@ enum class SharePrefKeys {
     PermanentSkipLogin, SetUpDone, AppThemeState, KeyAppOpenMinimumTime,
     ShowTimes, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
     AppAlertDialog, IsLibraryCardVisibleAttendanceScreen, ChatScreenSetting,
-    UploadTime,AppNotificationSettings
+    UploadTime,AppNotificationSettings,IsChatScreenEnable
 }
 
 const val SYLLABUS_SOURCE_DATA =

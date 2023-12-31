@@ -19,6 +19,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AppSettingsAlt
+import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.LightMode
@@ -152,10 +153,10 @@ fun SettingScreen(
             }
             Spacer(modifier = Modifier.height(grid_2))
             val (notice, event, app) = viewModel.appNotification.value
-            SettingTitle(text = "App Notification")
+            SettingTitle(text = stringResource(R.string.app_notification))
             PreferenceItem(
-                title = "Notice",
-                description = "All college related notification",
+                title = stringResource(id = R.string.notice),
+                description = stringResource(R.string.all_college_related_notification),
                 icon = Icons.Outlined.NotificationImportant,
                 isChecked = notice,
                 onClick = {
@@ -169,8 +170,8 @@ fun SettingScreen(
             )
             Spacer(modifier = Modifier.height(grid_1))
             PreferenceItem(
-                title = "Event",
-                description = "All Society related notification",
+                title = stringResource(R.string.event),
+                description = stringResource(R.string.all_society_related_notification),
                 icon = Icons.Outlined.EmojiEvents,
                 isChecked = event,
                 onClick = {
@@ -184,8 +185,8 @@ fun SettingScreen(
             )
             Spacer(modifier = Modifier.height(grid_1))
             PreferenceItem(
-                title = "App",
-                description = "All App related notification",
+                title = stringResource(R.string.app),
+                description = stringResource(R.string.all_app_related_notification),
                 icon = Icons.Outlined.AppSettingsAlt,
                 isChecked = app,
                 onClick = {
@@ -195,6 +196,19 @@ fun SettingScreen(
                                 app = !app
                             )
                         )
+                }
+            )
+            Spacer(modifier = Modifier.height(grid_2))
+            SettingTitle(text = stringResource(R.string.experimental))
+            PreferenceItem(
+                title = stringResource(id = com.atech.chat.R.string.tutortalk),
+                description = "All new Chat feature powered by Gemini Pro",
+                icon = Icons.Outlined.Chat,
+                isChecked = viewModel.isChatScreenEnable.value,
+                onClick = {
+                    viewModel.onEvent(
+                        MainViewModel.SharedEvents.IsChatScreenEnable
+                    )
                 }
             )
             BottomPadding()

@@ -141,7 +141,9 @@ fun MainScreen(
         ) {
             Scaffold(modifier = modifier, bottomBar = {
                 NavBar(
-                    navController = navController, isSearchBarActive = isSearchBarActive
+                    navController = navController,
+                    isSearchBarActive = isSearchBarActive,
+                    isChatScreenVisible = communicatorViewModel.isChatScreenEnable.value
                 )
             }) {
                 Column(
@@ -328,38 +330,38 @@ private fun ColumnScope.drawerItem(
 }
 
 
-val navBarItems = listOf(
-    NavBarModel(
-        title = R.string.home,
-        selectedIcon = Icons.Rounded.Dashboard,
-        unSelectedIcon = Icons.Outlined.Dashboard,
-        route = Screen.HomeScreen.route
-    ), NavBarModel(
-        title = com.atech.chat.R.string.tutortalk,
-        selectedIcon = Icons.Rounded.Chat,
-        unSelectedIcon = Icons.Outlined.Chat,
-        route = Screen.ChatScreen.route,
-        isVisible = false
-    ),
-    NavBarModel(
-        title = R.string.course,
-        selectedIcon = Icons.Rounded.CollectionsBookmark,
-        unSelectedIcon = Icons.Outlined.CollectionsBookmark,
-        route = Screen.CourseScreen.route
-    ), NavBarModel(
-        title = R.string.attendance,
-        unSelectedIcon = Icons.Outlined.CoPresent,
-        selectedIcon = Icons.Rounded.CoPresent,
-        route = Screen.AttendanceScreen.route
-    )
-)
-
 @Composable
 fun NavBar(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    isSearchBarActive: Boolean = false
+    isSearchBarActive: Boolean = false,
+    isChatScreenVisible: Boolean
 ) {
+    val navBarItems = listOf(
+        NavBarModel(
+            title = R.string.home,
+            selectedIcon = Icons.Rounded.Dashboard,
+            unSelectedIcon = Icons.Outlined.Dashboard,
+            route = Screen.HomeScreen.route
+        ), NavBarModel(
+            title = com.atech.chat.R.string.tutortalk,
+            selectedIcon = Icons.Rounded.Chat,
+            unSelectedIcon = Icons.Outlined.Chat,
+            route = Screen.ChatScreen.route,
+            isVisible = isChatScreenVisible
+        ),
+        NavBarModel(
+            title = R.string.course,
+            selectedIcon = Icons.Rounded.CollectionsBookmark,
+            unSelectedIcon = Icons.Outlined.CollectionsBookmark,
+            route = Screen.CourseScreen.route
+        ), NavBarModel(
+            title = R.string.attendance,
+            unSelectedIcon = Icons.Outlined.CoPresent,
+            selectedIcon = Icons.Rounded.CoPresent,
+            route = Screen.AttendanceScreen.route
+        )
+    )
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     val isTheir = listOfFragmentsWithBottomAppBar.any { it == currentDestination?.route }
@@ -388,13 +390,13 @@ fun NavBar(
         ) {
             navBarItems.filter { it.isVisible }
                 .forEachIndexed { index, navBarModel ->
-                AddItem(
-                    screen = navBarModel,
-                    currentDestination = currentDestination,
-                    index = index,
-                    navController = navController
-                )
-            }
+                    AddItem(
+                        screen = navBarModel,
+                        currentDestination = currentDestination,
+                        index = index,
+                        navController = navController
+                    )
+                }
         }
     }
 }
