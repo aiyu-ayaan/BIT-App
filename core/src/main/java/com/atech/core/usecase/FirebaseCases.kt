@@ -11,6 +11,7 @@ import com.atech.core.datasource.firebase.firestore.NoticeModel
 import com.atech.core.utils.toJSON
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.snapshots
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,12 +25,17 @@ data class FirebaseLoginUseCase @Inject constructor(
     val uploadDataToFirebase: UploadDataToFirebase,
     val getUserEncryptedData: GetUserEncryptedData,
     val getUserSaveDetails: GetUserSaveDetails,
-    val deleteUser: DeleteUserDataFromDatabase
+    val deleteUser: DeleteUserDataFromDatabase,
+    val setChatSettings: SetChatSettings,
+    val getChatSettings: GetChatSettings
 )
 
 
 data class FirebaseCase @Inject constructor(
-    val getEvent: GetEvent, val getNotice: GetNotice, val getAttach: GetAttach
+    val getEvent: GetEvent,
+    val getNotice: GetNotice,
+    val getAttach: GetAttach,
+    val getChatSettings: GetChatSettings
 )
 
 enum class Db(val value: String) {
@@ -78,7 +84,7 @@ class AddUser @Inject constructor(
         user: UserModel
     ): Pair<String, Exception?> = try {
         val ref = db.collection(Db.User.value)
-        ref.document(user.uid!!).set(user).await()
+        ref.document(user.uid!!).set(user, SetOptions.merge()).await()
         Pair(user.uid!!, null)
     } catch (e: Exception) {
         Pair("", e)
@@ -198,5 +204,76 @@ data class DeleteUserDataFromDatabase @Inject constructor(
         null
     } catch (e: Exception) {
         e
+    }
+}
+
+data class SetChatSettings @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend fun updateChatEnable(
+        uid: String,
+        isChatEnable: Boolean,
+    ) =
+        try {
+            db.collection(Db.User.value).document(uid).update(
+                mapOf(
+                    "isChatEnable" to isChatEnable
+                )
+            ).await()
+            null
+        } catch (e: Exception) {
+            e
+        }
+
+    suspend fun updateLastChat(
+        uid: String,
+        lastChat: Long,
+    ) =
+        try {
+            db.collection(Db.User.value).document(uid).update(
+                mapOf(
+                    "lastChat" to lastChat
+                )
+            ).await()
+            null
+        } catch (e: Exception) {
+            e
+        }
+
+    suspend fun updateCurrentChatNumber(
+        uid: String,
+        currentChatNumber: Int,
+    ) =
+        try {
+            db.collection(Db.User.value).document(uid).update(
+                mapOf(
+                    "currentChatNumber" to currentChatNumber
+                )
+            ).await()
+            null
+        } catch (e: Exception) {
+            e
+        }
+}
+
+data class GetChatSettings @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    /**
+     * @return Triple<Boolean, Long, Int>? -> isChatEnable, lastChat, currentChatNumber
+     * @return Exception? -> Exception
+     */
+    suspend operator fun invoke(uid: String): Pair<Triple<Boolean, Long, Int>?, Exception?> = try {
+        val snapShot = db.collection(Db.User.value).document(uid).get().await()
+        if (!snapShot.exists()) {
+            null to Exception("No data found")
+        } else {
+            val isChatEnable = snapShot.get("isChatEnable") ?: false
+            val lastChat = snapShot.get("lastChat") ?: -1L
+            val currentChatNumber = snapShot.get("currentChatNumber") ?: 0
+            Triple(isChatEnable as Boolean, lastChat as Long, currentChatNumber as Int) to null
+        }
+    } catch (e: Exception) {
+        null to e
     }
 }

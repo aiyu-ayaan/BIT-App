@@ -15,7 +15,8 @@ enum class RemoteConfigKeys(val value: String) {
     KeyToggleSyllabusSource("KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY"),
     AppAlertDialog("app_alert_dialog"),
     ForceScreen("force_screen"),
-    MAX_TIMES_UPLOAD("MAX_TIMES_UPLOAD")
+    MAX_TIMES_UPLOAD("MAX_TIMES_UPLOAD"),
+    MAX_CHAT_LIMIT("max_chat_limit")
 }
 
 enum class SharePrefKeys {
@@ -23,7 +24,7 @@ enum class SharePrefKeys {
     PermanentSkipLogin, SetUpDone, AppThemeState, KeyAppOpenMinimumTime,
     ShowTimes, CourseDetails, SHOW_CALENDER_PERMISSION_FOR_FIRST_TIME,
     AppAlertDialog, IsLibraryCardVisibleAttendanceScreen, ChatScreenSetting,
-    UploadTime,AppNotificationSettings,IsChatScreenEnable
+    UploadTime,AppNotificationSettings,IsChatScreenEnable,
 }
 
 const val SYLLABUS_SOURCE_DATA =

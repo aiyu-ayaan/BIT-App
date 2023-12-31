@@ -100,6 +100,11 @@ fun MainScreen(
     val drawerSate = rememberDrawerState(initialValue = DrawerValue.Closed)
     val toggleDrawerState by communicatorViewModel.toggleDrawerState
     val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect (
+        communicatorViewModel.checkHasLogIn()
+    ){
+        communicatorViewModel.fetchChatSettings()
+    }
     LaunchedEffect(toggleDrawerState) {
         toggleDrawerState?.let {
             if (drawerSate.isOpen) communicatorViewModel.onEvent(

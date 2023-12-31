@@ -217,7 +217,8 @@ fun AppNavigationGraph(
         }
         aboutUsNavGraph(navHostController = navHostController)
         chatNavGraph(
-            navHostController = navHostController
+            navHostController = navHostController,
+            communicatorViewModel = communicatorViewModel,
         )
     }
 }

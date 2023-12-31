@@ -71,6 +71,7 @@ fun ChatScreen(
     isConnected: ConnectivityObserver.Status,
     keepChat: Boolean = true,
     hasLogIn: Boolean = false,
+    chanceWithMax: String = "",
     onEvent: (ChatScreenEvents) -> Unit,
 ) {
     val listState = rememberLazyListState()
@@ -94,7 +95,8 @@ fun ChatScreen(
     Scaffold(modifier = Modifier, topBar = {
         TopAppBar(title = {
             Text(
-                text = stringResource(R.string.tutortalk), color = MaterialTheme.colorScheme.primary
+                text = stringResource(R.string.tutortalk),
+                color = MaterialTheme.colorScheme.primary
             )
         }, navigationIcon = {
             IconButton(
@@ -149,21 +151,28 @@ fun ChatScreen(
             }
         })
     }, bottomBar = {
-        MessageInput(onSendMessage = { inputText ->
-            onEvent(
-                ChatScreenEvents.OnNewMessage(
-                    inputText
+        MessageInput(
+            current = chanceWithMax,
+            onSendMessage = { inputText ->
+                onEvent(
+                    ChatScreenEvents.OnNewMessage(
+                        inputText
+                    )
                 )
-            )
-        }, resetScroll = {
-            coroutineScope.launch {
-                listState.scrollToItem(
-                    0
-                )
-            }
-        }, isLoading = isLoading, isConnected = isConnected, onCancelClick = {
-            onEvent(ChatScreenEvents.OnCancelClick)
-        }, hasLogIn = hasLogIn
+            },
+            resetScroll = {
+                coroutineScope.launch {
+                    listState.scrollToItem(
+                        0
+                    )
+                }
+            },
+            isLoading = isLoading,
+            isConnected = isConnected,
+            onCancelClick = {
+                onEvent(ChatScreenEvents.OnCancelClick)
+            },
+            hasLogIn = hasLogIn
         )
     }) { paddingValues ->
         Column(

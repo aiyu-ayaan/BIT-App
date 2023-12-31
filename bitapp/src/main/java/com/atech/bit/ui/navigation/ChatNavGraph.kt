@@ -4,6 +4,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
+import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.utils.animatedComposable
 import com.atech.bit.utils.fadeThroughComposable
 import com.atech.bit.utils.sharedViewModel
@@ -20,7 +21,8 @@ sealed class ChatScreens(val route: String) {
 }
 
 fun NavGraphBuilder.chatNavGraph(
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    communicatorViewModel: MainViewModel
 ) {
     navigation(
         startDestination = ChatScreens.ChatScreen.route, route = RouteName.CHAT.value
@@ -37,6 +39,7 @@ fun NavGraphBuilder.chatNavGraph(
                 isLoading = viewModel.isLoading.value,
                 keepChat = viewModel.chatSettingUi.value.isKeepChat,
                 hasLogIn = viewModel.hasLogIn.invoke(),
+                chanceWithMax = communicatorViewModel.chanceWithMax.value,
                 onEvent = viewModel::onEvent
             )
         }

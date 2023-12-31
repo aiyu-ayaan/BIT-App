@@ -54,7 +54,8 @@ fun MessageInput(
     onCancelClick: () -> Unit = {},
     isConnected: ConnectivityObserver.Status =
         ConnectivityObserver.Status.Available,
-    hasLogIn : Boolean = true
+    current: String = "1/20",
+    hasLogIn: Boolean = true
 ) {
     var userMessage by rememberSaveable { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -72,6 +73,10 @@ fun MessageInput(
                         strokeWidth = 2.dp,
                         strokeCap = StrokeCap.Round
                     )
+                }
+            } else if (userMessage.isBlank()) {
+                {
+                    Text(text = current)
                 }
             } else if (userMessage.isNotBlank()) {
                 {

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.chat.utils.getChatSetting
 import com.atech.chat.utils.saveChatSetting
+import com.atech.core.usecase.AuthUseCases
 import com.atech.core.usecase.ChatUseCases
 import com.atech.core.usecase.HasLogIn
 import com.atech.core.utils.TAGS
@@ -29,7 +30,8 @@ class ChatViewModel @Inject constructor(
     private val mapper: ChatMessageToModelMapper,
     connectivityObserver: ConnectivityObserver,
     private val pref: SharedPreferences,
-    val hasLogIn: HasLogIn
+    val hasLogIn: HasLogIn,
+    private val authUseCases: AuthUseCases
 ) : ViewModel() {
 
     val connectivity = connectivityObserver.observe()

@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.annotation.Keep
 import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -73,6 +74,26 @@ class MainViewModel @Inject constructor(
     private val _isForceScreenEnable = mutableStateOf(false)
     val isForceScreenEnable: State<Boolean> get() = _isForceScreenEnable
 
+    private val _isSearchActive = mutableStateOf(false)
+    val isSearchActive: State<Boolean> get() = _isSearchActive
+
+    private val _toggleDrawerState = mutableStateOf(null as DrawerValue?)
+    val toggleDrawerState: State<DrawerValue?> get() = _toggleDrawerState
+    private val _themeState = mutableStateOf(getTheme(pref))
+    val themeState: State<ThemeState> get() = _themeState
+
+    private val _isChatScreenEnable = mutableStateOf(
+        pref.getBoolean(SharePrefKeys.IsChatScreenEnable.name, false)
+    )
+    val isChatScreenEnable: State<Boolean> get() = _isChatScreenEnable
+
+    private val _currentTry = mutableIntStateOf(1)
+
+    private val _maxChatLimit = mutableIntStateOf(10)
+    private val _chanceWithMax = mutableStateOf("${_currentTry.intValue}/${_maxChatLimit.intValue}")
+    val chanceWithMax: State<String> get() = _chanceWithMax
+
+
     fun onDismissRequest() {
         _isShowAlertDialog.value = false
     }
@@ -83,6 +104,15 @@ class MainViewModel @Inject constructor(
                 if (model != null) {
                     _profileLink.value = model.profilePic
                 }
+            }
+        }
+    }
+
+    fun fetchChatSettings() {
+        viewModelScope.launch {
+            authUseCases.chats.getChatSettings().first?.let {
+                _isChatScreenEnable.value = it.first
+                _currentTry.intValue = it.third
             }
         }
     }
@@ -150,6 +180,9 @@ class MainViewModel @Inject constructor(
                     Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigDetails: $e")
                 }
             }
+            conf.getLong(RemoteConfigKeys.MAX_CHAT_LIMIT.value).let {
+                _maxChatLimit.intValue = it.toInt()
+            }
             action.invoke(
                 attendanceDao,
                 authUseCases,
@@ -159,19 +192,6 @@ class MainViewModel @Inject constructor(
             )
         }
     }
-
-    private val _isSearchActive = mutableStateOf(false)
-    val isSearchActive: State<Boolean> get() = _isSearchActive
-
-    private val _toggleDrawerState = mutableStateOf(null as DrawerValue?)
-    val toggleDrawerState: State<DrawerValue?> get() = _toggleDrawerState
-    private val _themeState = mutableStateOf(getTheme(pref))
-    val themeState: State<ThemeState> get() = _themeState
-
-    private val _isChatScreenEnable = mutableStateOf(
-        pref.getBoolean(SharePrefKeys.IsChatScreenEnable.name, false)
-    )
-    val isChatScreenEnable: State<Boolean> get() = _isChatScreenEnable
 
 
     fun onEvent(event: SharedEvents) {
@@ -202,6 +222,9 @@ class MainViewModel @Inject constructor(
                 pref.edit().putBoolean(
                     SharePrefKeys.IsChatScreenEnable.name, _isChatScreenEnable.value
                 ).apply()
+                if (authUseCases.hasLogIn.invoke()) viewModelScope.launch {
+                    authUseCases.chats.updateChatEnable(_isChatScreenEnable.value)
+                }
             }
         }
     }
@@ -277,4 +300,7 @@ class MainViewModel @Inject constructor(
             SharePrefKeys.AppNotificationSettings.name, toJSON(value)
         ).apply()
     }
+
+//    ____________________________________ Chat Settings___________________________________________________
+
 }
