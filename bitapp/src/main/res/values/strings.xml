@@ -109,4 +109,5 @@
     <string name="delete_my_account">Delete my Account</string>
     <string name="s_version">Version</string>
     <string name="developed_by_ayaan">Developed by Ayaan</string>
+    <string name="really_want_to_delete_account">Are you sure you want to delete your account?</string>
 </resources>

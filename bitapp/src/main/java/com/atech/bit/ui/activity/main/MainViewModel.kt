@@ -36,8 +36,7 @@ class MainViewModel @Inject constructor(
     private val pref: SharedPreferences,
     private val authUseCases: AuthUseCases,
     private val attendanceDao: AttendanceDao,
-    @BitAppScope
-    private val scope: CoroutineScope
+    @BitAppScope private val scope: CoroutineScope
 ) : ViewModel() {
     private val _courseDetail = mutableStateOf(defaultCourseSem)
     val courseDetail: State<CourseDetails> get() = _courseDetail
@@ -89,11 +88,7 @@ class MainViewModel @Inject constructor(
 
     fun fetchRemoteConfigDetails(
         action: (
-            dao: AttendanceDao,
-            auth: AuthUseCases,
-            pref: SharedPreferences,
-            maxTime: Int,
-            scope: CoroutineScope
+            dao: AttendanceDao, auth: AuthUseCases, pref: SharedPreferences, maxTime: Int, scope: CoroutineScope
         ) -> Unit
     ) {
         conf.fetchData(failure = {
@@ -119,10 +114,7 @@ class MainViewModel @Inject constructor(
                             EventAlertModel::class.java
                         )
                         val newJson = fromJSON(fetchData, EventAlertModel::class.java)
-                        if (savedJson?.version == newJson?.version
-                            && savedJson?.maxTimesToShow!! > times &&
-                            newJson?.isShow == true
-                        ) {
+                        if (savedJson?.version == newJson?.version && savedJson?.maxTimesToShow!! > times && newJson?.isShow == true) {
                             _isShowAlertDialog.value = true
                             _dialogModel.value = newJson
                             pref.edit().putInt(SharePrefKeys.ShowTimes.name, times + 1).apply()
@@ -223,6 +215,16 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun deleteUser(
+        action: suspend () -> Unit
+    ) = viewModelScope.launch {
+        authUseCases.deleteUser.invoke().let {
+            if (it == null) {
+                pref.edit().putBoolean(SharePrefKeys.PermanentSkipLogin.name, false).apply()
+                action.invoke()
+            }
+        }
+    }
 
     sealed interface SharedEvents {
         data object ToggleSearchActive : SharedEvents

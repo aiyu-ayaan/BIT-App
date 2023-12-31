@@ -23,14 +23,13 @@ data class FirebaseLoginUseCase @Inject constructor(
     val checkUserData: CheckUserData,
     val uploadDataToFirebase: UploadDataToFirebase,
     val getUserEncryptedData: GetUserEncryptedData,
-    val getUserSaveDetails: GetUserSaveDetails
+    val getUserSaveDetails: GetUserSaveDetails,
+    val deleteUser: DeleteUserDataFromDatabase
 )
 
 
 data class FirebaseCase @Inject constructor(
-    val getEvent: GetEvent,
-    val getNotice: GetNotice,
-    val getAttach: GetAttach
+    val getEvent: GetEvent, val getNotice: GetNotice, val getAttach: GetAttach
 )
 
 enum class Db(val value: String) {
@@ -153,8 +152,8 @@ class UploadDataToFirebase @Inject constructor(
         attendance: List<AttendanceUploadModel>,
     ): Exception? = try {
         val json = toJSON(attendance)
-        db.collection(Db.User.value).document(uid).collection(Db.Data.value)
-            .document(uid).update(mapOf("attendance" to json))
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid)
+            .update(mapOf("attendance" to json))
         updateSyncTime(uid)
         null
     } catch (e: Exception) {
@@ -165,32 +164,39 @@ class UploadDataToFirebase @Inject constructor(
 class GetUserEncryptedData @Inject constructor(
     private val db: FirebaseFirestore
 ) {
-    suspend operator fun invoke(uid: String): Pair<UserModel?, Exception?> =
-        try {
-            val snapShot =
-                db.collection(Db.User.value).document(uid).get()
-                    .await()
-            if (!snapShot.exists()) {
-                null to Exception("No data found")
-            } else {
-                val model = snapShot.toObject(UserModel::class.java)
-                model to null
-            }
-        } catch (e: Exception) {
-            null to e
+    suspend operator fun invoke(uid: String): Pair<UserModel?, Exception?> = try {
+        val snapShot = db.collection(Db.User.value).document(uid).get().await()
+        if (!snapShot.exists()) {
+            null to Exception("No data found")
+        } else {
+            val model = snapShot.toObject(UserModel::class.java)
+            model to null
         }
+    } catch (e: Exception) {
+        null to e
+    }
 }
 
 data class GetUserSaveDetails @Inject constructor(
     private val db: FirebaseFirestore
 ) {
-    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> =
-        try {
-            db.collection(Db.User.value).document(uid)
-                .collection(Db.Data.value)
-                .document(uid).get().await()
-                .toObject(UserData::class.java) to null
-        } catch (e: Exception) {
-            null to e
-        }
+    suspend operator fun invoke(uid: String): Pair<UserData?, Exception?> = try {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).get()
+            .await().toObject(UserData::class.java) to null
+    } catch (e: Exception) {
+        null to e
+    }
+}
+
+data class DeleteUserDataFromDatabase @Inject constructor(
+    private val db: FirebaseFirestore
+) {
+    suspend operator fun invoke(uid: String): Exception? = try {
+        db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).delete()
+            .await()
+        db.collection(Db.User.value).document(uid).delete().await()
+        null
+    } catch (e: Exception) {
+        e
+    }
 }

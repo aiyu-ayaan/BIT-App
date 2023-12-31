@@ -1,7 +1,6 @@
 package com.atech.core.usecase
 
 import android.content.Context
-import android.util.Log
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserData
@@ -32,7 +31,8 @@ data class AuthUseCases @Inject constructor(
     val getUserDataFromAuth: GetUserDataFromAuth,
     val getUserSavedData: GetUserDetails,
     val getUserFromDatabase: GetUserFromDatabase,
-    val signOut: SignOut
+    val signOut: SignOut,
+    val deleteUser: DeleteUser
 )
 
 data class LogIn @Inject constructor(
@@ -247,5 +247,18 @@ data class SignOut @Inject constructor(
     ) {
         auth.signOut()
         action.invoke()
+    }
+}
+
+data class DeleteUser @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseCases: FirebaseLoginUseCase,
+) {
+    suspend operator fun invoke(): Exception? = try {
+        firebaseCases.deleteUser(
+            auth.currentUser!!.uid
+        )
+    } catch (e: Exception) {
+        e
     }
 }

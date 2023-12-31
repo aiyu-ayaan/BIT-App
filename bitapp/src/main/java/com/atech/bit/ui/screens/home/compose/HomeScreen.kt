@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Row
@@ -264,9 +263,12 @@ fun HomeScreen(
                 })
         }
         if (isProfileDialogVisible) {
-            ProfileDialog(viewModel = communicatorViewModel, onDismissRequest = {
-                isProfileDialogVisible = false
-            })
+            ProfileDialog(
+                viewModel = communicatorViewModel,
+                onDismissRequest = {
+                    isProfileDialogVisible = false
+                }
+            )
         }
         if (communicatorViewModel.isShowAlertDialog.value) {
             AppAlertDialog(model = communicatorViewModel.dialogModel.value, onDismissRequest = {
