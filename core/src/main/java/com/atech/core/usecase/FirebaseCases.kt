@@ -8,6 +8,7 @@ import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.firebase.firestore.NoticeModel
+import com.atech.core.utils.hasSameDay
 import com.atech.core.utils.toJSON
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -227,18 +228,32 @@ data class SetChatSettings @Inject constructor(
 
     suspend fun updateLastChat(
         uid: String,
-        lastChat: Long,
     ) =
         try {
-            db.collection(Db.User.value).document(uid).update(
-                mapOf(
-                    "lastChat" to lastChat
-                )
-            ).await()
+            db.collection(Db.User.value).document(uid).get()
+                .await().let {
+                    val lastUpdate = it.get("lastChat") as Long?
+                    if (lastUpdate == null) {
+                        insertLastChat(uid, System.currentTimeMillis())
+                        return@let
+                    }
+                    val currentTime = System.currentTimeMillis()
+                    if (!(lastUpdate hasSameDay currentTime)) {
+                        insertLastChat(uid, currentTime)
+                    }
+                }
             null
         } catch (e: Exception) {
             e
         }
+
+    private suspend fun insertLastChat(uid: String, lastChat: Long) {
+        db.collection(Db.User.value).document(uid).update(
+            mapOf(
+                "lastChat" to lastChat
+            )
+        ).await()
+    }
 
     suspend fun updateCurrentChatNumber(
         uid: String,
@@ -269,8 +284,8 @@ data class GetChatSettings @Inject constructor(
             null to Exception("No data found")
         } else {
             val isChatEnable = snapShot.get("isChatEnable") ?: false
-            val lastChat = snapShot.get("lastChat") ?: -1L
-            val currentChatNumber = snapShot.get("currentChatNumber") ?: 0
+            val lastChat = snapShot.get("lastChat") ?: System.currentTimeMillis()
+            val currentChatNumber = snapShot.get("currentChatNumber") ?: 1
             Triple(isChatEnable as Boolean, lastChat as Long, currentChatNumber as Int) to null
         }
     } catch (e: Exception) {

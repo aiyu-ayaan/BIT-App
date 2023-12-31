@@ -38,7 +38,7 @@ fun NavGraphBuilder.chatNavGraph(
                 chatUiState = viewModel.uiState.value,
                 isLoading = viewModel.isLoading.value,
                 keepChat = viewModel.chatSettingUi.value.isKeepChat,
-                hasLogIn = viewModel.hasLogIn.invoke(),
+                hasLogIn = communicatorViewModel.canSendChatMessage.value,
                 chanceWithMax = communicatorViewModel.chanceWithMax.value,
                 onEvent = viewModel::onEvent
             )

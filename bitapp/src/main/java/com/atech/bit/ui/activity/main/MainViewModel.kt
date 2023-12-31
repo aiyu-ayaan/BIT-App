@@ -6,6 +6,7 @@ import androidx.annotation.Keep
 import androidx.compose.material3.DrawerValue
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -27,6 +28,7 @@ import com.atech.core.utils.RemoteConfigKeys
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
+import com.atech.core.utils.hasSameDay
 import com.atech.core.utils.toJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -87,11 +89,15 @@ class MainViewModel @Inject constructor(
     )
     val isChatScreenEnable: State<Boolean> get() = _isChatScreenEnable
 
-    private val _currentTry = mutableIntStateOf(1)
+    private val _currentTry = mutableIntStateOf(0)
 
-    private val _maxChatLimit = mutableIntStateOf(10)
+    private val _maxChatLimit = mutableIntStateOf(1)
+    private val _lastChat = mutableLongStateOf(0L)
     private val _chanceWithMax = mutableStateOf("${_currentTry.intValue}/${_maxChatLimit.intValue}")
     val chanceWithMax: State<String> get() = _chanceWithMax
+
+    private val _canSendChatMessage = mutableStateOf(true)
+    val canSendChatMessage: State<Boolean> get() = _canSendChatMessage
 
 
     fun onDismissRequest() {
@@ -110,9 +116,14 @@ class MainViewModel @Inject constructor(
 
     fun fetchChatSettings() {
         viewModelScope.launch {
+            authUseCases.chats.updateLastChat()
             authUseCases.chats.getChatSettings().first?.let {
                 _isChatScreenEnable.value = it.first
+                _lastChat.value = it.second
                 _currentTry.intValue = it.third
+                _canSendChatMessage.value =
+                    (it.third <= _maxChatLimit.intValue && it.second hasSameDay System.currentTimeMillis())
+                            && authUseCases.hasLogIn.invoke()
             }
         }
     }
@@ -181,7 +192,7 @@ class MainViewModel @Inject constructor(
                 }
             }
             conf.getLong(RemoteConfigKeys.MAX_CHAT_LIMIT.value).let {
-                _maxChatLimit.intValue = it.toInt()
+//                _maxChatLimit.intValue = it.toInt() TODO : Remove me
             }
             action.invoke(
                 attendanceDao,
@@ -303,4 +314,24 @@ class MainViewModel @Inject constructor(
 
 //    ____________________________________ Chat Settings___________________________________________________
 
+    sealed interface ChatsEvent {
+        data object IncreaseChance : ChatsEvent
+    }
+
+
+    fun onChatEvent(event: ChatsEvent) {
+        when (event) {
+            ChatsEvent.IncreaseChance -> {
+                _currentTry.value += 1
+                _chanceWithMax.value = "${_currentTry.intValue}/${_maxChatLimit.intValue}"
+                viewModelScope.launch {
+                    authUseCases.chats.updateCurrentChatNumber(_currentTry.intValue)
+                }
+                _canSendChatMessage.value =
+                    (_currentTry.intValue <= _maxChatLimit.intValue &&
+                            _lastChat.value hasSameDay System.currentTimeMillis())
+                            && authUseCases.hasLogIn.invoke()
+            }
+        }
+    }
 }

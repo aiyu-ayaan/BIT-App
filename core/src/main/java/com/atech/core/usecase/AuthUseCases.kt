@@ -282,11 +282,9 @@ data class Chats @Inject constructor(
         e
     }
 
-    suspend fun updateLastChat(
-        lastChat: Long,
-    ): Exception? = try {
+    suspend fun updateLastChat(): Exception? = try {
         setChatSettings.updateLastChat(
-            auth.currentUser!!.uid, lastChat
+            auth.currentUser!!.uid
         )
     } catch (e: Exception) {
         e
