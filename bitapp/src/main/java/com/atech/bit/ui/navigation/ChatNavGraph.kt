@@ -36,6 +36,7 @@ fun NavGraphBuilder.chatNavGraph(
                 chatUiState = viewModel.uiState.value,
                 isLoading = viewModel.isLoading.value,
                 keepChat = viewModel.chatSettingUi.value.isKeepChat,
+                hasLogIn = viewModel.hasLogIn.invoke(),
                 onEvent = viewModel::onEvent
             )
         }

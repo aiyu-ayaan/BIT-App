@@ -42,6 +42,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -65,6 +70,7 @@ fun ChatScreen(
     isLoading: Boolean,
     isConnected: ConnectivityObserver.Status,
     keepChat: Boolean = true,
+    hasLogIn: Boolean = false,
     onEvent: (ChatScreenEvents) -> Unit,
 ) {
     val listState = rememberLazyListState()
@@ -108,7 +114,8 @@ fun ChatScreen(
                 IconButton(onClick = {
                     Toast.makeText(
                         context,
-                        context.getString(R.string.keep_chat_is_disable), Toast.LENGTH_SHORT
+                        context.getString(R.string.keep_chat_is_disable),
+                        Toast.LENGTH_SHORT
                     ).show()
                 }) {
                     Icon(
@@ -142,26 +149,21 @@ fun ChatScreen(
             }
         })
     }, bottomBar = {
-        MessageInput(
-            onSendMessage = { inputText ->
-                onEvent(
-                    ChatScreenEvents.OnNewMessage(
-                        inputText
-                    )
+        MessageInput(onSendMessage = { inputText ->
+            onEvent(
+                ChatScreenEvents.OnNewMessage(
+                    inputText
                 )
-            },
-            resetScroll = {
-                coroutineScope.launch {
-                    listState.scrollToItem(
-                        0
-                    )
-                }
-            },
-            isLoading = isLoading,
-            isConnected = isConnected,
-            onCancelClick = {
-                onEvent(ChatScreenEvents.OnCancelClick)
-            },
+            )
+        }, resetScroll = {
+            coroutineScope.launch {
+                listState.scrollToItem(
+                    0
+                )
+            }
+        }, isLoading = isLoading, isConnected = isConnected, onCancelClick = {
+            onEvent(ChatScreenEvents.OnCancelClick)
+        }, hasLogIn = hasLogIn
         )
     }) { paddingValues ->
         Column(
@@ -214,7 +216,9 @@ fun ChatScreen(
 }
 
 @Composable
-fun EmptyScreen(modifier: Modifier = Modifier) {
+fun EmptyScreen(
+    modifier: Modifier = Modifier, hasLogIn: Boolean = false
+) {
     Box(
         modifier = modifier
             .padding(16.dp)
@@ -239,6 +243,23 @@ fun EmptyScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 16.dp),
                 markDown = stringResource(R.string.intro_text),
             )
+            if (!hasLogIn) {
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .padding(bottom = 8.dp)
+                        .fillMaxWidth(),
+                    text = "Please login to use Tutortalk",
+                    textDecoration = TextDecoration.Underline,
+                    textAlign = TextAlign.Start,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = TextStyle(
+                        fontSize = MaterialTheme.typography.labelSmall.fontSize,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Monospace
+                    )
+                )
+            }
         }
 
     }

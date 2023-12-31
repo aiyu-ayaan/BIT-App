@@ -53,7 +53,8 @@ fun MessageInput(
     isLoading: Boolean,
     onCancelClick: () -> Unit = {},
     isConnected: ConnectivityObserver.Status =
-        ConnectivityObserver.Status.Available
+        ConnectivityObserver.Status.Available,
+    hasLogIn : Boolean = true
 ) {
     var userMessage by rememberSaveable { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
@@ -104,7 +105,8 @@ fun MessageInput(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = drawerColor,
                 unfocusedContainerColor = drawerColor,
-            )
+            ),
+            enabled = hasLogIn
         )
         val isEnable = (userMessage.isNotBlank() || isLoading) &&
                 isConnected == ConnectivityObserver.Status.Available

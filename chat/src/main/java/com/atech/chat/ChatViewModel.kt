@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.atech.chat.utils.getChatSetting
 import com.atech.chat.utils.saveChatSetting
 import com.atech.core.usecase.ChatUseCases
+import com.atech.core.usecase.HasLogIn
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.connectivity.ConnectivityObserver
 import com.google.ai.client.generativeai.Chat
@@ -27,7 +28,8 @@ class ChatViewModel @Inject constructor(
     private val case: ChatUseCases,
     private val mapper: ChatMessageToModelMapper,
     connectivityObserver: ConnectivityObserver,
-    private val pref: SharedPreferences
+    private val pref: SharedPreferences,
+    val hasLogIn: HasLogIn
 ) : ViewModel() {
 
     val connectivity = connectivityObserver.observe()
