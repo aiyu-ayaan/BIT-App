@@ -10,7 +10,7 @@
     </entry>
     <entry>
         <key>force_screen</key>
-        <value>{"description":"This app end its support","isEnable":true,"link":"https://play.google.com/store/apps/details?id=com.atech.bit","minVersion":-1,"title":"About App"}</value>
+        <value>{"description":"This app end its support","isEnable":true,"link":"https://play.google.com/store/apps/details?id=com.atech.bit","maxVersion":-1,"title":"About App"}</value>
     </entry>
     <entry>
         <key>ann_title</key>

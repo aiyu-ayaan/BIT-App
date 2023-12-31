@@ -144,19 +144,19 @@ class MainViewModel @Inject constructor(
                     fromJSON(json, ForceScreenModel::class.java)?.let { model ->
                         _forceScreenModel.value = model
                         _isForceScreenEnable.value =
-                            model.isEnable && model.minVersion >= BuildConfig.VERSION_CODE
+                            model.isEnable && model.maxVersion >= BuildConfig.VERSION_CODE
                     }
                 } catch (e: Exception) {
                     Log.e(TAGS.BIT_ERROR.name, "fetchRemoteConfigDetails: $e")
                 }
-                action.invoke(
-                    attendanceDao,
-                    authUseCases,
-                    pref,
-                    conf.getLong(RemoteConfigKeys.MAX_TIMES_UPLOAD.name).toInt(),
-                    scope
-                )
             }
+            action.invoke(
+                attendanceDao,
+                authUseCases,
+                pref,
+                conf.getLong(RemoteConfigKeys.MAX_TIMES_UPLOAD.name).toInt(),
+                scope
+            )
         }
     }
 
