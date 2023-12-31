@@ -9,6 +9,7 @@ import com.atech.core.datasource.firebase.auth.UserModel
 import com.atech.core.datasource.firebase.firestore.Attach
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.datasource.firebase.firestore.NoticeModel
+import com.atech.core.utils.TAGS
 import com.atech.core.utils.hasSameDay
 import com.atech.core.utils.toJSON
 import com.google.firebase.firestore.FirebaseFirestore
@@ -89,6 +90,7 @@ class AddUser @Inject constructor(
         ref.document(user.uid!!).set(user, SetOptions.merge()).await()
         Pair(user.uid!!, null)
     } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "invoke: AddUser $e")
         Pair("", e)
     }
 }
@@ -110,6 +112,7 @@ class CheckUserData @Inject constructor(
             Pair(false, null)
         }
     } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "invoke: CheckUserData $e")
         Pair(null, e)
     }
 }
@@ -192,6 +195,7 @@ data class GetUserSaveDetails @Inject constructor(
         db.collection(Db.User.value).document(uid).collection(Db.Data.value).document(uid).get()
             .await().toObject(UserData::class.java) to null
     } catch (e: Exception) {
+        Log.e(TAGS.BIT_ERROR.name, "invoke: GetUserSaveDetails $e")
         null to e
     }
 }

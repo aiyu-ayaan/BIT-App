@@ -41,7 +41,7 @@ class MainViewModel @Inject constructor(
     private val pref: SharedPreferences,
     private val authUseCases: AuthUseCases,
     private val attendanceDao: AttendanceDao,
-    @BitAppScope private val scope: CoroutineScope
+    @BitAppScope private val scope: CoroutineScope,
 ) : ViewModel() {
     private val _courseDetail = mutableStateOf(defaultCourseSem)
     val courseDetail: State<CourseDetails> get() = _courseDetail
@@ -96,7 +96,7 @@ class MainViewModel @Inject constructor(
     private val _chanceWithMax = mutableStateOf("${_currentTry.intValue}/${_maxChatLimit.intValue}")
     val chanceWithMax: State<String> get() = _chanceWithMax
 
-    private val _canSendChatMessage = mutableStateOf(true)
+    private val _canSendChatMessage = mutableStateOf(false)
     val canSendChatMessage: State<Boolean> get() = _canSendChatMessage
 
     private val _hasError = mutableStateOf(false)
@@ -134,6 +134,7 @@ class MainViewModel @Inject constructor(
                     return@launch
                 }
                 first?.let {
+                    Log.d("AAA", "fetchChatSettings: ${it.first}")
                     _isChatScreenEnable.value = it.first
                     _lastChat.value = it.second
                     _currentTry.intValue = it.third
@@ -232,6 +233,7 @@ class MainViewModel @Inject constructor(
                     _userData.value = UserData()
                     _profileLink.value = null
                 }
+                _canSendChatMessage.value = false
             }
 
             SharedEvents.FetchUserDetails -> {

@@ -1,6 +1,7 @@
 package com.atech.core.usecase
 
 import android.content.Context
+import android.util.Log
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.firebase.auth.AttendanceUploadModel
 import com.atech.core.datasource.firebase.auth.UserData
@@ -12,6 +13,7 @@ import com.atech.core.utils.BitAppScope
 import com.atech.core.utils.Encryption.decryptText
 import com.atech.core.utils.Encryption.encryptText
 import com.atech.core.utils.Encryption.getCryptore
+import com.atech.core.utils.TAGS
 import com.atech.core.utils.UpdateDataType
 import com.atech.core.utils.fromJSON
 import com.google.firebase.auth.FirebaseAuth
@@ -67,6 +69,7 @@ data class LogIn @Inject constructor(
                 userId, encryptedUserName, encryptedUserEmail, encryptedUserPhoto
             )
             firebaseCases.addUser(userModel).let { (uid, exception) ->
+                Log.d(TAGS.BIT_DEBUG.name, "LoginScreen: $uid")
                 dataStoreCases.clearAll.invoke()
                 attendanceDao.deleteALl()
                 if (exception != null) Pair(false, exception)
