@@ -19,7 +19,7 @@ lifecycleRuntimeKtx = "2.6.2"
 activityCompose = "1.8.2"
 composeBom = "2023.10.01"
 logbackClassic = "1.2.3"
-loggingInterceptorVersion = "4.11.0"
+loggingInterceptorVersion = "4.12.0"
 lottieCompose = "6.2.0"
 #noinspection GradleDependency
 markdownviewAndroid = "1.1.1"
