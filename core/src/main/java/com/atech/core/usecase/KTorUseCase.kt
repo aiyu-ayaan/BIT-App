@@ -76,7 +76,7 @@ data class FetchHolidays @Inject constructor(
                                 holiday.type.contains(query, ignoreCase = true)
                     }
 
-                    else -> it.filter { holiday -> holiday.type == type.value }
+                    else -> it.filter { holiday -> holiday.type == type.value.lowercase() }
                 }
             }
     } catch (e: Exception) {

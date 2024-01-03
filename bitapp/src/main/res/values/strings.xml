@@ -117,4 +117,9 @@
     <string name="app">App</string>
     <string name="all_app_related_notification">All App related notification</string>
     <string name="experimental">Experimental</string>
+    <string name="clear_all">Clear All</string>
+    <string name="connect_link">https://www.instagram.com/bit.app_</string>
+    <string name="app_share_content">Check out BIT Lalpur App :</string>
+    <string name="play_store_link">https://play.google.com/store/apps/details?id=</string>
+    <string name="share_app">Share BIT APP</string>
 </resources>

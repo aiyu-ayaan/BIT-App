@@ -8,4 +8,6 @@ sealed interface CGPAEvent {
     data class OnSem5Change(val value: CgpaEditModel) : CGPAEvent
     data class OnSem6Change(val value: CgpaEditModel) : CGPAEvent
     data object CalculateAndSave : CGPAEvent
+
+    data object ClearAll : CGPAEvent
 }

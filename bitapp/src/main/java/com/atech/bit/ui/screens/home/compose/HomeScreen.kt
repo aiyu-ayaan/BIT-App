@@ -50,6 +50,8 @@ import com.atech.bit.ui.navigation.CourseScreenRoute
 import com.atech.bit.ui.navigation.EventRoute
 import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.navigation.Screen
+import com.atech.bit.ui.navigation.encodeUrl
+import com.atech.bit.ui.navigation.replaceAmpersandWithAsterisk
 import com.atech.bit.ui.screens.course.screen.sem_choose.offlineDataSource
 import com.atech.bit.ui.screens.course.screen.sem_choose.onlineDataSource
 import com.atech.bit.ui.screens.home.HomeScreenEvents
@@ -66,6 +68,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
+import java.net.URL
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -295,7 +298,11 @@ private fun navigateToViewSyllabus(
     model: SyllabusUIModel
 ) {
     navController.navigate(
-        CourseScreenRoute.ViewSubjectScreen.route + "?course=${(course).lowercase()}" + "&courseSem=${if (isOnlineEnable) "${course}${sem}".lowercase() else model.openCode}" + "&subject=${model.subject}" + "&isOnline=$isOnlineEnable"
+        CourseScreenRoute.ViewSubjectScreen.route +
+                "?course=${(course).lowercase()}"
+                + "&courseSem=${if (isOnlineEnable) "${course}${sem}".lowercase() else model.openCode}"
+                + "&subject=${model.subject.replaceAmpersandWithAsterisk()}"
+                + "&isOnline=$isOnlineEnable"
     )
 }
 

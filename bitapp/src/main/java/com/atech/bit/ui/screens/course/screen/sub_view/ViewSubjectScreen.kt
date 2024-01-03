@@ -31,6 +31,7 @@ import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.NetworkScreenEmptyScreen
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.utils.hexToRgb
+import com.atech.chat.comman.MarkDown
 import com.atech.syllabus.getFragment
 import com.mukesh.MarkdownView
 import kotlinx.coroutines.delay
@@ -61,18 +62,19 @@ fun ViewSubjectScreen(
         navController.navigateUp()
     }
 
-    Scaffold(topBar = {
-        BackToolbar(
-            title = "", onNavigationClick = {
-                isComposeViewVisible = false
-                navController.navigateUp()
-            }, scrollBehavior = toolbarScroll
-        )
-    }) {
+    Scaffold(
+        modifier = Modifier
+            .nestedScroll(toolbarScroll.nestedScrollConnection),
+        topBar = {
+            BackToolbar(
+                title = "", onNavigationClick = {
+                    isComposeViewVisible = false
+                    navController.navigateUp()
+                }, scrollBehavior = toolbarScroll
+            )
+        }) {
         Column(
             modifier = modifier
-                .fillMaxSize()
-                .nestedScroll(toolbarScroll.nestedScrollConnection)
                 .verticalScroll(scrollState)
                 .padding(it)
                 .background(

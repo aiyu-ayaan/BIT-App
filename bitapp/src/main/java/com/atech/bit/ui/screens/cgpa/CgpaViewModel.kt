@@ -23,7 +23,6 @@ class CgpaViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _savedCgpa = mutableStateOf(Cgpa())
-    val savedCgpa: State<Cgpa> get() = _savedCgpa
 
     private val _savedSem = mutableIntStateOf(1)
     val savedSem: State<Int> get() = _savedSem
@@ -98,6 +97,27 @@ class CgpaViewModel @Inject constructor(
             }
 
             CGPAEvent.CalculateAndSave -> viewModelScope.launch {
+                Log.d(
+                    "AAA",
+                    "onEvent: ${sem1.value.semester} ${sem1.value.semester.checkHaveValue()}"
+                )
+                if (
+                    sem1.value.semester.checkHaveValue() &&
+                    sem2.value.semester.checkHaveValue() &&
+                    sem3.value.semester.checkHaveValue() &&
+                    sem4.value.semester.checkHaveValue() &&
+                    sem5.value.semester.checkHaveValue() &&
+                    sem6.value.semester.checkHaveValue() &&
+                    sem1.value.earnCredit.checkHaveValue() &&
+                    sem2.value.earnCredit.checkHaveValue() &&
+                    sem3.value.earnCredit.checkHaveValue() &&
+                    sem4.value.earnCredit.checkHaveValue() &&
+                    sem5.value.earnCredit.checkHaveValue() &&
+                    sem6.value.earnCredit.checkHaveValue()
+                ) {
+                    _hasError.value = true
+                    return@launch
+                }
                 val cgpa = Cgpa(
                     sem1 = sem1.value.semester.toDouble(),
                     sem2 = sem2.value.semester.toDouble(),
@@ -122,11 +142,39 @@ class CgpaViewModel @Inject constructor(
                 )
                 _savedCalculateCGPA.value = calculatedCGPA
             }
+
+            CGPAEvent.ClearAll -> viewModelScope.launch {
+                case.updateCgpa.invoke(
+                    Cgpa()
+                )
+                _sem1.value = CgpaEditModel()
+                _sem2.value = CgpaEditModel()
+                _sem3.value = CgpaEditModel()
+                _sem4.value = CgpaEditModel()
+                _sem5.value = CgpaEditModel()
+                _sem6.value = CgpaEditModel()
+                _hasError.value = false
+            }
         }
     }
 
     private fun checkHasError() =
-        _sem1.value.earnCredit.hasCreditError() || _sem2.value.earnCredit.hasCreditError() || _sem3.value.earnCredit.hasCreditError() || _sem4.value.earnCredit.hasCreditError() || _sem5.value.earnCredit.hasCreditError() || _sem6.value.earnCredit.hasCreditError() || _sem1.value.semester.hasCgpaError() || _sem2.value.semester.hasCgpaError() || _sem3.value.semester.hasCgpaError() || _sem4.value.semester.hasCgpaError() || _sem5.value.semester.hasCgpaError() || _sem6.value.semester.hasCgpaError()
+        _sem1.value.earnCredit.hasCreditError() ||
+                _sem2.value.earnCredit.hasCreditError() ||
+                _sem3.value.earnCredit.hasCreditError() ||
+                _sem4.value.earnCredit.hasCreditError() ||
+                _sem5.value.earnCredit.hasCreditError() ||
+                _sem6.value.earnCredit.hasCreditError() ||
+                _sem1.value.semester.hasCgpaError() ||
+                _sem2.value.semester.hasCgpaError() ||
+                _sem3.value.semester.hasCgpaError() ||
+                _sem4.value.semester.hasCgpaError() ||
+                _sem5.value.semester.hasCgpaError() ||
+                _sem6.value.semester.hasCgpaError()
+
+
+    private fun String.checkHaveValue(): Boolean =
+        this.isEmpty() || this == "0.0"
 
 
     private fun getAllDate() = viewModelScope.launch {

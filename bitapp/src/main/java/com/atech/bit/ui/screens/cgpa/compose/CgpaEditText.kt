@@ -63,7 +63,7 @@ fun CgpaEditText(
             value = if (model.semester.isEmpty() || model.semester == "0.0") "" else model.semester,
             placeholder = model.semPlaceHolder,
             onValueChange = {
-                if (it.length > 4) return@EditText
+                if (it.length > 4 || it.isEmpty()) return@EditText
                 onValueChange(model.copy(semester = it))
                 hasSemError = it.hasCgpaError()
             },
@@ -78,6 +78,10 @@ fun CgpaEditText(
                     imageVector = Icons.Outlined.AutoGraph,
                     contentDescription = null
                 )
+            },
+            clearIconClick = {
+                onValueChange(model.copy(semester = "0.0"))
+                hasSemError = false
             }
         )
         Spacer(modifier = Modifier.width(grid_1))
@@ -101,6 +105,10 @@ fun CgpaEditText(
                     imageVector = Icons.Outlined.Subject,
                     contentDescription = null
                 )
+            },
+            clearIconClick = {
+                onValueChange(model.copy(earnCredit = "0.0"))
+                hasTotalGrade = false
             }
         )
     }

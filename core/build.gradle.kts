@@ -4,6 +4,7 @@ plugins {
     id("com.google.devtools.ksp")
     id("kotlin-parcelize")
     id("androidx.room")
+    id("org.jetbrains.dokka")
 }
 
 android {
