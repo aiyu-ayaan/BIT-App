@@ -54,6 +54,8 @@ import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.NetworkScreenEmptyScreen
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.CourseScreenRoute
+import com.atech.bit.ui.navigation.encodeUrl
+import com.atech.bit.ui.navigation.replaceAmpersandWithAsterisk
 import com.atech.bit.ui.screens.course.CourseEvents
 import com.atech.bit.ui.screens.course.CourseViewModel
 import com.atech.bit.ui.screens.course.components.SubjectItem
@@ -294,7 +296,7 @@ private fun navigateToViewSubjectScreen(
         CourseScreenRoute.ViewSubjectScreen.route
                 + "?course=${viewModel.currentClickItem.value.name}"
                 + "&courseSem=${if (isOnline) viewModel.currentClickItem.value.name + viewModel.currentSem.value else model.openCode}"
-                + "&subject=${model.subject}"
+                + "&subject=${model.subject.replaceAmpersandWithAsterisk()}"
                 + "&isOnline=$isOnline"
     )
 }

@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.atech.bit.ui.navigation.replaceAsteriskWithAmpersand
 import com.atech.core.usecase.KTorUseCase
 import com.atech.core.utils.TAGS
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +20,7 @@ class ViewSubjectViewModel @Inject constructor(
 ) : ViewModel() {
     private val course = state.get<String>("course") ?: ""
     val courseSem = state.get<String>("courseSem") ?: ""
-    private val subject = state.get<String>("subject") ?: ""
+    private val subject = state.get<String>("subject")?.replaceAsteriskWithAmpersand() ?: ""
     val isOnline = state.get<Boolean>("isOnline") ?: true
 
     private val _onlineMdContent = mutableStateOf("")
