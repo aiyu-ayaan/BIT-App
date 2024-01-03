@@ -85,7 +85,9 @@ import com.atech.bit.ui.theme.grid_2
 import com.atech.bit.ui.theme.grid_3
 import com.atech.bit.utils.openBugLink
 import com.atech.bit.utils.openReleaseNotes
+import com.atech.bit.utils.openShareApp
 import com.atech.core.utils.openCustomChromeTab
+import com.atech.core.utils.openLinks
 import com.atech.core.utils.openPlayStore
 import kotlinx.coroutines.launch
 
@@ -212,6 +214,7 @@ val navDrawerItem = listOf(
         NavDrawer(
             title = R.string.connect,
             selectedIcon = R.drawable.ic_cwu,
+            link = R.string.connect
         ), NavDrawer(
             title = R.string.feedback,
             selectedIcon = R.drawable.ic_mail,
@@ -221,6 +224,7 @@ val navDrawerItem = listOf(
         NavDrawer(
             title = R.string.share,
             selectedIcon = R.drawable.ic_share,
+            link = R.string.share
         ), NavDrawer(
             title = R.string.rate_us, selectedIcon = R.drawable.ic_star, route = "play_store"
         )
@@ -306,6 +310,18 @@ private fun ColumnScope.drawerItem(
                 if (screen.link == R.string.feedback) {
                     closeAction.invoke()
                     context.openBugLink()
+                    return@NavigationDrawerItem
+                }
+                if (screen.link == R.string.connect) {
+                    closeAction.invoke()
+                    context.getString(
+                        R.string.connect_link
+                    ).openLinks(context)
+                    return@NavigationDrawerItem
+                }
+                if (screen.link == R.string.share) {
+                    closeAction.invoke()
+                    context.openShareApp()
                     return@NavigationDrawerItem
                 }
                 closeAction.invoke()
