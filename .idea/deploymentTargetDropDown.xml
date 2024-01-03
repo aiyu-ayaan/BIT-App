@@ -4,18 +4,29 @@
     <value>
       <entry key="bitapp">
         <State>
+          <runningDeviceTargetSelectedWithDropDown>
+            <Target>
+              <type value="RUNNING_DEVICE_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="D:\AndroidWorkSpace\.android\.android\avd\Pixel_5_API_30.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </runningDeviceTargetSelectedWithDropDown>
           <targetSelectedWithDropDown>
             <Target>
               <type value="QUICK_BOOT_TARGET" />
               <deviceKey>
                 <Key>
                   <type value="VIRTUAL_DEVICE_PATH" />
-                  <value value="D:\AndroidWorkSpace\.android\.android\avd\Pixel_8_API_34.avd" />
+                  <value value="D:\AndroidWorkSpace\.android\.android\avd\Pixel_5_API_30.avd" />
                 </Key>
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-01-01T15:59:14.622728200Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-01-03T15:24:43.577209900Z" />
         </State>
       </entry>
     </value>

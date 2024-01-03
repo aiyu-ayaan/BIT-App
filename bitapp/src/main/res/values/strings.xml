@@ -117,4 +117,5 @@
     <string name="app">App</string>
     <string name="all_app_related_notification">All App related notification</string>
     <string name="experimental">Experimental</string>
+    <string name="clear_all">Clear All</string>
 </resources>

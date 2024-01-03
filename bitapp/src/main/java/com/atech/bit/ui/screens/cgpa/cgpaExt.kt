@@ -27,7 +27,9 @@ fun String.hasCreditError(): Boolean = if (this.isNotEmpty()) {
 
 
 data class CgpaEditModel(
-    val semPlaceHolder: String = "", val semester: String = "", val earnCredit: String = ""
+    val semPlaceHolder: String = "",
+    val semester: String = "",
+    val earnCredit: String = ""
 )
 
 fun Cgpa.toPair() = listOf(
