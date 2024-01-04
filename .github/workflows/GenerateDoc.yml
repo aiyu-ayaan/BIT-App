@@ -72,8 +72,8 @@ jobs:
           cp -r docs/* copyDoc/generated/docs
           ls -la copyDoc/generated/docs
           mkdir -p copyDoc/generated/docs/app
-          cp -r htmlMultiModule/* copyDoc/generated/docs/code
-          ls -la copyDoc/generated/docs/code
+          cp -r htmlMultiModule/* copyDoc/generated/docs/app
+          ls -la copyDoc/generated/docs/app
       - name: Upload docs
         uses: actions/upload-artifact@v2
         with:
