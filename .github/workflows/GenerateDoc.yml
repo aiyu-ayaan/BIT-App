@@ -25,6 +25,13 @@ jobs:
           cache: gradle
       - name: Make gradlew executable
         run: chmod +x gradlew
+      - name: Creating Local.Properties
+        env:
+          FIREBASE_WEB_CLIENT_ID: ${{ secrets.FIREBASE_WEB_CLIENT_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          echo "firebaseWebClient=${FIREBASE_WEB_CLIENT_ID}" >> ./local.properties
+          echo "apiKey=${GEMINI_API_KEY}" >> ./local.properties
       - name: Generate Dokka docs
         run: ./gradlew dokkaHtmlMultiModule
       - name: Upload Kt docs
