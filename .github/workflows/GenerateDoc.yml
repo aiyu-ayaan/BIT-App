@@ -2,15 +2,6 @@ name: Generate Docs 📄
 
 on:
   workflow_dispatch:
-    inputs:
-      stable:
-        description: 'Current App Stable Version'
-        required: true
-        default: 'v5.0.2'
-      pre_release:
-        description: 'Current App Pre-Release Version'
-        required: true
-        default: 'v6.0.0.2'
 
 jobs:
   build:
@@ -105,10 +96,27 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: generated-docs
+      - uses: joutvhu/get-release@v1
+        id: latest_release
+        with:
+          latest: true
+          pattern: 'v.+'
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
+      - uses: joutvhu/get-release@v1
+        id: pre_release
+        with:
+          latest: true
+          pattern: 'pre.+'
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
       - run: |
           cd generated
-          sed -i -E 's/stable.+/stable: ${{ github.event.inputs.stable }}/' mkdocs.yml 
-          sed -i -E 's/pre_release.+/pre_release: ${{ github.event.inputs.pre_release }}/' mkdocs.yml 
+          v=$(echo ${{ steps.latest_release.outputs.tag_name }} | cut -c 13-)
+          sed -i -E 's/stable.+/stable: ${{ steps.latest_release.outputs.tag_name }}/' mkdocs.yml 
+          sed -i -E 's/pre_release.+/pre_release: $v/' mkdocs.yml 
           echo "stable: ${{ github.event.inputs.stable }}"
           echo "pre_release: ${{ github.event.inputs.pre_release }}"
           pip install mkdocs-material
