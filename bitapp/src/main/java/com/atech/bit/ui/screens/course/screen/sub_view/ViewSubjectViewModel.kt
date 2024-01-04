@@ -20,7 +20,7 @@ class ViewSubjectViewModel @Inject constructor(
 ) : ViewModel() {
     private val course = state.get<String>("course") ?: ""
     val courseSem = state.get<String>("courseSem") ?: ""
-    private val subject = state.get<String>("subject")?.replaceAsteriskWithAmpersand() ?: ""
+    val subject = state.get<String>("subject")?.replaceAsteriskWithAmpersand() ?: ""
     val isOnline = state.get<Boolean>("isOnline") ?: true
 
     private val _onlineMdContent = mutableStateOf("")

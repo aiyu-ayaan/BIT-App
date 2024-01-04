@@ -5,16 +5,20 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.atech.bit.R
+import com.atech.core.datasource.retrofit.BitAppApiService.Companion.BASE_URL
+import com.atech.core.utils.encodeUrlSpaces
 import com.atech.core.utils.handler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.net.URL
 
 /**
  *Extension function to share link
@@ -62,3 +66,35 @@ fun saveFileToCaches(context: Context, bitmap: Bitmap): Uri? =
             null
         }
     }
+
+fun Context.openShareString(message: String) =
+    this.startActivity(Intent.createChooser(Intent().apply {
+        action = Intent.ACTION_SEND
+        putExtra(
+            Intent.EXTRA_TEXT,
+            message
+        )
+        type = "text/plain"
+        putExtra(Intent.EXTRA_TITLE, resources.getString(R.string.share_app))
+
+        flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+    }, null))
+
+fun Context.shareOnlineSyllabus(pair: Pair<String, String>) = this.apply {
+    Toast.makeText(this, "Getting Web Link", Toast.LENGTH_SHORT).show()
+    val url = URL(
+        "${BASE_URL}syllabus/${
+            pair.second.replace(
+                "\\d".toRegex(),
+                ""
+            )
+        }/${pair.second}/subjects/${pair.first}".encodeUrlSpaces()
+    )
+    val text = """
+            ${pair.first} .
+            Link: $url
+            
+            Sauce: ${resources.getString(R.string.play_store_link)}$packageName
+        """.trimIndent()
+    openShareString(text)
+}
