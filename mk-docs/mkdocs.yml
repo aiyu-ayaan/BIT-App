@@ -71,7 +71,7 @@ plugins:
       caption_position: bottom
 
 nav:
-  - BIT App: 'index.md'
+  - Home: 'index.md'
   - Api Reference: 'app/index.html'
   - Change Logs: 'https://github.com/BIT-Lalpur-App/BIT-App/releases'
   - Image Gallery: 'gallery.md'
@@ -82,6 +82,8 @@ extra:
       link: https://www.github.com/aiyu-ayaan
     - icon: fontawesome/brands/instagram
       link: https://www.instagram.com/bit.app_
+    - icon: fontawesome/brands/google-play
+      link: https://play.google.com/store/apps/details?id=com.atech.bit
   version:
-    stable: v5.0.2
-    pre_release: 6.0.0.2-beta
+    stable: v1
+    pre_release: v1

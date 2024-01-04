@@ -10,7 +10,7 @@ on:
       pre_release:
         description: 'Current App Pre-Release Version'
         required: true
-        default: 'v5.0.3-beta'
+        default: 'v6.0.0.2'
 
 jobs:
   build:
@@ -107,6 +107,10 @@ jobs:
           name: generated-docs
       - run: |
           cd generated
+          sed -i -E 's/stable.+/stable: ${{ github.event.inputs.stable }}/' mkdocs.yml 
+          sed -i -E 's/pre_release.+/pre_release: ${{ github.event.inputs.pre_release }}/' mkdocs.yml 
+          echo "stable: ${{ github.event.inputs.stable }}"
+          echo "pre_release: ${{ github.event.inputs.pre_release }}"
           pip install mkdocs-material
           pip install mkdocs-glightbox
           pip install mkdocs-markdownextradata-plugin
