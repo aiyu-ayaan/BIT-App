@@ -69,7 +69,7 @@ jobs:
           mkdir -p copyDoc/generated
           cp mkdocs.yml copyDoc/generated
           mkdir -p copyDoc/generated/docs
-          cp -r mk-docs/* copyDoc/generated/docs
+          cp -r docs/* copyDoc/generated/docs
           ls -la copyDoc/generated/docs
           mkdir -p copyDoc/generated/docs/app
           cp -r htmlMultiModule/* copyDoc/generated/docs/code
