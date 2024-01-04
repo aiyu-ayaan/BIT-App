@@ -80,8 +80,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bundle
-      - name : Rename file to match tag
-        run : |
+      - name: Rename file to match tag
+        run: |
           echo ${{ github.ref }}
           v=$(echo ${{ github.ref }} | cut -c 11-)
           echo $v
@@ -186,15 +186,24 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-
       - name: Download docs
         uses: actions/download-artifact@v3
         with:
           name: generated-docs
+      - uses: joutvhu/get-release@v1
+        id: pre_release
+        with:
+          latest: true
+          pattern: 'pre.+'
+          prerelease: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
       - run: |
           cd generated 
           v=$(echo ${{ github.ref }} | cut -c 11-)
-          sed -i -E 's/stable.+/stable: $v/' mkdocs.yml 
+          pre=$(echo ${{ steps.latest_release.outputs.tag_name }} | cut -c 13-)
+          sed -i -E "/stable.+/stable: $v /" mkdocs.yml
+          sed -i -E "s/pre_release.+/pre_release: $pre /" mkdocs.yml
           pip install mkdocs-material
           pip install mkdocs-glightbox
           pip install mkdocs-markdownextradata-plugin

@@ -184,15 +184,21 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-
       - name: Download docs
         uses: actions/download-artifact@v3
         with:
           name: generated-docs
+      - uses: joutvhu/get-release@v1
+        id: latest_release
+        with:
+          latest: true
+          pattern: 'v.+'
+          prerelease: false
       - run: |
-          cd generated 
+          cd generated  
           v=$(echo ${{ github.ref }} | cut -c 23-)
-          sed -i -E 's/pre_release.+/pre_release: $v/' mkdocs.yml 
+          sed -i -E 's/stable.+/stable: ${{ steps.latest_release.outputs.tag_name }}/' mkdocs.yml
+          sed -i -E "s/pre_release.+/pre_release: $v /" mkdocs.yml 
           pip install mkdocs-material
           pip install mkdocs-glightbox
           pip install mkdocs-markdownextradata-plugin
