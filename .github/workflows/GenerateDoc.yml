@@ -114,9 +114,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
       - run: |
           cd generated
-          v=$(echo ${{ steps.latest_release.outputs.tag_name }} | cut -c 13-)
+          pre=$(echo ${{ steps.pre_release.outputs.tag_name }} | cut -c 13-)
           sed -i -E 's/stable.+/stable: ${{ steps.latest_release.outputs.tag_name }}/' mkdocs.yml 
-          sed -i -E "s/pre_release.+/pre_release: $v/" mkdocs.yml 
+          sed -i -E "s/pre_release.+/pre_release: $v /" mkdocs.yml 
           echo "stable: ${{ github.event.inputs.stable }}"
           echo "pre_release: ${{ github.event.inputs.pre_release }}"
           pip install mkdocs-material
