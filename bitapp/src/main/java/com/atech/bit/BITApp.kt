@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import coil.ImageLoader
 import coil.ImageLoaderFactory
@@ -14,6 +15,7 @@ import coil.request.CachePolicy
 import coil.util.DebugLogger
 import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.utils.mapWithNotificationEnable
+import com.atech.bit.utils.mapWithNotificationEnableTest
 import com.atech.chat.utils.getChatSetting
 import com.atech.core.usecase.AutoDeleteChatIn30Days
 import com.atech.core.utils.BitAppScope
@@ -27,7 +29,6 @@ import com.atech.core.utils.CHANNEL_ID_UPDATE
 import com.atech.core.utils.CHANNEL_NOTICE
 import com.atech.core.utils.CHANNEL_UPDATE
 import com.atech.core.utils.MAX_APP_OPEN_TIME
-import com.atech.core.utils.MessageTopicTest
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.fromJSON
 import com.google.firebase.messaging.FirebaseMessaging
@@ -84,11 +85,11 @@ class BITApp : Application(), ImageLoaderFactory {
     }
 
     private fun setUpFcm() {
-        if (BuildConfig.DEBUG) {
-            MessageTopicTest.entries.forEach {
-                fcm.subscribeToTopic(it.value)
-            }
-        } else mapWithNotificationEnable(appNotificationSetting).forEach(::notificationSetting)
+        if (BuildConfig.DEBUG)
+            mapWithNotificationEnableTest(
+                appNotificationSetting
+            ).forEach(::notificationSetting)
+        else mapWithNotificationEnable(appNotificationSetting).forEach(::notificationSetting)
     }
 
     private fun notificationSetting(

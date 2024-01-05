@@ -119,18 +119,18 @@ class CgpaViewModel @Inject constructor(
                     return@launch
                 }
                 val cgpa = Cgpa(
-                    sem1 = sem1.value.semester.toDouble(),
-                    sem2 = sem2.value.semester.toDouble(),
-                    sem3 = sem3.value.semester.toDouble(),
-                    sem4 = sem4.value.semester.toDouble(),
-                    sem5 = sem5.value.semester.toDouble(),
-                    sem6 = sem6.value.semester.toDouble(),
-                    earnCrSem1 = sem1.value.earnCredit.toDouble(),
-                    earnCrSem2 = sem2.value.earnCredit.toDouble(),
-                    earnCrSem3 = sem3.value.earnCredit.toDouble(),
-                    earnCrSem4 = sem4.value.earnCredit.toDouble(),
-                    earnCrSem5 = sem5.value.earnCredit.toDouble(),
-                    earnCrSem6 = sem6.value.earnCredit.toDouble(),
+                    sem1 = sem1.value.semester.ifBlank { "0.0" }.toDouble(),
+                    sem2 = sem2.value.semester.ifBlank { "0.0" }.toDouble(),
+                    sem3 = sem3.value.semester.ifBlank { "0.0" }.toDouble(),
+                    sem4 = sem4.value.semester.ifBlank { "0.0" }.toDouble(),
+                    sem5 = sem5.value.semester.ifBlank { "0.0" }.toDouble(),
+                    sem6 = sem6.value.semester.ifBlank { "0.0" }.toDouble(),
+                    earnCrSem1 = sem1.value.earnCredit.ifBlank { "0.0" }.toDouble(),
+                    earnCrSem2 = sem2.value.earnCredit.ifBlank { "0.0" }.toDouble(),
+                    earnCrSem3 = sem3.value.earnCredit.ifBlank { "0.0" }.toDouble(),
+                    earnCrSem4 = sem4.value.earnCredit.ifBlank { "0.0" }.toDouble(),
+                    earnCrSem5 = sem5.value.earnCredit.ifBlank { "0.0" }.toDouble(),
+                    earnCrSem6 = sem6.value.earnCredit.ifBlank { "0.0" }.toDouble(),
                     cgpa = _savedCgpa.value.cgpa,
                 )
                 val calculatedCGPA = cgpa.toPair().calculateCgpa()

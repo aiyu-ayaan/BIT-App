@@ -2,6 +2,7 @@ package com.atech.core.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.concurrent.TimeUnit
 
@@ -11,8 +12,10 @@ fun Date.compareDifferenceInDays(date: Date): Int {
 }
 
 infix fun Long.hasSameDay(date: Long): Boolean {
-    val diff = this - date
-    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS) == 0L
+    val day1 =
+        Calendar.getInstance().apply { timeInMillis = this@hasSameDay }.get(Calendar.DAY_OF_YEAR)
+    val day2 = Calendar.getInstance().apply { timeInMillis = date }.get(Calendar.DAY_OF_YEAR)
+    return day1 == day2
 }
 
 @SuppressLint("SimpleDateFormat")
