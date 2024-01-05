@@ -194,6 +194,8 @@ jobs:
           latest: true
           pattern: 'v.+'
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
       - run: |
           cd generated  
           v=$(echo ${{ github.ref }} | cut -c 23-)
