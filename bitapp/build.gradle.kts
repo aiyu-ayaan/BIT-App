@@ -19,8 +19,8 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 34
-        versionCode = 69
-        versionName = "6.0.0.3"
+        versionCode = 70
+        versionName = "6.0.0.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -30,7 +30,11 @@ android {
         val properties = Properties()
         properties.load(project.rootProject.file("local.properties").reader())
 
-        buildConfigField("String","FIREBASE_WEB_CLIENT","\"${properties.getProperty("FIREBASE_WEB_CLIENT")}\"")
+        buildConfigField(
+            "String",
+            "FIREBASE_WEB_CLIENT",
+            "\"${properties.getProperty("FIREBASE_WEB_CLIENT")}\""
+        )
     }
     bundle {
         storeArchive {
