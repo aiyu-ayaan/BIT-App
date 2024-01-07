@@ -19,8 +19,8 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 34
-        versionCode = 70
-        versionName = "6.0.0.4"
+        versionCode = 71
+        versionName = "6.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -162,6 +162,6 @@ dependencies {
 
     implementation(libs.graph)
 
-    implementation("com.github.instacart:truetime-android:3.5")
+    implementation(libs.truetime.android)
 
 }
