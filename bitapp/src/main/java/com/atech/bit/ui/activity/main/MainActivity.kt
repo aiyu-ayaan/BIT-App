@@ -3,18 +3,16 @@ package com.atech.bit.ui.activity.main
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -63,6 +61,7 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.checkTime()
         setContent {
             val themeState by viewModel.themeState
             val navHostController = rememberNavController()
@@ -77,6 +76,14 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver,
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface
                 ) {
+                    LaunchedEffect(key1 = viewModel.isTimeCorrect.value) {
+                        if (!viewModel.isTimeCorrect.value && viewModel.hasSetUpDone) {
+                            navHostController.popBackStack()
+                            navHostController.navigate(
+                                ParentScreenRoutes.TimeForceScreen.route
+                            )
+                        }
+                    }
                     viewModel.action = {
                         navHostController.navigate(
                             TopLevelRoute.LOGIN.route
@@ -162,6 +169,11 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver,
                     installApp()
                 }
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.checkTime()
     }
 
 

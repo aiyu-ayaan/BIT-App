@@ -162,4 +162,6 @@ dependencies {
 
     implementation(libs.graph)
 
+    implementation("com.github.instacart:truetime-android:3.5")
+
 }

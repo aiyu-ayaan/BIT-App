@@ -6,7 +6,8 @@ package com.atech.core.utils
 const val cacheSize = (40 * 1024 * 1024).toLong()
 
 enum class TAGS {
-    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE
+    BIT_ERROR, BIT_DEBUG, BIT_COROUTINE, BIT_REMOTE,
+    BIT_TIME
 }
 
 

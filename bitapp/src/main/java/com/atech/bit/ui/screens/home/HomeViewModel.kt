@@ -20,6 +20,7 @@ import com.atech.core.utils.SYLLABUS_SOURCE_DATA
 import com.atech.core.utils.SharePrefKeys
 import com.atech.core.utils.TAGS
 import com.atech.core.utils.UpdateDataType
+import com.atech.core.utils.connectivity.ConnectivityObserver
 import com.atech.core.utils.fromJSON
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -41,8 +42,17 @@ class HomeViewModel @Inject constructor(
     val firebaseCase: FirebaseCase,
     private val pref: SharedPreferences,
     private val authUseCases: AuthUseCases,
+    connectivityObserver: ConnectivityObserver,
     calendar: Calendar,
 ) : ViewModel() {
+
+    val isConnected = connectivityObserver.observe().map {
+        when (it) {
+            ConnectivityObserver.Status.Available -> true
+            else -> false
+        }
+    }
+
 
     private val currentMonth = calendar.getDisplayName(
         Calendar.MONTH, Calendar.LONG, Locale.ENGLISH

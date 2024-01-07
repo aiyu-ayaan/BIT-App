@@ -200,10 +200,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACCOUNT_TOKEN }}
       - run: |
           cd generated 
-          v=$(echo ${{ github.ref }} | cut -c 11-)
-          pre=$(echo ${{ steps.pre_release.outputs.tag_name }} | cut -c 13-)
-          sed -i -E "/stable.+/stable: $v /" mkdocs.yml
-          sed -i -E "s/pre_release.+/pre_release: $pre /" mkdocs.yml
+          sed -i -E "s/stable.+/stable: $(echo ${{ github.ref }} | cut -c 11-) /" mkdocs.yml
+          sed -i -E "s/pre_release.+/pre_release: $(echo ${{ steps.pre_release.outputs.tag_name }} | cut -c 13-) /" mkdocs.yml
           pip install mkdocs-material
           pip install mkdocs-glightbox
           pip install mkdocs-markdownextradata-plugin
