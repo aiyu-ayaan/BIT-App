@@ -2,6 +2,7 @@ package com.atech.bit.ui.screens.notice.notice.compose
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
+import com.atech.bit.ui.comman.GlobalEmptyScreen
 import com.atech.bit.ui.comman.NoticeItem
 import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.NoticeScreenRoute
@@ -44,39 +46,46 @@ fun NoticeScreen(
             )
         }
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .consumeWindowInsets(it),
-            contentPadding = it
-        ) {
-            items(
-                items = fetchedNotice,
-                key = { UUID.randomUUID() }
-            ) { notice ->
-                NoticeItem(
-                    model = notice,
-                    modifier = Modifier.animateItemPlacement(),
-                    getAttach = viewModel.getAttach,
-                    onNoticeClick = { noticeModel ->
-                        viewModel.onEvent(
-                            NoticeScreenEvent
-                                .OnEventClick(
-                                    noticeModel
+        GlobalEmptyScreen(
+            modifier = Modifier.padding(it),
+            isEmpty = fetchedNotice.isEmpty(),
+            emptyText = "No notice found",
+            content = {
+                LazyColumn(
+                    modifier = Modifier
+                        .consumeWindowInsets(it),
+                    contentPadding = it
+                ) {
+                    items(
+                        items = fetchedNotice,
+                        key = { UUID.randomUUID() }
+                    ) { notice ->
+                        NoticeItem(
+                            model = notice,
+                            modifier = Modifier.animateItemPlacement(),
+                            getAttach = viewModel.getAttach,
+                            onNoticeClick = { noticeModel ->
+                                viewModel.onEvent(
+                                    NoticeScreenEvent
+                                        .OnEventClick(
+                                            noticeModel
+                                        )
                                 )
-                        )
-                        navController.navigate(
-                            NoticeScreenRoute
-                                .NoticeDetailsScreen.route
-                        )
-                    },
-                    onClick = {
-                        navController.navigateWithDeepLink(
-                            DeepLinkRoutes.ViewImageRoute(it)
+                                navController.navigate(
+                                    NoticeScreenRoute
+                                        .NoticeDetailsScreen.route
+                                )
+                            },
+                            onClick = {
+                                navController.navigateWithDeepLink(
+                                    DeepLinkRoutes.ViewImageRoute(it)
+                                )
+                            }
                         )
                     }
-                )
+                }
             }
-        }
+        )
     }
 }
 

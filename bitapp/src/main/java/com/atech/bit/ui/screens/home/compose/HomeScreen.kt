@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.Row
@@ -26,6 +27,7 @@ import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -37,6 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.atech.bit.R
 import com.atech.bit.ui.activity.main.MainViewModel
 import com.atech.bit.ui.activity.main.toggleDrawer
 import com.atech.bit.ui.comman.BottomPadding
@@ -50,7 +53,6 @@ import com.atech.bit.ui.navigation.CourseScreenRoute
 import com.atech.bit.ui.navigation.EventRoute
 import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.navigation.Screen
-import com.atech.bit.ui.navigation.encodeUrl
 import com.atech.bit.ui.navigation.replaceAmpersandWithAsterisk
 import com.atech.bit.ui.screens.course.screen.sem_choose.offlineDataSource
 import com.atech.bit.ui.screens.course.screen.sem_choose.onlineDataSource
@@ -68,7 +70,6 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.PermissionState
 import com.google.accompanist.permissions.PermissionStatus
 import com.google.accompanist.permissions.rememberPermissionState
-import java.net.URL
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -100,6 +101,7 @@ fun HomeScreen(
     var isProfileDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    val isConnected by viewModel.isConnected.collectAsState(initial = true)
 
     var permissionState: PermissionState? = null
     isAPI33AndUp {
@@ -201,15 +203,20 @@ fun HomeScreen(
                 }
             }
             singleElement(key = "Header") {
-                HeaderCompose(isEnable = isOnlineEnable, onEnableChange = { currentState ->
-                    viewModel.onEvent(
-                        HomeScreenEvents.ToggleOnlineSyllabusClick(
-                            currentState
+                HeaderCompose(
+                    isEnable = isOnlineEnable,
+                    onEnableChange = { currentState ->
+                        viewModel.onEvent(
+                            HomeScreenEvents.ToggleOnlineSyllabusClick(
+                                currentState
+                            )
                         )
-                    )
-                }, onSettingClick = {
-                    isChooseSemSelected = !isChooseSemSelected
-                })
+                    },
+                    onSettingClick = {
+                        isChooseSemSelected = !isChooseSemSelected
+                    },
+                    isConnected = isConnected
+                )
             }
             if (isOnlineEnable) onlineDataSource(
                 onlineData.first,
@@ -310,10 +317,12 @@ private fun navigateToViewSyllabus(
 private fun HeaderCompose(
     modifier: Modifier = Modifier,
     isEnable: Boolean = false,
+    isConnected: Boolean = false,
     onEnableChange: (Boolean) -> Unit = {},
     onEditClick: () -> Unit = {},
     onSettingClick: () -> Unit = {}
 ) {
+    val context = LocalContext.current
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -338,6 +347,18 @@ private fun HeaderCompose(
                 contentDescription = null
             )
         })
+        AnimatedVisibility(visible = !isConnected) {
+            ImageIconButton(
+                icon = Icons.Outlined.WifiOff,
+                tint = MaterialTheme.colorScheme.onError,
+                onClick = {
+                    Toast.makeText(
+                        context, context.getString(R.string.offline_mode_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            )
+        }
         AnimatedVisibility(visible = /*!isEnable*/ false) {
             ImageIconButton(
                 icon = Icons.Outlined.Edit,

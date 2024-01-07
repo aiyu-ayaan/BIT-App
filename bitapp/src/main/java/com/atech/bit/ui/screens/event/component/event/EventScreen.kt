@@ -1,6 +1,7 @@
 package com.atech.bit.ui.screens.event.component.event
 
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.atech.bit.R
 import com.atech.bit.ui.comman.BackToolbar
 import com.atech.bit.ui.comman.EventItem
+import com.atech.bit.ui.comman.GlobalEmptyScreen
 import com.atech.bit.ui.navigation.DeepLinkRoutes
 import com.atech.bit.ui.navigation.EventRoute
 import com.atech.bit.ui.navigation.navigateWithDeepLink
@@ -49,30 +51,38 @@ fun EventScreen(
             )
         }
     ) {
-        LazyColumn(
+        GlobalEmptyScreen(
             modifier = Modifier
-                .consumeWindowInsets(it),
-            contentPadding = it
-        ) {
-            items(
-                items = events,
-                key = { event -> event.title + event.created }
-            ) { model ->
-                EventItem(
-                    model = model,
-                    onEventClick = { clickItems ->
-                        viewModel.onEvent(EventScreenEvent.OnEventClick(clickItems))
-                        navController.navigate(EventRoute.DetailScreen.route)
-                    },
-                    getAttach = viewModel.getAttach,
-                    onClick = {
-                        navController.navigateWithDeepLink(
-                            DeepLinkRoutes.ViewImageRoute(it)
+                .padding(it),
+            isEmpty = events.isEmpty(),
+            emptyText = "No events found",
+            content = {
+                LazyColumn(
+                    modifier = Modifier
+                        .consumeWindowInsets(it),
+                    contentPadding = it
+                ) {
+                    items(
+                        items = events,
+                        key = { event -> event.title + event.created }
+                    ) { model ->
+                        EventItem(
+                            model = model,
+                            onEventClick = { clickItems ->
+                                viewModel.onEvent(EventScreenEvent.OnEventClick(clickItems))
+                                navController.navigate(EventRoute.DetailScreen.route)
+                            },
+                            getAttach = viewModel.getAttach,
+                            onClick = {
+                                navController.navigateWithDeepLink(
+                                    DeepLinkRoutes.ViewImageRoute(it)
+                                )
+                            }
                         )
                     }
-                )
+                }
             }
-        }
+        )
     }
 }
 
