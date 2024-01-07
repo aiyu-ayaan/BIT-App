@@ -93,7 +93,7 @@ fun ViewSubjectScreen(
         }) {
         Column(
             modifier = modifier
-                .verticalScroll(scrollState)
+                /*.verticalScroll(scrollState)*/
                 .padding(it)
                 .background(
                     MaterialTheme.colorScheme.surface
