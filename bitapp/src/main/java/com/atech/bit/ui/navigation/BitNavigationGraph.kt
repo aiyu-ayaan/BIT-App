@@ -15,6 +15,7 @@ import com.atech.bit.ui.screens.MainScreen
 import com.atech.bit.ui.screens.administration.AdministrationScreen
 import com.atech.bit.ui.screens.cgpa.compose.CgpaScreen
 import com.atech.bit.ui.screens.force.ForceScreen
+import com.atech.bit.ui.screens.force.TimeForceScreen
 import com.atech.bit.ui.screens.holiday.compose.HolidayScreen
 import com.atech.bit.ui.screens.view_image.ViewImageScreen
 import com.atech.bit.utils.animatedComposable
@@ -31,6 +32,8 @@ sealed class ParentScreenRoutes(val route: String) {
     data object MainScreen : ParentScreenRoutes(TopLevelRoute.MAIN_SCREEN.route)
 
     data object ForceScreen : ParentScreenRoutes("force_screen")
+
+    data object TimeForceScreen : ParentScreenRoutes("time_force_screen")
 }
 
 @Composable
@@ -58,6 +61,15 @@ fun TopLevelNavigationGraph(
             ForceScreen(
                 model = communicatorViewModel
                     .forceScreenModel.value
+            )
+        }
+        animatedComposable(
+            route = ParentScreenRoutes.TimeForceScreen.route
+        ) {
+            TimeForceScreen(
+                state = communicatorViewModel
+                    .isTimeCorrect.value,
+                navController = navHostController
             )
         }
     }
