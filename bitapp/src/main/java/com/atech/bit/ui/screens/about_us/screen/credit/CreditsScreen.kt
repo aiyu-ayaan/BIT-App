@@ -261,6 +261,11 @@ val credits = listOf(
         "Generative-AI-Android",
         "https://ai.google.dev/",
         listOf(Licenses.APACHE_2_0)
+    ),
+    Credit(
+        "Truetime-android",
+        "https://github.com/instacart/truetime-android",
+        listOf(Licenses.APACHE_2_0)
     )
 ).sortedBy {
     it.title
