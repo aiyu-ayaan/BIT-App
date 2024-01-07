@@ -30,9 +30,12 @@ import com.atech.core.utils.TAGS
 import com.atech.core.utils.fromJSON
 import com.atech.core.utils.hasSameDay
 import com.atech.core.utils.toJSON
+import com.instacart.library.truetime.TrueTimeRx
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.schedulers.Schedulers
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
@@ -363,5 +366,19 @@ class MainViewModel @Inject constructor(
                     (_currentTry.intValue < _maxChatLimit.intValue && _lastChat.value hasSameDay System.currentTimeMillis()) && authUseCases.hasLogIn.invoke()
             }
         }
+    }
+
+    //    _______________________________________ Time _____________________________________________________
+    private val _isTimeCorrect = mutableStateOf(true)
+    val isTimeCorrect: State<Boolean> get() = _isTimeCorrect
+    fun checkTime() = viewModelScope.launch {
+        TrueTimeRx.build().initializeRx("time.apple.com")
+            .subscribeOn(Schedulers.io())
+            .subscribe({ date ->
+                Log.d(TAGS.BIT_TIME.name, "checkTime: ${date.time hasSameDay Date().time}")
+                _isTimeCorrect.value = date.time hasSameDay Date().time
+            }, { throwable ->
+                Log.e(TAGS.BIT_TIME.name, "checkTime: $throwable")
+            })
     }
 }
