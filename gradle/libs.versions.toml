@@ -30,7 +30,6 @@ media3UiVersion = "1.2.0"
 pagingCompose = "3.3.0-alpha02"
 pagingRuntimeKtx = "3.2.1"
 richtextCommonmark = "0.17.0"
-richtextUiMaterial3 = "0.17.0"
 roomCompilerVersion = "2.6.1"
 roomCompiler = "2.6.1"
 roomKtx = "2.6.1"
@@ -49,7 +48,8 @@ play-service-auth = "20.7.0"
 cryptoreVersion = "1.4.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 lifecycleViewmodelCompose = "2.6.2"
-generativeai = "0.1.1"
+generativeai = "0.1.2"
+truetimeAndroid = "3.5"
 
 
 [libraries]
@@ -71,10 +71,10 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-hilt-navigation-fragment = { module = "androidx.hilt:hilt-navigation-fragment", version.ref = "hiltNavigationCompose" }
 app-update-ktx = { module = "com.google.android.play:app-update-ktx", version.ref = "appUpdateKtx" }
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+#coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-kt-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
-compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
+#compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
 compose-video = { module = "io.sanghun:compose-video", version.ref = "composeVideo" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
@@ -87,14 +87,13 @@ androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 markdownView-android = { module = "com.github.mukeshsolanki:MarkdownView-Android", version.ref = "markdownviewAndroid" }
 media3-ui = { module = "androidx.media3:media3-ui", version.ref = "media3UiVersion" }
 okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptorVersion" }
 richtext-commonmark = { module = "com.halilibo.compose-richtext:richtext-commonmark", version.ref = "richtextCommonmark" }
-richtext-ui-material3 = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtextUiMaterial3" }
+richtext-ui-material3 = { module = "com.halilibo.compose-richtext:richtext-ui-material3", version.ref = "richtextCommonmark" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompilerVersion" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
@@ -116,6 +115,7 @@ play-service-auth = { group = "com.google.android.gms", name = "play-services-au
 cryptore = { group = "com.kazakago.cryptore", name = "cryptore", version.ref = "cryptoreVersion" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
+truetime-android = { module = "com.github.instacart:truetime-android", version.ref = "truetimeAndroid" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
