@@ -35,7 +35,7 @@
     <string name="notice">Notice</string>
     <string name="profile">Profile</string>
 
-    <string name="git">GitHub</string>
+    <string name="git">Website</string>
     <string name="whats_new">What\'s new</string>
     <string name="issue">Issue</string>
 
@@ -60,7 +60,7 @@
 
 
     <string name="issue_link">https://bitapp.page.link/issue</string>
-    <string name="github_link">https://bitapp.page.link/BIT</string>
+    <string name="github_link">https://bit-lalpur-app.github.io/BIT-App/</string>
     <string name="github_dev">https://www.github.com/aiyu-ayaan</string>
 
 
