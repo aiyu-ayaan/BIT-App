@@ -4,14 +4,13 @@ theme:
   logo: assets/logo.png
   favicon: assets/logo.png
   features:
-    # - navigation.tabs
+    - navigation.tabs
     - navigation.sections
     - search.suggest
     - search.highlight
     - content.code.copy
     - content.code.select
     - content.code.annotate
-
 
   name: material
   icon:
@@ -55,7 +54,7 @@ repo_name: BIT-App
 plugins:
   - glightbox
   - search
-  - markdownextradata: { }
+  - markdownextradata: {}
   - glightbox:
       touchNavigation: true
       loop: false
@@ -71,10 +70,13 @@ plugins:
       caption_position: bottom
 
 nav:
-  - Home: 'index.md'
-  - Api Reference: 'app/index.html'
-  - Change Logs: 'https://github.com/BIT-Lalpur-App/BIT-App/releases'
-  - Image Gallery: 'gallery.md'
+  - Home:
+      - Home: "index.md"
+      - Api Reference: "app/index.html"
+      - Change Logs: "https://github.com/BIT-Lalpur-App/BIT-App/releases"
+  - Walkthroughs:
+      - Walkthroughs: "walkthroughs/walkthroughs.md"
+      - Image Gallery: "walkthroughs/gallery.md"
 
 extra:
   social:
