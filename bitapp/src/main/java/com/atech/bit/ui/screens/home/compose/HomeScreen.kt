@@ -84,7 +84,7 @@ fun HomeScreen(
     val isOnlineEnable = homeScreenState.isOnlineSyllabusEnable
     val theory = homeScreenState.offTheory.collectAsLazyPagingItems()
     val lab = homeScreenState.offLab.collectAsLazyPagingItems()
-    val pe = homeScreenState.offTheory.collectAsLazyPagingItems()
+    val pe = homeScreenState.offPractical.collectAsLazyPagingItems()
     val onlineData = homeScreenState.onlineSyllabus
     val holiday = homeScreenState.holiday
     val events = homeScreenState.events.value
