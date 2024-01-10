@@ -2,7 +2,7 @@ package com.atech.bit.ui.screens.attendance.attendance_screen.component
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
@@ -11,9 +11,9 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -132,6 +132,10 @@ fun AttendanceScreen(
     var isSettingDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
+    LaunchedEffect(key1 = attendanceList) {
+
+        lazyListState.scrollToItem(0)
+    }
     val defPercentage = viewModel.defaultPercentage.value
     BackHandler {
         if (isSelectWindowActive) {
@@ -217,175 +221,177 @@ fun AttendanceScreen(
                     isSettingDialogVisible = true
                 })
         }) {
-        if (isAddFromSyllabusBottomSheetVisible) ModalBottomSheet(onDismissRequest = {
-            isAddFromSyllabusBottomSheetVisible = false
-        }) {
-            bottomSheetAddFromSyllabus(viewModel = viewModel,
-                navController = navController,
-                dismissRequest = {
-                    isAddFromSyllabusBottomSheetVisible = false
-                })
-        }
-        if (isArchiveBottomSheetVisible) {
-            ModalBottomSheet(onDismissRequest = { isArchiveBottomSheetVisible = false }) {
-                bottomSheetArchive(
-                    viewModel = viewModel
-                )
-            }
-        }
-        if (isSettingDialogVisible) {
-            Dialog(
-                onDismissRequest = { isSettingDialogVisible = false },
-            ) {
-                AttendanceSettingDialog(viewModel = viewModel, onDismiss = {
-                    isSettingDialogVisible = false
-                })
-            }
-        }
-
-        if (isDialogBoxVisible) {
-            ShowWarningDialog(onDismissRequest = {
-                isDialogBoxVisible = false
-            }, onConfirmClick = {
-                viewModel.onEvent(
-                    AttendanceEvent.DeleteSelectedItems
-                )
-                isDialogBoxVisible = false
-            }, onDismissClick = {
-                isDialogBoxVisible = false
-            })
-        }
-        val sheetState = rememberModalBottomSheetState()
-        var isCalenderBottomSheetVisible by rememberSaveable {
-            mutableStateOf(false)
-        }
-
-        if (isCalenderBottomSheetVisible && currentClickAttendance != null) {
-            ModalBottomSheet(
-                onDismissRequest = {
-                    isCalenderBottomSheetVisible = false
-                }, sheetState = sheetState
-            ) {
-                AttendanceCalenderView(
-                    model = currentClickAttendance!!
-                )
-            }
-        }
-
-        var isMenuBottomSheetVisible by rememberSaveable {
-            mutableStateOf(false)
-        }
-        if (isMenuBottomSheetVisible && currentClickAttendance != null) {
-            ModalBottomSheet(onDismissRequest = { isMenuBottomSheetVisible = false }) {
-                AttendanceMenu(attendanceModel = currentClickAttendance!!,
-                    onEditClick = { attendanceModel ->
-                        navController.navigate(
-                            AttendanceRoute.AddEditAttendanceScreen.route + "?attendanceId=${attendanceModel.id}"
-                        )
-                    },
-                    isUndoEnable = currentClickAttendance?.stack?.isNotEmpty() ?: true,
-                    onUndoClick = { attendanceModel ->
-                        viewModel.onEvent(
-                            AttendanceEvent.UndoAttendanceState(attendanceModel)
-                        )
-                    },
-                    onArchiveClick = { attendanceModel ->
-                        viewModel.onEvent(
-                            AttendanceEvent.ArchiveAttendance(attendanceModel)
-                        )
-                    },
-                    onDeleteClick = { attendanceModel ->
-                        viewModel.onEvent(
-                            AttendanceEvent.DeleteAttendance(
-                                attendanceModel
-                            )
-                        )
-                    },
-                    commonAction = {
-                        isMenuBottomSheetVisible = false
+        Column(
+            modifier = Modifier
+                .padding(it)
+                .fillMaxSize()
+        ) {
+            if (isAddFromSyllabusBottomSheetVisible) ModalBottomSheet(onDismissRequest = {
+                isAddFromSyllabusBottomSheetVisible = false
+            }) {
+                bottomSheetAddFromSyllabus(viewModel = viewModel,
+                    navController = navController,
+                    dismissRequest = {
+                        isAddFromSyllabusBottomSheetVisible = false
                     })
             }
-        }
-        LazyColumn(
-            modifier = Modifier
-                .consumeWindowInsets(it)
-                .animateContentSize(),
-            contentPadding = it,
-            state = lazyListState
-        ) {
-            if (viewModel.isLibraryCardVisible.value) {
-                singleElement(
-                    "Library Advertisement",
+            if (isArchiveBottomSheetVisible) {
+                ModalBottomSheet(onDismissRequest = { isArchiveBottomSheetVisible = false }) {
+                    bottomSheetArchive(
+                        viewModel = viewModel
+                    )
+                }
+            }
+            if (isSettingDialogVisible) {
+                Dialog(
+                    onDismissRequest = { isSettingDialogVisible = false },
                 ) {
-                    PreferenceCard(
-                        modifier = Modifier.padding(grid_1),
-                        title = "Library Manager",
-                        icon = Icons.Outlined.LibraryBooks,
-                        description = "Manage your library books",
-                        onClick = {
-                            navController.navigate(LibraryRoute.LibraryManagerScreen.route)
-                        },
-                        endIcon = Icons.Outlined.HideSource,
-                        endIconClick = {
-                            viewModel.onEvent(
-                                AttendanceEvent
-                                    .UpdateIsLibraryCardVisible
-                            )
-                        }
+                    AttendanceSettingDialog(viewModel = viewModel, onDismiss = {
+                        isSettingDialogVisible = false
+                    })
+                }
+            }
+
+            if (isDialogBoxVisible) {
+                ShowWarningDialog(onDismissRequest = {
+                    isDialogBoxVisible = false
+                }, onConfirmClick = {
+                    viewModel.onEvent(
+                        AttendanceEvent.DeleteSelectedItems
+                    )
+                    isDialogBoxVisible = false
+                }, onDismissClick = {
+                    isDialogBoxVisible = false
+                })
+            }
+            val sheetState = rememberModalBottomSheetState()
+            var isCalenderBottomSheetVisible by rememberSaveable {
+                mutableStateOf(false)
+            }
+
+            if (isCalenderBottomSheetVisible && currentClickAttendance != null) {
+                ModalBottomSheet(
+                    onDismissRequest = {
+                        isCalenderBottomSheetVisible = false
+                    }, sheetState = sheetState
+                ) {
+                    AttendanceCalenderView(
+                        model = currentClickAttendance!!
                     )
                 }
             }
-            attendanceListSize.intValue = attendanceList.itemCount
-            items(count = attendanceList.itemCount,
-                key = attendanceList.itemKey { model -> model.id.toString() + "" + model.subject },
-                contentType = attendanceList.itemContentType { model -> model.id.toString() }) { index ->
-                attendanceList[index]?.let { model ->
-                    AttendanceItem(
-                        model = model,
-                        minPercentage = defPercentage,
-                        modifier = Modifier/*.let { it1 ->
-                            if (isAddFromSyllabusBottomSheetVisible && isSelectWindowActive) it1
-                            else it1.animateItemPlacement(
-                                animationSpec = tween(),
+
+            var isMenuBottomSheetVisible by rememberSaveable {
+                mutableStateOf(false)
+            }
+            if (isMenuBottomSheetVisible && currentClickAttendance != null) {
+                ModalBottomSheet(onDismissRequest = { isMenuBottomSheetVisible = false }) {
+                    AttendanceMenu(attendanceModel = currentClickAttendance!!,
+                        onEditClick = { attendanceModel ->
+                            navController.navigate(
+                                AttendanceRoute.AddEditAttendanceScreen.route + "?attendanceId=${attendanceModel.id}"
                             )
-                        }*/,
-                        onTickOrCrossClickClick = { clickItems, isPresent ->
+                        },
+                        isUndoEnable = currentClickAttendance?.stack?.isNotEmpty() ?: true,
+                        onUndoClick = { attendanceModel ->
                             viewModel.onEvent(
-                                AttendanceEvent.ChangeAttendanceValue(
-                                    attendanceModel = clickItems, isPresent = isPresent
+                                AttendanceEvent.UndoAttendanceState(attendanceModel)
+                            )
+                        },
+                        onArchiveClick = { attendanceModel ->
+                            viewModel.onEvent(
+                                AttendanceEvent.ArchiveAttendance(attendanceModel)
+                            )
+                        },
+                        onDeleteClick = { attendanceModel ->
+                            viewModel.onEvent(
+                                AttendanceEvent.DeleteAttendance(
+                                    attendanceModel
                                 )
                             )
                         },
-                        onClick = { it1 ->
-                            currentClickAttendance = it1
-                            isCalenderBottomSheetVisible = true
-                        },
-                        onLongClick = { it1 ->
-                            currentClickAttendance = it1
-                            isMenuBottomSheetVisible = true
-                        },
-                        isCheckBoxVisible = isSelectWindowActive,
-                        onSelect = { clAtt, isSelected ->
-                            viewModel.onEvent(
-                                AttendanceEvent.ItemSelectedClick(
-                                    attendanceModel = clAtt, isAdded = isSelected
-                                )
-                            )
-                        },
-                        isItemIsSelected = selectedAttendance.contains(model)
-                    )
+                        commonAction = {
+                            isMenuBottomSheetVisible = false
+                        })
                 }
             }
-            singleElement(key = "Bottom Padding") {
-                BottomPadding()
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                state = lazyListState,
+            ) {
+                if (viewModel.isLibraryCardVisible.value) {
+                    singleElement(
+                        "Library Advertisement",
+                    ) {
+                        PreferenceCard(
+                            modifier = Modifier.padding(grid_1),
+                            title = "Library Manager",
+                            icon = Icons.Outlined.LibraryBooks,
+                            description = "Manage your library books",
+                            onClick = {
+                                navController.navigate(LibraryRoute.LibraryManagerScreen.route)
+                            },
+                            endIcon = Icons.Outlined.HideSource,
+                            endIconClick = {
+                                viewModel.onEvent(
+                                    AttendanceEvent
+                                        .UpdateIsLibraryCardVisible
+                                )
+                            }
+                        )
+                    }
+                }
+                attendanceListSize.intValue = attendanceList.itemCount
+                items(count = attendanceList.itemCount,
+                    key = attendanceList.itemKey { model -> (model.id.toString() + model.created.toString()) },
+                    contentType = attendanceList.itemContentType { model -> model }) { index ->
+                    attendanceList[index]?.let { model ->
+                        AttendanceItem(
+                            model = model,
+                            minPercentage = defPercentage,
+                            modifier = Modifier
+//                            /*.animateItemPlacement(
+//                                animationSpec = tween(),
+//                            )*/
+                            ,
+                            onTickOrCrossClickClick = { clickItems, isPresent ->
+                                viewModel.onEvent(
+                                    AttendanceEvent.ChangeAttendanceValue(
+                                        attendanceModel = clickItems, isPresent = isPresent
+                                    )
+                                )
+                            },
+                            onClick = { it1 ->
+                                currentClickAttendance = it1
+                                isCalenderBottomSheetVisible = true
+                            },
+                            onLongClick = { it1 ->
+                                currentClickAttendance = it1
+                                isMenuBottomSheetVisible = true
+                            },
+                            isCheckBoxVisible = isSelectWindowActive,
+                            onSelect = { clAtt, isSelected ->
+                                viewModel.onEvent(
+                                    AttendanceEvent.ItemSelectedClick(
+                                        attendanceModel = clAtt, isAdded = isSelected
+                                    )
+                                )
+                            },
+                            isItemIsSelected = selectedAttendance.contains(model)
+                        )
+                    }
+                }
+                singleElement(key = "Bottom Padding") {
+                    BottomPadding()
+                }
             }
-        }
-        if (attendanceList.itemCount == 0) {
-            EmptyScreen(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(it)
-            )
+            if (attendanceList.itemCount == 0) {
+                EmptyScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it)
+                )
+            }
         }
     }
 }
