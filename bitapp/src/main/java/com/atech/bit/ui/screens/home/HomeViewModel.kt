@@ -46,12 +46,7 @@ class HomeViewModel @Inject constructor(
     calendar: Calendar,
 ) : ViewModel() {
 
-    val isConnected = connectivityObserver.observe().map {
-        when (it) {
-            ConnectivityObserver.Status.Available -> true
-            else -> false
-        }
-    }
+    val isConnected = connectivityObserver.observe()
 
 
     private val currentMonth = calendar.getDisplayName(
