@@ -132,7 +132,7 @@ fun AttendanceScreen(
     var isSettingDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
-    LaunchedEffect(key1 = attendanceList) {
+    LaunchedEffect(key1 = attendanceList.itemCount) {
 
         lazyListState.scrollToItem(0)
     }
