@@ -17,7 +17,8 @@ enum class RemoteConfigKeys(val value: String) {
     AppAlertDialog("app_alert_dialog"),
     ForceScreen("force_screen"),
     MAX_TIMES_UPLOAD("MAX_TIMES_UPLOAD"),
-    MAX_CHAT_LIMIT("max_chat_limit")
+    MAX_CHAT_LIMIT("max_chat_limit"),
+    CURRENT_YEAR("Current_Year"),
 }
 
 enum class SharePrefKeys {
