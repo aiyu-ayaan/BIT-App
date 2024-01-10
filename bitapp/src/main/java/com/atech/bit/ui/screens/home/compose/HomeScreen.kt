@@ -64,6 +64,7 @@ import com.atech.bit.ui.theme.grid_2
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.usecase.SyllabusUIModel
 import com.atech.core.utils.Permissions
+import com.atech.core.utils.connectivity.ConnectivityObserver
 import com.atech.core.utils.isAPI33AndUp
 import com.atech.core.utils.openLinks
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -84,7 +85,7 @@ fun HomeScreen(
     val isOnlineEnable = homeScreenState.isOnlineSyllabusEnable
     val theory = homeScreenState.offTheory.collectAsLazyPagingItems()
     val lab = homeScreenState.offLab.collectAsLazyPagingItems()
-    val pe = homeScreenState.offTheory.collectAsLazyPagingItems()
+    val pe = homeScreenState.offPractical.collectAsLazyPagingItems()
     val onlineData = homeScreenState.onlineSyllabus
     val holiday = homeScreenState.holiday
     val events = homeScreenState.events.value
@@ -101,8 +102,6 @@ fun HomeScreen(
     var isProfileDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
-    val isConnected by viewModel.isConnected.collectAsState(initial = true)
-
     var permissionState: PermissionState? = null
     isAPI33AndUp {
         permissionState = rememberPermissionState(permission = Permissions.NOTIFICATION.value)
@@ -215,7 +214,9 @@ fun HomeScreen(
                     onSettingClick = {
                         isChooseSemSelected = !isChooseSemSelected
                     },
-                    isConnected = isConnected
+                    isConnected = viewModel.isConnected
+                        .collectAsState(initial = ConnectivityObserver.Status.Available)
+                        .value,
                 )
             }
             if (isOnlineEnable) onlineDataSource(
@@ -317,7 +318,7 @@ private fun navigateToViewSyllabus(
 private fun HeaderCompose(
     modifier: Modifier = Modifier,
     isEnable: Boolean = false,
-    isConnected: Boolean = false,
+    isConnected: ConnectivityObserver.Status = ConnectivityObserver.Status.Available,
     onEnableChange: (Boolean) -> Unit = {},
     onEditClick: () -> Unit = {},
     onSettingClick: () -> Unit = {}
@@ -347,10 +348,10 @@ private fun HeaderCompose(
                 contentDescription = null
             )
         })
-        AnimatedVisibility(visible = !isConnected) {
+        AnimatedVisibility(visible = isConnected != ConnectivityObserver.Status.Available) {
             ImageIconButton(
                 icon = Icons.Outlined.WifiOff,
-                tint = MaterialTheme.colorScheme.onError,
+                tint = MaterialTheme.colorScheme.error,
                 onClick = {
                     Toast.makeText(
                         context, context.getString(R.string.offline_mode_message),

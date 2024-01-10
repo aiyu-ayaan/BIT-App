@@ -69,7 +69,7 @@ fun HolidayScreen(
         modifier = modifier,
         topBar = {
             BackToolbar(
-                title = "Holiday",
+                title = "Holiday ${viewModel.currentYear.value}",
                 onNavigationClick = {
                     navController.navigateUp()
                 },
