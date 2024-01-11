@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.core.datasource.retrofit
 
 import com.atech.core.datasource.retrofit.model.AboutUsModel

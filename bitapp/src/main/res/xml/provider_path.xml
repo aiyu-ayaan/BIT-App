@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
 <paths xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingDefaultResource">
     <cache-path

@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 import java.util.Properties
 
 plugins {
@@ -19,7 +26,7 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 34
-        versionCode = 72
+        versionCode = 73
         versionName = "6.0.1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

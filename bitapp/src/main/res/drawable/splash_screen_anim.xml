@@ -1,3 +1,10 @@
+<!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:aapt="http://schemas.android.com/aapt">
     <aapt:attr name="android:drawable">

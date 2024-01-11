@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     alias(libs.plugins.androidApplication) apply false

@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.login.screen.setup
 
 import androidx.compose.foundation.isSystemInDarkTheme

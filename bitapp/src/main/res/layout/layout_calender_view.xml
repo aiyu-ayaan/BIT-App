@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
 <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/calendar_view"

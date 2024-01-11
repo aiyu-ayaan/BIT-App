@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?><!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
+<!--
    Sample data extraction rules file; uncomment and customize as necessary.
    See https://developer.android.com/about/versions/12/backup-restore#xml-changes
    for details.

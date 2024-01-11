@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
 <resources>
     <string name="blank">""</string>
     <string name="no_syllabus_found">No Syllabus Found</string>

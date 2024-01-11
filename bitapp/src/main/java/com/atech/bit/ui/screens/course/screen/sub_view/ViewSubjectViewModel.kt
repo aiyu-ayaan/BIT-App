@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.course.screen.sub_view
 
 import android.util.Log

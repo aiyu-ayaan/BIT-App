@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.attendance.attendance_screen
 
 import com.atech.core.data_source.room.attendance.Sort

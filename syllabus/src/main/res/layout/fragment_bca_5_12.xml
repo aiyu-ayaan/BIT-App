@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ BIT Lalpur App
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
   ~
-  ~ Created by Ayaan on 9/28/21, 12:12 PM
-  ~ Copyright (c) 2021 . All rights reserved.
-  ~ Last modified 9/28/21, 12:12 PM
   -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"

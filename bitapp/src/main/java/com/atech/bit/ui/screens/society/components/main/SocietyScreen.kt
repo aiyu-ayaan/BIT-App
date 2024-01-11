@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.society.components.main
 
 import androidx.compose.foundation.ExperimentalFoundationApi
