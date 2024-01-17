@@ -9,7 +9,6 @@ composeMarkdown = "0.3.7"
 composeVideo = "1.2.0"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.0.0"
-hiltAndroidCompiler = "2.48"
 hiltAndroid = "2.48"
 hiltCompiler = "1.1.0"
 hiltNavigationCompose = "1.1.0"
@@ -76,7 +75,7 @@ coil-kt-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 #compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
 compose-video = { module = "io.sanghun:compose-video", version.ref = "composeVideo" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }

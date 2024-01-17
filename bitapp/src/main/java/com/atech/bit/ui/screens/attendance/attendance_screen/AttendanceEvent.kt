@@ -7,7 +7,7 @@
 
 package com.atech.bit.ui.screens.attendance.attendance_screen
 
-import com.atech.core.data_source.room.attendance.Sort
+import com.atech.core.datasource.room.attendance.Sort
 import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.usecase.SyllabusUIModel
 

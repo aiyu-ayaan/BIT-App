@@ -7,7 +7,7 @@
 
 package com.atech.core.usecase
 
-import com.atech.core.data_source.room.attendance.Sort
+import com.atech.core.datasource.room.attendance.Sort
 import com.atech.core.datasource.datastore.Cgpa
 import com.atech.core.datasource.datastore.PreferencesManager
 import com.atech.core.datasource.room.syllabus.SyllabusDao

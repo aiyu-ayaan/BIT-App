@@ -16,7 +16,8 @@ import com.atech.bit.ui.activity.main.MainActivity
 
 
 @SuppressLint("CustomSplashScreen")
-class SplashScreen : ComponentActivity() {
+class
+SplashScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()

@@ -14,6 +14,10 @@ import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.datasource.room.attendance.Days
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Model class for User
+ *
+ */
 @Keep
 @Suppress("")
 @Parcelize
@@ -25,6 +29,9 @@ data class UserModel(
     var syncTime: Long? = System.currentTimeMillis()
 ) : Parcelable
 
+/**
+ * Model class for Attendance that is uploaded to firebase
+ */
 @Keep
 data class AttendanceUploadModel(
     @ColumnInfo(name = "subject_name")
@@ -38,6 +45,11 @@ data class AttendanceUploadModel(
     val created: Long? = System.currentTimeMillis()
 )
 
+/**
+ * Model class for Attendance that is downloaded from firebase
+ * @see AttendanceUploadModel
+ * @see AttendanceModel
+ */
 fun Array<AttendanceUploadModel>.toAttendanceModelList() =
     this.map {
         AttendanceModel(
@@ -57,6 +69,9 @@ fun Array<AttendanceUploadModel>.toAttendanceModelList() =
         )
     }
 
+/**
+ * Model class for User data
+ */
 @Keep
 data class UserData(
     val courseSem: String? = null,

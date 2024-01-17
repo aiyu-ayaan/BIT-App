@@ -14,6 +14,10 @@ import com.atech.core.datasource.retrofit.model.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+/**
+ * Retrofit Api Service for BIT App
+ * Todo : Start from here
+ */
 interface BitAppApiService {
 
     companion object {

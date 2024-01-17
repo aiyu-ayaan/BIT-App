@@ -17,9 +17,9 @@ import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.atech.core.data_source.room.attendance.Sort
-import com.atech.core.data_source.room.attendance.SortBy
-import com.atech.core.data_source.room.attendance.SortOrder
+import com.atech.core.datasource.room.attendance.Sort
+import com.atech.core.datasource.room.attendance.SortBy
+import com.atech.core.datasource.room.attendance.SortOrder
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -32,6 +32,10 @@ import javax.inject.Singleton
 
 private const val TAG = "PreferencesManager"
 
+/**
+ * Model class to Cgpa in dataStore
+ * @see FilterPreferences
+ */
 @Keep
 @Parcelize
 data class Cgpa(
@@ -49,126 +53,132 @@ data class Cgpa(
     val earnCrSem5: Double? = 0.0,
     val earnCrSem6: Double? = 0.0,
 ) : Parcelable {
+    /**
+     * Check if all cgpa is zero
+     */
     @IgnoredOnParcel
     val isAllZero =
         sem1 == 0.0 && sem2 == 0.0 && sem3 == 0.0 && sem4 == 0.0 && sem5 == 0.0 && sem6 == 0.0
-
-    @IgnoredOnParcel
-    val totalCr = earnCrSem1 + earnCrSem2 + earnCrSem3 + earnCrSem4 + earnCrSem5 + earnCrSem6
-
-    @IgnoredOnParcel
-    val isNewCgpa =
-        earnCrSem1 != 0.0 && earnCrSem2 != 0.0 && earnCrSem3 != 0.0 && earnCrSem4 != 0.0 && earnCrSem5 != 0.0 && earnCrSem6 != 0.0
 }
 
-private operator fun Double?.plus(earnCrSem1: Double?): Double {
-    return this?.plus(earnCrSem1 ?: 0.0) ?: 0.0
-}
 
+/**
+ * Model class to FilterPreferences in dataStore
+ * [defPercentage] default percentage
+ * [course] default course
+ * [sem] default sem
+ * [cgpa] default cgpa
+ * [sort] default sort
+ * [courseWithSem] return [course] + [sem]
+ * @see Sort
+ * @see Cgpa
+ */
 @Keep
 @Parcelize
 data class FilterPreferences(
-    val defPercentage: Int,
-    val course: String,
-    val sem: String,
-    val cgpa: Cgpa,
-    val sort: Sort
+    val defPercentage: Int, val course: String, val sem: String, val cgpa: Cgpa, val sort: Sort
 ) : Parcelable {
     @IgnoredOnParcel
     val courseWithSem = "$course$sem"
 }
 
+/**
+ * Manager class for dataStore
+ * @param context application context
+ * [attendanceSortFLow] flow of [Sort]
+ * [preferencesFlow] flow of [FilterPreferences]
+ * @see FilterPreferences
+ */
 
 @Singleton
 class PreferencesManager @Inject constructor(@ApplicationContext val context: Context) {
     private val Context.dataStore by preferencesDataStore(name = "user_preferences")
 
-    val attendanceSortFLow = context.dataStore.data
-        .catch { exception ->
-            when (exception) {
-                is IOException -> {
-                    emit(emptyPreferences())
-                    Log.e(TAG, "$exception")
-                }
-
-                else -> throw exception
+    val attendanceSortFLow = context.dataStore.data.catch { exception ->
+        when (exception) {
+            is IOException -> {
+                emit(emptyPreferences())
+                Log.e(TAG, "$exception")
             }
-        }
-        .map { preferences ->
-            val sortBy = preferences[PreferencesKeys.DEF_SORT_BY] ?: SortBy.SUBJECT.name
-            val sortOrder = preferences[PreferencesKeys.DEF_SORT_ORDER] ?: SortOrder.ASC.name
-            Sort(
-                SortBy.valueOf(sortBy),
-                SortOrder.valueOf(sortOrder)
-            )
-        }
 
-    val preferencesFlow = context.dataStore.data
-        .catch { exception ->
-            when (exception) {
-                is IOException -> {
-                    emit(emptyPreferences())
-                    Log.e(TAG, "$exception")
-                }
+            else -> throw exception
+        }
+    }.map { preferences ->
+        val sortBy = preferences[PreferencesKeys.DEF_SORT_BY] ?: SortBy.SUBJECT.name
+        val sortOrder = preferences[PreferencesKeys.DEF_SORT_ORDER] ?: SortOrder.ASC.name
+        Sort(
+            SortBy.valueOf(sortBy), SortOrder.valueOf(sortOrder)
+        )
+    }
 
-                else -> throw exception
+    val preferencesFlow = context.dataStore.data.catch { exception ->
+        when (exception) {
+            is IOException -> {
+                emit(emptyPreferences())
+                Log.e(TAG, "$exception")
             }
+
+            else -> throw exception
         }
-        .map { preferences ->
-            val defPercentage = preferences[PreferencesKeys.DEFAULT_PERCENTAGE] ?: 75
-            val course = preferences[PreferencesKeys.DEF_COURSE] ?: "BCA"
-            val sem = preferences[PreferencesKeys.DEF_SEM] ?: "1"
-            val sem1Cgpa = preferences[PreferencesKeys.DEF_SEM_1_CGPA] ?: 0.0
-            val sem2Cgpa = preferences[PreferencesKeys.DEF_SEM_2_CGPA] ?: 0.0
-            val sem3Cgpa = preferences[PreferencesKeys.DEF_SEM_3_CGPA] ?: 0.0
-            val sem4Cgpa = preferences[PreferencesKeys.DEF_SEM_4_CGPA] ?: 0.0
-            val sem5Cgpa = preferences[PreferencesKeys.DEF_SEM_5_CGPA] ?: 0.0
-            val sem6Cgpa = preferences[PreferencesKeys.DEF_SEM_6_CGPA] ?: 0.0
-            val earnCrSem1 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_1] ?: 0.0
-            val earnCrSem2 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_2] ?: 0.0
-            val earnCrSem3 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_3] ?: 0.0
-            val earnCrSem4 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_4] ?: 0.0
-            val earnCrSem5 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_5] ?: 0.0
-            val earnCrSem6 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_6] ?: 0.0
-            val cgpa = preferences[PreferencesKeys.DEF_CGPA] ?: 0.0
-            val sortBy = preferences[PreferencesKeys.DEF_SORT_BY] ?: SortBy.SUBJECT.name
-            val sortOrder = preferences[PreferencesKeys.DEF_SORT_ORDER] ?: SortOrder.ASC.name
+    }.map { preferences ->
+        val defPercentage = preferences[PreferencesKeys.DEFAULT_PERCENTAGE] ?: 75
+        val course = preferences[PreferencesKeys.DEF_COURSE] ?: "BCA"
+        val sem = preferences[PreferencesKeys.DEF_SEM] ?: "1"
+        val sem1Cgpa = preferences[PreferencesKeys.DEF_SEM_1_CGPA] ?: 0.0
+        val sem2Cgpa = preferences[PreferencesKeys.DEF_SEM_2_CGPA] ?: 0.0
+        val sem3Cgpa = preferences[PreferencesKeys.DEF_SEM_3_CGPA] ?: 0.0
+        val sem4Cgpa = preferences[PreferencesKeys.DEF_SEM_4_CGPA] ?: 0.0
+        val sem5Cgpa = preferences[PreferencesKeys.DEF_SEM_5_CGPA] ?: 0.0
+        val sem6Cgpa = preferences[PreferencesKeys.DEF_SEM_6_CGPA] ?: 0.0
+        val earnCrSem1 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_1] ?: 0.0
+        val earnCrSem2 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_2] ?: 0.0
+        val earnCrSem3 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_3] ?: 0.0
+        val earnCrSem4 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_4] ?: 0.0
+        val earnCrSem5 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_5] ?: 0.0
+        val earnCrSem6 = preferences[PreferencesKeys.DEF_EARN_CR_SEM_6] ?: 0.0
+        val cgpa = preferences[PreferencesKeys.DEF_CGPA] ?: 0.0
+        val sortBy = preferences[PreferencesKeys.DEF_SORT_BY] ?: SortBy.SUBJECT.name
+        val sortOrder = preferences[PreferencesKeys.DEF_SORT_ORDER] ?: SortOrder.ASC.name
 
 
 
-            FilterPreferences(
-                defPercentage,
-                course,
-                sem,
-                Cgpa(
-                    sem1Cgpa,
-                    sem2Cgpa,
-                    sem3Cgpa,
-                    sem4Cgpa,
-                    sem5Cgpa,
-                    sem6Cgpa,
-                    cgpa,
-                    earnCrSem1,
-                    earnCrSem2,
-                    earnCrSem3,
-                    earnCrSem4,
-                    earnCrSem5,
-                    earnCrSem6
-                ),
-                Sort(
-                    SortBy.valueOf(sortBy),
-                    SortOrder.valueOf(sortOrder)
-                )
+        FilterPreferences(
+            defPercentage, course, sem, Cgpa(
+                sem1Cgpa,
+                sem2Cgpa,
+                sem3Cgpa,
+                sem4Cgpa,
+                sem5Cgpa,
+                sem6Cgpa,
+                cgpa,
+                earnCrSem1,
+                earnCrSem2,
+                earnCrSem3,
+                earnCrSem4,
+                earnCrSem5,
+                earnCrSem6
+            ), Sort(
+                SortBy.valueOf(sortBy), SortOrder.valueOf(sortOrder)
             )
-        }
+        )
+    }
 
 
+    /**
+     * Update default percentage
+     * @param value new value
+     */
     suspend fun updateCourse(value: String) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEF_COURSE] = value
         }
     }
 
+    /**
+     * Update default Cgpa
+     * @param cgpa new value
+     * @see Cgpa
+     */
     suspend fun updateCgpa(cgpa: Cgpa) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEF_SEM_1_CGPA] = cgpa.sem1
@@ -187,12 +197,20 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
+    /**
+     * Update default sem
+     * @param value new value
+     */
     suspend fun updateSem(value: String) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEF_SEM] = value
         }
     }
 
+    /**
+     * Update default percentage
+     * @param value new value
+     */
 
     suspend fun updatePercentage(value: Int) {
         context.dataStore.edit { preferences ->
@@ -200,6 +218,11 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
+    /**
+     * Update default sort
+     * @param sort new value
+     * @see Sort
+     */
     suspend fun updateSort(sort: Sort) {
         context.dataStore.edit { preferences ->
             preferences[PreferencesKeys.DEF_SORT_BY] = sort.sortBy.name
@@ -207,6 +230,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext val context: Co
         }
     }
 
+    /**
+     * Clear all data
+     */
     suspend fun clearAll() {
         context.dataStore.edit { preferences ->
             preferences.clear()

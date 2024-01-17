@@ -11,6 +11,9 @@ import android.os.Parcelable
 import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
+/**
+ * Model class to get events from firestore
+ */
 @Parcelize
 @Keep
 data class EventModel(
@@ -26,6 +29,9 @@ data class EventModel(
 ) : Parcelable
 
 
+/**
+ * Model class to get notices from firestore
+ */
 @Parcelize
 @Keep
 data class NoticeModel(
@@ -37,15 +43,12 @@ data class NoticeModel(
     val created: Long? = null,
 ) : Parcelable
 
-@Parcelize
-@Keep
-data class ShareModel(
-    val notice: NoticeModel? = null,
-    val event: EventModel? = null,
-    val attach: List<Attach> = emptyList()
-) : Parcelable
 
-
+/**
+ * Model class fetch attach files from [NoticeModel] and [EventModel]
+ * @see NoticeModel
+ * @see EventModel
+ */
 @Keep
 @Parcelize
 data class Attach(
