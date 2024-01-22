@@ -345,8 +345,11 @@ private fun ColumnScope.drawerItem(
             }
             closeAction()
             navController.navigate(screen.route) {
-                popUpTo(navController.graph.findStartDestination().id)
+                popUpTo(navController.graph.findStartDestination().id){
+                    saveState = true
+                }
                 launchSingleTop = true
+                restoreState = true
             }
         },
         icon = {
@@ -452,8 +455,11 @@ fun RowScope.AddItem(
     }, selected = isSelected, onClick = {
         selectedItem = index
         navController.navigate(screen.route) {
-            popUpTo(navController.graph.findStartDestination().id)
+            popUpTo(navController.graph.findStartDestination().id){
+                saveState = true
+            }
             launchSingleTop = true
+            restoreState = true
         }
     })
 }
