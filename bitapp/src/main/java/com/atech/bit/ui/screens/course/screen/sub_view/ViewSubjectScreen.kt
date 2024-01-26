@@ -56,7 +56,6 @@ fun ViewSubjectScreen(
 ) {
 
     val toolbarScroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val scrollState = rememberScrollState()
     val data = viewModel.onlineMdContent.value
     val isOnline = viewModel.isOnline
     val hasError = viewModel.hasError.value
