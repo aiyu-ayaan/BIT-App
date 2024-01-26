@@ -25,8 +25,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.outlined.AppSettingsAlt
-import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.EmojiEvents
 import androidx.compose.material.icons.outlined.LightMode
@@ -210,7 +210,7 @@ fun SettingScreen(
             PreferenceItem(
                 title = stringResource(id = com.atech.chat.R.string.tutortalk),
                 description = "All new Chat feature powered by Gemini Pro",
-                icon = Icons.Outlined.Chat,
+                icon = Icons.AutoMirrored.Outlined.Chat,
                 isChecked = viewModel.isChatScreenEnable.value,
                 onClick = {
                     viewModel.onEvent(

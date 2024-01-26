@@ -15,9 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.AutoDelete
-import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.WrapText
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -90,7 +90,7 @@ fun ChatSettingsScreen(
             PreferenceItem(
                 title = "Keep Chats",
                 description = "Save your chats on your device",
-                icon = Icons.Outlined.Chat,
+                icon = Icons.AutoMirrored.Outlined.Chat,
                 onClick = {
                     onEvent(ChatSettingsEvent.KeepChat)
                 },
