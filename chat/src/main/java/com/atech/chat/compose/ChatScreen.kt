@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.chat.compose
 
 import android.util.Log
@@ -14,8 +21,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Chat
 import androidx.compose.material.icons.outlined.BubbleChart
-import androidx.compose.material.icons.outlined.Chat
 import androidx.compose.material.icons.outlined.ClearAll
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SpeakerNotesOff
@@ -206,7 +213,7 @@ fun ChatScreen(
     if (isDeleteAllDialogVisible) {
         ChatDialog(title = stringResource(R.string.delete_all_chats),
             text = stringResource(R.string.are_you_sure_you_want_to_delete_all_chats),
-            icon = Icons.Outlined.Chat,
+            icon = Icons.AutoMirrored.Outlined.Chat,
             onDismissRequest = { isDeleteAllDialogVisible = false },
             onConfirm = {
                 onEvent(
@@ -217,7 +224,7 @@ fun ChatScreen(
     if (isDeleteChatDialogVisible) {
         ChatDialog(title = stringResource(R.string.delete_chat),
             text = stringResource(R.string.are_you_sure_delete_single_chat),
-            icon = Icons.Outlined.Chat,
+            icon = Icons.AutoMirrored.Outlined.Chat,
             onDismissRequest = {
                 isDeleteChatDialogVisible = false
                 selectedChat = null
@@ -252,7 +259,7 @@ fun EmptyScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Icon(
                 modifier = Modifier.size(38.dp),
-                imageVector = Icons.Outlined.Chat,
+                imageVector = Icons.AutoMirrored.Outlined.Chat,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
             )

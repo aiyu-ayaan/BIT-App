@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.attendance.attendance_screen.component
 
 import androidx.activity.compose.BackHandler
@@ -132,7 +139,7 @@ fun AttendanceScreen(
     var isSettingDialogVisible by rememberSaveable {
         mutableStateOf(false)
     }
-    LaunchedEffect(key1 = attendanceList) {
+    LaunchedEffect(key1 = attendanceList.itemCount) {
 
         lazyListState.scrollToItem(0)
     }

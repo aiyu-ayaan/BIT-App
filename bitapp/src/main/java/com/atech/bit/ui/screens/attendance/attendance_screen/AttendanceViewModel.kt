@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.attendance.attendance_screen
 
 import android.content.SharedPreferences
@@ -8,7 +15,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.atech.core.data_source.room.attendance.Sort
+import com.atech.core.datasource.room.attendance.Sort
 import com.atech.core.datasource.room.attendance.AttendanceModel
 import com.atech.core.usecase.AttendanceUseCase
 import com.atech.core.usecase.DataStoreCases

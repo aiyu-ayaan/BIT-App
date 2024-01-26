@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.activity
 
 import android.annotation.SuppressLint
@@ -9,7 +16,8 @@ import com.atech.bit.ui.activity.main.MainActivity
 
 
 @SuppressLint("CustomSplashScreen")
-class SplashScreen : ComponentActivity() {
+class
+SplashScreen : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()

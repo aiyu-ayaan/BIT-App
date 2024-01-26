@@ -1,6 +1,6 @@
 [versions]
 accompanistPermissions = "0.33.2-alpha"
-agp = "8.2.1"
+agp = "8.2.2"
 appUpdateKtx = "2.1.0"
 coil = "2.5.0"
 coilCompose = "2.5.0"
@@ -9,24 +9,23 @@ composeMarkdown = "0.3.7"
 composeVideo = "1.2.0"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.0.0"
-hiltAndroidCompiler = "2.48"
-hiltAndroid = "2.48"
+hiltAndroid = "2.50"
 hiltCompiler = "1.1.0"
 hiltNavigationCompose = "1.1.0"
-kotlin = "1.9.0"
+kotlin = "1.9.22"
 coreKtx = "1.12.0"
-lifecycleRuntimeKtx = "2.6.2"
+lifecycleRuntimeKtx = "2.7.0"
 activityCompose = "1.8.2"
-composeBom = "2023.10.01"
+composeBom = "2024.01.00"
 logbackClassic = "1.2.3"
 loggingInterceptorVersion = "4.12.0"
 lottieCompose = "6.3.0"
 #noinspection GradleDependency
 markdownviewAndroid = "1.1.1"
-materialIconsExtended = "1.5.4"
-media3Exoplayer = "1.2.0"
-media3Session = "1.2.0"
-media3UiVersion = "1.2.0"
+materialIconsExtended = "1.6.0"
+media3Exoplayer = "1.2.1"
+media3Session = "1.2.1"
+media3UiVersion = "1.2.1"
 pagingCompose = "3.3.0-alpha02"
 pagingRuntimeKtx = "3.2.1"
 richtextCommonmark = "0.17.0"
@@ -39,7 +38,7 @@ navigationCompose = "2.7.6"
 appcompat = "1.6.1"
 material = "1.11.0"
 gson-version = "2.10.1"
-firebaseBom = "32.7.0"
+firebaseBom = "32.7.1"
 calendarVersion = "3.0.0"
 retrofit-version = "2.9.0"
 browser = "1.7.0"
@@ -47,7 +46,7 @@ graphVersion = "v3.1.0"
 play-service-auth = "20.7.0"
 cryptoreVersion = "1.4.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
-lifecycleViewmodelCompose = "2.6.2"
+lifecycleViewmodelCompose = "2.7.0"
 generativeai = "0.1.2"
 truetimeAndroid = "3.5"
 
@@ -76,7 +75,7 @@ coil-kt-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coilSvg" }
 #compose-markdown = { module = "com.github.jeziellago:compose-markdown", version.ref = "composeMarkdown" }
 compose-video = { module = "io.sanghun:compose-video", version.ref = "composeVideo" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
+hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }

@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.course.screen.sub_view
 
 import android.view.View
@@ -49,7 +56,6 @@ fun ViewSubjectScreen(
 ) {
 
     val toolbarScroll = TopAppBarDefaults.enterAlwaysScrollBehavior()
-    val scrollState = rememberScrollState()
     val data = viewModel.onlineMdContent.value
     val isOnline = viewModel.isOnline
     val hasError = viewModel.hasError.value

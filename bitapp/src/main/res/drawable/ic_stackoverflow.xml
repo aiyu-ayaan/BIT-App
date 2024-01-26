@@ -1,3 +1,10 @@
+<!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
 <vector android:height="24dp" android:viewportHeight="16"
     android:viewportWidth="16" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
     <path android:fillColor="#000" android:pathData="M12.412,14.572V10.29h1.428V16H1v-5.71h1.428v4.282h9.984z"/>

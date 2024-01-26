@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens
 
 import androidx.annotation.DrawableRes
@@ -22,11 +29,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Chat
+import androidx.compose.material.icons.automirrored.outlined.Chat
+import androidx.compose.material.icons.automirrored.rounded.Chat
 import androidx.compose.material.icons.outlined.CoPresent
 import androidx.compose.material.icons.outlined.CollectionsBookmark
 import androidx.compose.material.icons.outlined.Dashboard
-import androidx.compose.material.icons.rounded.Chat
 import androidx.compose.material.icons.rounded.CoPresent
 import androidx.compose.material.icons.rounded.CollectionsBookmark
 import androidx.compose.material.icons.rounded.Dashboard
@@ -338,8 +345,11 @@ private fun ColumnScope.drawerItem(
             }
             closeAction()
             navController.navigate(screen.route) {
-                popUpTo(navController.graph.findStartDestination().id)
+                popUpTo(navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
                 launchSingleTop = true
+                restoreState = true
             }
         },
         icon = {
@@ -368,8 +378,8 @@ fun NavBar(
             route = Screen.HomeScreen.route
         ), NavBarModel(
             title = com.atech.chat.R.string.tutortalk,
-            selectedIcon = Icons.Rounded.Chat,
-            unSelectedIcon = Icons.Outlined.Chat,
+            selectedIcon = Icons.AutoMirrored.Rounded.Chat,
+            unSelectedIcon = Icons.AutoMirrored.Outlined.Chat,
             route = Screen.ChatScreen.route,
             isVisible = isChatScreenVisible
         ), NavBarModel(
@@ -445,8 +455,11 @@ fun RowScope.AddItem(
     }, selected = isSelected, onClick = {
         selectedItem = index
         navController.navigate(screen.route) {
-            popUpTo(navController.graph.findStartDestination().id)
+            popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+            }
             launchSingleTop = true
+            restoreState = true
         }
     })
 }

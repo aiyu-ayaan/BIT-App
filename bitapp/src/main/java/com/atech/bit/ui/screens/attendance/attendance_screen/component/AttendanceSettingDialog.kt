@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.screens.attendance.attendance_screen.component
 
 import androidx.compose.foundation.layout.Box
@@ -49,9 +56,9 @@ import com.atech.bit.ui.screens.attendance.attendance_screen.AttendanceViewModel
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.grid_1
-import com.atech.core.data_source.room.attendance.Sort
-import com.atech.core.data_source.room.attendance.SortBy
-import com.atech.core.data_source.room.attendance.SortOrder
+import com.atech.core.datasource.room.attendance.Sort
+import com.atech.core.datasource.room.attendance.SortBy
+import com.atech.core.datasource.room.attendance.SortOrder
 
 
 @Composable

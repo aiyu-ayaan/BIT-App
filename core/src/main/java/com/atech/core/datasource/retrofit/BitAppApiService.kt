@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.core.datasource.retrofit
 
 import com.atech.core.datasource.retrofit.model.AboutUsModel
@@ -7,6 +14,10 @@ import com.atech.core.datasource.retrofit.model.SyllabusResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
+/**
+ * Retrofit Api Service for BIT App
+ * Todo : Start from here
+ */
 interface BitAppApiService {
 
     companion object {

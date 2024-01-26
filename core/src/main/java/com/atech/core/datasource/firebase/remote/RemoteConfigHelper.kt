@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.core.datasource.firebase.remote
 
 import com.atech.core.BuildConfig
@@ -6,6 +13,9 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import javax.inject.Inject
 
+/**
+ * Helper class for fetching data from RemoteConfig
+ */
 class RemoteConfigHelper @Inject constructor(
     private val remoteConfig: FirebaseRemoteConfig
 ) {
@@ -17,6 +27,11 @@ class RemoteConfigHelper @Inject constructor(
         remoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
     }
 
+    /**
+     * Fetch data from RemoteConfig
+     * @param failure callback for failure
+     * @param success callback for success
+     */
     fun fetchData(failure: (Exception) -> Unit, success: FirebaseRemoteConfig.() -> Unit) {
         remoteConfig.fetchAndActivate()
             .addOnCompleteListener { task ->
@@ -28,8 +43,26 @@ class RemoteConfigHelper @Inject constructor(
             }
     }
 
+    /**
+     * Get Boolean from RemoteConfig
+     * @param key key for Boolean
+     * @return Boolean
+     */
+
     fun getBoolean(key: String) = remoteConfig.getBoolean(key)
+
+    /**
+     * Get String from RemoteConfig
+     * @param key key for String
+     * @return String
+     */
     fun getString(key: String) = remoteConfig.getString(key)
+
+    /**
+     * Get Double from RemoteConfig
+     * @param key key for Double
+     * @return Double
+     */
     fun getLong(key: String) = remoteConfig.getLong(key)
 
 

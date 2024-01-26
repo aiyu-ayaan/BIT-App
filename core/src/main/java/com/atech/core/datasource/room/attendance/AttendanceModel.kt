@@ -1,9 +1,8 @@
 /*
- * BIT Lalpur App
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
  *
- * Created by Ayaan on 2/13/22, 10:50 PM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 2/13/22, 8:05 PM
  */
 
 package com.atech.core.datasource.room.attendance

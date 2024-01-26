@@ -1,9 +1,8 @@
 /*
- * BIT Lalpur App
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
  *
- * Created by Ayaan on 2/21/22, 10:27 AM
- * Copyright (c) 2022 . All rights reserved.
- * Last modified 2/21/22, 10:22 AM
  */
 
 

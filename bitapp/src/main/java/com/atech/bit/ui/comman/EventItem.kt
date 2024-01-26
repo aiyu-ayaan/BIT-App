@@ -1,3 +1,10 @@
+/*
+ *  Created by aiyu
+ *  Copyright (c) 2021 . All rights reserved.
+ *  BIT App
+ *
+ */
+
 package com.atech.bit.ui.comman
 
 import androidx.compose.animation.AnimatedVisibility
@@ -21,9 +28,10 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,7 +50,6 @@ import com.atech.core.datasource.firebase.firestore.NoticeModel
 import com.atech.core.usecase.Db
 import com.atech.core.usecase.GetAttach
 import com.atech.core.utils.getDate
-import kotlinx.coroutines.launch
 
 @Composable
 fun EventItem(
@@ -52,10 +59,18 @@ fun EventItem(
     onEventClick: (EventModel) -> Unit = {},
     onClick: (String) -> Unit = {}
 ) {
-    var attach by rememberSaveable {
+    var attach by remember {
         mutableStateOf(emptyList<Attach>())
     }
-    val scope = rememberCoroutineScope()
+    LaunchedEffect(key1 = attach.size) {
+        getAttach?.invoke(
+            Db.Event,
+            model.path!!,
+            action = {
+                attach = it
+            }
+        )
+    }
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -135,15 +150,7 @@ fun EventItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(grid_1))
-            scope.launch {
-                getAttach?.invoke(
-                    Db.Event,
-                    model.path!!,
-                    action = {
-                        attach = it
-                    }
-                )
-            }
+
             AnimatedVisibility(visible = attach.isNotEmpty()) {
                 AttachCompose(
                     list = attach,
@@ -162,10 +169,19 @@ fun NoticeItem(
     getAttach: GetAttach,
     onClick: (String) -> Unit
 ) {
-    var attach by rememberSaveable {
+    var attach by remember {
         mutableStateOf(emptyList<Attach>())
     }
-    val scope = rememberCoroutineScope()
+
+    LaunchedEffect(key1 = attach.size) {
+        getAttach.invoke(
+            Db.Notice,
+            model.path!!,
+            action = {
+                attach = it
+            }
+        )
+    }
     Surface(
         modifier = modifier
             .fillMaxWidth()
@@ -245,15 +261,6 @@ fun NoticeItem(
                 overflow = TextOverflow.Ellipsis
             )
             Spacer(modifier = Modifier.height(grid_1))
-            scope.launch {
-                getAttach.invoke(
-                    Db.Notice,
-                    model.path!!,
-                    action = {
-                        attach = it
-                    }
-                )
-            }
             AnimatedVisibility(visible = attach.isNotEmpty()) {
                 AttachCompose(
                     list = attach,

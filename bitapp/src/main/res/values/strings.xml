@@ -1,3 +1,10 @@
+<!--
+  ~  Created by aiyu
+  ~  Copyright (c) 2021 . All rights reserved.
+  ~  BIT App
+  ~
+  -->
+
 <resources>
     <string name="app_name">BIT App</string>
     <string name="menu">Menu</string>
