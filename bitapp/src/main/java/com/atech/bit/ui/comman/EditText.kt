@@ -14,8 +14,8 @@ import androidx.compose.foundation.interaction.PressInteraction
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Computer
-import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -69,7 +69,8 @@ fun EditText(
         focusRequester?.requestFocus()
     }
 
-    OutlinedTextField(modifier = modifier.let {
+    OutlinedTextField(
+        modifier = modifier.let {
             if (focusRequester == null) it
             else it.focusRequester(focusRequester)
         },
@@ -115,7 +116,7 @@ fun MutableInteractionSource.clickable(
 private fun DefaultLeadingIcon(
     value: String
 ) = Icon(
-    imageVector = if (checkForLab(value)) Icons.Default.Computer else Icons.Default.MenuBook,
+    imageVector = if (checkForLab(value)) Icons.Default.Computer else Icons.AutoMirrored.Default.MenuBook,
     contentDescription = null,
     tint = MaterialTheme.colorScheme.primary
 )

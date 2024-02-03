@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Subject
 import androidx.compose.material.icons.outlined.Addchart
 import androidx.compose.material.icons.outlined.AutoGraph
 import androidx.compose.material.icons.outlined.Subject
@@ -109,7 +110,7 @@ fun CgpaEditText(
             errorMessage = stringResource(R.string.value_range_between_1_to_10),
             leadingIcon = {
                 Icon(
-                    imageVector = Icons.Outlined.Subject,
+                    imageVector = Icons.AutoMirrored.Outlined.Subject,
                     contentDescription = null
                 )
             },
