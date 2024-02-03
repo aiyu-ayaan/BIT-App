@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.LibraryBooks
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Add
@@ -333,7 +334,7 @@ fun AttendanceScreen(
                         PreferenceCard(
                             modifier = Modifier.padding(grid_1),
                             title = "Library Manager",
-                            icon = Icons.Outlined.LibraryBooks,
+                            icon = Icons.AutoMirrored.Outlined.LibraryBooks,
                             description = "Manage your library books",
                             onClick = {
                                 navController.navigate(LibraryRoute.LibraryManagerScreen.route)

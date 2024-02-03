@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.halilibo.richtext.markdown.Markdown
 import com.halilibo.richtext.ui.CodeBlockStyle
 import com.halilibo.richtext.ui.RichTextStyle
-import com.halilibo.richtext.ui.material3.Material3RichText
+import com.halilibo.richtext.ui.material3.RichText
 import com.halilibo.richtext.ui.string.RichTextStringStyle
 
 @Composable
@@ -32,7 +32,7 @@ fun MarkDown(
     linkTextColor: Color = MaterialTheme.colorScheme.primary,
     wrapWord: Boolean = true
 ) {
-    Material3RichText(
+    RichText(
         modifier = modifier,
         style = RichTextStyle.Default
             .copy(

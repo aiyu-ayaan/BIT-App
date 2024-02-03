@@ -20,10 +20,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Segment
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material.icons.outlined.Leaderboard
-import androidx.compose.material.icons.outlined.Segment
 import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.AlertDialog
@@ -200,7 +200,7 @@ fun ProfileDialogCompose(
                     trailingIcon = null,
                     leadingIcon = {
                         Icon(
-                            imageVector = Icons.Outlined.Segment,
+                            imageVector = Icons.AutoMirrored.Outlined.Segment,
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.primary
                         )

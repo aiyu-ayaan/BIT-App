@@ -19,12 +19,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.OpenInNew
+import androidx.compose.material.icons.automirrored.outlined.OpenInNew
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -100,7 +100,7 @@ fun ForceScreen(
                     model.link.openLinks(context)
                 }) {
                     Icon(
-                        imageVector = Icons.Outlined.OpenInNew,
+                        imageVector = Icons.AutoMirrored.Outlined.OpenInNew,
                         contentDescription = null,
                     )
                     Spacer(modifier = Modifier.width(grid_1))
@@ -113,8 +113,8 @@ fun ForceScreen(
 
 @Keep
 data class ForceScreenModel(
-    val title: String ="",
-    val description: String ="",
+    val title: String = "",
+    val description: String = "",
     val link: String? = null,
     val isEnable: Boolean = false,
     val maxVersion: Int = -1

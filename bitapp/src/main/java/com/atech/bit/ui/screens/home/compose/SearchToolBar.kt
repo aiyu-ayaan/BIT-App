@@ -20,9 +20,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.MenuOpen
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.MenuOpen
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -105,7 +105,7 @@ fun SearchToolBar(
                 ) {
                     ImageIconButton(
                         modifier = Modifier.weight(.2f),
-                        icon = Icons.Outlined.MenuOpen,
+                        icon = Icons.AutoMirrored.Outlined.MenuOpen,
                         tint = MaterialTheme.colorScheme.primary,
                         onClick = onLeadingIconClick,
                         contextDes = R.string.drawer

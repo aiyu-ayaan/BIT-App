@@ -14,9 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Send
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.PauseCircle
-import androidx.compose.material.icons.outlined.Send
 import androidx.compose.material.icons.outlined.WifiOff
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -145,7 +145,7 @@ fun MessageInput(
                     Icons.Outlined.WifiOff
                 else
                     if (isLoading) Icons.Outlined.PauseCircle
-                    else Icons.Outlined.Send,
+                    else Icons.AutoMirrored.Outlined.Send,
                 contentDescription = "send",
                 tint =
                 if (isConnected != ConnectivityObserver.Status.Available)

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.Undo
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
@@ -68,7 +69,7 @@ fun AttendanceMenu(
 
         val items = listOf(
             MenuItem(
-                icon = Icons.Outlined.Undo,
+                icon = Icons.AutoMirrored.Outlined.Undo,
                 text = "Undo",
                 onClick = {
                     onUndoClick(attendanceModel)

@@ -10,7 +10,7 @@ package com.atech.bit.ui.comman
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
@@ -91,7 +91,7 @@ data class ImageIconModel(
 )
 
 val backIconModel = ImageIconModel(
-    imageVector = Icons.Default.ArrowBack,
+    imageVector = Icons.AutoMirrored.Default.ArrowBack,
     contentDescription = R.string.back,
     onClick = {}
 )

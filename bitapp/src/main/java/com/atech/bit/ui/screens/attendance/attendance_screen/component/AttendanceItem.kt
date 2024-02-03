@@ -28,6 +28,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Computer
@@ -185,7 +186,7 @@ fun AttendanceItem(
                                 imageVector = if (checkForLab(
                                         model.subject
                                     )
-                                ) Icons.Default.Computer else Icons.Default.MenuBook,
+                                ) Icons.Default.Computer else Icons.AutoMirrored.Default.MenuBook,
                                 contentDescription = null,
                                 modifier = Modifier.size(30.dp),
                                 tint = when {
