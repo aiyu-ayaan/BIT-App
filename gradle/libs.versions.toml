@@ -23,7 +23,7 @@ lottieCompose = "6.3.0"
 #noinspection GradleDependency
 material3 = "1.2.0-rc01"
 markdownviewAndroid = "1.1.1"
-materialIconsExtended = "1.6.0"
+materialIconsExtended = "1.6.2"
 media3Exoplayer = "1.2.1"
 media3Session = "1.2.1"
 media3UiVersion = "1.2.1"
