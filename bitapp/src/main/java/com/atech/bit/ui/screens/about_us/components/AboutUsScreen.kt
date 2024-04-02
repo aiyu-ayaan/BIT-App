@@ -24,6 +24,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Scaffold
@@ -163,7 +164,7 @@ private fun AboutUsButtons(
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
-            Divider(
+            HorizontalDivider(
                 color = MaterialTheme.colorScheme.dividerOrCardColor
             )
         }
