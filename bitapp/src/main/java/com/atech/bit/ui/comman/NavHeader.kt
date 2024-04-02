@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -70,7 +71,7 @@ fun NavHeader(
                 tint = MaterialTheme.colorScheme.primary
             )
         }
-        Divider(
+        HorizontalDivider(
             color = MaterialTheme.colorScheme
                 .dividerOrCardColor
         )

@@ -19,6 +19,7 @@
 
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:name=".BITApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -28,7 +29,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BITApp"
-        tools:targetApi="31">
+        tools:targetApi="tiramisu">
         <activity android:name=".ui.activity.SplashScreen"
             android:theme="@style/Theme.customSplash"
             android:exported="true">
