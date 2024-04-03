@@ -16,5 +16,5 @@ plugins {
     id("com.google.gms.google-services") version "4.4.0" apply false
     id("androidx.room") version "2.6.0" apply false
     id("com.google.firebase.crashlytics") version "2.9.9" apply false
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "1.9.20"
 }
