@@ -26,15 +26,82 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Green40,
-    secondary = GreenGray40,
-    tertiary = LightGreen40,
-    surface = ColorSurfaceDark,
-    background = ColorSurfaceDark,
-    onPrimary = Color.White,
-    primaryContainer = surfaceContainerDark,
-    secondaryContainer = secondaryContainerDark,
+val lightColorScheme = ColorScheme(
+    background = Color(0xff020707),
+    error = Color(0xff35d7db),
+    errorContainer = Color(0xff003238),
+    inverseOnSurface = Color(0xff4e5051),
+    inversePrimary = Color(0xff737373),
+    inverseSurface = Color(0xffcecfcf),
+    onBackground = Color(0xff6d7070),
+    onError = Color(0xff000000),
+    onErrorContainer = Color(0xff61fff4),
+    onPrimary = Color(0xff000000),
+    onPrimaryContainer = Color(0xffb3b2b2),
+    onSecondary = Color(0xff000000),
+    onSecondaryContainer = Color(0xffb2b3b3),
+    onSurface = Color(0xffb1b2b2),
+    onSurfaceVariant = Color(0xff959697),
+    onTertiary = Color(0xff000000),
+    onTertiaryContainer = Color(0xffb2b3b2),
+    outline = Color(0xff717374),
+    outlineVariant = Color(0xff333636),
+    primary = Color(0xff969696),
+    primaryContainer = Color(0xff252727),
+    scrim = Color(0xff000000),
+    secondary = Color(0xff959696),
+    secondaryContainer = Color(0xff242727),
+    surface = Color(0xff020707),
+    surfaceTint = Color(0xffa1a1a1),
+    surfaceVariant = Color(0xff1a1d1e),
+    tertiary = Color(0xff959696),
+    tertiaryContainer = Color(0xff242727),
+    surfaceBright = Color(0xff020707),
+    surfaceDim = Color(0xff222627),
+    surfaceContainer = Color(0xff0e1213),
+    surfaceContainerHigh = Color(0xff141818),
+    surfaceContainerHighest = Color(0xff1a1d1e),
+    surfaceContainerLow = Color(0xff080c0d),
+    surfaceContainerLowest = Color(0xff000000),
+)
+
+val darkColorScheme = ColorScheme(
+    background = Color(0xffebecec),
+    error = Color(0xff009eaa),
+    errorContainer = Color(0xff84fff8),
+    inverseOnSurface = Color(0xffabadad),
+    inversePrimary = Color(0xff909090),
+    inverseSurface = Color(0xff1a1d1e),
+    onBackground = Color(0xff9c9d9e),
+    onError = Color(0xffc3fffe),
+    onErrorContainer = Color(0xff005b65),
+    onPrimary = Color(0xffe7e6e6),
+    onPrimaryContainer = Color(0xff424343),
+    onSecondary = Color(0xffe6e6e6),
+    onSecondaryContainer = Color(0xff414344),
+    onSurface = Color(0xff424545),
+    onSurfaceVariant = Color(0xff67696a),
+    onTertiary = Color(0xffe6e6e6),
+    onTertiaryContainer = Color(0xff414443),
+    outline = Color(0xff8c8d8e),
+    outlineVariant = Color(0xffbabbbb),
+    primary = Color(0xff696969),
+    primaryContainer = Color(0xffc6c5c5),
+    scrim = Color(0xff000000),
+    secondary = Color(0xff67696a),
+    secondaryContainer = Color(0xffc5c5c5),
+    surface = Color(0xffebecec),
+    surfaceTint = Color(0xff383939),
+    surfaceVariant = Color(0xffb8b8b9),
+    tertiary = Color(0xff676969),
+    tertiaryContainer = Color(0xffc4c5c5),
+    surfaceBright = Color(0xffc5c6c6),
+    surfaceDim = Color(0xffebecec),
+    surfaceContainer = Color(0xffdfe0e0),
+    surfaceContainerHigh = Color(0xffd4d5d5),
+    surfaceContainerHighest = Color(0xffcacbcb),
+    surfaceContainerLow = Color(0xffe3e4e4),
+    surfaceContainerLowest = Color(0xfff1f1f1),
 )
 
 val ColorScheme.borderColor: Color
@@ -83,15 +150,7 @@ val user_profile_image_size = 30.dp
 val video_view_height = 500.dp
 
 
-private val LightColorScheme = lightColorScheme(
-    primary = Green80,
-    secondary = GreenGray80,
-    tertiary = LightGreen80,
-    surface = ColorSurfaceLight,
-    background = ColorSurfaceLight,
-    primaryContainer = surfaceContainerLight,
-    secondaryContainer = secondaryContainerLight,
-)
+
 
 
 @Composable
@@ -108,9 +167,9 @@ fun BITAppTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        darkTheme -> darkColorScheme
 
-        else -> LightColorScheme
+        else -> lightColorScheme
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
