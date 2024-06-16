@@ -7,10 +7,11 @@
 
 package com.atech.bit.ui.comman
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,7 +24,6 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.outlined.KeyboardDoubleArrowDown
 import androidx.compose.material.icons.outlined.Save
 import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
@@ -108,7 +108,7 @@ fun ChooseSemBottomSheet(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun ChooseSemBottomSheetScreen(
     modifier: Modifier = Modifier,
@@ -129,11 +129,10 @@ fun ChooseSemBottomSheetScreen(
         Spacer(modifier = Modifier.height(grid_1))
         Text(text = "Choose your Course !!")
         Spacer(modifier = Modifier.height(grid_1))
-        Row (
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
-        ){
+        ) {
             mapList.keys.forEach {
                 val isSelected = course == it
                 FilterChip(selected = isSelected,
@@ -157,11 +156,10 @@ fun ChooseSemBottomSheetScreen(
         Text(text = "Choose your Semester !!")
         Spacer(modifier = Modifier.height(grid_1))
         val maxSem = mapList[course]!!.toInt()
-        Row (
+        FlowRow(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
-        ){
+        ) {
             (1..maxSem).forEach {
                 val isSelected = sem == it.toString()
                 FilterChip(

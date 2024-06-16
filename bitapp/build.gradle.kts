@@ -26,8 +26,8 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 34
-        versionCode = 78
-        versionName = "6.0.1.4.2"
+        versionCode = 79
+        versionName = "6.0.1.4.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -170,5 +170,7 @@ dependencies {
 
     implementation(libs.graph)
     implementation(libs.truetime.android)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.androidx.credentials)
 
 }
