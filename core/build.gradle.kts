@@ -77,7 +77,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     implementation(libs.androidx.room.runtime)
-    annotationProcessor(libs.androidx.room.compiler)
+    annotationProcessor(libs.room.compiler)
     implementation(libs.androidx.room.paging)
     ksp(libs.room.compiler)
     implementation(libs.androidx.room.ktx)
