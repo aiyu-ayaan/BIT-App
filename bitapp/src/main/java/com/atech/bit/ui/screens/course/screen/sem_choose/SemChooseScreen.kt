@@ -10,7 +10,6 @@ package com.atech.bit.ui.screens.course.screen.sem_choose
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -61,7 +60,6 @@ import com.atech.bit.ui.comman.BottomPadding
 import com.atech.bit.ui.comman.NetworkScreenEmptyScreen
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.CourseScreenRoute
-import com.atech.bit.ui.navigation.encodeUrl
 import com.atech.bit.ui.navigation.replaceAmpersandWithAsterisk
 import com.atech.bit.ui.screens.course.CourseEvents
 import com.atech.bit.ui.screens.course.CourseViewModel
@@ -77,7 +75,7 @@ import com.atech.core.usecase.SyllabusUIModel
 import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(
-    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun SemChooseScreen(
@@ -94,7 +92,7 @@ fun SemChooseScreen(
     val theoryData = viewModel.theory.collectAsLazyPagingItems()
     val labData = viewModel.lab.collectAsLazyPagingItems()
     val peData = viewModel.pe.collectAsLazyPagingItems()
-    var isEmptyScreenVisible = remember { mutableStateOf(false) }
+    val isEmptyScreenVisible = remember { mutableStateOf(false) }
 
     val onlineData = viewModel.onlineSyllabus.value
 
@@ -192,8 +190,8 @@ fun LazyListScope.onlineDataSource(
         ) { SubjectTitle("Theory") }
         items(items = theory, key = { item -> item.subject + item.code + "online" }) { ele ->
             SubjectItem(
-                data = ele, modifier = Modifier.animateItemPlacement(
-                    animationSpec = spring(
+                data = ele, modifier = Modifier.animateItem(
+                    fadeInSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
                 ), onClick = onClick
@@ -206,8 +204,8 @@ fun LazyListScope.onlineDataSource(
         ) { SubjectTitle("Lab") }
         items(items = lab, key = { item -> item.subject + item.code }) { ele ->
             SubjectItem(
-                data = ele, modifier = Modifier.animateItemPlacement(
-                    animationSpec = spring(
+                data = ele, modifier = Modifier.animateItem(
+                    placementSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
                 ), onClick = onClick
@@ -220,8 +218,8 @@ fun LazyListScope.onlineDataSource(
         ) { SubjectTitle("PE") }
         items(items = pe, key = { item -> item.subject + item.code }) { ele ->
             SubjectItem(
-                data = ele, modifier = Modifier.animateItemPlacement(
-                    animationSpec = spring(
+                data = ele, modifier = Modifier.animateItem(
+                    placementSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
                 ), onClick = onClick
@@ -248,8 +246,8 @@ fun LazyListScope.offlineDataSource(
             contentType = theoryData.itemContentType { "Theory" }) { index ->
             theoryData[index]?.let { model ->
                 SubjectItem(
-                    data = model, modifier = Modifier.animateItemPlacement(
-                        animationSpec = spring(
+                    data = model, modifier = Modifier.animateItem(
+                        fadeInSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
                     ), onClick = onClick
@@ -264,8 +262,8 @@ fun LazyListScope.offlineDataSource(
             contentType = labData.itemContentType { "Lab" }) { index ->
             labData[index]?.let { model ->
                 SubjectItem(
-                    data = model, modifier = Modifier.animateItemPlacement(
-                        animationSpec = spring(
+                    data = model, modifier = Modifier.animateItem(
+                        placementSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
                     ), onClick = onClick
@@ -280,8 +278,8 @@ fun LazyListScope.offlineDataSource(
             contentType = peData.itemContentType { "PE" }) { index ->
             peData[index]?.let { model ->
                 SubjectItem(
-                    data = model, modifier = Modifier.animateItemPlacement(
-                        animationSpec = spring(
+                    data = model, modifier = Modifier.animateItem(
+                        fadeInSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
                     ), onClick = onClick

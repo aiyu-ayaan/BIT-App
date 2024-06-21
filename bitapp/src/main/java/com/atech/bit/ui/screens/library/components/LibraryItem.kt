@@ -31,6 +31,7 @@ import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Unpublished
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -177,7 +178,7 @@ fun LibraryItem(
                 }
                 if (isExpand) {
                     Spacer(modifier = Modifier.height(grid_2))
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier.fillMaxWidth(),
                         color = MaterialTheme.colorScheme.dividerOrCardColor
                     )

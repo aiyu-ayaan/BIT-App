@@ -12,12 +12,11 @@ import android.content.IntentSender
 import android.util.Log
 import com.atech.bit.BuildConfig
 import com.atech.core.utils.TAGS
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
 import com.google.android.gms.auth.api.identity.SignInClient
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.tasks.await
 
+@Suppress("DEPRECATION")
 class GoogleAuthUiClient(
     private val oneTapClient: SignInClient
 ) {
@@ -57,11 +56,13 @@ class GoogleAuthUiClient(
     }
 
 
-    private fun buildSignInRequest(): BeginSignInRequest {
+    private fun buildSignInRequest(): com.google.android.gms.auth.api.identity.BeginSignInRequest {
         val webClient = BuildConfig.firebaseWebClient
-        return BeginSignInRequest.Builder().setGoogleIdTokenRequestOptions(
-            GoogleIdTokenRequestOptions.Builder().setSupported(true)
-                .setFilterByAuthorizedAccounts(false).setServerClientId(webClient).build()
-        ).setAutoSelectEnabled(true).build()
+        return com.google.android.gms.auth.api.identity.BeginSignInRequest.Builder()
+            .setGoogleIdTokenRequestOptions(
+                com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions.Builder()
+                    .setSupported(true)
+                    .setFilterByAuthorizedAccounts(false).setServerClientId(webClient).build()
+            ).setAutoSelectEnabled(true).build()
     }
 }

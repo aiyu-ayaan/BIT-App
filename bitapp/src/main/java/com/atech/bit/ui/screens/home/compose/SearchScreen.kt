@@ -10,7 +10,6 @@ package com.atech.bit.ui.screens.home.compose
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,7 +47,6 @@ import com.atech.bit.ui.theme.grid_1
 import com.atech.core.datasource.firebase.firestore.EventModel
 import com.atech.core.usecase.SyllabusUIModel
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SearchScreen(
     modifier: Modifier = Modifier,
@@ -91,8 +89,8 @@ fun SearchScreen(
                 contentType = syllabus.itemContentType { "Theory" }) { index ->
                 syllabus[index]?.let { model ->
                     SubjectItem(
-                        data = model, modifier = Modifier.animateItemPlacement(
-                            animationSpec = spring(
+                        data = model, modifier = Modifier.animateItem(
+                            placementSpec = spring(
                                 dampingRatio = 2f, stiffness = 600f
                             )
                         ), onClick = {

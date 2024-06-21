@@ -69,7 +69,7 @@ fun NoticeScreen(
                     ) { notice ->
                         NoticeItem(
                             model = notice,
-                            modifier = Modifier.animateItemPlacement(),
+                            modifier = Modifier.animateItem(),
                             getAttach = viewModel.getAttach,
                             onNoticeClick = { noticeModel ->
                                 viewModel.onEvent(
