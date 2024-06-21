@@ -30,6 +30,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
@@ -94,7 +95,9 @@ fun AttendanceSettingDialog(
                     modifier = Modifier
                         .size(100.dp)
                         .align(Alignment.Center),
-                    progress = sliderValue,
+                    progress = {
+                        sliderValue
+                    },
                     strokeWidth = 12.dp,
                     strokeCap = StrokeCap.Round
                 )
@@ -198,7 +201,9 @@ fun ExposedDropdown(
         TextField(
             // The `menuAnchor` modifier must be passed to the text field for correctness.
             modifier = Modifier
-                .menuAnchor()
+                .menuAnchor(
+                    type = MenuAnchorType.PrimaryEditable
+                )
                 .fillMaxWidth(),
             readOnly = true,
             value = value,

@@ -108,8 +108,8 @@ fun ColumnScope.bottomSheetArchive(
     LazyColumn {
         items(items = archiveSubject, key = { it1 -> it1.subject + it1.id }) { model ->
             AttendanceItem(
-                modifier = Modifier.animateItemPlacement(
-                    animationSpec = spring(
+                modifier = Modifier.animateItem(
+                    placementSpec = spring(
                         dampingRatio = 2f, stiffness = 600f
                     )
                 ),

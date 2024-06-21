@@ -115,8 +115,8 @@ fun HolidayScreen(
             items(items = holiday, key = { it1 -> it1.hashCode() }) { holiday ->
                 HolidayItem(
                     holiday = holiday,
-                    modifier = Modifier.animateItemPlacement(
-                        animationSpec = spring(
+                    modifier = Modifier.animateItem(
+                        placementSpec = spring(
                             dampingRatio = 2f, stiffness = 600f
                         )
                     )

@@ -239,7 +239,9 @@ fun AttendanceItem(
                         Box(modifier = Modifier) {
                             CircularProgressIndicator(
                                 modifier = Modifier.size(60.dp),
-                                progress = if (model.total == 0) 0.0F else (model.present.toFloat() / model.total.toFloat()),
+                                progress = {
+                                    if (model.total == 0) 0.0F else (model.present.toFloat() / model.total.toFloat())
+                                },
                                 trackColor = MaterialTheme.colorScheme.surface,
                                 strokeCap = StrokeCap.Round,
                                 strokeWidth = grid_1,
