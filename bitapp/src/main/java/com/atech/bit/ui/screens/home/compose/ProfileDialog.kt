@@ -28,6 +28,7 @@ import androidx.compose.material.icons.outlined.Sync
 import androidx.compose.material.icons.outlined.Warning
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -90,7 +91,7 @@ fun ProfileDialog(
     LaunchedEffect(key1 = true) {
         viewModel.fetchAccountDetail()
     }
-    AlertDialog(
+    BasicAlertDialog(
         modifier = modifier.fillMaxWidth(),
         onDismissRequest = onDismissRequest,
     ) {

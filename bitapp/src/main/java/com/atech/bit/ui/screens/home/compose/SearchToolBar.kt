@@ -47,6 +47,7 @@ import com.atech.bit.ui.theme.grid_1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Suppress("DEPRECATION")
 fun SearchToolBar(
     modifier: Modifier = Modifier,
     query: String = "",

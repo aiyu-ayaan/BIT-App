@@ -132,8 +132,8 @@ fun LibraryManagerScreen(
             modifier = Modifier.consumeWindowInsets(it), contentPadding = it
         ) {
             items(items, key = { it1 -> it1.id!! }) { model ->
-                LibraryItem(modifier = Modifier.animateItemPlacement(
-                    animationSpec = spring(
+                LibraryItem(modifier = Modifier.animateItem(
+                    placementSpec = spring(
                         dampingRatio = Spring.DampingRatioLowBouncy,
                         stiffness = Spring.StiffnessLow
                     )
@@ -177,7 +177,7 @@ fun LibraryManagerScreen(
                 onDismissRequest = { isDeleteAllDialogVisible = false },
                 confirmButton = {
                     TextButton(onClick = {
-                        viewModel.libraryList.value.forEach {items->
+                        viewModel.libraryList.value.forEach { items ->
                             if (items.eventId != -1L) {
                                 CalendarReminder.deleteEvent(
                                     context = context, eventID = items.eventId
