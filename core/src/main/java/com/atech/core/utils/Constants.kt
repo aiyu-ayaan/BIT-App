@@ -104,7 +104,7 @@ const val CHANNEL_APP = "App Notification"
 
 const val DEFAULT_PAGE_SIZE = 20
 const val INITIAL_LOAD_SIZE = 20
-
+const val NOTICE_SITE_LINK = "https://www.bitmesra.ac.in/Display_Archive_News_List09398FGDr?cid=7"
 
 enum class MessageTopic(val value: String) {
     Notice("NoticeByAiyu"),

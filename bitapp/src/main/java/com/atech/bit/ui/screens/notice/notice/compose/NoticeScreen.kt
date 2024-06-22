@@ -7,6 +7,8 @@
 
 package com.atech.bit.ui.screens.notice.notice.compose
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,8 +17,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -24,9 +34,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -39,9 +52,13 @@ import com.atech.bit.ui.navigation.NoticeScreenRoute
 import com.atech.bit.ui.navigation.navigateWithDeepLink
 import com.atech.bit.ui.screens.notice.NoticeScreenEvent
 import com.atech.bit.ui.theme.BITAppTheme
+import com.atech.bit.ui.theme.grid_0_5
 import com.atech.core.datasource.firebase.firestore.NoticeModel
 import com.atech.core.datasource.retrofit.model.CollegeNotice
 import com.atech.core.usecase.GetAttach
+import com.atech.core.utils.NOTICE_SITE_LINK
+import com.atech.core.utils.openLinks
+import kotlinx.coroutines.launch
 import java.util.UUID
 
 
@@ -59,14 +76,44 @@ fun NoticeScreen(
         "College",
         "App"
     )
-
+    var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
+    val pagerState = rememberPagerState {
+        tabItems.size
+    }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
     Scaffold(
         modifier = modifier,
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         topBar = {
             BackToolbar(
                 title = R.string.notice,
                 onNavigationClick = {
                     navController.navigateUp()
+                },
+                actions = {
+                    AnimatedVisibility(selectedTabIndex == 0) {
+                        IconButton(onClick = {
+                            scope.launch {
+                                val result = snackbarHostState.showSnackbar(
+                                    "Notices are fetch from official BIT Mesra Site",
+                                    duration = SnackbarDuration.Long,
+                                    actionLabel = "Open",
+                                )
+                                when (result) {
+                                    SnackbarResult.Dismissed -> {}
+                                    SnackbarResult.ActionPerformed -> {
+                                        NOTICE_SITE_LINK.openLinks(context)
+                                    }
+                                }
+                            }
+                        }) {
+                            Icon(imageVector = Icons.Rounded.Info, contentDescription = "info")
+                        }
+                    }
                 }
             )
         }
@@ -76,10 +123,6 @@ fun NoticeScreen(
                 .fillMaxSize()
                 .padding(it)
         ) {
-            var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
-            val pagerState = rememberPagerState {
-                tabItems.size
-            }
             LaunchedEffect(selectedTabIndex) {
                 pagerState.animateScrollToPage(selectedTabIndex)
             }
@@ -127,11 +170,29 @@ private fun CollegeNotifications(
     modifier: Modifier = Modifier,
     fetchCollegeNotice: List<CollegeNotice>
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
+    val context = LocalContext.current
+    GlobalEmptyScreen(
+        modifier = modifier,
+        isEmpty = fetchCollegeNotice.isEmpty(),
+        emptyText = "No College notice found"
     ) {
-        items(fetchCollegeNotice) {
-            Text(it.title)
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(
+                grid_0_5
+            )
+        ) {
+            items(fetchCollegeNotice) {
+                CollegeNoticeItem(
+                    modifier = Modifier
+                        .animateItem(),
+                    model = it,
+                    onClick = {
+                        it.link.openLinks(context)
+                    }
+                )
+            }
         }
     }
 }
