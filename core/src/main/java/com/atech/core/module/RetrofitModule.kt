@@ -10,6 +10,7 @@ package com.atech.core.module
 import android.content.Context
 import com.atech.core.datasource.retrofit.BitAppApiService
 import com.atech.core.datasource.retrofit.BitAppApiService.Companion.BASE_URL
+import com.atech.core.datasource.retrofit.CollegeNoticeApiService
 import com.atech.core.utils.cacheSize
 import com.atech.core.utils.hasNetwork
 import com.google.gson.GsonBuilder
@@ -45,11 +46,9 @@ object RetrofitModule {
     fun provideOkHttpClient(@ApplicationContext context: Context, cache: Cache): OkHttpClient =
         OkHttpClient.Builder().cache(cache).addNetworkInterceptor { chain ->
             var request = chain.request()
-            request = if (!hasNetwork(context)!!)
-                request.newBuilder().header(
-                    "Cache-Control",
-                    "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
-                ).build()
+            request = if (!hasNetwork(context)!!) request.newBuilder().header(
+                "Cache-Control", "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
+            ).build()
             else {
                 val maxAge =
                     5 // read from cache for 60 seconds even if there is internet connection
@@ -67,6 +66,14 @@ object RetrofitModule {
         Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(ScalarsConverterFactory.create())
             .addConverterFactory(gsonConverterFactory).client(okHttpClient).build()
 
+
+    @Provides
+    @Singleton
+    fun provideCollegeNoticeApiService(): CollegeNoticeApiService =
+        Retrofit.Builder().baseUrl(CollegeNoticeApiService.COLLEGE_BASE_URL)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .build()
+            .create(CollegeNoticeApiService::class.java)
 
     @Provides
     @Singleton

@@ -13,17 +13,21 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.core.datasource.firebase.firestore.NoticeModel
+import com.atech.core.datasource.retrofit.model.CollegeNotice
+import com.atech.core.usecase.CollegeNoticeUseCases
 import com.atech.core.usecase.FirebaseCase
 import com.atech.core.usecase.GetAttach
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
     private val case: FirebaseCase,
+    private val collegeNotice: CollegeNoticeUseCases,
     val getAttach: GetAttach,
     state: SavedStateHandle
 ) : ViewModel() {
@@ -31,6 +35,9 @@ class NoticeViewModel @Inject constructor(
 
     private val _fetchNotice = mutableStateOf<List<NoticeModel>>(emptyList())
     val fetchNotice: State<List<NoticeModel>> get() = _fetchNotice
+
+    private val _fetchCollegeNotice = mutableStateOf<List<CollegeNotice>>(emptyList())
+    val fetchCollegeNotice: State<List<CollegeNotice>> get() = _fetchCollegeNotice
 
     private var job: Job? = null
 
@@ -47,6 +54,11 @@ class NoticeViewModel @Inject constructor(
 
     init {
         fetchNotice()
+        fetchAllCollegeNotice()
+    }
+
+    private fun fetchAllCollegeNotice() = viewModelScope.launch {
+        _fetchCollegeNotice.value = collegeNotice.allNotice.invoke()
     }
 
     private fun fetchNotice() {

@@ -50,6 +50,7 @@ googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 lifecycleViewmodelCompose = "2.8.2"
 generativeai = "0.8.0"
 truetimeAndroid = "3.5"
+jsoup = "1.17.2"
 
 
 [libraries]
@@ -117,6 +118,7 @@ cryptore = { group = "com.kazakago.cryptore", name = "cryptore", version.ref = "
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
 generativeai = { group = "com.google.ai.client.generativeai", name = "generativeai", version.ref = "generativeai" }
 truetime-android = { module = "com.github.instacart:truetime-android", version.ref = "truetimeAndroid" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

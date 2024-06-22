@@ -8,6 +8,7 @@
 package com.atech.bit.ui.navigation
 
 import android.content.Intent
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
@@ -40,9 +41,14 @@ fun NavGraphBuilder.noticeGraph(
             route = NoticeScreenRoute.NoticeScreen.route
         ) {
             val viewModel = it.sharedViewModel<NoticeViewModel>(navController = navController)
+            val fetchedNotice by viewModel.fetchNotice
+            val fetchCollegeNotice by viewModel.fetchCollegeNotice
             NoticeScreen(
                 navController = navController,
-                viewModel = viewModel
+                fetchNotice = fetchedNotice,
+                onEvent = viewModel::onEvent,
+                getAttach = viewModel.getAttach,
+                fetchCollegeNotice = fetchCollegeNotice
             )
         }
         animatedComposable(
@@ -54,7 +60,7 @@ fun NavGraphBuilder.noticeGraph(
                 }
             ),
             deepLinks = listOf(
-                navDeepLink{
+                navDeepLink {
                     uriPattern = DeepLinkRoutes.NoticeDetailScreen().route
                     action = Intent.ACTION_VIEW
                 }

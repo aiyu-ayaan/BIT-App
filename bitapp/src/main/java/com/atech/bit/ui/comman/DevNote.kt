@@ -30,7 +30,7 @@ import com.atech.bit.ui.theme.course_image_size
 import com.atech.bit.ui.theme.grid_1
 
 
-const val GITHUB_LINK = "https://github.com/aiyu-ayaan"
+const val GITHUB_LINK = "https://bento.me/aiyu"
 
 @Composable
 fun DevNote(
