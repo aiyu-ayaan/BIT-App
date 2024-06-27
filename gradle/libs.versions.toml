@@ -21,7 +21,7 @@ logbackClassic = "1.2.3"
 loggingInterceptorVersion = "4.12.0"
 lottieCompose = "6.4.1"
 #noinspection GradleDependency
-material3 = "1.3.0-beta02"
+material3 = "1.3.0-beta04"
 markdownviewAndroid = "1.1.1"
 materialIconsExtended = "1.6.8"
 media3Exoplayer = "1.3.1"
