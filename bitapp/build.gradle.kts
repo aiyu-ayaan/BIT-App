@@ -16,7 +16,6 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("org.jetbrains.dokka")
-    alias(libs.plugins.compose.compiler)
 }
 
 android {
@@ -27,8 +26,8 @@ android {
         applicationId = "com.atech.bit"
         minSdk = 24
         targetSdk = 34
-        versionCode = 82
-        versionName = "6.0.1.4.6"
+        versionCode = 81
+        versionName = "6.0.1.4.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -81,21 +80,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = "1.8"
     }
-//    composeOptions {
-//        kotlinCompilerExtensionVersion = "1.5.8"
-//    }
-    composeCompiler {
-        enableStrongSkippingMode = true
-
-        reportsDestination = layout.buildDirectory.dir("compose_compiler")
-        stabilityConfigurationFile =
-            rootProject.layout.projectDirectory.file("stability_config.conf")
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8"
     }
 
     buildFeatures {
@@ -178,8 +170,6 @@ dependencies {
 
     implementation(libs.graph)
     implementation(libs.truetime.android)
-
-    implementation(libs.jetlime)
 
 
 }
