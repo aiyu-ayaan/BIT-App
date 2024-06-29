@@ -12,12 +12,11 @@ import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -25,6 +24,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
 import androidx.core.view.WindowCompat
+import com.atech.bit.utils.animateColor
 
 val lightColorScheme = ColorScheme(
     background = Color(0xfff9f9f9),
@@ -104,6 +104,245 @@ val darkColorScheme = ColorScheme(
     surfaceContainerLowest = Color(0xff0e0e0e),
 )
 
+
+//@Composable
+//fun isDark(isDark: Boolean): ColorScheme {
+//    val background by
+//    animateColor(isDark, lightColorScheme.background, darkColorScheme.background, "background")
+//    val error by animateColor(isDark, lightColorScheme.error, darkColorScheme.error, "error")
+//    val errorContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.errorContainer,
+//        darkColorScheme.errorContainer,
+//        "errorContainer"
+//    )
+//    val inverseOnSurface by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.inverseOnSurface,
+//        darkColorScheme.inverseOnSurface,
+//        "inverseOnSurface"
+//    )
+//    val inversePrimary by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.inversePrimary,
+//        darkColorScheme.inversePrimary,
+//        "inversePrimary"
+//    )
+//    val inverseSurface by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.inverseSurface,
+//        darkColorScheme.inverseSurface,
+//        "inverseSurface"
+//    )
+//    val onBackground by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onBackground,
+//        darkColorScheme.onBackground,
+//        "onBackground"
+//    )
+//    val onError by animateColor(
+//        isDark,
+//        lightColorScheme.onError,
+//        darkColorScheme.onError,
+//        "onError"
+//    )
+//    val onErrorContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onErrorContainer,
+//        darkColorScheme.onErrorContainer,
+//        "onErrorContainer"
+//    )
+//    val onPrimary by
+//    animateColor(isDark, lightColorScheme.onPrimary, darkColorScheme.onPrimary, "onPrimary")
+//    val onPrimaryContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onPrimaryContainer,
+//        darkColorScheme.onPrimaryContainer,
+//        "onPrimaryContainer"
+//    )
+//    val onSecondary by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onSecondary,
+//        darkColorScheme.onSecondary,
+//        "onSecondary"
+//    )
+//    val onSecondaryContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onSecondaryContainer,
+//        darkColorScheme.onSecondaryContainer,
+//        "onSecondaryContainer"
+//    )
+//    val onSurface by
+//    animateColor(isDark, lightColorScheme.onSurface, darkColorScheme.onSurface, "onSurface")
+//    val onSurfaceVariant by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onSurfaceVariant,
+//        darkColorScheme.onSurfaceVariant,
+//        "onSurfaceVariant"
+//    )
+//    val onTertiary by
+//    animateColor(isDark, lightColorScheme.onTertiary, darkColorScheme.onTertiary, "onTertiary")
+//    val onTertiaryContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.onTertiaryContainer,
+//        darkColorScheme.onTertiaryContainer,
+//        "onTertiaryContainer"
+//    )
+//    val outline by animateColor(
+//        isDark,
+//        lightColorScheme.outline,
+//        darkColorScheme.outline,
+//        "outline"
+//    )
+//    val outlineVariant by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.outlineVariant,
+//        darkColorScheme.outlineVariant,
+//        "outlineVariant"
+//    )
+//    val primary by animateColor(
+//        isDark,
+//        lightColorScheme.primary,
+//        darkColorScheme.primary,
+//        "primary"
+//    )
+//    val primaryContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.primaryContainer,
+//        darkColorScheme.primaryContainer,
+//        "primaryContainer"
+//    )
+//    val scrim by animateColor(isDark, lightColorScheme.scrim, darkColorScheme.scrim, "scrim")
+//    val secondary by
+//    animateColor(isDark, lightColorScheme.secondary, darkColorScheme.secondary, "secondary")
+//    val secondaryContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.secondaryContainer,
+//        darkColorScheme.secondaryContainer,
+//        "secondaryContainer"
+//    )
+//    val surface by animateColor(
+//        isDark,
+//        lightColorScheme.surface,
+//        darkColorScheme.surface,
+//        "surface"
+//    )
+//    val surfaceTint by animateColor(
+//        isDark,
+//        lightColorScheme.surfaceTint,
+//        darkColorScheme.surfaceTint,
+//        "surfaceTint"
+//    )
+//    val surfaceVariant by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.surfaceVariant,
+//        darkColorScheme.surfaceVariant,
+//        "surfaceVariant"
+//    )
+//    val tertiary by
+//    animateColor(isDark, lightColorScheme.tertiary, darkColorScheme.tertiary, "tertiary")
+//    val tertiaryContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.tertiaryContainer,
+//        darkColorScheme.tertiaryContainer,
+//        "tertiaryContainer"
+//    )
+//    val surfaceBright by
+//    animateColor(isDark, lightColorScheme.surface, darkColorScheme.surface, "surface")
+//    val surfaceDim by
+//    animateColor(isDark, lightColorScheme.surfaceDim, darkColorScheme.surfaceDim, "surfaceDim")
+//    val surfaceContainer by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.surfaceContainer,
+//        darkColorScheme.surfaceContainer,
+//        "surfaceContainer"
+//    )
+//    val surfaceContainerHigh by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.surfaceContainerHigh,
+//        darkColorScheme.surfaceContainerHigh,
+//        "surfaceContainerHigh"
+//    )
+//    val surfaceContainerHighest by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.surfaceContainerHighest,
+//        darkColorScheme.surfaceContainerHighest,
+//        "surfaceContainerHighest"
+//    )
+//    val surfaceContainerLow by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.surfaceContainerLow,
+//        darkColorScheme.surfaceContainerLow,
+//        "surfaceContainerLow"
+//    )
+//    val surfaceContainerLowest by
+//    animateColor(
+//        isDark,
+//        lightColorScheme.surfaceContainerLowest,
+//        darkColorScheme.surfaceContainerLowest,
+//        "surfaceContainerLowest"
+//    )
+//    return ColorScheme(
+//        background = background,
+//        error = error,
+//        errorContainer = errorContainer,
+//        inverseOnSurface = inverseOnSurface,
+//        inversePrimary = inversePrimary,
+//        inverseSurface = inverseSurface,
+//        onBackground = onBackground,
+//        onError = onError,
+//        onErrorContainer = onErrorContainer,
+//        onPrimary = onPrimary,
+//        onPrimaryContainer = onPrimaryContainer,
+//        onSecondary = onSecondary,
+//        onSecondaryContainer = onSecondaryContainer,
+//        onSurface = onSurface,
+//        onSurfaceVariant = onSurfaceVariant,
+//        onTertiary = onTertiary,
+//        onTertiaryContainer = onTertiaryContainer,
+//        outline = outline,
+//        outlineVariant = outlineVariant,
+//        primary = primary,
+//        primaryContainer = primaryContainer,
+//        scrim = scrim,
+//        secondary = secondary,
+//        secondaryContainer = secondaryContainer,
+//        surface = surface,
+//        surfaceTint = surfaceTint,
+//        surfaceVariant = surfaceVariant,
+//        tertiary = tertiary,
+//        tertiaryContainer = tertiaryContainer,
+//        surfaceBright = surfaceBright,
+//        surfaceDim = surfaceDim,
+//        surfaceContainer = surfaceContainer,
+//        surfaceContainerHigh = surfaceContainerHigh,
+//        surfaceContainerHighest = surfaceContainerHighest,
+//        surfaceContainerLow = surfaceContainerLow,
+//        surfaceContainerLowest = surfaceContainerLowest
+//    )
+//}
+
+
 val ColorScheme.borderColor: Color
     @Composable
     get() = primary.copy(alpha = 0.6f)
@@ -148,10 +387,6 @@ val recycler_view_height_attendance = 120.dp
 val empty_view_height = 300.dp
 val user_profile_image_size = 30.dp
 val video_view_height = 500.dp
-
-
-
-
 
 @Composable
 fun BITAppTheme(

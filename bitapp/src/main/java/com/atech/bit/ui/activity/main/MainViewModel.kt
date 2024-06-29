@@ -18,6 +18,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.atech.bit.BuildConfig
+import com.atech.bit.ui.screens.ShowSocietyOrEvent
 import com.atech.bit.ui.screens.force.ForceScreenModel
 import com.atech.bit.ui.screens.home.compose.EventAlertModel
 import com.atech.bit.ui.screens.home.compose.eventAlertModel
@@ -112,6 +113,9 @@ class MainViewModel @Inject constructor(
     private val _hasError = mutableStateOf(false)
     val hasError: State<Boolean> get() = _hasError
 
+    private val _showSocietyOrEvent = mutableStateOf(ShowSocietyOrEvent())
+    val showSocietyOrEvent: State<ShowSocietyOrEvent> get() = _showSocietyOrEvent
+
     fun onDismissRequest() {
         _isShowAlertDialog.value = false
     }
@@ -155,7 +159,7 @@ class MainViewModel @Inject constructor(
                 first?.let {
                     Log.d("AAA", "fetchChatSettings: ${it.first}")
                     _isChatScreenEnable.value = it.first
-                    _lastChat.value = it.second
+                    _lastChat.longValue = it.second
                     _currentTry.intValue = it.third
                     _chanceWithMax.value = "${_currentTry.intValue}/${_maxChatLimit.intValue}"
                     _canSendChatMessage.value =
@@ -230,6 +234,10 @@ class MainViewModel @Inject constructor(
             }
             conf.getLong(RemoteConfigKeys.MAX_CHAT_LIMIT.value).let {
                 _maxChatLimit.intValue = it.toInt()
+            }
+            conf.getString(RemoteConfigKeys.SHOW_SOCIETY_OR_EVENT.value).let {
+                _showSocietyOrEvent.value =
+                    fromJSON(it, ShowSocietyOrEvent::class.java) ?: ShowSocietyOrEvent()
             }
             action.invoke(
                 attendanceDao,

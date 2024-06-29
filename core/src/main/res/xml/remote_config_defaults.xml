@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  ~  Created by aiyu
-  ~  Copyright (c) 2021 . All rights reserved.
-  ~  BIT App
-  ~
-  -->
-
 <defaults>
     <entry>
-        <key>course_details</key>
-        <value>{"course":[{"name":"bca","sem":6},{"name":"bba","sem":6},{"name":"mca","sem":4},{"name":"mba","sem":4}]}</value>
+        <key>Current_Year</key>
+        <value>2024</value>
     </entry>
     <entry>
-        <key>app_alert_dialog</key>
-        <value>{"body":"Welcome to BIT App","isShow":false,"lottieLink":"https://lottie.host/aef42e66-22ea-4aed-a84f-d3c8029a2488/xApVTSr32n.json","maxTimesToShow":5,"title":"BIT APP","version":3,"link":"https://jsoncrack.com/editor"}</value>
+        <key>Github_Link</key>
+        <value>https://github.com/aiyu-ayaan</value>
     </entry>
     <entry>
-        <key>force_screen</key>
-        <value>{"description":"This app end its support","isEnable":false,"link":"https://play.google.com/store/apps/details?id=com.atech.bit","maxVersion":-1,"title":"About App"}</value>
+        <key>show_times</key>
+        <value>3</value>
     </entry>
     <entry>
-        <key>max_chat_limit</key>
+        <key>MAX_TIMES_UPLOAD</key>
         <value>10</value>
+    </entry>
+    <entry>
+        <key>show_society_or_event</key>
+        <value>{"showSociety":false,"showEvent":false}</value>
     </entry>
     <entry>
         <key>ann_title</key>
@@ -48,22 +45,6 @@
         <value>4</value>
     </entry>
     <entry>
-        <key>Current_Year</key>
-        <value>2024</value>
-    </entry>
-    <entry>
-        <key>Github_Link</key>
-        <value>https://github.com/aiyu-ayaan</value>
-    </entry>
-    <entry>
-        <key>show_times</key>
-        <value>3</value>
-    </entry>
-    <entry>
-        <key>MAX_TIMES_UPLOAD</key>
-        <value>10</value>
-    </entry>
-    <entry>
         <key>button_text</key>
         <value>Update this App</value>
     </entry>
@@ -84,6 +65,22 @@
         <value>About App</value>
     </entry>
     <entry>
+        <key>course_details</key>
+        <value>{"course":[{"name":"bca","sem":6},{"name":"bba","sem":6},{"name":"mca","sem":4},{"name":"mba","sem":4}]}</value>
+    </entry>
+    <entry>
+        <key>app_alert_dialog</key>
+        <value>{"body":"Welcome to BIT App","isShow":false,"lottieLink":"https://lottie.host/aef42e66-22ea-4aed-a84f-d3c8029a2488/xApVTSr32n.json","maxTimesToShow":5,"title":"BIT APP","version":3,"link":"https://jsoncrack.com/editor"}</value>
+    </entry>
+    <entry>
+        <key>force_screen</key>
+        <value>{"description":"This app end its support","isEnable":false,"link":"https://play.google.com/store/apps/details?id=com.atech.bit","maxVersion":-1,"title":"About App"}</value>
+    </entry>
+    <entry>
+        <key>max_chat_limit</key>
+        <value>10</value>
+    </entry>
+    <entry>
         <key>SYLLABUS_BBA</key>
         <value>https://firebasestorage.googleapis.com/v0/b/theaiyubit.appspot.com/o/Syllabus%2FBBA_CBCS_Syllabus.pdf?alt=media&amp;token=ab41c141-c565-45c2-bfe6-7270b8296e49</value>
     </entry>
@@ -97,7 +94,7 @@
     </entry>
     <entry>
         <key>KEY_TOGGLE_SYLLABUS_SOURCE_ARRAY</key>
-        <value>{"bca1":true,"bca2":true,"bca3":true,"bca4":true,"bca5":false,"bca6":true,"bba1":false,"bba2":true,"bba3":false,"bba4":true,"bba5":false,"bba6":true,"mca1":true,"mca2":true,"mca3":false,"mba4":true,"mba1":false,"mba2":true,"mba3":false}</value>
+        <value>{"bca1":true,"bca2":true,"bca3":true,"bca4":true,"bca5":false,"bca6":true,"bba1":false,"bba2":true,"bba3":false,"bba4":true,"bba5":false,"bba6":true,"mca1":true,"mca2":true,"mca3":true,"mba4":true,"mba1":false,"mba2":true,"mba3":false}</value>
     </entry>
     <entry>
         <key>SYLLABUS_VISIBILITY</key>

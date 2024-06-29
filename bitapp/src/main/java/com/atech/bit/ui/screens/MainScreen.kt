@@ -8,6 +8,7 @@
 package com.atech.bit.ui.screens
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
@@ -98,6 +99,11 @@ import com.atech.core.utils.openLinks
 import com.atech.core.utils.openPlayStore
 import kotlinx.coroutines.launch
 
+@Keep
+data class ShowSocietyOrEvent(
+    val showSociety: Boolean = false,
+    val showEvent: Boolean = false
+)
 
 @Composable
 fun MainScreen(
@@ -142,7 +148,8 @@ fun MainScreen(
             drawerState = drawerSate,
             drawerContent = {
                 NavDrawer(
-                    navController = navController
+                    navController = navController,
+                    showSocietyOrEvent = communicatorViewModel.showSocietyOrEvent.value
                 ) {
                     coroutineScope.launch {
                         setDrawerState(
@@ -176,78 +183,87 @@ fun MainScreen(
 }
 
 
-val navDrawerItem = listOf(
-    null to listOf(
-        NavDrawer(
-            title = R.string.git, selectedIcon = R.drawable.ic_read_me, link = R.string.github_link
-        ), NavDrawer(
-            title = R.string.whats_new,
-            selectedIcon = R.drawable.ic_release_notes,
-            link = R.string.whats_new
-        ), NavDrawer(
-            title = R.string.issue, selectedIcon = R.drawable.ic_issue, link = R.string.issue_link
-        )
-    ), "Erp & Classes" to listOf(
-        NavDrawer(
-            title = R.string.erp, selectedIcon = R.drawable.ic_web, link = R.string.erp_link
-        ), NavDrawer(
-            title = R.string.administration,
-            selectedIcon = R.drawable.ic_admin,
-            route = Screen.AdministrationScreen.route
-        ), NavDrawer(
-            title = R.string.library,
-            selectedIcon = R.drawable.ic_library,
-            route = Screen.LibraryScreen.route
-        ), NavDrawer(
-            title = R.string.cgpa_calculator,
-            selectedIcon = R.drawable.ic_cgpa_calculator,
-            route = Screen.CgpaScreen.route
-        ), NavDrawer(
-            title = R.string.holidays,
-            selectedIcon = R.drawable.ic_holiday,
-            route = Screen.HolidayScreen.route
-        )
-    ), "Societies & Events" to listOf(
-        NavDrawer(
-            title = R.string.societies,
-            selectedIcon = R.drawable.ic_society,
-            route = Screen.SocietyScreen.route
-        ), NavDrawer(
-            title = R.string.events,
-            selectedIcon = R.drawable.ic_event,
-            route = Screen.EventScreen.route
-        )
-    ), "Communication" to listOf(
-        NavDrawer(
-            title = R.string.connect,
-            selectedIcon = R.drawable.ic_cwu,
-            link = R.string.connect
-        ), NavDrawer(
-            title = R.string.feedback,
-            selectedIcon = R.drawable.ic_mail,
-            link = R.string.feedback,
-        )
-    ), "Share & Rate" to listOf(
-        NavDrawer(
-            title = R.string.share,
-            selectedIcon = R.drawable.ic_share,
-            link = R.string.share
-        ), NavDrawer(
-            title = R.string.rate_us, selectedIcon = R.drawable.ic_star, route = "play_store"
-        )
-    ), "App Setting" to listOf(
-        NavDrawer(
-            title = R.string.settings,
-            selectedIcon = R.drawable.outline_settings_24,
-            route = Screen.SettingsScreen.route
-        )
-    )
-)
-
 @Composable
 fun NavDrawer(
-    modifier: Modifier = Modifier, navController: NavHostController, closeAction: () -> Unit
+    modifier: Modifier = Modifier,
+    navController: NavHostController,
+    showSocietyOrEvent: ShowSocietyOrEvent = ShowSocietyOrEvent(),
+    closeAction: () -> Unit
 ) {
+    val navDrawerItem = listOf(
+        null to listOf(
+            NavDrawer(
+                title = R.string.git,
+                selectedIcon = R.drawable.ic_read_me,
+                link = R.string.github_link
+            ), NavDrawer(
+                title = R.string.whats_new,
+                selectedIcon = R.drawable.ic_release_notes,
+                link = R.string.whats_new
+            ), NavDrawer(
+                title = R.string.issue,
+                selectedIcon = R.drawable.ic_issue,
+                link = R.string.issue_link
+            )
+        ), "Erp & Classes" to listOf(
+            NavDrawer(
+                title = R.string.erp, selectedIcon = R.drawable.ic_web, link = R.string.erp_link
+            ), NavDrawer(
+                title = R.string.administration,
+                selectedIcon = R.drawable.ic_admin,
+                route = Screen.AdministrationScreen.route
+            ), NavDrawer(
+                title = R.string.library,
+                selectedIcon = R.drawable.ic_library,
+                route = Screen.LibraryScreen.route
+            ), NavDrawer(
+                title = R.string.cgpa_calculator,
+                selectedIcon = R.drawable.ic_cgpa_calculator,
+                route = Screen.CgpaScreen.route
+            ), NavDrawer(
+                title = R.string.holidays,
+                selectedIcon = R.drawable.ic_holiday,
+                route = Screen.HolidayScreen.route
+            )
+        ), "Societies & Events" to listOf(
+            NavDrawer(
+                title = R.string.societies,
+                selectedIcon = R.drawable.ic_society,
+                route = Screen.SocietyScreen.route,
+                visible = showSocietyOrEvent.showSociety
+            ), NavDrawer(
+                title = R.string.events,
+                selectedIcon = R.drawable.ic_event,
+                route = Screen.EventScreen.route,
+                visible = showSocietyOrEvent.showEvent
+            )
+        ), "Communication" to listOf(
+            NavDrawer(
+                title = R.string.connect,
+                selectedIcon = R.drawable.ic_cwu,
+                link = R.string.connect
+            ), NavDrawer(
+                title = R.string.feedback,
+                selectedIcon = R.drawable.ic_mail,
+                link = R.string.feedback,
+            )
+        ), "Share & Rate" to listOf(
+            NavDrawer(
+                title = R.string.share,
+                selectedIcon = R.drawable.ic_share,
+                link = R.string.share
+            ), NavDrawer(
+                title = R.string.rate_us, selectedIcon = R.drawable.ic_star, route = "play_store"
+            )
+        ), "App Setting" to listOf(
+            NavDrawer(
+                title = R.string.settings,
+                selectedIcon = R.drawable.outline_settings_24,
+                route = Screen.SettingsScreen.route
+            )
+        )
+    )
+
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     DismissibleDrawerSheet(
@@ -264,16 +280,19 @@ fun NavDrawer(
                     closeAction.invoke()
                 })
             }
-            items(navDrawerItem) {
-                it.first?.let { title ->
-                    Text(
-                        text = title,
-                        modifier = Modifier.padding(start = grid_2, bottom = grid_0_5),
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.captionColor
-                    )
+            items(navDrawerItem) { items ->
+                items.second.any { it.visible }.let {
+                    if (it)
+                        items.first?.let { title ->
+                            Text(
+                                text = title,
+                                modifier = Modifier.padding(start = grid_2, bottom = grid_0_5),
+                                style = MaterialTheme.typography.titleSmall,
+                                color = MaterialTheme.colorScheme.captionColor
+                            )
+                        }
                 }
-                it.second.forEach { navBarModel ->
+                items.second.filter { it.visible }.forEach { navBarModel ->
                     drawerItem(
                         screen = navBarModel,
                         currentDestination = currentDestination,
@@ -478,7 +497,8 @@ data class NavDrawer(
     @DrawableRes val selectedIcon: Int,
     @DrawableRes val unSelectedIcon: Int? = null,
     val route: String = "",
-    @StringRes val link: Int? = null
+    @StringRes val link: Int? = null,
+    val visible: Boolean = true
 )
 
 data class NavBarModel(
