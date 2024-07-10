@@ -50,7 +50,7 @@ googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 lifecycleViewmodelCompose = "2.8.2"
 generativeai = "0.8.0"
 truetimeAndroid = "3.5"
-jsoup = "1.17.2"
+jsoup = "1.18.1"
 
 
 [libraries]
