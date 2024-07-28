@@ -9,14 +9,17 @@ package com.atech.bit.ui.screens.attendance.attendance_screen.component
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
@@ -35,6 +38,7 @@ import com.atech.bit.ui.theme.grid_0_5
 import com.atech.bit.ui.theme.grid_1
 import com.atech.core.usecase.SyllabusUIModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceSyllabusItem(
     modifier: Modifier = Modifier,
@@ -58,7 +62,8 @@ fun AttendanceSyllabusItem(
                 isChecked = !isChecked
                 onClick(model, isChecked)
             }
-            .animateContentSize()
+            .animateContentSize(),
+        color = BottomSheetDefaults.ContainerColor
     ) {
         OutlinedCard(
             modifier = Modifier
@@ -66,8 +71,7 @@ fun AttendanceSyllabusItem(
                 .fillMaxWidth(),
             colors = CardDefaults
                 .cardColors(
-                    containerColor = MaterialTheme
-                        .colorScheme.surface
+                    containerColor = BottomSheetDefaults.ContainerColor
                 )
         ) {
             Row(

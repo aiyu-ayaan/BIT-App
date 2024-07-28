@@ -229,6 +229,13 @@ fun AttendanceScreen(
                     isSettingDialogVisible = true
                 })
         }) {
+        if (attendanceList.itemCount == 0) {
+            EmptyScreen(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(it),
+            )
+        }
         Column(
             modifier = Modifier
                 .padding(it)

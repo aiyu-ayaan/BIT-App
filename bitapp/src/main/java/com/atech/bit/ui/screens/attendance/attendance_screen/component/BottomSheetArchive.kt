@@ -123,7 +123,8 @@ fun ColumnScope.bottomSheetArchive(
                         )
                     )
                 },
-                isItemIsSelected = selectedAttendance.contains(model)
+                isItemIsSelected = selectedAttendance.contains(model),
+                isFromBottomSheet = true
             )
         }
     }

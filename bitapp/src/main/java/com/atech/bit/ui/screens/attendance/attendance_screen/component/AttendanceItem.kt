@@ -14,6 +14,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -32,10 +33,12 @@ import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Computer
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -67,7 +70,7 @@ import com.atech.bit.utils.setResources
 import com.atech.core.datasource.room.attendance.AttendanceModel
 import kotlin.math.ceil
 
-@OptIn(ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun AttendanceItem(
     modifier: Modifier = Modifier,
@@ -78,7 +81,8 @@ fun AttendanceItem(
     onLongClick: (AttendanceModel) -> Unit = {},
     onSelect: (AttendanceModel, Boolean) -> Unit = { _, _ -> },
     isCheckBoxVisible: Boolean = false,
-    isItemIsSelected: Boolean = false
+    isItemIsSelected: Boolean = false,
+    isFromBottomSheet : Boolean = false
 ) {
     var status by remember {
         mutableStateOf("")
@@ -96,8 +100,8 @@ fun AttendanceItem(
                 onLongClick = {
                     onLongClick.invoke(model)
                 }
-            )
-
+            ),
+        color = if (isFromBottomSheet) BottomSheetDefaults.ContainerColor else MaterialTheme.colorScheme.surface
     ) {
         val percentage by remember(model) {
             mutableFloatStateOf(
