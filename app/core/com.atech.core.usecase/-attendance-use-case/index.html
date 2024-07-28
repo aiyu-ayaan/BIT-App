@@ -1,0 +1,299 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>AttendanceUseCase</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            BIT App
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":core:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="core::com.atech.core.usecase/AttendanceUseCase///PointingToDeclaration//-27209644">
+  <div class="breadcrumbs"><a href="../../index.html">core</a><span class="delimiter">/</span><a href="../index.html">com.atech.core.usecase</a><span class="delimiter">/</span><span class="current">AttendanceUseCase</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Attendance</span><wbr><span>Use</span><wbr><span><span>Case</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">AttendanceUseCase</a>&nbsp;<span><span class="token annotation builtin">@</span><span data-unresolved-link="javax.inject/Inject///PointingToDeclaration/"><span class="token annotation builtin">Inject</span></span>&nbsp;</span><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>getAllAttendance<span class="token operator">: </span><a href="../-get-all-attendance/index.html">GetAllAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>updatePresentOrTotal<span class="token operator">: </span><a href="../-update-present-or-total/index.html">UpdatePresentOrTotal</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>getAttendanceById<span class="token operator">: </span><a href="../-get-attendance-by-id/index.html">GetAttendanceById</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>addAttendance<span class="token operator">: </span><a href="../-add-attendance/index.html">AddAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>updateAttendance<span class="token operator">: </span><a href="../-update-attendance/index.html">UpdateAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>undoAttendance<span class="token operator">: </span><a href="../-undo-attendance/index.html">UndoAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>archiveAttendance<span class="token operator">: </span><a href="../-archive-attendance/index.html">ArchiveAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>deleteAttendance<span class="token operator">: </span><a href="../-delete-attendance/index.html">DeleteAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>deleteAllAttendance<span class="token operator">: </span><a href="../-delete-all-attendance/index.html">DeleteAllAttendance</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>getAllSubject<span class="token operator">: </span><a href="../-get-all-subject/index.html">GetAllSubject</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>addOrRemoveFromSyllabus<span class="token operator">: </span><a href="../-add-or-remove-from-syllabus/index.html">AddOrRemoveFromSyllabus</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>getElementIdFromSubjectName<span class="token operator">: </span><a href="../-get-element-id-from-subject-name/index.html">GetElementIdFromSubjectName</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>getAllArchiveSubject<span class="token operator">: </span><a href="../-get-all-archive-subject/index.html">GetAllArchiveSubject</a></span></span><span class="token punctuation">)</span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1664224477%2FConstructors%2F-27209644" anchor-label="AttendanceUseCase" id="-1664224477%2FConstructors%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-attendance-use-case.html"><span>Attendance</span><wbr><span>Use</span><wbr><span><span>Case</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1664224477%2FConstructors%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><span data-unresolved-link="javax.inject/Inject///PointingToDeclaration/"><span class="token annotation builtin">Inject</span></span></div></div><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">getAllAttendance<span class="token operator">: </span><a href="../-get-all-attendance/index.html">GetAllAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">updatePresentOrTotal<span class="token operator">: </span><a href="../-update-present-or-total/index.html">UpdatePresentOrTotal</a><span class="token punctuation">, </span></span><span class="parameter ">getAttendanceById<span class="token operator">: </span><a href="../-get-attendance-by-id/index.html">GetAttendanceById</a><span class="token punctuation">, </span></span><span class="parameter ">addAttendance<span class="token operator">: </span><a href="../-add-attendance/index.html">AddAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">updateAttendance<span class="token operator">: </span><a href="../-update-attendance/index.html">UpdateAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">undoAttendance<span class="token operator">: </span><a href="../-undo-attendance/index.html">UndoAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">archiveAttendance<span class="token operator">: </span><a href="../-archive-attendance/index.html">ArchiveAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">deleteAttendance<span class="token operator">: </span><a href="../-delete-attendance/index.html">DeleteAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">deleteAllAttendance<span class="token operator">: </span><a href="../-delete-all-attendance/index.html">DeleteAllAttendance</a><span class="token punctuation">, </span></span><span class="parameter ">getAllSubject<span class="token operator">: </span><a href="../-get-all-subject/index.html">GetAllSubject</a><span class="token punctuation">, </span></span><span class="parameter ">addOrRemoveFromSyllabus<span class="token operator">: </span><a href="../-add-or-remove-from-syllabus/index.html">AddOrRemoveFromSyllabus</a><span class="token punctuation">, </span></span><span class="parameter ">getElementIdFromSubjectName<span class="token operator">: </span><a href="../-get-element-id-from-subject-name/index.html">GetElementIdFromSubjectName</a><span class="token punctuation">, </span></span><span class="parameter ">getAllArchiveSubject<span class="token operator">: </span><a href="../-get-all-archive-subject/index.html">GetAllArchiveSubject</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-646381865%2FProperties%2F-27209644" anchor-label="addAttendance" id="-646381865%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-attendance.html"><span>add</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-646381865%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="add-attendance.html">addAttendance</a><span class="token operator">: </span><a href="../-add-attendance/index.html">AddAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="512585994%2FProperties%2F-27209644" anchor-label="addOrRemoveFromSyllabus" id="512585994%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-or-remove-from-syllabus.html"><span>add</span><wbr><span>Or</span><wbr><span>Remove</span><wbr><span>From</span><wbr><span><span>Syllabus</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="512585994%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="add-or-remove-from-syllabus.html">addOrRemoveFromSyllabus</a><span class="token operator">: </span><a href="../-add-or-remove-from-syllabus/index.html">AddOrRemoveFromSyllabus</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1292114198%2FProperties%2F-27209644" anchor-label="archiveAttendance" id="1292114198%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="archive-attendance.html"><span>archive</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1292114198%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="archive-attendance.html">archiveAttendance</a><span class="token operator">: </span><a href="../-archive-attendance/index.html">ArchiveAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2071983202%2FProperties%2F-27209644" anchor-label="deleteAllAttendance" id="2071983202%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delete-all-attendance.html"><span>delete</span><wbr><span>All</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2071983202%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="delete-all-attendance.html">deleteAllAttendance</a><span class="token operator">: </span><a href="../-delete-all-attendance/index.html">DeleteAllAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1178203515%2FProperties%2F-27209644" anchor-label="deleteAttendance" id="-1178203515%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delete-attendance.html"><span>delete</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1178203515%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="delete-attendance.html">deleteAttendance</a><span class="token operator">: </span><a href="../-delete-attendance/index.html">DeleteAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1822116164%2FProperties%2F-27209644" anchor-label="getAllArchiveSubject" id="1822116164%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-all-archive-subject.html"><span>get</span><wbr><span>All</span><wbr><span>Archive</span><wbr><span><span>Subject</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1822116164%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="get-all-archive-subject.html">getAllArchiveSubject</a><span class="token operator">: </span><a href="../-get-all-archive-subject/index.html">GetAllArchiveSubject</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2004079163%2FProperties%2F-27209644" anchor-label="getAllAttendance" id="-2004079163%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-all-attendance.html"><span>get</span><wbr><span>All</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2004079163%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="get-all-attendance.html">getAllAttendance</a><span class="token operator">: </span><a href="../-get-all-attendance/index.html">GetAllAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1223078688%2FProperties%2F-27209644" anchor-label="getAllSubject" id="-1223078688%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-all-subject.html"><span>get</span><wbr><span>All</span><wbr><span><span>Subject</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1223078688%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="get-all-subject.html">getAllSubject</a><span class="token operator">: </span><a href="../-get-all-subject/index.html">GetAllSubject</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-637010480%2FProperties%2F-27209644" anchor-label="getAttendanceById" id="-637010480%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-attendance-by-id.html"><span>get</span><wbr><span>Attendance</span><wbr><span>By</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-637010480%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="get-attendance-by-id.html">getAttendanceById</a><span class="token operator">: </span><a href="../-get-attendance-by-id/index.html">GetAttendanceById</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1827690123%2FProperties%2F-27209644" anchor-label="getElementIdFromSubjectName" id="-1827690123%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-element-id-from-subject-name.html"><span>get</span><wbr><span>Element</span><wbr><span>Id</span><wbr><span>From</span><wbr><span>Subject</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1827690123%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="get-element-id-from-subject-name.html">getElementIdFromSubjectName</a><span class="token operator">: </span><a href="../-get-element-id-from-subject-name/index.html">GetElementIdFromSubjectName</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1225456724%2FProperties%2F-27209644" anchor-label="undoAttendance" id="-1225456724%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="undo-attendance.html"><span>undo</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1225456724%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="undo-attendance.html">undoAttendance</a><span class="token operator">: </span><a href="../-undo-attendance/index.html">UndoAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="23073447%2FProperties%2F-27209644" anchor-label="updateAttendance" id="23073447%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="update-attendance.html"><span>update</span><wbr><span><span>Attendance</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="23073447%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="update-attendance.html">updateAttendance</a><span class="token operator">: </span><a href="../-update-attendance/index.html">UpdateAttendance</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1508126518%2FProperties%2F-27209644" anchor-label="updatePresentOrTotal" id="-1508126518%2FProperties%2F-27209644" data-filterable-set=":core:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":core:dokkaHtmlPartial/release" data-filterable-set=":core:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="update-present-or-total.html"><span>update</span><wbr><span>Present</span><wbr><span>Or</span><wbr><span><span>Total</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1508126518%2FProperties%2F-27209644"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":core:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="update-present-or-total.html">updatePresentOrTotal</a><span class="token operator">: </span><a href="../-update-present-or-total/index.html">UpdatePresentOrTotal</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

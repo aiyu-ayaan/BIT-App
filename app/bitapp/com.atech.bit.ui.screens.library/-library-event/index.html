@@ -1,0 +1,340 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>LibraryEvent</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            BIT App
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":bitapp:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="bitapp::com.atech.bit.ui.screens.library/LibraryEvent///PointingToDeclaration//228289311">
+  <div class="breadcrumbs"><a href="../../index.html">bitapp</a><span class="delimiter">/</span><a href="../index.html">com.atech.bit.ui.screens.library</a><span class="delimiter">/</span><span class="current">LibraryEvent</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Library</span><wbr><span><span>Event</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">LibraryEvent</a></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-tick-click/index.html">OnTickClick</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-delete-click/index.html">OnDeleteClick</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-navigate-to-add-edit-screen/index.html">NavigateToAddEditScreen</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-book-name-change/index.html">OnBookNameChange</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-book-id-change/index.html">OnBookIdChange</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-issue-date-change/index.html">OnIssueDateChange</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-return-date-change/index.html">OnReturnDateChange</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-alert-date-change/index.html">OnAlertDateChange</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-pick-date-click/index.html">PickDateClick</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-reset-value/index.html">ResetValue</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-has-error/index.html">HasError</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-has-error-in-reminder/index.html">HasErrorInReminder</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-save-book/index.html">SaveBook</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-event-added/index.html">OnEventAdded</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-on-event-delete/index.html">OnEventDelete</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-undo-delete/index.html">UndoDelete</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="-delete-all/index.html">DeleteAll</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="1723828154%2FClasslikes%2F228289311" anchor-label="DeleteAll" id="1723828154%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-delete-all/index.html"><span>Delete</span><wbr><span><span>All</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1723828154%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-delete-all/index.html">DeleteAll</a> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-654289468%2FClasslikes%2F228289311" anchor-label="HasError" id="-654289468%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-has-error/index.html"><span>Has</span><wbr><span><span>Error</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-654289468%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-has-error/index.html">HasError</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasError<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">""</span></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="560328973%2FClasslikes%2F228289311" anchor-label="HasErrorInReminder" id="560328973%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-has-error-in-reminder/index.html"><span>Has</span><wbr><span>Error</span><wbr><span>In</span><wbr><span><span>Reminder</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="560328973%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-has-error-in-reminder/index.html">HasErrorInReminder</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>hasError<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>message<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">" "</span></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1369445147%2FClasslikes%2F228289311" anchor-label="NavigateToAddEditScreen" id="-1369445147%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-navigate-to-add-edit-screen/index.html"><span>Navigate</span><wbr><span>To</span><wbr><span>Add</span><wbr><span>Edit</span><wbr><span><span>Screen</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1369445147%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-navigate-to-add-edit-screen/index.html">NavigateToAddEditScreen</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>model<span class="token operator">: </span><a href="../../../core/com.atech.core.datasource.room.library/-library-model/index.html">LibraryModel</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2131608395%2FClasslikes%2F228289311" anchor-label="OnAlertDateChange" id="-2131608395%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-alert-date-change/index.html"><span>On</span><wbr><span>Alert</span><wbr><span>Date</span><wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2131608395%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-alert-date-change/index.html">OnAlertDateChange</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1822163457%2FClasslikes%2F228289311" anchor-label="OnBookIdChange" id="-1822163457%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-book-id-change/index.html"><span>On</span><wbr><span>Book</span><wbr><span>Id</span><wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1822163457%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-book-id-change/index.html">OnBookIdChange</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1170980943%2FClasslikes%2F228289311" anchor-label="OnBookNameChange" id="1170980943%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-book-name-change/index.html"><span>On</span><wbr><span>Book</span><wbr><span>Name</span><wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1170980943%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-book-name-change/index.html">OnBookNameChange</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="303382002%2FClasslikes%2F228289311" anchor-label="OnDeleteClick" id="303382002%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-delete-click/index.html"><span>On</span><wbr><span>Delete</span><wbr><span><span>Click</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="303382002%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-delete-click/index.html">OnDeleteClick</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>model<span class="token operator">: </span><a href="../../../core/com.atech.core.datasource.room.library/-library-model/index.html">LibraryModel</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1316276973%2FClasslikes%2F228289311" anchor-label="OnEventAdded" id="1316276973%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-event-added/index.html"><span>On</span><wbr><span>Event</span><wbr><span><span>Added</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1316276973%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-event-added/index.html">OnEventAdded</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>eventId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2140964694%2FClasslikes%2F228289311" anchor-label="OnEventDelete" id="-2140964694%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-event-delete/index.html"><span>On</span><wbr><span>Event</span><wbr><span><span>Delete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2140964694%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-on-event-delete/index.html">OnEventDelete</a> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1991263256%2FClasslikes%2F228289311" anchor-label="OnIssueDateChange" id="1991263256%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-issue-date-change/index.html"><span>On</span><wbr><span>Issue</span><wbr><span>Date</span><wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1991263256%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-issue-date-change/index.html">OnIssueDateChange</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2114317989%2FClasslikes%2F228289311" anchor-label="OnReturnDateChange" id="2114317989%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-return-date-change/index.html"><span>On</span><wbr><span>Return</span><wbr><span>Date</span><wbr><span><span>Change</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2114317989%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-return-date-change/index.html">OnReturnDateChange</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-263590428%2FClasslikes%2F228289311" anchor-label="OnTickClick" id="-263590428%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-on-tick-click/index.html"><span>On</span><wbr><span>Tick</span><wbr><span><span>Click</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-263590428%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-on-tick-click/index.html">OnTickClick</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>model<span class="token operator">: </span><a href="../../../core/com.atech.core.datasource.room.library/-library-model/index.html">LibraryModel</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="159872567%2FClasslikes%2F228289311" anchor-label="PickDateClick" id="159872567%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-pick-date-click/index.html"><span>Pick</span><wbr><span>Date</span><wbr><span><span>Click</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="159872567%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-pick-date-click/index.html">PickDateClick</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>pickFor<span class="token operator">: </span><a href="../-pick-for/index.html">PickFor</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>date<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2030970320%2FClasslikes%2F228289311" anchor-label="ResetValue" id="-2030970320%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-reset-value/index.html"><span>Reset</span><wbr><span><span>Value</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2030970320%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-reset-value/index.html">ResetValue</a> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-147455412%2FClasslikes%2F228289311" anchor-label="SaveBook" id="-147455412%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-save-book/index.html"><span>Save</span><wbr><span><span>Book</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-147455412%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-save-book/index.html">SaveBook</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>fromAlert<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>action<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-373847933%2FClasslikes%2F228289311" anchor-label="UndoDelete" id="-373847933%2FClasslikes%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-undo-delete/index.html"><span>Undo</span><wbr><span><span>Delete</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-373847933%2FClasslikes%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">object </span><a href="-undo-delete/index.html">UndoDelete</a> : <a href="index.html">LibraryEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,223 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.atech.chat</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../index.html">
+                            BIT App
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":chat:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageids="chat::com.atech.chat////PointingToDeclaration//-384498437">
+  <div class="breadcrumbs"><a href="../index.html">chat</a><span class="delimiter">/</span><span class="current">com.atech.chat</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button><button class="section-tab" data-togglable="FUNCTION,EXTENSION_FUNCTION">Functions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-724458795%2FClasslikes%2F-384498437" anchor-label="ChatMessage" id="-724458795%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-message/index.html"><span>Chat</span><wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-724458795%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-chat-message/index.html">ChatMessage</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>id<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>UUID.randomUUID().toString()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">var </span>text<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">""</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>participant<span class="token operator">: </span><a href="-participant/index.html">Participant</a><span class="token operator"> = </span>Participant.USER<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>linkedId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">""</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1330727490%2FClasslikes%2F-384498437" anchor-label="ChatMessageToModelMapper" id="-1330727490%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-message-to-model-mapper/index.html"><span>Chat</span><wbr><span>Message</span><wbr><span>To</span><wbr><span>Model</span><wbr><span><span>Mapper</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1330727490%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chat-message-to-model-mapper/index.html">ChatMessageToModelMapper</a>&nbsp;<span><span class="token annotation builtin">@</span><span data-unresolved-link="javax.inject/Inject///PointingToDeclaration/"><span class="token annotation builtin">Inject</span></span>&nbsp;</span><span class="token keyword">constructor</span> : <a href="../../core/com.atech.core.utils/-entity-mapper/index.html">EntityMapper</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-chat-message/index.html">ChatMessage</a><span class="token punctuation">, </span><span class="token keyword"></span><a href="../../core/com.atech.core.datasource.room.chat/-chat-model/index.html">ChatModel</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-716612287%2FClasslikes%2F-384498437" anchor-label="ChatScreenEvents" id="-716612287%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-screen-events/index.html"><span>Chat</span><wbr><span>Screen</span><wbr><span><span>Events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-716612287%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-chat-screen-events/index.html">ChatScreenEvents</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1381412763%2FClasslikes%2F-384498437" anchor-label="ChatSettingsEvent" id="-1381412763%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-settings-event/index.html"><span>Chat</span><wbr><span>Settings</span><wbr><span><span>Event</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1381412763%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="-chat-settings-event/index.html">ChatSettingsEvent</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-44914759%2FClasslikes%2F-384498437" anchor-label="ChatSettingUiState" id="-44914759%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-setting-ui-state/index.html"><span>Chat</span><wbr><span>Setting</span><wbr><span>Ui</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-44914759%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="-chat-setting-ui-state/index.html">ChatSettingUiState</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>isKeepChat<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isAutoDeleteChat<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isWrapWord<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1724845375%2FClasslikes%2F-384498437" anchor-label="ChatUiState" id="1724845375%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-ui-state/index.html"><span>Chat</span><wbr><span>Ui</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1724845375%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chat-ui-state/index.html">ChatUiState</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">messages<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-chat-message/index.html">ChatMessage</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1737024312%2FClasslikes%2F-384498437" anchor-label="ChatViewModel" id="1737024312%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-chat-view-model/index.html"><span>Chat</span><wbr><span>View</span><wbr><span><span>Model</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1737024312%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="-chat-view-model/index.html">ChatViewModel</a>&nbsp;<span><span class="token annotation builtin">@</span><span data-unresolved-link="javax.inject/Inject///PointingToDeclaration/"><span class="token annotation builtin">Inject</span></span>&nbsp;</span><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">generativeModel<span class="token operator">: </span><span data-unresolved-link="com.google.ai.client.generativeai/GenerativeModel///PointingToDeclaration/">GenerativeModel</span><span class="token punctuation">, </span></span><span class="parameter ">case<span class="token operator">: </span><a href="../../core/com.atech.core.usecase/-chat-use-cases/index.html">ChatUseCases</a><span class="token punctuation">, </span></span><span class="parameter ">mapper<span class="token operator">: </span><a href="-chat-message-to-model-mapper/index.html">ChatMessageToModelMapper</a><span class="token punctuation">, </span></span><span class="parameter ">connectivityObserver<span class="token operator">: </span><a href="../../core/com.atech.core.utils.connectivity/-connectivity-observer/index.html">ConnectivityObserver</a><span class="token punctuation">, </span></span><span class="parameter ">pref<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/SharedPreferences.html">SharedPreferences</a></span></span><span class="token punctuation">)</span> : <a href="https://developer.android.com/reference/kotlin/androidx/lifecycle/ViewModel.html">ViewModel</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-521099855%2FClasslikes%2F-384498437" anchor-label="Participant" id="-521099855%2FClasslikes%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-participant/index.html"><span><span>Participant</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-521099855%2FClasslikes%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-participant/index.html">Participant</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-participant/index.html">Participant</a><span class="token operator">&gt; </span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="EXTENSION_FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1281696726%2FFunctions%2F-384498437" anchor-label="toContent" id="-1281696726%2FFunctions%2F-384498437" data-filterable-set=":chat:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":chat:dokkaHtmlPartial/release" data-filterable-set=":chat:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="to-content.html"><span>to</span><wbr><span><span>Content</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1281696726%2FFunctions%2F-384498437"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":chat:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="-chat-message/index.html">ChatMessage</a><span class="token operator">&gt;</span><span class="token punctuation">.</span><a href="to-content.html"><span class="token function">toContent</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><span data-unresolved-link="com.google.ai.client.generativeai.type/Content///PointingToDeclaration/">Content</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
