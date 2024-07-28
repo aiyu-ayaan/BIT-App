@@ -14,6 +14,7 @@ import com.atech.core.datasource.retrofit.CollegeNoticeApiService
 import com.atech.core.utils.cacheSize
 import com.atech.core.utils.hasNetwork
 import com.google.gson.GsonBuilder
+import com.google.gson.Strictness
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,7 +33,7 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideConvertor(): GsonConverterFactory = GsonConverterFactory.create(
-        GsonBuilder().setLenient().create()
+        GsonBuilder().setStrictness(Strictness.LENIENT).create()
     )
 
 

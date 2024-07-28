@@ -29,3 +29,4 @@
 -dontwarn org.codehaus.groovy.runtime.callsite.CallSiteArray
 -dontwarn org.codehaus.janino.ClassBodyEvaluator
 -dontwarn sun.reflect.Reflection
+-dontwarn java.lang.invoke.StringConcatFactory

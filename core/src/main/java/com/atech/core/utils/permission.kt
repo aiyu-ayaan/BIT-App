@@ -25,11 +25,3 @@ inline fun <T> isAPI33AndUp(onSdk33: () -> T): T? {
         onSdk33()
     } else null
 }
-
-//check for android 12
-@ChecksSdkIntAtLeast(api = Build.VERSION_CODES.S, lambda = 0)
-inline fun <T> isAPI31AndUp(onSdk31: () -> T): T? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-        onSdk31()
-    } else null
-}

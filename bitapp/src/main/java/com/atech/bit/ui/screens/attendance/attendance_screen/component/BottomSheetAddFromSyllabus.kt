@@ -7,6 +7,7 @@
 
 package com.atech.bit.ui.screens.attendance.attendance_screen.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -15,7 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -44,6 +47,7 @@ import com.atech.bit.ui.theme.grid_1
 import com.atech.bit.ui.theme.grid_3
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.bottomSheetAddFromSyllabus(
     modifier: Modifier = Modifier,
@@ -71,6 +75,7 @@ fun ColumnScope.bottomSheetAddFromSyllabus(
         modifier = modifier
     ) {
         TabRow(
+            containerColor = BottomSheetDefaults.ContainerColor,
             selectedTabIndex = selectTabIndex,
         ) {
             if (isTabVisible)

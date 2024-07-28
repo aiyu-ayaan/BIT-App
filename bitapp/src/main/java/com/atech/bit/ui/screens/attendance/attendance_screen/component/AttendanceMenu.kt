@@ -8,6 +8,7 @@
 package com.atech.bit.ui.screens.attendance.attendance_screen.component
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,7 +20,9 @@ import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Undo
+import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -110,6 +113,7 @@ fun AttendanceMenu(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MenuItem(
     modifier: Modifier = Modifier,
@@ -117,6 +121,7 @@ fun MenuItem(
 ) {
     Surface(
         modifier = modifier
+            .background(BottomSheetDefaults.ContainerColor)
             .let {
                 if (menuItem.isEnable)
                     it.clickable {
@@ -127,6 +132,7 @@ fun MenuItem(
     ) {
         Row(
             modifier = Modifier
+                .background(BottomSheetDefaults.ContainerColor)
                 .fillMaxWidth()
                 .padding(grid_2),
             verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
