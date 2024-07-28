@@ -101,7 +101,7 @@ import java.text.DecimalFormat
 
 
 @OptIn(
-    ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class
+    ExperimentalMaterial3Api::class
 )
 @Composable
 fun AttendanceScreen(

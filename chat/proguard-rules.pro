@@ -10,3 +10,4 @@
 -dontwarn com.squareup.okhttp.TlsVersion
 
 -keep class com.google.ai.client.generativeai.** { *; }
+-dontwarn java.lang.invoke.StringConcatFactory

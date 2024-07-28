@@ -177,8 +177,11 @@ fun ChatMessageItem(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
+                val screenWidth = with(LocalDensity.current) { constraints.maxWidth.toDp() }
                 MarkDown(
                     modifier = Modifier
+                        .width(screenWidth)
+                        .fillMaxWidth()
                         .padding(
                             top = 8.dp,
                             start = MaterialTheme.typography.titleSmall.fontSize.value.dp + 8.dp

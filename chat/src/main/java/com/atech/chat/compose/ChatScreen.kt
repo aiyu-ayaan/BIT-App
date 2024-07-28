@@ -185,19 +185,19 @@ fun ChatScreen(
             hasLogIn = hasLogIn
         )
     }) { paddingValues ->
+        if (chatUiState.messages.isEmpty()) {
+            EmptyScreen(
+                modifier = Modifier.padding(paddingValues),
+                hasLogIn = hasLogIn,
+                hasError = hasError,
+            )
+            return@Scaffold
+        }
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxWidth()
         ) {
-            if (chatUiState.messages.isEmpty()) {
-                EmptyScreen(
-                    modifier = Modifier.padding(paddingValues),
-                    hasLogIn = hasLogIn,
-                    hasError = hasError,
-                )
-                return@Scaffold
-            }
             ChatList(
                 chatMessages = chatUiState.messages,
                 listState = listState,
