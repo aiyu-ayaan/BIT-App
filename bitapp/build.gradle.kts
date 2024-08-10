@@ -21,14 +21,14 @@ plugins {
 
 android {
     namespace = "com.atech.bit"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.atech.bit"
         minSdk = 24
-        targetSdk = 34
-        versionCode = 82
-        versionName = "6.0.1.4.6"
+        targetSdk = 35
+        versionCode = 83
+        versionName = "6.0.1.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

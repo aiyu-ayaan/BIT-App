@@ -9,6 +9,7 @@ package com.atech.core.datasource.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabase.Callback
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.atech.core.datasource.room.attendance.AttendanceDao
@@ -54,27 +55,27 @@ abstract class BitDatabase : RoomDatabase() {
     companion object {
         const val DATABASE_NAME = "bit_database"
     }
+}
 
-    class SyllabusCallback @Inject constructor(
-        private val database: Provider<BitDatabase>,
-        @BitAppScope private val appScope: CoroutineScope
-    ) : Callback() {
+class SyllabusCallback @Inject constructor(
+    private val database: Provider<BitDatabase>,
+    @BitAppScope private val appScope: CoroutineScope
+) : Callback() {
 
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
+    override fun onCreate(db: SupportSQLiteDatabase) {
+        super.onCreate(db)
 //            val dao = database.get().attendanceDao()
-            val syllabusDao = database.get().syllabusDao()
+        val syllabusDao = database.get().syllabusDao()
 //            appScope.launch {
 //                (1..100).toList().map { AttendanceModel("Subject $it") }
 //                    .onEach {
 //                        dao.insert(it)
 //                    }
 //            }
-            appScope.launch {
-                val syllabus = SyllabusList.syllabus
-                syllabusDao.insertAll(syllabus)
-                syllabusDao.updateIsChecked()
-            }
+        appScope.launch {
+            val syllabus = SyllabusList.syllabus
+            syllabusDao.insertAll(syllabus)
+            syllabusDao.updateIsChecked()
         }
     }
 }
