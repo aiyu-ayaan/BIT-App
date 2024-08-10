@@ -10,6 +10,7 @@ package com.atech.core.module
 import android.content.Context
 import androidx.room.Room
 import com.atech.core.datasource.room.BitDatabase
+import com.atech.core.datasource.room.SyllabusCallback
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,7 +26,7 @@ object RoomModule {
     @Provides
     fun getDatabase(
         @ApplicationContext context: Context,
-        callback: BitDatabase.SyllabusCallback
+        callback: SyllabusCallback
     ): BitDatabase =
         Room.databaseBuilder(
             context,
