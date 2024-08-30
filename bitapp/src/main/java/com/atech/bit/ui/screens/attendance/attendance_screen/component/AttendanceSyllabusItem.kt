@@ -95,6 +95,7 @@ fun AttendanceSyllabusItem(
                 }
                 Checkbox(checked = isChecked, onCheckedChange = {
                     isChecked = it
+                    onClick(model, it)
                 })
             }
         }
