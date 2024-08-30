@@ -218,6 +218,9 @@ fun AttendanceScreen(
                         )
                     )
                 },
+                onLibraryClick = {
+                    navController.navigate(LibraryRoute.LibraryManagerScreen.route)
+                },
                 onArchiveClick = {
                     if (isSelectWindowActive) viewModel.onEvent(AttendanceEvent.SelectedItemToArchive)
                     else isArchiveBottomSheetVisible = true
@@ -502,6 +505,7 @@ fun AttendanceBottomAppbar(
     onSettingClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {},
     onSelectClick: () -> Unit = {},
+    onLibraryClick: () -> Unit = {},
     list: List<AttendanceModel> = emptyList(),
     checkBoxTickState: Boolean = false,
     onCheckBoxClick: () -> Unit = {},
@@ -540,12 +544,18 @@ fun AttendanceBottomAppbar(
             else LocalContentColor.current
         ),
         ImageIconModel(
+            imageVector = Icons.AutoMirrored.Outlined.LibraryBooks,
+            contentDescription = R.string.library,
+            onClick = onLibraryClick,
+            isVisible = !isSelectWindowActive
+        ),
+        ImageIconModel(
             imageVector = Icons.Outlined.Checklist,
             contentDescription = R.string.select,
             onClick = onSelectClick,
             tint = if (isSelectWindowActive) MaterialTheme.colorScheme.primary
             else LocalContentColor.current
-        ),
+        )
     )
     BottomAppBar(modifier = modifier, actions = {
         AnimatedVisibility(visible = isSelectWindowActive) {

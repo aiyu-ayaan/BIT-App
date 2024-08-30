@@ -7,6 +7,7 @@
 
 package com.atech.bit.ui.screens
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
@@ -55,6 +56,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -83,8 +85,12 @@ import com.atech.bit.ui.activity.main.ThemeMode
 import com.atech.bit.ui.comman.NavHeader
 import com.atech.bit.ui.comman.singleElement
 import com.atech.bit.ui.navigation.AppNavigationGraph
+import com.atech.bit.ui.navigation.AttendanceRoute
+import com.atech.bit.ui.navigation.CourseScreenRoute
+import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.navigation.listOfFragmentsWithBottomAppBar
+import com.atech.bit.ui.screens.attendance.attendance_screen.component.AttendanceScreen
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.drawerColor
@@ -115,6 +121,7 @@ fun MainScreen(
     val drawerSate = rememberDrawerState(initialValue = DrawerValue.Closed)
     val toggleDrawerState by communicatorViewModel.toggleDrawerState
     val coroutineScope = rememberCoroutineScope()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
     LaunchedEffect(
         key1 = communicatorViewModel.isChatScreenEnable.value,
         key2 = communicatorViewModel.checkHasLogIn()
@@ -146,6 +153,12 @@ fun MainScreen(
     ) {
         DismissibleNavigationDrawer(
             drawerState = drawerSate,
+            gesturesEnabled = when (navBackStackEntry?.destination?.route) {
+                HomeScreenRoutes.HomeScreen.route -> true
+                CourseScreenRoute.CourseScreen.route -> true
+                AttendanceRoute.AttendanceScreen.route -> true
+                else -> false
+            },
             drawerContent = {
                 NavDrawer(
                     navController = navController,
