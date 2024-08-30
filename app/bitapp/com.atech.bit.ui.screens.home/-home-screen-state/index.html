@@ -1,0 +1,258 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>HomeScreenState</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            BIT App
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":bitapp:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="bitapp::com.atech.bit.ui.screens.home/HomeScreenState///PointingToDeclaration//228289311">
+  <div class="breadcrumbs"><a href="../../index.html">bitapp</a><span class="delimiter">/</span><a href="../index.html">com.atech.bit.ui.screens.home</a><span class="delimiter">/</span><span class="current">HomeScreenState</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Home</span><wbr><span>Screen</span><wbr><span><span>State</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">HomeScreenState</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>course<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"BCA"</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>sem<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"1"</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>currentCgpa<span class="token operator">: </span><a href="../../../core/com.atech.core.datasource.datastore/-cgpa/index.html">Cgpa</a><span class="token operator"> = </span>Cgpa()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>isOnlineSyllabusEnable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>onlineSyllabus<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Triple(
+        emptyList(), emptyList(), emptyList()
+    )<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>offTheory<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(PagingData.empty())<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>offLab<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(PagingData.empty())<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>offPractical<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(PagingData.empty())<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>holiday<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.datasource.retrofit.model/-holiday/index.html">Holiday</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>events<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.datasource.firebase.firestore/-event-model/index.html">EventModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(emptyList())</span></span><span class="token punctuation">)</span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="1667075863%2FConstructors%2F228289311" anchor-label="HomeScreenState" id="1667075863%2FConstructors%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-home-screen-state.html"><span>Home</span><wbr><span>Screen</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1667075863%2FConstructors%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">course<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"BCA"</span><span class="token punctuation">, </span></span><span class="parameter ">sem<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"1"</span><span class="token punctuation">, </span></span><span class="parameter ">currentCgpa<span class="token operator">: </span><a href="../../../core/com.atech.core.datasource.datastore/-cgpa/index.html">Cgpa</a><span class="token operator"> = </span>Cgpa()<span class="token punctuation">, </span></span><span class="parameter ">isOnlineSyllabusEnable<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">onlineSyllabus<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>Triple(
+        emptyList(), emptyList(), emptyList()
+    )<span class="token punctuation">, </span></span><span class="parameter ">offTheory<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(PagingData.empty())<span class="token punctuation">, </span></span><span class="parameter ">offLab<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(PagingData.empty())<span class="token punctuation">, </span></span><span class="parameter ">offPractical<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(PagingData.empty())<span class="token punctuation">, </span></span><span class="parameter ">holiday<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.datasource.retrofit.model/-holiday/index.html">Holiday</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptyList()<span class="token punctuation">, </span></span><span class="parameter ">events<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.datasource.firebase.firestore/-event-model/index.html">EventModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token operator"> = </span>MutableStateFlow(emptyList())</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-1146844187%2FProperties%2F228289311" anchor-label="course" id="-1146844187%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="course.html"><span><span>course</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1146844187%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="course.html">course</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="879669004%2FProperties%2F228289311" anchor-label="currentCgpa" id="879669004%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="current-cgpa.html"><span>current</span><wbr><span><span>Cgpa</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="879669004%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="current-cgpa.html">currentCgpa</a><span class="token operator">: </span><a href="../../../core/com.atech.core.datasource.datastore/-cgpa/index.html">Cgpa</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-450886489%2FProperties%2F228289311" anchor-label="events" id="-450886489%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="events.html"><span><span>events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-450886489%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="events.html">events</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.datasource.firebase.firestore/-event-model/index.html">EventModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1324123874%2FProperties%2F228289311" anchor-label="holiday" id="1324123874%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="holiday.html"><span><span>holiday</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1324123874%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="holiday.html">holiday</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.datasource.retrofit.model/-holiday/index.html">Holiday</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1199002629%2FProperties%2F228289311" anchor-label="isOnlineSyllabusEnable" id="-1199002629%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-online-syllabus-enable.html"><span>is</span><wbr><span>Online</span><wbr><span>Syllabus</span><wbr><span><span>Enable</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1199002629%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="is-online-syllabus-enable.html">isOnlineSyllabusEnable</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2022130626%2FProperties%2F228289311" anchor-label="offLab" id="2022130626%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="off-lab.html"><span>off</span><wbr><span><span>Lab</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2022130626%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="off-lab.html">offLab</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="615836346%2FProperties%2F228289311" anchor-label="offPractical" id="615836346%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="off-practical.html"><span>off</span><wbr><span><span>Practical</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="615836346%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="off-practical.html">offPractical</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1508432966%2FProperties%2F228289311" anchor-label="offTheory" id="1508432966%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="off-theory.html"><span>off</span><wbr><span><span>Theory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1508432966%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="off-theory.html">offTheory</a><span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.flow/StateFlow///PointingToDeclaration/">StateFlow</span><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://developer.android.com/reference/kotlin/androidx/paging/PagingData.html">PagingData</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-988798392%2FProperties%2F228289311" anchor-label="onlineSyllabus" id="-988798392%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="online-syllabus.html"><span>online</span><wbr><span><span>Syllabus</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-988798392%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="online-syllabus.html">onlineSyllabus</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-triple/index.html">Triple</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token punctuation">, </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../../core/com.atech.core.usecase/-syllabus-u-i-model/index.html">SyllabusUIModel</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-797166913%2FProperties%2F228289311" anchor-label="sem" id="-797166913%2FProperties%2F228289311" data-filterable-set=":bitapp:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":bitapp:dokkaHtmlPartial/release" data-filterable-set=":bitapp:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="sem.html"><span><span>sem</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-797166913%2FProperties%2F228289311"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":bitapp:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="sem.html">sem</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
