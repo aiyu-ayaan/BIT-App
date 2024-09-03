@@ -70,11 +70,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK from build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: apk
       - name: Download Bundle from build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: bundle
       - name: Rename files
@@ -140,11 +140,11 @@ jobs:
     needs: buildDocs
     steps:
       - name: Download docs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: kt-docs
       - name: Download MkDocs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: mk-docs
       - name: Copy docs
@@ -185,7 +185,7 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - name: Download docs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4.1.7
         with:
           name: generated-docs
       - uses: joutvhu/get-release@v1
