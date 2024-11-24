@@ -15,7 +15,7 @@ jobs:
         with:
           fileName: 'keystore/keystore.jks'
           encodedString: ${{ secrets.KEYSTORE }}
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: set up JDK 17
         uses: actions/setup-java@v1
         with:
@@ -101,7 +101,7 @@ jobs:
   buildDocs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup JDK 17
         uses: actions/setup-java@v2
         with:
