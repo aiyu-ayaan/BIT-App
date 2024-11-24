@@ -21,7 +21,7 @@ jobs:
           cache: 'gradle'  # Enables Gradle caching
           
       - name: Setup Gradle Cache
-        uses: gradle/gradle-build-action@v2  # Added dedicated Gradle cache
+        uses: gradle/gradle-build-action@v3  # Added dedicated Gradle cache
         with:
           gradle-home-cache-cleanup: true
           
