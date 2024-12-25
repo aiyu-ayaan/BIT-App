@@ -91,7 +91,7 @@ android {
 //        kotlinCompilerExtensionVersion = "1.5.8"
 //    }
     composeCompiler {
-        enableStrongSkippingMode = true
+//        enableStrongSkippingMode = true
 
         reportsDestination = layout.buildDirectory.dir("compose_compiler")
         stabilityConfigurationFile =
