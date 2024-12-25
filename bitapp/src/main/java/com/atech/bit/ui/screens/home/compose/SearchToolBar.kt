@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuOpen
 import androidx.compose.material.icons.filled.AccountCircle
@@ -90,8 +91,7 @@ fun SearchToolBar(
                         animationSpec = spring(),
                         initialOffsetX = { 500 },
                     ) + fadeIn(),
-                    exit = scaleOut()
-                            + fadeOut()
+                    exit = scaleOut() + fadeOut()
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.Search,
@@ -120,28 +120,36 @@ fun SearchToolBar(
                         contextDes = R.string.search,
                         onClick = onTrailingIconClick,
                         tint = MaterialTheme.colorScheme.primary,
-
-                        )
+                    )
                 }
             }
         ) {
             contents.invoke()
         }
-        AnimatedVisibility(visible = !active) {
-            ImageIconButton(
-                modifier = Modifier.weight(.2f),
-                icon = Icons.Outlined.Notifications,
-                tint = MaterialTheme.colorScheme.primary,
-                onClick = onNotificationClick,
-                contextDes = R.string.notice
-            )
-        }
-        AnimatedVisibility(visible = !active) {
-            ProfileImage(
-                modifier = Modifier.weight(.2f),
-                url = url,
-                onClick = onProfileClick,
-            )
+
+        Row(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            AnimatedVisibility(visible = !active) {
+                ImageIconButton(
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .wrapContentSize(),
+                    icon = Icons.Outlined.Notifications,
+                    tint = MaterialTheme.colorScheme.primary,
+                    onClick = onNotificationClick,
+                    contextDes = R.string.notice
+                )
+            }
+            AnimatedVisibility(visible = !active) {
+                ProfileImage(
+                    modifier = Modifier.wrapContentSize(),
+                    url = url,
+                    onClick = onProfileClick,
+                )
+            }
         }
     }
 }
@@ -155,8 +163,7 @@ fun ProfileImage(
     AnimatedVisibility(visible = url != null) {
         IconButton(onClick = onClick) {
             ImageLoader(
-                modifier = Modifier
-                    .size(30.dp),
+                modifier = Modifier.size(30.dp),
                 imageUrl = url,
                 isRounderCorner = true
             )
