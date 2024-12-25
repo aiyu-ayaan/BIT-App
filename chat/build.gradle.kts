@@ -57,7 +57,7 @@ android {
         jvmTarget = "17"
     }
     composeCompiler {
-        enableStrongSkippingMode = true
+//        enableStrongSkippingMode = true
 
         reportsDestination = layout.buildDirectory.dir("compose_compiler")
         stabilityConfigurationFile =
