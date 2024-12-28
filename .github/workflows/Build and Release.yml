@@ -54,13 +54,13 @@ jobs:
           SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: apk
           retention-days: 1
           path: bitapp/build/outputs/apk/global/release/bitapp-global-release.apk
       - name: Upload Bundle
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: bundle
           retention-days: 1
@@ -72,12 +72,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download APK from build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: apk
 
       - name: Download Bundle from build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: bundle
       - name: Rename file to match tag
@@ -126,13 +126,13 @@ jobs:
       - name: Generate Dokka docs
         run: ./gradlew dokkaHtmlMultiModule
       - name: Upload Kt docs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: kt-docs
           path: build/dokka
           retention-days: 1
       - name: Uploading mk-docs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: mk-docs
           path: mk-docs
@@ -142,11 +142,11 @@ jobs:
     needs: buildDocs
     steps:
       - name: Download docs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kt-docs
       - name: Download MkDocs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: mk-docs
       - name: Copy docs
@@ -161,7 +161,7 @@ jobs:
           cp -r htmlMultiModule/* copyDoc/generated/docs/app
           ls -la copyDoc/generated/docs/app
       - name: Upload docs
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: generated-docs
           path: copyDoc
@@ -187,7 +187,7 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - name: Download docs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: generated-docs
       - uses: joutvhu/get-release@v1
