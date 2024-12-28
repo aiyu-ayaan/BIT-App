@@ -30,13 +30,13 @@ jobs:
       - name: Generate Dokka docs
         run: ./gradlew dokkaHtmlMultiModule
       - name: Upload Kt docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: kt-docs
           path: build/dokka
           retention-days: 1
       - name: Uploading mk-docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: mk-docs
           path: mk-docs
@@ -47,11 +47,11 @@ jobs:
     needs: build
     steps:
       - name: Download docs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: kt-docs
       - name: Download MkDocs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: mk-docs
       - name: Copy docs
@@ -66,7 +66,7 @@ jobs:
           cp -r htmlMultiModule/* copyDoc/generated/docs/app
           ls -la copyDoc/generated/docs/app
       - name: Upload docs
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: generated-docs
           path: copyDoc
@@ -93,7 +93,7 @@ jobs:
             mkdocs-material-
 
       - name: Download docs
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: generated-docs
       - uses: joutvhu/get-release@v1
