@@ -14,7 +14,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -63,94 +62,91 @@ fun SearchToolBar(
     url: String? = null,
     contents: @Composable () -> Unit = {}
 ) {
-    Row(
-        modifier = modifier
-            .background(
-                MaterialTheme.colorScheme.surface
-            ),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        SearchBar(
-            modifier = Modifier
-                .semantics { traversalIndex = -1f }
-                .weight(1f)
-                .padding(start = if (!active) grid_1 else 0.dp),
-            query = query,
-            onQueryChange = onQueryChange,
-            onSearch = onSearch,
-            active = active,
-            onActiveChange = onActiveChange,
-            placeholder = {
-                Text(text = stringResource(id = R.string.search))
-            },
-            leadingIcon = {
-                AnimatedVisibility(
-                    visible = active,
-                    enter = slideInHorizontally(
-                        animationSpec = spring(),
-                        initialOffsetX = { 500 },
-                    ) + fadeIn(),
-                    exit = scaleOut() + fadeOut()
-                ) {
-                    Icon(
-                        imageVector = Icons.Outlined.Search,
-                        contentDescription = stringResource(id = R.string.search),
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-                AnimatedVisibility(
-                    visible = !active,
-                    enter = slideInHorizontally() + fadeIn(),
-                    exit = slideOutHorizontally() + fadeOut()
-                ) {
-                    ImageIconButton(
-                        modifier = Modifier.weight(.2f),
-                        icon = Icons.AutoMirrored.Outlined.MenuOpen,
-                        tint = MaterialTheme.colorScheme.primary,
-                        onClick = onLeadingIconClick,
-                        contextDes = R.string.drawer
-                    )
-                }
-            },
-            trailingIcon = {
-                AnimatedVisibility(visible = active) {
-                    ImageIconButton(
-                        icon = Icons.Outlined.Close,
-                        contextDes = R.string.search,
-                        onClick = onTrailingIconClick,
-                        tint = MaterialTheme.colorScheme.primary,
-                    )
-                }
+//    Row(
+//        modifier = modifier
+//            .background(
+//                MaterialTheme.colorScheme.surface
+//            ),
+//        verticalAlignment = Alignment.CenterVertically,
+//        horizontalArrangement = Arrangement.SpaceBetween
+//    ) {
+    SearchBar(
+        modifier = Modifier
+            .semantics { traversalIndex = -1f }
+            /*.weight(1f)*/
+            .padding(grid_1),
+        query = query,
+        onQueryChange = onQueryChange,
+        onSearch = onSearch,
+        active = active,
+        onActiveChange = onActiveChange,
+        placeholder = {
+            Text(text = stringResource(id = R.string.search))
+        },
+        leadingIcon = {
+            AnimatedVisibility(
+                visible = active,
+                enter = slideInHorizontally(
+                    animationSpec = spring(),
+                    initialOffsetX = { 500 },
+                ) + fadeIn(),
+                exit = scaleOut() + fadeOut()
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Search,
+                    contentDescription = stringResource(id = R.string.search),
+                    tint = MaterialTheme.colorScheme.primary
+                )
             }
-        ) {
-            contents.invoke()
-        }
-
-        Row(
-            modifier = Modifier.padding(horizontal = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-        ) {
-            AnimatedVisibility(visible = !active) {
+            AnimatedVisibility(
+                visible = !active,
+                enter = slideInHorizontally() + fadeIn(),
+                exit = slideOutHorizontally() + fadeOut()
+            ) {
                 ImageIconButton(
-                    modifier = Modifier
-                        .padding(end = 8.dp)
-                        .wrapContentSize(),
-                    icon = Icons.Outlined.Notifications,
+                    modifier = Modifier/*.weight(.2f)*/,
+                    icon = Icons.AutoMirrored.Outlined.MenuOpen,
                     tint = MaterialTheme.colorScheme.primary,
-                    onClick = onNotificationClick,
-                    contextDes = R.string.notice
+                    onClick = onLeadingIconClick,
+                    contextDes = R.string.drawer
                 )
             }
+        },
+        trailingIcon = {
             AnimatedVisibility(visible = !active) {
-                ProfileImage(
-                    modifier = Modifier.wrapContentSize(),
-                    url = url,
-                    onClick = onProfileClick,
+                Row(
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    ImageIconButton(
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .wrapContentSize(),
+                        icon = Icons.Outlined.Notifications,
+                        tint = MaterialTheme.colorScheme.primary,
+                        onClick = onNotificationClick,
+                        contextDes = R.string.notice
+                    )
+
+                    ProfileImage(
+                        modifier = Modifier.wrapContentSize(),
+                        url = url,
+                        onClick = onProfileClick,
+                    )
+                }
+            }
+            AnimatedVisibility(visible = active) {
+                ImageIconButton(
+                    icon = Icons.Outlined.Close,
+                    contextDes = R.string.search,
+                    onClick = onTrailingIconClick,
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             }
         }
+    ) {
+        contents.invoke()
     }
 }
 

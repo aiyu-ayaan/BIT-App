@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="bitapp">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-12-25T10:18:38.369297900Z">
+        <DropdownSelection timestamp="2024-12-28T10:15:08.858402400Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=D:\AndroidWorkSpace\.android\.android\avd\Resizable_Experimental.avd" />
