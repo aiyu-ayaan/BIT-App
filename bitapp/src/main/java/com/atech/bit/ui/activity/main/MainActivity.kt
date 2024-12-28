@@ -11,15 +11,18 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
@@ -69,6 +72,7 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.checkTime()
+        enableEdgeToEdge()
         setContent {
             val themeState by viewModel.themeState
             val navHostController = rememberNavController()
@@ -80,9 +84,10 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver,
                     ThemeMode.SYSTEM -> isSystemInDarkTheme()
                 }
             ) {
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.surface
-                ) {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize()
+                ) { contentPadding ->
+
                     LaunchedEffect(key1 = viewModel.isTimeCorrect.value) {
                         if (!viewModel.isTimeCorrect.value && viewModel.hasSetUpDone) {
                             navHostController.popBackStack()
@@ -97,6 +102,12 @@ class MainActivity : ComponentActivity(), LifecycleEventObserver,
                         )
                     }
                     TopLevelNavigationGraph(
+                        modifier = Modifier.padding(
+                            PaddingValues(
+                                top = 0.dp,
+                                bottom = 0.dp
+                            )
+                        ),
                         navHostController = navHostController,
                         communicatorViewModel = viewModel,
                         startDestination = if (viewModel.isForceScreenEnable.value) ParentScreenRoutes.ForceScreen.route

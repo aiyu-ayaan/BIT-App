@@ -9,6 +9,7 @@ package com.atech.bit.ui.navigation
 
 import android.content.Intent
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
 import androidx.navigation.NavController
 import androidx.navigation.NavDeepLinkRequest
@@ -45,12 +46,15 @@ sealed class ParentScreenRoutes(val route: String) {
 
 @Composable
 fun TopLevelNavigationGraph(
+    modifier: Modifier = Modifier,
     navHostController: NavHostController,
     communicatorViewModel: MainViewModel,
     startDestination: String = ParentScreenRoutes.LoginScreen.route
 ) {
     NavHost(
-        navController = navHostController, startDestination = startDestination
+        modifier = modifier,
+        navController = navHostController,
+        startDestination = startDestination
     ) {
         logInScreenGraph(
             navHostController, communicatorViewModel
@@ -174,11 +178,13 @@ sealed class Screen(val route: String) {
 
 @Composable
 fun AppNavigationGraph(
+    modifier: Modifier = Modifier,
     navHostController: NavHostController,
     communicatorViewModel: MainViewModel,
     startDestination: String = Screen.HomeScreen.route
 ) {
     NavHost(
+        modifier = modifier,
         navController = navHostController, startDestination = startDestination
     ) {
         attendanceGraph(

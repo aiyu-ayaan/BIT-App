@@ -7,7 +7,7 @@
 
 package com.atech.bit.ui.screens
 
-import android.util.Log
+import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
@@ -19,8 +19,8 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -56,7 +56,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -90,7 +89,6 @@ import com.atech.bit.ui.navigation.CourseScreenRoute
 import com.atech.bit.ui.navigation.HomeScreenRoutes
 import com.atech.bit.ui.navigation.Screen
 import com.atech.bit.ui.navigation.listOfFragmentsWithBottomAppBar
-import com.atech.bit.ui.screens.attendance.attendance_screen.component.AttendanceScreen
 import com.atech.bit.ui.theme.BITAppTheme
 import com.atech.bit.ui.theme.captionColor
 import com.atech.bit.ui.theme.drawerColor
@@ -112,6 +110,7 @@ data class ShowSocietyOrEvent(
 )
 
 @Composable
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 fun MainScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
@@ -182,14 +181,17 @@ fun MainScreen(
                     isChatScreenVisible = communicatorViewModel.isChatScreenEnable.value
                 )
             }) {
-                Column(
-                    modifier = Modifier.padding(it)
-                ) {
-                    AppNavigationGraph(
-                        navHostController = navController,
-                        communicatorViewModel = communicatorViewModel
-                    )
-                }
+//                Column(
+//                    modifier = Modifier.padding(it)
+//                ) {
+                AppNavigationGraph(
+                    modifier = Modifier.padding(
+                        PaddingValues(0.dp)
+                    ),
+                    navHostController = navController,
+                    communicatorViewModel = communicatorViewModel
+                )
+//                }
             }
         }
     }
@@ -327,7 +329,8 @@ private fun ColumnScope.drawerItem(
 ) = this.apply {
     val context = LocalContext.current
     val color = MaterialTheme.colorScheme.primary.toArgb()
-    NavigationDrawerItem(modifier = Modifier.padding(
+    NavigationDrawerItem(
+        modifier = Modifier.padding(
         NavigationDrawerItemDefaults.ItemPadding
     ),
         colors = NavigationDrawerItemDefaults.colors(
