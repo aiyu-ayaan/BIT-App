@@ -1,4 +1,4 @@
-# BIT-App (⚠️ Deprecated)
+# BIT-App
 An android application for the student of BIT Lalpur students to access [Erp](https://erp.bitmesra.ac.in/iitmsv4eGq0RuNHb0G5WbhLmTKLmTO7YBcJ4RHuXxCNPvuIw=?enc=iF6gEp4ArHiXP7jJ9QlgUyiC5t8GbTA5A/9xbk1Vtqk=)
 and tools needed for BIT students.
 
