@@ -1,5 +1,5 @@
 [versions]
-accompanistPermissions = "0.34.0"
+accompanistPermissions = "0.37.3"
 agp = "8.6.1"
 appUpdateKtx = "2.1.0"
 coil = "2.5.0"
